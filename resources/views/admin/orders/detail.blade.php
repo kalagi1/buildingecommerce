@@ -339,58 +339,7 @@
                                     $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
                                 @endphp
                     
-                                <div>
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
-                                        <p class="text-body-emphasis fw-semibold">
-                                            @if ($order->payment_result && $order->payment_result !== '')
-                                                Kredi Kartı
-                                            @else
-                                                EFT/Havale
-                                            @endif
-                                        </p>
-                                    </div>
                     
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Ürün Fiyatı:</p>
-                                        <p class="text-body-emphasis fw-semibold">
-                                            {{ number_format((int)$urun_fiyati, 0, ',', '.') }}₺
-                                        </p>
-                                    </div>
-                    
-                                    @if (isset(json_decode($order->cart)->item->qt))
-                                        <div class="d-flex justify-content-between">
-                                            <p class="text-body fw-semibold">Adet:</p>
-                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}</p>
-                                        </div>
-                                    @endif
-                    
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Kapora Oranı:</p>
-                                        <p class="text-body-emphasis fw-semibold">%{{ $kapora_orani }}</p>
-                                    </div>
-                    
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">İndirimli Fiyat:</p>
-                                        <p class="text-body-emphasis fw-semibold">
-                                            {{ number_format((int)$indirimli_fiyat, 0, ',', '.') }}₺
-                                        </p>
-                                    </div>
-                    
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">İndirim Oranı:</p>
-                                        <p class="text-danger fw-semibold">
-                                            %{{ number_format($indirim_orani, 2) }}
-                                        </p>
-                                    </div>
-                                </div>
-                    
-                                <div class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
-                                    <h4 class="mb-0">Kapora Tutarı:</h4>
-                                    <h4 class="mb-0">
-                                        {{ number_format((int)$kapora_tutari, 0, ',', '.') }}₺
-                                    </h4>
-                                </div>
                             </div>
                         </div>
                     </div>
