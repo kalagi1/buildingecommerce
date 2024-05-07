@@ -325,8 +325,7 @@
             var dataSlideTo = $(this).find('a').attr('data-slide-to');
 
             // dataSlideTo değerini integer'a dönüştür ve 1 ekle
-            var slideNumber = parseInt(dataSlideTo, 10) + 1;
-            console.log(slideNumber);
+            var slideNumber = parseInt(dataSlideTo, 10);
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
@@ -346,7 +345,7 @@
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
             var dataSlideTo = $(this).attr('data-slide-to');
-            var slideNumber = parseInt(dataSlideTo, 10) + 1;
+            var slideNumber = parseInt(dataSlideTo, 10) ;
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
