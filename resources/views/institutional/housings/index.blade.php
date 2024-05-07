@@ -25,8 +25,13 @@
                         İlanlar</a>
                 </li>
 
-            </ul>
+                <li class="nav-item">
+                    <a class="nav-link" id="isShareTypes-tab" data-bs-toggle="tab" href="#isShareTypes">Bana Atanan
+                        İlanlar</a>
+                </li>
 
+            </ul>
+            
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
                     <div class="table-responsive">
@@ -68,6 +73,17 @@
                         ])
                     </div>
                 </div>
+
+                <div class="tab-pane fade" id="isShareTypes">
+                    <div class="table-responsive">
+                        @include('institutional.housings.housing_isShare_table', [
+                            'tableId' => 'bulk-select-body-isShareTypes',
+                            'housingTypes' => $isShareTypes,
+
+                          
+                        ])
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -83,16 +99,18 @@
         var pendingHousingTypes = @json($pendingHousingTypes);
         var disabledHousingTypes = @json($disabledHousingTypes);
         var soldHousingTypes = @json($soldHousingTypes);
+        var isShareTypes = @json($isShareTypes);
         var user = @json($user);
 
         function createTable(tbody, housingTypes) {
+           
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
 
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
-                console.log(housingType);
+                
 
                 var housingTitleCell = document.createElement("td");
                 housingTitleCell.className = "align-middle housing_title";
@@ -103,45 +121,6 @@
 
 
 
-
-                if (user.id == housingType.owner.id) {
-                    var ownerInfo = document.createElement("span");
-                    ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
-                    housingOwner.appendChild(ownerInfo);
-
-                    var br = document.createElement("br");
-                    housingOwner.appendChild(br);
-
-                    if (housingType.user.mobile_phone != null) {
-                        var mobilephoneInfo = document.createElement("span");
-                        mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
-                        housingOwner.appendChild(mobilephoneInfo);
-                    }
-
-                    var br = document.createElement("br");
-                    housingOwner.appendChild(br);
-
-                    if (housingType.user.phone != null) {
-                        var phoneInfo = document.createElement("span");
-                        phoneInfo.textContent = "İş: " + housingType.user.phone;
-                        housingOwner.appendChild(phoneInfo);
-                    }
-
-
-
-                } else {
-                    var ownerInfo = document.createElement("span");
-                    ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
-                    housingOwner.appendChild(ownerInfo);
-
-                    var br = document.createElement("br");
-                    housingOwner.appendChild(br);
-
-                    var phoneInfo = document.createElement("span");
-                    phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
-                    housingOwner.appendChild(phoneInfo);
-
-                }
 
 
                 var housingTypeCell = document.createElement("td");
@@ -175,6 +154,50 @@
                 viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
                 viewLink.textContent = "Loglar";
                 viewLinkCell.appendChild(viewLink);
+
+                
+                if (tbody.id === 'bulk-select-body-isShareTypes'){
+
+                    if (housingType.owner && user.id == housingType.owner.id) {
+                        var ownerInfo = document.createElement("span");
+                        ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
+                        housingOwner.appendChild(ownerInfo);
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        if (housingType.user.mobile_phone != null) {
+                            var mobilephoneInfo = document.createElement("span");
+                            mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
+                            housingOwner.appendChild(mobilephoneInfo);
+                        }
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        if (housingType.user.phone != null) {
+                            var phoneInfo = document.createElement("span");
+                            phoneInfo.textContent = "İş: " + housingType.user.phone;
+                            housingOwner.appendChild(phoneInfo);
+                        }                       
+
+                    } else {
+                        var ownerInfo = document.createElement("span");
+                        ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
+                        housingOwner.appendChild(ownerInfo);
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var phoneInfo = document.createElement("span");
+                        phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
+                        housingOwner.appendChild(phoneInfo);
+
+                        
+                    }
+
+
+                    }
 
 
                 if (tbody.id == 'bulk-select-body-soldHousingTypes') {
@@ -330,7 +353,6 @@
                 if (tbody.id === 'bulk-select-body-soldHousingTypes') {
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
-                    row.appendChild(housingOwner);
                     row.appendChild(housingTypeCell);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
@@ -339,11 +361,28 @@
                     row.appendChild(imageLinksCell);
                     row.appendChild(statusCell);
                     row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
-                } else {
+
+               }
+               else if (tbody.id === 'bulk-select-body-isShareTypes'){
 
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingOwner);
+                    row.appendChild(housingTypeCell);
+                    row.appendChild(statusCell);
+                    row.appendChild(createdAtCell);
+                    row.appendChild(viewLinkCell);
+                    row.appendChild(exportLinkCell);
+                    row.appendChild(imageLinksCell);
+                    row.appendChild(actionsCell);
+                    row.appendChild(deleteCell);
+
+               }
+               
+               else {
+
+                    row.appendChild(idCell);
+                    row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
@@ -385,6 +424,7 @@
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
         createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
         createTable(document.getElementById("bulk-select-body-soldHousingTypes"), soldHousingTypes);
+        createTable(document.getElementById("bulk-select-body-isShareTypes"), isShareTypes);
 
         // Handle tab switching
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
