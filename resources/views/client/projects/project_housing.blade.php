@@ -1721,8 +1721,8 @@
 
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
-            var index2 = $(this).index();
-            $('#listingDetailsSlider').carousel(parseInt(index2 +1));
+            var index2 = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
         // Mobil cihazlarda kaydırma işlevselliği
