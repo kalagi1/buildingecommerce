@@ -893,7 +893,7 @@ class ProjectController extends Controller
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
 
         if ($ownerId != null) {
-            $postData['open_sharing1'] = '["Evet"]';
+            $postData['open_sharing1'] = "Evet";
         }
 
         $isShare = auth()->user()->type == 1 ? true : false;
