@@ -344,9 +344,11 @@
 
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
-            var slideNumber = $(this).attr('data-slide-to');
+            var dataSlideTo = $(this).attr('data-slide-to');
+            var slideNumber = parseInt(dataSlideTo, 10) + 1;
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + 1 + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber  +
+                    '"]')
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
