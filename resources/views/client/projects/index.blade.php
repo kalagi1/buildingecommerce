@@ -1435,6 +1435,7 @@
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
             var index2 = $(this).attr('data-slide-to');
+            console.log(index2);
             $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 

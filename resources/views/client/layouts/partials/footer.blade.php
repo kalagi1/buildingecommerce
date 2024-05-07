@@ -345,6 +345,7 @@
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
             var dataSlideTo = $(this).attr('data-slide-to');
+            console.log(dataSlideTo);
             var slideNumber = parseInt(dataSlideTo, 10) ;
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
