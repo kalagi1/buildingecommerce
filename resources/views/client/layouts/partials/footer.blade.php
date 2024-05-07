@@ -321,11 +321,11 @@
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
-       // 'this' bağlamında jQuery öğesi olduğunu varsayarak
-var dataSlideTo = $(this).find('a').attr('data-slide-to');
+            // 'this' bağlamında jQuery öğesi olduğunu varsayarak
+            var dataSlideTo = $(this).find('a').attr('data-slide-to');
 
-// dataSlideTo değerini integer'a dönüştür ve 1 ekle
-var slideNumber = parseInt(dataSlideTo, 10) + 1;
+            // dataSlideTo değerini integer'a dönüştür ve 1 ekle
+            var slideNumber = parseInt(dataSlideTo, 10) + 1;
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
@@ -483,11 +483,11 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                                         if (response.failed) {
                                             toastr.warning(
                                                 "Ürün bu koleksiyonda zaten mevcut."
-                                                );
+                                            );
                                         } else {
                                             toastr.success(
                                                 "Ürün Koleksiyonunuza Eklendi"
-                                                );
+                                            );
                                         }
                                     },
                                     error: function(error) {
@@ -1643,7 +1643,8 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                         if (data.housings.length > maxResultsToShow) {
                             const remainingResults = data.housings.length - maxResultsToShow;
                             // Arama terimi "housing" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=housing";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=housing";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
@@ -1657,7 +1658,7 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                     if (data.projects.length > 0) {
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const projectsToShow = data.projects.slice(0,
-                        maxResultsToShow); // İlk 4 sonucu al
+                            maxResultsToShow); // İlk 4 sonucu al
 
                         hasResults = true;
                         $('.header-search-box').append(`
@@ -1686,7 +1687,8 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                         if (data.projects.length > maxResultsToShow) {
                             const remainingResults = data.projects.length - maxResultsToShow;
                             // Arama terimi "project" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=project";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=project";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
@@ -1702,11 +1704,11 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                         `);
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const merchantsToShow = data.merchants.slice(0,
-                        maxResultsToShow); // İlk 4 sonucu al
+                            maxResultsToShow); // İlk 4 sonucu al
 
                         merchantsToShow.forEach((e) => {
                             const imageUrl =
-                            `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0).toUpperCase() + e.name
                                 .slice(1);
 
@@ -1720,7 +1722,8 @@ var slideNumber = parseInt(dataSlideTo, 10) + 1;
                         if (data.merchants.length > maxResultsToShow) {
                             const remainingResults = data.merchants.length - maxResultsToShow;
                             // Arama terimi "merchant" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=merchant";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=merchant";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
