@@ -1715,6 +1715,9 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }else{
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
             }
         });
 
