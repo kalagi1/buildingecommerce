@@ -247,6 +247,7 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
+                                    {{ $key + 2 }}
                                         <div class="item carousel-item" data-slide-number="{{ $key + 2 }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="project-images">
@@ -271,6 +272,7 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
+                                            {{$key + 2}}
                                             <a id="carousel-selector-{{ $key + 2 }}"
                                                 data-slide-to="{{ $key + 2 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
