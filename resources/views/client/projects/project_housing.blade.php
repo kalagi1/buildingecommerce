@@ -237,7 +237,7 @@
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
-                                    <div class="item carousel-item active" data-slide-number="1">
+                                    <div class="item carousel-item active" data-slide-number="0">
                                         <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
                                             data-lightbox="project-images">
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
@@ -247,8 +247,8 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                    {{ $key + 2 }}
-                                        <div class="item carousel-item" data-slide-number="{{ $key + 2 }}">
+                                
+                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="project-images">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -263,7 +263,7 @@
                                 {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -272,9 +272,9 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                            {{$key + 2}}
-                                            <a id="carousel-selector-{{ $key + 2 }}"
-                                                data-slide-to="{{ $key + 2 }}" data-target="#listingDetailsSlider">
+                                         
+                                            <a id="carousel-selector-{{ $key + 1 }}"
+                                                data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
@@ -1686,8 +1686,8 @@
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number'); // Aktif slaydın indeksini al
-            $('.pagination .page-item-middle .page-link').text((index ) + '/' +
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number') ; // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index == 0 ? 1 : index ) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
