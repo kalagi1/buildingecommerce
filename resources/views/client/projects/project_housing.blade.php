@@ -1671,8 +1671,8 @@
             }]
         });
 
-        // Sayfa yüklendiğinde
-        $(document).ready(function() {
+          // Sayfa yüklendiğinde
+          $(document).ready(function() {
             updateIndex(); // Index değerini güncelle
         });
 
@@ -1744,15 +1744,15 @@
             $(this).off('touchmove');
         });
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
-        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-            console.log("Büyük Görsel Data Slide Number: ", index);
-            console.log("Küçük Görsel Index: ", smallIndex);
-        });
+        //     console.log("Büyük Görsel Data Slide Number: ", index);
+        //     console.log("Küçük Görsel Index: ", smallIndex);
+        // });
 
         $(document).ready(function() {
             // Sayfa yüklendiğinde, öncelikle $active değişkenini kontrol ediyoruz

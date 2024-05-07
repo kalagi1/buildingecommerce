@@ -1417,7 +1417,6 @@
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
             } else {
-                console.log('yunus')
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
         });
