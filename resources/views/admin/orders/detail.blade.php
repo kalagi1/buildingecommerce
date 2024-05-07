@@ -49,6 +49,17 @@
 
         // İade talebi 14 günü geçmişse
         $isExpired = $now->greaterThan($expirationDate);
+
+        $kapora_tutari = str_replace(',', '', str_replace('.', '', $order->amount)) / 100;
+        $kapora_orani = $discount_percent / 100;
+        $tam_tutar = $kapora_tutari / $kapora_orani;
+        $urun_fiyati = json_decode($order->cart)->item->price;
+
+        $tam_tutar_formatli = number_format($tam_tutar, 0, ',', '.') . '₺';
+        $urun_fiyati_formatli = number_format($urun_fiyati, 0, ',', '.') . '₺';
+        $indirim_miktari = $tam_tutar - $urun_fiyati;
+        $indirim_yuzdesi = ($indirim_miktari / $tam_tutar) * 100;
+        $indirim_yuzdesi_formatli = number_format($indirim_yuzdesi, 2, ',', '.') . '%';
     @endphp
     <div class="content">
         <div class="breadcrumb">
@@ -314,11 +325,13 @@
 
                 <div class="row">
 
+               
                     <div class="col-12">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Özet</h3>
                                 <div>
+                                    <!-- Ödeme Yöntemi -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
                                         <p class="text-body-emphasis fw-semibold">
@@ -329,11 +342,24 @@
                                             @endif
                                         </p>
                                     </div>
+
+                                    <!-- İlan Fiyatı -->
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Ürün Fiyatı:</p>
+                                        <p class="text-body fw-semibold">İlan Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
+                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
+                                        </p>
                                     </div>
+                                    @if ($tam_tutar != $urun_fiyati)
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-body fw-semibold">İndirimli Fiyatı:</p>
+                                            <p class="text-body-emphasis fw-semibold">
+                                                {{ $tam_tutar_formatli }}
+                                            </p>
+                                        </div>
+                                    @endif
+
+                                    <!-- Adet -->
                                     @if (isset(json_decode($order->cart)->item->qt))
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">Adet:</p>
@@ -342,17 +368,22 @@
                                         </div>
                                     @endif
 
+                                    <!-- Kapora Oranı -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
-                                </div>
-                                <div
-                                    class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
-                                    <h4 class="mb-0">Kapora Tutarı:</h4>
-                                    <h4 class="mb-0">
-                                        {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
-                                    </h4>
+
+
+                                      <!-- Kapora Tutarı -->
+                                      <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Kapora Tutarı:</p>
+                                        <p class="text-body-emphasis fw-semibold">                                            {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
+                                        </p>
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -425,25 +456,27 @@
                                                                 </div>
                                                                 @if ($order->payment_result && $order->payment_result !== '')
                                                                 @else
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <h5 class="card-title">İade Yapılacak Banka:</h5>
+                                                                    <div class="row">
+                                                                        <div class="col-md-3">
+                                                                            <h5 class="card-title">İade Yapılacak Banka:
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <p>{{ $order->refund->return_bank }}</p>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-md-9">
-                                                                        <p>{{ $order->refund->return_bank }}</p>
-                                                                    </div>
-                                                                </div>
 
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <h5 class="card-title">İade Yapılacak IBAN:</h5>
+                                                                    <div class="row">
+                                                                        <div class="col-md-3">
+                                                                            <h5 class="card-title">İade Yapılacak IBAN:
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <p>{{ $order->refund->return_iban }}</p>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-md-9">
-                                                                        <p>{{ $order->refund->return_iban }}</p>
-                                                                    </div>
-                                                                </div>
                                                                 @endif
-                                                               
+
                                                                 <div class="row">
                                                                     <div class="col-md-3">
                                                                         <h5 class="card-title">Açıklama:</h5>
