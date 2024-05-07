@@ -329,7 +329,7 @@
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
             $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
@@ -347,7 +347,7 @@
             var dataSlideTo = $(this).attr('data-slide-to');
             var slideNumber = parseInt(dataSlideTo, 10) + 1;
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber  +
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo  +
                     '"]')
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
