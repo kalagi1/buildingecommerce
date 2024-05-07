@@ -372,7 +372,7 @@
                                 <div class="d-flex justify-content-between">
                                     <p class="text-body fw-semibold">İndirimli Fiyat:</p>
                                     <p class="text-body-emphasis fw-semibold">
-                                        {{ number_format($indirimli_fiyat, 0, ',', '.') }}₺
+                                        {{ $indirimli_fiyat }}₺
                                     </p>
                                 </div>
                     
