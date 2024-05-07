@@ -364,6 +364,7 @@
                     
                                     // İndirimli fiyat
                                     $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
+                                    dd($indirimli_fiyat);
                     
                                     // İndirim oranı yüzdesi
                                     $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
