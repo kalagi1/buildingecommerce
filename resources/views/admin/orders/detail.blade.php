@@ -50,24 +50,6 @@
         // İade talebi 14 günü geçmişse
         $isExpired = $now->greaterThan($expirationDate);
     @endphp
-      <!-- Hesaplamalar -->
-      @php
-      $urun_fiyati = (int) number_format(json_decode($order->cart)->item->price, 0, ',', '.');
-      $kapora_tutari = (int) number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.');
-      $kapora_orani = (int) $discount_percent;
-
-      // Tam fiyat hesaplama
-      $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
-
-      // İndirimli tutar hesaplama
-      $indirim_tutari = $tam_fiyat - $urun_fiyati;
-
-      // İndirimli fiyat
-      $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
-
-      // İndirim oranı yüzdesi
-      $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
-  @endphp
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -347,53 +329,34 @@
                                             @endif
                                         </p>
                                     </div>
-                    
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ürün Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
-                                        </p>
+                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
                                     </div>
-                    
                                     @if (isset(json_decode($order->cart)->item->qt))
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">Adet:</p>
-                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}</p>
+                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                            </p>
                                         </div>
                                     @endif
-                    
+
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
                                 </div>
-                    
-                              
-                    
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">İndirimli Fiyat:</p>
-                                    <p class="text-body-emphasis fw-semibold">
-                                        {{ number_format($indirimli_fiyat, 0, ',', '.') }}₺
-                                    </p>
-                                </div>
-                    
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">İndirim Oranı:</p>
-                                    <p class="text-danger fw-semibold">
-                                        %{{ number_format($indirim_orani, 2) }}
-                                    </p>
-                                </div>
-                    
-                                <div class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
+                                <div
+                                    class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
                                     <h4 class="mb-0">Kapora Tutarı:</h4>
                                     <h4 class="mb-0">
-                                        {{ number_format($kapora_tutari, 0, ',', '.') }}₺
+                                        {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
                                     </h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
 
                     @if ($order->refund != null)
                         <div class="col-12 mb-3">
