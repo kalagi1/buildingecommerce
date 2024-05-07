@@ -97,6 +97,7 @@ class AppServiceProvider extends ServiceProvider
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
+                dd($user->account_type);
 
                 if ($user->account_type == 'Emlak Ofisi') {
                     $permissions = array_diff($permissions, ['Projects']);
