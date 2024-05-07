@@ -70,19 +70,20 @@
 <!-- ===============================================-->
 <!--    JavaScripts-->
 <!-- ===============================================-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.2/anchor.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//popper/popper.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//bootstrap/bootstrap.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//anchorjs/anchor.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//is/is.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//fontawesome/all.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//lodash/lodash.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.6/dayjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.0/echarts.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//list.js/list.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//feather-icons/feather.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//dayjs/dayjs.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/assets//js/phoenix.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
 <script
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
