@@ -1061,7 +1061,44 @@
                                                     </td>
                                                 </tr>
                                             @endif
-
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Ada:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Parsel:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
