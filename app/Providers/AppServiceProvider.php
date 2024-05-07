@@ -98,6 +98,11 @@ class AppServiceProvider extends ServiceProvider
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
 
+                if ($user->account_type == 'Emlak Ofisi') {
+                    $permissions = array_diff($permissions, ['Projects']);
+                }
+    
+
                 $jsonFilePath = base_path($jsonFileName);
 
                 if (File::exists($jsonFilePath)) {
@@ -105,12 +110,7 @@ class AppServiceProvider extends ServiceProvider
                     $menuData = json_decode($menuJson, true);
 
                     foreach ($menuData as &$menuItem) {
-                        if ($user->account_type == 'Emlak Ofisi' && isset($menuItem['key']) && $menuItem['key'] == 'projects') {
-                            $menuItem['visible'] = false;
-                        } else {
-                            $this->setMenuVisibility($menuItem, $permissions);
-                        }
-    
+                        $this->setMenuVisibility($menuItem, $permissions);
 
                         if (isset($menuItem['subMenu'])) {
                             foreach ($menuItem['subMenu'] as &$subMenuItem) {
