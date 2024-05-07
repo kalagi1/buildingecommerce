@@ -321,6 +321,7 @@
                     
                                 <!-- PHP Hesaplama -->
                                 @php
+                                dd("assd");
                                     $urun_fiyati = str_replace('.', '', json_decode($order->cart)->item->price);
                                     $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
                                     $kapora_orani = (int) $discount_percent;
