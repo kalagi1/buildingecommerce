@@ -151,6 +151,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
 
         Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
+        Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
+        Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
 
 
 });
