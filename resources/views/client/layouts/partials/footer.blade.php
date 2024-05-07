@@ -317,7 +317,38 @@
 </script>
 
 <script>
-   
+    $(document).ready(function() {
+        $('.listingDetailsSliderNav .item').on('mouseenter', function() {
+            var totalSlides = $('#listingDetailsSlider .carousel-item')
+                .length; // Toplam slayt sayısını al
+            var slideNumber = $(this).find('a').attr('data-slide-to');
+            console.log(slideNumber);
+            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+                .addClass('active');
+            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+            var totalSlides = $('#listingDetailsSlider .carousel-item')
+                .length; // Toplam slayt sayısını al
+            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }).on('mouseleave', function() {
+            $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
+        });
+
+    });
+
+    $(document).ready(function() {
+        $('.listingDetailsSliderNav .item a').on('click', function() {
+            var slideNumber = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+                .addClass('active');
+            $('.listingDetailsSliderNav .item').removeClass('active');
+            $(this).closest('.item').addClass('active');
+        });
+    });
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
     var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 
