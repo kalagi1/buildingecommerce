@@ -261,33 +261,31 @@
 
 
 <!-- ARCHIVES JS -->
-<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
-<script src="{{ URL::to('/') }}/js/tether.min.js"></script>
-<script src="{{ URL::to('/') }}/js/moment.js"></script>
-<script src="{{ URL::to('/') }}/js/bootstrap.min.js"></script>
-<script src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
-<script src="{{ URL::to('/') }}/js/mmenu.js"></script>
-<script src="{{ URL::to('/') }}/js/aos.js"></script>
-<script src="{{ URL::to('/') }}/js/aos2.js"></script>
-<script src="{{ URL::to('/') }}/js/slick.min.js"></script>
-<script src="{{ URL::to('/') }}/js/fitvids.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.waypoints.min.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.counterup.min.js"></script>
-<script src="{{ URL::to('/') }}/js/imagesloaded.pkgd.min.js"></script>
-<script src="{{ URL::to('/') }}/js/isotope.pkgd.min.js"></script>
-<script src="{{ URL::to('/') }}/js/smooth-scroll.min.js"></script>
-<script src="{{ URL::to('/') }}/js/lightcase.js"></script>
-<script src="{{ URL::to('/') }}/js/search.js"></script>
-<script src="{{ URL::to('/') }}/js/owl.carousel.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.magnific-popup.min.js"></script>
-<script src="{{ URL::to('/') }}/js/ajaxchimp.min.js"></script>
-<script src="{{ URL::to('/') }}/js/newsletter.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.form.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.validate.min.js"></script>
-<script src="{{ URL::to('/') }}/js/searched.js"></script>
-<script src="{{ URL::to('/') }}/js/forms-2.js"></script>
-<script src="{{ URL::to('/') }}/js/range.js"></script>
-<script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.7/js/tether.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.mmenu/8.5.28/mmenu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/AOS/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.2/js/lightcase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajaxchimp/3.1.15/ajaxchimp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.searchable-1.0.0/jquery.searchable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.97/jquery.form-validator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.3/icheck.min.js"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
