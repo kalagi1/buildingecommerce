@@ -1722,7 +1722,7 @@
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
             var index2 = $(this).index();
-            $('#listingDetailsSlider').carousel(parseInt(index2));
+            $('#listingDetailsSlider').carousel(parseInt(index2 +1));
         });
 
         // Mobil cihazlarda kaydırma işlevselliği
