@@ -8,6 +8,22 @@
                 <div class="homes">
                     <div class="homes-img h-100 d-flex align-items-center"
                         style="width: 115px; height: 128px;">
+                        <div class="homes-tag button alt featured" style="width:90px !important">
+                            No: {{ $housing->id + 2000000 }}
+                        </div>
+                        
+                        <div class="type-tag button alt featured">
+                            @if ($housing->step2_slug == 'kiralik')
+                                Kiralık
+                            @elseif ($housing->step2_slug == 'gunluk-kiralik')
+                                Günlük Kiralık
+                            @else
+                                Satılık
+                            @endif
+                        </div>
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
+                        @endif
                         <img loading="lazy" src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive"
                             style="height: 80px !important;">
