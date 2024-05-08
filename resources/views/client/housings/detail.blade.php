@@ -1912,8 +1912,7 @@
 
 
             $(".mobileMovePrice").remove();
-            $(".mobile-action-move").html(mobileMovePrice);
-            console.log(mobileMovePrice);
+            $(".mobile-action-move").html("assas");
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
