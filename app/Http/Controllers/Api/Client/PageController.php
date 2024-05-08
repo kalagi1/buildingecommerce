@@ -89,7 +89,6 @@ class PageController extends Controller
     }//End
 
     public function store( Request $request ) {
-
         $cart = $request->input("cart");
 
         $request->validate( [
