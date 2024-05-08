@@ -460,13 +460,9 @@ class HomeController extends Controller {
             } else {
                 $refundAmount = $amount;
             }
-
+            
             // SharerPrice tablosundaki ilgili kayıtları güncelle
-            SharerPrice::where( [
-                [ 'user_id', $refund->user_id ],
-                [ 'cart_id', $refund->cartOrder->id ],
-            ] )->update( [ 'status' => 0, 'balance' => 0 ] );
-
+            SharerPrice::where('cart_id', $refund->cartOrder->id)->update(['status' => '2']);
             // CartPrice tablosundaki ilgili kayıtları al ve güncelle
             $cartPrices = CartPrice::where( [
                 [ 'user_id', $refund->user_id ],
