@@ -100,15 +100,22 @@ class AppServiceProvider extends ServiceProvider
                 })->unique()->toArray();
 
                 if ($user->corporate_type == 'Emlak Ofisi') {
-                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject",'GetProjectById']);
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
                 }
 
                 if ($user->corporate_type != 'İnşaat Ofisi') {
-                    $permissions = array_diff($permissions, ['Offers', "CreateOffer", "GetOffers"]);
+                    $permissions = array_diff($permissions, [
+                        "Offers",
+                        "CreateOffer",
+                        "Offers",
+                        "DeleteOffer",
+                        "GetOfferById",
+                        "UpdateOffer"
+                    ]);
                 }
 
                 if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation",'GetReservationById']);
+                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
                 }
 
 
