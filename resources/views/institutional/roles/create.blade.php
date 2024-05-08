@@ -22,7 +22,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">İzinler</label>
                                 <div class="mb-3">
                                     <div class="row">
                                         {{-- Özel izinleri kontrol edin --}}
