@@ -1455,8 +1455,8 @@
                                                                 <!-- homes img -->
                                                                 <div class="homes-img h-100 d-flex align-items-center"
                                                                     style="width: 110px; height: 128px;">
-                                                                    ${res.housing_type.open_share1 ??
-                                                                        ` <div class="homes-price"style="bottom: 0;left:0;z-index:9"><i class="fa fa-handshake-o"></i></div> `
+                                                                    ${res.housing_type.open_share1 ?
+                                                                        ` <div class="homes-price"style="bottom: 0;left:0;z-index:9"><i class="fa fa-handshake-o"></i></div> `: null
                                                                     }
                                                                     <img src="${res.image}" alt="${res.title}" class="img-responsive"
                                                                         style="height: 80px !important;">
