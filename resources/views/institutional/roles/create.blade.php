@@ -39,19 +39,21 @@
                                                 'GetReceivedOffers',
                                                 'GetGivenOffers',
                                                 'GetSwapApplications',
-                                                'GetReservations',
                                                 'MyReservations',
                                                 'Reservations',
+                                                'Orders'
                                             ];
                                         @endphp
 
                                         {{-- Özel izinleri listeden çıkar --}}
                                         @foreach ($groupedPermissions as $groupId => $groupPermissions)
                                             @php
-                                            // Grup içindeki özel izinleri çıkartarak izin listesini güncelle
-                                            $filteredPermissions = $groupPermissions->reject(function ($permission) use ($specialPermissions) {
-                                                return in_array($permission->key, $specialPermissions);
-                                            });
+                                                // Grup içindeki özel izinleri çıkartarak izin listesini güncelle
+                                                $filteredPermissions = $groupPermissions->reject(function (
+                                                    $permission,
+                                                ) use ($specialPermissions) {
+                                                    return in_array($permission->key, $specialPermissions);
+                                                });
                                             @endphp
 
                                             {{-- Eğer grup içinde izin kalmadıysa bu grubu atla --}}
@@ -64,11 +66,11 @@
                                                     <div class="mb-3">
                                                         @foreach ($filteredPermissions as $permission)
                                                             @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
-                                                                <div class="form-check form-control px-3" style="cursor: pointer">
+                                                                <div class="form-check form-control px-3"
+                                                                    style="cursor: pointer">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="permission-{{ $permission->id }}"
-                                                                        name="permissions[]" 
-                                                                        value="{{ $permission->id }}">
+                                                                        name="permissions[]" value="{{ $permission->id }}">
                                                                     <label class="form-check-label"
                                                                         for="permission-{{ $permission->id }}">
                                                                         {{ $permission->description }}
