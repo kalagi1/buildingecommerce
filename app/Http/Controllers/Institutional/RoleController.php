@@ -80,31 +80,31 @@ class RoleController extends Controller
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
 
-        
-    $specialPermissionKeys = [
-        'ChangePassword',
-        'EditProfile',
-        'ViewDashboard',
-        'ShowCartOrders',
-        'GetMyCollection',
-        'GetMyEarnings',
-        'neighborView',
-        'GetOrders',
-        'GetReceivedOffers',
-        'GetGivenOffers',
-        'GetSwapApplications',
-        'MyReservations',
-        'Reservations',
-        'Orders'
-    ];
 
-    // Veritabanından bu özel izinlerin ID'lerini alın
-    $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
-        ->pluck('id') // Sadece ID'leri alın
-        ->toArray();
+        $specialPermissionKeys = [
+            'ChangePassword',
+            'EditProfile',
+            'ViewDashboard',
+            'ShowCartOrders',
+            'GetMyCollection',
+            'GetMyEarnings',
+            'neighborView',
+            'GetOrders',
+            'GetReceivedOffers',
+            'GetGivenOffers',
+            'GetSwapApplications',
+            'MyReservations',
+            'Reservations',
+            'Orders'
+        ];
+
+        // Veritabanından bu özel izinlerin ID'lerini alın
+        $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
+            ->pluck('id') // Sadece ID'leri alın
+            ->toArray();
 
         // Görünümü gruplanmış izinlerle döndürün
-        return view('institutional.roles.create', compact('groupedPermissions','specialPermissionIDs'));
+        return view('institutional.roles.create', compact('groupedPermissions', 'specialPermissionIDs'));
     }
 
 
@@ -112,8 +112,10 @@ class RoleController extends Controller
     {
         $role = Role::where('id', $role->id)->with('rolePermissions.permissions')->first();
         $mainRole = Role::where('id', '2')->with('rolePermissions.permissions')->first();
-        $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
+        $permissions = $role->rolePermissions->pluck('permissions')->flatten();
         $groupedPermissions = $permissions->groupBy('permission_group_id');
+
+        
         return view('institutional.roles.edit', compact('role', 'groupedPermissions'));
     }
 
