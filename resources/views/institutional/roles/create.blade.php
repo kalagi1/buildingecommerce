@@ -62,7 +62,8 @@
                                                     @php
                                                         $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
                                                     @endphp
-                                                    <h4 class="mt-3" style="margin-bottom:10px;">{{ $groupTitle }}</h4>
+                                                    <label class="form-label">{{ $groupTitle }}</label>
+
                                                     <div class="mb-3">
                                                         @foreach ($filteredPermissions as $permission)
                                                             @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
