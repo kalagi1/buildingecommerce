@@ -51,7 +51,7 @@ class RoleController extends Controller
                     return in_array($permission->key, $specialPermissions);
                 }
             );
-        } else if ($user->corporate_type == 'Turizm Amaçlı Kiralama') {
+        } else if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
             $filteredPermissions = $permissions->reject(
                 function (
                     $permission,
