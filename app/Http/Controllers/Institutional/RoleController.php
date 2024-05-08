@@ -20,18 +20,28 @@ class RoleController extends Controller
     }
 
     public function create()
-    { $user = User::where("id", Auth::user()->id)->first();
-     
+    {
+        // Şu anki kullanıcının verilerini alın
+        $user = User::where("id", Auth::user()->id)->first();
+        
+        // Role ve izinleri çekin
         $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
         $permissions = $role->rolePermissions->pluck('permissions')->flatten();
+    
+        // $permissions'u bir diziye dönüştürün
+        $permissionsArray = $permissions->toArray();
+    
+        // Kullanıcının corporate_type'ı 'Emlak Ofisi' ise, belirli izinleri çıkarın
         if ($user->corporate_type == 'Emlak Ofisi') {
-            $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
+            $permissionsArray = array_diff($permissionsArray, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
         }
-        $groupedPermissions = $permissions->groupBy('permission_group_id');
-
+    
+        // Dizi ile çalıştığımız için bunu tekrar bir Collection'a dönüştürün
+        $groupedPermissions = collect($permissionsArray)->groupBy('permission_group_id');
+    
+        // Görünümde gruplandırılmış izinlerle birlikte dön
         return view('institutional.roles.create', compact('groupedPermissions'));
     }
-    
     
 
     public function edit(Role $role)
