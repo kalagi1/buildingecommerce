@@ -43,6 +43,9 @@
                                                 'GetMyEarnings',
                                                 'neighborView',
                                                 'GetOrders',
+                                                'GetReceivedOffers',
+                                                'GetGivenOffers',
+                                                'GetSwapApplications'
                                             ]);
                                             @endphp
                                             <div class="form-check form-control px-3" style="cursor: pointer">
