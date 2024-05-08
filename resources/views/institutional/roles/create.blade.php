@@ -34,7 +34,7 @@
                                                 <div class="mb-3">
                                                     @foreach ($permissions as $permission)
                                                         <div class="form-check form-control px-3" style="cursor: pointer">
-                                                            <input class="form-check-input" type="checkbox" id="permission-{{ $permission->id }}" name="permissions[]" value="{{ $permission->id }}" @if(in_array($permission->description, ['Şifre Değiştir', 'Profilini Düzenle', 'Kontrol Panelini Görüntüle']) && !request()->has('permissions')) checked disabled @endif>
+                                                            <input class="form-check-input" type="checkbox" id="permission-{{ $permission->id }}" name="permissions[]" value="{{ $permission->id }}" @if(in_array($permission->key, ['ChangePassword', 'EditProfile', 'ViewDashboard']) && !request()->has('permissions')) checked disabled @endif>
                                                             <label class="form-check-label" style="cursor: pointer" for="permission-{{ $permission->id }}">{{ $permission->description }}</label>
                                                         </div>
                                                     @endforeach

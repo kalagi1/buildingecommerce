@@ -1093,9 +1093,10 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['checkA
         Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
     });
 
+    Route::middleware(['checkPermission:UpgradeProfile'])->group(function () {
         Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
         Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
-
+    });
 
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
 
