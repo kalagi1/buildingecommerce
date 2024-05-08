@@ -96,10 +96,14 @@ class RoleController extends Controller
     {
         $permissions = $request->input('permissions');
 
+        return $permissions;
+
         $role = Role::create([
             'name' => $request->input('name'),
             'parent_id' => auth()->user()->parent_id ?? auth()->user()->id,
         ]);
+
+
 
         if (!empty($permissions)) {
             foreach ($permissions as $permissionId) {
