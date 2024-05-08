@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    public function getCollections() {
+        $collections = Collection::where("user_id", Auth::user()->id)->get();
+
+        return response()->json( [ 'collections' => $collections ] );
+    }
+    
     public function index($slug)
     {
         $pageInfo = Page::where('slug', $slug)->first();
@@ -89,7 +95,6 @@ class PageController extends Controller
     }//End
 
     public function store( Request $request ) {
-
         $cart = $request->input("cart");
 
         $request->validate( [

@@ -674,7 +674,7 @@
                                                                             <div class="mb-2"><label class="form-label"
                                                                                     for="bootstrap-wizard-validation-wizard-phone">İade
                                                                                     Yapılacak Banka</label><input
-                                                                                    class="form-control" type="email"
+                                                                                    class="form-control" type="text"
                                                                                     name="return_bank" placeholder="Banka"
                                                                                     id="bootstrap-wizard-validation-wizard-phone"
                                                                                     required="required">
@@ -686,7 +686,7 @@
                                                                             <div class="mb-2"><label class="form-label"
                                                                                     for="bootstrap-wizard-validation-wizard-phone">İade
                                                                                     Yapılacak IBAN</label><input
-                                                                                    class="form-control" type="email"
+                                                                                    class="form-control" type="number"
                                                                                     name="return_iban" placeholder="IBAN"
                                                                                     id="bootstrap-wizard-validation-wizard-phone"
                                                                                     required="required">
@@ -879,6 +879,7 @@
                 "cart_order_id": "{{ $order->id }}"
             };
 
+            console.log(formData);
             // AJAX isteğiyle sunucuya form verilerini gönder
             $.ajax({
                 type: "POST",

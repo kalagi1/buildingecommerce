@@ -22,30 +22,68 @@
                                     value="{{ $role->name }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">İzinler</label>
                                 <div class="row">
+                                    @php
+                                        $specialPermissions = [
+                                            'ChangePassword',
+                                            'EditProfile',
+                                            'ViewDashboard',
+                                            'ShowCartOrders',
+                                            'GetMyCollection',
+                                            'GetMyEarnings',
+                                            'neighborView',
+                                            'GetOrders',
+                                            'GetReceivedOffers',
+                                            'GetGivenOffers',
+                                            'GetSwapApplications',
+                                            'MyReservations',
+                                            'Reservations',
+                                            'Orders',
+                                        ];
+                                    @endphp
                                     @foreach ($groupedPermissions as $groupId => $groupPermissions)
-                                        <div class="col-12">
-                                            @foreach ($groupPermissions as $permission)
-                                                <div class="form-check form-control px-3" style="cursor: pointer"> <input
-                                                        class="form-check-input" type="checkbox"
-                                                        id="permission-{{ $permission->id }}" name="permissions[]"
-                                                        value="{{ $permission->id }}"
-                                                        @if ($role->rolePermissions->contains('permission_id', $permission->id)) checked @endif>
-                                                    <label class="form-check-label" style="cursor: pointer"
-                                                        for="permission-{{ $permission->id }}">{{ $permission->description }}</label>
-                                                </div>
-                                            @endforeach
-                                            <hr>
-                                        </div>
+                                        @php
+                                            // Grup içindeki özel izinleri çıkartarak izin listesini güncelle
+                                            $filteredPermissions = $groupPermissions->reject(function (
+                                                $permission,
+                                            ) use ($specialPermissions) {
+                                                return in_array($permission->key, $specialPermissions);
+                                            });
+                                        @endphp
+                                        @if ($filteredPermissions->isNotEmpty())
+                                            <div class="col-12">
+                                                @php
+                                                    $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
+                                                @endphp
+                                                <label class="form-label">{{ $groupTitle }}</label>
+
+                                                @foreach ($filteredPermissions as $permission)
+                                                    @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
+                                                        <div class="form-check form-control px-3" style="cursor: pointer">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="permission-{{ $permission->id }}" name="permissions[]"
+                                                                value="{{ $permission->id }}"
+                                                                @if ($role->rolePermissions->contains('permission_id', $permission->id)) checked @endif>
+                                                            <label class="form-check-label" style="cursor: pointer"
+                                                                for="permission-{{ $permission->id }}">{{ $permission->description }}</label>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                                <hr>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
                             </div>
+
+                            @foreach ($specialPermissionIDs as $specialPermissionID)
+                                <input type="hidden" name="permissions[]" value="{{ $specialPermissionID }}">
+                            @endforeach
+
                             @if (in_array('UpdateRole', $userPermissions))
                                 <button type="submit" class="btn btn-primary">Güncelle</button>
-                            @else
-                                <p>Bu işlem için yetkiniz yok</p>
+                  
                             @endif
                         </form>
                     </div>

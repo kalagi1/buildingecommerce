@@ -100,7 +100,23 @@ class AppServiceProvider extends ServiceProvider
                 })->unique()->toArray();
 
                 if ($user->corporate_type == 'Emlak Ofisi') {
-                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                }
+
+                if ($user->corporate_type != 'İnşaat Ofisi') {
+                    $permissions = array_diff($permissions, [
+                        "Offers",
+                        "CreateOffer",
+                        "Offers",
+                        "DeleteOffer",
+                        "GetOfferById",
+                        "UpdateOffer",
+                        "GetOffers"
+                    ]);
+                }
+
+                if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
                 }
 
 
@@ -133,6 +149,15 @@ class AppServiceProvider extends ServiceProvider
 
     private function setMenuVisibility(&$menuItem, $permissions)
     {
-        $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+        if (isset($menuItem['subMenu'])) {
+            // Alt menü anahtarlarını pluck et ve kontrol et
+            $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
+    
+            // Alt menülerde izinlerle kesişen varsa, ana menüyü görünür yap
+            $menuItem['visible'] = $subMenuKeys->intersect($permissions)->isNotEmpty();
+        } else {
+            // Ana menüyü izinlerde olup olmadığını kontrol et
+            $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+        }
     }
 }
