@@ -54,6 +54,8 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $filteredPermissions  = $permissions;
+
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
@@ -143,6 +145,9 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $filteredPermissions  = $permissions;
+
+        
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
