@@ -1912,7 +1912,13 @@
 
 
             $(".mobileMovePrice").remove();
-            $(".mobile-action-move").html("assas");
+            if (mobileMovePrice == undefined) {
+                $(".mobile-action-move").html("denemee");
+
+            }else{
+                $(".mobile-action-move").html(mobileMovePrice);
+
+            }
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
