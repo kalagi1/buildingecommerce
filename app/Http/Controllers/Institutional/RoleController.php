@@ -25,6 +25,7 @@ class RoleController extends Controller {
             'GetProjects',
             'DeleteProject',
             'UpdateProject',
+            'GetProjectById'
         ];
         $filteredPermissions = $permissions->reject( function (
             $permission,

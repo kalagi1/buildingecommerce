@@ -100,7 +100,7 @@ class AppServiceProvider extends ServiceProvider
                 })->unique()->toArray();
 
                 if ($user->corporate_type == 'Emlak Ofisi') {
-                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject",'GetProjectById']);
                 }
 
 
