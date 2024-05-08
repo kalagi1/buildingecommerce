@@ -70,7 +70,7 @@
                                                                     style="cursor: pointer">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="permission-{{ $permission->id }}"
-                                                                        name="permissions[]" value="{{ $permission->id }}">
+                                                                        name="permissions[]" value="{{ $permission->id }}" checked>
                                                                     <label class="form-check-label"
                                                                         for="permission-{{ $permission->id }}">
                                                                         {{ $permission->description }}
