@@ -110,13 +110,91 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $role = Role::where('id', $role->id)->with('rolePermissions.permissions')->first();
         $mainRole = Role::where('id', '2')->with('rolePermissions.permissions')->first();
-        $permissions = $role->rolePermissions->pluck('permissions')->flatten();
-        $groupedPermissions = $permissions->groupBy('permission_group_id');
+        $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
 
-        
-        return view('institutional.roles.edit', compact('role', 'groupedPermissions'));
+        $specialPermissions = [
+            'Projects',
+            'CreateProject',
+            'GetProjects',
+            'DeleteProject',
+            'UpdateProject',
+            'GetProjectById',
+        ];
+
+        $reservationPermissions = [
+            'Reservations',
+            'CreateReservation',
+            'GetReservations',
+            'DeleteReservation',
+            'UpdateReservation',
+            'GetReservationById',
+        ];
+
+        $offerPermissions = [
+            "Offers",
+            "CreateOffer",
+            "Offers",
+            "DeleteOffer",
+            "GetOfferById",
+            "UpdateOffer",
+            "GetOffers"
+        ];
+
+        // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
+        if ($user->corporate_type == 'Emlak Ofisi') {
+
+            $filteredPermissions = $permissions->reject(function ($permission) use ($specialPermissions) {
+                return in_array($permission->key, $specialPermissions);
+            });
+        }
+
+        // Eğer 'Turizm Amaçlı Kiralama' değilse, 'reservationPermissions'ı çıkartın
+        if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
+                return in_array($permission->key, $reservationPermissions);
+            });
+        }
+
+
+        if ($user->corporate_type !== 'İnşaat Ofisi') {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
+                return in_array($permission->key, $offerPermissions);
+            });
+        }
+
+        // İzinleri 'permission_group_id' ile gruplayın
+        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
+
+
+
+        $specialPermissionKeys = [
+            'ChangePassword',
+            'EditProfile',
+            'ViewDashboard',
+            'ShowCartOrders',
+            'GetMyCollection',
+            'GetMyEarnings',
+            'neighborView',
+            'GetOrders',
+            'GetReceivedOffers',
+            'GetGivenOffers',
+            'GetSwapApplications',
+            'MyReservations',
+            'Reservations',
+            'Orders'
+        ];
+
+        // Veritabanından bu özel izinlerin ID'lerini alın
+        $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
+            ->pluck('id') // Sadece ID'leri alın
+            ->toArray();
+
+
+
+        return view('institutional.roles.edit', compact('role', 'groupedPermissions', 'specialPermissionIDs'));
     }
 
     public function store(CreateRoleRequest $request)
