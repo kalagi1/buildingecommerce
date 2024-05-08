@@ -1912,7 +1912,6 @@
 
             $(".mobileMovePrice").remove();
             $(".mobile-action-move").html(mobileMovePrice);
-            console.log(mobileMovePrice);
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
