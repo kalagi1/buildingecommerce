@@ -23,8 +23,8 @@ class RoleController extends Controller
         $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
         $permissions = $role->rolePermissions->pluck('permissions')->flatten();
         
-        // İzinleri 'permission_group_id' değerine göre gruplayın
         $groupedPermissions = $permissions->groupBy('permission_group_id');
+
         return view('institutional.roles.create', compact('groupedPermissions'));
     }
     

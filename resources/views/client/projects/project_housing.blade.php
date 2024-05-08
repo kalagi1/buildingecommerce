@@ -1042,26 +1042,45 @@
                                                 </td>
                                             </tr>
 
-                                            @if ($project->step1_slug)
-                                                <tr>
-                                                    <td>
-                                                        Proje Tipi :
-                                                        <span class="det">
-                                                            @if ($project->step2_slug)
-                                                                @if ($project->step2_slug == 'kiralik')
-                                                                    Kiralık
-                                                                @elseif ($project->step2_slug == 'satilik')
-                                                                    Satılık
-                                                                @else
-                                                                    Günlük Kiralık
-                                                                @endif
-                                                            @endif
-                                                            {{ $project->housingtype->title }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-
+                                         
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Ada:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Parsel:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1715,14 +1734,17 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }else{
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
             }
         });
 
 
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
-            var index2 = $(this).index();
-            $('#listingDetailsSlider').carousel(parseInt(index2 +1));
+            var index2 = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
         // Mobil cihazlarda kaydırma işlevselliği

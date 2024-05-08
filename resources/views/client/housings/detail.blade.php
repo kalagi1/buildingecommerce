@@ -1912,7 +1912,12 @@
 
 
             $(".mobileMovePrice").remove();
-            $(".mobile-action-move").html(mobileMovePrice);
+            if (mobileMovePrice == undefined) {
+                $(".mobile-action-move").remove();
+                $(".col-md-7").removeClass("col-md-7").removeClass("col-7").addClass("col-md-12");
+            }else{
+                $(".mobile-action-move").html(mobileMovePrice);
+            }
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 

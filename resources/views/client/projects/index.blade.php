@@ -103,7 +103,7 @@
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                             <div class="carousel-inner">
                                 {{-- Kapak Görseli --}}
-                                <div class="item carousel-item active" data-slide-number="1" style="position: absolute">
+                                <div class="item carousel-item active" data-slide-number="0" style="position: absolute">
                                     <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                         data-lightbox="project-images">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -112,7 +112,7 @@
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key + 2 }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="project-images">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -125,14 +125,14 @@
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
                                 </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key + 2 }}" data-slide-to="{{ $key + 2 }}"
+                                        <a id="carousel-selector-{{ $key + 1 }}" data-slide-to="{{ $key + 1 }}"
                                             data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
@@ -1376,8 +1376,8 @@
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number'); // Aktif slaydın indeksini al
-            $('.pagination .page-item-middle .page-link').text((index) + '/' +
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
@@ -1411,8 +1411,6 @@
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
             var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
             var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
-            console.log(totalItems)
-            console.log(remainingItems)
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
@@ -1427,6 +1425,9 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }else{
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
             }
         });
 
@@ -1435,6 +1436,7 @@
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
             var index2 = $(this).attr('data-slide-to');
+            console.log(index2);
             $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
