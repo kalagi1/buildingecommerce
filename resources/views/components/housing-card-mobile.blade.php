@@ -22,7 +22,7 @@
             <a style="text-decoration: none;height:100%"
             href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex"
-                    style="gap: 8px;justify-content:space-between;align-items:start">
+                    style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
                         {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                     </h4>
