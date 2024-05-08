@@ -8552,6 +8552,7 @@ html input[disabled] {
 
     .itemCircleFont {
         font-size: 11px;
+        margin-left:10px;
     }
 
     .button-tabs .tab-title {
