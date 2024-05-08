@@ -7,7 +7,6 @@ use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use App\Models\RolePermission;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
@@ -21,27 +20,16 @@ class RoleController extends Controller
 
     public function create()
     {
-        // Şu anki kullanıcının verilerini alın
-        $user = User::where("id", Auth::user()->id)->first();
-        
-        // Role ve izinleri çekin
         $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
         $permissions = $role->rolePermissions->pluck('permissions')->flatten();
-    
-        // $permissions'u bir diziye dönüştürün
-        $permissionsArray = $permissions->toArray();
-    
-        // Kullanıcının corporate_type'ı 'Emlak Ofisi' ise, belirli izinleri çıkarın
-        if ($user->corporate_type == 'Emlak Ofisi') {
-            $permissionsArray = array_diff($permissionsArray, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
-        }
-    
-        // Dizi ile çalıştığımız için bunu tekrar bir Collection'a dönüştürün
-        $groupedPermissions = collect($permissionsArray)->groupBy('permission_group_id');
-    
-        // Görünümde gruplandırılmış izinlerle birlikte dön
+
+        return $permissions;
+        
+        $groupedPermissions = $permissions->groupBy('permission_group_id');
+
         return view('institutional.roles.create', compact('groupedPermissions'));
     }
+    
     
 
     public function edit(Role $role)
