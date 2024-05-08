@@ -1,8 +1,7 @@
 @extends('institutional.layouts.master')
 
 @section('content')
-{{dd($userPermissions)}}
-    @if (in_array('GetUsers', $userPermissions))
+    @if (!in_array('GetUsers', $userPermissions))
         @php
             abort(403, 'Bu sayfaya erişim yetkiniz yok.');
         @endphp
