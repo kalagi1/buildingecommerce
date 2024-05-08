@@ -25,7 +25,6 @@ class RoleController extends Controller
         
         // İzinleri 'permission_group_id' değerine göre gruplayın
         $groupedPermissions = $permissions->groupBy('permission_group_id');
-    
         return view('institutional.roles.create', compact('groupedPermissions'));
     }
     
