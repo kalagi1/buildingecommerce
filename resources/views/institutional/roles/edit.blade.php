@@ -24,26 +24,36 @@
                             <div class="mb-3">
                                 <div class="row">
                                     @foreach ($groupedPermissions as $groupId => $groupPermissions)
-                                        <div class="col-12">
-                                            @php
-                                                $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
-                                            @endphp
-                                            <label class="form-label">{{ $groupTitle }}</label>
+                                        @php
+                                            // Grup içindeki özel izinleri çıkartarak izin listesini güncelle
+                                            $filteredPermissions = $groupPermissions->reject(function (
+                                                $permission,
+                                            ) use ($specialPermissions) {
+                                                return in_array($permission->key, $specialPermissions);
+                                            });
+                                        @endphp
+                                        @if ($filteredPermissions->isNotEmpty())
+                                            <div class="col-12">
+                                                @php
+                                                    $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
+                                                @endphp
+                                                <label class="form-label">{{ $groupTitle }}</label>
 
-                                            @foreach ($groupPermissions as $permission)
-                                                @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
-                                                    <div class="form-check form-control px-3" style="cursor: pointer">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="permission-{{ $permission->id }}" name="permissions[]"
-                                                            value="{{ $permission->id }}"
-                                                            @if ($role->rolePermissions->contains('permission_id', $permission->id)) checked @endif>
-                                                        <label class="form-check-label" style="cursor: pointer"
-                                                            for="permission-{{ $permission->id }}">{{ $permission->description }}</label>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                            <hr>
-                                        </div>
+                                                @foreach ($filteredPermissions as $permission)
+                                                    @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
+                                                        <div class="form-check form-control px-3" style="cursor: pointer">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="permission-{{ $permission->id }}" name="permissions[]"
+                                                                value="{{ $permission->id }}"
+                                                                @if ($role->rolePermissions->contains('permission_id', $permission->id)) checked @endif>
+                                                            <label class="form-check-label" style="cursor: pointer"
+                                                                for="permission-{{ $permission->id }}">{{ $permission->description }}</label>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                                <hr>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
