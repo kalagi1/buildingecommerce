@@ -1904,7 +1904,6 @@
             var mobileActionMove = $(".mobile-action-move").html();
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
-            var mobileMovePrice = $(".mobileMovePrice").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
@@ -1913,6 +1912,7 @@
 
             $(".mobileMovePrice").remove();
             $(".mobile-action-move").html(mobileMovePrice);
+            console.log(mobileMovePrice);
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
