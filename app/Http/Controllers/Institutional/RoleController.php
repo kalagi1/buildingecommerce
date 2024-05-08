@@ -54,6 +54,8 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $filteredPermissions  = $permissions;
+
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
@@ -64,14 +66,14 @@ class RoleController extends Controller
 
         // Eğer 'Turizm Amaçlı Kiralama' değilse, 'reservationPermissions'ı çıkartın
         if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
-            $filteredPermissions = $permissions->reject(function ($permission) use ($reservationPermissions) {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
                 return in_array($permission->key, $reservationPermissions);
             });
         }
 
 
         if ($user->corporate_type !== 'İnşaat Ofisi') {
-            $filteredPermissions = $permissions->reject(function ($permission) use ($offerPermissions) {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
                 return in_array($permission->key, $offerPermissions);
             });
         }
@@ -143,6 +145,9 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $filteredPermissions  = $permissions;
+
+
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
@@ -153,14 +158,14 @@ class RoleController extends Controller
 
         // Eğer 'Turizm Amaçlı Kiralama' değilse, 'reservationPermissions'ı çıkartın
         if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
-            $filteredPermissions = $permissions->reject(function ($permission) use ($reservationPermissions) {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
                 return in_array($permission->key, $reservationPermissions);
             });
         }
 
 
         if ($user->corporate_type !== 'İnşaat Ofisi') {
-            $filteredPermissions = $permissions->reject(function ($permission) use ($offerPermissions) {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
                 return in_array($permission->key, $offerPermissions);
             });
         }
