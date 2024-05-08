@@ -8,8 +8,6 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -21,13 +19,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $user = User::where("id", Auth::user()->id)->first();
         $permissions = Permission::where("is_active", "1")->get(); // İzinleri veritabanından alın
-        if ($user->corporate_type == 'Emlak Ofisi') {
-            $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
-        }
-
-        return $permissions;
 
         return view('admin.roles.create', compact('permissions'));
     }
@@ -85,4 +77,5 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Silindi');
     }
+
 }
