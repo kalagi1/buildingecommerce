@@ -70,7 +70,7 @@
                                                                     style="cursor: pointer">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="permission-{{ $permission->id }}"
-                                                                        name="permissions[]" value="{{ $permission->id }}" checked>
+                                                                        name="permissions[]" value="{{ $permission->id }}">
                                                                     <label class="form-check-label"
                                                                         for="permission-{{ $permission->id }}">
                                                                         {{ $permission->description }}
@@ -89,7 +89,7 @@
 
                             {{-- Gizli gönderilecek özel izinler --}}
                             @foreach ($specialPermissions as $specialPermission)
-                                <input type="hidden" name="permissions[]" value="{{ $specialPermission }}">
+                                <input type="hidden" name="permissions[]" value="{{ $specialPermission }}" checked>
                             @endforeach
 
                             <button type="submit" class="btn btn-primary">Oluştur</button>
