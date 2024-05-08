@@ -53,16 +53,19 @@
                                             @foreach ($groupPermissions->reject(function($permission) use ($specialPermissions) {
                                                 return in_array($permission->key, $specialPermissions);
                                             }) as $permission)
-                                                <div class="form-check form-control px-3" style="cursor: pointer">
-                                                    <input class="form-check-input" type="checkbox"
-                                                           id="permission-{{ $permission->id }}"
-                                                           name="permissions[]"
-                                                           value="{{ $permission->id }}">
-                                                    <label class="form-check-label"
-                                                           for="permission-{{ $permission->id }}">
-                                                           {{ $permission->description }}
-                                                    </label>
-                                                </div>
+                                            @if ($permission->description != "Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.")
+                                            <div class="form-check form-control px-3" style="cursor: pointer">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="permission-{{ $permission->id }}"
+                                                       name="permissions[]"
+                                                       value="{{ $permission->id }}">
+                                                <label class="form-check-label"
+                                                       for="permission-{{ $permission->id }}">
+                                                       {{ $permission->description }}
+                                                </label>
+                                            </div>
+                                            @endif
+                                             
                                             @endforeach
                                         </div>
                                         <hr>
