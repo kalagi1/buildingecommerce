@@ -89,66 +89,70 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    // Menu visibility based on submenus
+    private function setMenuVisibility(&$menuItem, $permissions)
+    {
+        if (isset($menuItem['subMenu'])) {
+            // Alt menülerdeki anahtarları kontrol et
+            $subMenuKeys = array_column($menuItem['subMenu'], 'key');
+
+            // Eğer alt menülerde izinlerden herhangi biri varsa, ana menüyü görünür yap
+            $menuItem['visible'] = !empty(array_intersect($subMenuKeys, $permissions));
+        } else {
+            // Eğer alt menü yoksa, ana menü öğesi için kontrol et
+            $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+        }
+    }
+
+    // View composition logic
     private function composeView($view, $jsonFileName)
     {
         if (Auth::check()) {
             $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
 
             if ($user) {
+                // Kullanıcı izinlerini al
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
 
+                // Kurumsal türüne göre izinleri filtrele
                 if ($user->corporate_type == 'Emlak Ofisi') {
-                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
                 }
 
-                if ($user->corporate_type != 'İnşaat Ofisi') {
-                    $permissions = array_diff($permissions, [
-                        "Offers",
-                        "CreateOffer",
-                        "Offers",
-                        "DeleteOffer",
-                        "GetOfferById",
-                        "UpdateOffer",
-                        "GetOffers"
-                    ]);
-                }
-
-                if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
-                }
-
-
+                // Menü verilerini json dosyasından al
                 $jsonFilePath = base_path($jsonFileName);
-
                 if (File::exists($jsonFilePath)) {
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
 
+                    // Menü öğelerini izinlere göre ayarla
                     foreach ($menuData as &$menuItem) {
                         $this->setMenuVisibility($menuItem, $permissions);
 
                         if (isset($menuItem['subMenu'])) {
                             foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                $this->setMenuVisibility($subMenuItem, $permissions);
+                                $this->setMenuVisibility($subMenuItem, $permissions);  // Alt menü izinlerini kontrol et
                             }
+
+                            // Eğer alt menülerden herhangi biri izinlerde ise, ana menüyü görünür yap
+                            $menuItem['visible'] = collect($menuItem['subMenu'])->any(function ($subMenuItem) use ($permissions) {
+                                return $subMenuItem['visible'];
+                            });
                         }
                     }
 
+                    // Görünümü menü verileriyle doldur
                     $view->with('menuData', $menuData);
                 }
 
+                // Diğer bilgileri görünümle paylaş
                 $view->with([
                     'user' => $user,
                     'userPermissions' => $permissions,
                 ]);
             }
         }
-    }
-
-    private function setMenuVisibility(&$menuItem, $permissions)
-    {
-        $menuItem['visible'] = in_array($menuItem['key'], $permissions);
     }
 }

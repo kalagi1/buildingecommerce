@@ -1,6 +1,11 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+    @if (in_array('GetUsers', $userPermissions))
+        @php
+            abort(403, 'Bu sayfaya erişim yetkiniz yok.');
+        @endphp
+    @endif
     <div class="content">
         <div class="row">
             <div class="mb-9">
@@ -9,18 +14,17 @@
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
                             <h3 class="mb-0">Kullanıcılar<span class="fw-normal text-700 ms-3">({{ count($users) }})</span>
-                            </h2>
+                                </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
                                 @if (in_array('CreateUser', $userPermissions))
-                                <a class="btn btn-primary px-5" href="{{ route('institutional.users.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
-                                </a>
+                                    <a class="btn btn-primary px-5" href="{{ route('institutional.users.create') }}">
+                                        <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
+                                    </a>
                                 @else
-                                
                                 @endif
-                              
+
                             </div>
                         </div>
                     </div>
@@ -49,7 +53,7 @@
                                             data-sort="userEmail">E-posta</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userType">Kullanıcı Tipi</th>
-                                            <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userType">Unvan</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
@@ -58,7 +62,8 @@
                                 </thead>
                                 <tbody class="list" id="user-list-table-body">
                                     @foreach ($users as $key => $user)
-                                        <tr class="position-static user-item" data-order="{{ $user->order }}" data-id="{{ $user->id }}">
+                                        <tr class="position-static user-item" data-order="{{ $user->order }}"
+                                            data-id="{{ $user->id }}">
                                             <td>{{ $user->order }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
@@ -168,40 +173,39 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sortable = new Sortable(document.getElementById('user-list-table-body'), {
-        animation: 150,
-        onUpdate: function(evt) {
-            const item = evt.item;
-            const orders = Array.from(item.parentNode.getElementsByClassName('user-item'))
-                .map(function(element) {
-                    return {
-                        id: element.dataset.id,
-                        order: Array.from(element.parentNode.children).indexOf(element) + 1,
-                    };
-                });
-                console.log('roıjsdogmsdzom')
-            // jQuery kullanarak bir AJAX isteği gönder
-            $.ajax({
-                type: 'POST',
-                url: '/institutional/update-user-order',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    orders: orders
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortable = new Sortable(document.getElementById('user-list-table-body'), {
+                animation: 150,
+                onUpdate: function(evt) {
+                    const item = evt.item;
+                    const orders = Array.from(item.parentNode.getElementsByClassName('user-item'))
+                        .map(function(element) {
+                            return {
+                                id: element.dataset.id,
+                                order: Array.from(element.parentNode.children).indexOf(element) + 1,
+                            };
+                        });
+                    console.log('roıjsdogmsdzom')
+                    // jQuery kullanarak bir AJAX isteği gönder
+                    $.ajax({
+                        type: 'POST',
+                        url: '/institutional/update-user-order',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            orders: orders
+                        },
+                        success: function(response) {
+                            location.reload();
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
                 },
-                success: function(response) {
-                    location.reload();
-                    console.log(response);
-                },
-                error: function(error) {
-                    console.error(error);
-                }
             });
-        },
-    });
-});
-
+        });
     </script>
 @endsection
