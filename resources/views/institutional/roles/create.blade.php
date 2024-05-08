@@ -27,38 +27,21 @@
                                     <div class="row">
                                         @foreach ($groupedPermissions as $groupId => $groupPermissions)
                                             <div class="col-12">
-
                                                 @php
                                                     $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
                                                 @endphp
                                                 <h4 class="mt-3" style="margin-bottom:10px;">{{ $groupTitle }}</h4>
                                                 <div class="mb-3">
                                                     @foreach ($groupPermissions as $permission)
-                                                        @if ($permission->description != 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
-                                                            @php
-                                                                $isSpecialPermission = in_array($permission->key, [
-                                                                    'ChangePassword',
-                                                                    'EditProfile',
-                                                                    'ViewDashboard',
-                                                                    'ShowCartOrders',
-                                                                    'GetMyCollection',
-                                                                    'GetMyEarnings',
-                                                                    'neighborView',
-                                                                    'GetOrders',
-                                                                    'GetReceivedOffers',
-                                                                    'GetGivenOffers',
-                                                                    'GetSwapApplications',
-                                                                ]);
-                                                            @endphp
-                                                            <div class="form-check form-control px-3"
-                                                                style="cursor: pointer">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="permission-{{ $permission->id }}"
-                                                                    name="permissions[]" value="{{ $permission->id }}"
-                                                                    @if ($isSpecialPermission) checked disabled @endif>
-                                                                <label class="form-check-label"
-                                                                    for="permission-{{ $permission->id }}">
-                                                                    {{ $permission->description }}
+                                                        @if ($permission->description !== 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
+                                                            <div class="form-check form-control px-3" style="cursor: pointer">
+                                                                <input class="form-check-input" type="checkbox" 
+                                                                       id="permission-{{ $permission->id }}" 
+                                                                       name="permissions[]" 
+                                                                       value="{{ $permission->id }}">
+                                                                <label class="form-check-label" 
+                                                                       for="permission-{{ $permission->id }}">
+                                                                       {{ $permission->description }}
                                                                 </label>
                                                             </div>
                                                         @endif
@@ -70,6 +53,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- Gizli gönderilecek özel izinler --}}
+                            @php
+                            $specialPermissions = [
+                                'ChangePassword',
+                                'EditProfile',
+                                'ViewDashboard',
+                                'ShowCartOrders',
+                                'GetMyCollection',
+                                'GetMyEarnings',
+                                'neighborView',
+                                'GetOrders',
+                                'GetReceivedOffers',
+                                'GetGivenOffers',
+                                'GetSwapApplications',
+                            ];
+                            @endphp
+                            @foreach ($specialPermissions as $specialPermission)
+                                <input type="hidden" name="permissions[]" value="{{ $specialPermission }}">
+                            @endforeach
 
                             <button type="submit" class="btn btn-primary">Oluştur</button>
                         </form>
