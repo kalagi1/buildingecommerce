@@ -43,6 +43,12 @@ class RoleController extends Controller
             'GetReservationById',
         ];
 
+        $offerPermissions = [
+            "Offers",
+            "CreateOffer",
+            "Offers"
+        ];
+
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
@@ -55,6 +61,13 @@ class RoleController extends Controller
         if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
             $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
                 return in_array($permission->key, $reservationPermissions);
+            });
+        }
+
+
+        if ($user->corporate_type !== 'İnşaat Ofisi') {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
+                return in_array($permission->key, $offerPermissions);
             });
         }
 
