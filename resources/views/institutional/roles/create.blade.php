@@ -47,31 +47,33 @@
 
                                         {{-- Özel izinleri listeden çıkar --}}
                                         @foreach ($groupedPermissions as $groupId => $groupPermissions)
-                                            <div class="col-12">
-                                                @php
-                                                    $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
-                                                @endphp
-                                                <h4 class="mt-3" style="margin-bottom:10px;">{{ $groupTitle }}</h4>
-                                                <div class="mb-3">
-                                                    @foreach ($groupPermissions->reject(function ($permission) use ($specialPermissions) {
+                                            @if (count($groupPermissions) > 0)
+                                                <div class="col-12">
+                                                    @php
+                                                        $groupTitle = \App\Models\PermissionGroup::find($groupId)->desc;
+                                                    @endphp
+                                                    <h4 class="mt-3" style="margin-bottom:10px;">{{ $groupTitle }}</h4>
+                                                    <div class="mb-3">
+                                                        @foreach ($groupPermissions->reject(function ($permission) use ($specialPermissions) {
             return in_array($permission->key, $specialPermissions);
         }) as $permission)
-                                                        @if ($permission->description != 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
-                                                            <div class="form-check form-control px-3"
-                                                                style="cursor: pointer">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="permission-{{ $permission->id }}"
-                                                                    name="permissions[]" value="{{ $permission->id }}">
-                                                                <label class="form-check-label"
-                                                                    for="permission-{{ $permission->id }}">
-                                                                    {{ $permission->description }}
-                                                                </label>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
+                                                            @if ($permission->description != 'Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.')
+                                                                <div class="form-check form-control px-3"
+                                                                    style="cursor: pointer">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="permission-{{ $permission->id }}"
+                                                                        name="permissions[]" value="{{ $permission->id }}">
+                                                                    <label class="form-check-label"
+                                                                        for="permission-{{ $permission->id }}">
+                                                                        {{ $permission->description }}
+                                                                    </label>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                    <hr>
                                                 </div>
-                                                <hr>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
