@@ -83,8 +83,7 @@
 
                             @if (in_array('UpdateRole', $userPermissions))
                                 <button type="submit" class="btn btn-primary">Güncelle</button>
-                            @else
-                                <p>Bu işlem için yetkiniz yok</p>
+                  
                             @endif
                         </form>
                     </div>
