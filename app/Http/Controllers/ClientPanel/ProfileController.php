@@ -209,10 +209,12 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
             'cart_order_id' =>'required',
+            'return_bank' => 'required',
+            'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
