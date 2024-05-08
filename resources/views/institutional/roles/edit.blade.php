@@ -23,6 +23,24 @@
                             </div>
                             <div class="mb-3">
                                 <div class="row">
+                                    @php
+                                        $specialPermissions = [
+                                            'ChangePassword',
+                                            'EditProfile',
+                                            'ViewDashboard',
+                                            'ShowCartOrders',
+                                            'GetMyCollection',
+                                            'GetMyEarnings',
+                                            'neighborView',
+                                            'GetOrders',
+                                            'GetReceivedOffers',
+                                            'GetGivenOffers',
+                                            'GetSwapApplications',
+                                            'MyReservations',
+                                            'Reservations',
+                                            'Orders',
+                                        ];
+                                    @endphp
                                     @foreach ($groupedPermissions as $groupId => $groupPermissions)
                                         @php
                                             // Grup içindeki özel izinleri çıkartarak izin listesini güncelle
