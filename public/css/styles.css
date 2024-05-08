@@ -28034,7 +28034,7 @@ font {
     align-items: center;
     width: 35%;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
 }
 
 @media (max-width: 768px) {
