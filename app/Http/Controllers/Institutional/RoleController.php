@@ -21,7 +21,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $role = Role::where('id', '2')->with('rolePermissions.permissions')->first();
         $permissions = $role->rolePermissions->pluck('permissions')->flatten();
 
@@ -52,8 +52,8 @@ class RoleController extends Controller
                     return in_array($permission->key, $specialPermissions);
                 }
             );
-        } 
-         if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
+        }
+        if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
             $filteredPermissions = $permissions->reject(
                 function (
                     $permission,
@@ -61,7 +61,7 @@ class RoleController extends Controller
                     return in_array($permission->key, $reservationPermissions);
                 }
             );
-        } 
+        }
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
         return view('institutional.roles.create', compact('groupedPermissions'));
