@@ -49,7 +49,8 @@ class RoleController extends Controller
             "Offers",
             "DeleteOffer",
             "GetOfferById",
-            "UpdateOffer"
+            "UpdateOffer",
+            "GetOffers"
         ];
 
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun

@@ -110,7 +110,8 @@ class AppServiceProvider extends ServiceProvider
                         "Offers",
                         "DeleteOffer",
                         "GetOfferById",
-                        "UpdateOffer"
+                        "UpdateOffer",
+                        "GetOffers"
                     ]);
                 }
 
