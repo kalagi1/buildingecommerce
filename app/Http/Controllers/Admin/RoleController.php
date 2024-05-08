@@ -27,6 +27,8 @@ class RoleController extends Controller
             $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
         }
 
+        return $permissions;
+
         return view('admin.roles.create', compact('permissions'));
     }
 
