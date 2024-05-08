@@ -40,7 +40,7 @@
                                                 'GetSwapApplications',
                                                 'MyReservations',
                                                 'Reservations',
-                                                'Orders'
+                                                'Orders',
                                             ];
                                         @endphp
 
@@ -87,11 +87,9 @@
                                 </div>
                             </div>
 
-                            {{-- Gizli gönderilecek özel izinler --}}
-                            @foreach ($specialPermissions as $specialPermission)
-                                <input type="hidden" name="permissions[]" value="{{ $specialPermission }}" checked>
+                            @foreach ($specialPermissionIDs as $specialPermissionID)
+                                <input type="hidden" name="permissions[]" value="{{ $specialPermissionID }}">
                             @endforeach
-
                             <button type="submit" class="btn btn-primary">Oluştur</button>
                         </form>
                     </div>

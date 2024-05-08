@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
@@ -78,8 +79,32 @@ class RoleController extends Controller
         // İzinleri 'permission_group_id' ile gruplayın
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
+
+        
+    $specialPermissionKeys = [
+        'ChangePassword',
+        'EditProfile',
+        'ViewDashboard',
+        'ShowCartOrders',
+        'GetMyCollection',
+        'GetMyEarnings',
+        'neighborView',
+        'GetOrders',
+        'GetReceivedOffers',
+        'GetGivenOffers',
+        'GetSwapApplications',
+        'MyReservations',
+        'Reservations',
+        'Orders'
+    ];
+
+    // Veritabanından bu özel izinlerin ID'lerini alın
+    $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
+        ->pluck('id') // Sadece ID'leri alın
+        ->toArray();
+
         // Görünümü gruplanmış izinlerle döndürün
-        return view('institutional.roles.create', compact('groupedPermissions'));
+        return view('institutional.roles.create', compact('groupedPermissions','specialPermissionIDs'));
     }
 
 
