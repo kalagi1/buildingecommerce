@@ -46,7 +46,10 @@ class RoleController extends Controller
         $offerPermissions = [
             "Offers",
             "CreateOffer",
-            "Offers"
+            "Offers",
+            "DeleteOffer",
+            "GetOfferById",
+            "UpdateOffer"
         ];
 
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
