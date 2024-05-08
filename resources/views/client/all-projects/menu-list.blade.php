@@ -40,7 +40,7 @@
             #close-filters {
                 width: 90%;
                 margin: 0 auto;
-                font-size: 11px !important;
+                font-size: 9px !important;
             }
 
             .filters-input-area {
@@ -84,7 +84,7 @@
             .mobile-header {
                 background: #2d67bd;
                 color: #FFF;
-                font-size: 11px;
+                font-size: 9px;
                 padding: 12px 16px;
             }
         }
@@ -166,7 +166,7 @@
 
                             <div class="mobile-filters">
                                 <a id="clear-filters"
-                                    style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
+                                    style="font-size: 9px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 @if (isset($items) && count($items) > 0)
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
@@ -771,7 +771,7 @@
 
                             <button type="button" class="btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="    border: 1px solid #CCC;
-                            font-size: 11px;
+                            font-size: 9px;
                             position: fixed;
                             bottom: 10px;
                             width: 255px;
@@ -1466,7 +1466,7 @@
                                                     <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                         <a style="text-decoration: none;height:100%" href="${res.housing_url}">
                                                             <div class="d-flex"
-                                                                style="gap: 8px;justify-content:space-between;align-items:start">
+                                                                style="gap: 8px;justify-content:space-between;align-items:center">
                                                                 <h4  class="mobile-left-width">
                                                                 ${res.title}
                                                             </h4>
@@ -1547,7 +1547,7 @@
                                                                 ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
                                                                 ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
                                                     </ul>
-                                                    <span style="font-size: 11px !important">${res.city} ${" / "} ${res.county} </span>
+                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} </span>
                                                     </div>
                                             </div> <hr> `);
                             @endif
@@ -1749,7 +1749,7 @@
     <style>
         #submit-filters {
             border: 1px solid #CCC;
-            font-size: 11px;
+            font-size: 9px;
             position: fixed;
             bottom: 10px;
             width: 255px;
@@ -1879,7 +1879,7 @@
                 padding: 10px !important;
                 margin: 0 auto;
                 margin: 10px auto;
-                font-size: 11px;
+                font-size: 9px;
             }
 
             .mobile-title {
@@ -1945,7 +1945,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 11px;
+                font-size: 9px;
             }
         }
 
