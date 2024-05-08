@@ -49,16 +49,16 @@
                     @if ($housing->step2_slug != 'gunluk-kiralik')
                         @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                             <button class="btn second-btn  mobileCBtn"
-                                style="background: #EA2B2E !important;width:100%;color:White">
+                                style="background: #EA2B2E !important;color:White">
 
                                 <span class="text">Satışa Kapatıldı</span>
                             </button>
                         @else
                             @if ($sold != null && $sold != '2')
                                 <button class="btn mobileCBtn second-btn "
-                                    @if ($sold == '0') style="background: orange !important;width:100%;color:White"
+                                    @if ($sold == '0') style="background: orange !important;color:White"
                             @else 
-                            style="background: #EA2B2E !important;width:100%;color:White" @endif>
+                            style="background: #EA2B2E !important;color:White" @endif>
                                     <span class="IconContainer">
                                         <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                                     </span>
