@@ -27,11 +27,14 @@
                         {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                     </h4>
                     <div class="mobile-right-width">
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+
                         <span
                             class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "
                             data-type='housing' data-id="{{ $housing->id }}">
                             <i class="fa fa-bookmark-o"></i>
                         </span>
+                        @endif
                         <span class="btn toggle-favorite bg-white"
                             data-housing-id="{{ $housing->id }}" style="color: white;">
                             <i class="fa fa-heart-o"></i>
