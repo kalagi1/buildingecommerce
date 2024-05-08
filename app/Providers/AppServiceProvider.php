@@ -103,6 +103,10 @@ class AppServiceProvider extends ServiceProvider
                     $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject",'GetProjectById']);
                 }
 
+                if ($user->corporate_type == 'Turizm Amaçlı Kiralama') {
+                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation",'GetReservationById']);
+                }
+
 
                 $jsonFilePath = base_path($jsonFileName);
 
