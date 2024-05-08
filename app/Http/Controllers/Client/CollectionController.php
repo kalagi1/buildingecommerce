@@ -50,7 +50,7 @@ class CollectionController extends Controller {
     
 
     public function store( Request $request ) {
-
+        return $request->all();
         $cart = $request->input("cart");
 
         $request->validate( [

@@ -154,6 +154,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
         Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
 
-        Route::get('/add/collection',[ClientPageController::class,'store']);
+        Route::post('/add/collection',[ClientPageController::class,'store']);
 
 });
