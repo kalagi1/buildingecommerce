@@ -190,14 +190,12 @@ Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
-
-    
 });
 
 
 Route::get('destek', [SupportController::class, 'index'])->name('support.index');
-    Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
-    Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
+Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
@@ -225,16 +223,16 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
 
-        //arandı mı
+    //arandı mı
     Route::get('/searched', [UserController::class, 'searched'])->name('searched');
     Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
-        
-        //Aranmayı Beklenenler
+
+    //Aranmayı Beklenenler
     Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
     Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
     Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
 
-        //Rol değişikliği
+    //Rol değişikliği
     Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
     Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
     Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
@@ -267,7 +265,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/real_estates', [AdminRealEstateController::class, "index"])->name('real.estates');
     Route::get('/real_estate/{id}', [AdminRealEstateController::class, "detail"])->name('real.estate.detail');
-    Route::get('sat/kirala/yetki/ver/{id}',[AdminRealEstateController::class,"satKiralaYetkiVer"])->name('sat.kirala.yetki.ver');
+    Route::get('sat/kirala/yetki/ver/{id}', [AdminRealEstateController::class, "satKiralaYetkiVer"])->name('sat.kirala.yetki.ver');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
@@ -403,7 +401,6 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
         Route::post('/housing/{id}/update-rates', [HousingController::class, 'updateRates'])->name('housing.update-rates');
-
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
@@ -853,9 +850,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
     });
 
-    Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
-        Route::get('/ilan-tipi-sec', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
-    });
+    Route::get('/ilan-tipi-sec', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
+
 
     Route::post("set_pay_decs", [InstitutionalProjectController::class, "setPayDecs"])->name('set.pay.decs');
     Route::get("get_room_pay_decs", [InstitutionalProjectController::class, "getRoomPayDec"])->name('get.pay.decs');
@@ -980,7 +976,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/housings/active/{id}', [InstitutionalProjectController::class, 'housingActive'])->name('housings.active');
     Route::post('/housings/passive/{id}', [InstitutionalProjectController::class, 'housingPassive'])->name('housings.passive');
     Route::delete('/housings/{id}', [InstitutionalProjectController::class, 'housingDestroy'])->name('housings.destroy');
-    Route::post('/housings/deed/{id}', [InstitutionalProjectController::class, 'housingDeed'])->name('housings.deed');//tapu yetki belgesi
+    Route::post('/housings/deed/{id}', [InstitutionalProjectController::class, 'housingDeed'])->name('housings.deed'); //tapu yetki belgesi
 
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
@@ -1236,6 +1232,6 @@ Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->n
 
 //Admin panel Destek Takip
 
-Route::get('qR9zLp2xS6y/secured/destek/takip',[AdminSupportController::class,'index'])->name('admin.support.index');
-Route::post('qR9zLp2xS6y/secured/destek/yanit',[AdminSupportController::class,'returnSupport'])->name('admin.return.support');
-Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle',[AdminSupportController::class,'returnSupportEdit'])->name('admin.return.support.edit');
+Route::get('qR9zLp2xS6y/secured/destek/takip', [AdminSupportController::class, 'index'])->name('admin.support.index');
+Route::post('qR9zLp2xS6y/secured/destek/yanit', [AdminSupportController::class, 'returnSupport'])->name('admin.return.support');
+Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle', [AdminSupportController::class, 'returnSupportEdit'])->name('admin.return.support.edit');
