@@ -43,6 +43,7 @@ class RoleController extends Controller
             'UpdateReservation',
             'GetReservationById'
         ];
+        $filteredPermissions =  $permissions;
         if ($user->corporate_type == 'Emlak Ofisi') {
             $filteredPermissions = $permissions->reject(
                 function (
@@ -51,7 +52,8 @@ class RoleController extends Controller
                     return in_array($permission->key, $specialPermissions);
                 }
             );
-        } else if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
+        } 
+         if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
             $filteredPermissions = $permissions->reject(
                 function (
                     $permission,
@@ -59,10 +61,7 @@ class RoleController extends Controller
                     return in_array($permission->key, $reservationPermissions);
                 }
             );
-        } else {
-            $filteredPermissions =  $permissions;
-        }
-
+        } 
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
         return view('institutional.roles.create', compact('groupedPermissions'));
