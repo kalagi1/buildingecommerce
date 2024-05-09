@@ -86,6 +86,7 @@ use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 use App\Http\Controllers\Client\FormController;
+use App\Http\Controllers\Client\SitemapController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
 use App\Http\Controllers\SupportController;
 
@@ -100,6 +101,7 @@ use App\Http\Controllers\SupportController;
 |
  */
 
+Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');

@@ -9,4 +9,14 @@ class Form extends Model
 {
     protected $guarded = [];
     use HasFactory;
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'sehir', 'id');
+    }
+
+    public function county()
+    {
+        return $this->belongsTo(County::class, 'ilce', 'key_x');
+    }
 }
