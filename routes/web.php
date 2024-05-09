@@ -224,6 +224,7 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
     //arandı mı
     Route::get('/searched', [UserController::class, 'searched'])->name('searched');

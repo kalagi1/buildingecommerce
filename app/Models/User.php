@@ -2,46 +2,37 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, LogsActivity;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $guarded = [];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    protected $hidden = ['password', 'remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'order' => 'integer',
-
     ];
 
+    // Implementing the required method for Spatie's Activity Log
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('user_activities')
+            ->logOnlyDirty() // Only log changes
+            ->dontSubmitEmptyLogs() // Avoid empty logs
+            ->logAll(); // Logs all attributes
+    }
+
+    // Relationships
     public function subscriptionPlan()
     {
         return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
@@ -67,29 +58,32 @@ class User extends Authenticatable
         return $this->hasMany(Housing::class, 'consultant_id');
     }
 
-
     public function role()
     {
-        return $this->belongsTo(Role::class, "type");
+        return $this->belongsTo(Role::class, 'type');
     }
 
     public function parent()
     {
-        return $this->belongsTo(User::class, "parent_id");
+        return $this->belongsTo(User::class, 'parent_id');
     }
 
     public function child()
     {
-        return $this->hasMany(User::class, "parent_id");
+        return $this->hasMany(User::class, 'parent_id');
     }
 
     public function hasPermission($permission)
     {
-        foreach ($this->role->rolePermissions as $rolePermission) {
-            foreach ($rolePermission->permissions as $perm) {
-                if ($perm->key === $permission) {
-                    return true;
-                }
+        $role = $this->role;
+
+        if (!$role) {
+            return false;
+        }
+
+        foreach ($role->rolePermissions as $rolePermission) {
+            if ($rolePermission->permissions->contains('key', $permission)) {
+                return true;
             }
         }
 
@@ -103,7 +97,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'user_id')->where("status","1")->where("deleted_at",null);
+        return $this->hasMany(Project::class, 'user_id')->whereNull('deleted_at');
     }
 
     public function city()
@@ -113,17 +107,17 @@ class User extends Authenticatable
 
     public function town()
     {
-        return $this->belongsTo(Town::class, 'city_id', 'sehir_key');
+        return $this->belongsTo(Town::class, 'city_id');
     }
 
     public function district()
     {
-        return $this->belongsTo(District::class, "county_id", 'ilce_key');
+        return $this->belongsTo(District::class, 'county_id');
     }
 
     public function neighborhood()
     {
-        return $this->belongsTo(Neighborhood::class, "neighborhood_id", 'mahalle_key');
+        return $this->belongsTo(Neighborhood::class, 'neighborhood_id');
     }
 
     public function housings()
@@ -163,7 +157,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "id", "user_id");
+        return $this->belongsTo(UserPlan::class, 'user_id');
     }
 
     public function phoneNumbers()
