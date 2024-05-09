@@ -898,6 +898,8 @@ class ProjectController extends Controller
 
         $isShare = auth()->user()->type == 1 ? true : false;
 
+        $consultant = auth()->user()->parent_id ? true : false;
+
         $project = Housing::create(
             [
                 'housing_type_id' => $housingTypeParentConnection->housingType->id,
@@ -923,6 +925,7 @@ class ProjectController extends Controller
                 'status' => 2,
                 'owner_id' =>  $ownerId,
                 'is_share' =>  $isShare,
+                'consultant_id' => $consultant ? auth()->user->id : null
 
             ]
         );
