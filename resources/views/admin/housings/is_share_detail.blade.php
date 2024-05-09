@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                @if ($housing->status == 1)
+                @if ($housing->status == 1 && $housing->owner)
                     <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
                         Emlak Ofisi Değiştir
                     </a>
@@ -111,7 +111,7 @@
                         class="btn btn-danger set_status">Pasife Al</a>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
-                @elseif($housing->status == 2)
+                @elseif($housing->status == 2  && $housing->owner)
                     {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-success set_status">Emlakçıya Atma</a> --}}
                     <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
@@ -208,6 +208,35 @@
                                                 </span>
                                             </td>
                                         </tr>
+
+                                        @if ($housing->owner)
+                                            <tr>
+                                                <td>
+                                                    İlan Sahibi :
+
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $housing->owner->mobile_phone !!}">{!! $housing->owner->name !!}</a>
+
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Atama Yapılan Emlakçı :
+                                                    <span class="det">
+                                                        @if ($housing->user->id != $housing->owner->id)
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                        @else
+                                                            <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
+                                                            Atama Yapılmadı
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
                                         <tr>
                                             <td>
                                                 İlan Sahibi :
