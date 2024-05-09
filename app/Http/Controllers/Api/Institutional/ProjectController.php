@@ -925,7 +925,7 @@ class ProjectController extends Controller
                 'status' => 2,
                 'owner_id' =>  $ownerId,
                 'is_share' =>  $isShare,
-                'consultant_id' => $consultant ? auth()->user->id : null
+                'consultant_id' => $consultant ? auth()->user()->id : null
 
             ]
         );
