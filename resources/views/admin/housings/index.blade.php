@@ -110,11 +110,11 @@
                 housingConsultant.className = "align-middle housing_type";
 
                 // Determine the text content based on housingType.user.name
-                if (housingType.user && housingType.user.name) {
-                    housingConsultant.textContent = housingType.user
-                        .name;
-                } else if (housingType.consultant && housingType.consultant.name) {
+                if (housingType.consultant && housingType.consultant.name) {
                     housingConsultant.textContent = housingType.consultant
+                        .name;
+                } else if (housingType.user && housingType.user.name) {
+                    housingConsultant.textContent = housingType.user
                         .name;
                 } else {
                     housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
