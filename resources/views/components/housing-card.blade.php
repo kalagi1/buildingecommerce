@@ -131,7 +131,7 @@
                                                 <span style="font-size:11px; color:#EA2B2E">
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                 </span>
-                                            </del>
+                                            </del> <br>
                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -145,7 +145,7 @@
                                             <del style="font-size:11px; color:#EA2B2E">
 
                                                 {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                            </del>
+                                            </del> <br>
                                             {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -159,7 +159,7 @@
                                     @if ($housing->discount_amount)
                                         <del style="font-size:11px; color:#EA2B2E">
                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                        </del>
+                                        </del> <br>
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
                                         ₺
                                         <span style="font-size:11px; color:#EA2B2E">
@@ -174,7 +174,7 @@
                                     @if ($housing->discount_amount)
                                         <del style="font-size:11px; color:#EA2B2E">
                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                        </del>
+                                        </del> <br>
                                         {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
                                         ₺
                                     @else
