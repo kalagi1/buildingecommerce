@@ -1243,33 +1243,33 @@
                 <ul class="navbar-nav navbar-nav-icons flex-row">
 
                     <li class="nav-item">
-                        @php
-                        $userType = Auth::user()->type;
-                        $userPermissions = Auth::user()->permissions; // Assuming user permissions are stored in an array
-                        
-                        $link = '';
-                        $text = '';
-                        
-                        if ($userType == 2) {
-                            $link = url('institutional/ilan-tipi-sec');
-                            $text = 'İlan Ekle';
-                        } elseif ($userType == 3) {
-                            $link = url('qR9zLp2xS6y/secured/');
-                            $text = 'Yönetim';
-                        } elseif ($userType == 1) {
-                            if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
-                                $link = url('institutional/ilan-tipi-sec');
-                                $text = 'İlan Ekle';
-                            } else {
-                                $link = url('sat-kirala-nedir/');
-                                $text = 'Sat Kirala';
-                            }
-                        } else {
-                            $link = url('institutional/ilan-tipi-sec');
-                            $text = 'İlan Ekle';
-                        }
-                        @endphp
-                        
+                      @php
+$userType = Auth::user()->type;
+$newUserPermissions = Auth::user()->permissions; // Assuming user permissions are stored in an array
+
+$link = '';
+$text = '';
+
+if ($userType == 2) {
+    $link = url('institutional/ilan-tipi-sec');
+    $text = 'İlan Ekle';
+} elseif ($userType == 3) {
+    $link = url('qR9zLp2xS6y/secured/');
+    $text = 'Yönetim';
+} elseif ($userType == 1) {
+    if (in_array('CreateHousing', $newUserPermissions) || in_array('CreateProject', $newUserPermissions)) {
+        $link = url('institutional/ilan-tipi-sec');
+        $text = 'İlan Ekle';
+    } else {
+        $link = url('sat-kirala-nedir/');
+        $text = 'Sat Kirala';
+    }
+} else {
+    $link = url('institutional/ilan-tipi-sec');
+    $text = 'İlan Ekle';
+}
+@endphp
+
                         <a href="{{ $link }}" style="margin-right: 9px;">
                             <button type="button" class="buyUserRequest ml-3">
                                 <span class="buyUserRequest__text">{{ $text }}</span>
