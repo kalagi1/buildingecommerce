@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use LogsActivity;
+
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +46,17 @@ class User extends Authenticatable
 
     ];
 
+     // Implementing the required method for Spatie's Activity Log
+     public function getActivitylogOptions(): LogOptions
+     {
+         return LogOptions::defaults()
+             ->useLogName('user_activities')
+             ->logOnlyDirty() // Only log changes
+             ->dontSubmitEmptyLogs() // Avoid empty logs
+             ->logAll(); // Logs all attributes
+     }
+ 
+
     public function subscriptionPlan()
     {
         return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
@@ -61,12 +76,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(HousingComment::class, 'owner_id');
     }
-
-    public function consultans()
-    {
-        return $this->hasMany(Housing::class, 'consultant_id');
-    }
-
 
     public function role()
     {

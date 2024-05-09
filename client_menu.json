@@ -52,7 +52,7 @@
         "text": "Komşumu Gör",
         "key": "neighborView",
         "url": "neighbors.index",
-        "activePath": "/neighbors"
+        "activePath": "/komsumu-gor"
     },
     {
         "id": "membershipType",
