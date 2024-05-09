@@ -138,22 +138,11 @@
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">
-                                                @if ($brand->profile_image == 'indir.png')
-                                                    @php
-                                                        $nameInitials = collect(preg_split('/\s+/', $brand->name))
-                                                            ->map(function ($word) {
-                                                                return mb_strtoupper(mb_substr($word, 0, 1));
-                                                            })
-                                                            ->take(1)
-                                                            ->implode('');
-                                                    @endphp
-
-                                                    <div class="profile-initial">{{ $nameInitials }}</div>
-                                                @else
+                                            
                                                     <img loading="lazy"
                                                         src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                         alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
-                                                @endif
+                                              
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
                                             </div>
