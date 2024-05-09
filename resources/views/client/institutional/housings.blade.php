@@ -55,7 +55,7 @@
     <section class="featured portfolio rec-pro disc bg-white">
         @if ($secondhandHousings->isNotEmpty())
             <div class="container">
-                <div class="mobile-hidden">
+              
                     <section class="properties-right list featured portfolio blog pb-5 pt-3 bg-white">
                         <div class="row">
                             @php
@@ -124,6 +124,7 @@
 
 
                         </div>
+                        <div class="mobile-hidden">
                         <div class="row">
 
 
@@ -144,8 +145,9 @@
                                 <p>Henüz İlan Yayınlanmadı</p>
                             @endforelse
                         </div>
+                    </div>
                     </section>
-                </div>
+           
             </div>
         @else
             <div class="container mt-5">
