@@ -1257,6 +1257,11 @@ if ($userType == 2) {
     $link = url('qR9zLp2xS6y/secured/');
     $text = 'Yönetim';
 } elseif ($userType == 1) {
+    
+        $link = url('sat-kirala-nedir/');
+        $text = 'Sat Kirala';
+    
+} else {
     if (in_array('CreateHousing', $newUserPermissions) || in_array('CreateProject', $newUserPermissions)) {
         $link = url('institutional/ilan-tipi-sec');
         $text = 'İlan Ekle';
@@ -1264,9 +1269,6 @@ if ($userType == 2) {
         $link = url('sat-kirala-nedir/');
         $text = 'Sat Kirala';
     }
-} else {
-    $link = url('institutional/ilan-tipi-sec');
-    $text = 'İlan Ekle';
 }
 @endphp
 
