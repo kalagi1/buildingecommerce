@@ -158,4 +158,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('/getCollections', [ClientPageController::class, 'getCollections']);
 
+        Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
+
 });
