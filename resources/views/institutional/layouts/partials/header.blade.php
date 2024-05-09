@@ -1260,9 +1260,14 @@
                                     $link = url('qR9zLp2xS6y/secured/');
                                     $text = 'Yönetim';
                                     break;
-                                default:
+                                    case 1:
                                     $link = url('sat-kirala-nedir/');
                                     $text = 'Sat Kirala';
+                                    
+                                    break;
+                                default:
+                                $link = url('institutional/ilan-tipi-sec');
+                                    $text = 'İlan Ekle';
                             }
                         @endphp
 
