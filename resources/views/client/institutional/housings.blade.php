@@ -146,6 +146,97 @@
                         </div>
                     </section>
                 </div>
+                <div class="mobile-shoe">
+                    <section class="properties-right list featured portfolio blog pb-5 pt-3 bg-white">
+                        <div class="row">
+                            @php
+                                function addQueryParamToUrl($paramName, $paramValue)
+                                {
+                                    $queryParams = request()->query();
+                                    $queryParams[$paramName] = $paramValue;
+
+                                    return request()->url() . '?' . http_build_query($queryParams);
+                                }
+
+                                $counts = [
+                                    'satilik' => 0,
+                                    'kiralik' => 0,
+                                    'gunluk-kiralik' => 0,
+                                ];
+                            @endphp
+                            @php
+                                $filter = request('filter', 'tumu');
+                            @endphp
+                            @foreach ($secondhandHousings as $housing)
+                                @php $sold = $housing->sold @endphp
+                                @if (
+                                    !isset(json_decode($housing->housing_type_data)->off_sale1[0]) &&
+                                        (($sold && $sold != '1') ||
+                                            (!$sold && in_array($housing->step2_slug, ['satilik', 'kiralik', 'gunluk-kiralik']))))
+                                    @php
+                                        $counts[$housing->step2_slug]++;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            <div class="col-md-12">
+                                <div class="tabbed-content button-tabs mb-3">
+                                    <ul class="tabs">
+                                        <li class="nav-item-block {{ $filter === 'tumu' ? 'active' : '' }}">
+                                            <a href="{{ addQueryParamToUrl('filter', 'tumu') }}">
+                                                <div class="tab-title">
+                                                    <span>Tümü</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        @foreach ($counts as $slug => $count)
+                                            <li class="nav-item-block {{ $filter === $slug ? 'active' : '' }}"
+                                                role="presentation">
+
+                                                <a href="{{ addQueryParamToUrl('filter', $slug) }}">
+                                                    <div class="tab-title">
+                                                        <span>
+                                                            @if ($slug == 'satilik')
+                                                                Satılık
+                                                            @elseif($slug == 'kiralik')
+                                                                Kiralık
+                                                            @elseif($slug == 'gunluk-kiralik')
+                                                                Günlük Kiralık
+                                                            @endif
+                                                            ({{ $count }})
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+
+                            @forelse ($secondhandHousings as $housing)
+                                @php($sold = $housing->sold)
+                                @if (
+                                    !isset(json_decode($housing->housing_type_data)->off_sale1[0]) &&
+                                        (($sold && $sold != '1') || !$sold) &&
+                                        ($filter === 'tumu' ||
+                                            ($filter === 'satilik' && $housing->step2_slug === 'satilik') ||
+                                            ($filter === 'gunluk-kiralik' && $housing->step2_slug === 'gunluk-kiralik') ||
+                                            ($filter === 'kiralik' && $housing->step2_slug === 'kiralik')))
+                                    <div class="col-md-3">
+                                        <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                                    </div>
+                                @endif
+                            @empty
+                                <p>Henüz İlan Yayınlanmadı</p>
+                            @endforelse
+                        </div>
+                    </section>
+                </div>
             </div>
         @else
             <div class="container mt-5">
