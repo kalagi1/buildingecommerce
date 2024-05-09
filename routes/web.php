@@ -1137,6 +1137,7 @@ Route::get('/getTaxOfficeCity', [UserController::class, 'getTaxOfficeCity'])->na
 
 //Komşumu sil
 Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name('komsumu.sil');
+Route::post('/order', [OrderController::class, 'createOrder'])->name('client.create.order');
 
 //Toplu Main Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
