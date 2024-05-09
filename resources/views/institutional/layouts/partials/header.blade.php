@@ -1245,10 +1245,6 @@
                     <li class="nav-item">
                       @php
 $userType = Auth::user()->type;
-$newUserPermissions = Auth::user()->role->rolePermissions->flatMap(function ($rolePermission) {
-                    return $rolePermission->permissions->pluck('key');
-                })->unique()->toArray();
-
 
 $link = '';
 $text = '';
@@ -1265,7 +1261,7 @@ if ($userType == 2) {
         $text = 'Sat Kirala';
     
 } else {
-    if (in_array('CreateHousing', $newUserPermissions) || in_array('CreateProject', $newUserPermissions)) {
+    if (in_array('CreateHousing', $permissions) || in_array('CreateProject', $permissions)) {
         $link = url('institutional/ilan-tipi-sec');
         $text = 'İlan Ekle';
     } else {
