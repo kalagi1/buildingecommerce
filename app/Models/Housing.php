@@ -6,13 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Housing extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $guarded = [];
+
+
+    // Implementing the required method for Spatie's Activity Log
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('housing_activities')
+            ->logOnlyDirty() // Only log changes
+            ->dontSubmitEmptyLogs() // Avoid empty logs
+            ->logAll(); // Logs all attributes
+    }
+
 
     public function housing_type()
     {
