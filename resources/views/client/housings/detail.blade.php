@@ -1375,7 +1375,7 @@
                                                         @if ($housing->consultant->profile_image == 'indir.png')
                                                             @php
                                                                 $nameInitials = collect(
-                                                                    preg_split('/\s+/', $brand->name),
+                                                                    preg_split('/\s+/', $housing->consultant->name),
                                                                 )
                                                                     ->map(function ($word) {
                                                                         return mb_strtoupper(mb_substr($word, 0, 1));
