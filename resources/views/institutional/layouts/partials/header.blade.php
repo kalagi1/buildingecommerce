@@ -1245,7 +1245,10 @@
                     <li class="nav-item">
                       @php
 $userType = Auth::user()->type;
-$newUserPermissions = Auth::user()->permissions; // Assuming user permissions are stored in an array
+$newUserPermissions = Auth::user()->role->rolePermissions->flatMap(function ($rolePermission) {
+                    return $rolePermission->permissions->pluck('key');
+                })->unique()->toArray();
+
 
 $link = '';
 $text = '';
