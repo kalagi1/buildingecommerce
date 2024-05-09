@@ -82,6 +82,11 @@
             housingTypeCell.className = "align-middle housing_type";
             housingTypeCell.textContent = housingType.housing_type;
 
+            var housingConsultant = document.createElement("td");
+                housingConsultant.className = "align-middle housing_type";
+                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : "Yönetici";
+
+
             var statusCell = document.createElement("td");
             statusCell.className = "align-middle status";
             statusCell.innerHTML = housingType.status == 1 ? '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
@@ -136,6 +141,7 @@
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
             row.appendChild(housingTypeCell);
+            row.appendChild(housingConsultant);
 
             if (housingType.deleted_at == null) {
                 row.appendChild(statusCell);
