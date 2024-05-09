@@ -111,7 +111,7 @@
                         class="btn btn-danger set_status">Pasife Al</a>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
-                @elseif($housing->status == 2  && $housing->owner)
+                @elseif($housing->status == 2 && $housing->owner)
                     {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-success set_status">Emlakçıya Atma</a> --}}
                     <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
@@ -237,43 +237,6 @@
                                                 </td>
                                             </tr>
                                         @endif
-                                        <tr>
-                                            <td>
-                                                İlan Sahibi :
-
-                                                <span class="det">
-                                                    @if ($housing->user && $housing->owner)
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
-                                                    @else
-                                                        <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
-                                                        <span>Kullanıcı Bulunamadı</span>
-                                                    @endif
-                                                </span>
-
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Atama Yapılan Emlakçı :
-                                                <span class="det">
-                                                    @if ($housing->owner)
-                                                        @if ($housing->user->id != $housing->owner->id)
-                                                            <a style="text-decoration: none;color:inherit"
-                                                                href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
-                                                        @else
-                                                            <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
-                                                            Atama Yapılmadı
-                                                        @endif
-                                                    @else
-                                                        <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
-                                                        <span>Kullanıcı Bulunamadı</span>
-                                                    @endif
-                                                </span>
-                                            </td>
-
-                                        </tr>
                                         <tr>
                                             <td>
                                                 {!! 'İl-İlçe' . optional($housing->neighborhood)->mahalle_title ? 'Mahalle:' : ':' !!}
