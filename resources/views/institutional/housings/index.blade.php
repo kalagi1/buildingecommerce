@@ -119,13 +119,14 @@
                 var housingOwner = document.createElement("td");
                 housingOwner.className = "align-middle housing_owner";
 
-
-
-
-
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
+
+                
+                var housingConsultant = document.createElement("td");
+                housingConsultant.className = "align-middle housing_type";
+                housingConsultant.textContent = housingType.consultant.name ?? housingType.user.name;
 
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
