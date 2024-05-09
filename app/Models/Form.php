@@ -28,4 +28,8 @@ class Form extends Model
     {
         return $this->belongsTo(County::class, 'arsa_ilce', 'key_x');
     }
+    public function aneighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class, 'arsa_mahalle', 'key_x');
+    }
 }
