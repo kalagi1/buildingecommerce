@@ -1372,15 +1372,17 @@
                                             <tbody>
                                                 @if ($housing->consultant)
                                                     <div class="author-box clearfix d-flex align-items-center">
-                                                      
-                                                            <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
-                                                                alt="author-image" class="author__img">
-                                                                <div>
-                                                                    <h4 class="author__title">{{ $housing->consultant->name }}</h4>
-                                                                    <p class="author__meta">{{ $housing->consultant->role->name }}</p>
-                                                                </div>
-                                                    
-                                                  
+
+                                                        <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
+                                                            alt="author-image" class="author__img">
+                                                        <div>
+                                                            <h4 class="author__title">{{ $housing->consultant->name }}
+                                                            </h4>
+                                                            <p class="author__meta">
+                                                                {{ $housing->consultant->role->name }}</p>
+                                                        </div>
+
+
                                                     </div>
                                                 @endif
 
@@ -1429,6 +1431,32 @@
                                                     </td>
                                                 </tr>
 
+                                                @if ($housing->consultant)
+                                                    @if ($housing->consultant->mobile_phone)
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->consultant->mobile_phone !!}">{!! $housing->consultant->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @else
+                                                    @if ($housing->user->mobile_phone)
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endif
+
 
                                                 @if ($housing->user->phone)
                                                     <tr>
@@ -1441,17 +1469,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($housing->user->mobile_phone)
-                                                    <tr>
-                                                        <td>
-                                                            Cep :
-                                                            <span class="det">
-                                                                <a style="text-decoration: none;color:#274abb;"
-                                                                    href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+
 
                                                 <tr>
                                                     <td>
@@ -3036,6 +3054,7 @@
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
         }
+
         .profile-initial {
             font-size: 20px;
             color: #e54242;
