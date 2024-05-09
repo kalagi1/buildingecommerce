@@ -24,6 +24,7 @@ class FormController extends Controller
 
     public function showSwapApplication(Form $form)
     {
+        $form = Form::where("id", $form->id)->with("city", "county")->first();
         return response()->json(["form" => $form]);
     }
 }
