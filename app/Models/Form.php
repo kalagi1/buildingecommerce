@@ -30,6 +30,6 @@ class Form extends Model
     }
     public function aneighborhood()
     {
-        return $this->belongsTo(Neighborhood::class, 'arsa_mahalle', 'key_x');
+        return $this->belongsTo(Neighborhood::class, 'arsa_mahalle', 'mahalle_key');
     }
 }
