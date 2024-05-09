@@ -299,6 +299,8 @@ class HousingController extends Controller {
                 'housings.user_id',
                 'housings.deleted_at',
                 'housings.is_sold',
+                'housings.consultant_id',
+
             )
             ->where(function ($query) use ($userId) {
                 $query->where('housings.user_id', $userId)

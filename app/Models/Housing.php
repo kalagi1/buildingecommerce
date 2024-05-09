@@ -86,6 +86,6 @@ class Housing extends Model
 
     public function consultant()
     {
-        return $this->hasOne(User::class, 'consultant_id', "id");
+        return $this->belongsTo(User::class, 'consultant_id');
     }
 }
