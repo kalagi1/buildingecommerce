@@ -1444,10 +1444,20 @@
                                                     @if (in_array('showPhone', $consultantPermissions))
                                                         <tr>
                                                             <td>
-                                                                Cep :
+                                                               Danışman Cep :
                                                                 <span class="det">
                                                                     <a style="text-decoration: none;color:#274abb;"
                                                                         href="tel:{!! $housing->consultant->mobile_phone !!}">{!! $housing->consultant->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        @else
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
                                                                 </span>
                                                             </td>
                                                         </tr>
