@@ -84,7 +84,7 @@
 
             var housingConsultant = document.createElement("td");
                 housingConsultant.className = "align-middle housing_type";
-                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name :  housingType.user.name;
+                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name :  "Kurumdal";
 
 
             var statusCell = document.createElement("td");
