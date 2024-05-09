@@ -8,7 +8,7 @@
         AND JSON_EXTRACT(cart, "$.item.id") = ?
         ORDER BY created_at DESC
         LIMIT 1',
-        [$housing->id]
+        [$housing->id],
     );
 @endphp
 
@@ -893,7 +893,7 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg><span class="add-to-collection-button-text">
-                                                    @if ( Auth::check() &&  Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
                                                         Portföyüme Ekle
                                                     @else
                                                         Koleksiyona Ekle
@@ -1370,6 +1370,22 @@
                                     <div class="sidebar-widget author-widget2">
                                         <table class="table">
                                             <tbody>
+                                                @if ($housing->consultant)
+                                                    <div class="author-box clearfix d-flex align-items-center">
+
+                                                        <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
+                                                            alt="author-image" class="author__img">
+                                                        <div>
+                                                            <h4 class="author__title">{{ $housing->consultant->name }}
+                                                            </h4>
+                                                            <p class="author__meta">
+                                                                {{ $housing->consultant->role->name }}</p>
+                                                        </div>
+
+
+                                                    </div>
+                                                @endif
+
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
                                                         <span class="det" style="color: #EA2B2E !important;">
@@ -1415,6 +1431,41 @@
                                                     </td>
                                                 </tr>
 
+                                                @if ($housing->consultant && $housing->consultant->mobile_phone)
+                                                    @php
+
+                                                        $consultantPermissions = $housing->consultant->role->rolePermissions
+                                                            ->flatMap(function ($rolePermission) {
+                                                                return $rolePermission->permissions->pluck('key');
+                                                            })
+                                                            ->unique()
+                                                            ->toArray();
+                                                    @endphp
+                                                    @if (in_array('showPhone', $consultantPermissions))
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->consultant->mobile_phone !!}">{!! $housing->consultant->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @else
+                                                    @if ($housing->user->mobile_phone)
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endif
+
 
                                                 @if ($housing->user->phone)
                                                     <tr>
@@ -1427,17 +1478,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($housing->user->mobile_phone)
-                                                    <tr>
-                                                        <td>
-                                                            Cep :
-                                                            <span class="det">
-                                                                <a style="text-decoration: none;color:#274abb;"
-                                                                    href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+
 
                                                 <tr>
                                                     <td>
@@ -1915,7 +1956,7 @@
             if (mobileMovePrice == undefined) {
                 $(".mobile-action-move").remove();
                 $(".col-md-7").removeClass("col-md-7").removeClass("col-7").addClass("col-md-12");
-            }else{
+            } else {
                 $(".mobile-action-move").html(mobileMovePrice);
             }
             $(".mobileMove").remove();
@@ -3022,6 +3063,22 @@
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
         }
+
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
 
         .error-message {
             color: #e54242;

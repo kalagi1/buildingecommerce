@@ -90,6 +90,7 @@ class UserController extends Controller {
     public function store( Request $request ) {
         $messages = [
             'name.required' => 'İsim alanı zorunludur.',
+            'mobile_phone.required' => 'Cep no alanı zorunludur.',
             'name.string' => 'İsim alanı metin türünde olmalıdır.',
             'name.max' => 'İsim alanı en fazla 255 karakter olmalıdır.',
             'email.required' => 'E-posta alanı zorunludur.',
@@ -104,6 +105,7 @@ class UserController extends Controller {
 
         $rules = [
             'name' => 'required|string|max:255',
+            'mobile_phone' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:3',
             'type' => 'required',
@@ -123,6 +125,8 @@ class UserController extends Controller {
         $user->title = $validatedData[ 'title' ];
 
         $user->email = $validatedData[ 'email' ];
+        $user->mobile_phone = $validatedData[ 'mobile_phone' ];
+
         $user->profile_image = 'indir.png';
         $user->password = bcrypt( $validatedData[ 'password' ] );
         // Şifreyi şifreleyin
@@ -163,6 +167,7 @@ class UserController extends Controller {
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'type' => 'required',
+            'mobile_phone' => 'required',
             'title' => 'required',
             'is_active' => 'nullable',
         ];
@@ -176,6 +181,8 @@ class UserController extends Controller {
         $user->name = $validatedData[ 'name' ];
         $user->email = $validatedData[ 'email' ];
         $user->title = $validatedData[ 'title' ];
+        $user->mobile_phone = $validatedData[ 'mobile_phone' ];
+
         $user->type = $validatedData[ 'type' ];
         $user->status = $request->has( 'is_active' ) ? 1 : 5;
         

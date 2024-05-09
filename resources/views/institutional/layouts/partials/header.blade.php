@@ -1243,28 +1243,33 @@
                 <ul class="navbar-nav navbar-nav-icons flex-row">
 
                     <li class="nav-item">
-                        @php
-                            $userType = Auth::user()->type;
-                        @endphp
+                      @php
+$userType = Auth::user()->type;
 
-                        @php
-                            $link = '';
-                            $text = '';
+$link = '';
+$text = '';
 
-                            switch ($userType) {
-                                case 2:
-                                    $link = url('institutional/ilan-tipi-sec');
-                                    $text = 'İlan Ekle';
-                                    break;
-                                case 3:
-                                    $link = url('qR9zLp2xS6y/secured/');
-                                    $text = 'Yönetim';
-                                    break;
-                                default:
-                                    $link = url('sat-kirala-nedir/');
-                                    $text = 'Sat Kirala';
-                            }
-                        @endphp
+if ($userType == 2) {
+    $link = url('institutional/ilan-tipi-sec');
+    $text = 'İlan Ekle';
+} elseif ($userType == 3) {
+    $link = url('qR9zLp2xS6y/secured/');
+    $text = 'Yönetim';
+} elseif ($userType == 1) {
+    
+        $link = url('sat-kirala-nedir/');
+        $text = 'Sat Kirala';
+    
+} else {
+    if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
+        $link = url('institutional/ilan-tipi-sec');
+        $text = 'İlan Ekle';
+    } else {
+        $link = url('sat-kirala-nedir/');
+        $text = 'Sat Kirala';
+    }
+}
+@endphp
 
                         <a href="{{ $link }}" style="margin-right: 9px;">
                             <button type="button" class="buyUserRequest ml-3">

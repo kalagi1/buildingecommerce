@@ -106,7 +106,7 @@
 
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
-
+console.log(housingType);
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
@@ -119,13 +119,14 @@
                 var housingOwner = document.createElement("td");
                 housingOwner.className = "align-middle housing_owner";
 
-
-
-
-
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
+
+                
+                var housingConsultant = document.createElement("td");
+                housingConsultant.className = "align-middle housing_type";
+                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : "Yönetici";
 
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
@@ -354,6 +355,7 @@
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
@@ -368,6 +370,7 @@
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingOwner);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
@@ -423,6 +426,7 @@
                     }
 
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);

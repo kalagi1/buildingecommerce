@@ -69,6 +69,12 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
+                                        <label class="form-label" for="phone">Cep No</label>
+                                        <input name="mobile_phone" class="form-control" id="phone" type="number"
+                                            value="{{ old('mobile_phone', $subUser->mobile_phone) }}" required="">
+                                        <div class="valid-feedback">Looks good!</div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <label class="form-label" for="password">Şifre (Değiştirmek istemiyorsanız boş
                                             bırakın)</label>
                                         <input name="password" class="form-control" id="password" type="password"

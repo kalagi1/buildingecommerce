@@ -149,6 +149,50 @@ class PageController extends Controller
 
         }
 
-        return response()->json( [ 'collection' => $collection ] );    }
+        return response()->json( [ 'collection' => $collection ] ); 
+    
+    }
+
+    public function addLink(Request $request)
+    {
+        $type = $request->input('type');
+        $id = $request->input('id');
+        $project = $request->input('project');
+
+        if ($type == 'project') {
+            $sharerLinksProjects = ShareLink::select('room_order', 'item_id', 'collection_id')->where('user_id', auth()->user()->id)->where('item_type', 1)->get()->keyBy('item_id')->toArray();
+            $isHas = false;
+            $ext = ShareLink::where('item_id', $project)->where('room_order', $id)->where('collection_id', $request->input('selectedCollectionId'))->first();
+            if ($ext) {
+                $isHas = true;
+            }
+            if (!$isHas) {
+                ShareLink::create([
+                    'user_id' => auth()->user()->id,
+                    'item_type' => 1,
+                    'collection_id' => $request->input('selectedCollectionId'),
+                    'item_id' => $project,
+                    'room_order' => $id,
+                ]);
+            } else {
+                return response(['failed' => 'share link was added before for the project']);
+            }
+        } else {
+            $sharerLinks = array_values(array_keys(ShareLink::where('user_id', auth()->user()->id)->where('item_type', 2)->where('collection_id', $request->input('selectedCollectionId'))->get()->keyBy('item_id')->toArray()));
+            if (!in_array($id, $sharerLinks)) {
+                ShareLink::create([
+                    'user_id' => auth()->user()->id,
+                    'item_type' => 2,
+                    'item_id' => $id,
+                    'collection_id' => $request->input('selectedCollectionId'),
+
+                ]);
+            } else {
+                return response(['failed' => 'share link was added before for the housing']);
+            }
+        }
+
+        return response(['message' => 'success']);
+    }
     
 }

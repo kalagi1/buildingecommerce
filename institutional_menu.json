@@ -22,7 +22,7 @@
         "label": "İlanlarım",
         "icon": "plus",
         "text": "Proje İlanlarım",
-        "key": "Projects",
+        "key": "GetProjects",
         "url": "institutional.react.projects",
         "activePath": "/institutional/projects"
     },
@@ -31,7 +31,7 @@
         "label": "İlanlarım",
         "icon": "plus",
         "text": "Emlak İlanlarım",
-        "key": "Housings",
+        "key": "GetHousings",
         "url": "institutional.housing.list",
         "activePath": "/institutional/housings"
     },

@@ -7,6 +7,7 @@
                 <th>Atanan Emlak Ofisi</th>
             @endif
             <th>Emlak Tipi</th>
+            <th>Danışman</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>

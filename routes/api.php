@@ -23,6 +23,8 @@ use App\Http\Controllers\PayController;
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
+
+use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -137,7 +139,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         });
 
        
-       
+        Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         });
         //telefon doğrulama
         Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
@@ -157,5 +159,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/add/collection',[ClientPageController::class,'store']);
 
         Route::get('/getCollections', [ClientPageController::class, 'getCollections']);
+
+        Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
 
 });
