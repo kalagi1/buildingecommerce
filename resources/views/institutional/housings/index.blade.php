@@ -126,7 +126,7 @@
                 
                 var housingConsultant = document.createElement("td");
                 housingConsultant.className = "align-middle housing_type";
-                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : housingType.user.name;
+                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : "Yönetici";
 
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
@@ -355,6 +355,7 @@
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
@@ -424,6 +425,7 @@
                     }
 
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
