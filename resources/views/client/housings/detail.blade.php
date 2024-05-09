@@ -1431,8 +1431,17 @@
                                                     </td>
                                                 </tr>
 
-                                                @if ($housing->consultant)
-                                                    @if ($housing->consultant->mobile_phone)
+                                                @if ($housing->consultant && $housing->consultant->mobile_phone)
+                                                    @php
+
+                                                        $consultantPermissions = $housing->consultant->role->rolePermissions
+                                                            ->flatMap(function ($rolePermission) {
+                                                                return $rolePermission->permissions->pluck('key');
+                                                            })
+                                                            ->unique()
+                                                            ->toArray();
+                                                    @endphp
+                                                    @if (in_array('showPhone', $consultantPermissions))
                                                         <tr>
                                                             <td>
                                                                 Cep :
