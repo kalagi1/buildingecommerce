@@ -1390,7 +1390,7 @@
                                                                 alt="author-image" class="author__img">
                                                         @endif
                                                         <h4 class="author__title">{{ $housing->consultant->name }}</h4>
-                                                        <p class="author__meta">{{ $housing->consultant->role }}</p>
+                                                        <p class="author__meta">{{ $housing->consultant->role->name }}</p>
                                                     </div>
                                                 @endif
 
@@ -3046,6 +3046,21 @@
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
         }
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
 
         .error-message {
             color: #e54242;
