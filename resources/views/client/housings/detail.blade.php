@@ -854,7 +854,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (Auth::check() && isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                                @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
                                         data-id="{{ $housing->id }}">
                                         <div class="add-to-collection-button-wrapper">
