@@ -5,12 +5,12 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h3 class="mb-0">İade Tablosu</h2>
+                    <h3 class="mb-0">Yapılacak Ödemeler</h2>
                 </div>
             </div>
             <div id="orderTable"
                 data-list='{"valueNames":["order_no","order_image","order_project","order_amount","order_date","order_status","order_user","order_seller","order_details"],"page":10,"pagination":true}'>
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
                             <div class="search-box">
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div
                     class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
@@ -31,29 +31,30 @@
                             <thead>
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_no">İade No</th>
+                                        data-sort="refund_no">No</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_date">İade Tarihi</th>
+                                        data-sort="refund_date">Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="refund_customer">İade Eden Alıcı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="refund_amount">Toplam Kapora</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_customer_amount">Alıcının İade Miktarı</th>
+                                        data-sort="refund_customer_amount">Ödenecek Tutar</th>
+                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="refund_status">Ödeme Türü</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_admin_amount">Emlak Sepettenin Miktarı</th>
+                                        data-sort="refund_status">Ödeme Durumu</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_status">İade Durumu</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="refund_detail">İade Detayı</th>
+                                        data-sort="refund_detail">Sipariş Detayı</th>
+                                    
                                 </tr>
                             </thead>
 
                             <tbody>
+                                
                                 @foreach ($data as $item)
                                     <tr>
-
-                                        <td class="refund_no">{{ $item['refund']->id }}</td>
+                                        <td class="refund_no">{{ $item['order']->id }}</td>
                                         <td class="refund_date">{{ $item['refund']->created_at }}</td>
                                         <td class="refund_customer">{{ $item['refund']->user->name }}</td>
                                         <td class="refund_amount">{{ $item['order']->amount }}</td>
@@ -61,8 +62,6 @@
                                         <td class="refund_admin_amount">{{ number_format($item['refundAmount'], 2, ',', '.') }}</td>
 
                                         <td class="order_status"><span class="text-success">
-
-
                                                 {!! [
                                                     '0' =>
                                                         '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',

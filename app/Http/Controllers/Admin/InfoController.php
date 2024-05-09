@@ -60,60 +60,77 @@ class InfoController extends Controller
     }
 
   
-    public function accountingForRefund()
-{
-    // Şu anki zamanı al
-    $now = Carbon::now();
-    
-    // CartOrderRefund'ları al, with('cartOrder') metodu ile ilişkili cartOrder verilerini de al
-    $refunds = CartOrderRefund::with('cartOrder')
-    ->whereIn('status', [1,3])
-    ->orderBy('created_at', 'desc')
-    ->get();
-
-    $data = [];
-    foreach ($refunds as $refund) {
-        // İlişkili CartOrder'ı al
-        $order = $refund->cartOrder;
-
-        // CartOrder'ın oluşturulma tarihini al
-        $createdAt = Carbon::parse($order->created_at);
+    // public function accountingForRefund()
+    // {
+    //     // Şu anki zamanı al
+    //     $now = Carbon::now();
         
-        // Oluşturulma tarihi ile şu anki tarih arasındaki farkı gün cinsinden hesapla
-        $differenceInDays = $createdAt->diffInDays($now);
-        
-        // Eğer oluşturulma tarihi 14 günü geçmemişse
-        if ($differenceInDays <= 14) {
+    //     // CartOrderRefund'ları al, with('cartOrder') metodu ile ilişkili cartOrder verilerini de al
+    //     $refunds = CartOrderRefund::with('cartOrder')
+    //     ->whereIn('status', [1,3])
+    //     ->orderBy('created_at', 'desc')
+    //     ->get();
+
        
-            $amount = $order->amount;
+    //     $data = [];
+    //     foreach ($refunds as $refund) {
+    //         // İlişkili CartOrder'ı al
+    //         $order = $refund->cartOrder;
+    //         $sharePrice = $refund->cartOrder->share;
+    //         // CartOrder'ın oluşturulma tarihini al
+    //         $createdAt = Carbon::parse($order->created_at);
+            
+    //         // Oluşturulma tarihi ile şu anki tarih arasındaki farkı gün cinsinden hesapla
+    //         $differenceInDays = $createdAt->diffInDays($now);
+            
+    //         // Eğer oluşturulma tarihi 14 günü geçmemişse
+    //         if ($differenceInDays <= 14) {
+        
+    //             $amount = $order->amount;
 
-            // Virgülle ayrılmış formattaki sayıda virgülü noktaya dönüştür
-            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
-            //Emlak sepettenin
-            $refundAmount = $amountFloat * 0.10;
-            //Alıcının
-            $recipientAmount = $amountFloat * 0.90;
-   
-        } else {
+    //             // Virgülle ayrılmış formattaki sayıda virgülü noktaya dönüştür
+    //             $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
+    //             //Emlak sepettenin
+    //             $refundAmount = $amountFloat * 0.10;
+    //             //Alıcının
+    //             $recipientAmount = $amountFloat * 0.90;
+    
+    //         } else {
 
-            $amount = $order->amount;
-            $refundAmount =  $amount;
-            $recipientAmount = (float)"0";
+    //             $amount = $order->amount;
+    //             $refundAmount =  $amount;
+    //             $recipientAmount = (float)"0";
 
-        }
+    //         }
 
-        $data[] = [
-            'refund' => $refund,
-            'order' => $order,
-            'refundAmount' => $refundAmount,
-            'recipientAmount' => $recipientAmount
-        ];
+    //         $data[] = [
+    //             'refund' => $refund,
+    //             'order' => $order,
+    //             'refundAmount' => $refundAmount,
+    //             'recipientAmount' => $recipientAmount,
+    //             'sharerPrice' => $sharePrice, 
+    //             'differenceInDays' => $differenceInDays,
+                
+    //         ];
+            
+    //     }
+    //     return view('admin.accounting.refund', compact('data'));
+    // }
+
+    
+    public function accountingForRefund()
+    {
+        //cart order tablosundan ürünün fiyatlarını al
+        //cart order status 1 ise 
+        //cart order den kart ile mi eft havalemi onu sorgula
+        // sonra order refund tablosuna bak iade edilmiş mi yoksa edilmemiş mi
+        //eğer iade edilmiş ise kaç para ödenecek onu göster
+        // sharer prices tablosundan  geri ödemesi var mı yok mu ona bak var ise satatus 2 ise onu göster
+        // eğer cart_prices tablosunda var mı yok mu bakılacak
+
+
+        return view('admin.accounting.refund', compact('data'));
     }
-    return view('admin.accounting.refund', compact('data'));
-}
-
-    
-    
 
 
     public function notificationHistory()
