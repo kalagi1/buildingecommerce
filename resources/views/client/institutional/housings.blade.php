@@ -2,70 +2,150 @@
 
 @section('content')
     @php
-        // Türkçe ay isimlerini çeviren yardımcı fonksiyon
-        use App\Helpers\DateHelper; // Yardımcı işlevler için ayrı bir dosya
-        use App\Helpers\HousingHelper; // Konutla ilgili yardımcı işlevler için
 
-        $filter = request('filter', 'tumu');
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+
+        function getImage($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a;
+        }
     @endphp
 
     <x-store-card :store="$store" />
 
+
     <section class="featured portfolio rec-pro disc bg-white">
         @if ($secondhandHousings->isNotEmpty())
             <div class="container">
-                <section class="properties-right list featured portfolio blog pb-5 pt-3 bg-white">
-                    <div class="row">
-                        @php
-                            $counts = HousingHelper::calculateCounts($secondhandHousings);
-                        @endphp
+                <div class="mobile-hidden">
+                    <section class="properties-right list featured portfolio blog pb-5 pt-3 bg-white">
+                        <div class="row">
+                            @php
+                                function addQueryParamToUrl($paramName, $paramValue)
+                                {
+                                    $queryParams = request()->query();
+                                    $queryParams[$paramName] = $paramValue;
 
-                        <div class="col-md-12">
-                            <div class="tabbed-content button-tabs mb-3">
-                                <ul class="tabs">
-                                    <li class="nav-item-block {{ $filter === 'tumu' ? 'active' : '' }}">
-                                        <a href="{{ HousingHelper::addQueryParamToUrl('filter', 'tumu') }}">
-                                            <div class="tab-title">
-                                                <span>Tümü</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    @foreach ($counts as $slug => $count)
-                                        <li class="nav-item-block {{ $filter === $slug ? 'active' : '' }}">
-                                            <a href="{{ HousingHelper::addQueryParamToUrl('filter', $slug) }}">
+                                    return request()->url() . '?' . http_build_query($queryParams);
+                                }
+
+                                $counts = [
+                                    'satilik' => 0,
+                                    'kiralik' => 0,
+                                    'gunluk-kiralik' => 0,
+                                ];
+                            @endphp
+                            @php
+                                $filter = request('filter', 'tumu');
+                            @endphp
+                            @foreach ($secondhandHousings as $housing)
+                                @php $sold = $housing->sold @endphp
+                                @if (
+                                    !isset(json_decode($housing->housing_type_data)->off_sale1[0]) &&
+                                        (($sold && $sold != '1') ||
+                                            (!$sold && in_array($housing->step2_slug, ['satilik', 'kiralik', 'gunluk-kiralik']))))
+                                    @php
+                                        $counts[$housing->step2_slug]++;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            <div class="col-md-12">
+                                <div class="tabbed-content button-tabs mb-3">
+                                    <ul class="tabs">
+                                        <li class="nav-item-block {{ $filter === 'tumu' ? 'active' : '' }}">
+                                            <a href="{{ addQueryParamToUrl('filter', 'tumu') }}">
                                                 <div class="tab-title">
-                                                    <span>
-                                                        @if ($slug == 'satilik')
-                                                            Satılık
-                                                        @elseif($slug == 'kiralik')
-                                                            Kiralık
-                                                        @elseif($slug == 'gunluk-kiralik')
-                                                            Günlük Kiralık
-                                                        @endif
-                                                        ({{ $count }})
-                                                    </span>
+                                                    <span>Tümü</span>
                                                 </div>
                                             </a>
                                         </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                                        @foreach ($counts as $slug => $count)
+                                            <li class="nav-item-block {{ $filter === $slug ? 'active' : '' }}"
+                                                role="presentation">
 
-                    <div class="row">
-                        @forelse ($secondhandHousings as $housing)
-                            @php($isVisible = HousingHelper::isHousingVisible($housing, $filter))
-                            @if ($isVisible)
-                                <div class="col-md-3">
-                                    <x-housing-card :housing="$housing" :sold="$housing->sold" />
+                                                <a href="{{ addQueryParamToUrl('filter', $slug) }}">
+                                                    <div class="tab-title">
+                                                        <span>
+                                                            @if ($slug == 'satilik')
+                                                                Satılık
+                                                            @elseif($slug == 'kiralik')
+                                                                Kiralık
+                                                            @elseif($slug == 'gunluk-kiralik')
+                                                                Günlük Kiralık
+                                                            @endif
+                                                            ({{ $count }})
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            @endif
-                        @empty
-                            <p>Henüz İlan Yayınlanmadı</p>
-                        @endforelse
-                    </div>
-                </section>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+
+                            @forelse ($secondhandHousings as $housing)
+                                @php($sold = $housing->sold)
+                                @if (
+                                    !isset(json_decode($housing->housing_type_data)->off_sale1[0]) &&
+                                        (($sold && $sold != '1') || !$sold) &&
+                                        ($filter === 'tumu' ||
+                                            ($filter === 'satilik' && $housing->step2_slug === 'satilik') ||
+                                            ($filter === 'gunluk-kiralik' && $housing->step2_slug === 'gunluk-kiralik') ||
+                                            ($filter === 'kiralik' && $housing->step2_slug === 'kiralik')))
+                                    <div class="col-md-3">
+                                        <x-housing-card :housing="$housing" :sold="$sold" />
+                                    </div>
+                                @endif
+                            @empty
+                                <p>Henüz İlan Yayınlanmadı</p>
+                            @endforelse
+                        </div>
+                    </section>
+                </div>
             </div>
         @else
             <div class="container mt-5">
@@ -78,17 +158,26 @@
             </div>
         @endif
     </section>
+
+
+
+
+
+
+
+
 @endsection
 
 @section('scripts')
-    <!-- Script ve CSS yüklemeleri -->
+    <!-- lightbox2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- lightbox2 JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <script>
         $(document).ready(function() {
             $('.banner-agents').slick({
@@ -102,38 +191,33 @@
                 nav: true,
                 margin: 0,
                 adaptiveHeight: true,
-                responsive: [
-                    {
-                        breakpoint: 1292,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 1,
-                            dots: false,
-                            arrows: true
-                        }
-                    },
-                    {
-                        breakpoint: 993,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1,
-                            dots: false,
-                            arrows: true
-                        }
-                    },
-                    {
-                        breakpoint: 769,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            dots: false,
-                            arrows: false
-                        }
+                responsive: [{
+                    breakpoint: 1292,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: true
                     }
-                ]
+                }, {
+                    breakpoint: 993,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: true
+                    }
+                }, {
+                    breakpoint: 769,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: false
+                    }
+                }]
             });
         });
-
         $('#search-project').on('input', function() {
             let val = $(this).val();
             $('.project-item').each(function() {
@@ -151,14 +235,14 @@
             nav: false,
             slidesToShow: 4,
             margin: 10,
-        });
+        })
 
         $('.continue-projects-web').slick({
             loop: true,
             nav: false,
             slidesToShow: 4,
             margin: 10,
-        });
+        })
 
         $('.secondhand-housings-web').slick({
             loop: true,
@@ -176,15 +260,15 @@
         }
 
         .slick-slide {
-            margin: 10px;
+            margin: 10px
         }
 
         .section-title h2 {
-            color: black !important;
+            color: black !important
         }
 
         .section-title:before {
-            background-color: black !important;
+            background-color: black !important
         }
 
         .bannerResize,
@@ -193,6 +277,7 @@
         }
 
         @media (max-width: 768px) {
+
             .bannerResize,
             .bannerResizeGrid {
                 padding: 0 !important;
@@ -206,7 +291,7 @@
             .circleIcon {
                 font-size: 5px;
                 color: #e54242;
-                padding-right: 5px;
+                padding-right: 5px
             }
 
             .priceFont {
