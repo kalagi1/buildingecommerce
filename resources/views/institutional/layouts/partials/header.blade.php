@@ -1250,7 +1250,7 @@ $link = '';
 $text = '';
 
 if ($userType == 2) {
-    $link = url('institutional/ilan-tipi-sec');
+    $link = url('hesabim/ilan-tipi-sec');
     $text = 'İlan Ekle';
 } elseif ($userType == 3) {
     $link = url('qR9zLp2xS6y/secured/');
@@ -1262,7 +1262,7 @@ if ($userType == 2) {
     
 } else {
     if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
-        $link = url('institutional/ilan-tipi-sec');
+        $link = url('hesabim/ilan-tipi-sec');
         $text = 'İlan Ekle';
     } else {
         $link = url('sat-kirala-nedir/');
