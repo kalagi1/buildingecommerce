@@ -1371,13 +1371,16 @@
                                         <table class="table">
                                             <tbody>
                                                 @if ($housing->consultant)
-                                                    <div class="author-box clearfix">
+                                                    <div class="author-box clearfix d-flex align-items-center">
                                                       
                                                             <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
                                                                 alt="author-image" class="author__img">
+                                                                <div>
+                                                                    <h4 class="author__title">{{ $housing->consultant->name }}</h4>
+                                                                    <p class="author__meta">{{ $housing->consultant->role->name }}</p>
+                                                                </div>
                                                     
-                                                        <h4 class="author__title">{{ $housing->consultant->name }}</h4>
-                                                        <p class="author__meta">{{ $housing->consultant->role->name }}</p>
+                                                  
                                                     </div>
                                                 @endif
 
