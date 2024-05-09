@@ -11,7 +11,7 @@ class FormController extends Controller
 {
     public function swapApplications()
     {
-        $apps = Form::with('city', 'county')->where('store_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $apps = Form::with('city', 'county', "acity", "acounty")->where('store_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
         if ($apps->isNotEmpty()) {
             // Eğer veri bulunduysa, veriyi dön
@@ -24,7 +24,7 @@ class FormController extends Controller
 
     public function showSwapApplication(Form $form)
     {
-        $form = Form::where("id", $form->id)->with("city", "county")->first();
+        $form = Form::where("id", $form->id)->with("city", "county", "acity", "acounty")->first();
         return response()->json(["form" => $form]);
     }
 }
