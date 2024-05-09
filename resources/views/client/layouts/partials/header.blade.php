@@ -509,7 +509,7 @@
                                                             : 'Koleksiyonlarım',
                                                 ],
                                                 [
-                                                    'url' => url('institutional/ilan-tipi-sec'),
+                                                    'url' => url('hesabim/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
@@ -699,7 +699,7 @@
 
                                         switch ($userType) {
                                             case 2:
-                                                $link = url('institutional/ilan-tipi-sec');
+                                                $link = url('hesabim/ilan-tipi-sec');
                                                 $text = 'İlan Ekle';
                                                 break;
                                             case 3:

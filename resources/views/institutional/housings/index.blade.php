@@ -247,7 +247,7 @@
                     exportLinkCell.className = "align-middle";
                     var exportLink = document.createElement("a");
                     exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
+                    exportLink.href = "{{ URL::to('/') }}/hesabim/konut-duzenleme/" + housingType.id;
                     exportLink.textContent = "Düzenle";
                     exportLinkCell.appendChild(exportLink);
 
@@ -255,7 +255,7 @@
                     imageLinksCell.className = "align-middle";
                     var imageLinks = document.createElement("a");
                     imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
-                    imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
+                    imageLinks.href = "{{ URL::to('/') }}/hesabim/gorsel-duzenleme/" + housingType.id;
                     imageLinks.textContent = "Resimler";
                     imageLinksCell.appendChild(imageLinks);
 
