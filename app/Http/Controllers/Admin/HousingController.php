@@ -501,6 +501,7 @@ class HousingController extends Controller
                 'housings.is_share',
                 'housings.consultant_id',
                 'housings.owner_id',
+                "housings.user_id",
 
             )
             ->orderByDesc('housings.updated_at')
@@ -537,6 +538,7 @@ class HousingController extends Controller
                 'housings.is_share',
                 'housings.consultant_id',
                 'housings.owner_id',
+                "housings.user_id",
 
 
             )
@@ -573,6 +575,7 @@ class HousingController extends Controller
                 'housings.is_share',
                 'housings.consultant_id',
                 'housings.owner_id',
+                "housings.user_id",
 
             )
             ->where('user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id)
@@ -611,6 +614,7 @@ class HousingController extends Controller
                 'housings.is_share',
                 'housings.consultant_id',
                 'housings.owner_id',
+                "housings.user_id",
 
             )
             ->orderByDesc('housings.updated_at')
@@ -646,6 +650,7 @@ class HousingController extends Controller
                 'housings.is_share',
                 'housings.consultant_id',
                 'housings.owner_id',
+                "housings.user_id",
 
             )
             ->onlyTrashed()
