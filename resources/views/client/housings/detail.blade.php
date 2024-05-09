@@ -8,7 +8,7 @@
         AND JSON_EXTRACT(cart, "$.item.id") = ?
         ORDER BY created_at DESC
         LIMIT 1',
-        [$housing->id]
+        [$housing->id],
     );
 @endphp
 
@@ -893,7 +893,7 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg><span class="add-to-collection-button-text">
-                                                    @if ( Auth::check() &&  Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
                                                         Portföyüme Ekle
                                                     @else
                                                         Koleksiyona Ekle
@@ -1370,6 +1370,30 @@
                                     <div class="sidebar-widget author-widget2">
                                         <table class="table">
                                             <tbody>
+                                                @if ($housing->consultant)
+                                                    <div class="author-box clearfix">
+                                                        @if ($housing->consultant->profile_image == 'indir.png')
+                                                            @php
+                                                                $nameInitials = collect(
+                                                                    preg_split('/\s+/', $brand->name),
+                                                                )
+                                                                    ->map(function ($word) {
+                                                                        return mb_strtoupper(mb_substr($word, 0, 1));
+                                                                    })
+                                                                    ->take(1)
+                                                                    ->implode('');
+                                                            @endphp
+
+                                                            <div class="profile-initial">{{ $nameInitials }}</div>
+                                                        @else
+                                                            <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
+                                                                alt="author-image" class="author__img">
+                                                        @endif
+                                                        <h4 class="author__title">{{ $housing->consultant->name }}</h4>
+                                                        <p class="author__meta">{{ $housing->consultant->role }}</p>
+                                                    </div>
+                                                @endif
+
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
                                                         <span class="det" style="color: #EA2B2E !important;">
@@ -1915,7 +1939,7 @@
             if (mobileMovePrice == undefined) {
                 $(".mobile-action-move").remove();
                 $(".col-md-7").removeClass("col-md-7").removeClass("col-7").addClass("col-md-12");
-            }else{
+            } else {
                 $(".mobile-action-move").html(mobileMovePrice);
             }
             $(".mobileMove").remove();

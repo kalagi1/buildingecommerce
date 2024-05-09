@@ -108,7 +108,7 @@ class HousingController extends Controller {
 
         }
 
-        $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
+        $housing = Housing::with( 'neighborhood',"consultant.role", 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
         ->where( 'id', $realHousingID )
         ->where( 'status', 1 )->first();
 
