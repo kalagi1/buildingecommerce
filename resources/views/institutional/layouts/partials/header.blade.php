@@ -1244,33 +1244,32 @@
 
                     <li class="nav-item">
                         @php
-                            $userType = Auth::user()->type;
-                        @endphp
-
-                        @php
-                            $link = '';
-                            $text = '';
-
-                            switch ($userType) {
-                                case 2:
-                                    $link = url('institutional/ilan-tipi-sec');
-                                    $text = 'İlan Ekle';
-                                    break;
-                                case 3:
-                                    $link = url('qR9zLp2xS6y/secured/');
-                                    $text = 'Yönetim';
-                                    break;
-                                    case 1:
-                                    $link = url('sat-kirala-nedir/');
-                                    $text = 'Sat Kirala';
-                                    
-                                    break;
-                                default:
+                        $userType = Auth::user()->type;
+                        $userPermissions = Auth::user()->permissions; // Assuming user permissions are stored in an array
+                        
+                        $link = '';
+                        $text = '';
+                        
+                        if ($userType == 2) {
+                            $link = url('institutional/ilan-tipi-sec');
+                            $text = 'İlan Ekle';
+                        } elseif ($userType == 3) {
+                            $link = url('qR9zLp2xS6y/secured/');
+                            $text = 'Yönetim';
+                        } elseif ($userType == 1) {
+                            if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
                                 $link = url('institutional/ilan-tipi-sec');
-                                    $text = 'İlan Ekle';
+                                $text = 'İlan Ekle';
+                            } else {
+                                $link = url('sat-kirala-nedir/');
+                                $text = 'Sat Kirala';
                             }
+                        } else {
+                            $link = url('institutional/ilan-tipi-sec');
+                            $text = 'İlan Ekle';
+                        }
                         @endphp
-
+                        
                         <a href="{{ $link }}" style="margin-right: 9px;">
                             <button type="button" class="buyUserRequest ml-3">
                                 <span class="buyUserRequest__text">{{ $text }}</span>
