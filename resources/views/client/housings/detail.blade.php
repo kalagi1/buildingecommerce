@@ -1372,23 +1372,10 @@
                                             <tbody>
                                                 @if ($housing->consultant)
                                                     <div class="author-box clearfix">
-                                                        @if ($housing->consultant->profile_image == 'indir.png')
-                                                            @php
-                                                                $nameInitials = collect(
-                                                                    preg_split('/\s+/', $housing->consultant->name),
-                                                                )
-                                                                    ->map(function ($word) {
-                                                                        return mb_strtoupper(mb_substr($word, 0, 1));
-                                                                    })
-                                                                    ->take(1)
-                                                                    ->implode('');
-                                                            @endphp
-
-                                                            <div class="profile-initial">{{ $nameInitials }}</div>
-                                                        @else
+                                                      
                                                             <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
                                                                 alt="author-image" class="author__img">
-                                                        @endif
+                                                    
                                                         <h4 class="author__title">{{ $housing->consultant->name }}</h4>
                                                         <p class="author__meta">{{ $housing->consultant->role->name }}</p>
                                                     </div>
