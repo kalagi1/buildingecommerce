@@ -69,8 +69,8 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="form-label" for="mobile_phone">Cep No</label>
-                                        <input name="number" class="form-control" id="mobile_phone" type="mobile_phone"
+                                        <label class="form-label" for="phone">Cep No</label>
+                                        <input name="number" class="form-control" id="phone" type="mobile_phone"
                                             value="{{ old('mobile_phone', $subUser->mobile_phone) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>

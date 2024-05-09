@@ -54,10 +54,10 @@
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="email">Cep No</label>
-                                <input type="number" name="mobile_phone" id="mobile_phone"
+                                <label class="form-label" for="phone">Cep No</label>
+                                <input type="number" name="mobile_phone" id="phone"
                                     class="form-control {{ $errors->has('mobile_phone') ? 'error-border' : '' }}"
-                                    value="{{ old('mobile_phone') }}" maxlength="10">
+                                    value="{{ old('mobile_phone') }}">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">
