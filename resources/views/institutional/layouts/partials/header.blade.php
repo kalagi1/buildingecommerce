@@ -1261,7 +1261,7 @@ if ($userType == 2) {
         $text = 'Sat Kirala';
     
 } else {
-    if (in_array('CreateHousing', $permissions) || in_array('CreateProject', $permissions)) {
+    if (in_array('CreateHousing', $userPermissions) || in_array('CreateProject', $userPermissions)) {
         $link = url('institutional/ilan-tipi-sec');
         $text = 'İlan Ekle';
     } else {
