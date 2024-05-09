@@ -22,7 +22,7 @@ class FormController extends Controller
         return response()->json(['message' => 'Not Found.'], 404);
     }
 
-    public function showSwapApplication(Request $request, Form $form)
+    public function showSwapApplication(Form $form)
     {
         return response()->json(["form" => $form]);
     }
