@@ -132,96 +132,20 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="headings-2 pt-0">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
-                            @if ($sold)
-                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                    <div class="single detail-wrapper mr-2">
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar mobileMovePrice">
-                                                <h4>
-                                                    @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                                        </svg>
-                                                    @endif
-                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                        @php
-                                                            $price =
-                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                    ? json_decode($housing->housing_type_data)
-                                                                        ->daily_rent[0]
-                                                                    : json_decode($housing->housing_type_data)
-                                                                        ->price[0];
-                                                            $discountedPrice = $price - $discountAmount;
-                                                        @endphp
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            <span style="font-size:12px; color:#EA2B2E">(1 Gece)</span>
-                                                        @endif
-                                                        @if ($discountAmount)
-                                                            <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                {{ number_format($price, 0, ',', '.') }}
-                                                            </del>
-                                                        @endif
-                                                    @endif
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @else
-                                <div class="single detail-wrapper mr-2">
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar mobileMovePrice">
-                                            <h4>
-                                                <div style="text-align: center">
-                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                        @php
-                                                            $price =
-                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                    ? json_decode($housing->housing_type_data)
-                                                                        ->daily_rent[0]
-                                                                    : json_decode($housing->housing_type_data)
-                                                                        ->price[0];
-                                                            $discountedPrice = $price - $discountAmount;
-                                                        @endphp
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            <span style="font-size:11px; color:#EA2B2E">1 Gece</span>
-                                                        @endif
-                                                        @if ($discountAmount)
-                                                            <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                {{ number_format($price, 0, ',', '.') }}
-                                                            </del>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                    <div class="headings-2 pt-0 move-gain">
+                        <div class="gainStyle" style="width: 100%; justify-content: center;align-items:center;display:flex">
+
+                            {{-- @if (isset(json_decode($housing->housing_type_data)->projected_earnings))
+                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
+                                    fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 7 23 12"></polyline>
+                                </svg>
+                                <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                                <span style="font-size:13px;margin-left:4px">
+                                    %{{ json_decode($housing->housing_type_data)->projected_earnings }}</span>
+                            @endif --}}
+
                         </div>
                     </div>
                 </div>
@@ -233,6 +157,12 @@
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                                <div class="button-effect-div favorite-move">
+                                    <div class="button-effect toggle-favorite"
+                                    data-housing-id={{ $housing->id }}>
+                                    <i class="fa fa-heart-o"></i>
+                                </div>
+                                </div>
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -749,66 +679,104 @@
                                 </div>
                             </div>
                         @else
+                        {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
+                        style="background-color: green "></div> --}}
                             <div class="mobileHour mobileHourDiv">
+                                
                                 <div class="schedule widget-boxed mt-33 mt-0">
 
 
                                     <div class="row buttonDetail" style="align-items: center">
                                         <div class="col-md-5 col-5 mobile-action-move">
-                                            <div class="buttons">
-                                                <button class="main-button">
-                                                    <svg width="20" height="30" fill="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                                <button class="twitter-button button"
-                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-
-                                                    <a
-                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <path
-                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                            </path>
-                                                        </svg></a>
-                                                </button>
-
-                                                <button class="reddit-button button"
-                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                    <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                            fill="currentColor" height="24" width="24">
-                                                            <path
-                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                            </path>
-                                                        </svg>
-                                                    </a>
-
-                                                </button>
-                                                <button class="messenger-button button"
-                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                    <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <line x1="22" y1="2" x2="11"
-                                                                y2="13"></line>
-                                                            <polygon points="22 2 15 22 11 13 2 9 22 2">
-                                                            </polygon>
-                                                        </svg></a>
-                                                </button>
+                                            @if ($sold)
+                                            @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                <div class="single detail-wrapper mr-2">
+                                                    <div class="detail-wrapper-body">
+                                                        <div class="listing-title-bar mobileMovePrice">
+                                                            <h4>
+                                                                @if ($discountAmount)
+                                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                                    </svg>
+                                                                @endif
+                                                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                    @php
+                                                                        $price =
+                                                                            $housing->step2_slug == 'gunluk-kiralik'
+                                                                                ? json_decode($housing->housing_type_data)
+                                                                                    ->daily_rent[0]
+                                                                                : json_decode($housing->housing_type_data)
+                                                                                    ->price[0];
+                                                                        $discountedPrice = $price - $discountAmount;
+                                                                    @endphp
+                                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                        <span style="font-size:12px; color:#EA2B2E">(1 Gece)</span>
+                                                                    @endif
+                                                                    @if ($discountAmount)
+                                                                        <br>
+                                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                                        </svg>
+                                                                        <del style="font-size:11px; color:#EA2B2E">
+                                                                            {{ number_format($price, 0, ',', '.') }}
+                                                                        </del>
+                                                                    @endif
+                                                                @endif
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="single detail-wrapper mr-2">
+                                                <div class="detail-wrapper-body">
+                                                    <div class="listing-title-bar mobileMovePrice">
+                                                        <h4>
+                                                            <div style="text-align: center">
+                                                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                    @php
+                                                                        $price =
+                                                                            $housing->step2_slug == 'gunluk-kiralik'
+                                                                                ? json_decode($housing->housing_type_data)
+                                                                                    ->daily_rent[0]
+                                                                                : json_decode($housing->housing_type_data)
+                                                                                    ->price[0];
+                                                                        $discountedPrice = $price - $discountAmount;
+                                                                    @endphp
+                                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                        <span style="font-size:11px; color:#EA2B2E">1 Gece</span>
+                                                                    @endif
+                                                                    @if ($discountAmount)
+                                                                        <br>
+                                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                                        </svg>
+                                                                        <del style="font-size:11px; color:#EA2B2E">
+                                                                            {{ number_format($price, 0, ',', '.') }}
+                                                                        </del>
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                        </h4>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="button-effect toggle-favorite"
-                                                data-housing-id={{ $housing->id }}>
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
+                                        @endif
+                                           
 
                                         </div>
                                         <div class="col-md-7 col-7">
@@ -1946,6 +1914,7 @@
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
             var mobileMovePrice = $(".mobileMovePrice").html();
+            var moveGain = $(".move-gain").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
@@ -1953,6 +1922,8 @@
 
 
             $(".mobileMovePrice").remove();
+            $(".move-gain").remove();
+
             if (mobileMovePrice == undefined) {
                 $(".mobile-action-move").remove();
                 $(".col-md-7").removeClass("col-md-7").removeClass("col-7").addClass("col-md-12");
@@ -1966,6 +1937,8 @@
             $("#myTabContent").after(store);
             $(".moveStore").addClass("mb-30");
             $(".moveStore").remove();
+            $(".move-mobile-gain").html(moveGain);
+
 
         }
 
@@ -3118,5 +3091,43 @@
             color: #e54242;
             font-size: 11px;
         }
+
+        .favorite-move {
+            position: absolute;
+            z-index: 9;
+            margin-top: 20px;
+            right: 40px;
+        }
+
+        .gainStyle strong,
+        .gainStyle span {
+            color: green
+        }
+
+        .gainStyle svg {
+            stroke: green
+        }
+
+        @media (max-width: 768px) {
+            .favorite-move {
+
+                margin-top: 15px;
+                right: 15px;
+            }
+
+            .gainStyle strong,
+            .gainStyle span {
+                color: white
+            }
+
+            .gainStyle svg {
+                stroke: white
+            }
+
+            .add-to-swap-wrapper{
+                margin-bottom: 30px !important;
+            }
+        }
+        
     </style>
 @endsection
