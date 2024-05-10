@@ -144,13 +144,6 @@
                                 </div>
                                 <div class="mobile-action"></div>
                             </div>
-                            <div class="single detail-wrapper mr-2">
-                                <div class="detail-wrapper-body">
-                                    <div class="listing-title-bar">
-                                        <h4>#{{ $housing->id + 2000000 }}</h4>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
