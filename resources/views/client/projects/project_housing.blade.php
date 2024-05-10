@@ -303,6 +303,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
+                        <div class="move-mobile-gain"></div>
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
@@ -1637,6 +1638,8 @@
 
 
             $(".mobileMovePrice").remove();
+            $(".move-gain").remove();
+
             $(".mobile-action-move").html(mobileMovePrice);
             $(".mobileMove").remove();
             $(".mobileHour").remove();
@@ -1644,6 +1647,7 @@
             var moveCollection = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
             $(".widgetBuyButton").after(moveCollection);
+            $(".move-mobile-gain").after(moveGain);
             $(".buyBtn").css("display", "none");
             $(".moveCollection").css("display", "none");
 
