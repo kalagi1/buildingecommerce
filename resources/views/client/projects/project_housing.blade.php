@@ -233,7 +233,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                <div class="button-effect-div"
+                                <div class="button-effect-div favorite-move"
                                     style="    position: absolute;
                                 z-index: 9;
                                 margin-top: 20px;
@@ -2951,6 +2951,21 @@
             border-color: #80bdff;
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+        .favorite-move {
+            position: absolute;
+                z-index: 9;
+            margin-top: 20px;
+    right: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .favorite-move {
+             
+                margin-top: 15px;
+                right: 15px;
+            }
         }
     </style>
 @endsection
