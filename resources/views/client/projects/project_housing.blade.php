@@ -151,8 +151,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="headings-2 pt-0 pb-0">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: center;align-items:center">
+                    <div class="headings-2 pt-0 pb-0 move-gain">
+                        <div  style="width: 100%; justify-content: center;align-items:center;display:flex">
 
                             @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
                                 <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
@@ -233,7 +233,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-
+                                <div class="button-effect-div favorite-move">
+                                    <div class="button-effect toggle-project-favorite" style="width:35px !important"
+                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                </div>
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -462,12 +468,12 @@
                                         @endif
                                     @endif
 
-                                    <div class="button-effect toggle-project-favorite"
+                                    {{-- <div class="button-effect toggle-project-favorite"
                                         style="margin-left:13px;width:40px !important"
                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
@@ -1042,7 +1048,7 @@
                                                 </td>
                                             </tr>
 
-                                         
+
                                             <tr>
                                                 <td>
                                                     <span class="autoWidthTr">Ada:</span>
@@ -1073,7 +1079,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td>
                                                     <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
@@ -1623,6 +1629,7 @@
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
             var mobileMovePrice = $(".mobileMovePrice").html();
+            var moveGain =  $(".move-gain").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
@@ -1697,7 +1704,7 @@
 
         // Slayt geçiş işlemi tamamlandığında
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            updateIndex(); 
+            updateIndex();
         });
 
         // Index değerini güncelleyen fonksiyon
@@ -1706,6 +1713,29 @@
             var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
             $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
+
+        if (window.innerWidth <= 768) {
+            // Sol ok tuşuna tıklandığında
+            $('.pagination .page-item-left').on('click', function(event) {
+                event.preventDefault();
+                $('#listingDetailsSlider').carousel('prev');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+
+            });
+
+            // Sağ ok tuşuna tıklandığında
+            $('.pagination .page-item-right').on('click', function(event) {
+                event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+                $('#listingDetailsSlider').carousel('next');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            });
         }
 
 
@@ -1721,9 +1751,8 @@
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
-                5); // Bir sonraki beşli kümeye git
+                    5); // Bir sonraki beşli kümeye git
             } else {
-                console.log('yunus')
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
         });
@@ -1734,7 +1763,7 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
-            }else{
+            } else {
                 $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
 
             }
@@ -2919,6 +2948,21 @@
             border-color: #80bdff;
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+        .favorite-move {
+            position: absolute;
+                z-index: 9;
+            margin-top: 20px;
+    right: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .favorite-move {
+             
+                margin-top: 15px;
+                right: 15px;
+            }
         }
     </style>
 @endsection
