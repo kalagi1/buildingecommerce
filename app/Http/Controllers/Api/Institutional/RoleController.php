@@ -27,7 +27,7 @@ class RoleController extends Controller
 
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $role = Role::where('id', '2')->with('rolePermissions.permissions')->first();
-        $permissions = $role->rolePermissions->where("description" , "!=", "Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.")->pluck('permissions')->flatten();
+        $permissions = $role->rolePermissions->pluck('permissions')->flatten();
 
         $specialPermissions = [
             'Projects',
