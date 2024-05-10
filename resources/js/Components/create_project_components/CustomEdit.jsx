@@ -12,6 +12,7 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
     const [formJsonData,setFormJsonData] = useState([]);
     const [selectedType,setSelectedType] = useState({});
     const [checkboxValues,setCheckboxValues] = useState([]);
+    const [saveLoading,setSaveLoading] = useState(false);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -34,8 +35,8 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
 
     const saveEdit = () => {
         var itemsx = Object.keys(selectedRoomsTemp)
-        var newItems =  itemsx.map((item) => parseInt(item) + 1);
-
+        var newItems =  itemsx.map((item) => parseInt(item));
+        setSaveLoading(true);
         if(formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "text"){
             axios.post(baseUrl + 'save_housing', {
                 rooms: newItems,
@@ -46,7 +47,13 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
             }).then((res) => {
                 if(res.data.status){
                     setOpen(false);
+                    setSaveLoading(false);
                     reloadData();
+                    setTextData("");
+                    setSelectData("");
+                    setCheckboxValues([]);
+                    setSelectedType([]);
+                    setSaveLoading(false);
                 }
             })
         }else if(formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "select"){
@@ -59,7 +66,13 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
             }).then((res) => {
                 if(res.data.status){
                     setOpen(false);
+                    setSaveLoading(false);
                     reloadData();
+                    setTextData("");
+                    setSelectData("");
+                    setCheckboxValues([]);
+                    setSelectedType([]);
+                    setSaveLoading(false);
                 }
             })
         }else{
@@ -73,6 +86,11 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
                 if(res.data.status){
                     setOpen(false);
                     reloadData();
+                    setTextData("");
+                    setSelectData("");
+                    setCheckboxValues([]);
+                    setSelectedType([]);
+                    setSaveLoading(false);
                 }
             })
         }
@@ -88,7 +106,6 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
         }
     }
 
-    console.log(checkboxValues);
 
     return(
         <div>
@@ -105,12 +122,15 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
                         <div className="col-md-12">
                             <label htmlFor="">Alan Seç</label>
                             <select className='form-control' value={selectedType} onChange={(e) => {setSelectedType(e.target.value)}} name="" id="">
+                                <option value="">Güncellemek İstediğiniz Alanı Seçin</option>
                                 {
                                     formJsonData.map((typeData) => {
                                         if(!typeData.className.includes('project-disabled')){
-                                            return(
-                                                <option value={typeData.name}>{typeData.label}</option>
-                                            )
+                                            if(typeData.type != "file"){
+                                                return(
+                                                    <option value={typeData.name}>{typeData.label}</option>
+                                                )
+                                            }
                                         }
                                         
                                     })
@@ -149,7 +169,7 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
                             }
                         </div>
                         <div>
-                            <Button onClick={() => {saveEdit()}} className='save_button mt-2'> Kaydet</Button>
+                            <Button onClick={() => {saveEdit()}} className='save_button mt-2'> Kaydet {saveLoading ? <i className='fa fa-spinner loading-icon ml-2'></i> : ""}</Button>
                         </div>
                     </div>
                 </Box>

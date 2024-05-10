@@ -18,9 +18,6 @@ import {
     lighten,
 } from '@mui/material';
 
-//Icons Imports
-import { AccountCircle, Send } from '@mui/icons-material';
-
 import UpdateHousingModal from './create_project_components/UpdateHousingModal';
 import UpdateSingleHousingModal from './create_project_components/UpdateSingleHousingModal';
 import PayDecTable from './create_project_components/PayDecTable';
@@ -97,7 +94,7 @@ const HousingList = ({ projectId }) => {
         setLoading(true);
         var start = newPage * pagination.pageSize;
         var end = (newPage + 1) * pagination.pageSize;
-        axios.get(baseUrl + 'project_housings/' + projectId + `?start=${start}&end=${end}&block=0`).then((res) => {
+        axios.get(baseUrl + 'project_housings/' + projectId + `?start=${start}&end=${end}&block=`+selectedBlock).then((res) => {
             const dizi = [];
 
             // Nesnenin her özelliğini diziye ekleyelim
@@ -158,6 +155,22 @@ const HousingList = ({ projectId }) => {
         })
     }
 
+    const blockSelects = () => {
+        var tempSeleced = [];
+        var lastCount = 0;
+        for(var i = 0; i < project.blocks.length; i++){
+            if(i < selectedBlock){
+                lastCount += project.blocks[i].housing_count;
+            }
+        }
+
+        for(var j = 0; j < project.blocks[selectedBlock].housing_count; j++){
+            tempSeleced.push(lastCount+j+1);
+        }
+
+        return tempSeleced;
+    }
+
     const savePayDecs = () => {
         var tempSelected = [];
         if (haveBlocks) {
@@ -185,12 +198,35 @@ const HousingList = ({ projectId }) => {
     }
 
     const removeSelectedRoom = (selectedRoom) => {
-        console.log(selectedRoom);
+        var items2 = {...selectedRoomsTemp};
+        items2 = Object.keys(items2);
+        var newItems2 = {};
+        items2.map((item) => {
+            if(parseInt(item) != parseInt(selectedRoom)){
+                newItems2[item] = true
+            }
+        });
+
+        setSelectedRoomsTemp(newItems2);
     }
 
     useEffect(() => {
         axiosRequestGetData(pagination.pageIndex);
-    }, [pagination])
+    }, [pagination,selectedBlock])
+
+    const setPayDecDataFunc = (data,index) => {
+        var payDecItems = [];
+        for(var i = 0 ; i < data["pay-dec-count"+index]; i++){
+            payDecItems.push({
+                price : dotNumberFormat(data['pay_desc_price'+index+i]),
+                date : data['pay_desc_date'+index+i]
+            })
+        }
+
+        console.log(payDecItems);
+
+        setPayDecData(payDecItems);
+    }
 
     useEffect(() => {
         var newItems = {};
@@ -237,6 +273,8 @@ const HousingList = ({ projectId }) => {
                         id: 'image[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'İlan Görseli',
                         enableEditing: false,
+                        enableColumnFilter: false,
+                        enableColumnPinning : true,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
@@ -273,6 +311,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['advertise_title[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'advert_title[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'İlan Başlığı',
+                        enableColumnFilter: false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -304,6 +343,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['price[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'price[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Fiyat',
+                        enableColumnFilter: false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -335,6 +375,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['installments-price[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'installments-price[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Taksitli Fiyat',
+                        enableColumnFilter: false,
                         size : 10,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
@@ -373,6 +414,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['pay-decs[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'pay-decs[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Ara Ödemeler',
+                        enableColumnFilter: false,
                         enableEditing: false,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
@@ -395,10 +437,10 @@ const HousingList = ({ projectId }) => {
                                                 {row['pay-dec-count' + (getLastCount() + row.index + 1)] > 0 ? row['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
                                             </span>
                                         :   
-                                            <span onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setUpdatePayDecModalOpen(true); setPayDecs(getLastCount() + row.index + 1) }} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                            <span onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row.original,getLastCount() + row.index + 1); }} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
                                                 Ara ödemeleri güncelle
                                                 <br />
-                                                {row['pay-dec-count' + (getLastCount() + row.index + 1)] > 0 ? row['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
+                                                {parseInt(row.original['pay-dec-count' + (getLastCount() + row.index + 1)]) > 0 ? row.original['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
                                             </span>
                                             
                                         
@@ -412,6 +454,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['installments[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'installments[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Taksit Sayısı',
+                        enableColumnFilter: false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -443,6 +486,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['advance[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'advance[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Peşinat',
+                        enableColumnFilter: false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -480,6 +524,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['number_of_shares[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'number_of_shares[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Hisse Sayısı',
+                        enableColumnFilter: false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -512,6 +557,7 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['off_sale[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'off_sale[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Satış Durumu',
+                        enableColumnFilter: false,
                         editVariant: 'select',
                         editSelectOptions: [
                             {
@@ -577,7 +623,7 @@ const HousingList = ({ projectId }) => {
 
     const saveHousing = () => {
         var itemsx = Object.keys(selectedRoomsTemp)
-        var newItems =  itemsx.map((item) => parseInt(item) + 1);
+        var newItems =  itemsx.map((item) => parseInt(item));
         axios.post(baseUrl + 'save_housing', {
             rooms: newItems,
             column_name: selectedColumn,
@@ -732,17 +778,54 @@ const HousingList = ({ projectId }) => {
         })
     }
 
-    console.log(selectedRoomsTemp,selectedRoomsTemp2);
-
     const changeSelectedItems = (selectedFunc) => {
         var items = selectedFunc();
-        var newItems = selectedRoomsTemp;
-        console.log(newItems);
-        Object.keys(items).forEach((item) => {
-            newItems[parseInt(getLastCount()) + parseInt(item)] = true;
-        });
-        console.log(newItems);
-        setSelectedRoomsTemp(newItems);
+
+        console.log(items , typeof items);
+
+        if(typeof items == "object"){
+            if(Object.keys(items).length == 0){
+                var items2 = Object.keys(selectedRoomsTemp);
+                var newItems = {};
+                items2.map((item) => {
+                    if(parseInt(item) > getLastCount() && parseInt(item) <= getLastCount() + pagination.pageSize){
+                        
+                    }else{
+                        newItems[item] = true;
+                    }
+                })
+                setSelectedRoomsTemp(newItems);
+            }else{
+                var items4 = {...selectedRoomsTemp};
+                var items2 = Object.keys(selectedRoomsTemp);
+                var items3 = Object.keys(items);
+                var newItems2 = {};
+                items3.map((item) => {
+                    if(!items2.includes(item)){
+                        items4[item] = true;
+                    }
+                });
+                console.log(items4);
+                setSelectedRoomsTemp(items4);
+            }
+            
+            
+        }else{
+            var items2 = Object.keys(selectedRoomsTemp);
+            if(items2.includes(''+items+'')){
+                var newItems2 = {};
+                items2.map((item) => {
+                    if(parseInt(item) != items){
+                        newItems2[item] = true
+                    }
+                });
+    
+                setSelectedRoomsTemp(newItems2);
+            }else{
+                setSelectedRoomsTemp({...selectedRoomsTemp,[items] : true});
+            }
+        }
+        
     }
 
     const table = useMaterialReactTable({
@@ -794,10 +877,11 @@ const HousingList = ({ projectId }) => {
             },
             pagination: pagination,
         },
+        getRowId: (row,key) =>  { return parseInt(getLastCount()) + (key + 1);},
         onPaginationChange : setPagination,
         state: {
             pagination,
-            rowSelection : selectedRoomsTemp2,
+            rowSelection : selectedRoomsTemp,
             isLoading : loading
         },
         paginationDisplayMode: 'pages',
@@ -977,6 +1061,12 @@ const HousingList = ({ projectId }) => {
 
     return (
         <>
+            <div class="tabs">
+                <ul>
+                    <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
+                    <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
+                </ul>
+            </div>
             {
                 Object.keys(selectedRoomsTemp).length > 0 ? 
                     <div className="card px-3 mb-2 pb-2">
@@ -985,7 +1075,7 @@ const HousingList = ({ projectId }) => {
                             {
                                 Object.keys(selectedRoomsTemp).map((selectedRoom) => {
                                     return(
-                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{parseInt(selectedRoom)  + 1} <i className='fa fa-times'></i></span>
+                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{parseInt(selectedRoom)} <i className='fa fa-times'></i></span>
                                     )
                                 })
                             }
