@@ -137,14 +137,15 @@
                                                 'step1Slug' => $project->step1_slug,
                                             ])
                                         @endif
-                                    </h3>
-
-                                    @if ($project->step1_slug)
+                                        @if ($project->step1_slug)
                                         <span class="mrg-l-5 category-tag">
                                             {{ ucfirst($project->step1_slug) }}
-                                            {{ $project->housingtype->title }}
+                                            {{ $parent->title }}
                                         </span>
                                     @endif
+                                    </h3>
+
+                                  
 
                                 </div>
 
