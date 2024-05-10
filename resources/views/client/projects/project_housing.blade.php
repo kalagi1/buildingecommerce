@@ -155,13 +155,13 @@
                         <div  style="width: 100%; justify-content: center;align-items:center;display:flex">
 
                             @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
-                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
+                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="white" stroke-width="2"
                                     fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                                     <polyline points="17 6 23 7 23 12"></polyline>
                                 </svg>
-                                <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
-                                <span style="color:#28a745;font-size:13px;margin-left:4px">
+                                <strong style="color:#ffffff;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                                <span style="color:#ffffff;font-size:13px;margin-left:4px">
                                     %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
                             @endif
 
@@ -303,7 +303,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
-                        <div class="move-mobile-gain"></div>
+                        <div class="move-mobile-gain mb-30" style="background-color: #28a745 "></div>
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
