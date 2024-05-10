@@ -1042,7 +1042,7 @@
                                                 </td>
                                             </tr>
 
-                                         
+
                                             <tr>
                                                 <td>
                                                     <span class="autoWidthTr">Ada:</span>
@@ -1073,7 +1073,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td>
                                                     <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
@@ -1697,7 +1697,7 @@
 
         // Slayt geçiş işlemi tamamlandığında
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            updateIndex(); 
+            updateIndex();
         });
 
         // Index değerini güncelleyen fonksiyon
@@ -1706,6 +1706,29 @@
             var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
             $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
+
+        if (window.innerWidth <= 768) {
+            // Sol ok tuşuna tıklandığında
+            $('.pagination .page-item-left').on('click', function(event) {
+                event.preventDefault();
+                $('#listingDetailsSlider').carousel('prev');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+
+            });
+
+            // Sağ ok tuşuna tıklandığında
+            $('.pagination .page-item-right').on('click', function(event) {
+                event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+                $('#listingDetailsSlider').carousel('next');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            });
         }
 
 
@@ -1721,9 +1744,8 @@
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
-                5); // Bir sonraki beşli kümeye git
+                    5); // Bir sonraki beşli kümeye git
             } else {
-                console.log('yunus')
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
         });
@@ -1734,7 +1756,7 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
-            }else{
+            } else {
                 $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
 
             }

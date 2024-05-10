@@ -198,27 +198,27 @@
                                                     </td>
                                                 </tr>
                                                 @if ($project->user->phone)
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">İş:</span>
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:#274abb;"
-                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                            @if ($project->user->mobile_phone)
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">Cep :</span>
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:#274abb;"
-                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
+                                                    <tr>
+                                                        <td>
+                                                            <span class="autoWidthTr">İş:</span>
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:#274abb;"
+                                                                    href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($project->user->mobile_phone)
+                                                    <tr>
+                                                        <td>
+                                                            <span class="autoWidthTr">Cep :</span>
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:#274abb;"
+                                                                    href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>
@@ -233,7 +233,7 @@
                                                             style="color: black;">{!! $project->user->name !!}</span>
                                                     </td>
                                                 </tr>
-                                             
+
 
                                                 <tr>
                                                     <td colspan="2">
@@ -1381,29 +1381,31 @@
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
+        if (window.innerWidth <= 768) {
+            // Sol ok tuşuna tıklandığında
+            $('.pagination .page-item-left').on('click', function(event) {
+                event.preventDefault();
+                $('#listingDetailsSlider').carousel('prev');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-        // // Sol ok tuşuna tıklandığında
-        // $('.pagination .page-item-left').on('click', function(event) {
-        //     event.preventDefault();
-        //     $('#listingDetailsSlider').carousel('prev');
-        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-        //     // $('.pagination .page-item-middle .page-link').text(index);
-        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
-        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            });
 
-        // });
+            // Sağ ok tuşuna tıklandığında
+            $('.pagination .page-item-right').on('click', function(event) {
+                event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+                $('#listingDetailsSlider').carousel('next');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            });
+        }
 
-        // // Sağ ok tuşuna tıklandığında
-        // $('.pagination .page-item-right').on('click', function(event) {
-        //     event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-        //     $('#listingDetailsSlider').carousel('next');
-        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-        //     // $('.pagination .page-item-middle .page-link').text(index);
-        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
-        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-        // });
 
-        // Başlangıçta mevcut slaydın indeksini 0 olarak ayarlayalım
+
         var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
@@ -1413,7 +1415,8 @@
             var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
             if (remainingItems >= 5) {
                 currentSlideIndex++;
-                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
+                5); // Bir sonraki beşli kümeye git
             } else {
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
@@ -1425,7 +1428,7 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
-            }else{
+            } else {
                 $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
 
             }
@@ -1464,8 +1467,8 @@
     </script>
 
     <script>
-              $(document).ready(function() {
-                $("#phone").on("input blur", function(){
+        $(document).ready(function() {
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[0-9]\d{8}$/;
 
@@ -1475,15 +1478,15 @@
                 } else {
                     $("#error_message").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>
@@ -1492,10 +1495,11 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
-                .error-message {
+        .error-message {
             color: #e54242;
             font-size: 11px;
         }
+
         .success-message {
             color: green;
             font-size: 11px;
