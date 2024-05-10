@@ -57,6 +57,23 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $specialPermissionKeys = [
+            'ChangePassword',
+            'EditProfile',
+            'ViewDashboard',
+            'ShowCartOrders',
+            'GetMyCollection',
+            'GetMyEarnings',
+            'neighborView',
+            'GetOrders',
+            'GetReceivedOffers',
+            'GetGivenOffers',
+            'GetSwapApplications',
+            'MyReservations',
+            'Reservations',
+            'Orders'
+        ];
+
         $filteredPermissions  = $permissions;
 
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
@@ -82,7 +99,7 @@ class RoleController extends Controller
         }
 
         // İzinleri 'permission_group_id' ile gruplayın
-        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
+        $groupedPermissions = $filteredPermissions->reject($specialPermissionKeys)->groupBy('permission_group_id');
 
         
         // Grup adlarını depolamak için boş bir dizi oluşturun
@@ -99,22 +116,7 @@ class RoleController extends Controller
             }
         }
 
-        $specialPermissionKeys = [
-            'ChangePassword',
-            'EditProfile',
-            'ViewDashboard',
-            'ShowCartOrders',
-            'GetMyCollection',
-            'GetMyEarnings',
-            'neighborView',
-            'GetOrders',
-            'GetReceivedOffers',
-            'GetGivenOffers',
-            'GetSwapApplications',
-            'MyReservations',
-            'Reservations',
-            'Orders'
-        ];
+       
 
         // Veritabanından bu özel izinlerin ID'lerini alın
         // $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
