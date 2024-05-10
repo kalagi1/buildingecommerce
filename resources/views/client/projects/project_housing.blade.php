@@ -138,16 +138,14 @@
                                             ])
                                         @endif
                                     </h3>
-                                    
+
                                     @if ($project->step1_slug)
+                                        <span class="mrg-l-5 category-tag">
+                                            {{ ucfirst($project->step1_slug) }}
+                                            {{ $project->housingtype->title }}
+                                        </span>
+                                    @endif
 
-                                    <span class="mrg-l-5 category-tag">
-                                      {{ucfirst($project->step1_slug)}}
-                                      {{ $project->housingtype->title }}
-                                    </span>
-
-                                @endif
-                                    
                                 </div>
 
 
@@ -2936,7 +2934,7 @@
                 stroke: white
             }
 
-            .add-to-swap-wrapper{
+            .add-to-swap-wrapper {
                 margin-bottom: 30px !important;
             }
         }
