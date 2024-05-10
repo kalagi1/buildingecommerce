@@ -3,7 +3,7 @@ export const frontEndUrl = "https://test.emlaksepette.com/";
 
 export const dotNumberFormat = (number) => {
     if(number){
-        if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+        if(number?.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number?.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
             return "";
             
         }else{
