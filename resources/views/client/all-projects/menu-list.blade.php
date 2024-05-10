@@ -334,13 +334,13 @@
 
                                 <div id="room_count_field" class="room_count_field">
                                     <div class="trip-search mt-md-2">
-                                        <div class="head widget-boxed-header mobile-title widget-boxed-header">
+                                        <div class="head widget-boxed-header mobile-title widget-boxed-header" onclick="toggleFilter(this)">
 
                                             <span>
                                                 İlan Tarihi
                                             </span>
                                         </div>
-                                        <div class="mt-md-2 filtreArea" style="display: block !important">
+                                        <div class="mt-md-2 filtreArea" style="display: none !important">
                                             <div class="mb-2 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_24_hours" value="24">
@@ -384,37 +384,37 @@
 
                                 <div id="room_count_field" class="room_count_field">
                                     <div class="trip-search mt-md-2">
-                                        <div class="head widget-boxed-header mobile-title widget-boxed-header">
+                                        <div class="head widget-boxed-header mobile-title widget-boxed-header" onclick="toggleFilter(this)">
                                             <span>
                                                 Kimden
                                             </span>
                                         </div>
-                                        <div class="mt-md-2 filtreArea" style="display: block !important">
+                                        <div class="mt-md-2 filtreArea" style="display: none !important">
                                             <div class="mb-2 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="corporate_type"
-                                                         value="Emlak Ofisi">
+                                                    id="EmlakOfisi"  value="Emlak Ofisi">
                                                 <label class="form-check-label w-100 ml-4" for="EmlakOfisi">Emlak Ofisinden
                                                     </label>
                                             </div>
 
                                             <div class="mb-2 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="corporate_type"
-                                                    value="İnşaat Ofisi">
-                                                <label class="form-check-label w-100 ml-4" for="İnşaatOfisi">İnşaat Ofisinden
+                                                   id="İnsaatOfisi" value="İnşaat Ofisi">
+                                                <label class="form-check-label w-100 ml-4" for="İnsaatOfisi">İnşaat Ofisinden
                                                     </label>
                                             </div>
 
                                             <div class="mb-2 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="corporate_type"
-                                                    value="Banka">
+                                                  id="banka" value="Banka">
                                                 <label class="form-check-label w-100 ml-4" for="banka">Bankadan</label>
                                                    
                                             </div>
 
                                             <div class="mb-2 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="corporate_type"
-                                                    value="Turizm Amaçlı Kiralama">
-                                                <label class="form-check-label w-100 ml-4" for="TurizmAmaçlıKiralama">Turizm İşletmesinden
+                                                   id="TurizmAmaçliKiralama" value="Turizm Amaçlı Kiralama">
+                                                <label class="form-check-label w-100 ml-4" for="TurizmAmaçliKiralama">Turizm İşletmesinden
                                                     </label>
                                             </div>
 
