@@ -10,18 +10,17 @@
                         <div class="col-auto">
                             <h3 class="mb-0">Kullanıcı Tipi Listele<span
                                     class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
-                            </h2>
+                                </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
                                 @if (in_array('CreateRole', $userPermissions))
-                                <a class="btn btn-primary px-5" href="{{ route('institutional.roles.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
-                                </a>
+                                    <a class="btn btn-primary px-5" href="{{ route('institutional.roles.create') }}">
+                                        <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
+                                    </a>
                                 @else
-                                
                                 @endif
-                             
+
                             </div>
                         </div>
                     </div>
@@ -55,21 +54,27 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>
-                                                <a href="{{ route('institutional.roles.edit', $role->id) }}"
-                                                    class="btn btn-sm btn-primary">Güncelle</a>
+
+                                                @if (in_array('UpdateRole', $userPermissions))
+                                                    <a href="{{ route('institutional.roles.edit', $role->id) }}"
+                                                        class="btn btn-sm btn-primary">Güncelle</a>
+                                                @elseif (in_array('GetRoleById', $userPermissions))
+                                                    <a href="{{ route('institutional.roles.edit', $role->id) }}"
+                                                        class="btn btn-sm btn-primary">Önizle</a>
+                                                @endif
 
                                                 <!-- Silme işlemi için modal -->
                                                 @if (in_array('DeleteRole', $userPermissions))
-                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $role->id }}">
-                                                    Sil
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $role->id }}">
+                                                        Sil
                                                     </button>
                                                 @else
-                                                
                                                 @endif
 
 
-                                              
+
 
                                                 <!-- Silme işlemi için modal -->
                                                 <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"

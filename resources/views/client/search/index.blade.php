@@ -23,12 +23,12 @@
                             <p class="plan-price"><strong>{{ $housingTotalCount }}</strong><sub>Sonuç Bulundu</sub></p>
                             {{-- <p class="plan-price"><small>{{ $housingTotalCount }} İlan bulundu</small><sub></sub></p> --}}
                             <ul class="list-unstyled" id="housingList">
-                                @php $count = 0 @endphp
+                                @php $countHousing = 0 @endphp
                                 @foreach ($housings as $step1_slug => $step1_data)
                                     @foreach ($step1_data as $step2_slug => $step2_data)
-                                        @php $count++ @endphp
+                                        @php $countHousing++ @endphp
                                         <li class="housing-item"
-                                            @if ($count > 3) style="display: none;" @endif>
+                                            @if ($countHousing > 3) style="display: none;" @endif>
                                             <a
                                                 href="{{ url('/kategori/' . $step1_slug . '/' . $step2_slug . '?' . http_build_query(['term' => $term])) }}">
                                                 {{ $step2_slug }}
@@ -38,7 +38,7 @@
                                     @endforeach
                                 @endforeach
                             </ul>
-                            @if ($count > 3)
+                            @if ($countHousing > 3)
                                 <a class="btn btn-primary" href="#" id="showMore">Daha Fazlasını Gör</a>
                                 <a class="btn btn-primary d-none" href="#" id="hideAll">Tümünü Kapat</a>
                             @endif
@@ -65,7 +65,7 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            @if ($project['count'] > 3)
+                            @if ($count > 3)
                                 <a class="btn btn-primary" href="#" id="showMoreProjects">Daha Fazlasını Gör</a>
                             @endif
                             <a class="btn btn-primary d-none" href="#" id="hideAllProjects">Tümünü Kapat</a>

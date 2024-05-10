@@ -3,12 +3,11 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            @if (Auth::user()->type != 1)
-                <th>İlan Sahibi</th>
-            @else
-                <th>Emlak Ofisi</th>
+            @if (Auth::user()->type == 1)
+                <th>Atanan Emlak Ofisi</th>
             @endif
             <th>Emlak Tipi</th>
+            <th>Danışman</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>

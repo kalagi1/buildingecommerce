@@ -27,16 +27,7 @@
         "activePath": "client/reservations"
     },
     {
-        "id": "UpgradeProfile",
-        "label": "Hesabım & Yardım",
-        "icon": "arrow-up",
-        "text": "Aboneliği Yükselt",
-        "key": "UpgradeProfile",
-        "url": "client.profile.upgrade",
-        "activePath": "client/profile/upgrade"
-    },
-    {
-        "id": "UpgradeProfile",
+        "id": "ShowCartOrders",
         "label": "Hesabım & Yardım",
         "icon": "list",
         "text": "Siparişlerim",
@@ -61,7 +52,7 @@
         "text": "Komşumu Gör",
         "key": "neighborView",
         "url": "neighbors.index",
-        "activePath": "/neighbors"
+        "activePath": "/komsumu-gor"
     },
     {
         "id": "membershipType",

@@ -8,6 +8,7 @@ use App\Models\Chat;
 use App\Models\City;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
 use App\Models\UserPlan;
@@ -139,6 +140,13 @@ class RegisterController extends Controller
                 "corporate_account_status" => 1,
             ]);
         }
+
+          // "Tarafıma elektronik ileti gönderilmesini kabul ediyorum" kutusu işaretlenmişse
+          if ($request->has('check-e')) {
+            Subscription::create([
+                'user_id' => $user->id,
+            ]);
+          }
 
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
