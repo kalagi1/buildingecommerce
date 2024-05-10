@@ -57,172 +57,70 @@ class HousingController extends Controller
 
     public function index()
     {
-        $activeHousingTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
+        // Define a common base query for reuse
+        $baseQuery = Housing::with('city', 'county', 'neighborhood', "owner", "user", "consultant")
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->select(
+                'housings.id',
+                'housings.title AS housing_title',
+                'housings.status',
+                'housings.address',
+                'housings.created_at',
+                'housing_types.title as housing_type',
+                'housing_types.slug',
+                'housings.city_id',
+                'housings.county_id',
+                'housings.neighborhood_id',
+                'housing_types.form_json',
+                'housings.is_share',
+                'housings.owner_id',
+                'housings.user_id',
+                'housings.deleted_at',
+                'housings.is_sold',
+                'housings.consultant_id',
+
+            )
+            ->orderByDesc('housings.updated_at');
+
+        // Active housings
+        $activeHousingTypes = (clone $baseQuery)
             ->where('status', 1)
-            ->where('is_share', '!=', 1)
-            ->where('is_sold', null)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.deleted_at',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id'
-            )
-            ->orderByDesc('housings.updated_at')
+            ->whereNull('deleted_at')
+            ->whereNull('is_sold')
             ->get();
 
-        $inactiveHousingTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
+        // Inactive housings
+        $inactiveHousingTypes = (clone $baseQuery)
             ->where('status', 0)
-            ->where('is_share', '!=', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.deleted_at',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id'
-            )
-            ->orderByDesc('housings.updated_at')
+            ->whereNull('deleted_at')
             ->get();
 
-        $disabledHousingTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
+        // Disabled housings
+        $disabledHousingTypes = (clone $baseQuery)
             ->where('status', 3)
-            ->where('is_share', '!=', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id'
-            )
-            ->where('user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id)
-            ->orderByDesc('housings.updated_at')
+            ->whereNull('deleted_at')
             ->get();
 
-        $disabledHousingTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
-            ->where('status', 3)
-            ->where('is_share', '!=', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.deleted_at',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id'
-            )
-            ->orderByDesc('housings.updated_at')
-            ->get();
-
-        $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
+        // Pending housings
+        $pendingHousingTypes = (clone $baseQuery)
             ->where('status', 2)
-            ->where('is_share', '!=', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.deleted_at',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id'
-            )
-            ->orderByDesc('housings.updated_at')
+            ->whereNull('deleted_at')
             ->get();
 
-        $deletedHousings = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
-            ->where('is_share', '!=', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.deleted_at',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id',
-                'housings.deleteReason',
-            )
-            ->onlyTrashed()
-            ->get();
-
-        $soldHousingsTypes = Housing::with('city', 'county', 'neighborhood', 'user', 'consultant', 'owner')
+        // Sold housings
+        $soldHousingsTypes = (clone $baseQuery)
             ->where('is_sold', 1)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.deleted_at',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.user_id',
-                'housings.owner_id',
-                'housings.consultant_id',
-                'housings.deleteReason',
-            )
+            ->whereNull('deleted_at')
+            ->get();
+
+        $isShareTypes = (clone $baseQuery)
+            ->whereNotNull('owner_id') // owner_id olanları sınırlayalım
+            ->whereNull('deleted_at') // silinmiş olanları filtreleyelim
+            ->orWhereRaw('owner_id <> user_id') // owner_id ve user_id eşit olmayanları da ekleyelim
+            ->get();
+
+        $deletedHousings = (clone $baseQuery)
+            ->onlyTrashed()
             ->get();
         return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
     }
@@ -505,7 +403,7 @@ class HousingController extends Controller
         $activeHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner")
             ->where('status', 1)
             ->where('is_share', 1)
-            ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
+            ->leftJoin('housing_types', 'housing_types.id', 'housings.housing_type_id') // Yanlışlığa neden olan ekstra '=' işareti çıkarıldı
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -519,11 +417,9 @@ class HousingController extends Controller
                 'housings.county_id',
                 'housings.neighborhood_id',
                 'housing_types.form_json',
-                "housings.user_id",
-                'housings.is_share',
-                'housings.consultant_id',
+                'housings.user_id',
                 'housings.owner_id',
-                "housings.user_id",
+                'housings.consultant_id'
 
             )
             ->orderByDesc('housings.updated_at')
@@ -543,7 +439,8 @@ class HousingController extends Controller
         $inactiveHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner",)
             ->where('status', 0)
             ->where('is_share', 1)
-            ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
+            ->leftJoin('housing_types', 'housing_types.id', 'housings.housing_type_id') // Yanlışlığa neden olan ekstra '=' işareti çıkarıldı
+
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -557,11 +454,9 @@ class HousingController extends Controller
                 'housings.county_id',
                 'housings.neighborhood_id',
                 'housing_types.form_json',
-                "housings.user_id",
-                'housings.is_share',
-                'housings.consultant_id',
+                'housings.user_id',
                 'housings.owner_id',
-                "housings.user_id",
+                'housings.consultant_id'
 
 
             )
@@ -582,7 +477,8 @@ class HousingController extends Controller
         $disabledHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner",)
             ->where('status', 3)
             ->where('is_share', 1)
-            ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
+            ->leftJoin('housing_types', 'housing_types.id', 'housings.housing_type_id') // Yanlışlığa neden olan ekstra '=' işareti çıkarıldı
+
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -595,11 +491,9 @@ class HousingController extends Controller
                 'housings.county_id',
                 'housings.neighborhood_id',
                 'housing_types.form_json',
-                "housings.user_id",
-                'housings.is_share',
-                'housings.consultant_id',
+                'housings.user_id',
                 'housings.owner_id',
-                "housings.user_id",
+                'housings.consultant_id'
 
             )
             ->where('user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id)
@@ -621,7 +515,8 @@ class HousingController extends Controller
         $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner",)
             ->where('status', 2)
             ->where('is_share', 1)
-            ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
+            ->leftJoin('housing_types', 'housing_types.id', 'housings.housing_type_id') // Yanlışlığa neden olan ekstra '=' işareti çıkarıldı
+
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -635,11 +530,9 @@ class HousingController extends Controller
                 'housings.county_id',
                 'housings.neighborhood_id',
                 'housing_types.form_json',
-                "housings.user_id",
-                'housings.is_share',
-                'housings.consultant_id',
+                'housings.user_id',
                 'housings.owner_id',
-                "housings.user_id",
+                'housings.consultant_id'
 
             )
             ->orderByDesc('housings.updated_at')
@@ -658,7 +551,8 @@ class HousingController extends Controller
 
         $deletedHousings = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner",)
             ->where('is_share', 1)
-            ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
+            ->leftJoin('housing_types', 'housing_types.id', 'housings.housing_type_id') // Yanlışlığa neden olan ekstra '=' işareti çıkarıldı
+
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -672,11 +566,9 @@ class HousingController extends Controller
                 'housings.county_id',
                 'housings.neighborhood_id',
                 'housing_types.form_json',
-                "housings.user_id",
-                'housings.is_share',
-                'housings.consultant_id',
+                'housings.user_id',
                 'housings.owner_id',
-                "housings.user_id",
+                'housings.consultant_id'
 
             )
             ->onlyTrashed()
