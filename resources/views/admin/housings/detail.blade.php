@@ -221,11 +221,10 @@
                                             <td>
                                                 <span> İlan No :</span>
                                                 <span class="det" style="color:#274abb;">
-                                                    <a
-                                                        href="{{ route('housing.show', [
-                                                            'housingSlug' => $housing->slug,
-                                                            'housingID' => $housing->id + 2000000,
-                                                        ]) }}"
+                                                    <a href="{{ route('housing.show', [
+                                                        'housingSlug' => $housing->slug,
+                                                        'housingID' => $housing->id + 2000000,
+                                                    ]) }}"
                                                         target="_blank">
                                                         {{ $housing->id + 2000000 }}</a>
 
@@ -455,7 +454,9 @@
                                     text: 'Başarıyla emlağı reddetiniz',
                                     position: 'top-right',
                                     stack: false
-                                })
+                                });
+
+                                location.reload();
                             }
                         },
                         error: function(xhr, status, error) {
