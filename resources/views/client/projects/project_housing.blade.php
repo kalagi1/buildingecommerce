@@ -139,8 +139,8 @@
                                         @endif
                                         @if ($project->step1_slug)
                                         <span class="mrg-l-5 category-tag">
+                                            {{ ucfirst($project->step2_slug) }}
                                             {{ ucfirst($project->step1_slug) }}
-                                            {{ $parent->title }}
                                         </span>
                                     @endif
                                     </h3>
