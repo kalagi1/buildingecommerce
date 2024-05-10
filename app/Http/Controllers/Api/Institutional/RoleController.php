@@ -98,8 +98,12 @@ class RoleController extends Controller
             });
         }
 
+        $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissionKeys) {
+            return in_array($permission->key, $specialPermissionKeys);
+        });
+
         // İzinleri 'permission_group_id' ile gruplayın
-        $groupedPermissions = $filteredPermissions->reject($specialPermissionKeys)->groupBy('permission_group_id');
+        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
         
         // Grup adlarını depolamak için boş bir dizi oluşturun
