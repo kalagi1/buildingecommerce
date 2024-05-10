@@ -225,7 +225,8 @@
                                                         href="{{ route('housing.show', [
                                                             'housingSlug' => $housing->slug,
                                                             'housingID' => $housing->id + 2000000,
-                                                        ]) }}">
+                                                        ]) }}"
+                                                        target="_blank">
                                                         {{ $housing->id + 2000000 }}</a>
 
                                                 </span>
