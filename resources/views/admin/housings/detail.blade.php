@@ -503,6 +503,7 @@
                                     position: 'top-right',
                                     stack: false
                                 })
+                                location.reload();
                             }
                         },
                         error: function(xhr, status, error) {
