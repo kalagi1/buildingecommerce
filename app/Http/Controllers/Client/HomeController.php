@@ -233,7 +233,7 @@ class HomeController extends Controller
             }
         }
 
-        $query = Project::query()->where('status', 1);
+        $query = Project::query()->where('projects.status', 1);
 
         if ($request->input('city')) {
             $query->where('city_id', $request->input('city'));
@@ -243,9 +243,20 @@ class HomeController extends Controller
             $query->where('county_id', $request->input('county'));
         }
 
+        if ($request->input('listing_date') == 24) {
+            $query = $query->where('projects.created_at', '>=', now()->subDay());
+        }
+       
+        if ($request->input('listing_date') ) {
+         
+            $query = $query->where('projects.created_at', '>=', now()->subDays($request->input('listing_date')));
+        }
 
-    
-
+        if ($request->has('corporateType') && $request->input('corporateType') !== null) {
+            $query->join('users', 'users.id', '=', 'projects.user_id')
+                  ->where('users.corporate_type', $request->input('corporateType'))
+                  ->select('projects.*', 'users.corporate_type'); // İlgili sütunları seçin
+        }
 
         if ($request->input('filterDate')) {
             $filterDate = $request->input('filterDate');
@@ -443,9 +454,9 @@ class HomeController extends Controller
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
         $term = $request->input('term') ?? null;
-
+  
         $renderedProjects = $projects->through(function ($item) {
-
+         
             $statusID = $item->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
 
@@ -456,9 +467,11 @@ class HomeController extends Controller
                 'county' => $item->county,
                 'profile_user_image' => URL::to('/') . '/storage/profile_images/' . $item->user->profile_image,
                 "title" => $item->project_title,
+                'created_at' => $item->created_at,
             ];
         });
 
+      
       
                 return response()->json([
                     'data' => $renderedProjects,
@@ -506,6 +519,8 @@ class HomeController extends Controller
             ];
             return strtr($date, $aylar);
         }
+
+       
 
         function getData($housing, $key)
         {
@@ -702,46 +717,7 @@ class HomeController extends Controller
         if ($request->input('neighborhood')) {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
         }
-        // if (!empty($slugName) || $request->input("slug") == "al-sat-acil" && !empty($housingType) &&  !empty($housingTypeParentSlug)) {
-        //     $uniqueHousingTypeNames = ["price", "squaremeters"];
-        //         $filtersDb = Filter::where('item_type', 2)->whereIn('filter_name', $uniqueHousingTypeNames)->get()->keyBy('filter_name')->toArray();
-        //         $filtersDbx = array_keys($filtersDb);
-        //         foreach ($filtersDb as $data) {
-        //             if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
-        //                 $inputName = $data['filter_name'];
-        //                 if ($request->input($inputName)) {
-        //                     $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
-        //                         $query->whereJsonContains('housing_type_data->' . $inputName, [$request->input($inputName)[0]]);
-        //                         $e = 0;
-        //                         foreach ($request->input($inputName) as $input) {
-        //                             if ($e == 0) {
-        //                                 $e = 1;
-        //                                 continue;
-        //                             }
-        //                             $query->orWhereJsonContains('housing_type_data->' . $inputName, [$input]);
-        //                         }
-        //                     });
-        //                 }
-        //             } else if ($data['filter_type'] == 'text') {
-        //                 if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
-        //                     $inputName = str_replace('[]', '', $data['filter_name']);
-        //                     if ($request->input($inputName . '-min')) {
-        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) >= ?', [$request->input($inputName . '-min')]);
-        //                     }
-    
-        //                     if ($request->input($inputName . '-max')) {
-        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) <= ?', [$request->input($inputName . '-max')]);
-        //                     }
-        //                 } else {
-        //                     $inputName = $data['filter_name'];
-        //                     if ($request->input($inputName)) {
-        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]"))) = ?', $request->input($inputName));
-        //                     }
-        //                 }
-        //             }
-        //         }
-        // }
-
+       
           if ($request->input('term')) {
             $term = $request->input('term');
             
@@ -759,6 +735,23 @@ class HomeController extends Controller
             });
             
         }
+       
+        if ($request->input('listing_date') == 24) {
+            $obj = $obj->where('housings.created_at', '>=', now()->subDay());
+        }
+       
+        if ($request->input('listing_date') ) {
+         
+            $obj = $obj->where('housings.created_at', '>=', now()->subDays($request->input('listing_date')));
+        }
+
+        if ($request->has('corporateType') && $request->input('corporateType') !== null) {
+            
+                $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                ->where('users.corporate_type', $request->input('corporateType'));
+            
+        }
+        
 
         if (empty($housingType) && !empty($housingTypeParentSlug) ) {
 
@@ -900,6 +893,7 @@ class HomeController extends Controller
             $obj = $obj->orderBy('created_at', 'desc');
 
         }
+      
 
         $itemPerPage = 15;
 
@@ -973,6 +967,7 @@ class HomeController extends Controller
             'term' => $term
         ];
         
+       
         
         // JSON yanıtını döndürün
         return response()->json($result);
