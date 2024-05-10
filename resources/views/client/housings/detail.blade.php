@@ -2163,8 +2163,6 @@
                 $('.listingDetailsSliderNav').slick('slickGoTo', index);
                 var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-                console.log("Büyük Görsel Data Slide Number: ", index);
-                console.log("Küçük Görsel Index: ", smallIndex);
             });
         });
 
