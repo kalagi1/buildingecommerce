@@ -88,7 +88,7 @@ class RoleController extends Controller
         }
 
         // İzinleri 'permission_group_id' ile gruplayın
-        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
+        // $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
 
 
@@ -110,12 +110,12 @@ class RoleController extends Controller
         ];
 
         // Veritabanından bu özel izinlerin ID'lerini alın
-        $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
-            ->pluck('id') // Sadece ID'leri alın
-            ->toArray();
+        // $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
+        //     ->pluck('id') // Sadece ID'leri alın
+        //     ->toArray();
     
         return response()->json([
-            'groupedPermissions'    => $groupedPermissions,
+            'filteredPermissions'    => $filteredPermissions,
             'specialPermissionKeys' => $specialPermissionKeys
         ]);
     }
