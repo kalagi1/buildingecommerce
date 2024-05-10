@@ -152,7 +152,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="headings-2 pt-0 pb-0 move-gain">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: center;align-items:center;display:flex">
+                        <div  style="width: 100%; justify-content: center;align-items:center;display:flex">
 
                             @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
                                 <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
