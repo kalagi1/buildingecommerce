@@ -233,7 +233,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-
+                                <div class="button-effect-div">
+                                    <div class="button-effect toggle-project-favorite"
+                                        style="margin-left:13px;width:40px !important"
+                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div> 
+                                </div>
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -462,12 +469,12 @@
                                         @endif
                                     @endif
 
-                                    <div class="button-effect toggle-project-favorite"
+                                    {{-- <div class="button-effect toggle-project-favorite"
                                         style="margin-left:13px;width:40px !important"
                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
