@@ -2986,6 +2986,10 @@
             .gainStyle svg {
                 stroke: white
             }
+
+            .add-to-swap-wrapper{
+                margin-bottom: 30px !important;
+            }
         }
     </style>
 @endsection
