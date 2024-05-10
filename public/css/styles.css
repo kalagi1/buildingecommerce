@@ -30426,6 +30426,7 @@ a {
     width: fit-content;
     transition: 0.3s;
     border-radius: 50%;
+    z-index: 1;
 }
 
 
