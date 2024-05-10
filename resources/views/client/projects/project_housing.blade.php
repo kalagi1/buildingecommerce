@@ -303,7 +303,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
-                        <div class="schedule widget-boxed move-mobile-gain mb-30" style="background-color: #28a745 "></div>
+                        <div class="schedule widget-boxed move-mobile-gain mb-30" style="background-color: green "></div>
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
