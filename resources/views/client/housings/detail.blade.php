@@ -3117,8 +3117,8 @@
         .favorite-move {
             position: absolute;
             z-index: 9;
-            margin-top: 20px;
-            right: 40px;
+            margin-top: 0;
+            right: 20px;
         }
 
         .gainStyle strong,
