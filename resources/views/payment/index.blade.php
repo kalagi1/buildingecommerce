@@ -443,14 +443,7 @@
                                     <input type="hidden" name="is_swap" class="is_swap"
                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="d-flex" style="align-items: center;">
-                                                <input style="margin-left: 0px !important;" type="checkbox"
-                                                    role="switch" id="flexSwitchCheckChecked">
-                                                <label class="ml-2 mb-0" for="flexSwitchCheckChecked">TC vatandaşı
-                                                    değilim</label>
-                                            </div>
-                                        </div>
+                                      
                                         <div class="col-sm-6">
                                             <label for="tc">TC: </label>
                                             <input type="number" class="form-control" id="tc" name="tc"

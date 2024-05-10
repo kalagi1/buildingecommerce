@@ -142,7 +142,11 @@ class HomeController extends Controller {
         $fatura->save();
 
         if ( $cart->type == 'housing' ) {
-            $estate = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+            $estate  = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+            $is_sold = Housing::where( 'id', $cart->item->id )->first();
+            $is_sold->update( [
+                'is_sold' => 1] );
+                
         } else {
             $estate = Project::where( 'id', $cart->item->id )->with( 'user' )->first();
             $isNeighbor = NeighborView::where( 'owner_id', $cartOrder->is_reference )
@@ -456,13 +460,9 @@ class HomeController extends Controller {
             } else {
                 $refundAmount = $amount;
             }
-
+            
             // SharerPrice tablosundaki ilgili kayıtları güncelle
-            SharerPrice::where( [
-                [ 'user_id', $refund->user_id ],
-                [ 'cart_id', $refund->cartOrder->id ],
-            ] )->update( [ 'status' => 0, 'balance' => 0 ] );
-
+            SharerPrice::where('cart_id', $refund->cartOrder->id)->update(['status' => '2']);
             // CartPrice tablosundaki ilgili kayıtları al ve güncelle
             $cartPrices = CartPrice::where( [
                 [ 'user_id', $refund->user_id ],

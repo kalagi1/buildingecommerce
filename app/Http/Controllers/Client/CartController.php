@@ -806,10 +806,11 @@ class CartController extends Controller
             // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = public_path('dekont/' . $order->dekont);
+        $dekontDosyaYolu = "https://test.emlaksepette.com/public/dekont/" .$order->dekont;
+       
+        if ($dekontDosyaYolu) {
+            return redirect()->away($dekontDosyaYolu);
 
-        if (file_exists($dekontDosyaYolu)) {
-            return Response::download($dekontDosyaYolu);
         } else {
             return abort(404);
             // Dekont bulunamazsa 404 hatası döndür
@@ -1220,7 +1221,8 @@ class CartController extends Controller
         $pageInfo = [
             'meta_title' => 'Sepetim',
             'meta_keywords' => 'Sepetim',
-            'meta_description' => 'Emlak Sepette Sepetim',
+            'meta_description' => 'Emlak Sepette Sepetim, en yeni ve en uygun konutları keşfedin. 
+                Geniş seçenekler, kolay ödeme seçenekleri ve profesyonel hizmetlerle konut sahibi olun!',
             'meta_author' => 'Emlak Sepette',
         ];
 

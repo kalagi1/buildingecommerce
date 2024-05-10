@@ -8,11 +8,12 @@
                     <div class="mb-9">
                         <div class="d-flex align-items-center justify-content-between my-3">
                             <h2 class="mb-2 lh-sm">Mağaza Bannerleri</h2>
-
+                            @if (in_array('CreateRole', $userPermissions))
                             <a class="btn btn-phoenix-success btn-sm" href="{{ route('institutional.storeBanners.create') }}">
                                 <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
                                 <span class="ms-1">Yeni Banner Ekle</span>
                             </a>
+                            @endif
                         </div>
                         <p class="text-muted"><i class="fas fa-arrows-alt me-2"></i>Bannerleri sürükleyip yeniden sıralamak için
                             sürükleme işlevini kullanabilirsiniz.</p>

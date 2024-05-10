@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Jobs\SendCustomMail;
 use App\Mail\CustomMail;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 
@@ -78,6 +79,13 @@ class EmailTemplateController extends Controller
     }
 
     public function MultipleMail(){
+        // $users = User::all();
+        // foreach($users  as $user){
+            
+        //     Subscription::create([
+        //         'user_id' => $user->id
+        //     ]);
+        // }
         return view('admin.multiple_mail.create');
     }
 
@@ -96,17 +104,55 @@ class EmailTemplateController extends Controller
     }
 
     public function MultipleMailGetUsers(){
-        $users = User::all(['id', 'name','email']);
+        // $users = User::all(['id', 'name','email']);
+
+        $user_ids = Subscription::pluck('user_id');
+
+        $users = [];
+
+        foreach ($user_ids as $user_id) {
+            $user = User::find($user_id);
+
+            if ($user) {
+                $users[] = [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ];
+            }
+        }
         return response()->json($users);
     }
 
     public function MultipleMailGetUsersBireysel(){
-        $users = User::where('type',1)->get(); 
+        // $users = User::where('type',1)->get(); 
+        $user_ids = Subscription::pluck('user_id');
+
+        $users = [];
+
+        foreach ($user_ids as $user_id) {
+            $user = User::where('id',$user_id)->where('type',1)->first();
+
+            if ($user) {
+                $users[] = $user;
+            }
+        }
         return response()->json($users);
     }//End
 
     public function MultipleMailGetUsersKurumsal(){
-        $users = User::whereNotIn('type', [1, 3])->get();
+        // $users = User::whereNotIn('type', [1, 3])->get();
+        $user_ids = Subscription::pluck('user_id');
+
+        $users = [];
+
+        foreach ($user_ids as $user_id) {
+            $user = User::where('id',$user_id)->whereNotIn('type', [1, 3])->first();
+
+            if ($user) {
+                $users[] = $user;
+            }
+        }
         return response()->json($users);
     }//End
 }

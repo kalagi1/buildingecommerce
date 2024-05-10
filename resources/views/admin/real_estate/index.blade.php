@@ -3,6 +3,11 @@
 @section('content')
     <div class="content">
         <div class="mt-4">
+            @if (session()->has('success'))
+                <div class="alert alert-success text-white">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
             <div class="row g-4">
                 <div class="col-12 col-xl-12  order-1 order-xl-0">
                     <h2 class=" lh-sm">Sat Kirala Form Verileri</h2>
@@ -28,6 +33,7 @@
                                                         <th>Oda Salon</th>
                                                         <th>Adres</th>
                                                         <th>Görüntülenme Durumu</th>
+                                                        <th>Yetkilendirme Durumu</th>
                                                         <th>İşlemler</th>
                                                     </tr>
                                                 </thead>
@@ -45,6 +51,13 @@
                                                             <td>{{ $realEstate->oda_salon }}</td>
                                                             <td>{{ $realEstate->adres }}</td>
                                                             <td>@if($realEstate->is_show) <span class="badge badge-phoenix badge-phoenix-success">Görüntülendi</span> @else <span class="badge badge-phoenix badge-phoenix-danger">Görüntülenmedi</span> @endif</td>
+                                                            <td>
+                                                                @if($realEstate->authorization_status == 1)
+                                                                    <span class="badge badge-phoenix badge-phoenix-success">Yetki Verildi</span>
+                                                                @else
+                                                                  <a href="{{route('admin.sat.kirala.yetki.ver',['id' => $realEstate->id])}}" class="yetkiVerBtn">  <span class="badge badge-phoenix badge-phoenix-info">Yetki Ver</span> </a>
+                                                                @endif
+                                                            </td>
                                                             <td><a href="{{route('admin.real.estate.detail',$realEstate->id)}}" class="badge badge-phoenix badge-phoenix-info"><i class="fa fa-eye"></i></a></td>
                                                         </tr>
                                                     @endforeach
@@ -75,4 +88,35 @@
 @endsection
 
 @section('scripts')
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.yetkiVerBtn').click(function(e) {
+        e.preventDefault();
+        
+        var url = $(this).attr('href');
+        
+        swal({
+            title: "Yetki verilsin mi?",
+            text: "Yetki vermek istediğinize emin misiniz?",
+            icon: "warning",
+            buttons: ["Vazgeç", "Evet"],
+            dangerMode: true,
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+        }).then((willMarkAsSearched) => {
+            if (willMarkAsSearched) {
+                window.location.href = url; 
+              
+                swal("Başarılı!", "Yetki başarıyla verildi.", "success");
+            } else {
+                swal("İşlem iptal edildi.", {
+                    icon: "error",
+                });
+            }
+        });
+    });
+});
+
+</script>
 @endsection

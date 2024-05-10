@@ -539,8 +539,7 @@
                                     <div class="col-12">
                                         @if (in_array('UpdateUser', $userPermissions))
                                             <button type="submit" class="btn btn-primary">Update</button>
-                                        @else
-                                            <p>Bu işlem için yetkiniz yok</p>
+                                      
                                         @endif
                                     </div>
                                 </form>

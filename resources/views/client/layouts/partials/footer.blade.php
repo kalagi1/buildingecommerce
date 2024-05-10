@@ -25,7 +25,8 @@
                                 <ul>
                                     @foreach ($footerLinks as $footerLink)
                                         @if ($footerLink->widget == $widgetGroup->widget)
-                                            <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
+                                            <li><a href="{{ $footerLink->url }}"
+                                                    target="_blank">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
                                 </ul>
@@ -45,7 +46,8 @@
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"></i></a>
+                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"
+                                target="_blank"></i></a>
                     </li>
                 @endforeach
             </ul>
@@ -123,7 +125,7 @@
     </a>
 
 
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route('real.estate.index') : route('real.estate.index')))) : route('client.login') }}"
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route('real.estate.index2') : route('real.estate.index2')))) : route('client.login') }}"
         class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
         <button class="button">
             <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
@@ -321,12 +323,17 @@
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
-            var slideNumber = $(this).find('a').attr('data-slide-to');
+            // 'this' bağlamında jQuery öğesi olduğunu varsayarak
+            var dataSlideTo = $(this).find('a').attr('data-slide-to');
+            // dataSlideTo değerini integer'a dönüştür ve 1 ekle
+            var slideNumber = parseInt(dataSlideTo, 10) + 1;
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
+            $('.listingDetailsSliderNav .item').removeClass('active');
+            $(this).closest('.item').addClass('active');
             $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
@@ -340,9 +347,11 @@
 
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
-            var slideNumber = $(this).attr('data-slide-to');
+            var dataSlideTo = $(this).attr('data-slide-to');
+            console.log(dataSlideTo);
+            var slideNumber = parseInt(dataSlideTo, 10);
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
@@ -379,7 +388,6 @@
         } else if (isLoggedIn && hasClub ==
             1) {
             $('#addCollectionModal').modal('show');
-
             $(".addCollection").data('cart-info', {
                 id: productId,
                 type: type,
@@ -389,61 +397,86 @@
                 selectedCollectionId: null
             });
 
+
             fetch('/getCollections')
                 .then(response => response.json())
                 .then(data => {
+                    var text;
+                    var pluralText;
+
+                    if (isLoggedIn) {
+                        var accountType = {!! Auth::check() ? json_encode(Auth::user()->corporate_type) : 'null' !!};
+                        if (accountType === "Emlak Ofisi") {
+                            text = "Portföy";
+                            pluralText = "Portföylerden";
+                        } else {
+                            text = "Koleksiyon";
+                            pluralText = "Koleksiyonlardan";
+                        }
+                    } else {
+                        text = "Koleksiyon";
+                        pluralText = "Koleksiyonlardan";
+                    }
+
                     let modalContent =
-                        '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body collection-body">';
+                        `<div class="modal-header">
+          <h3 class="modal-title fs-5" id="exampleModalLabel">${text} Ekle</h3>
+       </div>
+       <div class="modal-body collection-body">`;
 
                     if (data.collections.length > 0) {
                         modalContent +=
-                            '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
+                            `<span class="collectionTitle mb-3">${pluralText} birini seç veya yeni bir ${text} oluştur</span>`;
                         modalContent +=
-                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
-                        modalContent +=
-                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+            <ul class="list-group" id="collectionList" style="justify-content: space-between;">`;
+
                         data.collections.forEach(collection => {
                             modalContent +=
-                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
+                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">
+             ${collection.name}
+           </li>`;
                         });
+
                         modalContent +=
-                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                        modalContent += '</ul>';
-                        modalContent += '</div>';
+                            `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important">
+           <i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle
+         </li>`;
+                        modalContent += '</ul></div>';
                     } else {
-                        modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
+                        modalContent += `<p>Henüz ${text} yok. Yeni bir ${text} oluştur:</p>`;
                         modalContent +=
-                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+            <ul class='list-group' id='collectionList' style='justify-content: space-between;'>`;
                         modalContent +=
-                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
-                        modalContent +=
-                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                        modalContent += '</ul>';
-                        modalContent += '</div>';
+                            `<li class='list-group-item mb-3' style='cursor:pointer;color:black;font-size:11px !important'>
+           <i class='fa fa-plus' style='color:#e54242;'></i> Yeni Ekle
+         </li>`;
+                        modalContent += '</ul></div>';
                     }
 
                     modalContent +=
                         '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+
                     let modal = document.getElementById('addCollectionModal');
                     let modalBody = modal.querySelector('.modal-content');
                     modalBody.innerHTML = modalContent;
 
+                    // Olay dinleyicilerini yeniden ekleyin
                     document.querySelectorAll('#collectionList li').forEach(item => {
                         item.addEventListener('click', function() {
-
                             let selectedCollectionId = this.getAttribute(
                                 'data-collection-id');
                             if (!this.isEqualNode(document.querySelector(
                                     '#collectionList li:last-child'))) {
-
                                 var cart = {
-                                    id: productId, // productId nereden alındığını kontrol etmelisiniz
+                                    id: productId,
                                     type: type,
-                                    project: project, // project nereden alındığını kontrol etmelisiniz
+                                    project: project,
                                     _token: "{{ csrf_token() }}",
                                     clear_cart: "no",
                                     selectedCollectionId: parseInt(selectedCollectionId,
-                                        10) // Convert to number using parseInt
+                                        10)
                                 };
 
                                 $.ajax({
@@ -452,7 +485,6 @@
                                     data: JSON.stringify(cart),
                                     contentType: "application/json;charset=UTF-8",
                                     success: function(response) {
-
                                         if (response.failed) {
                                             toastr.warning(
                                                 "Ürün bu koleksiyonda zaten mevcut."
@@ -462,26 +494,24 @@
                                                 "Ürün Koleksiyonunuza Eklendi"
                                             );
                                         }
-
-
                                     },
                                     error: function(error) {
                                         console.error(error);
                                     }
                                 });
+
                                 closeModal();
                             }
                         });
                     });
 
-
                     document.querySelector('#collectionList li:last-child').addEventListener('click',
                         function() {
                             $('#addCollectionModal').modal('hide');
                             $('#newCollectionModal').modal('show');
-
                         });
                 });
+
         }
 
         function redirectToLogin() {
@@ -814,7 +844,7 @@
                                                     paymentPlanData[j]] + " " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
-                                                if (projectedEarningsData) {
+                                            if (projectedEarningsData) {
                                                 html += "<td>" + projectedEarningsData + "</td>";
 
                                             }
@@ -1587,79 +1617,126 @@
                 },
                 success: function(data) {
                     let hasResults = false;
-
                     // Housing search
                     if (data.housings.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
-                            `);
-                        data.housings.forEach((e) => {
-                            const imageUrl =
-                                `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
+                        `);
+
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const housingsToShow = data.housings.slice(0,
+                            maxResultsToShow); // İlk 4 sonucu al
+
+                        housingsToShow.forEach((e) => {
+                            const imageUrl = `${appUrl}housing_images/${e.photo}`;
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
+                            var baseRoute =
+                                `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
+                                .replace('slug_placeholder', e.slug)
+                                .replace('id_placeholder', parseInt(e.id) + 2000000);
 
                             //housign.show link eklenecek
                             $('.header-search-box').append(`
-                          
+                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName}</span>
+                            </a>
                         `);
-
                         });
+
+                        if (data.housings.length > maxResultsToShow) {
+                            const remainingResults = data.housings.length - maxResultsToShow;
+                            // Arama terimi "housing" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=housing";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                            <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                        `);
+                        }
                     }
+
 
                     // Project search
                     if (data.projects.length > 0) {
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const projectsToShow = data.projects.slice(0,
+                            maxResultsToShow); // İlk 4 sonucu al
+
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
-                            `);
-                        data.projects.forEach((e) => {
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
+                        `);
+
+                        projectsToShow.forEach((e) => {
                             console.log(e);
                             const imageUrl =
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
-                            // Assuming you have a JavaScript variable like this:
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
                             var baseRoute =
                                 `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
-                                .replace('slug_placeholder', e.slug).replace(
-                                    'id_placeholder', parseInt(e.id) + 1000000);
-
+                                .replace('slug_placeholder', e.slug)
+                                .replace('id_placeholder', parseInt(e.id) + 1000000);
 
                             // Now, you can use it in your append statement:
                             $('.header-search-box').append(`
-                                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                                <span>${formattedName}</span>
-                                            </a>
-                                        `);
-
-
-
-
+                                <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                            `);
                         });
+
+                        if (data.projects.length > maxResultsToShow) {
+                            const remainingResults = data.projects.length - maxResultsToShow;
+                            // Arama terimi "project" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=project";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                        }
                     }
 
-                    // Merchant search
                     if (data.merchants.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
-                            `);
-                        data.merchants.forEach((e) => {
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
+                        `);
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const merchantsToShow = data.merchants.slice(0,
+                            maxResultsToShow); // İlk 4 sonucu al
+
+                        merchantsToShow.forEach((e) => {
                             const imageUrl =
                                 `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
 
                             $('.header-search-box').append(`
-    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
-
+                        <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                            <span>${formattedName}</span>
+                        </a>
+                    `);
                         });
+
+                        if (data.merchants.length > maxResultsToShow) {
+                            const remainingResults = data.merchants.length - maxResultsToShow;
+                            // Arama terimi "merchant" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=merchant";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                        }
                     }
+
 
                     // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
                     if (!hasResults) {
@@ -1741,16 +1818,24 @@
                             $('.header-search-box-mobile').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
-                            console.log(data.housings);
+
                             data.housings.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
+
+                                var baseRoute =
+                                    `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
+                                    .replace('slug_placeholder', e.slug).replace(
+                                        'id_placeholder', parseInt(e.id) + 2000000);
+
                                 //housign.show metodu eklenecek    
                                 $('.header-search-box-mobile').append(`
-                                  
+                                  <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
                                 `);
 
                             });

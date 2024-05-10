@@ -17,12 +17,21 @@
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
-        <meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png" />
+        @php
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+        @endphp
+
+        <meta property="og:image" content="{{ $imageUrl }}" />
+
         <meta property="og:image:width" content="300">
     @endif
 
 
     <!-- FAVICON -->
+    <!-- Canonical URL için bölüm -->
+    @if (isset($canonicalUrl))
+        <link rel="canonical" href="{{ $canonicalUrl }}" />
+    @endif
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css" integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- GOOGLE FONTS -->
@@ -330,19 +339,30 @@
             }
         }
     </style>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-55Q6HGHL');</script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-55Q6HGHL');
+    </script>
     <!-- End Google Tag Manager -->
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-55Q6HGHL"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-55Q6HGHL" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
@@ -380,7 +400,7 @@
 
                         </div>
                         <div class="center position-relative searchInput">
-                            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                            <form action="{{ route('search.index') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
@@ -401,7 +421,7 @@
 
 
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
-                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px;z-index:9999;max-height: 269px;
+                                style="top: 100%; z-index: 100; width:160% ; gap: 12px;z-index:9999;max-height: 269px;
                                 overflow-y: scroll;">
                             </div>
                         </div>
@@ -430,7 +450,10 @@
                                                 [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa-bookmark',
-                                                    'text' => 'Koleksiyonlarım',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -480,10 +503,13 @@
                                                 [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa-bookmark',
-                                                    'text' => 'Koleksiyonlarım',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
-                                                    'url' => url('institutional/ilan-tipi-sec'),
+                                                    'url' => url('hesabim/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
@@ -673,7 +699,7 @@
 
                                         switch ($userType) {
                                             case 2:
-                                                $link = url('institutional/ilan-tipi-sec');
+                                                $link = url('hesabim/ilan-tipi-sec');
                                                 $text = 'İlan Ekle';
                                                 break;
                                             case 3:
@@ -709,7 +735,7 @@
                                                     Emlak Kulüp</span>
                                             </button>
                                         </a>
-                                        <a href="{{ route('real.estate.index') }}">
+                                        <a href="{{ route('real.estate.index2') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
                                                 <span class="buyUserRequest__icon">
@@ -792,7 +818,7 @@
 
         </header>
         <div class=" d-lg-none search-style">
-            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+            <form action="{{ route('search.index') }}" method="GET" id="search-form">
                 @csrf
                 <div class="input-group search ml-3 d-xl-flex d-lg-flex"
                     style="

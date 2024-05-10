@@ -57,12 +57,13 @@
                                         <span id="error_message" class="error-message"></span>
                                     </div> --}}
 
-                                    <div class="mt-3">
-                                        <label class="q-label">Iban Numarası</label>
-                                        <input type="text" name="iban" class="form-control"
-                                            value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
-                                    </div>
-
+                                    @if (Auth::check() && Auth::user()->has_club == 1)
+                                        <div class="mt-3">
+                                            <label class="q-label">Iban Numarası</label>
+                                            <input type="text" name="iban" class="form-control"
+                                                value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
+                                        </div>
+                                    @endif
 
 
                                     @if (Auth::check() && Auth::user()->type == 2)
@@ -71,11 +72,127 @@
                                             <input type="url" name="website" class="form-control"
                                                 value="{{ old('website', $user->website) }}">
                                         </div>
-                                        <div class="mt-3">
+                                        {{-- <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
                                             <input type="number" name="phone" class="form-control" id="landPhone"
                                                 value="{{ old('phone', $user->phone) }}" maxlength="10">
                                             <span id="error_message_land_phone" class="error-message"></span>
+                                        </div> --}}
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <label class="q-label">Sabit Telefon (Opsiyonel)</label>
+                                            </div>
+                                            <div class="col-md-4 r-0" style="margin-right: 0px;">
+                                                <div class="input-group">
+                                                    <select name="area_code" id="area_code" class="form-control">
+                                                        <option value="">Alan Kodu Seçiniz</option>
+                                                        <?php
+                                                        $alanKodu = [
+                                                            'Adana' => '322',
+                                                            'Adıyaman' => '416',
+                                                            'Afyon' => '272',
+                                                            'Ağrı' => '472',
+                                                            'Aksaray' => '382',
+                                                            'Amasya' => '358',
+                                                            'Ankara' => '312',
+                                                            'Antalya' => '242',
+                                                            'Ardahan' => '478',
+                                                            'Artvin' => '466',
+                                                            'Aydın' => '256',
+                                                            'Balıkesir' => '266',
+                                                            'Bartın' => '378',
+                                                            'Batman' => '488',
+                                                            'Bayburt' => '458',
+                                                            'Bilecik' => '228',
+                                                            'Bingöl' => '426',
+                                                            'Bitlis' => '434',
+                                                            'Bolu' => '374',
+                                                            'Burdur' => '248',
+                                                            'Bursa' => '224',
+                                                            'Çanakkale' => '286',
+                                                            'Çankırı' => '376',
+                                                            'Çorum' => '364',
+                                                            'Denizli' => '258',
+                                                            'Diyarbakır' => '412',
+                                                            'Düzce' => '380',
+                                                            'Edirne' => '284',
+                                                            'Elazığ' => '424',
+                                                            'Erzincan' => '446',
+                                                            'Erzurum' => '442',
+                                                            'Eskişehir' => '222',
+                                                            'Gaziantep' => '342',
+                                                            'Giresun' => '454',
+                                                            'Gümüşhane' => '456',
+                                                            'Hakkari' => '438',
+                                                            'Hatay' => '326',
+                                                            'Iğdır' => '476',
+                                                            'Isparta' => '246',
+                                                            'İçel (Mersin)' => '324',
+                                                            'İstanbul' => [
+                                                                'Avrupa Yakası' => '212',
+                                                                'Anadolu Yakası' => '216',
+                                                            ],
+                                                            'İzmir' => '232',
+                                                            'Kahramanmaraş' => '344',
+                                                            'Karabük' => '370',
+                                                            'Karaman' => '338',
+                                                            'Kars' => '474',
+                                                            'Kastamonu' => '366',
+                                                            'Kayseri' => '352',
+                                                            'Kırıkkale' => '318',
+                                                            'Kırklareli' => '288',
+                                                            'Kırşehir' => '386',
+                                                            'Kilis' => '348',
+                                                            'Kocaeli' => '262',
+                                                            'Konya' => '332',
+                                                            'Kütahya' => '274',
+                                                            'Malatya' => '422',
+                                                            'Manisa' => '236',
+                                                            'Mardin' => '482',
+                                                            'Muğla' => '252',
+                                                            'Muş' => '436',
+                                                            'Nevşehir' => '384',
+                                                            'Niğde' => '388',
+                                                            'Ordu' => '452',
+                                                            'Osmaniye' => '328',
+                                                            'Rize' => '464',
+                                                            'Sakarya' => '264',
+                                                            'Samsun' => '362',
+                                                            'Siirt' => '484',
+                                                            'Sinop' => '368',
+                                                            'Sivas' => '346',
+                                                            'Şanlıurfa' => '414',
+                                                            'Şırnak' => '486',
+                                                            'Tekirdağ' => '282',
+                                                            'Tokat' => '356',
+                                                            'Trabzon' => '462',
+                                                            'Tunceli' => '428',
+                                                            'Uşak' => '276',
+                                                            'Van' => '432',
+                                                            'Yalova' => '226',
+                                                            'Yozgat' => '354',
+                                                            'Zonguldak' => '372',
+                                                        ];
+                                                        
+                                                        foreach ($alanKodu as $cityName => $cityCode) {
+                                                            if (is_array($cityCode)) {
+                                                                echo '<optgroup label="' . $cityName . '">';
+                                                                foreach ($cityCode as $subCityName => $subCityCode) {
+                                                                    echo '<option value="' . $subCityCode . '">' . $subCityName . ' (' . $subCityCode . ')' . '</option>';
+                                                                }
+                                                                echo '</optgroup>';
+                                                            } else {
+                                                                echo '<option value="' . $cityCode . '">' . $cityName . ' (' . $cityCode . ')' . '</option>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 pl-0" style="margin-left: -20px;">
+                                                <input type="text" name="phone" id="phone" class="form-control"
+                                                    value="{{ old('phone', $user->phone) }}" maxlength="10">
+                                            </div>
                                         </div>
                                         <div class="mt-3">
                                             <label class="q-label">Kaç yıldır sektördesiniz ?</label>
@@ -144,8 +261,8 @@
 
 
 
-                        <form action="{{ route('institutional.edit.phone') }}" method="POST" enctype="multipart/form-data"
-                            onsubmit="return validateForm()">
+                        <form action="{{ route('institutional.edit.phone') }}" method="POST"
+                            enctype="multipart/form-data" onsubmit="return validateForm()">
                             @csrf
                             @method('PUT')
 
@@ -175,15 +292,15 @@
                                                 onchange="toggleUpdateButton()">
 
                                             <p class="text-danger mt-2">Lütfen Belge Formatına Uygun Şeklinde Ekleyiniz.
-                                                </p>    
+                                            </p>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
-                                <div class="col-lg-6"> 
-                                <button type="submit" class="btn btn-primary mt-4" id="updateButton"
-                                            disabled>Güncelle</button>
-                                        </div>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-primary mt-4" id="updateButton"
+                                        disabled>Güncelle</button>
+                                </div>
                             </div>
                         </form>
 
@@ -225,6 +342,23 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+
+    <script>
+        $(document).ready(function() {
+
+$('#area_code, #phone').on('input', function() {
+var areaCode = $('#area_code').val();
+var phoneNumber = $('#phone').val();
+// Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
+if (areaCode && phoneNumber) {
+    // Telefon numarasını güncelle
+    var fullPhoneNumber = areaCode + phoneNumber;
+    // Telefon numarasını konsola yazdır
+    console.log("Telefon numarası: " + fullPhoneNumber);
+    }
+}); 
+});
+    </script>
 
     <script>
         function togglePhone() {
@@ -271,25 +405,25 @@
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message_land_phone").text(
                         "Lütfen geçerli bir telefon numarası giriniz."
-                        );
+                    );
                 } else {
                     $("#error_message_land_phone").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#landPhone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#landPhone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $("#phone").on("input blur", function(){
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[0-9]\d{8}$/;
 
@@ -299,15 +433,15 @@
                 } else {
                     $("#error_message").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>
