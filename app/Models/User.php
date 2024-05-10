@@ -45,6 +45,7 @@ class User extends Authenticatable
         'order' => 'integer',
 
     ];
+    protected static $logAttributes = ['name', 'email', 'status']; // Loglanacak alanlar
 
      // Implementing the required method for Spatie's Activity Log
      public function getActivitylogOptions(): LogOptions

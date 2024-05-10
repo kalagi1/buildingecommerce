@@ -25,10 +25,10 @@ use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
-    public function logs() {
+    public function logs()
+    {
         $activities = Activity::all();
-        return $activities;
-
+        return view("admin.activities.index", compact("activities"));
     }
     public function upload(Request $request)
     {
