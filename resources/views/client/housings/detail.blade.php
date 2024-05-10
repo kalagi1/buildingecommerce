@@ -2098,20 +2098,34 @@
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
+        var currentSlideIndex = 0;
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
+// Sağ ok tuşuna tıklandığında
+$('.pagination .page-item-right').on('click', function(event) {
+    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+    var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+    var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
 
-        });
+    if (remainingItems >= 5) {
+        currentSlideIndex++;
+        $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
+            5); // Bir sonraki beşli kümeye git
+    } else {
+        $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+    }
+});
 
-        // Sağ ok tuşuna tıklandığında
-        $('.pagination .page-item-right').on('click', function(event) {
-            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
-        });
+// Sol ok tuşuna tıklandığında
+$('.pagination .page-item-left').on('click', function(event) {
+    event.preventDefault();
+    if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+    } else {
+        $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
 
+    }
+});
 
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
