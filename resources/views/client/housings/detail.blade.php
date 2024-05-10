@@ -800,7 +800,7 @@
 
                                         </div>
                                         <div
-                                            class="@if (($sold[0] && $sold[0]->status == '2') || !$sold[0]) col-md-7 col-7
+                                            class="@if (($sold && $sold[0]->status == '2') || !$sold[0]) col-md-7 col-7
                                             @else
                                             col-md-12 col-12 @endif">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
