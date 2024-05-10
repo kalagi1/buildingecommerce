@@ -141,6 +141,17 @@
 
                                         @endif
                                     </h3>
+                                    <div class="mt-0">
+                                        <a href="#listing-location" class="listing-address">
+                                            <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                            {!! optional($housing->city)->title .
+                                                ' / ' .
+                                                optional($housing->county)->title .
+                                                ' / ' .
+                                                optional($housing->neighborhood)->mahalle_title ??
+                                                '' !!}</span>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="mobile-action"></div>
                             </div>

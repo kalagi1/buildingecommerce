@@ -17741,9 +17741,9 @@ section.headings-2 {
 
 .inner-pages .headings-2 span.category-tag {
     font-size: 11px;
-    background: black;
+    background: #EA2B2E;
     color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #EA2B2E;
     padding: 5px 15px;
     border-radius: 50px;
     top: -3px;
