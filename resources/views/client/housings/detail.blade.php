@@ -718,7 +718,6 @@
                                                                             $discountedPrice = $price - $discountAmount;
                                                                         @endphp
                                                                           @if ($discountAmount)
-                                                                          <br>
                                                                           <svg viewBox="0 0 24 24" width="18"
                                                                               height="18" stroke="#EA2B2E"
                                                                               stroke-width="2" fill="#EA2B2E"
@@ -767,7 +766,7 @@
                                                                             $discountedPrice = $price - $discountAmount;
                                                                         @endphp
                                                                               @if ($discountAmount)
-                                                                              <br>
+                                                                              
                                                                               <svg viewBox="0 0 24 24" width="18"
                                                                                   height="18" stroke="#EA2B2E"
                                                                                   stroke-width="2" fill="#EA2B2E"
