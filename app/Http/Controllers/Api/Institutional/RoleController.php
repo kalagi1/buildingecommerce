@@ -88,7 +88,7 @@ class RoleController extends Controller
         }
 
         // İzinleri 'permission_group_id' ile gruplayın
-        // $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
+        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
 
 
@@ -115,6 +115,7 @@ class RoleController extends Controller
         //     ->toArray();
     
         return response()->json([
+            'groupedPermissions' => $groupedPermissions,
             'filteredPermissions'    => $filteredPermissions,
             'specialPermissionKeys' => $specialPermissionKeys
         ]);
