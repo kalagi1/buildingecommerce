@@ -149,7 +149,7 @@
                                                 optional($housing->county)->title .
                                                 ' / ' .
                                                 optional($housing->neighborhood)->mahalle_title ??
-                                                '' !!}</span>
+                                                '' !!}
                                         </a>
                                     </div>
                                 </div>
