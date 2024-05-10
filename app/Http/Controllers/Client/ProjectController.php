@@ -219,6 +219,42 @@ class ProjectController extends Controller
             $matching_indices = [];
             $matching_total = [];
 
+            $shareSaleCheck = false;
+            $normalSaleCheck = false;
+            for($k = 1; $k <= $project->room_count; $k++){
+                if(isset($projectHousingsList[$k]['share_sale[]']) && $projectHousingsList[$k]['share_sale[]'] == '["Var"]'){
+                    $shareSaleCheck = true;
+                }else{
+                    $normalSaleCheck = true;
+                }
+            }
+            $project->numberOfSharesCount = 0;
+            if ($shareSaleCheck) {
+                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
+            
+                for ($i = 1; $i <= $room_counts; $i++) {
+                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                        ->where(DB::raw($housingJsonPath), $i)
+                        ->first();
+                    if($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])){
+                        $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
+                    }
+                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
+                        $project->cartOrders += 1;
+                    }
+                }
+            }
+
+            if($normalSaleCheck){
+                $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                ->groupBy('project_id')
+                ->where("status", "1")
+                ->get();
+                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            }
 
             for ($i = 1; $i <= $room_counts; $i++) {
                 $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
@@ -276,7 +312,8 @@ class ProjectController extends Controller
             return redirect('/')
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
-        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
+
+        return view('client.projects.index', compact("normalSaleCheck","shareSaleCheck","pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
     }
 
     public function ajaxIndex($slug, Request $request)
@@ -350,7 +387,6 @@ class ProjectController extends Controller
             }
         });
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-
 
         return view('client.projects.index', compact('salesCloseProjectHousingCount', 'currentBlockHouseCount', 'lastHousingCount', 'menu', "offer", 'project', 'projectCartOrders', 'endIndex', 'blockIndex', 'startIndex'))->render();
     }

@@ -1,491 +1,156 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
-import { Box, IconButton, Skeleton, Tooltip, useTheme } from '@mui/material';
-import { FirstPage, KeyboardArrowLeft, KeyboardArrowRight, LastPage } from '@mui/icons-material';
-import axios from 'axios';
-import { baseUrl, dotNumberFormat, frontEndUrl } from '../define/variables';
-import { ToastContainer, toast } from 'react-toastify';
-import Swal from 'sweetalert2';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react';
+
+//MRT Imports
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+    MRT_GlobalFilterTextField,
+    MRT_ToggleFiltersButton,
+} from 'material-react-table';
+
+//Material UI Imports
+import {
+    Box,
+    Button,
+    ListItemIcon,
+    MenuItem,
+    Typography,
+    lighten,
+} from '@mui/material';
+
 import UpdateHousingModal from './create_project_components/UpdateHousingModal';
 import UpdateSingleHousingModal from './create_project_components/UpdateSingleHousingModal';
-import ImageChange from './create_project_components/ImageChange';
 import PayDecTable from './create_project_components/PayDecTable';
-import ChangePaymentStatus from './create_project_components/ChangePaymentStatus';
-import InfoIcon from '@mui/icons-material/Info';
-import Switch from '@mui/material/Switch';
-import Modal from '@mui/material/Modal';
-import Alert from '@mui/material/Alert';
-import CheckIcon from '@mui/icons-material/Check';
+import ImageChange from './create_project_components/ImageChange';
+import EditIcon from '@mui/icons-material/Edit';
 
-function TablePaginationActions(props) {
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-  
-    const handleFirstPageButtonClick = (
-      event,
-    ) => {
-      onPageChange(event, 0);
-    };
-  
-    const handleBackButtonClick = (event) => {
-      onPageChange(event, page - 1);
-    };
-  
-    const handleNextButtonClick = (event) => {
-      onPageChange(event, page + 1);
-    };
-  
-    const handleLastPageButtonClick = (event) => {
-      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-  
-    return (
-      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="first page"
-        >
-          {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
-        </IconButton>
-        <IconButton
-          onClick={handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="previous page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="next page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="last page"
-        >
-          {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
-        </IconButton>
-      </Box>
-    );
-  }
 
-function HousingList({projectId}) {
-    const [project,setProject] = useState({
-        blocks : []
+const HousingList = ({ projectId }) => {
+
+    const [selectedBlock, setSelectedBlock] = useState(0);
+    const [haveBlocks, setHaveBlocks] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 20, //customize the default page size
     });
-    const [selectedBlock,setSelectedBlock] = useState(0);
-    const [haveBlocks,setHaveBlocks] = useState(0);
-    const [rows,setRows] = useState(0);
-    const [loading,setLoading] = useState(true);
-    const [rowPerPage,setRowPerPage] = useState(10);
-    const [totalProjectsCount,setTotalProjectsCount] = useState(0);
-    const [page,setPage] = useState(0);
-    const [selectedAllCheck,setSelectedAllCheck] = useState(false);
-    const [selectedRooms,setSelectedRooms] = useState([]);
-    const [updateHousingModalOpen,setUpdateHousingModalOpen] = useState(false);
-    const [changeData,setChangeData] = useState("");
-    const [payDecData,setPayDecData] = useState([]);
-    const [selectedType,setSelectedType] = useState("");
-    const [isDotType,setIsDotType] = useState(false);
-    const [selectedColumn,setSelectedColumn] = useState("");
-    const [selectedSingleItem,setSelectedSingleItem] = useState(null);
-    const [updateSingleHousingModalOpen,setSingleUpdateHousingModalOpen] = useState(false);
-    const [updateSingleImageModalOpen,setSingleUpdateImageModalOpen] = useState(false);
-    const [updatePayDecModalOpen,setUpdatePayDecModalOpen] = useState(false);
-    const [changePaymentStatusOpen,setChangePaymentStatusOpen] = useState(false);
-    const [sumCartQts,setSumCartQts] = useState([]);
-    const [solds,setSolds] = useState([]);
-    const [saleOpen,setSaleOpen] = useState(false);
-    const [saleData,setSaleData] = useState({});
-    const [saleLoading,setSaleLoading] = useState(false);
-    useEffect(() => {
-        axiosRequestGetData(0)
-    },[selectedBlock])
 
-    const TableRowsLoader = ({ rowsNum }) => {
-        return [...Array(rowsNum)].map((row, index) => (
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell component="th" scope="row">
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton animation="wave" variant="text" />
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        ));
-    };
+    const [totalProjectsCount, setTotalProjectsCount] = useState(0);
+    const [page, setPage] = useState(0);
+    const [selectedRooms, setSelectedRooms] = useState([]);
+    const [updateHousingModalOpen, setUpdateHousingModalOpen] = useState(false);
+    const [changeData, setChangeData] = useState("");
+    const [payDecData, setPayDecData] = useState([]);
+    const [selectedType, setSelectedType] = useState("");
+    const [isDotType, setIsDotType] = useState(false);
+    const [selectedColumn, setSelectedColumn] = useState("");
+    const [selectedSingleItem, setSelectedSingleItem] = useState(null);
+    const [updateSingleHousingModalOpen, setSingleUpdateHousingModalOpen] = useState(false);
+    const [updateSingleImageModalOpen, setSingleUpdateImageModalOpen] = useState(false);
+    const [updatePayDecModalOpen, setUpdatePayDecModalOpen] = useState(false);
+    const [sumCartQts, setSumCartQts] = useState([]);
+    const [solds, setSolds] = useState([]);
+    const [selectedRoomsTemp,setSelectedRoomsTemp] = useState([]);
+    const [selectedRoomsTemp2,setSelectedRoomsTemp2] = useState([]);
+    const [customEditOpen,setCustomEditOpen] = useState(false);
+    const [project, setProject] = useState({
+        blocks: []
+    });
+
+    const getLastBlockCount = () => {
+        var blockItemCount = 0;
+        if (haveBlocks) {
+            project.blocks.map((block, key) => {
+                if (key < selectedBlock) {
+                    blockItemCount += block.housing_count
+                }
+            })
+        }
+        return blockItemCount;
+    }
+
+
+    const getLastCount = () => {
+        if (haveBlocks) {
+            return getLastBlockCount() + ((pagination.pageIndex)  * pagination.pageSize);
+        } else {
+            return ((pagination.pageIndex) * pagination.pageSize)
+        }
+    }
+    
+
+    const findOrderQt = (roomOrder) => {
+        var haveSumCartQts = sumCartQts.find((cartQts) => { return cartQts.housing_id == roomOrder; });
+        if (haveSumCartQts && haveSumCartQts != undefined) {
+            return haveSumCartQts.qt_total
+        } else {
+            return 0;
+        }
+    }
+
+    const [data, setData] = useState([])
 
     const axiosRequestGetData = (newPage) => {
-        var start = newPage * rowPerPage;
-        var end = (newPage + 1) * rowPerPage;
-        axios.get(baseUrl+'project_housings/'+projectId+`?start=${start}&end=${end}&block=${selectedBlock}`).then((res) => {
+        setLoading(true);
+        var start = newPage * pagination.pageSize;
+        var end = (newPage + 1) * pagination.pageSize;
+        axios.get(baseUrl + 'project_housings/' + projectId + `?start=${start}&end=${end}&block=`+selectedBlock).then((res) => {
+            const dizi = [];
+
+            // Nesnenin her özelliğini diziye ekleyelim
+            for (let key in res.data.rows) {
+                // Sadece nesne kendi özelliklerini kontrol etmek için 'hasOwnProperty' kullanıyoruz
+                if (res.data.rows.hasOwnProperty(key)) {
+                    dizi.push(res.data.rows[key]);
+                }
+            }
+            setLoading(false);
+            setData(dizi);
             setProject(res.data.project)
-            var result = Object.keys(res.data.rows).map((key) => res.data.rows[key]);
-            setRows(result);
-            if(res.data.project.have_blocks){
-                setTotalProjectsCount(res.data.project.blocks[selectedBlock].housing_count);   
-            }else{
-                setTotalProjectsCount(res.data.project.room_count);   
+            if (res.data.project.have_blocks) {
+                setTotalProjectsCount(res.data.project.blocks[selectedBlock].housing_count);
+            } else {
+                setTotalProjectsCount(res.data.project.room_count);
             }
             var result2 = Object.keys(res.data.sumCartOrderQt).map((key) => res.data.sumCartOrderQt[key])
             setSumCartQts(result2);
-            setLoading(false);
             setHaveBlocks(res.data.project.have_blocks)
             setSolds(res.data.solds)
         })
     }
 
-    const handleChangePage = (
-        event,
-        newPage,
-    ) => {
-        setLoading(true);
-        setPage(newPage);
-        axiosRequestGetData(newPage)
-    };
-
-    const handleChangeRowsPerPage = (
-        event,
-        
-    ) => {
-        setLoading(true);
-        setRowPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-
-        var start = page * event.target.value;
-        var end = (page + 1) * event.target.value;
-        axios.get(baseUrl+'project_housings/'+projectId+`?start=${start}&end=${end}&block=${selectedBlock}`).then((res) => {
-            setProject(res.data.project)
-            var result = Object.keys(res.data.rows).map((key) => res.data.rows[key]);
-            setRows(result);
-            if(res.data.project.have_blocks){
-                setTotalProjectsCount(res.data.project.blocks[selectedBlock].housing_count);   
-            }else{
-                setTotalProjectsCount(res.data.project.room_count);   
-            }
-            var result2 = Object.keys(res.data.sumCartOrderQt).map((key) => res.data.sumCartOrderQt[key])
-            setSumCartQts(result2);
-            setLoading(false);
-            setHaveBlocks(res.data.project.have_blocks)
-            setSolds(res.data.solds)
-        })
-    };
-
-    const selectAll = () => {
-        if(!selectedAllCheck){
-            if(haveBlocks){
-                console.log("asd");
-                var tempSelected = [];
-                var lastBlockCount = 0;
-                var lastBlockCount2 = 0;
-
-                for(var i = 0; i < project.blocks.length; i++){
-                    if(i != selectedBlock){
-                        for(var j = 0; j< project.blocks[i].housing_count; j++){
-                            if(selectedRooms.includes(lastBlockCount2 + j + 1)){
-                                tempSelected.push(lastBlockCount2 + j + 1)
-                            }
-                        }
-                    }
-
-                    lastBlockCount2 += project.blocks[i].housing_count;
-                }
-
-                for(var i = 0; i < selectedBlock; i++){
-                    lastBlockCount += project.blocks[i].housing_count;
-                }
-
-                for(var i = 0 ; i < totalProjectsCount; i++){
-                    if(findSold(lastBlockCount+i+1) == 2 || !findSold(lastBlockCount+i+1)){
-                        tempSelected.push(lastBlockCount+i+1);
-                    }
-                }
-        
-                setSelectedRooms(tempSelected);
-            }else{
-                var tempSelected = [];
-                for(var i = 0 ; i < totalProjectsCount; i++){
-                    if(findSold(i+1) == 2 || !findSold(i+1)){
-                        tempSelected.push(i+1);
-                    }
-                }
-        
-                setSelectedRooms(tempSelected);
-            }
-        }else{
-            if(haveBlocks){
-                var tempSelected = [];
-                var lastBlockCount2 = 0;
-                for(var i = 0; i < project.blocks.length; i++){
-                    if(i != selectedBlock){
-                        for(var j = 0; j< project.blocks[i].housing_count; j++){
-                            if(selectedRooms.includes(lastBlockCount2 + j + 1)){
-                                tempSelected.push(lastBlockCount2 + j + 1)
-                            }
-                        }
-                    }
-
-                    lastBlockCount2 += project.blocks[i].housing_count;
-                }
-
-                setSelectedRooms(tempSelected)
-            }else{
-                setSelectedRooms([]);
-            }
-        }
-    }
-
-    const saveHousing = () => {
-        axios.post(baseUrl+'save_housing',{
-            rooms : selectedRooms,
-            column_name : selectedColumn,
-            value : changeData,
-            is_dot : isDotType,
-            project_id : projectId
+    const savePayDecSelectedHousing = () => {
+        axios.post(baseUrl + 'save_pay_dec', {
+            rooms: selectedRooms,
+            value: payDecData,
+            project_id: projectId
         }).then((res) => {
-            if(res.data.status){
+            if (res.data.status) {
                 setLoading(true);
                 setChangeData("");
                 setSelectedRooms([]);
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
+
+                axiosRequestGetData(pagination.pageIndex)
             }
         })
     }
 
-    const changeRoom = (key) => {
-        if(selectedRooms.includes(key + 1)){
-            var newValues = selectedRooms.filter((room) => room != key + 1);
-            setSelectedRooms(newValues);
-        }else{
-            setSelectedRooms([...selectedRooms,(key + 1)])
-        }
-    }
-
-    const saveSingleHousing = () => {
-        var tempSelected = [];
-        tempSelected.push(selectedSingleItem)
-
-        axios.post(baseUrl+'save_housing',{
-            rooms : tempSelected,
-            column_name : selectedColumn,
-            value : changeData,
-            is_dot : isDotType,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }else{
-                toast.error(res.data.error)
-            }
-        })
-    }
-
-    const saveMultipleHousing = () => {
-        var tempSelected = [];
-        if(haveBlocks){
-            tempSelected = blockSelects();
-        }else{
-            for(var i = 0 ; i < totalProjectsCount; i++){
-                tempSelected.push(i+1);
-            }
-        }
-        
-        axios.post(baseUrl+'save_housing',{
-            rooms : tempSelected,
-            column_name : selectedColumn,
-            value : changeData,
-            is_dot : isDotType,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }else{
-                toast.error(res.data.error)
-            }
-        })
-    }
-
-    const saveImageSingle = () => {
+    const savePayDecsSingle = () => {
         var tempSelected = [selectedSingleItem];
-        
-        
-        var formData = new FormData();
 
-        for(var i = 0 ; i < tempSelected.length; i++){
-            formData.append('rooms['+i+']',tempSelected[i]);
-        }
-        formData.append('column_name',selectedColumn);
-        formData.append('value',changeData);
-        formData.append('project_id',projectId);
-        axios.post(baseUrl+'change_image',formData).then((res) => {
-            if(res.data.status){
+        axios.post(baseUrl + 'save_pay_dec', {
+            rooms: tempSelected,
+            value: payDecData,
+            project_id: projectId
+        }).then((res) => {
+            if (res.data.status) {
                 setLoading(true);
                 setChangeData("");
                 setSelectedRooms([]);
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
+
+                axiosRequestGetData(pagination.pageIndex)
             }
         })
     }
@@ -503,782 +168,948 @@ function HousingList({projectId}) {
             tempSeleced.push(lastCount+j+1);
         }
 
-        console.log(tempSeleced);
-
         return tempSeleced;
-    }
-
-    const saveImageMultiple = () => {
-        var tempSelected = [];
-        if(haveBlocks){
-            tempSelected = blockSelects();
-        }else{
-            for(var i = 0 ; i < totalProjectsCount; i++){
-                tempSelected.push(i+1);
-            }
-        }
-        
-        var formData = new FormData();
-
-        for(var i = 0 ; i < tempSelected.length; i++){
-            formData.append('rooms['+i+']',tempSelected[i]);
-        }
-        formData.append('column_name',selectedColumn);
-        formData.append('value',changeData);
-        formData.append('project_id',projectId);
-        axios.post(baseUrl+'change_image',formData).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }
-        })
     }
 
     const savePayDecs = () => {
         var tempSelected = [];
-        if(haveBlocks){
+        if (haveBlocks) {
             tempSelected = blockSelects();
-        }else{
-            for(var i = 0 ; i < totalProjectsCount; i++){
-                tempSelected.push(i+1);
+        } else {
+            for (var i = 0; i < totalProjectsCount; i++) {
+                tempSelected.push(i + 1);
             }
         }
-        
-        axios.post(baseUrl+'save_pay_dec',{
-            rooms : tempSelected,
-            value : payDecData,
-            project_id : projectId
+
+        axios.post(baseUrl + 'save_pay_dec', {
+            rooms: tempSelected,
+            value: payDecData,
+            project_id: projectId
         }).then((res) => {
-            if(res.data.status){
+            if (res.data.status) {
                 setLoading(true);
                 setChangeData("");
                 setSelectedRooms([]);
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
+
+                axiosRequestGetData(pagination.pageIndex)
             }
         })
     }
 
-    const savePayDecsSingle = () => {
-        var tempSelected = [selectedSingleItem];
-        
-        axios.post(baseUrl+'save_pay_dec',{
-            rooms : tempSelected,
-            value : payDecData,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
+    const removeSelectedRoom = (selectedRoom) => {
+        var items2 = {...selectedRoomsTemp};
+        items2 = Object.keys(items2);
+        var newItems2 = {};
+        items2.map((item) => {
+            if(parseInt(item) != parseInt(selectedRoom)){
+                newItems2[item] = true
             }
-        })
-    }
+        });
 
-    const savePaymentStatusSingle = () => {
-        var tempSelected = [selectedSingleItem];
-        
-        
-        axios.post(baseUrl+'save_payment_status',{
-            rooms : tempSelected,
-            value : changeData,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }
-        })
-    }
-
-    const savePaymentStatus = () => {
-        var tempSelected = [];
-        if(haveBlocks){
-            tempSelected = blockSelects();
-        }else{
-            for(var i = 0 ; i < totalProjectsCount; i++){
-                tempSelected.push(i+1);
-            }
-        }
-        
-        axios.post(baseUrl+'save_payment_status',{
-            rooms : tempSelected,
-            value : changeData,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }
-        })
-    }
-
-    const findOrderQt = (roomOrder) => {
-        var haveSumCartQts = sumCartQts.find((cartQts) => {return cartQts.housing_id == roomOrder;});
-        if(haveSumCartQts && haveSumCartQts != undefined){
-            return haveSumCartQts.qt_total
-        }else{
-            return 0;
-        }
-    }
-
-    const findSold = (roomOrder) => {
-        var haveSold = solds.find((sold) => {var item = JSON.parse(sold.cart); return item.item.housing == roomOrder});
-        if(haveSold){
-            return haveSold.status;
-        }else{
-            return null;
-        }
-    }
-
-    const getLastBlockCount = () => {
-        var blockItemCount = 0;
-        if(haveBlocks){
-            project.blocks.map((block,key) => {
-                if(key < selectedBlock){
-                    blockItemCount += block.housing_count
-                }
-            })
-        }
-        return blockItemCount;
-    }
-
-    const getLastCount = () => {
-        if(haveBlocks){
-            return getLastBlockCount() + (page * rowPerPage);
-        }else{
-            return (rowPerPage * page)
-        }
-    }
-
-    const savePayDecSelectedHousing = () => {
-        axios.post(baseUrl+'save_pay_dec',{
-            rooms : selectedRooms,
-            value : payDecData,
-            project_id : projectId
-        }).then((res) => {
-            if(res.data.status){
-                setLoading(true);
-                setChangeData("");
-                setSelectedRooms([]);
-                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
-                axiosRequestGetData(page)
-            }
-        })
-    }
-
-    const setPayDecs = (roomOrder) => {
-        roomOrder = roomOrder - 1;
-        var temps = [];
-        for(var i = 0; i < rows[roomOrder]["pay-dec-count"+(roomOrder + 1)]; i++){
-            temps.push({
-                price : dotNumberFormat(rows[roomOrder]["pay_desc_price"+(roomOrder + 1)+i]),
-                date : rows[roomOrder]["pay_desc_date"+(roomOrder + 1)+i]
-            });
-        }
-
-        setPayDecData(temps);
+        setSelectedRoomsTemp(newItems2);
     }
 
     useEffect(() => {
-        if(haveBlocks){
-            var blockItemCount = 0;
-            project.blocks.map((block,key) => {
-                if(key < selectedBlock){
-                    blockItemCount += block.housing_count
-                }
+        axiosRequestGetData(pagination.pageIndex);
+    }, [pagination,selectedBlock])
+
+    const setPayDecDataFunc = (data,index) => {
+        var payDecItems = [];
+        for(var i = 0 ; i < data["pay-dec-count"+index]; i++){
+            payDecItems.push({
+                price : dotNumberFormat(data['pay_desc_price'+index+i]),
+                date : data['pay_desc_date'+index+i]
             })
-            var checked = true;
-
-            for(var i = blockItemCount; i < blockItemCount + project.blocks[selectedBlock].housing_count; i++){
-                if(!selectedRooms.includes(i+1)){
-                    checked = false;
-                }
-            }
-            setSelectedAllCheck(checked)
-        }else{
-
         }
-    },[selectedBlock,selectedRooms])
-    
 
-    useEffect(() => {
-        setSelectedAllCheck(false);
-    },[selectedBlock])
+        console.log(payDecItems);
 
-    const showSale = (housingOrder) => {
-        setSaleLoading(true);
-        setSaleOpen(true)
-        var haveSold = solds.find((sold) => {var item = JSON.parse(sold.cart); return item.item.housing == housingOrder});
-
-        axios.get(baseUrl+'get_invoice_data/'+haveSold.id).then((res) => {
-            setSaleData(res.data.data)
-            setSaleLoading(false);
-        })
+        setPayDecData(payDecItems);
     }
 
-    const changeInstallement = (order) => {
-        var tempSelected = [];
-        tempSelected.push(order);
-        axios.post(baseUrl+'save_housing',{
-            rooms : tempSelected,
-            column_name : "payment-plan",
-            value : "[]",
-            is_dot : false,
-            project_id : projectId
+    useEffect(() => {
+        var newItems = {};
+
+        Object.keys(selectedRoomsTemp).forEach((selectedRoom) => {
+            newItems[(parseInt(selectedRoom) - getLastCount())] = true;
+        })
+
+        setSelectedRoomsTemp2(newItems)
+    },[selectedRoomsTemp])
+
+    const columns = useMemo(
+        () => [
+            {
+                id: 'employee', //id used to define `group` column
+                header: 'Proje İlanları',
+                columns: [
+                    {
+                        accessorFn: (row) => `${row['no']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'id', //id is still required when using accessorFn instead of accessorKey
+                        header: 'No',
+                        size: 10,
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: true,
+                        enableColumnOrdering: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning : true,
+                        muiEditTextFieldProps: {
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                            },
+                        },
+                        Cell: ({ renderedCellValue, row }) => {
+                            return (
+                                getLastCount() + row.index + 1
+                            )
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['image[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'image[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'İlan Görseli',
+                        enableEditing: false,
+                        enableColumnFilter: false,
+                        enableColumnPinning : true,
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldTemp = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                                    return sold
+                                }
+                            });
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    
+                                        {
+                                            soldTemp ?
+                                                <div class="image-area" style={{ width: '80px', height: '80px', display: 'flex', placeItems: 'center' }}>
+                                                    <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={frontEndUrl + 'project_housing_images/' + renderedCellValue} alt="" />
+                                                </div>
+                                            : 
+                                            <div class="image-area" onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setSingleUpdateImageModalOpen(true); setSelectedColumn("image"); setSelectedType('İlan Resimi'); }} style={{ width: '80px', height: '80px', display: 'flex', placeItems: 'center' }}>
+                                                <div class="image-change">Resmi Değiştir</div>
+                                                <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={frontEndUrl + 'project_housing_images/' + renderedCellValue} alt="" />
+                                            </div>
+                                        }
+                                    
+                                </Box>
+                            )
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['advertise_title[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'advert_title[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'İlan Başlığı',
+                        enableColumnFilter: false,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "advertise_title",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>{renderedCellValue}</span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['price[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'price[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Fiyat',
+                        enableColumnFilter: false,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "price",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>{dotNumberFormat(renderedCellValue)}₺</span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['installments-price[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'installments-price[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Taksitli Fiyat',
+                        enableColumnFilter: false,
+                        size : 10,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "installments-price",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>
+                                    {
+                                        row.original['installments-price[]'] ?
+                                            dotNumberFormat(renderedCellValue) + '₺'
+                                            : ''
+                                    }
+                                </span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['pay-decs[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'pay-decs[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Ara Ödemeler',
+                        enableColumnFilter: false,
+                        enableEditing: false,
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldTemp = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                                    return sold
+                                }
+                            });
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    {
+                                        soldTemp ? 
+                                            <span className="badge badge-phoenix badge-phoenix-primary batch_update_button" style={{background:'gray',color:'black',border:'1px solid gray'}}>
+                                                {row['pay-dec-count' + (getLastCount() + row.index + 1)] > 0 ? row['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
+                                            </span>
+                                        :   
+                                            <span onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row.original,getLastCount() + row.index + 1); }} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                Ara ödemeleri güncelle
+                                                <br />
+                                                {parseInt(row.original['pay-dec-count' + (getLastCount() + row.index + 1)]) > 0 ? row.original['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
+                                            </span>
+                                            
+                                        
+                                    }
+                                    
+                                </Box>
+                            )
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['installments[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'installments[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Taksit Sayısı',
+                        enableColumnFilter: false,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "installments",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>{renderedCellValue}</span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['advance[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'advance[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Peşinat',
+                        enableColumnFilter: false,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "advance",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>
+                                    {
+                                        row.original['advance[]'] ?
+                                            dotNumberFormat(renderedCellValue) + '₺'
+                                            : ''
+                                    }
+                                </span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['number_of_shares[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'number_of_shares[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Hisse Sayısı',
+                        enableColumnFilter: false,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "number_of_shares",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    <span>{renderedCellValue == undefined || renderedCellValue == "undefined" ? "" : renderedCellValue}</span>
+                                </Box>
+                            )
+                        },
+                    }, {
+                        accessorFn: (row) => `${row['off_sale[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'off_sale[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Satış Durumu',
+                        enableColumnFilter: false,
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                label: "Satışa Açık",
+                                value: "[]",
+                                select: true
+                            },
+
+                            {
+                                label: "Satışa Kapalı",
+                                value: "['Satışa Kapalı']"
+                            }
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [cell.row.index + 1],
+                                    column_name: "off_sale",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    {
+                                        findOrderQt(getLastCount() + row.index + 1) == 0 ?
+                                            renderedCellValue == '[]' ?
+                                                <button className="badge badge-phoenix badge-phoenix-success value-text">
+                                                    Satışa Açık
+                                                </button>
+                                                :
+                                                <button className="badge badge-phoenix badge-phoenix-danger value-text">
+                                                    Satışa Kapatıldı
+                                                </button>
+                                            : <button className="badge badge-phoenix badge-phoenix-success value-text">
+                                                Satışa Açık
+                                            </button>
+                                    }
+                                </Box>
+                            )
+                        },
+                    },
+                ],
+            },
+
+        ],
+        [solds],
+    );
+
+
+    const saveHousing = () => {
+        var itemsx = Object.keys(selectedRoomsTemp)
+        var newItems =  itemsx.map((item) => parseInt(item));
+        axios.post(baseUrl + 'save_housing', {
+            rooms: newItems,
+            column_name: selectedColumn,
+            value: changeData,
+            is_dot: isDotType,
+            project_id: projectId
         }).then((res) => {
-            if(res.data.status){
+            if (res.data.status) {
                 setLoading(true);
                 setChangeData("");
                 setSelectedRooms([]);
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
-                
+                setSelectedRoomsTemp({});
                 axiosRequestGetData(page)
-            }else{
+            }
+        })
+    }
+
+    const reloadData = () => {
+        setLoading(true);
+        setChangeData("");
+        setSelectedRooms([]);
+        toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+        setSelectedRoomsTemp({});
+        axiosRequestGetData(page)
+    }
+
+    const saveSingleHousing = () => {
+        var tempSelected = [];
+        tempSelected.push(selectedSingleItem)
+
+        axios.post(baseUrl + 'save_housing', {
+            rooms: tempSelected,
+            column_name: selectedColumn,
+            value: changeData,
+            is_dot: isDotType,
+            project_id: projectId
+        }).then((res) => {
+            if (res.data.status) {
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+
+                axiosRequestGetData(page)
+            } else {
                 toast.error(res.data.error)
             }
         })
     }
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '70%',
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-        height : '80vh',
-        overflow : 'scroll'
-    };
+    const saveMultipleHousing = () => {
+        var tempSelected = [];
+        if (haveBlocks) {
+            tempSelected = blockSelects();
+        } else {
+            for (var i = 0; i < totalProjectsCount; i++) {
+                tempSelected.push(i + 1);
+            }
+        }
 
-    return(
-        <div>
-            <ToastContainer/>
-            <Modal
-                open={saleOpen}
-                onClose={() => {setSaleOpen(false)}}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+        axios.post(baseUrl + 'save_housing', {
+            rooms: tempSelected,
+            column_name: selectedColumn,
+            value: changeData,
+            is_dot: isDotType,
+            project_id: projectId
+        }).then((res) => {
+            if (res.data.status) {
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+
+                axiosRequestGetData(page)
+            } else {
+                toast.error(res.data.error)
+            }
+        })
+    }
+
+    const setPayDecs = () => {
+        axios.post(baseUrl + 'save_housing', {
+            rooms: selectedRooms,
+            column_name: selectedColumn,
+            value: changeData,
+            is_dot: isDotType,
+            project_id: projectId
+        }).then((res) => {
+            if (res.data.status) {
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+
+                axiosRequestGetData(page)
+            }
+        })
+    }
+
+    const saveImageSingle = () => {
+        var tempSelected = [selectedSingleItem];
+
+
+        var formData = new FormData();
+
+        for (var i = 0; i < tempSelected.length; i++) {
+            formData.append('rooms[' + i + ']', tempSelected[i]);
+        }
+        formData.append('column_name', selectedColumn);
+        formData.append('value', changeData);
+        formData.append('project_id', projectId);
+        axios.post(baseUrl + 'change_image', formData).then((res) => {
+            if (res.data.status) {
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+
+                axiosRequestGetData(page)
+            }
+        })
+    }
+
+    const saveImageMultiple = () => {
+        var tempSelected = [];
+        if (haveBlocks) {
+            tempSelected = blockSelects();
+        } else {
+            for (var i = 0; i < totalProjectsCount; i++) {
+                tempSelected.push(i + 1);
+            }
+        }
+
+        var formData = new FormData();
+
+        for (var i = 0; i < tempSelected.length; i++) {
+            formData.append('rooms[' + i + ']', tempSelected[i]);
+        }
+        formData.append('column_name', selectedColumn);
+        formData.append('value', changeData);
+        formData.append('project_id', projectId);
+        axios.post(baseUrl + 'change_image', formData).then((res) => {
+            if (res.data.status) {
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+
+                axiosRequestGetData(page)
+            }
+        })
+    }
+
+    const changeSelectedItems = (selectedFunc) => {
+        var items = selectedFunc();
+
+        console.log(items , typeof items);
+
+        if(typeof items == "object"){
+            if(Object.keys(items).length == 0){
+                var items2 = Object.keys(selectedRoomsTemp);
+                var newItems = {};
+                items2.map((item) => {
+                    if(parseInt(item) > getLastCount() && parseInt(item) <= getLastCount() + pagination.pageSize){
+                        
+                    }else{
+                        newItems[item] = true;
+                    }
+                })
+                setSelectedRoomsTemp(newItems);
+            }else{
+                var items4 = {...selectedRoomsTemp};
+                var items2 = Object.keys(selectedRoomsTemp);
+                var items3 = Object.keys(items);
+                var newItems2 = {};
+                items3.map((item) => {
+                    if(!items2.includes(item)){
+                        items4[item] = true;
+                    }
+                });
+                console.log(items4);
+                setSelectedRoomsTemp(items4);
+            }
+            
+            
+        }else{
+            var items2 = Object.keys(selectedRoomsTemp);
+            if(items2.includes(''+items+'')){
+                var newItems2 = {};
+                items2.map((item) => {
+                    if(parseInt(item) != items){
+                        newItems2[item] = true
+                    }
+                });
+    
+                setSelectedRoomsTemp(newItems2);
+            }else{
+                setSelectedRoomsTemp({...selectedRoomsTemp,[items] : true});
+            }
+        }
+        
+    }
+
+    const table = useMaterialReactTable({
+        columns,
+        data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+        enableColumnFilterModes: true,
+        enableColumnOrdering: true,
+        enableGrouping: false,
+        enableColumnPinning: true,
+        enableFacetedValues: true,
+        enableRowActions: true,
+        enableCellActions: true,
+        enableRowSelection: (row) => {
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                    return sold
+                }
+            })
+            if(!soldx){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        onRowSelectionChange: (item) => {
+            changeSelectedItems(item)
+        },
+        enableEditing: (row) => {
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                    return sold
+                }
+            })
+            if(!soldx){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        editDisplayMode: 'cell',
+        initialState: {
+            showColumnFilters: true,
+            showGlobalFilter: true,
+            columnPinning: {
+                left: ['mrt-row-expand', 'mrt-row-select', 'no'],
+                right: ['mrt-row-actions'],
+            },
+            pagination: pagination,
+        },
+        getRowId: (row,key) =>  { return parseInt(getLastCount()) + (key + 1);},
+        onPaginationChange : setPagination,
+        state: {
+            pagination,
+            rowSelection : selectedRoomsTemp,
+            isLoading : loading
+        },
+        paginationDisplayMode: 'pages',
+        positionToolbarAlertBanner: 'bottom',
+        muiSearchTextFieldProps: {
+            size: 'small',
+            variant: 'outlined',
+        },
+        muiTableBodyCellProps: ( data ) => {
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == data.row.index + 1 && soldJson.type == "project"){
+                    return sold
+                }
+            })
+            if(soldx){
+                return({
+                    //conditionally style pinned columns
+                    sx: {
+                      backgroundColor: "#EA2B2E",
+                      color : '#fff'
+                    },
+                })
+            }
+        },
+        muiPaginationProps: {
+            color: 'secondary',
+            rowsPerPageOptions: [10, 20, 30],
+            shape: 'rounded',
+            variant: 'outlined',
+        },
+        onPaginationChange: setPagination,
+        manualPagination: true,
+        rowCount: totalProjectsCount,
+        renderRowActionMenuItems: ({ closeMenu }) => [
+            <MenuItem
+                key={0}
+                onClick={() => {
+                    // View profile logic...
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <EditIcon />
+                </ListItemIcon>
+                İlanı Düzenle
+            </MenuItem>,
+        ],
+        renderTopToolbar: ({ table }) => {
+
+            return (
+                <Box
+                    sx={(theme) => ({
+                        backgroundColor: lighten(theme.palette.background.default, 0.05),
+                        display: 'flex',
+                        gap: '0.5rem',
+                        p: '8px',
+                        justifyContent: 'space-between',
+                    })}
                 >
-                <Box sx={style}>
-                    <div className="tm_container">
-                        <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'80vh'}} className={"tm_invoice_wrap "+(!saleLoading ? "d-none" : "")}>
-                            <i className='fa fa-spinner loading-icon'></i>
-                        </div>
-                        <div className={"tm_invoice_wrap "+(saleLoading ? "d-none" : "")}>
-                            <div className="tm_invoice tm_style3" id="tm_download_section">
-                                <div className="tm_invoice_in">
-                                    <div className="tm_invoice_head tm_align_center tm_accent_bg">
-                                        <div className="tm_invoice_left">
-                                            <div className="tm_logo">
-                                                <img
-                                                    src={frontEndUrl+"images/emlaksepettelogo.png"}
-                                                    alt="Logo"
-                                                    style={{ width: 200 }}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="tm_invoice_right">
-                                            <div className="tm_head_address tm_white_color">
-                                                
-                                                Cevizli, Çanakkale Cd. No:103A, 34865 <br /> Kartal/İstanbul
-                                                <br />
-                                                Müşteri Hizmetleri: 444 3 284 <br />
-                                                Email: info@emlaksepette.com
-                                            </div>
-                                        </div>
-                                        <div className="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">
-                                            Fatura
-                                        </div>
-                                    </div>
-                                    <div className="tm_invoice_info">
-                                        <div className="tm_invoice_info_left tm_gray_bg">
-                                            <p className="tm_mb2">
-                                            <b className="tm_primary_color">Alıcı Bilgisi:</b>
-                                            </p>
-                                            <p className="tm_mb0">
-                                            {saleData?.invoice?.order?.user?.name}
-                                            <br />
-                                            {saleData?.invoice?.order?.user?.email}
-                                            <br />
-                                            {saleData?.invoice?.order?.user?.phone}
-                                            {saleData?.invoice?.order?.user?.mobile_phone}
-                                            </p>
-                                        </div>
-                                        <div className="tm_invoice_info_right tm_text_right">
-                                            <p className="tm_invoice_number tm_m0">
-                                                Fatura No: 
-                                                <b className="tm_primary_color">
-                                                    {saleData?.invoice?.invoice_number}
-                                                </b>
-                                            </p>
-                                            <p className="tm_invoice_date tm_m0">
-                                                Tarih:
-                                                <b className="tm_primary_color">
-                                                    {saleData?.invoice?.created_at}
-                                                </b>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="tm_invoice_details">
-                                        <div className="tm_table tm_style1 tm_mb30">
-                                            <div className="tm_invoice_footer">
-                                                <div className="tm_left_footer">
-                                                    <p className="tm_mb2">
-                                                        <b className="tm_primary_color">Ödeme Bilgileri:</b>
-                                                    </p>
-                                                    <p className="tm_m0">
-                                                        {saleData?.invoice?.order?.bank?.receipent_full_name} -  {saleData?.invoice?.order?.bank?.iban}
-                                                        <br />
-                                                        {
-                                                            saleData?.invoice?.order?.amount == "0" ? 
-                                                                <span className='badge badge-phoenix badge-phoenix-danger'>Bu ilan yönetici tarafından komşumu gör olarak girildi</span>
-                                                            : saleData?.invoice?.order?.amount+"₺"
-                                                        }
-                                                    </p>
-                                                </div>
-                                                <div className="tm_right_footer">
-                                                    <table className="tm_gray_bg">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td className="tm_width_3 tm_primary_color tm_bold">
-                                                                    Toplam Fiyat
-                                                                </td>
-                                                                <td className="tm_width_3 tm_primary_color tm_bold tm_text_right">
-                                                                    {saleData?.invoice?.total_amount} ₺
-                                                                </td>
-                                                            </tr>
-                                                            {
-                                                                saleData?.invoice?.order?.amount != "0" ?
-                                                                    <tr className="tm_border_top tm_border_bottom tm_accent_bg">
-                                                                        <td className="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color">
-                                                                            Kapora
-                                                                        </td>
-                                                                        <td className="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color tm_text_right">
-                                                                            {saleData?.invoice?.order?.amount+"₺"}
-                                                                        </td> 
-                                                                    </tr>
-                                                                : "" 
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="tm_padd_15_20 tm_gray_bg">
-                                            <p className="tm_mb5">
-                                                <b className="tm_primary_color">Satıcı Bilgileri:</b>
-                                            </p>
-                                            <ul className="tm_m0 tm_note_list">
-                                                <li>
-                                                    {saleData?.project?.user?.name}
-                                                </li>
-                                                <li>
-                                                    {saleData?.project?.user?.email}
-                                                </li>
-                                                <li>
-                                                    Vergi No:  {saleData?.project?.user?.taxNumber}
-                                                </li>
-                                                <li>
-                                                    İletişim No: {saleData?.project?.user?.phone}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        {/* import MRT sub-components */}
+                        <MRT_GlobalFilterTextField table={table} />
+                        <MRT_ToggleFiltersButton table={table} />
+                    </Box>
+                    <Box>
+                        <Box sx={{ display: 'flex', gap: '0.5rem' }}>
+                            <Button
+                                color="info"
+                                disabled={!Object.keys(selectedRoomsTemp).length > 0}
+                                onClick={() => {setCustomEditOpen(true)}}
+                                variant="contained"
+                            >
+                                Seçilen İlanları Düzenle
+                            </Button>
+                        </Box>
+                    </Box>
                 </Box>
-            </Modal>
-            <div className="card py-4">
-                <div className="estate-table">
-                    <div className="table-breadcrumb">
-                        <ul>
-                            <li>
-                                Yönetim Paneli
-                            </li>
-                            <li className='none-underline'> / </li>
-                            <li>{project.project_title} Adlı Projenin Konutları</li>
-                        </ul>
-                    </div>
-                    <div className="tabs">
-                        <ul>
+            );
+        },
+        localization: {
+            actions: 'İşlemler',
+            and: 've',
+            cancel: 'İptal',
+            changeFilterMode: 'Change filter mode',
+            changeSearchMode: 'Change search mode',
+            clearFilter: 'Filtreyi Temizle',
+            clearSearch: 'Aramayı Temizle',
+            clearSelection: 'Seçme işlemini sıfırla',
+            clearSort: 'Sıralamyı sıfırla',
+            clickToCopy: 'Kopyala',
+            copy: 'Kopyala',
+            collapse: 'Collapse',
+            collapseAll: 'Collapse all',
+            columnActions: 'Column Actions',
+            copiedToClipboard: 'Copied to clipboard',
+            dropToGroupBy: 'Drop to group by {column}',
+            edit: 'Düzenle',
+            expand: 'Expand',
+            expandAll: 'Expand all',
+            filterArrIncludes: 'Includes',
+            filterArrIncludesAll: 'Includes all',
+            filterArrIncludesSome: 'Includes',
+            filterBetween: 'Between',
+            filterBetweenInclusive: 'Between Inclusive',
+            filterByColumn: '{column} alanına göre filtrele',
+            filterContains: 'Contains',
+            filterEmpty: 'Empty',
+            filterEndsWith: 'Ends With',
+            filterEquals: 'Equals',
+            filterEqualsString: 'Equals',
+            filterFuzzy: 'Fuzzy',
+            filterGreaterThan: 'Greater Than',
+            filterGreaterThanOrEqualTo: 'Greater Than Or Equal To',
+            filterInNumberRange: 'Between',
+            filterIncludesString: 'Contains',
+            filterIncludesStringSensitive: 'Contains',
+            filterLessThan: 'Less Than',
+            filterLessThanOrEqualTo: 'Less Than Or Equal To',
+            filterMode: '',
+            filterNotEmpty: 'Not Empty',
+            filterNotEquals: 'Not Equals',
+            filterStartsWith: 'Starts With',
+            filterWeakEquals: 'Equals',
+            filteringByColumn: 'Filtering by {column} - {filterType} {filterValue}',
+            goToFirstPage: 'Go to first page',
+            goToLastPage: 'Go to last page',
+            goToNextPage: 'Go to next page',
+            goToPreviousPage: 'Go to previous page',
+            grab: 'Grab',
+            groupByColumn: 'Group by {column}',
+            groupedBy: 'Grouped by ',
+            hideAll: 'Hide all',
+            hideColumn: 'Hide {column} column',
+            max: 'Max',
+            min: 'Min',
+            move: 'Move',
+            noRecordsToDisplay: 'No records to display',
+            noResultsFound: 'No results found',
+            of: 'of',
+            or: 'or',
+            pin: 'Pin',
+            pinToLeft: 'Pin to left',
+            pinToRight: 'Pin to right',
+            resetColumnSize: 'Reset column size',
+            resetOrder: 'Reset order',
+            rowActions: 'Row Actions',
+            rowNumber: '#',
+            rowNumbers: 'Row Numbers',
+            rowsPerPage: 'Gösterilen veri sayısı',
+            save: 'Save',
+            search: 'Ara...',
+            selectedCountOfRowCountRowsSelected:
+                '{selectedCount} of {rowCount} row(s) selected',
+            select: 'Select',
+            showAll: 'Show all',
+            showAllColumns: 'Show all columns',
+            showHideColumns: 'Show/Hide columns',
+            showHideFilters: 'Show/Hide filters',
+            showHideSearch: 'Show/Hide search',
+            sortByColumnAsc: 'Sort by {column} ascending',
+            sortByColumnDesc: 'Sort by {column} descending',
+            sortedByColumnAsc: 'Sorted by {column} ascending',
+            sortedByColumnDesc: 'Sorted by {column} descending',
+            thenBy: ', then by ',
+            toggleDensity: 'Toggle density',
+            toggleFullScreen: 'Toggle full screen',
+            toggleSelectAll: 'Toggle select all',
+            toggleSelectRow: 'Toggle select row',
+            toggleVisibility: 'Toggle visibility',
+            ungroupByColumn: 'Ungroup by {column}',
+            unpin: 'Unpin',
+            unpinAll: 'Unpin all',
+        }
+    });
+
+    return (
+        <>
+            <div class="tabs">
+                <ul>
+                    <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
+                    <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
+                </ul>
+            </div>
+            {
+                Object.keys(selectedRoomsTemp).length > 0 ? 
+                    <div className="card px-3 mb-2 pb-2">
+                        <h4>Seçilen İlanlar</h4>
+                        <div>
                             {
-                                project.blocks.map((block,blockIndex) => {
+                                Object.keys(selectedRoomsTemp).map((selectedRoom) => {
                                     return(
-                                        <li onClick={() => {setSelectedBlock(blockIndex);setPage(0);setLoading(true)}} className={selectedBlock == blockIndex ? "active" : ""}>{block.block_name}</li>
+                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{parseInt(selectedRoom)} <i className='fa fa-times'></i></span>
                                     )
                                 })
                             }
-                        </ul>
-                    </div>
-                    <div>
-                        <div>
-                            {selectedRooms.length > 0 ? 
-                                <div className='card p-4 mb-2'>
-                                    <h2>Seçilen Konutlar</h2>
-                                    <div className="d-flex" style={{flexWrap:'wrap'}}>
-                                        {
-                                            selectedRooms.sort(function(a, b) {
-                                                return a - b;
-                                            }).map((room,key) => {
-                                                if(haveBlocks){
-                                                    var lastBlockCountTemp = 0;
-                                                    var lastBlockCountTemp3 = project.blocks[0].housing_count;
-                                                    var lastBlockCountTemp2 = 0;
-                                                    var selectedBlock = null;
-                                                    for(var i = 0 ; i < project.blocks.length; i++){
-                                                        if(room > lastBlockCountTemp && room <= lastBlockCountTemp + project.blocks[i].housing_count){
-                                                            selectedBlock = project.blocks[i].block_name
-                                                        }
-
-                                                        if(room > lastBlockCountTemp3){
-                                                            lastBlockCountTemp2 += project.blocks[i].housing_count;
-                                                        }
-                                                        
-                                                        lastBlockCountTemp += project.blocks[i].housing_count;
-                                                        lastBlockCountTemp3 += project.blocks[i].housing_count;
-                                                    }
-
-                                                    return(
-                                                        <div  onClick={() => {changeRoom(room - 1)}} className='badge badge-phoenix badge-phoenix-success mx-1 my-1 c-pointer'>
-                                                            {selectedBlock} {room - lastBlockCountTemp2} No'lu Konut <i className='fa fa-times'></i>
-                                                        </div>
-                                                    )
-                                                }else{
-                                                    return(
-                                                        <div  onClick={() => {changeRoom(room - 1)}} className='badge badge-phoenix badge-phoenix-success mx-1 my-1 c-pointer'>
-                                                            {room} <i className='fa fa-times'></i>
-                                                        </div>
-                                                    )
-                                                }
-                                                
-                                            })
-                                        }
-                                    </div>
-                                </div> 
-
-                                : ''
-                            }
                         </div>
-                        {
-                            selectedRooms.length > 0 ? 
-                                <div>
-                                    <span onClick={() => {setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');setUpdateHousingModalOpen(true)}} className="price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm mx-1">
-                                        Fiyatları Güncelle
-                                    </span>
-                                    <span
-                                        onClick={() => {setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');setUpdateHousingModalOpen(true)}}
-                                        className="installments-price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm mx-1">
-                                        Taksitli Fiyatları Güncelle
-                                    </span>
-                                    <span 
-                                        onClick={() => {setUpdatePayDecModalOpen(true);setSelectedType('Ara Ödeme')}}
-                                        className="pay-dec-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm mx-1">
-                                        Ara Ödemeleri Güncelle
-                                    </span>
-                                    <span 
-                                        onClick={() => {setSelectedColumn("installments");setIsDotType(false);setSelectedType('Taksit Sayısı');setUpdateHousingModalOpen(true)}}
-                                        className="installments-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm mx-1">
-                                        Taksit Sayılarını Güncelle
-                                    </span>
-                                    <span
-                                        onClick={() => {setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');setUpdateHousingModalOpen(true)}} 
-                                        className="advance-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm mx-1">
-                                        Peşinatları Güncelle
-                                    </span>
-                                </div> 
-                            : ''
-                        }
                     </div>
-                    {
-                        loading ? 
-                            <TableRowsLoader/>
-                        : 
-                            rows.length > 0 ?
-                                <>
-                                    <TableContainer>
-                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell><input onChange={() => {selectedAllCheck ? selectAll() : selectAll()}} checked={selectedAllCheck} type="checkbox" /></TableCell>
-                                                    <TableCell>No.</TableCell>
-                                                    <TableCell>İlan Resmi</TableCell>
-                                                    <TableCell>İlan Adı</TableCell>
-                                                    <TableCell>Fiyat</TableCell>
-                                                    <TableCell>Taksitli Satış</TableCell>
-                                                    <TableCell>Taksitli Fiyat</TableCell>
-                                                    <TableCell>Ara Ödemeler</TableCell>
-                                                    <TableCell>Taksit Sayısı</TableCell>
-                                                    <TableCell>Peşinat</TableCell>
-                                                    <TableCell>Hisse Sayısı</TableCell>
-                                                    <TableCell>Satış Durumu</TableCell>
-                                                    <TableCell>İşlemler</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                            {rows.map((row,key) => (
-                                                <TableRow
-                                                className={findSold(getLastCount() + key + 1) == 1 ? "non-sale" : findSold(getLastCount() + key + 1) == 0 ? "wait-sale" : ""}
-                                                key={row.id}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                    <TableCell scope="row">
-                                                        {
-                                                            findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                <input onChange={() => changeRoom(getLastCount() + key)} checked={selectedRooms.includes(getLastCount() + key + 1)} type="checkbox" />
-                                                            : ""
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell scope="row">
-                                                        {(rowPerPage * page) + key + 1}
-                                                    </TableCell>
-                                                    <TableCell scope="row">
-                                                        <div className='image-area' style={{width:'50px',height:'50px',display:'flex',alignItems:'center',justifyItems:'center'}}>
-                                                            <div className="image-change" onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateImageModalOpen(true);setSelectedColumn("image");setSelectedType('İlan Resimi');}}>
-                                                                Resmi Değiştir
-                                                            </div>
-                                                            <img src={frontEndUrl+'project_housing_images/'+row['image[]']} alt="" />
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className='d-flex'>
-                                                            <span className='housing_title'>{row['advertise_title[]']} </span>
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setChangeData(row['advertise_title[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                        <strong>
-                                                            {
-                                                                !row['share_sale[]'] || row['share_sale[]'] == "[]"? 
-                                                                    ""
-                                                                : "Hisseli Satış"
-                                                            }
-                                                        </strong>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            {dotNumberFormat(row['price[]'])} ₺
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');setChangeData(dotNumberFormat(row['price[]']))}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            <Switch onChange={() => {changeInstallement(getLastCount() + key + 1)}} defaultChecked={row['payment-plan[]'] != '[]'} />
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            {dotNumberFormat(row['installments-price[]'])} ₺
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['installments-price[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true);setPayDecs(getLastCount() + key + 1)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
-                                                                    Ara ödemeleri güncelle 
-                                                                    <br/>
-                                                                    {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Ara Ödeme
-                                                                </span>
-                                                            : 
-                                                                <span className='badge badge-phoenix badge-phoenix-success'>Ara Ödemeleri Gör ({row['pay-dec-count'+(getLastCount() + key + 1)]})</span>
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            {row['installments[]']}
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['installments[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments");setIsDotType(true);setSelectedType('Taksit Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            {dotNumberFormat(row['advance[]'])} ₺
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['advance[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell >
-                                                        <div className="d-flex">
-                                                            {dotNumberFormat(row['number_of_shares[]'])}
-                                                            {
-                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
-                                                                    <span onClick={() => {setChangeData(row['number_of_shares[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("number_of_shares");setIsDotType(true);setSelectedType('Hisse Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                : ""
-                                                            }
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="d-flex">
+                : ''
+            }
+            
 
-                                                            <div>
-                                                                {
-                                                                    row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
-                                                                        <div className="mb-2 d-flex">
-                                                                            <span className='badge badge-phoenix badge-phoenix-info'>
-                                                                                Hisse Sayısı
-                                                                            </span>
-                                                                            <span className='badge badge-phoenix badge-phoenix-success mx-2'>
-                                                                            {
-                                                                                row['share_sale[]'] != "[]" ? 
-                                                                                    findOrderQt(getLastCount() + key + 1)+" / "+row['number_of_shares[]']
-                                                                                : ""
-                                                                            }
-                                                                            </span>
-                                                                        </div>
-                                                                    : ""
-                                                                }
-                                                                
-                                                                {
-                                                                    row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
-                                                                        <div className="d-flex">
-                                                                            {
-                                                                                findOrderQt(getLastCount() + key + 1) == 0 ?
-                                                                                    row['off_sale[]'] == '[]' ?
-                                                                                        <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                                                            Satışa Açık
-                                                                                        </button>
-                                                                                    : 
-                                                                                        <button className="badge badge-phoenix badge-phoenix-danger value-text">
-                                                                                            Satışa Kapatıldı 
-                                                                                        </button>
-                                                                                : <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                                                    Satışa Açık
-                                                                                </button>
-                                                                            }
-                                                                            {
-                                                                                findOrderQt(getLastCount() + key + 1) == 0 ?
-                                                                                    <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                                : 
-                                                                                    <Tooltip title="Bu ilanda hisse satıldığı için satış durumunda değişiklik yapılamaz" placement="top">
-                                                                                        <InfoIcon className='info-icon'/>
-                                                                                    </Tooltip>
-                                                                            }
-                                                                        </div>
-                                                                        : ""
-                                                                }
-                                                                {
-                                                                    !row['share_sale[]'] || row['share_sale[]'] == "[]" ? 
-                                                                        <div className="d-flex">
-                                                                            {
-                                                                                findSold(getLastCount() + key + 1) != null ? 
-                                                                                    findSold(getLastCount() + key + 1) == 0 ? 
-                                                                                        <button className="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
-                                                                                    : 
-                                                                                        findSold(getLastCount() + key + 1) == 1 ? 
-                                                                                            <button onClick={() => {showSale(getLastCount() + key + 1)}} className="badge badge-phoenix badge-phoenix-danger">Satıldı <i className='fa fa-eye'></i></button>
-                                                                                        : 
-                                                                                            <button className="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
-                                                                                : 
-                                                                                    row['off_sale[]'] == '[]' ?
-                                                                                        <div className='d-flex'>
-                                                                                            <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                                                                Satışa Açık
-                                                                                            </button>
-                                                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                                        </div>  
-                                                                                    : 
-                                                                                        <div className='d-flex'>
-                                                                                            <button className="badge badge-phoenix badge-phoenix-danger value-text">
-                                                                                                Satışa Kapatıldı 
-                                                                                            </button>
-                                                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                                        </div>  
-                                                                            }
-                                                                        </div>
-                                                                    : ""
-                                                                }
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <a href={frontEndUrl+'institutional/projects/'+projectId+'/housings/edit/'+(getLastCount() + key + 1)} className='badge badge-phoenix badge-phoenix-primary'>İlanı Düzenle</a>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 15,20, { label: 'All', value: 999 }]}
-                                        colSpan={3}
-                                        count={totalProjectsCount}
-                                        rowsPerPage={rowPerPage}
-                                        page={page}
-                                        slotProps={{
-                                            select: {
-                                            inputProps: {
-                                                'aria-label': 'rows per page',
-                                            },
-                                            native: true,
-                                            },
-                                        }}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                        ActionsComponent={TablePaginationActions}
-                                        labelDisplayedRows={
-                                            ({ from, to, count }) => {
-                                            return count + ' veriden ' + from + '-' + to + ' gösteriliyor '; 
-                                            }
-                                        }
-                                        labelRowsPerPage={"Gösterilen proje sayısı"}
-                                    />
-                                </>
-                            : 
-                                <div className="not-found">
-                                    <div className="card">
-                                        <span>Bu kategoride proje bulunamadı</span>
-                                        <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" alt="" />
-                                    </div>
-                                </div>
-                    }
-                </div>
-                <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
-                <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
-                <ImageChange saveSingleHousing={saveImageSingle} saveHousing={saveImageMultiple} data={changeData} setData={setChangeData} open={updateSingleImageModalOpen} selectedType={selectedType} setOpen={setSingleUpdateImageModalOpen} />
-                <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
-                <ChangePaymentStatus saveSingleHousing={savePaymentStatusSingle} saveHousing={savePaymentStatus} data={changeData} setData={setChangeData} open={changePaymentStatusOpen} selectedType={selectedType} setOpen={setChangePaymentStatusOpen} />
-            </div>
-        </div>
-    )
-}
-export default HousingList
+            <CustomEdit reloadData={reloadData} selectedRoomsTemp={selectedRoomsTemp} open={customEditOpen} setOpen={setCustomEditOpen} project={project}/>
+            <MaterialReactTable table={table} />
+            <ImageChange saveSingleHousing={saveImageSingle} saveHousing={saveImageMultiple} data={changeData} setData={setChangeData} open={updateSingleImageModalOpen} selectedType={selectedType} setOpen={setSingleUpdateImageModalOpen} />
+            <ToastContainer />
+            <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
+            <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
+            <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
+        </>
+    );
+};
+import dayjs from 'dayjs';
+import React from 'react';
+//Date Picker Imports - these should just be in your Context Provider
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { baseUrl, dotNumberFormat, frontEndUrl } from '../define/variables';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import CustomEdit from './create_project_components/CustomEdit';
+
+const ExampleWithLocalizationProvider = ({ projectId }) => (
+    //App.tsx or AppProviders file
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <HousingList projectId={projectId} />
+    </LocalizationProvider>
+);
+
+export default ExampleWithLocalizationProvider;

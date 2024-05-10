@@ -450,12 +450,13 @@ function ReactTable(props) {
                                                     : <div class="text-danger">Pasif</div>}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <a href={`https://emlaksepette.com/institutional/projects/${row.id}/housings_v2`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
+                                                    <a href={`https://emlaksepette.com/hesabim/projects/${row.id}/housings_v2`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="d-flex">
-                                                        <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                        <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                        <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/hesabim/projects/${row.id}/logs`}>İşlem Kayıtları</a>
+                                                        <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>

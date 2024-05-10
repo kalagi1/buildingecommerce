@@ -151,8 +151,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="headings-2 pt-0 pb-0">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: center;align-items:center">
+                    <div class="headings-2 pt-0 pb-0 move-gain">
+                        <div class="gainStyle" style="width: 100%; justify-content: center;align-items:center;display:flex">
 
                             @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
                                 <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
@@ -160,68 +160,11 @@
                                     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                                     <polyline points="17 6 23 7 23 12"></polyline>
                                 </svg>
-                                <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
-                                <span style="color:#28a745;font-size:13px;margin-left:4px">
+                                <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                                <span style="font-size:13px;margin-left:4px">
                                     %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
                             @endif
 
-                            {{-- @php
-                                $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
-                                $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
-                                $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
-                                $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                $discounted_price =
-                                    $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
-
-                            @endphp
-
-                            <div class="listing-title-bar text-center w-100">
-
-
-                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                    <span class="text-center w-100">
-                                        1 Hisse Fiyatı
-                                    </span>
-                                @endif
-
-                                @if ($off_sale_check && $projectDiscountAmount)
-                                    <h4>
-                                        <div style="text-align: center">
-                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                            stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                            stroke-linejoin="round" class="css-i6dzq1">
-                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                        </svg>
-
-                                        <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        </del>  <br>
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                ₺
-                                            @else
-                                                {{ number_format($discounted_price, 0, ',', '.') }}
-                                                ₺
-                                            @endif
-                                          
-                                           
-                                        </div>
-                                    </h4>
-                                @elseif ($off_sale_check)
-                                    <h4
-                                        style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                            ₺
-                                        @else
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        @endif
-                                    </h4>
-                                @endif
-                            </div> --}}
                         </div>
 
                     </div>
@@ -233,7 +176,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-
+                                <div class="button-effect-div favorite-move">
+                                    <div class="button-effect toggle-project-favorite" style="width:35px !important"
+                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                </div>
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -297,6 +246,8 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
+                        <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
+                            style="background-color: green "></div>
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
@@ -462,12 +413,12 @@
                                         @endif
                                     @endif
 
-                                    <div class="button-effect toggle-project-favorite"
+                                    {{-- <div class="button-effect toggle-project-favorite"
                                         style="margin-left:13px;width:40px !important"
                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
@@ -1623,6 +1574,7 @@
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
             var mobileMovePrice = $(".mobileMovePrice").html();
+            var moveGain = $(".move-gain").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
@@ -1630,6 +1582,8 @@
 
 
             $(".mobileMovePrice").remove();
+            $(".move-gain").remove();
+
             $(".mobile-action-move").html(mobileMovePrice);
             $(".mobileMove").remove();
             $(".mobileHour").remove();
@@ -1637,6 +1591,7 @@
             var moveCollection = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
             $(".widgetBuyButton").after(moveCollection);
+            $(".move-mobile-gain").html(moveGain);
             $(".buyBtn").css("display", "none");
             $(".moveCollection").css("display", "none");
 
@@ -2941,6 +2896,43 @@
             border-color: #80bdff;
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+        .favorite-move {
+            position: absolute;
+            z-index: 9;
+            margin-top: 20px;
+            right: 40px;
+        }
+
+        .gainStyle strong,
+        .gainStyle span {
+            color: green
+        }
+
+        .gainStyle svg {
+            stroke: green
+        }
+
+        @media (max-width: 768px) {
+            .favorite-move {
+
+                margin-top: 15px;
+                right: 15px;
+            }
+
+            .gainStyle strong,
+            .gainStyle span {
+                color: white
+            }
+
+            .gainStyle svg {
+                stroke: white
+            }
+
+            .add-to-swap-wrapper{
+                margin-bottom: 30px !important;
+            }
         }
     </style>
 @endsection

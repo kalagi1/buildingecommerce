@@ -17697,6 +17697,7 @@ section.headings-2 {
 .inner-pages .headings-2 .listing-title-bar h3 {
     font-size: 16px;
     font-weight: 600;
+    line-height: 34px;
     color: #222;
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
@@ -17722,27 +17723,27 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 .listing-title-bar h4 {
-    font-size: 24px;
+    font-size: 15px;
     font-weight: 700;
     color: #274abb;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     text-transform: capitalize !important;
 }
 
 .inner-pages .headings-2 .listing-title-bar a,
 .inner-pages .headings-2 .listing-title-bar a p {
-    font-size: 17px;
+    font-size: 11px;
     text-decoration: none;
     color: #333;
 }
 
 .inner-pages .headings-2 span.category-tag {
     font-size: 11px;
-    background: black;
+    background: #EA2B2E;
     color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #EA2B2E;
     padding: 5px 15px;
     border-radius: 50px;
     top: -3px;

@@ -107,6 +107,18 @@
     justify-content: space-evenly
 }
 
+.mobileMovePrice h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #274abb;
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize !important;
+}
+
 @media (max-width:768px) {
     .list-group-item.bg-light {
         width: 100%
