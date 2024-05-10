@@ -147,12 +147,11 @@
                                     <div class="mt-0">
                                         <a href="#listing-location" class="listing-address">
                                             <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                            <span class="det" style="color: #EA2B2E !important;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
                                                     {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                 @endif
-                                            </span>
+                                          
                                         </a>
                                     </div>
 
