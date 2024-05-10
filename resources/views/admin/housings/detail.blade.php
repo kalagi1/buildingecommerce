@@ -215,6 +215,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Genel Bilgiler</h4>
+                                @if($housing->owner)
                                 <table class="table">
                                     <tbody class="trTableFlex">
                                         <tr>
@@ -251,24 +252,24 @@
                                         </tr>
 
 
-                                        @if ($housing->user->phone)
+                                        @if ($housing->owner->phone)
                                             <tr>
                                                 <td>
                                                     İş :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                            href="tel:{!! $housing->owner->phone !!}">{!! $housing->owner->phone !!}</a>
                                                     </span>
                                                 </td>
                                             </tr>
                                         @endif
-                                        @if ($housing->user->mobile_phone)
+                                        @if ($housing->owner->mobile_phone)
                                             <tr>
                                                 <td>
                                                     Cep :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                            href="tel:{!! $housing->owner->mobile_phone !!}">{!! $housing->owner->mobile_phone !!}</a>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -298,13 +299,105 @@
                                                 E-Posta :
                                                 <span class="det">
                                                     <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                        href="mailto:{!! $housing->owner->email !!}">{!! $housing->owner->email !!}</a>
                                                 </span>
 
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                @else
+                                    <table class="table">
+                                        <tbody class="trTableFlex">
+                                            <tr>
+                                                <td>
+                                                    <span> İlan No :</span>
+                                                    <span class="det" style="color:#274abb;">
+                                                        <a href="{{ route('housing.show', [
+                                                            'housingSlug' => $housing->slug,
+                                                            'housingID' => $housing->id + 2000000,
+                                                        ]) }}"
+                                                            target="_blank">
+                                                            {{ $housing->id + 2000000 }}</a>
+
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{-- Başlık kısmı --}}
+                                                    {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':') !!}
+                                                    <span class="det">
+                                                        {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
+                                                        {{ optional($housing->city)->title ?? '' }}
+                                                        @if (optional($housing->city)->title && optional($housing->county)->title)
+                                                            {!! ' / ' !!}
+                                                        @endif
+                                                        {{ optional($housing->county)->title ?? '' }}
+                                                        @if (optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
+                                                            {!! ' / ' !!}
+                                                        @endif
+                                                        {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+
+                                            @if ($housing->user->phone)
+                                                <tr>
+                                                    <td>
+                                                        İş :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($housing->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        Cep :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            <tr>
+                                                <td>
+                                                    Proje Tipi :
+                                                    <span class="det">
+                                                        @if ($housing->step1_slug)
+                                                            @if ($housing->step2_slug)
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($housing->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
+                                                            @endif
+                                                            {{ $parent->title }}
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    E-Posta :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                         </div>
                     </div>
