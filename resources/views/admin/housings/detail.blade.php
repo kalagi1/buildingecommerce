@@ -515,7 +515,7 @@
                 }
             })
         })
-        @if ($housing->status == 3)
+        @if ($housing->status == 3 && $housing->rejectedLog->reason)
             $('.show-reason').click(function() {
                 Swal.fire({
                     title: 'Reddilme sebebi',
