@@ -1647,7 +1647,7 @@
             var moveCollection = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
             $(".widgetBuyButton").after(moveCollection);
-            $(".move-mobile-gain").after(moveGain);
+            $(".move-mobile-gain").html(moveGain);
             $(".buyBtn").css("display", "none");
             $(".moveCollection").css("display", "none");
 
