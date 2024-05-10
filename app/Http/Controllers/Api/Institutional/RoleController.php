@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\RolePermission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 
 class RoleController extends Controller
 {
@@ -90,7 +91,7 @@ class RoleController extends Controller
         // Her bir grup için grup adını alın
         foreach ($groupedPermissions as $groupId => $permissions) {
             // Grup adını almak için ilgili grup id'sini kullanarak veritabanından sorgulama yapın
-            $groupName = RolePermission::where('id', $groupId)->value('description');
+            $groupName = PermissionGroup::where('id', $groupId)->value('desc');
 
             // Eğer grup adı bulunursa, diziye ekleyin
             if ($groupName) {
