@@ -121,10 +121,6 @@
 
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
-                                    <strong style="color: black;font-size: 11px !important;">İlan No:
-                                        <span style="color: #274abb;">{{ $housingOrder + $project->id + 1000000 }}</span>
-                                    </strong>
-
                                     <h3>
                                         @if ($status && $status != '0' && $status != '1')
                                             @include('client.layouts.partials.project_title', [
@@ -141,7 +137,25 @@
                                                 'step1Slug' => $project->step1_slug,
                                             ])
                                         @endif
+                                        @if ($project->step1_slug)
+                                            <span class="mrg-l-5 category-tag">
+                                                {{ ucfirst($project->step2_slug) }}
+                                                {{ ucfirst($project->step1_slug) }}
+                                            </span>
+                                        @endif
                                     </h3>
+                                    <div class="mt-0">
+                                        <a href="#listing-location" class="listing-address">
+                                            <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                                {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
+                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                @endif
+                                          
+                                        </a>
+                                    </div>
+
+
                                 </div>
 
 
@@ -2930,7 +2944,7 @@
                 stroke: white
             }
 
-            .add-to-swap-wrapper{
+            .add-to-swap-wrapper {
                 margin-bottom: 30px !important;
             }
         }

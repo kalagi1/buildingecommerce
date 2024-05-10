@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\RolePermission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 
 class RoleController extends Controller
 {
@@ -56,6 +57,23 @@ class RoleController extends Controller
             "GetOffers"
         ];
 
+        $specialPermissionKeys = [
+            'ChangePassword',
+            'EditProfile',
+            'ViewDashboard',
+            'ShowCartOrders',
+            'GetMyCollection',
+            'GetMyEarnings',
+            'neighborView',
+            'GetOrders',
+            'GetReceivedOffers',
+            'GetGivenOffers',
+            'GetSwapApplications',
+            'MyReservations',
+            'Reservations',
+            'Orders'
+        ];
+
         $filteredPermissions  = $permissions;
 
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
@@ -80,6 +98,10 @@ class RoleController extends Controller
             });
         }
 
+        $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissionKeys) {
+            return in_array($permission->key, $specialPermissionKeys);
+        });
+
         // İzinleri 'permission_group_id' ile gruplayın
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
@@ -90,7 +112,7 @@ class RoleController extends Controller
         // Her bir grup için grup adını alın
         foreach ($groupedPermissions as $groupId => $permissions) {
             // Grup adını almak için ilgili grup id'sini kullanarak veritabanından sorgulama yapın
-            $groupName = RolePermission::where('id', $groupId)->value('description');
+            $groupName = PermissionGroup::where('id', $groupId)->value('desc');
 
             // Eğer grup adı bulunursa, diziye ekleyin
             if ($groupName) {
@@ -98,22 +120,7 @@ class RoleController extends Controller
             }
         }
 
-        $specialPermissionKeys = [
-            'ChangePassword',
-            'EditProfile',
-            'ViewDashboard',
-            'ShowCartOrders',
-            'GetMyCollection',
-            'GetMyEarnings',
-            'neighborView',
-            'GetOrders',
-            'GetReceivedOffers',
-            'GetGivenOffers',
-            'GetSwapApplications',
-            'MyReservations',
-            'Reservations',
-            'Orders'
-        ];
+       
 
         // Veritabanından bu özel izinlerin ID'lerini alın
         // $specialPermissionIDs = Permission::whereIn('key', $specialPermissionKeys)
