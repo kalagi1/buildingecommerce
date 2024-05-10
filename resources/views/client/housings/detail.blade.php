@@ -110,9 +110,9 @@
                             @endphp
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar pb-3">
-                                    <strong style="color: black;font-size: 12px !important;">İlan No: <span
+                                    {{-- <strong style="color: black;font-size: 12px !important;">İlan No: <span
                                             style="color:#274abb;font-size: 12px !important;">{{ $housing->id + 2000000 }}</span>
-                                    </strong>
+                                    </strong> --}}
                                     <h3>
                                         @if ($status && $status != '0' && $status != '1')
                                             @include('client.layouts.partials.housing_title', [
@@ -155,7 +155,13 @@
                                 </div>
                                 <div class="mobile-action"></div>
                             </div>
-
+                            <div class="single detail-wrapper mr-2">
+                                <div class="detail-wrapper-body">
+                                    <div class="listing-title-bar">
+                                        <h4>#{{ $housing->id + 2000000 }}</h4>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
