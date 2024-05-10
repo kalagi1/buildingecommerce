@@ -22,14 +22,7 @@ class RoleController extends Controller
         return response()->json(['roles' => $roles]);
     }
 
-    public function create()
-    {
-
-        // $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
-        // $permissions = $role->rolePermissions->pluck('permissions')->flatten();
-        
-        // // İzinleri 'permission_group_id' değerine göre gruplayın
-        // $groupedPermissions = $permissions->groupBy('permission_group_id');
+    public function create(){
 
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $role = Role::where('id', '2')->with('rolePermissions.permissions')->first();
@@ -90,7 +83,20 @@ class RoleController extends Controller
         // İzinleri 'permission_group_id' ile gruplayın
         $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
 
+        
+        // Grup adlarını depolamak için boş bir dizi oluşturun
+        $groupNames = [];
 
+        // Her bir grup için grup adını alın
+        foreach ($groupedPermissions as $groupId => $permissions) {
+            // Grup adını almak için ilgili grup id'sini kullanarak veritabanından sorgulama yapın
+            $groupName = RolePermission::where('id', $groupId)->value('description');
+
+            // Eğer grup adı bulunursa, diziye ekleyin
+            if ($groupName) {
+                $groupNames[] = $groupName;
+            }
+        }
 
         $specialPermissionKeys = [
             'ChangePassword',
@@ -115,6 +121,7 @@ class RoleController extends Controller
         //     ->toArray();
     
         return response()->json([
+            'groupNames' => $groupNames,
             'groupedPermissions' => $groupedPermissions,
             'filteredPermissions'    => $filteredPermissions,
             'specialPermissionKeys' => $specialPermissionKeys
