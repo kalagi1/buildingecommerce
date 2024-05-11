@@ -23,6 +23,8 @@ use App\Http\Controllers\PayController;
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
+
+use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,27 +40,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
-Route::get('/my_projects',[InstitutionalProjectController::class,"index"]);
+Route::get('/my_projects', [InstitutionalProjectController::class, "index"]);
 Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
 Route::get('/featured-sliders', [ClientSliderController::class, 'getFeaturedSliders']);
-Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses']);
-Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
-Route::get('/menu-list',[MenuController::class,'getMenuList']);
-Route::get('/project_housings/{projectId}',[ProjectController::class,'getRooms']);
+Route::get('dashboard-statuses', [HousingController::class, 'getDashboardStatuses']);
+Route::get('/real-estates', [RealEstateController::class, 'getRealEstates']);
+Route::get('/menu-list', [MenuController::class, 'getMenuList']);
+Route::get('/project_housings/{projectId}', [ProjectController::class, 'getRooms']);
 Route::apiResource('project', ProjectController::class);
 Route::apiResource('housing', HousingController::class);
 Route::apiResource('brand', BrandController::class);
-Route::get('get_full_projects',[ProjectController::class,"getFullProjects"]);
-Route::post('login',[AuthController::class,"login"]);
-Route::post('register',[AuthController::class,"register"]);
-Route::get('get_my_projects',[ProjectController::class,"getMyProjects"]);
-Route::get('get_my_housings',[HousingController::class,"getMyHousings"]);
-Route::get('get_my_project/{id}',[ProjectController::class,"getMyProject"]);
-Route::delete('delete_project_gallery_image/{id}',[ProjectController::class,"deleteProjectGalleryImage"]);
-Route::get('cities',[AddressController::class,"cities"]);
-Route::get('counties/{cityId}',[AddressController::class,"getCountiesByCityId"]);
-Route::get('neighborhoods/{county_id}',[AddressController::class,"getNeighborhoodsByCountyId"]);
-Route::post('update_project',[ProjectController::class,"updateProject"]);
+Route::get('get_full_projects', [ProjectController::class, "getFullProjects"]);
+Route::post('login', [AuthController::class, "login"]);
+Route::post('register', [AuthController::class, "register"]);
+Route::get('get_my_projects', [ProjectController::class, "getMyProjects"]);
+Route::get('get_my_housings', [HousingController::class, "getMyHousings"]);
+Route::get('get_my_project/{id}', [ProjectController::class, "getMyProject"]);
+Route::delete('delete_project_gallery_image/{id}', [ProjectController::class, "deleteProjectGalleryImage"]);
+Route::get('cities', [AddressController::class, "cities"]);
+Route::get('counties/{cityId}', [AddressController::class, "getCountiesByCityId"]);
+Route::get('neighborhoods/{county_id}', [AddressController::class, "getNeighborhoodsByCountyId"]);
+Route::post('update_project', [ProjectController::class, "updateProject"]);
 Route::apiResource('swap', FormController::class);
 
 Route::get('/get_temp_order_project/{id}', [TempOrderController::class, 'getTempOrderData']);
@@ -104,6 +106,10 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
+Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->name('password.email');
+
+
+
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
@@ -112,26 +118,51 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
             Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
         });
-    
+
         Route::middleware(['checkPermission:GetRoleById'])->group(function () {
             Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
         });
-    
+
         // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
         Route::middleware(['checkPermission:UpdateRole'])->group(function () {
             Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
         });
-    
+
         // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
         Route::middleware(['checkPermission:GetRoles'])->group(function () {
             Route::get('/roles', [InstitutionalRoleController::class, 'index'])->name('roles.index');
         });
-    
+
         // Rol Silme İşlemi için Erişim Kontrolü (DeleteRole izni gerekli)
         Route::middleware(['checkPermission:DeleteRole'])->group(function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
         });
-});
 
-    // API rotaları buraya gelecek
+
+        Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+        Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
+    });
+
+
+    //telefon doğrulama
+    Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
+        ->name('phone.generateVerificationCode');
+
+    Route::post('/phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
+        ->name('phone.verifyPhoneNumber');
+
+    Route::post('/client/password/update', [AuthController::class, "clientPasswordUpdate"])->name('client.password.update');
+
+    Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
+
+    Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
+    Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
+    Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
+
+    Route::post('/add/collection', [ClientPageController::class, 'store']);
+
+    Route::get('/getCollections', [ClientPageController::class, 'getCollections']);
+
+    Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
+    Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
 });

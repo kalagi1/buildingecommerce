@@ -73,28 +73,118 @@
                         </div>
                     </div>
                 </div>
-                @if ($housing->status == 1)
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
-                        class="btn btn-danger set_status">Pasife Al</a>
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                        class="btn btn-danger reject">Reddet</a>
-                @elseif($housing->status == 2)
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                        class="btn btn-success set_status">Onayla</a>
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                        class="btn btn-danger reject">Reddet</a>
-                @elseif($housing->status == 3)
-                    <span class="btn btn-info show-reason">Sebebini Gör</span>
-                    <a href="#" class="btn btn-success confirm_rejected_after">Önceden Reddedilmiş Bir Proje Onaya
-                        Al</a>
-                    <a href="#" class="btn btn-danger reject">Tekrar Reddet</a>
+
+                @if ($housing->owner)
+                    @if ($housing->status == 1)
+                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                            Emlak Ofisi Değiştir
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form
+                                            action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                            <select name="user_id" id="selectUser" class="form-select"
+                                                aria-label="Select user">
+                                                @foreach ($nearestUsers as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }} -
+                                                        {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini
+                                                Değiştir</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
+                            class="btn btn-danger set_status">Pasife Al</a>
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-danger reject">Reddet</a>
+                    @elseif($housing->status == 2)
+                        {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-success set_status">Emlakçıya Atma</a> --}}
+                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                            Emlak Ofisi Atama
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form
+                                            action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                            <select name="user_id" id="selectUser" class="form-select"
+                                                aria-label="Select user">
+                                                @foreach ($nearestUsers as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }} -
+                                                        {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
+                                                Aktif
+                                                Et</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-danger reject">Reddet</a>
+                    @endif
                 @else
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                        class="btn btn-success set_status">Aktife Al</a>
+                    @if ($housing->status == 1)
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            project_id="{{ $housing->id }}" class="btn btn-danger set_status">Pasife Al</a>
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-danger reject">Reddet</a>
+                    @elseif($housing->status == 2)
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-success set_status">Onayla</a>
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-danger reject">Reddet</a>
+                    @elseif($housing->status == 3)
+                        <span class="btn btn-info show-reason">Sebebini Gör</span>
+                        <a href="#" class="btn btn-success confirm_rejected_after">Önceden Reddedilmiş Bir Proje
+                            Onaya
+                            Al</a>
+                        <a href="#" class="btn btn-danger reject">Tekrar Reddet</a>
+                    @else
+                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                            class="btn btn-success set_status">Aktife Al</a>
+                    @endif
                 @endif
+
+
                 <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter Sözleşmesini İndir</a>
-                    <a class="btn btn-primary mb-2 mb-sm-0 download_document" href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki Belgesi İndir</a>
+                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter
+                    Sözleşmesini İndir</a>
+                <a class="btn btn-primary mb-2 mb-sm-0 download_document"
+                    href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}"
+                    download>Yetki Belgesi İndir</a>
             </div>
         </div>
         <div class="row g-5">
@@ -125,58 +215,65 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Genel Bilgiler</h4>
+                                @if($housing->owner)
                                 <table class="table">
                                     <tbody class="trTableFlex">
                                         <tr>
                                             <td>
                                                 <span> İlan No :</span>
                                                 <span class="det" style="color:#274abb;">
-                                                    {{ $housing->id + 2000000 }}
+                                                    <a href="{{ route('housing.show', [
+                                                        'housingSlug' => $housing->slug,
+                                                        'housingID' => $housing->id + 2000000,
+                                                    ]) }}"
+                                                        target="_blank">
+                                                        {{ $housing->id + 2000000 }}</a>
+
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 {{-- Başlık kısmı --}}
-                                                {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ":") !!}
+                                                {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':') !!}
                                                 <span class="det">
                                                     {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
                                                     {{ optional($housing->city)->title ?? '' }}
-                                                    @if(optional($housing->city)->title && optional($housing->county)->title)
+                                                    @if (optional($housing->city)->title && optional($housing->county)->title)
                                                         {!! ' / ' !!}
                                                     @endif
                                                     {{ optional($housing->county)->title ?? '' }}
-                                                    @if(optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
+                                                    @if (optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
                                                         {!! ' / ' !!}
                                                     @endif
                                                     {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
                                                 </span>
                                             </td>
                                         </tr>
-                                        
 
-                                        @if ($housing->user->phone)
+
+                                        @if ($housing->owner->phone)
                                             <tr>
                                                 <td>
                                                     İş :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                            href="tel:{!! $housing->owner->phone !!}">{!! $housing->owner->phone !!}</a>
                                                     </span>
                                                 </td>
                                             </tr>
                                         @endif
-                                        @if ($housing->user->mobile_phone)
-                                        <tr>
-                                            <td>
-                                                Cep :
-                                                <span class="det">
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endif
+                                        @if ($housing->owner->mobile_phone)
+                                            <tr>
+                                                <td>
+                                                    Cep :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $housing->owner->mobile_phone !!}">{!! $housing->owner->mobile_phone !!}</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
 
                                         <tr>
                                             <td>
@@ -202,13 +299,105 @@
                                                 E-Posta :
                                                 <span class="det">
                                                     <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                        href="mailto:{!! $housing->owner->email !!}">{!! $housing->owner->email !!}</a>
                                                 </span>
 
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                @else
+                                    <table class="table">
+                                        <tbody class="trTableFlex">
+                                            <tr>
+                                                <td>
+                                                    <span> İlan No :</span>
+                                                    <span class="det" style="color:#274abb;">
+                                                        <a href="{{ route('housing.show', [
+                                                            'housingSlug' => $housing->slug,
+                                                            'housingID' => $housing->id + 2000000,
+                                                        ]) }}"
+                                                            target="_blank">
+                                                            {{ $housing->id + 2000000 }}</a>
+
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {{-- Başlık kısmı --}}
+                                                    {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':') !!}
+                                                    <span class="det">
+                                                        {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
+                                                        {{ optional($housing->city)->title ?? '' }}
+                                                        @if (optional($housing->city)->title && optional($housing->county)->title)
+                                                            {!! ' / ' !!}
+                                                        @endif
+                                                        {{ optional($housing->county)->title ?? '' }}
+                                                        @if (optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
+                                                            {!! ' / ' !!}
+                                                        @endif
+                                                        {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+
+                                            @if ($housing->user->phone)
+                                                <tr>
+                                                    <td>
+                                                        İş :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($housing->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        Cep :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            <tr>
+                                                <td>
+                                                    Proje Tipi :
+                                                    <span class="det">
+                                                        @if ($housing->step1_slug)
+                                                            @if ($housing->step2_slug)
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($housing->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
+                                                            @endif
+                                                            {{ $parent->title }}
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    E-Posta :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -231,10 +420,11 @@
                                                 @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
                                                     @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
                                                         <div class="view-form-json mt-4">
-                                                            <label for="" style="">{{ $housingType->label }}</label>
+                                                            <label for=""
+                                                                style="">{{ $housingType->label }}</label>
                                                             @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
                                                                 <p class="mb-1">
-                                                                    {{ is_array($checkboxItem) ? implode(',',$checkboxItem) : $checkboxItem }}
+                                                                    {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
                                                                 </p>
                                                             @endforeach
                                                         </div>
@@ -297,7 +487,7 @@
             var projectId = $(this).attr('project_id');
             Swal.fire({
                 @if ($housing->status)
-                    title: 'Aktife almak istediğine emin misin?',
+                    title: 'Pasife almak istediğine emin misin?',
                 @else
                     title: 'Aktife almak istediğine emin misin?',
                 @endif
@@ -357,7 +547,9 @@
                                     text: 'Başarıyla emlağı reddetiniz',
                                     position: 'top-right',
                                     stack: false
-                                })
+                                });
+
+                                location.reload();
                             }
                         },
                         error: function(xhr, status, error) {
@@ -404,6 +596,7 @@
                                     position: 'top-right',
                                     stack: false
                                 })
+                                location.reload();
                             }
                         },
                         error: function(xhr, status, error) {
@@ -415,7 +608,7 @@
                 }
             })
         })
-        @if ($housing->status == 3)
+        @if ($housing->status == 3 && $housing->rejectedLog->reason)
             $('.show-reason').click(function() {
                 Swal.fire({
                     title: 'Reddilme sebebi',

@@ -84,9 +84,13 @@
 <script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+<script
+    src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
+</script>
 
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-5bdb4125.js"></script> 
+
 <!--FormBuilder-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>

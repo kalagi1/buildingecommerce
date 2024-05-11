@@ -8,7 +8,7 @@
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">
-                              Alt Kullanıcı Ekle
+                                Alt Kullanıcı Ekle
                             </h4>
 
                         </div>
@@ -51,6 +51,13 @@
                                 <label class="form-label" for="email">Email</label>
                                 <input name="email" class="form-control" id="email" type="email" value=""
                                     required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="phone">Cep No</label>
+                                <input type="number" name="mobile_phone" id="phone"
+                                    class="form-control {{ $errors->has('mobile_phone') ? 'error-border' : '' }}"
+                                    value="{{ old('mobile_phone') }}">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">

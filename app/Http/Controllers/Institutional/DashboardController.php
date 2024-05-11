@@ -199,6 +199,7 @@ public function corporateAccountWaiting()
                 'sicil_belgesi' => 'nullable',
                 'kimlik_belgesi' => 'nullable',
                 'insaat_belgesi' => 'nullable',
+                "approve_website" => "nullable"
             ]
         );
 
@@ -232,6 +233,14 @@ public function corporateAccountWaiting()
             $imageFileName = 'company_document_' . time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('company_documents'), $imageFileName);
             $array = array_merge($array, ['company_document' => $imageFileName]);
+        }
+
+
+        if ($request->hasFile('approve_website')) {
+            $image = $request->file('approve_website');
+            $imageFileName = 'approve_website_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('approve_websites'), $imageFileName);
+            $array = array_merge($array, ['approve_website' => $imageFileName]);
         }
 
         auth()->user()->update($array);

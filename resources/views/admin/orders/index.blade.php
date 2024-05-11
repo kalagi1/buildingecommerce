@@ -191,7 +191,7 @@
                                                     @else
                                                         <span>EFT / Havale</span> <br>
                                                         @if(isset($order->dekont))
-                                                            <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}" style="color: hsla(229, 100%, 50%, 0.89)">Dekontu indir</a><br>
+                                                            <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}" style="color: hsla(229, 100%, 50%, 0.89)">Dekontu Görüntüle</a><br>
                                                         @else
                                                             <span style="color: #EA2B2E">Dekont Eklenmedi</span>
                                                         @endif

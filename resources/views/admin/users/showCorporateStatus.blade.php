@@ -177,6 +177,32 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
+                                        <label for="vergi_levhasi" class="mb-2 d-flex align-items-center">İmzalı Onay Belgesi:
+
+                                            @if (!is_null($user_e->approve_website))
+                                                <div class="ml-2 mr-2">
+                                                    <a target="_blank" href="{{ url("approve_websites/". $user_e->approve_website)  }}" download>
+                                                        <i class="fa fa-download"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+
+                                            @if ($user_e->approve_website_approve)
+                                                <span class="checkmark"></span> <span
+                                                    style="color:green">Onaylandı</span>
+                                            @endif
+                                        </label>
+                                        <select name="approve_website_approve" class="form-control">
+                                            <option
+                                                value="0"{{ $user_e->approve_website_approve == 0 ? ' selected' : null }}>
+                                                Onaylamıyorum</option>
+                                            <option
+                                                value="1"{{ $user_e->approve_website_approve == 1 ? ' selected' : null }}>
+                                                Onaylıyorum</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group">
                                         <label for="note">Not:</label>
                                         <textarea name="note" id="note" rows="5" class="form-control">{{ $user_e->corporate_account_note }}</textarea>
                                     </div>

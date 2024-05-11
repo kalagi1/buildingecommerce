@@ -123,7 +123,8 @@ class FavoriteController extends Controller
         $pageInfo = [
             "meta_title" => "Favorilerim",
             "meta_keywords" => "Favorilerim",
-            "meta_description" => "Emlak Sepette Favorilerim",
+            "meta_description" => "Emlak Sepette Favorilerim, istediğiniz konutları listenize ekleyin ve kolayca karşılaştırın. 
+                En iyi fiyatlar ve özel fırsatlarla konut sahibi olun!",
             "meta_author" => "Emlak Sepette",
         ];
 

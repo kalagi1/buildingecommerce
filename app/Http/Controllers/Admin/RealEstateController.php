@@ -33,4 +33,13 @@ class RealEstateController extends Controller
 
         return view('institutional.real_estate.detail',compact('realEstate'));
     }
+
+    public function satKiralaYetkiVer(Request $request){
+        $realEstate = RealEstateForm::where('id',$request->id)->first();
+        $realEstate->authorization_status = 1;
+
+        $realEstate->save();
+
+        return redirect()->back()->with('success','Yetki başarıyla verildi.');
+    }//End
 }

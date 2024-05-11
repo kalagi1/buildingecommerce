@@ -132,7 +132,13 @@
                                                     <tr>
                                                         <th class="sort white-space-nowrap align-middle pe-3 ps-0 "
                                                             scope="col" data-sort="dealName"
-                                                            style="width:15%; min-width:200px">Koleksiyon Adı</th>
+                                                            style="width:15%; min-width:200px">
+                                                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                Portföy Adı:
+                                                            @else
+                                                                Koleksiyon Adı:
+                                                            @endif
+                                                        </th>
                                                         <th class="sort align-middle pe-6  text-end" scope="col"
                                                             data-sort="amount" style="width:15%; min-width:100px">İlan
                                                             Sayısı</th>
@@ -374,15 +380,17 @@
                         <div class="card border h-100 w-100 overflow-hidden">
 
                             <div class="card-body position-relative">
-                                <img src="{{ asset('popup2.jpeg') }}" alt="" style="width:100%;height:100%;object-fit:cover">
+                                <img src="{{ asset('popup2.jpeg') }}" alt=""
+                                    style="width:100%;height:100%;object-fit:cover">
                             </div>
-                        </div></a>
-                    
+                        </div>
+                    </a>
+
                 </div>
             </div>
         @endif
 
-        
+
 
     </div>
 @endsection

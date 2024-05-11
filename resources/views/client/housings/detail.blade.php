@@ -1,11 +1,17 @@
 @extends('client.layouts.master')
 
 @php
+    // Retrieve the most recent record where JSON_EXTRACT(cart, "$.item.id") matches $housing->id
     $sold = DB::select(
-        'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
+        'SELECT * FROM cart_orders 
+        WHERE JSON_EXTRACT(cart, "$.type") = "housing" 
+        AND JSON_EXTRACT(cart, "$.item.id") = ?
+        ORDER BY created_at DESC
+        LIMIT 1',
         [$housing->id],
     );
 @endphp
+
 @php
     function convertMonthToTurkishCharacter($date)
     {
@@ -104,9 +110,9 @@
                             @endphp
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar pb-3">
-                                    <strong style="color: black;font-size: 12px !important;">İlan No: <span
+                                    {{-- <strong style="color: black;font-size: 12px !important;">İlan No: <span
                                             style="color:#274abb;font-size: 12px !important;">{{ $housing->id + 2000000 }}</span>
-                                    </strong>
+                                    </strong> --}}
                                     <h3>
                                         @if ($status && $status != '0' && $status != '1')
                                             @include('client.layouts.partials.housing_title', [
@@ -117,105 +123,56 @@
                                                 'title' => $housing->title,
                                             ])
                                         @endif
+
+                                        @if ($housing->step1_slug)
+
+                                            <span class="mrg-l-5 category-tag">
+                                                @if ($housing->step2_slug)
+                                                    @if ($housing->step2_slug == 'kiralik')
+                                                        Kiralık
+                                                    @elseif ($housing->step2_slug == 'satilik')
+                                                        Satılık
+                                                    @else
+                                                        Günlük Kiralık
+                                                    @endif
+                                                @endif
+                                                {{ $parent->title }}
+                                            </span>
+
+                                        @endif
                                     </h3>
+                                    <div class="mt-0">
+                                        <a href="#listing-location" class="listing-address">
+                                            <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                            {!! optional($housing->city)->title .
+                                                ' / ' .
+                                                optional($housing->county)->title .
+                                                ' / ' .
+                                                optional($housing->neighborhood)->mahalle_title ??
+                                                '' !!}</span>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="mobile-action"></div>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="headings-2 pt-0">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
-                            @if ($sold)
-                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                    <div class="single detail-wrapper mr-2">
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar mobileMovePrice">
-                                                <h4>
-                                                    @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                                        </svg>
-                                                    @endif
-                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                        @php
-                                                            $price =
-                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                    ? json_decode($housing->housing_type_data)
-                                                                        ->daily_rent[0]
-                                                                    : json_decode($housing->housing_type_data)
-                                                                        ->price[0];
-                                                            $discountedPrice = $price - $discountAmount;
-                                                        @endphp
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            <span style="font-size:12px; color:#EA2B2E">(1 Gece)</span>
-                                                        @endif
-                                                        @if ($discountAmount)
-                                                            <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                {{ number_format($price, 0, ',', '.') }}
-                                                            </del>
-                                                        @endif
-                                                    @endif
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @else
-                                <div class="single detail-wrapper mr-2">
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar mobileMovePrice">
-                                            <h4>
-                                                <div style="text-align: center">
-                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                        @php
-                                                            $price =
-                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                    ? json_decode($housing->housing_type_data)
-                                                                        ->daily_rent[0]
-                                                                    : json_decode($housing->housing_type_data)
-                                                                        ->price[0];
-                                                            $discountedPrice = $price - $discountAmount;
-                                                        @endphp
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            <span style="font-size:11px; color:#EA2B2E">1 Gece</span>
-                                                        @endif
-                                                        @if ($discountAmount)
-                                                            <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                {{ number_format($price, 0, ',', '.') }}
-                                                            </del>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                    <div class="headings-2 pt-0 move-gain">
+                        <div class="gainStyle" style="width: 100%; justify-content: center;align-items:center;display:flex">
+
+                            {{-- @if (isset(json_decode($housing->housing_type_data)->projected_earnings))
+                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
+                                    fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 7 23 12"></polyline>
+                                </svg>
+                                <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                                <span style="font-size:13px;margin-left:4px">
+                                    %{{ json_decode($housing->housing_type_data)->projected_earnings }}</span>
+                            @endif --}}
+
                         </div>
                     </div>
                 </div>
@@ -227,6 +184,11 @@
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                                <div class="button-effect-div favorite-move">
+                                    <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                </div>
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -298,9 +260,9 @@
                                     </li>
                                 @endif
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                        role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
+                                    <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab"
+                                        data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab"
+                                        aria-controls="home" aria-selected="true">Açıklama</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
@@ -743,69 +705,129 @@
                                 </div>
                             </div>
                         @else
+                            {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
+                        style="background-color: green "></div> --}}
                             <div class="mobileHour mobileHourDiv">
+
                                 <div class="schedule widget-boxed mt-33 mt-0">
 
 
                                     <div class="row buttonDetail" style="align-items: center">
                                         <div class="col-md-5 col-5 mobile-action-move">
-                                            <div class="buttons">
-                                                <button class="main-button">
-                                                    <svg width="20" height="30" fill="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                                <button class="twitter-button button"
-                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
+                                            @if ($sold)
+                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                    <div class="single detail-wrapper mr-2">
+                                                        <div class="detail-wrapper-body">
+                                                            <div class="listing-title-bar mobileMovePrice">
+                                                                <h4>
+                                                                    @if ($discountAmount)
+                                                                        <svg viewBox="0 0 24 24" width="24"
+                                                                            height="24" stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                            </polyline>
+                                                                            <polyline points="17 18 23 18 23 12">
+                                                                            </polyline>
+                                                                        </svg>
+                                                                    @endif
+                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                        @php
+                                                                            $price =
+                                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                                    ? json_decode(
+                                                                                        $housing->housing_type_data,
+                                                                                    )->daily_rent[0]
+                                                                                    : json_decode(
+                                                                                        $housing->housing_type_data,
+                                                                                    )->price[0];
+                                                                            $discountedPrice = $price - $discountAmount;
+                                                                        @endphp
+                                                                        @if ($discountAmount)
+                                                                            <svg viewBox="0 0 24 24" width="18"
+                                                                                height="18" stroke="#EA2B2E"
+                                                                                stroke-width="2" fill="#EA2B2E"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="css-i6dzq1">
+                                                                                <polyline
+                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                </polyline>
+                                                                                <polyline points="17 18 23 18 23 12">
+                                                                                </polyline>
+                                                                            </svg>
+                                                                            <del style="font-size:11px; color:#EA2B2E">
+                                                                                {{ number_format($price, 0, ',', '.') }}
+                                                                            </del>
+                                                                        @endif
+                                                                        {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                                        ₺
+                                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                            <span style="font-size:12px; color:#EA2B2E">(1
+                                                                                Gece)</span>
+                                                                        @endif
+                                                                    @endif
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="single detail-wrapper mr-2">
+                                                    <div class="detail-wrapper-body">
+                                                        <div class="listing-title-bar mobileMovePrice">
+                                                            <h4>
+                                                                <div style="text-align: center">
+                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                        @php
+                                                                            $price =
+                                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                                    ? json_decode(
+                                                                                        $housing->housing_type_data,
+                                                                                    )->daily_rent[0]
+                                                                                    : json_decode(
+                                                                                        $housing->housing_type_data,
+                                                                                    )->price[0];
+                                                                            $discountedPrice = $price - $discountAmount;
+                                                                        @endphp
+                                                                        @if ($discountAmount)
+                                                                            <svg viewBox="0 0 24 24" width="18"
+                                                                                height="18" stroke="#EA2B2E"
+                                                                                stroke-width="2" fill="#EA2B2E"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="css-i6dzq1">
+                                                                                <polyline
+                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                </polyline>
+                                                                                <polyline points="17 18 23 18 23 12">
+                                                                                </polyline>
+                                                                            </svg>
+                                                                            <del style="font-size:11px; color:#EA2B2E">
+                                                                                {{ number_format($price, 0, ',', '.') }}
+                                                                            </del>
+                                                                        @endif
+                                                                        {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                                        ₺
+                                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                            <span style="font-size:11px; color:#EA2B2E">1
+                                                                                Gece</span>
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
 
-                                                    <a
-                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <path
-                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                            </path>
-                                                        </svg></a>
-                                                </button>
-
-                                                <button class="reddit-button button"
-                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                    <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                            fill="currentColor" height="24" width="24">
-                                                            <path
-                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                            </path>
-                                                        </svg>
-                                                    </a>
-
-                                                </button>
-                                                <button class="messenger-button button"
-                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                    <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <line x1="22" y1="2" x2="11"
-                                                                y2="13"></line>
-                                                            <polygon points="22 2 15 22 11 13 2 9 22 2">
-                                                            </polygon>
-                                                        </svg></a>
-                                                </button>
-                                            </div>
-                                            <div class="button-effect toggle-favorite"
-                                                data-housing-id={{ $housing->id }}>
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
 
                                         </div>
-                                        <div class="col-md-7 col-7">
+                                        <div
+                                            class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-7 col-7
+                                            @else
+                                            col-md-12 col-12 @endif">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn "
                                                     style="background: #EA2B2E !important;width:100%;color:White">
@@ -848,90 +870,99 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="add-to-collections-wrapper addCollection" data-type='housing'
-                                    data-id="{{ $housing->id }}">
-                                    <div class="add-to-collection-button-wrapper">
-                                        <div class="add-to-collection-button">
+                                @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                                    <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                                        data-id="{{ $housing->id }}">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
 
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#e54242" />
-                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                    <rect width="1440" height="1577"
-                                                        transform="translate(-1100 -1183)" fill="white" />
-                                                    <g id="Group 6131">
-                                                        <g id="Frame 21409">
-                                                            <g id="Group 6385">
-                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#e54242 " />
-                                                                <g id="Group 2664">
-                                                                    <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#e54242 " />
-                                                                    <g id="Group 72">
-                                                                        <path id="Rectangle 12"
-                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                            fill="white" stroke="white"
-                                                                            stroke-width="2" />
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#e54242" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#e54242 " />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#e54242 " />
+                                                                        <g id="Group 72">
+                                                                            <path id="Rectangle 12"
+                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                                fill="white" stroke="white"
+                                                                                stroke-width="2" />
+                                                                        </g>
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1750_971">
-                                                        <rect width="1440" height="1577" fill="white"
-                                                            transform="translate(-1100 -1183)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg><span class="add-to-collection-button-text">Koleksiyona
-                                                Ekle</span>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg><span class="add-to-collection-button-text">
+                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                        Portföyüme Ekle
+                                                    @else
+                                                        Koleksiyona Ekle
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
-                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                </div>
+                                @endif
+
                                 @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
 
-                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                    <div class="add-to-collection-button-wrapper">
-                                        <div class="add-to-collection-button">
-
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#F0F0F0" />
-                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                    <rect width="1440" height="1577"
-                                                        transform="translate(-1100 -1183)" fill="white" />
-                                                    <g id="Group 6131">
-                                                        <g id="Frame 21409">
-                                                            <g id="Group 6385">
-                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#FEF4EB" />
-                                                                <g id="Group 2664">
-                                                                    <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#F27A1A" />
-                                                                    <g id="Group 72">
-                                                                        <path d="M16 11V21M11 16H21" stroke="white"
-                                                                            stroke-width="2" stroke-linecap="round" />
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#F0F0F0" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#FEF4EB" />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#F27A1A" />
+                                                                        <g id="Group 72">
+                                                                            <path d="M16 11V21M11 16H21" stroke="white"
+                                                                                stroke-width="2" stroke-linecap="round" />
+                                                                        </g>
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1750_971">
-                                                        <rect width="1440" height="1577" fill="white"
-                                                            transform="translate(-1100 -1183)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
 
-                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
-                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                </div>
                                 @endif
                                 <div class="modal fade" id="takasModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -943,59 +974,70 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                           
-            <form action="{{ route('form.kaydet') }}" method="POST" enctype="multipart/form-data" id="takasFormu">
-                @csrf
 
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="ad">Ad:</label>
-                        <input class="formInput" type="text" id="ad" name="ad" required>
-                    </div>
+                                                <form action="{{ route('form.kaydet') }}" method="POST"
+                                                    enctype="multipart/form-data" id="takasFormu">
+                                                    @csrf
 
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="soyad">Soyadınız:</label>
-                        <input class="formInput" type="text" id="soyad" name="soyad" required>
-                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="ad">Ad:</label>
+                                                            <input class="formInput" type="text" id="ad"
+                                                                name="ad" required>
+                                                        </div>
 
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="formInput" type="number" id="telefon" name="telefon" required maxlength="10">
-                        <span id="error_message" class="error-message"></span>
-                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="soyad">Soyadınız:</label>
+                                                            <input class="formInput" type="text" id="soyad"
+                                                                name="soyad" required>
+                                                        </div>
 
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="email">E-mail:</label>
-                        <input class="formInput" type="email" id="email" name="email" required>
-                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="telefon">Telefon
+                                                                Numaranız:</label>
+                                                            <input class="formInput" type="number" id="telefon"
+                                                                name="telefon" required maxlength="10">
+                                                            <span id="error_message" class="error-message"></span>
+                                                        </div>
 
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="sehir">Şehir:</label>
-                        <select class="formInput" id="sehir" name="sehir" required>
-                            <option value="">Şehir Seçiniz</option>
-                            @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="email">E-mail:</label>
+                                                            <input class="formInput" type="email" id="email"
+                                                                name="email" required>
+                                                        </div>
 
-                    <div class="col-md-6 col-12">
-                        <label class="form-label" for="ilce">İlçe:</label>
-                        <select class="formInput" id="ilce" name="ilce" disabled required>
-                            <option value="">İlçe Seçiniz</option>
-                        </select>
-                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="sehir">Şehir:</label>
+                                                            <select class="formInput" id="sehir" name="sehir"
+                                                                required>
+                                                                <option value="">Şehir Seçiniz</option>
+                                                                @foreach ($cities as $city)
+                                                                    <option value="{{ $city->id }}">
+                                                                        {{ $city->title }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
-                    <div class="col-md-12 col-12">
-                        <label class="form-label" for="takas_tercihi">Takas Tercihiniz:</label>
-                        <select class="formInput" id="takas_tercihi" name="takas_tercihi" required>
-                            <option value="">Seçiniz</option>
-                            <option value="emlak">Emlak</option>
-                            <option value="araç">Araç</option>
-                            <option value="barter">Barter</option>
-                            <option value="diğer">Diğer</option>
-                        </select>
-                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="ilce">İlçe:</label>
+                                                            <select class="formInput" id="ilce" name="ilce"
+                                                                disabled required>
+                                                                <option value="">İlçe Seçiniz</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-12">
+                                                            <label class="form-label" for="takas_tercihi">Takas
+                                                                Tercihiniz:</label>
+                                                            <select class="formInput" id="takas_tercihi"
+                                                                name="takas_tercihi" required>
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="emlak">Emlak</option>
+                                                                <option value="araç">Araç</option>
+                                                                <option value="barter">Barter</option>
+                                                                <option value="diğer">Diğer</option>
+                                                            </select>
+                                                        </div>
 
 
                                                         <div id="digeryse" style="display: none;"
@@ -1202,77 +1244,78 @@
 
                                                             <label class="form-label" for="arac_markasi">Araç
                                                                 Markası:</label>
-                                                                <select class="formInput" name="arac_markasi" id="arac_markasi">
-                                                                    <option value="">Seçiniz...</option>
-                                                                    <option value="Alfa Romeo">Alfa Romeo</option>
-                                                                    <option value="Aston Martin">Aston Martin</option>
-                                                                    <option value="Audi">Audi</option>
-                                                                    <option value="Bentley">Bentley</option>
-                                                                    <option value="BMW">BMW</option>
-                                                                    <option value="Bugatti">Bugatti</option>
-                                                                    <option value="Buick">Buick</option>
-                                                                    <option value="Cadillac">Cadillac</option>
-                                                                    <option value="Chery">Chery</option>
-                                                                    <option value="Chevrolet">Chevrolet</option>
-                                                                    <option value="Chrysler">Chrysler</option>
-                                                                    <option value="Citroen">Citroen</option>
-                                                                    <option value="Cupra">Cupra</option>
-                                                                    <option value="Dacia">Dacia</option>
-                                                                    <option value="DS Automobiles">DS Automobiles</option>
-                                                                    <option value="Daewoo">Daewoo</option>
-                                                                    <option value="Daihatsu">Daihatsu</option>
-                                                                    <option value="Dodge">Dodge</option>
-                                                                    <option value="Ferrari">Ferrari</option>
-                                                                    <option value="Fiat">Fiat</option>
-                                                                    <option value="Ford">Ford</option>
-                                                                    <option value="Geely">Geely</option>
-                                                                    <option value="Honda">Honda</option>
-                                                                    <option value="Hyundai">Hyundai</option>
-                                                                    <option value="Infiniti">Infiniti</option>
-                                                                    <option value="Isuzu">Isuzu</option>
-                                                                    <option value="Iveco">Iveco</option>
-                                                                    <option value="Jaguar">Jaguar</option>
-                                                                    <option value="Jeep">Jeep</option>
-                                                                    <option value="Kia">Kia</option>
-                                                                    <option value="Lada">Lada</option>
-                                                                    <option value="Lamborghini">Lamborghini</option>
-                                                                    <option value="Lancia">Lancia</option>
-                                                                    <option value="Land-rover">Land-rover</option>
-                                                                    <option value="Leapmotor">Leapmotor</option>
-                                                                    <option value="Lexus">Lexus</option>
-                                                                    <option value="Lincoln">Lincoln</option>
-                                                                    <option value="Lotus">Lotus</option>
-                                                                    <option value="Maserati">Maserati</option>
-                                                                    <option value="Mazda">Mazda</option>
-                                                                    <option value="McLaren">McLaren</option>
-                                                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
-                                                                    <option value="MG">MG</option>
-                                                                    <option value="Mini">Mini</option>
-                                                                    <option value="Mitsubishi">Mitsubishi</option>
-                                                                    <option value="Nissan">Nissan</option>
-                                                                    <option value="Opel">Opel</option>
-                                                                    <option value="Peugeot">Peugeot</option>
-                                                                    <option value="Porsche">Porsche</option>
-                                                                    <option value="Proton">Proton</option>
-                                                                    <option value="Renault">Renault</option>
-                                                                    <option value="Rolls Royce">Rolls Royce</option>
-                                                                    <option value="Rover">Rover</option>
-                                                                    <option value="Saab">Saab</option>
-                                                                    <option value="Seat">Seat</option>
-                                                                    <option value="Skoda">Skoda</option>
-                                                                    <option value="Smart">Smart</option>
-                                                                    <option value="Ssangyong">Ssangyong</option>
-                                                                    <option value="Subaru">Subaru</option>
-                                                                    <option value="Suzuki">Suzuki</option>
-                                                                    <option value="Tata">Tata</option>
-                                                                    <option value="Tesla">Tesla</option>
-                                                                    <option value="Tofaş">Tofaş</option>
-                                                                    <option value="Toyota">Toyota</option>
-                                                                    <option value="Volkswagen">Volkswagen</option>
-                                                                    <option value="Volvo">Volvo</option>
-                                                                    <option value="Voyah">Voyah</option>
-                                                                    <option value="Yudo">Yudo</option>
-                                                                </select>
+                                                            <select class="formInput" name="arac_markasi"
+                                                                id="arac_markasi">
+                                                                <option value="">Seçiniz...</option>
+                                                                <option value="Alfa Romeo">Alfa Romeo</option>
+                                                                <option value="Aston Martin">Aston Martin</option>
+                                                                <option value="Audi">Audi</option>
+                                                                <option value="Bentley">Bentley</option>
+                                                                <option value="BMW">BMW</option>
+                                                                <option value="Bugatti">Bugatti</option>
+                                                                <option value="Buick">Buick</option>
+                                                                <option value="Cadillac">Cadillac</option>
+                                                                <option value="Chery">Chery</option>
+                                                                <option value="Chevrolet">Chevrolet</option>
+                                                                <option value="Chrysler">Chrysler</option>
+                                                                <option value="Citroen">Citroen</option>
+                                                                <option value="Cupra">Cupra</option>
+                                                                <option value="Dacia">Dacia</option>
+                                                                <option value="DS Automobiles">DS Automobiles</option>
+                                                                <option value="Daewoo">Daewoo</option>
+                                                                <option value="Daihatsu">Daihatsu</option>
+                                                                <option value="Dodge">Dodge</option>
+                                                                <option value="Ferrari">Ferrari</option>
+                                                                <option value="Fiat">Fiat</option>
+                                                                <option value="Ford">Ford</option>
+                                                                <option value="Geely">Geely</option>
+                                                                <option value="Honda">Honda</option>
+                                                                <option value="Hyundai">Hyundai</option>
+                                                                <option value="Infiniti">Infiniti</option>
+                                                                <option value="Isuzu">Isuzu</option>
+                                                                <option value="Iveco">Iveco</option>
+                                                                <option value="Jaguar">Jaguar</option>
+                                                                <option value="Jeep">Jeep</option>
+                                                                <option value="Kia">Kia</option>
+                                                                <option value="Lada">Lada</option>
+                                                                <option value="Lamborghini">Lamborghini</option>
+                                                                <option value="Lancia">Lancia</option>
+                                                                <option value="Land-rover">Land-rover</option>
+                                                                <option value="Leapmotor">Leapmotor</option>
+                                                                <option value="Lexus">Lexus</option>
+                                                                <option value="Lincoln">Lincoln</option>
+                                                                <option value="Lotus">Lotus</option>
+                                                                <option value="Maserati">Maserati</option>
+                                                                <option value="Mazda">Mazda</option>
+                                                                <option value="McLaren">McLaren</option>
+                                                                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                                                <option value="MG">MG</option>
+                                                                <option value="Mini">Mini</option>
+                                                                <option value="Mitsubishi">Mitsubishi</option>
+                                                                <option value="Nissan">Nissan</option>
+                                                                <option value="Opel">Opel</option>
+                                                                <option value="Peugeot">Peugeot</option>
+                                                                <option value="Porsche">Porsche</option>
+                                                                <option value="Proton">Proton</option>
+                                                                <option value="Renault">Renault</option>
+                                                                <option value="Rolls Royce">Rolls Royce</option>
+                                                                <option value="Rover">Rover</option>
+                                                                <option value="Saab">Saab</option>
+                                                                <option value="Seat">Seat</option>
+                                                                <option value="Skoda">Skoda</option>
+                                                                <option value="Smart">Smart</option>
+                                                                <option value="Ssangyong">Ssangyong</option>
+                                                                <option value="Subaru">Subaru</option>
+                                                                <option value="Suzuki">Suzuki</option>
+                                                                <option value="Tata">Tata</option>
+                                                                <option value="Tesla">Tesla</option>
+                                                                <option value="Tofaş">Tofaş</option>
+                                                                <option value="Toyota">Toyota</option>
+                                                                <option value="Volkswagen">Volkswagen</option>
+                                                                <option value="Volvo">Volvo</option>
+                                                                <option value="Voyah">Voyah</option>
+                                                                <option value="Yudo">Yudo</option>
+                                                            </select>
 
                                                             <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
                                                             <select class="formInput" id="yakit_tipi" name="yakit_tipi">
@@ -1296,7 +1339,8 @@
                                                                 id="arac_satis_rakami" name="arac_satis_rakami"
                                                                 min="0">
 
-                                                            <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi
+                                                            <label class="form-label" for="ruhsat_belgesi">Ruhsat
+                                                                Belgesi
                                                                 Yükleyiniz:</label>
                                                             <input class="formInput" type="file" id="ruhsat_belgesi"
                                                                 name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
@@ -1320,7 +1364,7 @@
 
                                                     <button type="submit"
                                                         style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
-                                                        <button type="button" data-bs-dismiss="modal"
+                                                    <button type="button" data-bs-dismiss="modal"
                                                         style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
                                                 </form>
                                             </div>
@@ -1340,6 +1384,22 @@
                                     <div class="sidebar-widget author-widget2">
                                         <table class="table">
                                             <tbody>
+                                                @if ($housing->consultant)
+                                                    <div class="author-box clearfix d-flex align-items-center">
+
+                                                        <img src="{{ asset('storage/profile_images/' . $housing->consultant->profile_image) }}"
+                                                            alt="author-image" class="author__img">
+                                                        <div>
+                                                            <h4 class="author__title">{{ $housing->consultant->name }}
+                                                            </h4>
+                                                            <p class="author__meta">
+                                                                {{ $housing->consultant->role->name }}</p>
+                                                        </div>
+
+
+                                                    </div>
+                                                @endif
+
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
                                                         <span class="det" style="color: #EA2B2E !important;">
@@ -1385,6 +1445,41 @@
                                                     </td>
                                                 </tr>
 
+                                                @if ($housing->consultant && $housing->consultant->mobile_phone)
+                                                    @php
+
+                                                        $consultantPermissions = $housing->consultant->role->rolePermissions
+                                                            ->flatMap(function ($rolePermission) {
+                                                                return $rolePermission->permissions->pluck('key');
+                                                            })
+                                                            ->unique()
+                                                            ->toArray();
+                                                    @endphp
+                                                    @if (in_array('showPhone', $consultantPermissions))
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->consultant->mobile_phone !!}">{!! $housing->consultant->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @else
+                                                    @if ($housing->user->mobile_phone)
+                                                        <tr>
+                                                            <td>
+                                                                Cep :
+                                                                <span class="det">
+                                                                    <a style="text-decoration: none;color:#274abb;"
+                                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endif
+
 
                                                 @if ($housing->user->phone)
                                                     <tr>
@@ -1397,17 +1492,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                                @if ($housing->user->mobile_phone)
-                                                    <tr>
-                                                        <td>
-                                                            Cep :
-                                                            <span class="det">
-                                                                <a style="text-decoration: none;color:#274abb;"
-                                                                    href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+
 
                                                 <tr>
                                                     <td>
@@ -1765,97 +1850,103 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
-            $(document).ready(function() {
-                $("#telefon").on("input blur", function(){
-                    var phoneNumber = $(this).val();
-                    var pattern = /^5[0-9]\d{8}$/;
+        $(document).ready(function() {
+            $("#telefon").on("input blur", function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[0-9]\d{8}$/;
 
-                    if (!pattern.test(phoneNumber)) {
-                        $("#error_message").text(
-                            "Lütfen geçerli bir telefon numarası giriniz.");
-                    } else {
-                        $("#error_message").text("");
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen geçerli bir telefon numarası giriniz.");
+                } else {
+                    $("#error_message").text("");
+                }
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#telefon').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
                     }
-                         // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                         $('#telefon').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
                 });
             });
+        });
     </script>
 
 
-        <script>
-            $(document).ready(function() {
-                $('#takasFormu').submit(function(e) {
-                    var isEmpty = false;
-    
-                    // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
-                    if ($('#takas_tercihi').val() === 'emlak') {
-                                var emlakTipi = $('#emlak_tipi').val();
-                                if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
-                                    var requiredFields = [];
-                                    if (emlakTipi === 'konut') {
-                                        requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi', 'oda_sayisi', 'konut_tipi'];
-                                    } else if (emlakTipi === 'arsa') {
-                                        requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel', 'imar_durumu', 'satis_rakami'];
-                                    }
-                                } else if (emlakTipi === 'işyeri') {
-                                    requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
-                                }
-                    
-                                for (var i = 0; i < requiredFields.length; i++) {
-                                    var field = $('#' + requiredFields[i]);
-                                    if (field.val().trim() === '') {
-                                        isEmpty = true;
-                                        field.addClass('error');
-                                    } else {
-                                        field.removeClass('error');
-                                    }
-                                }
-                            }
-    
-                     // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
-                        if ($('#takas_tercihi').val() === 'araç') {
-                            var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi', 'arac_satis_rakami'];
-    
-                            for (var i = 0; i < requiredFields.length; i++) {
-                                var field = $('#' + requiredFields[i]);
-                                if (field.val().trim() === '') {
-                                    isEmpty = true;
-                                    field.addClass('error');
-                                } else {
-                                    field.removeClass('error');
-                                }
-                            }
+    <script>
+        $(document).ready(function() {
+            $('#takasFormu').submit(function(e) {
+                var isEmpty = false;
+
+                // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'emlak') {
+                    var emlakTipi = $('#emlak_tipi').val();
+                    if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
+                        var requiredFields = [];
+                        if (emlakTipi === 'konut') {
+                            requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi',
+                                'oda_sayisi', 'konut_tipi'
+                            ];
+                        } else if (emlakTipi === 'arsa') {
+                            requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel',
+                                'imar_durumu', 'satis_rakami'
+                            ];
                         }
-    
-               
-                    // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
-                    if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
-                        $('.conditional-fields:visible').find('.formInput').each(function() {
-                            if ($(this).val().trim() === '') {
-                                isEmpty = true;
-                                $(this).addClass('error');
-                            } else {
-                                $(this).removeClass('error');
-                            }
-                        });
+                    } else if (emlakTipi === 'işyeri') {
+                        requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
                     }
-    
-                    if (isEmpty) {
-                        e.preventDefault();
-                        alert('Tüm zorunlu alanları doldurunuz!');
+
+                    for (var i = 0; i < requiredFields.length; i++) {
+                        var field = $('#' + requiredFields[i]);
+                        if (field.val().trim() === '') {
+                            isEmpty = true;
+                            field.addClass('error');
+                        } else {
+                            field.removeClass('error');
+                        }
                     }
-            
-                });   
+                }
+
+                // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'araç') {
+                    var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
+                        'arac_satis_rakami'
+                    ];
+
+                    for (var i = 0; i < requiredFields.length; i++) {
+                        var field = $('#' + requiredFields[i]);
+                        if (field.val().trim() === '') {
+                            isEmpty = true;
+                            field.addClass('error');
+                        } else {
+                            field.removeClass('error');
+                        }
+                    }
+                }
+
+
+                // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
+                if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
+                    $('.conditional-fields:visible').find('.formInput').each(function() {
+                        if ($(this).val().trim() === '') {
+                            isEmpty = true;
+                            $(this).addClass('error');
+                        } else {
+                            $(this).removeClass('error');
+                        }
+                    });
+                }
+
+                if (isEmpty) {
+                    e.preventDefault();
+                    alert('Tüm zorunlu alanları doldurunuz!');
+                }
+
             });
-            </script>
+        });
+    </script>
     <script>
         $('#selectImageButton').on('click', function() {
             console.log("a");
@@ -1869,6 +1960,7 @@
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
             var mobileMovePrice = $(".mobileMovePrice").html();
+            var moveGain = $(".move-gain").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
@@ -1876,7 +1968,14 @@
 
 
             $(".mobileMovePrice").remove();
-            $(".mobile-action-move").html(mobileMovePrice);
+            $(".move-gain").remove();
+
+            if (mobileMovePrice == undefined) {
+                $(".mobile-action-move").remove();
+                $(".col-md-7").removeClass("col-md-7").removeClass("col-7").addClass("col-md-12");
+            } else {
+                $(".mobile-action-move").html(mobileMovePrice);
+            }
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
@@ -1884,6 +1983,8 @@
             $("#myTabContent").after(store);
             $(".moveStore").addClass("mb-30");
             $(".moveStore").remove();
+            $(".move-mobile-gain").html(moveGain);
+
 
         }
 
@@ -2015,21 +2116,57 @@
             $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
+        if (window.innerWidth <= 768) {
+            // Sol ok tuşuna tıklandığında
+            $('.pagination .page-item-left').on('click', function(event) {
+                event.preventDefault();
+                $('#listingDetailsSlider').carousel('prev');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
+            });
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
+            // Sağ ok tuşuna tıklandığında
+            $('.pagination .page-item-right').on('click', function(event) {
+                event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+                $('#listingDetailsSlider').carousel('next');
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                // $('.pagination .page-item-middle .page-link').text(index);
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            });
+        }
 
-        });
+        var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
         $('.pagination .page-item-right').on('click', function(event) {
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+            var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+            var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
+
+            if (remainingItems >= 5) {
+                currentSlideIndex++;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
+                    5); // Bir sonraki beşli kümeye git
+            } else {
+                $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+            }
         });
 
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            } else {
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
+            }
+        });
 
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
@@ -2045,8 +2182,6 @@
                 $('.listingDetailsSliderNav').slick('slickGoTo', index);
                 var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-                console.log("Büyük Görsel Data Slide Number: ", index);
-                console.log("Küçük Görsel Index: ", smallIndex);
             });
         });
 
@@ -2110,7 +2245,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#phone").on("input blur", function(){
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[0-9]\d{8}$/;
 
@@ -2120,15 +2255,15 @@
                 } else {
                     $("#error_message").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>
@@ -2908,48 +3043,54 @@
         });
     </script>
 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // jQuery Validation eklentisini form elemanlarına uygula
-        $('#takasFormu').validate({
-            // Türkçe hata mesajlarını tanımla
-            messages: {
-                ad: {
-                    required: "Lütfen adınızı girin."
-                },
-                soyad: {
-                    required: "Lütfen soyadınızı girin."
-                },
-                telefon: {
-                    required: "Lütfen telefon numaranızı girin."
-                },
-                email: {
-                    required: "Lütfen e-posta adresinizi girin.",
-                    email: "Lütfen geçerli bir e-posta adresi girin."
-                },
-                sehir: {
-                    required: "Lütfen bir şehir seçin."
-                },
-                ilce: {
-                    required: "Lütfen bir ilçe seçin."
-                },
-                takas_tercihi: {
-                    required: "Lütfen takas tercihinizi belirtin."
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // jQuery Validation eklentisini form elemanlarına uygula
+            $('#takasFormu').validate({
+                // Türkçe hata mesajlarını tanımla
+                messages: {
+                    ad: {
+                        required: "Lütfen adınızı girin."
+                    },
+                    soyad: {
+                        required: "Lütfen soyadınızı girin."
+                    },
+                    telefon: {
+                        required: "Lütfen telefon numaranızı girin."
+                    },
+                    email: {
+                        required: "Lütfen e-posta adresinizi girin.",
+                        email: "Lütfen geçerli bir e-posta adresi girin."
+                    },
+                    sehir: {
+                        required: "Lütfen bir şehir seçin."
+                    },
+                    ilce: {
+                        required: "Lütfen bir ilçe seçin."
+                    },
+                    takas_tercihi: {
+                        required: "Lütfen takas tercihinizi belirtin."
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/housing.css') }}">
     <style>
-        #ad-error, #soyad-error, #email-error, #telefon-error, #sehir-error,  #takas_tercihi-error {
+        #ad-error,
+        #soyad-error,
+        #email-error,
+        #telefon-error,
+        #sehir-error,
+        #takas_tercihi-error {
             font-size: 10px !important;
         }
+
         .inner-pages .form-control {
             padding: 0 0.3rem !important
         }
@@ -2976,9 +3117,62 @@
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
         }
 
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+
         .error-message {
             color: #e54242;
             font-size: 11px;
+        }
+
+        .favorite-move {
+            position: absolute;
+            z-index: 9;
+            margin-top: 0;
+            right: 20px;
+        }
+
+        .gainStyle strong,
+        .gainStyle span {
+            color: green
+        }
+
+        .gainStyle svg {
+            stroke: green
+        }
+
+        @media (max-width: 768px) {
+            .favorite-move {
+
+                margin-top: 15px;
+                right: 15px;
+            }
+
+            .gainStyle strong,
+            .gainStyle span {
+                color: white
+            }
+
+            .gainStyle svg {
+                stroke: white
+            }
+
+            .add-to-swap-wrapper {
+                margin-bottom: 30px !important;
+            }
         }
     </style>
 @endsection

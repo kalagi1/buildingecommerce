@@ -18,6 +18,7 @@ use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
 use App\Rules\SubscriptionPlanToUpgrade;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -224,12 +225,14 @@ class ProfileController extends Controller
     {
         $request->validate([
             "name" => "required",
-            // "mobile_phone" => "required",
-            "iban" => "required",
+            "iban" => function ($attribute, $value, $fail) use ($request) {
+                if (auth()->user()->has_club == 1 && empty($value)) {
+                    $fail('Iban alanı zorunludur');
+                }
+            },
             "banner_hex_code" => "required",
-        ],[
+        ], [
             "name.required" => "İsim alanı zorunludur",
-            // "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
@@ -247,9 +250,7 @@ class ProfileController extends Controller
         $website = $request->input("website");
 
 
-
-
-        $data = $request->all();
+        $data = $request->except('area_code');
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -286,14 +287,12 @@ class ProfileController extends Controller
             $request->validate(
                 [
                     "idNumber" => "required",
-                    "phone" => "required",
                     "bank_name" => "required",
                     "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
                     "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
-                    "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
                     "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
@@ -303,13 +302,11 @@ class ProfileController extends Controller
         }else{
             $request->validate(
                 [
-                    "phone" => "required",
                     "bank_name" => "required",
                     "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
-                    "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
                     "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
@@ -363,6 +360,21 @@ class ProfileController extends Controller
             'owner_id' => $user->parent_id ?? $user->id,
             'is_visible' => true,
         ]);
+
+           // Kullanıcının telefon numarasını al
+           $userPhoneNumber = $user->mobile_phone;
+
+           // Kullanıcının adını ve soyadını al
+           $name = $user->name;
+
+           // SMS metni oluştur
+           $message = "Emlak Kulüp başvurunuz alınmıştır. Bilgileriniz incelendikten sonra hesabınız aktif edilecektir.";
+
+           // SMS gönderme işlemi
+           $smsService = new SmsService();
+           $source_addr = 'Emlkspette';
+
+           $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 
         return  view("institutional.home.has-club-status");
     }
