@@ -266,16 +266,15 @@
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
                                 @if (
-                                    ($sold && $sold->status === '2' && $share_sale == '[]') ||
+                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
-                                    
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
                                             $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share))
                                     <div class="col-md-5 col-5 mobile-action-move p-0">
-                             
+
 
 
                                         <div class="listing-title-bar text-start w-100">
@@ -331,7 +330,14 @@
                                     </div>
                                 @endif
 
-                                <div class="  @if (($sold && $sold->status == '2') || !$sold) col-md-7 col-7
+                                <div class="  @if (
+                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                        !$sold ||
+                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        (isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sold &&
+                                            $sold->status != '2' &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-7 col-7
                                     @else
                                     col-md-12 col-12 @endif "
                                     style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
