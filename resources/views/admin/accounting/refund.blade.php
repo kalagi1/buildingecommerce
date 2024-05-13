@@ -57,8 +57,8 @@
                                         <td class="refund_date">{{ $item['refund']->created_at }}</td>
                                         <td class="refund_customer">{{ $item['refund']->user->name }}</td>
                                         <td class="refund_amount">{{ $item['order']->amount }}</td>
-                                        <td class="refund_customer_amount">{{ number_format($item['recipientAmount'], 2, ',', '.') }}</td>
-                                        <td class="refund_admin_amount">{{ number_format($item['refundAmount'], 2, ',', '.') }}</td>
+                                        <td class="refund_customer_amount">{{ number_format($item['recipientAmount'], 0, ',', '.') }}</td>
+                                        <td class="refund_admin_amount">{{ number_format($item['refundAmount'], 0, ',', '.') }}</td>
 
                                         <td class="order_status"><span class="text-success">
 
