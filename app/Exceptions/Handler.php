@@ -47,6 +47,10 @@ class Handler extends ExceptionHandler
             return redirect('/')->with('error', 'Bir Hata Oluştu');
         }
 
+        if ($exception instanceof \ErrorException && strpos($exception->getMessage(), 'Undefined property') !== false) {
+            return redirect('/')->with('error', 'Bir Hata Oluştu');
+        }
+
         return parent::render($request, $exception);
     }
 
