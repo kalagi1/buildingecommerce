@@ -14,7 +14,7 @@
         "icon": "eye",
         "text": "Komşumu Gör",
         "key": "neighborView",
-        "url": "neighbors.index",
+        "url": "institutional.neighbors.index",
         "activePath": "/hesabim/komsumu-gor"
     },
     {
