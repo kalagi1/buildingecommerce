@@ -26,6 +26,166 @@
         @endif
 
         @if (Auth::check() && Auth::user()->type == '2')
+        <div class="row g-4">
+            <div class="col-12 col-xxl-6">
+              <div class="mb-8">
+                <h2 class="mb-2">Ecommerce Dashboard</h2>
+                <h5 class="text-body-tertiary fw-semibold">Here’s what’s going on at your business right now</h5>
+              </div>
+              <div class="row align-items-center g-4">
+                <div class="col-12 col-md-auto">
+                  <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><svg class="svg-inline--fa fa-square fa-stack-2x dark__text-opacity-50 text-success-light" data-fa-transform="down-4 rotate--10 left-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.1875em 0.75em;"><g transform="translate(224 256)"><g transform="translate(-128, 128)  scale(1, 1)  rotate(-10 0 0)"><path fill="currentColor" d="M0 96C0 60.65 28.65 32 64 32H384C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96z" transform="translate(-224 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-success-light" data-fa-transform="down-4 rotate--10 left-4"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-circle fa-stack-2x stack-circle text-stats-circle-success" data-fa-transform="up-4 right-3 grow-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.6875em 0.25em;"><g transform="translate(256 256)"><g transform="translate(96, -128)  scale(1.125, 1.125)  rotate(0 0 0)"><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z" transform="translate(-256 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-success" data-fa-transform="up-4 right-3 grow-2"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-star fa-stack-1x text-success" data-fa-transform="shrink-2 up-8 right-6" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="" style="transform-origin: 0.9375em 0em;"><g transform="translate(288 256)"><g transform="translate(192, -256)  scale(0.875, 0.875)  rotate(0 0 0)"><path fill="currentColor" d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z" transform="translate(-288 -256)"></path></g></g></svg><!-- <span class="fa-stack-1x fa-solid fa-star text-success " data-fa-transform="shrink-2 up-8 right-6"></span> Font Awesome fontawesome.com --></span>
+                    <div class="ms-3">
+                      <h4 class="mb-0">57 new orders</h4>
+                      <p class="text-body-secondary fs-9 mb-0">Awating processing</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-auto">
+                  <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><svg class="svg-inline--fa fa-square fa-stack-2x dark__text-opacity-50 text-warning-light" data-fa-transform="down-4 rotate--10 left-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.1875em 0.75em;"><g transform="translate(224 256)"><g transform="translate(-128, 128)  scale(1, 1)  rotate(-10 0 0)"><path fill="currentColor" d="M0 96C0 60.65 28.65 32 64 32H384C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96z" transform="translate(-224 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-warning-light" data-fa-transform="down-4 rotate--10 left-4"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-circle fa-stack-2x stack-circle text-stats-circle-warning" data-fa-transform="up-4 right-3 grow-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.6875em 0.25em;"><g transform="translate(256 256)"><g transform="translate(96, -128)  scale(1.125, 1.125)  rotate(0 0 0)"><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z" transform="translate(-256 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-warning" data-fa-transform="up-4 right-3 grow-2"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-pause fa-stack-1x text-warning" data-fa-transform="shrink-2 up-8 right-6" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pause" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.6875em 0em;"><g transform="translate(160 256)"><g transform="translate(192, -256)  scale(0.875, 0.875)  rotate(0 0 0)"><path fill="currentColor" d="M272 63.1l-32 0c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48L272 448c26.51 0 48-21.49 48-48v-288C320 85.49 298.5 63.1 272 63.1zM80 63.1l-32 0c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448l32 0c26.51 0 48-21.49 48-48v-288C128 85.49 106.5 63.1 80 63.1z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fa-stack-1x fa-solid fa-pause text-warning " data-fa-transform="shrink-2 up-8 right-6"></span> Font Awesome fontawesome.com --></span>
+                    <div class="ms-3">
+                      <h4 class="mb-0">5 orders</h4>
+                      <p class="text-body-secondary fs-9 mb-0">On hold</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-auto">
+                  <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><svg class="svg-inline--fa fa-square fa-stack-2x dark__text-opacity-50 text-danger-light" data-fa-transform="down-4 rotate--10 left-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.1875em 0.75em;"><g transform="translate(224 256)"><g transform="translate(-128, 128)  scale(1, 1)  rotate(-10 0 0)"><path fill="currentColor" d="M0 96C0 60.65 28.65 32 64 32H384C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96z" transform="translate(-224 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-square fa-stack-2x dark__text-opacity-50 text-danger-light" data-fa-transform="down-4 rotate--10 left-4"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-circle fa-stack-2x stack-circle text-stats-circle-danger" data-fa-transform="up-4 right-3 grow-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.6875em 0.25em;"><g transform="translate(256 256)"><g transform="translate(96, -128)  scale(1.125, 1.125)  rotate(0 0 0)"><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z" transform="translate(-256 -256)"></path></g></g></svg><!-- <span class="fa-solid fa-circle fa-stack-2x stack-circle text-stats-circle-danger" data-fa-transform="up-4 right-3 grow-2"></span> Font Awesome fontawesome.com --><svg class="svg-inline--fa fa-xmark fa-stack-1x text-danger" data-fa-transform="shrink-2 up-8 right-6" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.6875em 0em;"><g transform="translate(160 256)"><g transform="translate(192, -256)  scale(0.875, 0.875)  rotate(0 0 0)"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fa-stack-1x fa-solid fa-xmark text-danger " data-fa-transform="shrink-2 up-8 right-6"></span> Font Awesome fontawesome.com --></span>
+                    <div class="ms-3">
+                      <h4 class="mb-0">15 products</h4>
+                      <p class="text-body-secondary fs-9 mb-0">Out of stock</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="bg-body-secondary mb-6 mt-4">
+              <div class="row flex-between-center mb-4 g-3">
+                <div class="col-auto">
+                  <h3>Total sells</h3>
+                  <p class="text-body-tertiary lh-sm mb-0">Payment received across all channels</p>
+                </div>
+                <div class="col-8 col-sm-4"><select class="form-select form-select-sm" id="select-gross-revenue-month">
+                    <option>Mar 1 - 31, 2022</option>
+                    <option>April 1 - 30, 2022</option>
+                    <option>May 1 - 31, 2022</option>
+                  </select></div>
+              </div>
+              <div class="echart-total-sales-chart" style="min-height: 320px; width: 100%; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1715613235385"><div style="position: relative; width: 878px; height: 320px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="878" height="320" style="position: absolute; left: 0px; top: 0px; width: 878px; height: 320px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class="" style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; background-color: rgb(239, 242, 246); border-width: 1px; border-radius: 4px; color: rgb(20, 24, 36); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 10px; top: 0px; left: 0px; transform: translate3d(356px, 58px, 0px); border-color: rgb(203, 208, 221); pointer-events: none; visibility: hidden; opacity: 0;"><div class="ms-1">
+              <h6 class="fs-9 text-body-tertiary false"><svg class="svg-inline--fa fa-circle me-2" style="color: #3874ff;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg><!-- <span class="fas fa-circle me-2" style="color:#3874ff"></span> Font Awesome fontawesome.com -->
+      May 12 : 500
+    </h6><h6 class="fs-9 text-body-tertiary mb-0"><svg class="svg-inline--fa fa-circle me-2" style="color: #0097eb;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg><!-- <span class="fas fa-circle me-2" style="color:#0097eb"></span> Font Awesome fontawesome.com -->
+      Apr 12 : 50
+    </h6>
+            </div></div></div>
+            </div>
+            <div class="col-12 col-xxl-6">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">Total orders<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs-9 ms-2"><span class="badge-label">-6.8%</span></span></h5>
+                          <h6 class="text-body-tertiary">Last 7 days</h6>
+                        </div>
+                        <h4>16,247</h4>
+                      </div>
+                      <div class="d-flex justify-content-center px-4 py-6">
+                        <div class="echart-total-orders" style="height: 85px; width: 115px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1715613235391"><div style="position: relative; width: 115px; height: 85px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="115" height="85" style="position: absolute; left: 0px; top: 0px; width: 115px; height: 85px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+                      </div>
+                      <div class="mt-2">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Completed</h6>
+                          <h6 class="text-body fw-semibold mb-0">52%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-subtle me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Pending payment</h6>
+                          <h6 class="text-body fw-semibold mb-0">48%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">New customers<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs-9 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
+                          <h6 class="text-body-tertiary">Last 7 days</h6>
+                        </div>
+                        <h4>356</h4>
+                      </div>
+                      <div class="pb-0 pt-4">
+                        <div class="echarts-new-customers" style="height: 180px; width: 100%; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1715613235386"><div style="position: relative; width: 381px; height: 180px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="381" height="180" style="position: absolute; left: 0px; top: 0px; width: 381px; height: 180px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Top coupons</h5>
+                          <h6 class="text-body-tertiary">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="pb-4 pt-3">
+                        <div class="echart-top-coupons" style="height: 115px; width: 100%; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1715613235387"><div style="position: relative; width: 381px; height: 115px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="381" height="115" style="position: absolute; left: 0px; top: 0px; width: 381px; height: 115px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+                      </div>
+                      <div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Percentage discount</h6>
+                          <h6 class="text-body fw-semibold mb-0">72%</h6>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary-lighter me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Fixed card discount</h6>
+                          <h6 class="text-body fw-semibold mb-0">18%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-info-dark me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Fixed product discount</h6>
+                          <h6 class="text-body fw-semibold mb-0">10%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Paying vs non paying</h5>
+                          <h6 class="text-body-tertiary">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center pt-3 flex-1">
+                        <div class="echarts-paying-customer-chart" style="height: 100%; width: 100%; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1715613235390"><div style="position: relative; width: 381px; height: 144px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="381" height="144" style="position: absolute; left: 0px; top: 0px; width: 381px; height: 144px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+                      </div>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Paying customer</h6>
+                          <h6 class="text-body fw-semibold mb-0">30%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-subtle me-2"></div>
+                          <h6 class="text-body fw-semibold flex-1 mb-0">Non-paying customer</h6>
+                          <h6 class="text-body fw-semibold mb-0">70%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
                     <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
