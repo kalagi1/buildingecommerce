@@ -133,6 +133,7 @@ class AuthController extends Controller
                         'success' => true,
                         'id' => $user->id,
                         'name' => $user->name,
+                        'has_club' => $user->has_club,
                         'profile_image' => $user->profile_image,
                         'banner_hex_code' => $user->banner_hex_code,
                         "phone_verification_status" => $user->phone_verification_status,
