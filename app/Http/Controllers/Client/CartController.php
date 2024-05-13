@@ -610,7 +610,7 @@ class CartController extends Controller
                             'cart_id' => $order->id,
                             'status' => '0',
                             'balance' => $sharedAmount_balance,
-                            'earn' => $sharedAmount_balance,
+                            'earn' => $newAmount - $sharedAmount_balance,
                             'earn2' => 0,
 
                         ]);
