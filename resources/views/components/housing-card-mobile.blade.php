@@ -10,7 +10,7 @@
                         style="width: 115px; height: 128px;">
                       
                         
-                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
                         <div class="homes-price"
                         style="bottom: 0;left:0;z-index:9"><i class="fa fa-handshake-o"></i></div>
                         @endif
@@ -33,7 +33,7 @@
                         {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                     </h4>
                     <div class="mobile-right-width">
-                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
 
                         <span
                             class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "

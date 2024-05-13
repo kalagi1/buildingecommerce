@@ -101,25 +101,30 @@ class AppServiceProvider extends ServiceProvider
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
 
-                if ($user->corporate_type == 'Emlak Ofisi') {
-                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+
+                if ($user->type != "1" || $user->type != "3") {
+
+                    if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
+                        $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                    }
+
+                    if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
+                        $permissions = array_diff($permissions, [
+                            "Offers",
+                            "CreateOffer",
+                            "Offers",
+                            "DeleteOffer",
+                            "GetOfferById",
+                            "UpdateOffer",
+                            "GetOffers"
+                        ]);
+                    }
+
+                    if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                        $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+                    }
                 }
 
-                if ($user->corporate_type != 'İnşaat Ofisi') {
-                    $permissions = array_diff($permissions, [
-                        "Offers",
-                        "CreateOffer",
-                        "Offers",
-                        "DeleteOffer",
-                        "GetOfferById",
-                        "UpdateOffer",
-                        "GetOffers"
-                    ]);
-                }
-
-                if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
-                }
 
 
                 $jsonFilePath = base_path($jsonFileName);
@@ -154,7 +159,7 @@ class AppServiceProvider extends ServiceProvider
         if (isset($menuItem['subMenu'])) {
             // Alt menü anahtarlarını pluck et ve kontrol et
             $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
-    
+
             // Alt menülerde izinlerle kesişen varsa, ana menüyü görünür yap
             $menuItem['visible'] = $subMenuKeys->intersect($permissions)->isNotEmpty();
         } else {

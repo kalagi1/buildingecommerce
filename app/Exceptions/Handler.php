@@ -29,32 +29,40 @@ class Handler extends ExceptionHandler
         });
     }
 
-   
-public function render($request, Throwable $exception)
-{
-    if ($exception instanceof HttpException) {
-        $statusCode = $exception->getStatusCode();
 
-        switch ($statusCode) {
-            case 403:
-                return $this->renderCustom403Page();
-            case 404:
-                return $this->renderCustom404Page();
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof HttpException) {
+            $statusCode = $exception->getStatusCode();
+
+            switch ($statusCode) {
+                case 403:
+                    return $this->renderCustom403Page();
+                case 404:
+                    return $this->renderCustom404Page();
+            }
         }
+
+        if ($exception instanceof HttpException && $exception->getStatusCode() == 500) {
+            return redirect('/')->with('error', 'Bir Hata Oluştu');
+        }
+
+        if ($exception instanceof \ErrorException && strpos($exception->getMessage(), 'Undefined property') !== false) {
+            return redirect('/')->with('error', 'Bir Hata Oluştu');
+        }
+
+        return parent::render($request, $exception);
     }
 
-    return parent::render($request, $exception);
-}
+    protected function renderCustom403Page()
+    {
+        return redirect('/')
+            ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
+    }
 
-protected function renderCustom403Page()
-{
-    return redirect('/')
-        ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
-}
-
-protected function renderCustom404Page()
-{
-    return redirect('/')
-        ->with('error', 'Sayfa bulunamadı.');
-}
+    protected function renderCustom404Page()
+    {
+        return redirect('/')
+            ->with('error', 'Sayfa bulunamadı.');
+    }
 }
