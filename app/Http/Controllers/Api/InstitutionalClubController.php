@@ -16,7 +16,6 @@ class InstitutionalClubController extends Controller
 {
     public function clubUpdate(Request $request)
     {
-        return $request->all();
 
         if (Auth::user()->type == "1") {
             $request->validate(
