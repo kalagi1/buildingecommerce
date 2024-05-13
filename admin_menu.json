@@ -161,7 +161,7 @@
     {
         "id": "housing",
         "label": "Emlak Sepette İlanları",
-        "icon": "thumbs-up",
+        "icon": "stop-circle",
         "text": "Emlak İlanları",
         "key": "GetHousings",
         "url": "admin.housings.index",
@@ -172,7 +172,7 @@
     {
         "id": "housing",
         "label": "Emlak Sepette İlanları",
-        "icon": "thumbs-up",
+        "icon": "share-2",
         "text": "Paylaşımlı Emlak İlanları",
         "key": "IsShareHousings",
         "url": "admin.is_share.housings.index",
