@@ -128,6 +128,8 @@ class AppServiceProvider extends ServiceProvider
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
 
+                    return $menuData;
+
                     foreach ($menuData as &$menuItem) {
                         $this->setMenuVisibility($menuItem, $permissions);
 
@@ -151,7 +153,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function setMenuVisibility(&$menuItem, $permissions)
     {
-      dd($permissions);
         if (isset($menuItem['subMenu'])) {
             // Alt menü anahtarlarını pluck et ve kontrol et
             $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
