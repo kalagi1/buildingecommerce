@@ -97,7 +97,7 @@ class AppServiceProvider extends ServiceProvider
             $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
 
             if ($user) {
-                dd($user->role);
+                dd($user->role->rolePermissions);
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
