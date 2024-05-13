@@ -80,7 +80,7 @@ class InfoController extends Controller
         $createdAt = Carbon::parse($order->created_at);
         
         // Oluşturulma tarihi ile şu anki tarih arasındaki farkı gün cinsinden hesapla
-        $differenceInDays = $createdAt->diffInDays($now);
+        $differenceInDays = $createdAt->diffInDays($refund->created_at);
         
         // Eğer oluşturulma tarihi 14 günü geçmemişse
         if ($differenceInDays <= 14) {
@@ -97,7 +97,7 @@ class InfoController extends Controller
         } else {
 
             $amount = $order->amount;
-            $refundAmount =  $amount;
+            $refundAmount = $amount;
             $recipientAmount = (float)"0";
 
         }
