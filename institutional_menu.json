@@ -169,7 +169,7 @@
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Kiralama Geçimişim",
+        "text": "Rezervasyon Geçimişim",
         "key": "Reservations",
         "url": "#nv-shopping",
         "activePath": [

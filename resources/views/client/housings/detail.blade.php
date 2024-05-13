@@ -1601,7 +1601,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -2349,8 +2349,8 @@
                         $("#orderKey").val(uniqueCode);
                         $(".totalPriceCode").html(uniqueCode);
                         $(".reservationBtn").attr({
-                            "data-toggle": "modal",
-                            "data-target": "#paymentModal"
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#reservationModal"
                         })
                     }
 
@@ -2544,7 +2544,7 @@
                         if ($('.bank-account.selected').length === 0) {
                             toastr.error('Lütfen banka seçimi yapınız.');
                         } else {
-                            $('#paymentModal').removeClass('show').hide();
+                            $('#reservationModal').removeClass('show').hide();
                             $('.modal-backdrop').removeClass('show');
                             $(".modal-backdrop").remove();
                             $('#finalConfirmationModal').modal('show');
