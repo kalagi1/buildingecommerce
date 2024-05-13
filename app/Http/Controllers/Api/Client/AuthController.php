@@ -133,6 +133,8 @@ class AuthController extends Controller
                         'success' => true,
                         'id' => $user->id,
                         'name' => $user->name,
+                        "bank_name" => $user->bank_name,
+                        "iban" => $user->iban,
                         'has_club' => $user->has_club,
                         'profile_image' => $user->profile_image,
                         'banner_hex_code' => $user->banner_hex_code,
