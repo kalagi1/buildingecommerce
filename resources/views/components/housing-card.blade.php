@@ -20,7 +20,7 @@
                                 Satılık
                             @endif
                         </div>
-                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
                         <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
                         @endif
                         <img loading="lazy"
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="button-effect-div">
-                    @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                    @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
                         <span
                             class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
                             data-type='housing' data-id="{{ $housing->id }}">
