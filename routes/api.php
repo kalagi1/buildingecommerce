@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\InstitutionalClubController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -127,6 +129,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:UpdateRole'])->group(function () {
             Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
         });
+
+        Route::put('/club/update', [InstitutionalClubController::class, 'clubUpdate'])->name('club.update');
+
 
         // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
         Route::middleware(['checkPermission:GetRoles'])->group(function () {
