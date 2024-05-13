@@ -165,7 +165,7 @@
         "text": "Emlak İlanları",
         "key": "GetHousings",
         "url": "admin.housings.index",
-        "activePath": "qR9zLp2xS6y/secured/housing"
+        "activePath": "qR9zLp2xS6y/secured/housings"
     },
 
     
@@ -176,7 +176,7 @@
         "text": "Paylaşımlı Emlak İlanları",
         "key": "IsShareHousings",
         "url": "admin.is_share.housings.index",
-        "activePath": "qR9zLp2xS6y/secured/housing/is-share"
+        "activePath": "qR9zLp2xS6y/secured/housings/is-share"
     },
 
     {
@@ -201,9 +201,6 @@
             }
         ]
     },
-  
-   
-
     {
         "id": "order",
         "label": "SİPARİŞLER & REZERVASYONLAR",
