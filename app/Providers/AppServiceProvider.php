@@ -100,7 +100,6 @@ class AppServiceProvider extends ServiceProvider
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
-                dd($permissions);
 
 
                 if ($user->type != "1" || $user->type != "3") {
