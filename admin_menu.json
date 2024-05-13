@@ -172,7 +172,7 @@
     {
         "id": "housing",
         "label": "Emlak Sepette İlanları",
-        "icon": "share",
+        "icon": "share-alt",
         "text": "Paylaşımlı Emlak İlanları",
         "key": "IsShareHousings",
         "url": "admin.is_share.housings.index",
