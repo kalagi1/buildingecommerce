@@ -101,6 +101,8 @@ class AppServiceProvider extends ServiceProvider
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
 
+                dd($permissions);
+
                 if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
                     $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
                 }
@@ -128,7 +130,6 @@ class AppServiceProvider extends ServiceProvider
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
 
-                    dd($menuData);
                     foreach ($menuData as &$menuItem) {
                         $this->setMenuVisibility($menuItem, $permissions);
 
