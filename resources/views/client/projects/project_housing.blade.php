@@ -267,7 +267,9 @@
 
                                 @if (
                                     ($sold && $sold->status === '2' && $share_sale == '[]') ||
-                                        !$sold($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        !$sold ||
+                                    
+                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
