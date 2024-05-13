@@ -142,7 +142,7 @@ class ProjectController extends Controller
             'project_list_items.column3_additional as column3_additional',
             'project_list_items.column4_additional as column4_additional',
             'housings.address',
-            \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
+            DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
             'cities.title AS city_title',
             'districts.ilce_title AS county_title',
             'neighborhoods.mahalle_title AS neighborhood_title',
