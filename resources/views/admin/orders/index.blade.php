@@ -107,9 +107,7 @@
                                                 class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">
                                                 {{ $order->created_at }}</td>
 
-                                            @if(!isset($orderCart['item']['slug']))
-                                            {{dd($orderCart['item']['id'],optional(App\Models\Project::find($orderCart['item']['id'])))}}
-                                            @endif
+                                          
                                             <td class="ad_no align-middle  fw-semibold text-body-highlight">
                                                 <a target="_blank"
                                                     href="{{ $orderCart['type'] == 'housing'
