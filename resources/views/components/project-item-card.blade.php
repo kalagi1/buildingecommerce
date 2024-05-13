@@ -127,7 +127,7 @@
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                            !$sold ||
+                                        !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]' ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
                                             (isset($sumCartOrderQt[$keyIndex]) &&
                                                 $sold &&
