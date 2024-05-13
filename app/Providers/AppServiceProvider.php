@@ -101,11 +101,11 @@ class AppServiceProvider extends ServiceProvider
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
 
-                if ($user->corporate_type == 'Emlak Ofisi') {
+                if ($user->corporate_type && $user->corporate_type == 'Emlak Ofisi') {
                     $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
                 }
 
-                if ($user->corporate_type != 'İnşaat Ofisi') {
+                if ($user->corporate_type && $user->corporate_type != 'İnşaat Ofisi') {
                     $permissions = array_diff($permissions, [
                         "Offers",
                         "CreateOffer",
@@ -117,7 +117,7 @@ class AppServiceProvider extends ServiceProvider
                     ]);
                 }
 
-                if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                if ($user->corporate_type && $user->corporate_type != 'Turizm Amaçlı Kiralama' ) {
                     $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
                 }
 
