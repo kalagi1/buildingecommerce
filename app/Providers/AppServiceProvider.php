@@ -151,7 +151,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function setMenuVisibility(&$menuItem, $permissions)
     {
-        return $permissions;
+      dd($permissions);
         if (isset($menuItem['subMenu'])) {
             // Alt menü anahtarlarını pluck et ve kontrol et
             $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
