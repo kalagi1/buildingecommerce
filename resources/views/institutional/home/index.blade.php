@@ -14,6 +14,15 @@
                 </div>
 
             </div>
+        @else
+            <div class="row gy-3 mb-5 justify-content-between">
+                <div class="col-md-12 col-auto">
+                    <span class="badge bg-info ">
+                        {{ $userLog->corporate_type }}</span>
+
+                </div>
+
+            </div>
         @endif
 
         @if (Auth::check() && Auth::user()->type == '2')
