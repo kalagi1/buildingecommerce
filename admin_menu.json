@@ -66,7 +66,7 @@
         "label": "Emlak Sepette İlanları",
         "icon": "thumbs-up",
         "text": "Proje İlanları",
-        "key": "GetProjects",
+        "key": "Projects",
         "url": "admin.projects.index",
         "activePath": "qR9zLp2xS6y/secured/projects"
     },
@@ -162,7 +162,7 @@
         "label": "Emlak Sepette İlanları",
         "icon": "thumbs-up",
         "text": "Emlak İlanları",
-        "key": "GetHousings",
+        "key": "Housings",
         "url": "admin.housings.index",
         "activePath": "qR9zLp2xS6y/secured/housing"
     },
