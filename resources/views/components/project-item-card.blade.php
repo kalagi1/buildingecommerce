@@ -129,10 +129,10 @@
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                             !$sold ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                            (isset($sumCartOrderQt[$housingOrder]) &&
+                                            (isset($sumCartOrderQt[$keyIndex]) &&
                                                 $sold &&
                                                 $sold->status != '2' &&
-                                                $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share))
+                                                $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
                                         <span class="btn addCollection mobileAddCollection" data-type='project'
                                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                             <i class="fa fa-bookmark-o"></i>
