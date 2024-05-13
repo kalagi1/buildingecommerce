@@ -128,8 +128,7 @@ class AppServiceProvider extends ServiceProvider
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
 
-                    return $menuData;
-
+                    dd($menuData);
                     foreach ($menuData as &$menuItem) {
                         $this->setMenuVisibility($menuItem, $permissions);
 
