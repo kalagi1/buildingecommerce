@@ -358,11 +358,11 @@ class CartController extends Controller
                         if ($coupon->user->corporate_type == $rate->institution->name) {
                             // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                             $sales_rate_club = $rate->sales_rate_club;
-                    
+
                             break; // Eşleşme bulunduğunda döngüyü sonlandırın
                         }
                     }
-                    
+
                     // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
                     if ($sales_rate_club === null && count($rates) > 0) {
                         $sales_rate_club = $rates->last()->sales_rate_club;
@@ -581,7 +581,11 @@ class CartController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    $share_percent = 0.5;
+                    if ($collection->user->type != "1") {
+                        $share_percent = 0.5;
+                    } else {
+                        $share_percent = 0.25;
+                    }
                     $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
                     $cart = json_decode($cartItem->cart, true);
@@ -806,11 +810,10 @@ class CartController extends Controller
             // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = "https://test.emlaksepette.com/public/dekont/" .$order->dekont;
-       
+        $dekontDosyaYolu = "https://test.emlaksepette.com/public/dekont/" . $order->dekont;
+
         if ($dekontDosyaYolu) {
             return redirect()->away($dekontDosyaYolu);
-
         } else {
             return abort(404);
             // Dekont bulunamazsa 404 hatası döndür
