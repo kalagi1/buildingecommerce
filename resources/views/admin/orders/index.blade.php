@@ -208,14 +208,12 @@
                                                         ][$order->refund->status] !!}
                                                     </span>
                                                 </td>
-                                                @if ($order->invoice )
-                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                                            Faturayı Görüntüle
-                                                        </a>
+                                                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        Faturayı Görüntüle
+                                                    </a>
 
-                                                    </span>
-                                                @endif
+                                                </span>
 
                                             @else
                                                 <td class="order_status"><span class="text-success">
