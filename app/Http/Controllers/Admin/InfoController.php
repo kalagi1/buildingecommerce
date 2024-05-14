@@ -61,6 +61,8 @@ class InfoController extends Controller
     $missingCartIds = $allCartIds->diff($cartOrderRefundCartIds);
 
 
+    return $missingCartIds;
+
     
     // Eksik olan cart_id'lerin kazancını topla
     $totalEarn = 0;
