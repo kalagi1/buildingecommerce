@@ -47,17 +47,22 @@ class InfoController extends Controller
 
     public function accounting()
     {
-        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
+        $cartPrices = CartPrice::with("cart.user")->where("status", "1")->get();
+    
         $filteredCartPrices = $cartPrices->filter(function ($cartPrice) {
-            return isset($cartPrice->cart->refund) && in_array($cartPrice->cart->refund->status, [1, 3]);
+            return $cartPrice->cart->relationLoaded('refund') && in_array($cartPrice->cart->refund->status, [1, 3]);
         });
-        
-        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
+    
+        $sharerPrices = SharerPrice::with("cart.user", "user")->where("status", "1")->get();
+    
         $filteredSharerPrices = $sharerPrices->filter(function ($sharerPrice) {
-            return isset( $sharerPrice->cart->refund) && in_array($sharerPrice->cart->refund->status, [1, 3]);
+            return $sharerPrice->cart && $sharerPrice->cart->relationLoaded('refund') && in_array($sharerPrice->cart->refund->status, [1, 3]);
         });
+    
         $mergedArray = $filteredCartPrices->concat($filteredSharerPrices);
+    
         $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+    
         $totalEarn = $mergedArray->sum(function ($item) {
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
@@ -65,7 +70,7 @@ class InfoController extends Controller
     
         return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
     }
-
+    
   
     public function accountingForRefund()
 {
