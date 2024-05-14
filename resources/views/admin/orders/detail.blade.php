@@ -383,10 +383,9 @@
                                         // Yüzde hesaplama
                                         $yuzde = ($kaporaTutari / $ilanFiyati) * 100;
                                         
-                                        // Sonucu ekrana yazdırma
-                                        echo 'Ödenen kapora, ilan fiyatının %' . number_format($yuzde, 2) . 'si kadar.';
                                         ?>
-                                        <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
+                                        
+                                        <p class="text-body-emphasis fw-semibold">%{{ number_format($yuzde, 2) }}</p>
                                     </div>
 
 
