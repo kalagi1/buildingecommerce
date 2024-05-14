@@ -327,8 +327,8 @@ public function corporateAccountWaiting()
     public function index()
     {
         $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
-        $projectCounts = Project::where("user_id", $userLog->id)->where("status","1")->get();
-        $housingCounts = Housing::where("user_id", $userLog->id)->where("status","1")->get();
+        $projectCounts = Project::where("user_id", $userLog->id)->where("status","1")->count();
+        $housingCounts = Housing::where("user_id", $userLog->id)->where("status","1")->count();
 
         $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
         $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
