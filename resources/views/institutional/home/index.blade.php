@@ -46,31 +46,27 @@
                                     <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
                             <div class="d-flex align-items-center"><span
-                                    class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
-                                <div class="ms-2">
-                                    <div class="d-flex align-items-end">
-                                        <h2 class="mb-0 me-2">23</h2><span
-                                            class="fs-7 fw-semibold text-body">Invoices</span>
-                                    </div>
-                                    <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
+                                class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
+                            <div class="ms-2">
+                                <div class="d-flex align-items-end">
+                                    <h2 class="mb-0 me-2">23</h2><span
+                                        class="fs-7 fw-semibold text-body">Invoices</span>
                                 </div>
+                                <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
                             </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
-                            <div class="d-flex align-items-center"><span
-                                    class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
-                                <div class="ms-2">
-                                    <div class="d-flex align-items-end">
-                                        <h2 class="mb-0 me-2">23</h2><span
-                                            class="fs-7 fw-semibold text-body">Invoices</span>
-                                    </div>
-                                    <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
-                                </div>
+                        </div> <div class="d-flex align-items-center"><span
+                            class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
+                        <div class="ms-2">
+                            <div class="d-flex align-items-end">
+                                <h2 class="mb-0 me-2">23</h2><span
+                                    class="fs-7 fw-semibold text-body">Invoices</span>
                             </div>
+                            <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
                         </div>
+                    </div>
+                        </div>
+                        
                     </div>
                     <hr class="bg-body-secondary mb-6 mt-4">
                     <div class="row flex-between-center mb-4 g-3">
