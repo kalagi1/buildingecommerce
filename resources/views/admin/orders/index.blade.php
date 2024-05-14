@@ -207,13 +207,16 @@
                                                             '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
                                                         ][$order->refund->status] !!}
                                                     </span>
-                                                </td>
-                                                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                                        Faturayı Görüntüle
-                                                    </a>
+                                                    @if ($order->invoice )
+                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                            Faturayı Görüntüle
+                                                        </a>
 
-                                                </span>
+                                                    </span>
+                                                @endif
+                                                </td>
+                                               
 
                                             @else
                                                 <td class="order_status"><span class="text-success">
