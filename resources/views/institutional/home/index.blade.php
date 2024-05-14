@@ -38,7 +38,7 @@
                         <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                             <div class="d-flex align-items-center">
                                 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 width="50px" height="50px" viewBox="0 0 58.341 58.342"
+	 width="40px" height="40px" viewBox="0 0 58.341 58.342"
 	 xml:space="preserve">
 <g>
 	<g>
@@ -69,7 +69,7 @@
                             <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                                 <div class="d-flex align-items-center">
                                     <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 width="40px" height="40px" viewBox="0 0 209.19 209.19"
+	 width="50px" height="50px" viewBox="0 0 209.19 209.19"
 	 xml:space="preserve">
 <g>
 	<g>
