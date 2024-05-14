@@ -171,8 +171,6 @@
                 @if (Auth::check() && Auth::user()->has_club == 1)
                     <div class="row g-3">
                         <h5 class="text-body-tertiary fw-semibold">Emlak Kulüp İstatistiği</h5>
-                        <hr class="bg-body-secondary mt-4">
-
                         <div class="col-md-6 col-12">
                             <div class="card h-100">
                                 <div class="card-body">
@@ -291,6 +289,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 col-12">
+                            <h5 class="text-body-tertiary fw-semibold">Son Eklenen Koleksiyonlar</h5>
                             <ul class="list-group">
                                 @foreach ($collections as $item)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
