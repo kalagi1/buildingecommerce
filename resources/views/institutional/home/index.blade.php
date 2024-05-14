@@ -179,7 +179,7 @@
                                             {{ $item->name }}<span
                                                 class="badge badge-phoenix badge-phoenix-primary rounded-pill">
                                                 {{ count($item->links) }} İLAN</span></li>
-                                    @endif
+                                    @endforeach
                                 </ul>
 
 
