@@ -253,7 +253,7 @@ class ProjectController extends Controller
                 ->groupBy('project_id')
                 ->where("status", "1")
                 ->get();
-                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+                // $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
             }
 
             for ($i = 1; $i <= $room_counts; $i++) {
