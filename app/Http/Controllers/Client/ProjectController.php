@@ -233,7 +233,7 @@ class ProjectController extends Controller
             for ($i = 1; $i <= $roomCounts; $i++) {
                 $hasShareSale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
                 if ($hasShareSale) {
-                    $totalShares = array_sum($projectHousingsList[$i]['number_of_shares[]']);
+                    $totalShares = $projectHousingsList[$i]['number_of_shares[]'];
                     $totalQuantity = CartOrder::selectRaw("SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity")
                         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.housing"))'), $i)
