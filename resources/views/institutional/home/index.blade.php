@@ -18,7 +18,7 @@
             <div class="row gy-3 mb-5 justify-content-between">
                 <div class="col-md-12 col-auto">
                     <span class="badge bg-info ">
-                        {{ $userLog->corporate_type }}</span>
+                        {{ $userLog->corporate_type ?? "Bireysel Hesap" }}</span>
 
                 </div>
 
@@ -302,18 +302,15 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-12 col-xl-6 col-xxl-5">
-                        <a href="{{ route('institutional.sharer.index') }}">
-                            <div class="card border h-100 w-100 overflow-hidden">
+                <a href="{{ route('institutional.sharer.index') }}">
+                    <div class="card border h-100 w-100 overflow-hidden">
 
-                                <div class="card-body position-relative">
-                                    <img src="{{ asset('popup2.jpeg') }}" alt=""
-                                        style="width:100%;height:100%;object-fit:cover">
-                                </div>
-                            </div>
-                        </a>
-
+                        <div class="card-body position-relative">
+                            <img src="{{ asset('popup2.jpeg') }}" alt=""
+                                style="width:100%;height:100%;object-fit:cover">
+                        </div>
                     </div>
+                </a>
                 @endif
             </div>
         </div>
