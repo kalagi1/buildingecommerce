@@ -171,7 +171,7 @@
                 @if (Auth::check() && Auth::user()->has_club == 1)
                     <div class="row g-3">
                         <h5 class="text-body-tertiary fw-semibold">Emlak Kulüp İstatistiği</h5>
-                        <hr class="bg-body-secondary mb-6 mt-4">
+                        <hr class="bg-body-secondary mt-4">
 
                         <div class="col-md-6 col-12">
                             <div class="card h-100">
