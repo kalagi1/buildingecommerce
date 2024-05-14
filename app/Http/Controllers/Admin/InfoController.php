@@ -46,18 +46,42 @@ class InfoController extends Controller
     }
 
     public function accounting()
-    {
-        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
-        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
-        $mergedArray = $cartPrices->concat($sharerPrices);
-        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
-        $totalEarn = $mergedArray->sum(function ($item) {
-            $cleanedEarn = str_replace(['.', ','], '', $item->earn);
-            return floatval($cleanedEarn);
-        });
-    
-        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+{
+    // CartPrice ve SharerPrice tablolarındaki tüm cart_id değerlerini al
+    $cartPriceCartIds = CartPrice::pluck('cart_id');
+    $sharerPriceCartIds = SharerPrice::pluck('cart_id');
+
+    // CartOrderRefund tablosundaki cart_id değerlerini al
+    $cartOrderRefundCartIds = CartOrderRefund::pluck('cart_order_id');
+
+    // CartPrice ve SharerPrice tablolarındaki cart_id'lerin birleşimini al
+    $allCartIds = $cartPriceCartIds->merge($sharerPriceCartIds);
+
+    // CartOrderRefund tablosundaki cart_order_id'lerin eksik olduğu cart_id'leri bul
+    $missingCartIds = $allCartIds->diff($cartOrderRefundCartIds);
+
+    // Eksik olan cart_id'lerin kazancını topla
+    $totalEarn = 0;
+    foreach ($missingCartIds as $cartId) {
+        $cartPrice = CartPrice::where('cart_id', $cartId)->first();
+        $sharerPrice = SharerPrice::where('cart_id', $cartId)->first();
+        if ($cartPrice) {
+            $totalEarn += $cartPrice->earn;
+        }
+        if ($sharerPrice) {
+            $totalEarn += $sharerPrice->earn;
+        }
     }
+
+    // Diğer kayıtların kazancını topla
+    $cartPrices = CartPrice::with("cart.user")->where("status", "1")->get();
+    $sharerPrices = SharerPrice::with("cart.user", "user")->where("status", "1")->get();
+    $mergedArray = $cartPrices->concat($sharerPrices);
+    $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+
+    return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+}
+
 
   
     public function accountingForRefund()
