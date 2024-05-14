@@ -68,10 +68,12 @@ class InfoController extends Controller
         $cartPrice = CartPrice::where('cart_id', $cartId)->where("status","1")->first();
         $sharerPrice = SharerPrice::where('cart_id', $cartId)->where("status","1")->first();
         if ($cartPrice) {
-            $totalEarn += $cartPrice->earn;
+            $cleanedEarn = str_replace(['.', ','], '', $cartPrice->earn);
+            $totalEarn += floatval($cleanedEarn);
         }
         if ($sharerPrice) {
-            $totalEarn += $sharerPrice->earn;
+            $cleanedEarn2 = str_replace(['.', ','], '', $sharerPrice->earn);
+            $totalEarn += floatval($cleanedEarn2);
         }
     }
 
