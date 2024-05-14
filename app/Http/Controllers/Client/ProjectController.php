@@ -213,71 +213,63 @@ class ProjectController extends Controller
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
 
+            function getTotalQuantity($projectId, $housingIndex) {
+                $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                return CartOrder::selectRaw("SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity")
+                                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $projectId)
+                                ->where(DB::raw($housingJsonPath), $housingIndex)
+                                ->where("status", "1")
+                                ->first();
+            }
+            
+            function countCartOrders($projectId, $projectHousingsList, $roomCounts) {
+                $cartOrders = 0;
+                for ($i = 1; $i <= $roomCounts; $i++) {
+                    $totalQuantity = getTotalQuantity($projectId, $i);
+                    $hasShareSale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
+                    $hasSameQuantity = $totalQuantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $totalQuantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
+                    
+                    if ((!$hasShareSale && !empty($totalQuantity->total_quantity) && isset($totalQuantity) && !$hasSameQuantity) || ($hasShareSale && $hasSameQuantity)) {
+                        $cartOrders += 1;
+                    } 
+                }
+                return $cartOrders;
+            }
+            
             $project->cartOrders = 0;
-            $projectCounts = 0;
-            $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
-            $matching_indices = [];
-            $matching_total = [];
-
+            $roomCounts = intval($project->room_count);
             $shareSaleCheck = false;
             $normalSaleCheck = false;
-            for($k = 1; $k <= $project->room_count; $k++){
-                if(isset($projectHousingsList[$k]['share_sale[]']) && $projectHousingsList[$k]['share_sale[]'] == '["Var"]'){
+            
+            for ($k = 1; $k <= $project->room_count; $k++) {
+                if (isset($projectHousingsList[$k]['share_sale[]']) && $projectHousingsList[$k]['share_sale[]'] == '["Var"]') {
                     $shareSaleCheck = true;
-                }else{
+                } else {
                     $normalSaleCheck = true;
                 }
             }
-            $project->numberOfSharesCount = 0;
-            if ($shareSaleCheck) {
-                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
             
-                for ($i = 1; $i <= $room_counts; $i++) {
-                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
-                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                        ->where(DB::raw($housingJsonPath), $i)
-                        ->first();
-                    if($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])){
+            $project->numberOfSharesCount = 0;
+            
+            if ($shareSaleCheck) {
+                $roomCounts = intval($project->room_count);
+            
+                for ($i = 1; $i <= $roomCounts; $i++) {
+                    $projectCounts = getTotalQuantity($project->id, $i);
+                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])) {
                         $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
                     }
-                  
                 }
-            }  if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
-                        $project->cartOrders += 1;
-                    }
-
-            if($normalSaleCheck){
+                $project->cartOrders = countCartOrders($project->id, $projectHousingsList, $roomCounts);
+            } else {
                 $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                ->groupBy('project_id')
-                ->where("status", "1")
-                ->get();
-                // $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+                                            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                                            ->groupBy('project_id')
+                                            ->where("status", "1")
+                                            ->get();
+                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
             }
-
-            for ($i = 1; $i <= $room_counts; $i++) {
-                $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-
-                $total_quantity = CartOrder::selectRaw(
-                    "SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity"
-                )
-                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                    ->where(DB::raw($housing_json_path), $i)
-                    ->where("status", "1")
-                    ->first();
-
-
-                $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
-                $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
-
-                if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity || $has_share_sale  && $has_same_quantity) {
-                    $project->cartOrders += 1;
-                    $matching_indices[] = $i;
-                    $matching_total[] = $total_quantity;
-                } 
-            }
-
+            
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
