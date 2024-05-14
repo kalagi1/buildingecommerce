@@ -49,14 +49,12 @@ class InfoController extends Controller
     {
         $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
         $filteredCartPrices = $cartPrices->filter(function ($cartPrice) {
-            return $cartPrice->cart->refund
-                && in_array($cartPrice->cart->refund->status, [1, 3]);
+            return isset($cartPrice->cart->refund) && in_array($cartPrice->cart->refund->status, [1, 3]);
         });
         
         $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
         $filteredSharerPrices = $sharerPrices->filter(function ($sharerPrice) {
-            return $sharerPrice->cart->refund
-                && in_array($sharerPrice->cart->refund->status, [1, 3]);
+            return isset( $sharerPrice->cart->refund) && in_array($sharerPrice->cart->refund->status, [1, 3]);
         });
         $mergedArray = $filteredCartPrices->concat($filteredSharerPrices);
         $mergedArray = $mergedArray->sortByDesc('cart.created_at');
