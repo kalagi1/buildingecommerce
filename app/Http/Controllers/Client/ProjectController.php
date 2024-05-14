@@ -241,11 +241,11 @@ class ProjectController extends Controller
                     if($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])){
                         $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
                     }
-                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
+                  
+                }
+            }  if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
                         $project->cartOrders += 1;
                     }
-                }
-            }
 
             if($normalSaleCheck){
                 $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
@@ -275,7 +275,7 @@ class ProjectController extends Controller
                     $project->cartOrders += 1;
                     $matching_indices[] = $i;
                     $matching_total[] = $total_quantity;
-                }
+                } 
             }
 
 
