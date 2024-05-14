@@ -9,6 +9,8 @@ use App\Models\CartOrder;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\Housing;
+use App\Models\Project;
 use App\Models\Reservation;
 use App\Models\SharerPrice;
 use App\Models\User;
@@ -325,6 +327,9 @@ public function corporateAccountWaiting()
     public function index()
     {
         $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
+        $projectCounts = Project::where("user_id", $userLog->id)->where("status","1")->get();
+        $housingCounts = Housing::where("user_id", $userLog->id)->where("status","1")->get();
+
         $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
         $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
         $stats1_data = [];
@@ -381,7 +386,7 @@ public function corporateAccountWaiting()
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
 
-        return view('institutional.home.index', compact("userLog", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
+        return view('institutional.home.index', compact("userLog","housingCounts","projectCounts" ,"balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
     }
 
     

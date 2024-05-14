@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        @if (Auth::check() && Auth::user()->type != '1' && Auth::user()->type != "3" && Auth::user()->parent != "4")
+        @if (Auth::check() && Auth::user()->type != '1' && Auth::user()->type != '3' && Auth::user()->parent != '4')
             <div class="row g-4">
                 <div class="col-12 col-xxl-6">
                     <div class="mb-8">
@@ -40,15 +40,30 @@
                                     class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
                                 <div class="ms-2">
                                     <div class="d-flex align-items-end">
-                                        <h2 class="mb-0 me-2">23</h2><span
-                                            class="fs-7 fw-semibold text-body">Invoices</span>
+                                        <h2 class="mb-0 me-2">{{ $housingCounts }}</h2><span
+                                            class="fs-7 fw-semibold text-body">İlan</span>
                                     </div>
-                                    <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
+                                    <p class="text-body-secondary fs-9 mb-0">Yayındaki emlak ilanı sayısı</p>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                        @if (Auth::user()->corporate_type != 'Emlak Ofisi')
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
+                                <div class="d-flex align-items-center"><span
+                                        class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
+                                    <div class="ms-2">
+                                        <div class="d-flex align-items-end">
+                                            <h2 class="mb-0 me-2">{{ $projectCounts }}</h2><span
+                                                class="fs-7 fw-semibold text-body">İlan</span>
+                                        </div>
+                                        <p class="text-body-secondary fs-9 mb-0">Yayındaki proje ilanı sayısı</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        @endif
+                        {{-- <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                             <div class="d-flex align-items-center"><span
                                     class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
                                 <div class="ms-2">
@@ -59,21 +74,9 @@
                                     <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
                                 </div>
                             </div>
-                            
-                        </div><div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
-                            <div class="d-flex align-items-center"><span
-                                    class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
-                                <div class="ms-2">
-                                    <div class="d-flex align-items-end">
-                                        <h2 class="mb-0 me-2">23</h2><span
-                                            class="fs-7 fw-semibold text-body">Invoices</span>
-                                    </div>
-                                    <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
+
+                        </div> --}}
+
                     </div>
                     <hr class="bg-body-secondary mb-6 mt-4">
                     <div class="row flex-between-center mb-4 g-3">
