@@ -236,7 +236,7 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <div
-                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center ">
                                     <div class="d-flex bg-success-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
                                         style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
                                             width="16px" height="16px" viewBox="0 0 24 24" fill="none"
@@ -266,7 +266,7 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <div
-                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center ">
                                     <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
                                         style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
                                             width="16px" height="16px" viewBox="0 0 24 24" fill="none"
