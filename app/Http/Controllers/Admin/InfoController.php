@@ -46,48 +46,27 @@ class InfoController extends Controller
     }
 
     public function accounting()
-{
-    // CartPrice ve SharerPrice tablolarındaki tüm cart_id değerlerini al
-    $cartPriceCartIds = CartPrice::pluck('cart_id');
-    $sharerPriceCartIds = SharerPrice::pluck('cart_id');
-
-    // CartOrderRefund tablosundaki cart_id değerlerini al
-    $cartOrderRefundCartIds = CartOrderRefund::pluck('cart_order_id');
-
-    // CartPrice ve SharerPrice tablolarındaki cart_id'lerin birleşimini al
-    $allCartIds = $cartPriceCartIds->merge($sharerPriceCartIds);
-
-    // CartOrderRefund tablosundaki cart_order_id'lerin eksik olduğu cart_id'leri bul
-    $missingCartIds = $allCartIds->diff($cartOrderRefundCartIds);
-
-
-    return json_encode($allCartIds);
-
+    {
+        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
+        $filteredCartPrices = $cartPrices->filter(function ($cartPrice) {
+            return $cartPrice->cart->refund
+                && in_array($cartPrice->cart->refund->status, [1, 3]);
+        });
+        
+        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
+        $filteredSharerPrices = $sharerPrices->filter(function ($sharerPrice) {
+            return $sharerPrice->cart->refund
+                && in_array($sharerPrice->cart->refund->status, [1, 3]);
+        });
+        $mergedArray = $filteredCartPrices->concat($filteredSharerPrices);
+        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+        $totalEarn = $mergedArray->sum(function ($item) {
+            $cleanedEarn = str_replace(['.', ','], '', $item->earn);
+            return floatval($cleanedEarn);
+        });
     
-    // Eksik olan cart_id'lerin kazancını topla
-    $totalEarn = 0;
-    foreach ($missingCartIds as $cartId) {
-        $cartPrice = CartPrice::where('cart_id', $cartId)->where("status","1")->first();
-        $sharerPrice = SharerPrice::where('cart_id', $cartId)->where("status","1")->first();
-        if ($cartPrice) {
-            $cleanedEarn = str_replace(['.', ','], '', $cartPrice->earn);
-            $totalEarn += floatval($cleanedEarn);
-        }
-        if ($sharerPrice) {
-            $cleanedEarn2 = str_replace(['.', ','], '', $sharerPrice->earn);
-            $totalEarn += floatval($cleanedEarn2);
-        }
+        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
     }
-
-    // Diğer kayıtların kazancını topla
-    $cartPrices = CartPrice::with("cart.user")->where("status", "1")->get();
-    $sharerPrices = SharerPrice::with("cart.user", "user")->where("status", "1")->get();
-    $mergedArray = $cartPrices->concat($sharerPrices);
-    $mergedArray = $mergedArray->sortByDesc('cart.created_at');
-
-    return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
-}
-
 
   
     public function accountingForRefund()
