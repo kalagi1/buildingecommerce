@@ -232,83 +232,66 @@
 
                             </div>
                         </div>
-                        <div class="card mb-5">
-                            <div class="card-body">
-                                <div class="row g-4 g-xl-1 g-xxl-3 justify-content-between">
-                                    <div class="col-sm-auto">
-                                        <div
-                                            class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center ">
-                                            <div class="d-flex bg-info-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                                style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="16px" height="16px" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" class="feather feather-code text-info-dark"
-                                                    style="width:24px; height:24px">
-                                                    <polyline points="16 18 22 12 16 6"></polyline>
-                                                    <polyline points="8 6 2 12 8 18"></polyline>
-                                                </svg></div>
-                                            <div>
-                                                <p class="fw-bold mb-1" style="color:green">Toplam Kazanç</p>
-                                                <h4 class="fw-bolder text-nowrap">
-                                                    {{ number_format($balanceStatus1, 2, ',', '.') }} ₺
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-auto">
-                                        <div
-                                            class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
-                                            <div class="d-flex bg-success-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                                style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="16px" height="16px" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-dollar-sign text-success-dark"
-                                                    style="width:24px; height:24px">
-                                                    <line x1="12" y1="1" x2="12" y2="23">
-                                                    </line>
-                                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6">
-                                                    </path>
-                                                </svg></div>
-                                            <div>
-                                                <p class="fw-bold mb-1" style="color:orange">Onaydaki Komisyon
-                                                    Tutarı</p>
-                                                <h4 class="fw-bolder text-nowrap">
-                                                    {{ number_format($balanceStatus0, 2, ',', '.') }} ₺
+                        <div class="col-md-6 col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div
+                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                                    <div class="d-flex bg-success-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
+                                        style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="16px" height="16px" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="feather feather-dollar-sign text-success-dark"
+                                            style="width:24px; height:24px">
+                                            <line x1="12" y1="1" x2="12" y2="23">
+                                            </line>
+                                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6">
+                                            </path>
+                                        </svg></div>
+                                    <div>
+                                        <p class="fw-bold mb-1" style="color:orange">Onaydaki Komisyon
+                                            Tutarı</p>
+                                        <h4 class="fw-bolder text-nowrap">
+                                            {{ number_format($balanceStatus0, 2, ',', '.') }} ₺
 
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-auto">
-                                        <div
-                                            class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
-                                            <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                                style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="16px" height="16px" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-layout text-primary-dark"
-                                                    style="width:24px; height:24px">
-                                                    <rect x="3" y="3" width="18" height="18" rx="2"
-                                                        ry="2"></rect>
-                                                    <line x1="3" y1="9" x2="21" y2="9">
-                                                    </line>
-                                                    <line x1="9" y1="21" x2="9" y2="9">
-                                                    </line>
-                                                </svg></div>
-                                            <div>
-                                                <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon
-                                                    Tutarı</p>
-                                                <h4 class="fw-bolder text-nowrap">
-                                                    {{ number_format($balanceStatus2, 2, ',', '.') }} ₺
-
-                                                </h4>
-                                            </div>
-                                        </div>
+                                        </h4>
                                     </div>
                                 </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div
+                                    class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                                    <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
+                                        style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="16px" height="16px" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="feather feather-layout text-primary-dark"
+                                            style="width:24px; height:24px">
+                                            <rect x="3" y="3" width="18" height="18" rx="2"
+                                                ry="2"></rect>
+                                            <line x1="3" y1="9" x2="21" y2="9">
+                                            </line>
+                                            <line x1="9" y1="21" x2="9" y2="9">
+                                            </line>
+                                        </svg></div>
+                                    <div>
+                                        <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon
+                                            Tutarı</p>
+                                        <h4 class="fw-bolder text-nowrap">
+                                            {{ number_format($balanceStatus2, 2, ',', '.') }} ₺
+
+                                        </h4>
+                                    </div>
+                                </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="px-xl-4 mb-7">
