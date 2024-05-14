@@ -60,18 +60,24 @@ class InfoController extends Controller
     // CartOrderRefund tablosundaki cart_order_id'lerin eksik olduğu cart_id'leri bul
     $missingCartIds = $allCartIds->diff($cartOrderRefundCartIds);
 
-    // Eksik olan cart_id'lerin kazancını topla
-    $totalEarn = 0;
-    foreach ($missingCartIds as $cartId) {
-        $cartPrice = CartPrice::where('cart_id', $cartId)->first();
-        $sharerPrice = SharerPrice::where('cart_id', $cartId)->first();
-        if ($cartPrice) {
-            $totalEarn += $cartPrice->earn;
-        }
-        if ($sharerPrice) {
-            $totalEarn += $sharerPrice->earn;
-        }
-    }
+
+    $totalEarn = $missingCartIds->sum(function ($item) {
+        $cleanedEarn = str_replace(['.', ','], '', $item->earn);
+        return floatval($cleanedEarn);
+    });
+
+    // // Eksik olan cart_id'lerin kazancını topla
+    // $totalEarn = 0;
+    // foreach ($missingCartIds as $cartId) {
+    //     $cartPrice = CartPrice::where('cart_id', $cartId)->first();
+    //     $sharerPrice = SharerPrice::where('cart_id', $cartId)->first();
+    //     if ($cartPrice) {
+    //         $totalEarn += $cartPrice->earn;
+    //     }
+    //     if ($sharerPrice) {
+    //         $totalEarn += $sharerPrice->earn;
+    //     }
+    // }
 
     // Diğer kayıtların kazancını topla
     $cartPrices = CartPrice::with("cart.user")->where("status", "1")->get();
