@@ -38,7 +38,7 @@
                         <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                             <div class="d-flex align-items-center">
                                 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                                width="50px" height="50px" viewBox="0 0 56.486 56.486"
+                                width="35px" height="35px" viewBox="0 0 56.486 56.486"
                                 xml:space="preserve">
                            <g>
                                <g>
