@@ -325,7 +325,7 @@
 
                 <div class="row">
 
-               
+
                     <div class="col-12">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -350,7 +350,7 @@
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
-                                    @if ($tam_tutar != $urun_fiyati)
+                                    @if ($tam_tutar != $urun_fiyati && isset($order->share))
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">İndirimli Fiyatı:</p>
                                             <p class="text-body-emphasis fw-semibold">
@@ -371,14 +371,20 @@
                                     <!-- Kapora Oranı -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
+
+                                        {{ str_replace(',', '', str_replace('.', '', $order->amount)) / 100 / json_decode($order->cart)->item->price / 100 }}
+
+
+
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
 
 
-                                      <!-- Kapora Tutarı -->
-                                      <div class="d-flex justify-content-between">
+                                    <!-- Kapora Tutarı -->
+                                    <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Tutarı:</p>
-                                        <p class="text-body-emphasis fw-semibold">                                            {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
+                                        <p class="text-body-emphasis fw-semibold">
+                                            {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
