@@ -227,7 +227,7 @@
                                                         '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                                     ][$order->status] !!}
                                                 </span>
-                                                @if ($order->invoice && $order->status == 1)
+                                                @if ($order->invoice)
                                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                                         <a href="{{ route('admin.invoice.show', $order->id) }}">
                                                             Faturayı Görüntüle
