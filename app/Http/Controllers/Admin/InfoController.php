@@ -57,7 +57,11 @@ class InfoController extends Controller
         // Filtrasyon işlemini gerçekleştirelim
         $filteredArray = $mergedArray->filter(function ($item) {
             // Öncelikle cart ilişkisinin varlığını ve null olup olmadığını kontrol edelim
-            if (!$item->cart || !$item->cart->relationLoaded('refund')) {
+            if (!$item->cart || !$item->cart->relationLoaded('refund') ) {
+                return false;
+            }
+
+            if (isset($item->cart)) {
                 return false;
             }
     
