@@ -10,7 +10,9 @@ use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
+use App\Models\HousingFavorite;
 use App\Models\Project;
+use App\Models\ProjectFavorite;
 use App\Models\Reservation;
 use App\Models\SharerPrice;
 use App\Models\User;
@@ -96,7 +98,7 @@ class DashboardController extends Controller
 
 
         $userHousingIds = $user->housings->pluck('id')->toArray();
-        
+
         $housingOrders = CartOrder::select('cart_orders.*')
             ->with("user", "invoice", "reference")
             ->where(function ($query) use ($userHousingIds) {
@@ -119,11 +121,11 @@ class DashboardController extends Controller
         return view('institutional.home.verification');
     }
 
-    
-public function corporateAccountWaiting()
-{
-    return view('institutional.home.waiting');
-}
+
+    public function corporateAccountWaiting()
+    {
+        return view('institutional.home.waiting');
+    }
 
     public function corporateHasClubAccountVerification()
     {
@@ -134,28 +136,29 @@ public function corporateAccountWaiting()
         return view('institutional.home.has-club-status');
     }
 
-    public function phoneVerification(){
+    public function phoneVerification()
+    {
         $user = Auth::user();
         return view('institutional.home.phone-verification', compact('user'));
     }
 
     public function generateVerificationCode()
     {
-        
-        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
-        
+
+        $verificationCode = mt_rand(100000, 999999); // Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
 
         if ($user) {
             $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
-            $user->save();// Kullanıcıyı kaydediyoruz
-            if($user->phone_verification_code) {
+            $user->save(); // Kullanıcıyı kaydediyoruz
+            if ($user->phone_verification_code) {
                 $this->sendSMS($user);
             }
-           
+
             return redirect()->route('institutional.phone.verification');
-        } 
+        }
     }
 
     private function sendSMS($user)
@@ -168,7 +171,7 @@ public function corporateAccountWaiting()
 
         // SMS metni oluştur
         $message = "$user->phone_verification_code nolu onay kodu ile hesabınızı güvenli bir şekilde doğrulayabilirsiniz.";
-      
+
         // SMS gönderme işlemi
         $smsService = new SmsService();
         $source_addr = 'Emlkspette';
@@ -190,9 +193,8 @@ public function corporateAccountWaiting()
             } else {
                 return redirect()->back()->withErrors(['error' => 'Doğrulama Kodu Eşleşmedi']);
             }
-
         }
-    }   
+    }
     public function verifyAccount(Request $request)
     {
         $request->validate(
@@ -327,8 +329,10 @@ public function corporateAccountWaiting()
     public function index()
     {
         $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
-        $projectCounts = Project::where("user_id", $userLog->id)->where("status","1")->count();
-        $housingCounts = Housing::where("user_id", $userLog->id)->where("status","1")->count();
+        $projectCounts = Project::where("user_id",  auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->count();
+        $housingCounts = Housing::where("user_id",  auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->count();
+        $housingFavorites = HousingFavorite::where("user_id", auth()->user()->id)->count();
+        $projectFavorites = ProjectFavorite::where("user_id", auth()->user()->id)->count();
 
         $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
         $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
@@ -386,8 +390,6 @@ public function corporateAccountWaiting()
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
 
-        return view('institutional.home.index', compact("userLog","housingCounts","projectCounts" ,"balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
+        return view('institutional.home.index', compact("userLog", "housingCounts", "housingFavorites", "projectFavorites", "projectCounts", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
     }
-
-    
 }
