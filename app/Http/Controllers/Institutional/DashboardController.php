@@ -386,7 +386,7 @@ class DashboardController extends Controller
             ->where("status", "2")
             ->sum('balance');
 
-        $collections = Collection::with("links")->where("user_id", Auth::user()->id)->get();
+        $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id","desc")->limit(6)->get();
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
 
