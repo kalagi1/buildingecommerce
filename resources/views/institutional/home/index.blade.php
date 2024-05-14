@@ -413,25 +413,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex mb-5 " id="scrollspyStats">
-                <div class="col">
-                    <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
-                        <span class="bg-soft pe-2">
-                            Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
-                        </span><span
-                            class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
-                    </h3>
-                    {{-- <span class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
-                        imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
-                        ücret talep
-                        etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
-
-                        Emlak ilanlarınızın, emlak sepette ile satılması durumunda %0.5 hizmet bedeli alınır.
-                        .</span> --}}
-
-
-                </div>
-            </div>
+            
         @else
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
