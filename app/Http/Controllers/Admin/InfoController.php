@@ -47,30 +47,35 @@ class InfoController extends Controller
 
     public function accounting()
     {
-        $cartPrices = CartPrice::with("cart.user")->where("status", "1")->get();
+        // CartPrice ve SharerPrice modellerini tek bir sorguda alalım
+        $cartPrices = CartPrice::with("cart.user", "cart.refund")->where("status", "1")->get();
+        $sharerPrices = SharerPrice::with("cart.user", "user", "cart.refund")->where("status", "1")->get();
     
-        $filteredCartPrices = $cartPrices->filter(function ($cartPrice) {
-            return $cartPrice->cart->relationLoaded('refund') && in_array($cartPrice->cart->refund->status, [2]) || !$cartPrice->cart->relationLoaded('refund');
+        // İki koleksiyonu birleştirerek tek bir koleksiyon oluşturalım
+        $mergedArray = $cartPrices->concat($sharerPrices);
+    
+        // Filtrasyon işlemini gerçekleştirelim
+        $filteredArray = $mergedArray->filter(function ($item) {
+            // Öncelikle cart ilişkisinin varlığını kontrol edelim
+            if (!$item->cart) {
+                return false;
+            }
+            
+            // Eğer refund ilişkisi yüklenmişse ve durumu 2 ise, veya refund ilişkisi yüklenmemişse devam edelim
+            return !$item->cart->relationLoaded('refund') || in_array($item->cart->refund->status, [2]);
         });
     
-        $sharerPrices = SharerPrice::with("cart.user", "user")->where("status", "1")->get();
+        // Sonuçları tarihe göre sıralayalım
+        $filteredArray = $filteredArray->sortByDesc('cart.created_at');
     
-        $filteredSharerPrices = $sharerPrices->filter(function ($sharerPrice) {
-            return $sharerPrice->cart && $sharerPrice->cart->relationLoaded('refund') && in_array($sharerPrice->cart->refund->status, [2]) || $sharerPrice->cart && !$sharerPrice->cart->relationLoaded('refund');
-        });
-    
-        $mergedArray = $filteredCartPrices->concat($filteredSharerPrices);
-        $mergedFilter = $cartPrices->concat($sharerPrices);
-
-    
-        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
-    
-        $totalEarn = $mergedFilter->sum(function ($item) {
+        // Toplam kazancı hesaplayalım
+        $totalEarn = $filteredArray->sum(function ($item) {
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
     
-        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+        // View'e verileri gönderelim
+        return view('admin.accounting.index', ['mergedArray' => $filteredArray, 'totalEarn' => $totalEarn]);
     }
     
   
