@@ -56,13 +56,14 @@ class InfoController extends Controller
     
         // Filtrasyon işlemini gerçekleştirelim
         $filteredArray = $mergedArray->filter(function ($item) {
-            // Öncelikle cart ilişkisinin varlığını kontrol edelim
-            if (!$item->cart) {
+            // Öncelikle cart ilişkisinin varlığını ve null olup olmadığını kontrol edelim
+            if (!$item->cart || !$item->cart->relationLoaded('refund')) {
                 return false;
             }
-            
-            // Eğer refund ilişkisi yüklenmişse ve durumu 2 ise, veya refund ilişkisi yüklenmemişse devam edelim
-            return !$item->cart->relationLoaded('refund') || in_array($item->cart->refund->status, [2]);
+    
+            // refund ilişkisinin durumunu kontrol edelim
+            $refundStatus = $item->cart->refund->status;
+            return in_array($refundStatus, [2]);
         });
     
         // Sonuçları tarihe göre sıralayalım
