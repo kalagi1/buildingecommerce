@@ -25,24 +25,27 @@
             </div>
         @endif
 
-        @if (Auth::check() && Auth::user()->type == '2')
+        @if (Auth::check() && Auth::user()->type != '1' && Auth::user()->type != "3" && Auth::user()->parent != "4")
             <div class="row g-4">
                 <div class="col-12 col-xxl-6">
                     <div class="mb-8">
-                        <h2 class="mb-2">Ecommerce Dashboard</h2>
-                        <h5 class="text-body-tertiary fw-semibold">Here’s what’s going on at your business right now</h5>
+                        <h2 class="mb-2"> Sayın {{ $userLog->name }},
+                        </h2>
+                        <h5 class="text-body-tertiary fw-semibold"> Emlak Sepette'ye Hoş Geldiniz.</h5>
                     </div>
                     <div class="row align-items-center g-4">
                         <div class="col-12 col-sm-6 col-md-3 col-lg-6 col-xl-3 col-xxl-12">
-                            <div class="d-flex align-items-center"><span class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
-                              <div class="ms-2">
-                                <div class="d-flex align-items-end">
-                                  <h2 class="mb-0 me-2">23</h2><span class="fs-7 fw-semibold text-body">Invoices</span>
+                            <div class="d-flex align-items-center"><span
+                                    class="fs-4 lh-1 uil uil-invoice text-warning-dark"></span>
+                                <div class="ms-2">
+                                    <div class="d-flex align-items-end">
+                                        <h2 class="mb-0 me-2">23</h2><span
+                                            class="fs-7 fw-semibold text-body">Invoices</span>
+                                    </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
                                 </div>
-                                <p class="text-body-secondary fs-9 mb-0">Soon to be cleared</p>
-                              </div>
                             </div>
-                          </div>
+                        </div>
                     </div>
                     <hr class="bg-body-secondary mb-6 mt-4">
                     <div class="row flex-between-center mb-4 g-3">
