@@ -241,9 +241,9 @@ class ProjectController extends Controller
                     if($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])){
                         $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
                     }
-                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
-                        $project->cartOrders += 1;
-                    }
+                    // if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
+                    //     $project->cartOrders += 1;
+                    // }
                 }
             }
 
