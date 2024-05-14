@@ -296,128 +296,34 @@
 
                             </div>
                         </div>
-                        <div class="px-xl-4 mb-7">
-                            <div class="row mx-0 mx-sm-3 mx-lg-0 px-lg-0">
-                                <div class="col-sm-12 col-xxl-6 border-bottom border-end-xxl border-translucent py-3">
-                                    <table class="w-100 table-stats table-stats">
-                                        <tbody>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2">
-                                                    <div class="d-inline-flex align-items-center">
-                                                        <div class="d-flex bg-success-subtle rounded-circle flex-center me-3"
-                                                            style="width:24px; height:24px"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16px"
-                                                                height="16px" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-bar-chart-2 text-success-dark"
-                                                                style="width:16px; height:16px">
-                                                                <line x1="18" y1="20" x2="18"
-                                                                    y2="10"></line>
-                                                                <line x1="12" y1="20" x2="12"
-                                                                    y2="4"></line>
-                                                                <line x1="6" y1="20" x2="6"
-                                                                    y2="14"></line>
-                                                            </svg></div>
-                                                        <p class="fw-bold mb-0">Başarı Yüzdesi (%)</p>
-                                                    </div>
-                                                </td>
-                                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                <td class="py-2">
-                                                    <p class="ps-6 ps-sm-0 fw-semibold mb-0 mb-0 pb-3 pb-sm-0">
-                                                        {{ $successPercentage }} %</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="d-flex bg-info-subtle rounded-circle flex-center me-3"
-                                                            style="width:24px; height:24px"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16px"
-                                                                height="16px" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-trending-up text-info-dark"
-                                                                style="width:16px; height:16px">
-                                                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18">
-                                                                </polyline>
-                                                                <polyline points="17 6 23 6 23 12"></polyline>
-                                                            </svg></div>
-                                                        <p class="fw-bold mb-0">Toplam Kazanç</p>
-                                                    </div>
-                                                </td>
-                                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                <td class="py-2">
-                                                    <p class="ps-6 ps-sm-0 fw-semibold mb-0">
-                                                        {{ number_format($balanceStatus1, 0, ',', '.') }} ₺</p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-sm-12 col-xxl-6 border-bottom border-translucent py-3">
-                                    <table class="w-100 table-stats">
-                                        <tbody>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2">
-                                                    <div class="d-inline-flex align-items-center">
-                                                        <div class="d-flex bg-primary-subtle rounded-circle flex-center me-3"
-                                                            style="width:24px; height:24px"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16px"
-                                                                height="16px" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-phone text-primary-dark"
-                                                                style="width:16px; height:16px">
-                                                                <path
-                                                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                                                                </path>
-                                                            </svg></div>
-                                                        <p class="fw-bold mb-0">Telefon</p>
-                                                    </div>
-                                                </td>
-                                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                <td class="py-2"><a
-                                                        class="ps-6 ps-sm-0 fw-semibold mb-0 pb-3 pb-sm-0 text-body"
-                                                        href="tel:{{ Auth::user()->phone }}">{{ Auth::user()->phone }}</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="d-flex bg-warning-subtle rounded-circle flex-center me-3"
-                                                            style="width:24px; height:24px"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16px"
-                                                                height="16px" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-mail text-warning-dark"
-                                                                style="width:16px; height:16px">
-                                                                <path
-                                                                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                                                </path>
-                                                                <polyline points="22,6 12,13 2,6"></polyline>
-                                                            </svg></div>
-                                                        <p class="fw-bold mb-0">Email</p>
-                                                    </div>
-                                                </td>
-                                                <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
-                                                <td class="py-2"><a class="ps-6 ps-sm-0 fw-semibold mb-0 text-body"
-                                                        href="mailto:{{ Auth::user()->email }}">{{ Auth::user()->email }}</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        <div class="col-md-6 col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div
+                                        class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center ">
+                                        <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
+                                            style="width:32px; height:32px"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="16px"
+                                            height="16px" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-bar-chart-2 text-success-dark"
+                                            style="width:16px; height:16px">
+                                            <line x1="18" y1="20" x2="18"
+                                                y2="10"></line>
+                                            <line x1="12" y1="20" x2="12"
+                                                y2="4"></line>
+                                            <line x1="6" y1="20" x2="6"
+                                                y2="14"></line>
+                                        </svg></div>
+                                        <div>
+                                            <p class="fw-bold mb-1" style="color: red">Başarı Yüzdesi</p>
+                                            <h4 class="fw-bolder text-nowrap">
+                                                {{ $successPercentage }} %
+
+                                            </h4>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
