@@ -372,10 +372,9 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
 
-                                        {{ str_replace(',', '', str_replace('.', '', $order->amount)) / 100 / json_decode($order->cart)->item->price / 100 }}
+          
 
-
-
+{{number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100 / json_decode($order->cart)->item->price / 100, 2)}}
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
 
