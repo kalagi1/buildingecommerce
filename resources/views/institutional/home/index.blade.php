@@ -200,7 +200,7 @@
             <div class="col-12 col-xxl-6">
                 @if (Auth::check() && Auth::user()->has_club == 1)
                     <div class="row g-3">
-
+                        <h5 class="text-body-tertiary fw-semibold">Emlak Kulüp İstatistiği</h5>
                         <div class="col-md-6 col-12">
                             <div class="card h-100">
                                 <div class="card-body">
