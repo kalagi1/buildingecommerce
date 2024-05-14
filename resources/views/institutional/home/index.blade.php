@@ -166,15 +166,9 @@
                     <hr class="bg-body-secondary mb-6 mt-4">
                     <div class="row flex-between-center mb-4 g-3">
                         @if (Auth::check() && Auth::user()->has_club == 1)
-                            <div class="row">
+                         
 
-                                <label for="">
-                                    @if (Auth::user()->corporate_type == 'Emlak Ofisi')
-                                        Portföy Adı:
-                                    @else
-                                        Koleksiyon Adı:
-                                    @endif
-                                </label>
+                         
                                 <ul class="list-group">
                                     @foreach ($collections as $item)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -186,9 +180,7 @@
 
 
 
-                            </div>
                         @else
-                            <div class="row">
                                 <div class="col-12 col-xl-6 col-xxl-5">
                                     <a href="{{ route('institutional.sharer.index') }}">
                                         <div class="card border h-100 w-100 overflow-hidden">
@@ -201,7 +193,6 @@
                                     </a>
 
                                 </div>
-                            </div>
                         @endif
                     </div>
                 @endif
