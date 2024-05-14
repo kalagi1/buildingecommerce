@@ -372,9 +372,20 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
 
-          
 
-{{number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100 / json_decode($order->cart)->item->price / 100, 2)}}
+
+                                        <?php
+                                        // İlan fiyatı
+                                        $ilanFiyati = json_decode($order->cart)->item->price;
+                                        // Kapora tutarı
+                                        $kaporaTutari = str_replace(',', '', str_replace('.', '', $order->amount)) / 100;
+                                        
+                                        // Yüzde hesaplama
+                                        $yuzde = ($kaporaTutari / $ilanFiyati) * 100;
+                                        
+                                        // Sonucu ekrana yazdırma
+                                        echo 'Ödenen kapora, ilan fiyatının %' . number_format($yuzde, 2) . 'si kadar.';
+                                        ?>
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
 
