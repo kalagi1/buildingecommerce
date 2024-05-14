@@ -243,7 +243,10 @@ class ProjectController extends Controller
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housingJsonPath), $i)
                     ->first();
-                    $project->cartOrders += 1;
+                    if ($projectCounts) {
+                        $project->cartOrders += 1;
+
+                    }
                 }
             }
             $project->numberOfSharesCount = 0;
