@@ -221,40 +221,58 @@ class ProjectController extends Controller
 
             $shareSaleCheck = false;
             $normalSaleCheck = false;
-            for($k = 1; $k <= $project->room_count; $k++){
-                if(isset($projectHousingsList[$k]['share_sale[]']) && $projectHousingsList[$k]['share_sale[]'] == '["Var"]'){
+            $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+
+            for ($i = 1; $i <= $project->room_count; $i++) {
+                if (isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] == '["Var"]') {
                     $shareSaleCheck = true;
-                }else{
-                    $normalSaleCheck = true;
-                }
-            }
-            $project->numberOfSharesCount = 0;
-            if ($shareSaleCheck) {
-                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
-            
-                for ($i = 1; $i <= $room_counts; $i++) {
-                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+
                     $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
                         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                         ->where(DB::raw($housingJsonPath), $i)
                         ->first();
-                    if($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])){
+                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])) {
                         $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
                     }
                     if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
                         $project->cartOrders += 1;
                     }
+                } else {
+                    $normalSaleCheck = true;
+                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->where(DB::raw($housingJsonPath), $i)
+                    ->first();
+                    $project->cartOrders != 1;
                 }
             }
+            $project->numberOfSharesCount = 0;
+            // if ($shareSaleCheck) {
+            //     $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
 
-            if($normalSaleCheck){
-                $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                ->groupBy('project_id')
-                ->where("status", "1")
-                ->get();
-                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
-            }
+            //     for ($i = 1; $i <= $room_counts; $i++) {
+            //         $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+            //         $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+            //             ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            //             ->where(DB::raw($housingJsonPath), $i)
+            //             ->first();
+            //         if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]'])) {
+            //             $project->numberOfSharesCount += $projectHousingsList[$i]['number_of_shares[]'];
+            //         }
+            //         if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
+            //             $project->cartOrders += 1;
+            //         }
+            //     }
+            // }
+
+            // if ($normalSaleCheck) {
+            //     $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            //         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            //         ->groupBy('project_id')
+            //         ->where("status", "1")
+            //         ->get();
+            //     $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            // }
 
             for ($i = 1; $i <= $room_counts; $i++) {
                 $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
@@ -275,7 +293,7 @@ class ProjectController extends Controller
                     $project->cartOrders += 1;
                     $matching_indices[] = $i;
                     $matching_total[] = $total_quantity;
-                } 
+                }
             }
 
 
@@ -301,7 +319,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title.' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
+                "meta_description" => $project->project_title . ' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
                 "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
                 "meta_author" => "Emlak Sepette"
             ];
@@ -313,7 +331,7 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
 
-        return view('client.projects.index', compact("normalSaleCheck","shareSaleCheck","pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
+        return view('client.projects.index', compact("normalSaleCheck", "shareSaleCheck", "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
     }
 
     public function ajaxIndex($slug, Request $request)
@@ -461,7 +479,7 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects(Request $request ,$slug = null, $type = null, $optional = null, $title = null, $check = null)
+    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
         $term = $request->input('term');
         $deneme = null;
@@ -648,7 +666,7 @@ class ProjectController extends Controller
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
-            
+
 
             if ($housingType) {
                 $query->where('housing_type_id', $newHousingType);
@@ -986,7 +1004,7 @@ class ProjectController extends Controller
         $pageInfo = json_decode($pageInfo);
 
 
-        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type' , 'term'));
+        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
 
     public function allProjects($slug)
@@ -1186,33 +1204,33 @@ class ProjectController extends Controller
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
 
 
-     // Meta bilgi değişkeni tanımlanıyor
-$pageInfo = [
-    "meta_title" => 
-        // 'advertise_title[]' anahtarı var mı kontrol ediliyor
-        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
-            ? $projectHousingsList[$housingOrder]['advertise_title[]'] 
-            : (
-                // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
-                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] 
-                    : "Emlak Sepette"
-              ),
-    "meta_keywords" => 
-        // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
-        $project->project_title . " Proje, Proje Detay, " . $project->city->title,
-    "meta_description" => 
-        // 'advertise_title[]' anahtarı kontrol ediliyor
-        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
-            ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-            : (
-                // 'advertise-title[]' anahtarı kontrol ediliyor
-                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-                    : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-              ),
-    "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
-];
+            // Meta bilgi değişkeni tanımlanıyor
+            $pageInfo = [
+                "meta_title" =>
+                // 'advertise_title[]' anahtarı var mı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
+                    : (
+                        // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
+                        isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
+                        : "Emlak Sepette"
+                    ),
+                "meta_keywords" =>
+                // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
+                $project->project_title . " Proje, Proje Detay, " . $project->city->title,
+                "meta_description" =>
+                // 'advertise_title[]' anahtarı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    : (
+                        // 'advertise-title[]' anahtarı kontrol ediliyor
+                        isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                        : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    ),
+                "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
+            ];
 
             $pageInfo = json_encode($pageInfo);
             $pageInfo = json_decode($pageInfo);
@@ -1225,7 +1243,7 @@ $pageInfo = [
         $active = isset($active) ? 'active' : null;
 
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active" ));
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
