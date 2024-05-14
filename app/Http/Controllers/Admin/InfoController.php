@@ -47,42 +47,18 @@ class InfoController extends Controller
 
     public function accounting()
     {
-        // CartPrice ve SharerPrice modellerini tek bir sorguda alalım
-        $cartPrices = CartPrice::with("cart.user", "cart.refund")->where("status", "1")->get();
-        $sharerPrices = SharerPrice::with("cart.user", "user", "cart.refund")->where("status", "1")->get();
-    
-        // İki koleksiyonu birleştirerek tek bir koleksiyon oluşturalım
+        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
+        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
         $mergedArray = $cartPrices->concat($sharerPrices);
-    
-        // Filtrasyon işlemini gerçekleştirelim
-        $filteredArray = $mergedArray->filter(function ($item) {
-            // Öncelikle cart ilişkisinin varlığını ve null olup olmadığını kontrol edelim
-            if (!$item->cart || !$item->cart->relationLoaded('refund') ) {
-                return false;
-            }
-
-            if (isset($item->cart)) {
-                return false;
-            }
-    
-            // refund ilişkisinin durumunu kontrol edelim
-            $refundStatus = $item->cart->refund->status;
-            return in_array($refundStatus, [2]);
-        });
-    
-        // Sonuçları tarihe göre sıralayalım
-        $filteredArray = $filteredArray->sortByDesc('cart.created_at');
-    
-        // Toplam kazancı hesaplayalım
-        $totalEarn = $filteredArray->sum(function ($item) {
+        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+        $totalEarn = $mergedArray->sum(function ($item) {
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
     
-        // View'e verileri gönderelim
-        return view('admin.accounting.index', ['mergedArray' => $filteredArray, 'totalEarn' => $totalEarn]);
+        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
     }
-    
+
   
     public function accountingForRefund()
 {
