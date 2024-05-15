@@ -695,7 +695,6 @@
                             <div class="mobileHour mobileHourDiv">
                                 <div class="homes-content details-2">
                                     <ul class="homes-list reservation-list clearfix">
-                                        {{dd(json_decode($housing->housing_type_data))}}
                                         <li>
                                             <span>Giriş: {{ json_decode($housing->housing_type_data)->start_time[0] }}</span>
                                         </li>
