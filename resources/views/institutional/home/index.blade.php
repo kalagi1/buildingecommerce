@@ -65,7 +65,7 @@
                                     </g>
                                 </svg>
                                 <div class="ms-3">
-                                    <h4 class="mb-0">{{ $housingCounts }}</h4>
+                                    <h4 class="mb-0">{{ $housingCounts }} İlan</h4>
                                     <p class="text-body-secondary fs-9 mb-0">Yayındaki emlak ilanı sayısı</p>
 
                                 </div>
@@ -152,7 +152,7 @@
                                 </g>
                             </svg>
                             <div class="ms-3">
-                                <h4 class="mb-0">{{ $projectFavorites + $housingFavorites }}</h4>
+                                <h4 class="mb-0">{{ $projectFavorites + $housingFavorites }} İlan</h4>
                                 <p class="text-body-secondary fs-9 mb-0">Favorilerinizdeki İlan Sayısı</p>
 
                             </div>
