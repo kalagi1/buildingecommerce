@@ -1,5 +1,14 @@
 [
     {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "home",
+        "text": "Gösterge Paneli",
+        "key": "ViewDashboard",
+        "url": "institutional.index",
+        "activePath": "/hesabim"
+    },
+    {
         "id": "EmlakClubUsers",
         "label": "Emlak Kulüp",
         "icon": "users",
@@ -71,15 +80,7 @@
         "url": "institutional.estate.coupons",
         "activePath": "/hesabim/coupons"
     },
-    {
-        "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "home",
-        "text": "Gösterge Paneli",
-        "key": "ViewDashboard",
-        "url": "institutional.index",
-        "activePath": "/hesabim"
-    },
+   
     {
         "id": "shopping-bag",
         "label": "Emlak Kulüp",
