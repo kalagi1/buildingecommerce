@@ -701,16 +701,13 @@
                                             @foreach(json_decode($housing->housing_type_data)->start_time as $startTime)
                                                 <span>{{ $startTime }}</span>
                                             @endforeach
-                                        @else
-                                            <span>No start times available</span>
                                         @endif
                                     </li>
                                     <li>
                                         <span>Çıkış:</span>
                                         @if(isset(json_decode($housing->housing_type_data)->end_time))
                                             <span>{{ json_decode($housing->housing_type_data)->end_time[0] }}</span>
-                                        @else
-                                            <span>No end time available</span>
+                                 
                                         @endif
                                     </li>
                                 </ul>
@@ -1534,18 +1531,6 @@
                                                                 href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
                                                         </span>
 
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        İl-İlçe-Mahalle :
-                                                        <span class="det">
-                                                            {!! optional($housing->city)->title .
-                                                                ' / ' .
-                                                                optional($housing->county)->title .
-                                                                ' / ' .
-                                                                optional($housing->neighborhood)->mahalle_title ??
-                                                                '' !!}</span>
                                                     </td>
                                                 </tr>
                                                 @foreach ($labels as $label => $val)
