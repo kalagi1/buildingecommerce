@@ -1517,10 +1517,8 @@
                 },
                 success: function(response) {
                     if (response.status == 'added') {
-                        toastr.success("Konut Favorilere Eklendi");
                         updateFavoriteButton(button, true);
                     } else if (response.status == 'removed') {
-                        toastr.warning("Konut Favorilerden Kaldırıldı");
                         updateFavoriteButton(button, false);
                     } else if (response.status == 'notLogin') {
                         window.location.href =

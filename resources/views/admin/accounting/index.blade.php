@@ -21,7 +21,7 @@
                                                 <span class="text-success"> {{ number_format($totalEarn, 0, ',', '.') }}
                                                     ₺</span>
                                             @else
-                                                -
+                                                0 
                                             @endif
                                         </span>
                                     </p>

@@ -307,7 +307,7 @@
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                     </td>
                                                 </tr>
-                                                @if($shareSaleCheck)
+                                                {{-- @if($shareSaleCheck)
                                                     <tr>
                                                         <td colspan="2">
                                                             <strong class="autoWidthTr">
@@ -318,7 +318,7 @@
                                                             <span class="det" style="color: black;">{{ $project->numberOfSharesCount }}</span>
                                                         </td>
                                                     </tr>
-                                                @endif
+                                                @endif --}}
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Toplam

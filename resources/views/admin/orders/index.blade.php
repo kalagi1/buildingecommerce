@@ -107,9 +107,7 @@
                                                 class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">
                                                 {{ $order->created_at }}</td>
 
-                                            @if(!isset($orderCart['item']['slug']))
-                                            {{dd($orderCart['item']['id'],optional(App\Models\Project::find($orderCart['item']['id'])))}}
-                                            @endif
+                                          
                                             <td class="ad_no align-middle  fw-semibold text-body-highlight">
                                                 <a target="_blank"
                                                     href="{{ $orderCart['type'] == 'housing'
@@ -209,15 +207,16 @@
                                                             '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
                                                         ][$order->refund->status] !!}
                                                     </span>
-                                                </td>
-                                                {{-- @if ($order->invoice && $order->status == 1)
+                                                    @if ($order->invoice )
                                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        <a href="{{ route('admin.invoice.show', $order->id) }}">
                                                             Faturayı Görüntüle
                                                         </a>
 
                                                     </span>
-                                                @endif --}}
+                                                @endif
+                                                </td>
+                                               
 
                                             @else
                                                 <td class="order_status"><span class="text-success">
@@ -229,7 +228,7 @@
                                                         '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                                     ][$order->status] !!}
                                                 </span>
-                                                @if ($order->invoice && $order->status == 1)
+                                                @if ($order->invoice)
                                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                                         <a href="{{ route('admin.invoice.show', $order->id) }}">
                                                             Faturayı Görüntüle

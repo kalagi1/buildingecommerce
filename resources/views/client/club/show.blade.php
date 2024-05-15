@@ -204,10 +204,14 @@
                                                                     $discountRate = json_decode(
                                                                         $item['housing']['housing_type_data'],
                                                                     )->discount_rate[0];
-                                                                    $price =
-                                                                        json_decode(
-                                                                            $item['housing']['housing_type_data'],
-                                                                        )->price[0] - $item['discount_amount'];
+
+                                                                    $defaultPrice =
+                                                                json_decode($item['housing']['housing_type_data'])
+                                                                    ->price[0] ??
+                                                                json_decode($item['housing']['housing_type_data'])
+                                                                    ->daily_rent[0];
+
+                                                                    $price = $defaultPrice - $item['discount_amount'];
                                                                     $discountedPrice =
                                                                         $price - ($price * $discountRate) / 100;
                                                                 } elseif ($item['item_type'] == 1) {
@@ -620,9 +624,15 @@
                                                             $discountRate = json_decode(
                                                                 $item['housing']['housing_type_data'],
                                                             )->discount_rate[0];
-                                                            $price =
+
+                                                            $defaultPrice =
                                                                 json_decode($item['housing']['housing_type_data'])
-                                                                    ->price[0] - $item['discount_amount'];
+                                                                    ->price[0] ??
+                                                                json_decode($item['housing']['housing_type_data'])
+                                                                    ->daily_rent[0];
+
+                                                            $price = $defaultPrice - $item['discount_amount'];
+
                                                             $discountedPrice = $price - ($price * $discountRate) / 100;
                                                         } elseif ($item['item_type'] == 1) {
                                                             $discountRate =
