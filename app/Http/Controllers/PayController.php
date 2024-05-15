@@ -231,6 +231,10 @@ class PayController extends Controller
 
     }
 
+    public function reservation3DPayment(Request $request){
+
+        dd($request->all());
+    }
 
     public function initiate3DPayment(Request $request)
     {

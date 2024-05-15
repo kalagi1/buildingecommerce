@@ -177,9 +177,13 @@
                     </div>
                 </div>
 
+                
+
                 <div class="row">
+
+              
                     <div class="col-md-12 col-lg-12 col-xl-6 mb-5">
-                        <div class="col-md-12" style="background: white !important;">
+                        <div  style="background: white !important;">
                             <div class="tr-single-box">
 
                                 <div class="tr-single-body">
@@ -209,8 +213,176 @@
                             </div>
                         </div>
 
+                        <div class="tr-single-box">
+                            <div class="tr-single-body">
+                                <div class="tr-single-header pb-3">
+                                    <h4><i class="far fa-address-card pr-2"></i>Satın Alan Kişinin Bilgileri</h4>
+                                </div>
+
+                                <form method="POST" id="paymentForm">
+                                    @csrf
+                                    {{-- <input type="hidden" name="key" id="orderKey"> --}}
+                                    {{-- <input type="hidden" name="banka_id" id="bankaID">
+                                    <input type="hidden" name="have_discount" class="have_discount">
+                                    <input type="hidden" name="discount" class="discount"> --}}
+                                    <div class="row">
+                                      
+                                        <div class="col-sm-6">
+                                            <label for="tc">TC: </label>
+                                            <input type="number" class="form-control" id="tc" name="tc"
+                                                required oninput="validateTCLength(this)">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="fullName">Ad Soyad:</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName"
+                                                required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="email">E-posta:</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                required>
+                                        </div>
+                                        <script>
+                                            function validateTCLength(input) {
+                                                const tckNo = input.value.replace(/\D/g, '');
+                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
+                                                if (tckNo.length > 11) {
+                                                    toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                    return '';
+                                                }
+
+                                                // İlk hane 0 olamaz
+                                                if (tckNo[0] == "0") {
+                                                    toastr.warning("Geçersiz TC Kimlik No! İlk rakam 0 olamaz.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
+                                                let sum = 0;
+                                                for (let i = 0; i < 10; i++) {
+                                                    sum += Number(tckNo[i]);
+                                                }
+
+                                                const lastDigit = sum % 10;
+                                                if (tckNo.length == 11 && lastDigit !== Number(tckNo[10])) {
+                                                    toastr.warning("Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No formatını düzenle (5-6-5)
+                                                const formattedTC = input.target.value;
+                                                console.log(formattedTC);
+                                                $('#tc').val(formattedTC)
+                                                return formattedTC;
+                                            }
+                                        </script>
+                                        <div class="col-sm-6">
+                                            <label for="phone">Telefon:</label>
+
+                                            <input type="number" class="form-control" id="phone" name="phone"
+                                                required maxlength="10">
+                                            <span id="error_message" class="error-message"></span>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <label for="address">Adres:</label>
+                                            <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="notes">Notlar:</label>
+                                            <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <label for="notes">Referans Kodu (Opsiyonel):</label>
+                                            <input class="form-control" id="reference_code" name="reference_code"
+                                                rows="5">
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
+                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın
+                                                    alıyorsunuz?</label>
+                                                <select class="form-control" id="is_reference" name="is_reference">
+                                                    <option value="" selected>Komşu Seçiniz</option>
+                                                    @foreach ($cart['item']['neighborProjects'] as $neighborProject)
+                                                        <option
+                                                            value="{{ isset($neighborProject['owner']) ? $neighborProject['owner']['id'] : '' }}">
+                                                            {{ isset($neighborProject['owner']) ? $neighborProject['owner']['name'] : '' }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+
+
+
+                                        @if (isset($cart) && isset($cart['type']))
+                                            @if (
+                                                ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') ||
+                                                    ($cart['type'] == 'project' && empty($share_sale)))
+                                                <div class="col-sm-12 pt-2">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="is_show_user" type="checkbox" value="off"
+                                                            name="is_show_user">
+                                                        <div>
+
+
+                                                            <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                                <i class="fa fa-info-circle ml-2 mobile-hidden"
+                                                                    title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                                    style="font-size: 18px; color: black;"></i> Komşumu Gör
+                                                                özelliği ile iletişim bilgilerimi paylaşmayı
+                                                                kabul
+                                                                ediyorum.
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+
+
+
+
+
+                                        <div class="col-sm-12 pt-2">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <input id="checkPay" type="checkbox" name="checkPay">
+
+                                                <label for="checkPay" class="m-0 ml-1 text-black">
+                                                    <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
+                                                        Mesafeli kapora emanet sözleşmesini
+                                                    </a>
+                                                    okudum ve kabul ediyorum
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                       
+                                            
+                                                <div class="col-sm-12 pt-2">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="checkSignature" type="checkbox" name="checkSignature">
+                                                        <label for="checkSignature" class="m-0 ml-1 text-black">
+                                                            Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
+                                                            kabul ve beyan ediyorum.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     </div>
+
+                    
 
                     <div class="col-md-12 col-lg-12 col-xl-6 mb-5">
                         <div class="row">
@@ -434,7 +606,7 @@
                                                 </div>
                                             </div>
                                             <div class='form'>
-                                                <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
+                                                <form method="POST" id="3dPayForm" action="{{ route('reservation.3d.pay') }}">
                                                     @csrf
                                                     <input type="hidden" name="payable_amount" id="payableAmountInput">
                                                     <input type="hidden" id="fullName2" name="fullName">
@@ -443,11 +615,11 @@
                                                     <input type="hidden" id="phone2" name="phone">
                                                     <input type="hidden" id="address2" name="address">
                                                     <input type="hidden" id="notes2" name="notes">
-                                                    <input type="hidden" id="reference_code2" name="reference_code">
+                                                    {{-- <input type="hidden" id="reference_code2" name="reference_code">
                                                     <input type="hidden" id="orderKey2" name="key">
                                                     <input type="hidden" id="is_reference2" name="is_reference">
                                                     <input type="hidden" id="have_discount2" name="have_discount"
-                                                        class="have_discount">
+                                                        class="have_discount"> --}}
                                                     <input type="hidden" id="discount2" name="discount"
                                                         class="discount">
                                                     <div class='cd-numbers'>
@@ -594,6 +766,9 @@
                         </div>
                     </div>
 
+               
+
+                    
                 </div>
 
 
@@ -798,6 +973,83 @@
                     $('#finalConfirmationModal').modal('show');
                 }
             });
+    </script>
+
+    <script>
+         $('.3dPaySuccess').on('click', function() {
+            // var $cart = JSON.parse($('#3dPayForm input[name="cart"]').val());
+            // Kullanıcı bilgilerini al
+            var fullName = $('#fullName').val();
+            var tc = $('#tc').val();
+            var email = $('#email').val();
+            var card = $('.1').val();
+            var card2 = $('.2').val();
+            var card3 = $('.3').val();
+            var card4 = $('.4').val();
+
+            var month = $('#month').val();
+            var year = $('#year').val();
+            // Kullanıcı bilgilerini kontrol et
+            // Formun doldurulup doldurulmadığını kontrol et
+            if (fullName === '' || tc === '' || email === '' || card === '' || card2 === '' || card3 === '' ||
+                card4 === '' || month === '' || year === '') {
+                toastr.warning('Ad Soyad, TC, E-posta ve Kredi Kartı alanları zorunludur.');
+                return false; // Formun submit işlemini durdur
+            }
+
+            if (!$('#checkPay').prop('checked')) {
+                toastr.warning('Lütfen sözleşmeyi onaylayınız.');
+                $('#checkPay').css({
+                    "border": "1px solid red"
+                });
+                return false;
+            }
+
+            if (!$('#checkSignature').prop('checked')) {
+                toastr.warning('Lütfen onay veriniz.');
+                $('#checkSignature').css({
+                    "border": "1px solid red"
+                });
+                return false;
+            }
+
+            // Kullanıcı bilgileri mevcutsa formu gönder
+            $('#3dPayForm').submit();
+        });
+
+
+        $(document).ready(function() {
+            $('#3dPayForm').on('submit', function(event) {
+                // Kullanıcı bilgilerini al
+                var fullName = $('#fullName').val();
+                var email = $('#email').val();
+                var tc = $('#tc').val();
+                var phone = $('#phone').val();
+                var address = $('#address').val();
+                var notes = $('#notes').val();
+                // var reference_code = $('#reference_code').val();
+                // var orderKey = $('#orderKey').val();
+                // // var have_discount = $('.have_discount').val();
+                // var discount = $('.discount').val();
+                // var is_swap = $('#is_swap').val();
+                // var is_reference = $("#is_reference").val()
+                // Alınan kullanıcı bilgilerini ikinci forma set et
+                $('#fullName2').val(fullName);
+                $('#email2').val(email);
+                $('#tc2').val(tc);
+                $('#phone2').val(phone);
+                $('#address2').val(address);
+                $('#notes2').val(notes);
+                // $('#reference_code2').val(reference_code);
+                // $('#orderKey2').val(orderKey);
+                // $('#have_discount2').val(have_discount);
+                // $('#discount2').val(discount);
+                // //$('#have_discount2').val(have_discount);
+                // $('#is_swap2').val(is_swap);
+                // $("#is_reference2").val(is_reference)
+
+            });
+        });
     </script>
 @endsection
 

@@ -41,7 +41,7 @@ class CartController extends Controller
 
     public function payCart(Request $request)
     {
-
+   
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
         if (!$cartItem) {

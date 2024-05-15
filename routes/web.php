@@ -168,6 +168,7 @@ Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
 Route::get('/reservation/checkout/{housing}',[PayController::class,'reservation'])->name('payment.reservation.index');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
+Route::post('/reservation/3d-payment', [PayController::class, 'reservation3DPayment'])->name('reservation.3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
 Route::post('/resultpaymentfail', [PayController::class, 'resultPaymentFail'])->name('result.payment');
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
