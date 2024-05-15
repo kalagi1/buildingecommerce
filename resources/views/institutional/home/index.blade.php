@@ -66,9 +66,9 @@
                                 </svg>
                                 <div class="ms-3">
                                     <h4 class="mb-0">{{ $housingCounts }}</h4>
-                                    <p class="text-body-secondary fs-9 mb-0">İlan</p>
+                                    <p class="text-body-secondary fs-9 mb-0">Yayındaki emlak ilanı sayısı</p>
+
                                 </div>
-                                <p class="text-body-secondary fs-9 mb-0">Yayındaki emlak ilanı sayısı</p>
 
 
                             </div>
@@ -116,10 +116,10 @@
                                         </g>
                                     </svg>
                                     <div class="ms-3">
-                                        <h4 class="mb-0">{{ $projectCounts }}</h4>
-                                        <p class="text-body-secondary fs-9 mb-0">İlan</p>
+                                        <h4 class="mb-0">{{ $projectCounts }} İlan</h4>
+                                        <p class="text-body-secondary fs-9 mb-0">Yayındaki proje ilanı sayısı</p>
+
                                     </div>
-                                    <p class="text-body-secondary fs-9 mb-0">Yayındaki proje ilanı sayısı</p>
                                     
                                     
                                 </div>
@@ -153,9 +153,9 @@
                             </svg>
                             <div class="ms-3">
                                 <h4 class="mb-0">{{ $projectFavorites + $housingFavorites }}</h4>
-                                <p class="text-body-secondary fs-9 mb-0">İlan</p>
+                                <p class="text-body-secondary fs-9 mb-0">Favorilerinizdeki İlan Sayısı</p>
+
                             </div>
-                            <p class="text-body-secondary fs-9 mb-0">Favorilerinizdeki İlan Sayısı</p>
                             
                         </div>
 
