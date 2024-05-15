@@ -27,6 +27,7 @@
                                         $share_sale = null;
                                         $number_of_share = null;
                                         $deposit_rate = 0.04;
+                                        dd(json_decode($item['housing']['housing_type_data']));
 
                                         if (
                                             $item['item_type'] == 2 &&
@@ -35,8 +36,9 @@
                                             $discountRate = json_decode($item['housing']['housing_type_data'])
                                                 ->discount_rate[0];
 
-                                                $defaultPrice = json_decode($item['housing']['housing_type_data'])->price[0] ?? json_decode($item['housing']['housing_type_data'])->daily_price[0];
-
+                                            $defaultPrice =
+                                                json_decode($item['housing']['housing_type_data'])->price[0] ??
+                                                json_decode($item['housing']['housing_type_data'])->daily_price[0];
 
                                             $price = $defaultPrice - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
@@ -263,10 +265,11 @@
                                 isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                             ) {
                                 $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                $defaultPrice = json_decode($item['housing']['housing_type_data'])->price[0] ?? json_decode($item['housing']['housing_type_data'])->daily_price[0];
+                                $defaultPrice =
+                                    json_decode($item['housing']['housing_type_data'])->price[0] ??
+                                    json_decode($item['housing']['housing_type_data'])->daily_price[0];
 
-
-$price = $defaultPrice - $item['discount_amount'];
+                                $price = $defaultPrice - $item['discount_amount'];
                                 $discountedPrice = $price - ($price * $discountRate) / 100;
                             } elseif ($item['item_type'] == 1) {
                                 $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
