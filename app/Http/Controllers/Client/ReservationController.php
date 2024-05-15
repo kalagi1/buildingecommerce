@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
+   
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -25,11 +27,11 @@ class ReservationController extends Controller
             'owner_id' => 'required',
             'price' => 'required|numeric|min:0',
             'key' => 'required',
-            'fullName' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'tc' => 'required|numeric',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
+            // 'fullName' => 'required|string|max:255',
+            // 'email' => 'required|email|max:255',
+            // 'tc' => 'required|numeric',
+            // 'phone' => 'required|string|max:20',
+            // 'address' => 'required|string|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -73,12 +75,12 @@ class ReservationController extends Controller
         }
         $reservation->total_price = $request->input('price');
         $reservation->key = $request->input('key');
-        $reservation->full_name = $request->input('fullName');
-        $reservation->email = $request->input('email');
-        $reservation->tc = $request->input('tc');
-        $reservation->phone = $request->input('phone');
-        $reservation->address = $request->input('address');
-        $reservation->notes = $request->input('notes');
+        // $reservation->full_name = $request->input('fullName');
+        // $reservation->email = $request->input('email');
+        // $reservation->tc = $request->input('tc');
+        // $reservation->phone = $request->input('phone');
+        // $reservation->address = $request->input('address');
+        // $reservation->notes = $request->input('notes');
 
         $reservation->save();
 

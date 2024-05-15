@@ -32,11 +32,13 @@ use App\Models\Order;
 use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\UseCoupon;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Models\NeighborPayment;
 use App\Models\Rate;
 use Termwind\Components\Raw;
+use Carbon\Carbon;
 
 class PayController extends Controller
 {
@@ -139,7 +141,95 @@ class PayController extends Controller
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
 
+    public function reservation(Housing $housing)
+    {
+      
+        if (Auth::check()) {
 
+            $userId = Auth::user()->id;
+
+            // Oturum açmış kullanıcının işlemlerini burada devam ettirin
+        } else {
+            // Kullanıcı oturum açmamışsa, login sayfasına yönlendirin
+            return redirect()->route('client.login'); // login sayfasının route ismini buraya yazın
+        }
+
+        $user = User::find($userId);
+        $reservation = Reservation::where('user_id', Auth::user()->id)
+        ->where('housing_id', $housing->id)
+        ->latest()
+        ->first();
+
+        $bankAccounts = BankAccount::all();
+
+
+        $saleType = null;
+        $column_name = null;
+        $project = null;
+        $projectHousingsList = [];
+        $projectHousings = null;
+
+        $housing = null;
+
+        if (isset($reservation) && !empty($reservation)) {
+                $housing = Housing::with('images')
+                ->select(
+                    'housings.id',
+                    'housings.slug',
+                    'housings.title AS housing_title',
+                    'housings.created_at',
+                    'housings.step1_slug',
+                    'housings.step2_slug',
+                    'housing_types.title as housing_type_title',
+                    'housings.housing_type_data',
+                    'project_list_items.column1_name as column1_name',
+                    'project_list_items.column2_name as column2_name',
+                    'project_list_items.column3_name as column3_name',
+                    'project_list_items.column4_name as column4_name',
+                    'project_list_items.column1_additional as column1_additional',
+                    'project_list_items.column2_additional as column2_additional',
+                    'project_list_items.column3_additional as column3_additional',
+                    'project_list_items.column4_additional as column4_additional',
+                    'housings.address',
+                    DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
+                    'cities.title AS city_title',
+                    'districts.ilce_title AS county_title',
+                    'neighborhoods.mahalle_title AS neighborhood_title',
+                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
+                    )
+                ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+                ->where('housings.status', 1)
+                ->where("housings.id", $reservation->housing_id)
+                ->where('project_list_items.item_type', 2)
+                ->orderByDesc('housings.created_at')
+                ->first();
+
+                $saleType = $housing->step2_slug;
+                
+        }
+
+        $housing_type_data = json_decode($housing['housing_type_data'], true);
+        $image = $housing_type_data['image'];
+
+      
+
+        $check_in_date = Carbon::parse($reservation->check_in_date);
+        $check_out_date = Carbon::parse($reservation->check_out_date);
+
+        
+        // Tarih aralığı farkını hesapla
+        $diffDate = $check_out_date->diffInDays($check_in_date); 
+        $payTotalPrice = $reservation->total_price;
+        $payPrice = $reservation->total_price / 2;
+       
+        return view('payment.reservation.index', compact('payTotalPrice','payPrice','diffDate','image','user','reservation', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
+
+    }
 
 
     public function initiate3DPayment(Request $request)

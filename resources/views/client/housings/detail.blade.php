@@ -282,180 +282,15 @@
 
 
                             </ul>
+                            
                             <div class="tab-content" id="myTabContent">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                     <div class="tab-pane fade show active blog-info details mb-30" id="rez"
                                         role="tabpanel" aria-labelledby="rez-tab">
                                         <div class="row">
-                                            <div class="col-md-8 col-12">
+                                            <div class="col-md-12 col-12 mb-5">
                                                 <div id="reservation-calendar"></div>
                                             </div>
-                                            <div class="col-md-4 col-12">
-                                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                    <div class="mobileMove" id="mobileMoveID">
-
-                                                        <div class="schedule widget-boxed mt-33 mt-0">
-                                                            <div class="widget-boxed-header">
-
-                                                                <div
-                                                                    class="d-flex justify-content-between align-items-center">
-                                                                    <h4><i
-                                                                            class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
-                                                                        Yap
-                                                                    </h4>
-                                                                    <div
-                                                                        class="d-flex align-items-center justify-content-around mobile-action-move">
-                                                                        <div class="buttons" style="margin-right: 5px">
-                                                                            <button class="main-button">
-                                                                                <svg width="20" height="30"
-                                                                                    fill="currentColor"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path
-                                                                                        d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                                                    </path>
-                                                                                </svg>
-                                                                            </button>
-                                                                            <button class="twitter-button button"
-                                                                                style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-
-                                                                                <a
-                                                                                    href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                                                    <svg viewBox="0 0 24 24"
-                                                                                        width="24" height="24"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" fill="none"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="css-i6dzq1">
-                                                                                        <path
-                                                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                                                        </path>
-                                                                                    </svg></a>
-                                                                            </button>
-
-                                                                            <button class="reddit-button button"
-                                                                                style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                                                <a
-                                                                                    href="whatsapp://send?text={{ $shareUrl }}">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="currentColor" height="24"
-                                                                                        width="24">
-                                                                                        <path
-                                                                                            d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                                                        </path>
-                                                                                    </svg>
-                                                                                </a>
-
-                                                                            </button>
-                                                                            <button class="messenger-button button"
-                                                                                style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                                                <a
-                                                                                    href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                                                    <svg viewBox="0 0 24 24"
-                                                                                        width="24" height="24"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" fill="none"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="css-i6dzq1">
-                                                                                        <line x1="22"
-                                                                                            y1="2" x2="11"
-                                                                                            y2="13"></line>
-                                                                                        <polygon
-                                                                                            points="22 2 15 22 11 13 2 9 22 2">
-                                                                                        </polygon>
-                                                                                    </svg></a>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="button-effect toggle-favorite"
-                                                                            data-housing-id={{ $housing->id }}>
-                                                                            <i class="fa fa-heart-o"></i>
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="widget-boxed-body">
-                                                                <form id="rezervasyonForm">
-                                                                    @csrf
-                                                                    <div class="row">
-                                                                        <div class="col-lg-6 col-md-12 col-6 book">
-                                                                            <input type="date" id="date-checkin"
-                                                                                placeholder="Giriş Tarihi"
-                                                                                name="check_in_date"
-                                                                                class="date-field form-control">
-                                                                        </div>
-                                                                        <div class="col-lg-6 col-md-12 col-6 book2">
-                                                                            <input type="date" id="date-checkout"
-                                                                                placeholder="Çıkış Tarihi"
-                                                                                name="check_out_date"
-                                                                                class="date-field form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row mrg-top-15 mb-3">
-                                                                        <div class="col-lg-6 col-md-12 mt-3 mb-2">
-                                                                            <label>Kişi Sayısı</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-btn">
-                                                                                    <button type="button"
-                                                                                        class="btn counter-btn theme-cl btn-number"
-                                                                                        disabled="disabled"
-                                                                                        data-type="minus"
-                                                                                        data-field="quant[1]">
-                                                                                        <i class="fa fa-minus"></i>
-                                                                                    </button>
-                                                                                </span>
-                                                                                <input type="number" name="person_count"
-                                                                                    class="border-0 text-center form-control input-number"
-                                                                                    data-min="1" data-max="10"
-                                                                                    value="1" readonly>
-                                                                                <span class="input-group-btn">
-                                                                                    <button type="button"
-                                                                                        class="btn counter-btn theme-cl btn-number"
-                                                                                        data-type="plus"
-                                                                                        data-field="quant[1]">
-                                                                                        <i class="fa fa-plus"></i>
-                                                                                    </button>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="col-lg-6 col-md-12 mt-3 showPrice d-none">
-                                                                            <label>Toplam Tutar</label>
-                                                                            <div class="input-group">
-                                                                                <span id="totalPrice">₺</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-lg-12 col-md-12 mt-3 ">
-                                                                        <div class="row">
-                                                                            <div class="d-flex align-items-center">
-                                                                                <input id="money-trusted" type="checkbox">
-                                                                                <i class="fa fa-info-circle ml-2"
-                                                                                    title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır."
-                                                                                    style="font-size: 18px;"></i>
-                                                                                <label for="money-trusted"
-                                                                                    class="m-0 ml-1"> Param
-                                                                                    güvende (+1.000₺)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="button"
-                                                                        @if (!Auth::check()) onclick="redirectToPage()" @endif
-                                                                        class="reservationBtn reservation btn-radius full-width mt-2 text-white">Rezervasyon
-                                                                        Yap</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-
                                         </div>
 
                                     </div>
@@ -1376,7 +1211,173 @@
 
                         @endif
 
+                            <div class="mt-5 mb-5">
+                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                        <div class="mobileMove" id="mobileMoveID">
 
+                                            <div class="schedule widget-boxed mt-33 mt-0">
+                                                <div class="widget-boxed-header">
+
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center">
+                                                        <h4><i
+                                                                class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
+                                                            Yap
+                                                        </h4>
+                                                        <div
+                                                            class="d-flex align-items-center justify-content-around mobile-action-move">
+                                                            <div class="buttons" style="margin-right: 5px">
+                                                                <button class="main-button">
+                                                                    <svg width="20" height="30"
+                                                                        fill="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </button>
+                                                                <button class="twitter-button button"
+                                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
+
+                                                                    <a
+                                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24"
+                                                                            width="24" height="24"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <path
+                                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                                            </path>
+                                                                        </svg></a>
+                                                                </button>
+
+                                                                <button class="reddit-button button"
+                                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
+                                                                    <a
+                                                                        href="whatsapp://send?text={{ $shareUrl }}">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
+                                                                            fill="currentColor" height="24"
+                                                                            width="24">
+                                                                            <path
+                                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </button>
+                                                                <button class="messenger-button button"
+                                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
+                                                                    <a
+                                                                        href="https://telegram.me/share/url?url={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24"
+                                                                            width="24" height="24"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <line x1="22"
+                                                                                y1="2" x2="11"
+                                                                                y2="13"></line>
+                                                                            <polygon
+                                                                                points="22 2 15 22 11 13 2 9 22 2">
+                                                                            </polygon>
+                                                                        </svg></a>
+                                                                </button>
+                                                            </div>
+                                                            <div class="button-effect toggle-favorite"
+                                                                data-housing-id={{ $housing->id }}>
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-boxed-body">
+                                                    <form id="rezervasyonForm">
+                                                        @csrf
+                                                        <input type="hidden" name="key" id="orderKey">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-12 col-6 book">
+                                                                <input type="date" id="date-checkin"
+                                                                    placeholder="Giriş Tarihi"
+                                                                    name="check_in_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 col-6 book2">
+                                                                <input type="date" id="date-checkout"
+                                                                    placeholder="Çıkış Tarihi"
+                                                                    name="check_out_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mrg-top-15 mb-3">
+                                                            <div class="col-lg-6 col-md-12 mt-3 mb-2">
+                                                                <label>Kişi Sayısı</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            disabled="disabled"
+                                                                            data-type="minus"
+                                                                            data-field="quant[1]">
+                                                                            <i class="fa fa-minus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="number" name="person_count"
+                                                                        class="border-0 text-center form-control input-number"
+                                                                        data-min="1" data-max="10"
+                                                                        value="1" readonly>
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            data-type="plus"
+                                                                            data-field="quant[1]">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-lg-6 col-md-12 mt-3 showPrice d-none">
+                                                                <label>Toplam Tutar</label>
+                                                                <div class="input-group">
+                                                                    <span id="totalPrice">₺</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12 col-md-12 mt-3 ">
+                                                            <div class="row">
+                                                                <div class="d-flex align-items-center">
+                                                                    <input id="money-trusted" type="checkbox">
+                                                                    <i class="fa fa-info-circle ml-2"
+                                                                        title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır."
+                                                                        style="font-size: 18px;"></i>
+                                                                    <label for="money-trusted"
+                                                                        class="m-0 ml-1"> Param
+                                                                        güvende (+1.000₺)</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button"
+                                                            @if (!Auth::check()) onclick="redirectToPage()" @endif
+                                                            class="reservationBtn reservation btn-radius full-width mt-2 text-white" id="submitBtn">Rezervasyon
+                                                            Yap</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                              
+
+                            </div>
 
                         <div class="moveStore">
                             <div class="widget-boxed removeClass mt-5 mb-5">
@@ -1601,7 +1602,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+    {{-- <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -1735,10 +1736,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
-    <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+    {{-- <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -1820,7 +1821,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')
@@ -2243,6 +2244,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $("#phone").on("input blur", function() {
@@ -2349,9 +2351,11 @@
                         $("#orderKey").val(uniqueCode);
                         $(".totalPriceCode").html(uniqueCode);
                         $(".reservationBtn").attr({
-                            "data-toggle": "modal",
-                            "data-target": "#paymentModal"
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#paymentModal"
                         })
+
+                  
                     }
 
                 });
@@ -2423,12 +2427,12 @@
 
                 $('#submitBtn').click(function() {
                     // Kullanıcı bilgileri
-                    var fullName = $('#fullName').val();
-                    var email = $('#email').val();
-                    var tc = $('#tc').val();
-                    var phone = $('#phone').val();
-                    var address = $('#address').val();
-                    var notes = $('#notes').val();
+                    // var fullName = $('#fullName').val();
+                    // var email = $('#email').val();
+                    // var tc = $('#tc').val();
+                    // var phone = $('#phone').val();
+                    // var address = $('#address').val();
+                    // var notes = $('#notes').val();
 
                     var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                     var checkInDate = $('#date-checkin').val();
@@ -2445,20 +2449,20 @@
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
                     // Gerekli alanları kontrol et
-                    if (!fullName || !email || !tc || !phone || !address) {
-                        toastr.error("Lütfen tüm zorunlu alanları doldurun.")
-                        return; // Fonksiyonu burada sonlandır
-                    }
+                    // if (!fullName || !email || !tc || !phone || !address) {
+                    //     toastr.error("Lütfen tüm zorunlu alanları doldurun.")
+                    //     return; // Fonksiyonu burada sonlandır
+                    // }
 
                     // TC Kimlik Numarası için regular expression
-                    var tcRegex = /^[1-9]{1}[0-9]{9}[02468]{1}$/;
+                    // var tcRegex = /^[1-9]{1}[0-9]{9}[02468]{1}$/;
 
                     // Check if the provided tc matches the expected format
-                    if (!tcRegex.test(tc)) {
-                        toastr.error("Lütfen geçerli bir TC Kimlik Numarası giriniz.");
-                        return;
-                    }
-
+                    // if (!tcRegex.test(tc)) {
+                    //     toastr.error("Lütfen geçerli bir TC Kimlik Numarası giriniz.");
+                    //     return;
+                    // }
+                        console.log(key);
 
                     // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
@@ -2476,26 +2480,26 @@
                             owner_id: {{ $housing->user->id }},
                             price: price * diffDays,
                             key: key,
-                            fullName: fullName,
-                            email: email,
-                            tc: tc,
-                            phone: phone,
-                            address: address,
+                            // fullName: fullName,
+                            // email: email,
+                            // tc: tc,
+                            // phone: phone,
+                            // address: address,
                             money_trusted: moneyTrusted
                         },
                         success: function(response) {
                             // $('#finalConfirmationModal').modal('hide');
                             // $('.modal-backdrop').remove();
                             // location.reload();
-
                             if (!response.success) {
                                 toastr.error(response.message);
                                 // location.reload();
                             } else {
-                                $('#finalConfirmationModal').modal('hide');
-                                $('.modal-backdrop').remove();
+                                // $('#finalConfirmationModal').modal('hide');
+                                // $('.modal-backdrop').remove();
                                 toastr.success(response.message);
-                                location.reload();
+                                console.log(response);
+                                window.location.href = "{{ route('payment.reservation.index', ['housing' => $housing->id ]) }}";
                             }
 
                         },

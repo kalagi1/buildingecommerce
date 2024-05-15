@@ -165,6 +165,7 @@ Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::cla
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
+Route::get('/reservation/checkout/{housing}',[PayController::class,'reservation'])->name('payment.reservation.index');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
