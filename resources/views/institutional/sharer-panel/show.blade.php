@@ -34,9 +34,11 @@
                                         ) {
                                             $discountRate = json_decode($item['housing']['housing_type_data'])
                                                 ->discount_rate[0];
-                                            $price =
-                                                json_decode($item['housing']['housing_type_data'])->price[0] -
-                                                $item['discount_amount'];
+
+                                                $defaultPrice = json_decode($item['housing']['housing_type_data'])->price[0] ?? json_decode($item['housing']['housing_type_data'])->daily_price[0];
+
+
+                                            $price = $defaultPrice - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
                                             $deposit_rate = 0.04;
                                         } elseif ($item['item_type'] == 1) {
@@ -261,9 +263,10 @@
                                 isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                             ) {
                                 $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                $price =
-                                    json_decode($item['housing']['housing_type_data'])->price[0] -
-                                    $item['discount_amount'];
+                                $defaultPrice = json_decode($item['housing']['housing_type_data'])->price[0] ?? json_decode($item['housing']['housing_type_data'])->daily_price[0];
+
+
+$price = $defaultPrice - $item['discount_amount'];
                                 $discountedPrice = $price - ($price * $discountRate) / 100;
                             } elseif ($item['item_type'] == 1) {
                                 $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
