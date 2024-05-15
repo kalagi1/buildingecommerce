@@ -694,14 +694,14 @@
                         @if ($housing->step2_slug == 'gunluk-kiralik')
                             <div class="mobileHour mobileHourDiv">
                                 <div class="homes-content details-2">
-                                    <ul class="homes-list reservation-list clearfix">
+                                    {{-- <ul class="homes-list reservation-list clearfix">
                                         <li>
                                             <span>Giriş: {{ getData($housing, 'start_time') }}</span>
                                         </li>
                                         <li>
                                             <span>Çıkış: {{ getData($housing, 'end_time') }}</span>
                                         </li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
                         @else
