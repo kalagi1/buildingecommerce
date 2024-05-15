@@ -115,13 +115,13 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <div class="ms-2">
-                                        <div class="d-flex align-items-end">
-                                            <h2 class="mb-0 me-2">{{ $projectCounts }}</h2><span
-                                                class="fs-7 fw-semibold text-body">İlan</span>
-                                        </div>
-                                        <p class="text-body-secondary fs-9 mb-0">Yayındaki proje ilanı sayısı</p>
+                                    <div class="ms-3">
+                                        <h4 class="mb-0">{{ $projectCounts }}</h4>
+                                        <p class="text-body-secondary fs-9 mb-0">İlan</p>
                                     </div>
+                                    <p class="text-body-secondary fs-9 mb-0">Yayındaki proje ilanı sayısı</p>
+                                    
+                                    
                                 </div>
 
                             </div>
@@ -151,13 +151,12 @@
                                     </g>
                                 </g>
                             </svg>
-                            <div class="ms-2">
-                                <div class="d-flex align-items-end">
-                                    <h2 class="mb-0 me-2">{{ $projectFavorites + $housingFavorites }}</h2><span
-                                        class="fs-7 fw-semibold text-body">İlan</span>
-                                </div>
-                                <p class="text-body-secondary fs-9 mb-0">Favorilerinizdeki İlan Sayısı</p>
+                            <div class="ms-3">
+                                <h4 class="mb-0">{{ $projectFavorites + $housingFavorites }}</h4>
+                                <p class="text-body-secondary fs-9 mb-0">İlan</p>
                             </div>
+                            <p class="text-body-secondary fs-9 mb-0">Favorilerinizdeki İlan Sayısı</p>
+                            
                         </div>
 
                     </div>
