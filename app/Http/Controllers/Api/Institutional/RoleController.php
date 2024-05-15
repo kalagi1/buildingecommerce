@@ -139,12 +139,125 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-       
-        $role = Role::where("id", $role->id)->with("rolePermissions.permissions")->first();
-        $mainRole = Role::where("id", "2")->with("rolePermissions.permissions")->first();
+
+        $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $role = Role::where('id', $role->id)->with('rolePermissions.permissions')->first();
+        $mainRole = Role::where('id', '2')->with('rolePermissions.permissions')->first();
         $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
-         $groupedPermissions = $permissions->groupBy('permission_group_id');
-         return response()->json(['role' => $role, 'groupedPermissions' => $groupedPermissions]);
+
+        $specialPermissions = [
+            'Projects',
+            'CreateProject',
+            'GetProjects',
+            'DeleteProject',
+            'UpdateProject',
+            'GetProjectById',
+        ];
+
+        $reservationPermissions = [
+            'Reservations',
+            'CreateReservation',
+            'GetReservations',
+            'DeleteReservation',
+            'UpdateReservation',
+            'GetReservationById',
+        ];
+
+        $offerPermissions = [
+            "Offers",
+            "CreateOffer",
+            "Offers",
+            "DeleteOffer",
+            "GetOfferById",
+            "UpdateOffer",
+            "GetOffers"
+        ];
+
+        $specialPermissionKeys = [
+            'ChangePassword',
+            'EditProfile',
+            'ViewDashboard',
+            'ShowCartOrders',
+            'GetMyCollection',
+            'GetMyEarnings',
+            'neighborView',
+            'GetOrders',
+            'GetReceivedOffers',
+            'GetGivenOffers',
+            'GetSwapApplications',
+            'MyReservations',
+            'Reservations',
+            'Orders'
+        ];
+
+        $filteredPermissions  = $permissions;
+
+        // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
+        if ($user->corporate_type == 'Emlak Ofisi') {
+
+            $filteredPermissions = $permissions->reject(function ($permission) use ($specialPermissions) {
+                return in_array($permission->key, $specialPermissions);
+            });
+        }
+
+        // Eğer 'Turizm Amaçlı Kiralama' değilse, 'reservationPermissions'ı çıkartın
+        if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
+                return in_array($permission->key, $reservationPermissions);
+            });
+        }
+
+
+        if ($user->corporate_type !== 'İnşaat Ofisi') {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
+                return in_array($permission->key, $offerPermissions);
+            });
+        }
+
+        $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissionKeys) {
+            return in_array($permission->key, $specialPermissionKeys);
+        });
+
+        // İzinleri 'permission_group_id' ile gruplayın
+        $groupedPermissions = $filteredPermissions->groupBy('permission_group_id');
+
+        
+        // Grup adlarını depolamak için boş bir dizi oluşturun
+      // Grup adlarını depolamak için boş bir dizi oluşturun
+            $groupNames = [];
+
+            // İzinleri 'permission_group_id' ile gruplayın ve her bir grup için kontrol yapın
+            $groupedPermissionsWithChecks = $groupedPermissions->map(function ($permissions, $groupId) use ($role) {
+                // Belirli izin gruplarını kontrol etme işlemi ve her bir izin için 'hasPermission' değerini döndürme
+                $permissionsWithChecks = $permissions->map(function ($permission) use ($role) {
+                    // Belirli bir iznin rol tarafından sahip olunup olunmadığını kontrol etme
+                    $hasPermission = $role->rolePermissions->where('permission_id', $permission->id)->isNotEmpty();
+                    
+                    return [
+                        'permission' => $permission,
+                        'hasPermission' => $hasPermission,
+                    ];
+                });
+            
+                // Grup adını almak için ilgili grup id'sini kullanarak veritabanından sorgulama yapın
+                $groupName = PermissionGroup::where('id', $groupId)->value('desc');
+            
+                return [
+                    'groupName' => $groupName,
+                    'permissions' => $permissionsWithChecks,
+                ];
+            });
+            
+            return response()->json([
+                'groupedPermissionsWithChecks' => $groupedPermissionsWithChecks,
+            ]);
+
+       
+        // $role = Role::where("id", $role->id)->with("rolePermissions.permissions")->first();
+        // $mainRole = Role::where("id", "2")->with("rolePermissions.permissions")->first();
+        // $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
+        //  $groupedPermissions = $permissions->groupBy('permission_group_id');
+        //  return response()->json(['role' => $role, 'groupedPermissions' => $groupedPermissions]);
     }
 
     public function store(CreateRoleRequest $request)
