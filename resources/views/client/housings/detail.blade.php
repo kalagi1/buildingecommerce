@@ -692,18 +692,31 @@
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            <div class="mobileHour mobileHourDiv">
-                                <div class="homes-content details-2">
-                                    <ul class="homes-list reservation-list clearfix">
-                                        <li>
-                                            <span>Giriş: {{ json_decode($housing->housing_type_data)->start_time[0] }}</span>
-                                        </li>
-                                        <li>
-                                            <span>Çıkış: {{ json_decode($housing->housing_type_data)->end_time[0] }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <div class="mobileHour mobileHourDiv">
+                            <div class="homes-content details-2">
+                                <ul class="homes-list reservation-list clearfix">
+                                    <li>
+                                        <span>Giriş:</span>
+                                        @if(isset(json_decode($housing->housing_type_data)->start_time))
+                                            @foreach(json_decode($housing->housing_type_data)->start_time as $startTime)
+                                                <span>{{ $startTime }}</span>
+                                            @endforeach
+                                        @else
+                                            <span>No start times available</span>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        <span>Çıkış:</span>
+                                        @if(isset(json_decode($housing->housing_type_data)->end_time))
+                                            <span>{{ json_decode($housing->housing_type_data)->end_time[0] }}</span>
+                                        @else
+                                            <span>No end time available</span>
+                                        @endif
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                        
                         @else
                             {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
                         style="background-color: green "></div> --}}
