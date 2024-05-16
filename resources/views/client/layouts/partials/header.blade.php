@@ -405,12 +405,12 @@
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
                                     <button type="submit" class="fa fa-search btn btn-primary" id="search-icon2"
-                                        onclick="return validateForm()"></button>
+                                        onclick="return validateForm2()"></button>
                                 </div>
                             </form>
 
                             <script>
-                                function validateForm() {
+                                function validateForm2() {
                                     var searchTerm = document.getElementById("search-form2").elements["searchTerm"].value;
                                     if (searchTerm.trim() === "") {
                                         return false; // Form post edilmez
