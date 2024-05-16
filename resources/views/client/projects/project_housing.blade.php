@@ -379,8 +379,10 @@
                                     } else {
                                         $btnStyle = $satildiStyle;
                                     }
+
+                                    dd($saleClosed)
                                 @endphp
-                                <div class="@if ($soldOut || !$saleClosed || !$offSale) col-md-7 col-7 @else col-md-12 col-12 @endif"
+                                <div class="@if ($soldOut) col-md-7 col-7 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
