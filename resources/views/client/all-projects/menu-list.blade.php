@@ -629,6 +629,10 @@
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $housingTypeName }}</p>
                                 @endif
+                                <div class="hiddenCityName d-none">
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name" style="color: black"></p>
+                                </div>
                                 {{-- @if ($checkTitle)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">
@@ -826,8 +830,7 @@
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
-                    console.log(res);
-                    console.log(res.cityName);
+                    $(".hiddenCityName").removeClass("d-none").addClass("d-block").children(".brand-name").html(res.cityName);
                     res.counties.forEach((e) => {
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
