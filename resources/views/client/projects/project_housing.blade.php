@@ -337,7 +337,6 @@
                                 @php
                                     $soldOut =
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
@@ -380,7 +379,6 @@
                                         $btnStyle = $satildiStyle;
                                     }
 
-                                    dd($sold);
                                 @endphp
                                 <div class="@if ($soldOut || !$offSale) col-md-7 col-7 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
