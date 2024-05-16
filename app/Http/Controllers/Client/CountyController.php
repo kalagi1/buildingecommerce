@@ -22,7 +22,7 @@ class CountyController extends Controller {
         ] );
     }
 
-    public function getNeighborhood(Neighborhood $neighborhood) {
+    public function getNeighborhood($neighborhood) {
         $neighborhood = Neighborhood::where("mahalle_id", $neighborhood)->first();
         $neighborhoodName = mb_strtolower( $neighborhood->mahalle_title, 'UTF-8' );
         $neighborhoodName = mb_strtoupper( mb_substr( $neighborhoodName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $neighborhoodName, 1, null, 'UTF-8' );
