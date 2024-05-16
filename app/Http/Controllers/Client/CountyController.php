@@ -16,7 +16,7 @@ class CountyController extends Controller
         $counties = District::where('ilce_sehirkey', $city->id)->get();
         return response()->json([
             "counties" => $counties,
-            "cityName" => $city->title
+            "cityName" =>  ucfirst(strtolower($city->title))
         ]);
     }
     public function getCountiesForClient($city)
