@@ -404,7 +404,7 @@
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon2"
                                         onclick="return validateForm()"></button>
                                 </div>
                             </form>
