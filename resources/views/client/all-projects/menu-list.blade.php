@@ -633,6 +633,10 @@
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name cityNameP" style="color: black"></p>
                                 </div>
+                                <div class="hiddenCountyName d-none">
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name countyNameP" style="color: black"></p>
+                                </div>
                                 {{-- @if ($checkTitle)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">
@@ -855,8 +859,9 @@
                 url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                 success: function(res) {
                     $('#neighborhood').empty();
+                    $(".hiddenCountyName").removeClass("d-none").addClass("d-flex").children(".countyNameP").html(res.countyName);
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
-                    res.forEach((e) => {
+                    res.neighborhoods.forEach((e) => {
                         $('#neighborhood').append(
                             `<option value="${e.id}">${e.title}</option>`
                         );

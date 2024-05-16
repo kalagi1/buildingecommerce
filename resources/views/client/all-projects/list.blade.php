@@ -490,7 +490,7 @@
                 success: function(res) {
                     $('#neighborhood').empty();
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
-                    res.forEach((e) => {
+                    res.neighborhoods.forEach((e) => {
                         $('#neighborhood').append(
                             `<option value="${e.id}">${e.title}</option>`
                         );
