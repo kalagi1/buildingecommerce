@@ -78,7 +78,7 @@ class UserController extends Controller
             $user->profile_image = 'indir.png';
             $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
             $user->type = $validatedData['type'];
-            $user->status = $request->has('is_active') ? 1 : 5;
+            $user->status = 0;
             $user->corporate_account_status = 1;
             $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
             $user->code = $lastUser->id + auth()->user()->id + 1000000;
@@ -137,7 +137,7 @@ class UserController extends Controller
             $user->title = $validatedData['title'];
             $user->mobile_phone = $validatedData['mobile_phone'];
             $user->type = $validatedData['type'];
-            $user->status = $request->has('is_active') ? 1 : 5;
+            $user->status = $request->has('is_active') ? 5 : $user->status;
     
             if ($request->hasFile('profile_image')) {
                 $image = $request->file('profile_image');

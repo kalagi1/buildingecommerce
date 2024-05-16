@@ -97,7 +97,7 @@
                                                 id="flexSwitchCheckCheckedDisabled" type="checkbox"
                                                 {{ old('is_active', $subUser->status) ? 'checked' : '' }} />
                                             <label class="form-check-label"
-                                                for="flexSwitchCheckCheckedDisabled">Aktif</label>
+                                                for="flexSwitchCheckCheckedDisabled">Kullanıcıyı Engelle</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
