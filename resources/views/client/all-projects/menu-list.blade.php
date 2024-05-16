@@ -896,6 +896,7 @@
         });
 
         $('#neighborhood').on('change', function() {
+            console.log($(this).val());
 
             $.ajax({
                 method: "GET",
