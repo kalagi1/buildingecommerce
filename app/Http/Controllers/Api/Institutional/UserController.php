@@ -21,6 +21,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function show(Request $request, User $user){
+        return response()->json([
+            'user' => $user
+        ]);
+
+    }
+
     public function index() {
         $users = User::with( 'role' )->where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->orderBy("order","asc")->get();
         return response()->json([
