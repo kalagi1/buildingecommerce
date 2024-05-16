@@ -154,6 +154,8 @@ Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::c
 Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('institutional.teams');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");
+Route::get('/get-neighborhood/{neighborhood}', [CountyController::class, "getNeighborhood"])->name("getNeighborhood");
+
 Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCountiesForClient"])->name("getCountiesForClient");
 Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");

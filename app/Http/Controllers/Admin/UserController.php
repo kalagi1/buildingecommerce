@@ -160,7 +160,7 @@ class UserController extends Controller
         $user->password = bcrypt($validatedData['password']);
         // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active') ? 1 : 5;
+        $user->status = 1;
         $user->corporate_account_status = 1;
         $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->code = $lastUser->id + auth()->user()->id  + 1000000;
@@ -444,7 +444,7 @@ class UserController extends Controller
         $user->email          = $validatedData['email'];
         $user->mobile_phone   = $validatedData['mobile_phone'];
         $user->type           = $validatedData['type'];
-        $user->status         = $request->has('is_active') ? 1 : 0;
+        $user->status = $request->has('is_active') ? 5 : $user->status;
         $user->taxOfficeCity  = $taxOfficeCity;
         $user->taxOffice      = $request->taxOffice;
         $user->taxNumber      = $request->taxNumber;

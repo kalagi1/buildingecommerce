@@ -77,13 +77,6 @@
                                 </select>
 
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" name="is_active" id="flexSwitchCheckCheckedDisabled"
-                                        type="checkbox" checked="" />
-                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Aktif</label>
-                                </div>
-                            </div>
                             <div class="col-12">
                                 <button class="btn btn-primary" type="submit">Kaydet</button>
                             </div>
