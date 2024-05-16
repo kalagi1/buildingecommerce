@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\District;
 use App\Models\Neighborhood;
+use PhpParser\Node\Expr\New_;
 
 class CountyController extends Controller {
     public function getCounties( $city ) {
@@ -22,8 +23,9 @@ class CountyController extends Controller {
     }
 
     public function getNeighborhood(Neighborhood $neighborhood) {
+        $neighborhood = Neighborhood::where("mahalle_id", $neighborhood)->first();
         $neighborhoodName = mb_strtolower( $neighborhood->mahalle_title, 'UTF-8' );
-        $cityneighborhoodNameame = mb_strtoupper( mb_substr( $neighborhoodName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $neighborhoodName, 1, null, 'UTF-8' );
+        $neighborhoodName = mb_strtoupper( mb_substr( $neighborhoodName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $neighborhoodName, 1, null, 'UTF-8' );
 
         return response()->json( [
             'neighborhoodName' => $neighborhoodName
