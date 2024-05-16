@@ -2489,6 +2489,8 @@
                 content.classList.remove('active');
             });
             document.getElementById('contentblock-' + tabName).classList.add('active');
+            $(this).addClass("active");
+            
             var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
 
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
