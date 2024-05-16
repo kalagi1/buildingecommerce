@@ -293,7 +293,7 @@
                                         <select id="city" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city['id'] }}" data-city-title="{{ $city['title'] }}">{{ $city['title'] }}</option>
+                                                <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}">{{ $city['title'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -821,7 +821,7 @@
 
         $('#city').on('change', function() {
             console.log("asas");
-            var cityTitle = $(this).data("city-title");
+            var cityTitle = $(this).data("city");
             console.log(cityTitle);
             console.log( $(this).val());
 
