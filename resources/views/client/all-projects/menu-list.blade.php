@@ -820,6 +820,7 @@
         })
 
         $('#city').on('change', function() {
+            console.log("asas");
             var cityTitle = $(this).data("city-title");
             console.log(cityTitle);
 
