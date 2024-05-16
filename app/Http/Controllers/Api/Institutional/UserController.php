@@ -64,7 +64,6 @@ class UserController extends Controller
         ];
 
         $validatedData = $request->validate( $rules, $messages );
-        return $validatedData;
         $mainUser = User::where( 'id', auth()->user()->parent_id ?? auth()->user()->id )->with( 'plan' )->first();
         $countUser = UserPlan::where( 'user_id', $mainUser->id )->first();
         $users = User::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
