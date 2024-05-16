@@ -8844,7 +8844,8 @@ a.button {
     width: 100%;
 }
 
-#search-icon {
+#search-icon,
+#search-icon2 {
     height: 36px !important;
     width: 36px !important;
 }
@@ -25156,7 +25157,8 @@ form label.error {
     color: #fff;
 }
 
-#search-icon {
+#search-icon,
+#search-icon2 {
     background: #e54242 !important;
     border: #e54242 !important;
 }

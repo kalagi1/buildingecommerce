@@ -655,7 +655,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
-                text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
+                text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
                 confirmButtonText: 'Kapat'
             });
         } else {

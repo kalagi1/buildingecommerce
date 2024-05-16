@@ -58,8 +58,6 @@
                         <span> {{ $housing->city_title }}
                             {{ '/' }}
                             {{ $housing->county_title }}
-                            {{ '/' }}
-                            {{ $housing->neighborhood_title }}
                         </span>
 
                     </p>

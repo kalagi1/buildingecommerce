@@ -213,10 +213,10 @@ class ProjectController extends Controller
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
 
-        
+
             $project->cartOrders = 0;
             $roomCounts = intval($project->room_count);
-            
+
             for ($i = 1; $i <= $roomCounts; $i++) {
                 $hasShareSale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
                 if (!$hasShareSale) {
@@ -229,7 +229,7 @@ class ProjectController extends Controller
                     }
                 }
             }
-            
+
             for ($i = 1; $i <= $roomCounts; $i++) {
                 $hasShareSale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
                 if ($hasShareSale) {
@@ -239,13 +239,13 @@ class ProjectController extends Controller
                         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.housing"))'), $i)
                         ->where("status", "1")
                         ->first();
-            
+
                     if ($totalQuantity && $totalQuantity->total_quantity >= $totalShares) {
                         $project->cartOrders += 1;
                     }
                 }
             }
-            
+
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
@@ -269,7 +269,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title.' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
+                "meta_description" => $project->project_title . ' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
                 "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
                 "meta_author" => "Emlak Sepette"
             ];
@@ -429,7 +429,7 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects(Request $request ,$slug = null, $type = null, $optional = null, $title = null, $check = null)
+    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
         $term = $request->input('term');
         $deneme = null;
@@ -616,7 +616,7 @@ class ProjectController extends Controller
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
-            
+
 
             if ($housingType) {
                 $query->where('housing_type_id', $newHousingType);
@@ -954,7 +954,7 @@ class ProjectController extends Controller
         $pageInfo = json_decode($pageInfo);
 
 
-        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type' , 'term'));
+        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
 
     public function allProjects($slug)
@@ -1022,12 +1022,29 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', "blocks", 'user.housings', 'images')->first();
 
         if (!$project) {
             return redirect('/')
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
+
+        $blockName = null;
+        $blockHousingOrder = null;
+
+        if ($project->have_blocks == 1) {
+            $currentOrder = 1;
+
+            foreach ($project->blocks as $block) {
+                if ($housingOrder >= $currentOrder && $housingOrder < $currentOrder + $block->housing_count) {
+                    $blockName = $block->block_name;
+                    $blockHousingOrder = $housingOrder - $currentOrder + 1;
+                    break;
+                }
+                $currentOrder += $block->housing_count;
+            }
+        }
+
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
 
@@ -1154,33 +1171,33 @@ class ProjectController extends Controller
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
 
 
-     // Meta bilgi değişkeni tanımlanıyor
-$pageInfo = [
-    "meta_title" => 
-        // 'advertise_title[]' anahtarı var mı kontrol ediliyor
-        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
-            ? $projectHousingsList[$housingOrder]['advertise_title[]'] 
-            : (
-                // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
-                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] 
-                    : "Emlak Sepette"
-              ),
-    "meta_keywords" => 
-        // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
-        $project->project_title . " Proje, Proje Detay, " . $project->city->title,
-    "meta_description" => 
-        // 'advertise_title[]' anahtarı kontrol ediliyor
-        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
-            ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-            : (
-                // 'advertise-title[]' anahtarı kontrol ediliyor
-                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-                    : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
-              ),
-    "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
-];
+            // Meta bilgi değişkeni tanımlanıyor
+            $pageInfo = [
+                "meta_title" =>
+                // 'advertise_title[]' anahtarı var mı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
+                    : (
+                        // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
+                        isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
+                        : "Emlak Sepette"
+                    ),
+                "meta_keywords" =>
+                // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
+                $project->project_title . " Proje, Proje Detay, " . $project->city->title,
+                "meta_description" =>
+                // 'advertise_title[]' anahtarı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    : (
+                        // 'advertise-title[]' anahtarı kontrol ediliyor
+                        isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                        : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    ),
+                "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
+            ];
 
             $pageInfo = json_encode($pageInfo);
             $pageInfo = json_decode($pageInfo);
@@ -1193,7 +1210,7 @@ $pageInfo = [
         $active = isset($active) ? 'active' : null;
 
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active" ));
+        return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)

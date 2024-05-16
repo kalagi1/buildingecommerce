@@ -25,7 +25,9 @@ use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,8 +123,20 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
         });
 
+        Route::middleware(['checkPermission:CreateUser'])->group(function () {
+            Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+            Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        });
+
+
         Route::middleware(['checkPermission:GetRoleById'])->group(function () {
             Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        });
+        Route::middleware(['checkPermission:GetUserById'])->group(function () {
+            Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        });
+        Route::middleware(['checkPermission:GetUsers'])->group(function () {
+            Route::get('/users', [UserController::class, 'index'])->name('users.index');
         });
 
         // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
@@ -141,6 +155,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         // Rol Silme İşlemi için Erişim Kontrolü (DeleteRole izni gerekli)
         Route::middleware(['checkPermission:DeleteRole'])->group(function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
+        });
+
+        Route::middleware(['checkPermission:DeleteUser'])->group(function () {
+            Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
         });
 
 

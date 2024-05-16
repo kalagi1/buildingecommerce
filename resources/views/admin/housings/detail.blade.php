@@ -73,8 +73,7 @@
                         </div>
                     </div>
                 </div>
-
-                @if ($housing->owner)
+                @if (isset($housing->owner))
                     @if ($housing->status == 1)
                         <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
                             Emlak Ofisi Değiştir
