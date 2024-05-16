@@ -337,12 +337,13 @@
 
                                 <div class="  @if (
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                  $projectHousingsList[$housingOrder]['off_sale[]'] == '[]'    ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share) || $projectHousingsList[$housingOrder]['off_sale[]'] == '[]' && !$sold) col-md-7 col-7
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-7 col-7
                                     @else
                                     col-md-12 col-12 @endif "
                                     style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
