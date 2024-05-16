@@ -337,8 +337,6 @@
                                 @php
                                     $soldOut =
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold &&  $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] == '[]') ||
-                                        ($projectHousingsList[$housingOrder]['off_sale[]'] == '[]' && !$sold) ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
@@ -346,7 +344,6 @@
                                             $sold->status != '2' &&
                                             $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
                                  
-                                            dd($sold && $sold->status == '2' && $share_sale == '[]');
                                     $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
 
                                     $saleClosed =
@@ -383,7 +380,7 @@
                                         $btnStyle = $satildiStyle;
                                     }
                                 @endphp
-                                <div class="@if ($soldOut) col-md-7 col-7 @else col-md-12 col-12 @endif"
+                                <div class="@if ($soldOut || !$saleClosed) col-md-7 col-7 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
