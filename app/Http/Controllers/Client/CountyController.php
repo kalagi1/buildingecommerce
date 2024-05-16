@@ -21,6 +21,16 @@ class CountyController extends Controller {
         ] );
     }
 
+    public function getNeighborhood(Neighborhood $neighborhood) {
+        $neighborhoodName = mb_strtolower( $neighborhood->mahalle_title, 'UTF-8' );
+        $cityneighborhoodNameame = mb_strtoupper( mb_substr( $neighborhoodName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $neighborhoodName, 1, null, 'UTF-8' );
+
+        return response()->json( [
+            'neighborhoodName' => $neighborhoodName
+        ] );
+        
+    }
+
     public function getCountiesForClient( $city ) {
         $counties = County::where( 'city_id', $city )->get();
         return response()->json( $counties );
