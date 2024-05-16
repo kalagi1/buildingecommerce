@@ -380,8 +380,7 @@
                                         $btnStyle = $satildiStyle;
                                     }
 
-                                    dd($offSale)
-                                    dd($saleClosed)
+                                    dd($offSale);
                                 @endphp
                                 <div class="@if ($soldOut) col-md-7 col-7 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
