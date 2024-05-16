@@ -81,7 +81,7 @@
                                                 @elseif($user->status == 0)
                                                     <span class="badge bg-warning">Hesap Doğrulanmadı</span>
                                                 @else
-                                                    <span class="badge bg-red">Hesap Engellendi</span>
+                                                    <span class="badge bg-danger">Hesap Engellendi</span>
                                                 @endif
                                             </td>
 
