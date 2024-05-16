@@ -1159,15 +1159,7 @@ class CartController extends Controller {
                                 [ 0 ] ?? 0,
                             ];
 
-                            $userPhoneNumber = $housing->user->mobile_phone;
-
-                            $message = "Sayın mağaza yetkilisi, " . ( intval($housing->id) + 2000000 )  . " numaralı emlak ilanınız bir kullanıcı tarafından sepete eklendi. İyi günler dileriz.";
-
-                            // SMS gönderme işlemi
-                            $smsService = new SmsService();
-                            $source_addr = 'Emlkspette';
-
-                            $smsService->sendSms( $source_addr, $message, $userPhoneNumber );
+                           
                         }
 
                         if ( !$cartItem ) {
@@ -1186,6 +1178,16 @@ class CartController extends Controller {
                             'cart'     => $cartJson,
                             'user_id'  => Auth::id()
                         ] );
+
+                        $userPhoneNumber = $type == 'housing' ?  $housing->user->mobile_phone : $project->user->mobile_phone;
+
+                        $message = "Sayın mağaza yetkilisi, " . ( intval($housing->id) + 2000000 )  . " numaralı emlak ilanınız bir kullanıcı tarafından sepete eklendi. İyi günler dileriz.";
+
+                        // SMS gönderme işlemi
+                        $smsService = new SmsService();
+                        $source_addr = 'Emlkspette';
+
+                        $smsService->sendSms( $source_addr, $message, $userPhoneNumber );
 
                         return response( [ 'message' => 'success' ] );
                     }
