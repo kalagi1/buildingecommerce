@@ -1060,7 +1060,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]' || $offSale || $saleClosed) ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
