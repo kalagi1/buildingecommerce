@@ -753,9 +753,7 @@
                 placeholder: 'İl',
                 width: '100%',
                 searchInputPlaceholder: 'Ara...',
-                tags: "true",
-  placeholder: "Select an option",
-  allowClear: true
+                
             });
             $("#project_type").select2({
                 minimumResultsForSearch: -1,
