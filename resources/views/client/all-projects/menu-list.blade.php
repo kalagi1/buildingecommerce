@@ -752,7 +752,10 @@
             $('#city').select2({
                 placeholder: 'İl',
                 width: '100%',
-                searchInputPlaceholder: 'Ara...'
+                searchInputPlaceholder: 'Ara...',
+                tags: "true",
+  placeholder: "Select an option",
+  allowClear: true
             });
             $("#project_type").select2({
                 minimumResultsForSearch: -1,
