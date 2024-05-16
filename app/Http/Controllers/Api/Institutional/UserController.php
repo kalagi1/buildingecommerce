@@ -38,7 +38,6 @@ class UserController extends Controller
     }
 
     public function store( Request $request ) {
-        return $request->all();
         $messages = [
             'name.required' => 'İsim alanı zorunludur.',
             'mobile_phone.required' => 'Cep no alanı zorunludur.',
