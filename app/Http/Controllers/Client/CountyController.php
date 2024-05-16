@@ -14,8 +14,9 @@ class CountyController extends Controller
     {
         $city = City::where("id", $city)->first();
         $counties = District::where('ilce_sehirkey', $city->id)->get();
-        $cityName = mb_convert_case($city->title, MB_CASE_TITLE, "UTF-8");
-
+        $cityName = mb_strtolower($city->title, 'UTF-8');
+        $cityName = mb_strtoupper(mb_substr($cityName, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($cityName, 1, null, 'UTF-8');
+    
         return response()->json([
             "counties" => $counties,
             "cityName" => $cityName
