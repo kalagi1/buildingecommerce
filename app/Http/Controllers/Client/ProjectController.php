@@ -1045,7 +1045,7 @@ class ProjectController extends Controller
             }
         }
 
-        return $blockName;
+        return $blockHousingOrder ;
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
 
