@@ -341,7 +341,7 @@
                                            !$sold ||
                                            ($sold && $sold->status == '2' && empty($share_sale)) ||
                                            (isset($sumCartOrderQt[$housingOrder]) && $sold && $sold->status != '2' && $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
-                                
+                                dd($projectHousingsList[$housingOrder]['off_sale[]'] );
                                 $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
                                 
                                 $saleClosed = $sold && $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
