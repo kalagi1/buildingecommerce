@@ -1022,7 +1022,7 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', "blocks",'user.housings', 'images')->first();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', "blocks", 'user.housings', 'images')->first();
 
         if (!$project) {
             return redirect('/')
@@ -1031,10 +1031,10 @@ class ProjectController extends Controller
 
         $blockName = null;
         $blockHousingOrder = null;
-    
+
         if ($project->have_blocks == 1) {
             $currentOrder = 1;
-            
+
             foreach ($project->blocks as $block) {
                 if ($housingOrder >= $currentOrder && $housingOrder < $currentOrder + $block->housing_count) {
                     $blockName = $block->block_name;
@@ -1045,7 +1045,6 @@ class ProjectController extends Controller
             }
         }
 
-        return $blockHousingOrder ;
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
 
@@ -1211,7 +1210,7 @@ class ProjectController extends Controller
         $active = isset($active) ? 'active' : null;
 
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
+        return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)

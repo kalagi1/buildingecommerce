@@ -1,4 +1,7 @@
+{{ $advertiseTitle ? $advertiseTitle : ' ' }}
 
-{{ $advertiseTitle ? $advertiseTitle : " " }}  {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}
-
-
+@if ($blockName)
+    {{ $blockName }} {{ ' ' }} {{ $blockHousingOrder }} {{ "No'lu" }} {{ $step1Slug }}
+@else
+    {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}
+@endif

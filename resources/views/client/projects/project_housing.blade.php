@@ -128,6 +128,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
+                                                "blockName" => $blockName,
+                                                "blockHousingOrder" => $blockHousingOrder
                                             ])
                                         @else
                                             @include('client.layouts.partials.project_title', [
@@ -135,6 +137,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
+                                                "blockName" => $blockName,
+                                                "blockHousingOrder" => $blockHousingOrder
                                             ])
                                         @endif
                                         @if ($project->step1_slug)
