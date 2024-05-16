@@ -820,17 +820,14 @@
         })
 
         $('#city').on('change', function() {
-            console.log("asas");
-            var cityTitle = $(this).data("city");
-            console.log(cityTitle);
-            console.log( $(this).val());
 
             $.ajax({
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
-                    res.forEach((e) => {
+                    console.log(res.cityName);
+                    res.counties.forEach((e) => {
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
                         );
