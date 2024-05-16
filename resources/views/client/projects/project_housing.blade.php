@@ -128,8 +128,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
-                                                "blockName" => $blockName,
-                                                "blockHousingOrder" => $blockHousingOrder
+                                                'blockName' => $blockName,
+                                                'blockHousingOrder' => $blockHousingOrder,
                                             ])
                                         @else
                                             @include('client.layouts.partials.project_title', [
@@ -137,8 +137,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
-                                                "blockName" => $blockName,
-                                                "blockHousingOrder" => $blockHousingOrder
+                                                'blockName' => $blockName,
+                                                'blockHousingOrder' => $blockHousingOrder,
                                             ])
                                         @endif
                                         @if ($project->step1_slug)
@@ -285,12 +285,11 @@
 
 
                                             @if ($off_sale_check && $projectDiscountAmount)
-                                            
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                <span class="text-center w-100">
-                                                    1 Hisse Fiyatı
-                                                </span>
-                                            @endif
+                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                    <span class="text-center w-100">
+                                                        1 Hisse Fiyatı
+                                                    </span>
+                                                @endif
 
                                                 <h4>
                                                     <div style="text-align: center">
@@ -337,7 +336,8 @@
 
                                 <div class="  @if (
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                  $projectHousingsList[$housingOrder]['off_sale[]'] == '[]'    ||
+                                    $sold && $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] == '[]' ||
+                                    $projectHousingsList[$housingOrder]['off_sale[]'] == '[]' && !$sold ||
                                         !$sold ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
@@ -2494,8 +2494,8 @@
             document.getElementById('contentblock-' + tabName).classList.add('active');
             document.getElementById('contentblocktab-' + tabName).classList.add('active');
 
-            
-            
+
+
             var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
 
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
