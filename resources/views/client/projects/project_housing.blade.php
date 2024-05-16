@@ -1187,6 +1187,7 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
+                                                                id="contentblocktab-{{ $block['id'] }}"
                                                                 onclick="changeTabContent('{{ $block['id'] }}',{{ $key }})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
@@ -2489,7 +2490,9 @@
                 content.classList.remove('active');
             });
             document.getElementById('contentblock-' + tabName).classList.add('active');
-            $(this).addClass("active");
+            document.getElementById('contentblocktab-' + tabName).classList.add('active');
+
+            
             
             var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
 
