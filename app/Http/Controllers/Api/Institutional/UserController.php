@@ -137,7 +137,7 @@ class UserController extends Controller
             $user->title = $validatedData['title'];
             $user->mobile_phone = $validatedData['mobile_phone'];
             $user->type = $validatedData['type'];
-            $user->status = $request->has('is_active') ? 5 : $user->status;
+            $user->status = $request->has('is_active') ? 5 : 0;
     
             if ($request->hasFile('profile_image')) {
                 $image = $request->file('profile_image');
