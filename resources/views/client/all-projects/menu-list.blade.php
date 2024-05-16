@@ -826,6 +826,7 @@
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
+                    console.log(res);
                     console.log(res.cityName);
                     res.counties.forEach((e) => {
                         $('#county').append(
