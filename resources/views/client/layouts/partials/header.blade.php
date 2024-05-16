@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://test.emlaksepette.com/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://test.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
