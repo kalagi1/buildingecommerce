@@ -823,6 +823,7 @@
             console.log("asas");
             var cityTitle = $(this).data("city-title");
             console.log(cityTitle);
+            console.log( $(this).val());
 
             $.ajax({
                 method: "GET",
