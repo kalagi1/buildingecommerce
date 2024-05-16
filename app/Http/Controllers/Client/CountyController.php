@@ -33,10 +33,10 @@ class CountyController extends Controller {
 
     public function getNeighborhoodsForClient( $county ) {
         $county = District::where( 'ilce_key', $county )->first();
-        $countyName = mb_strtolower( $county->title, 'UTF-8' );
+        $countyName = mb_strtolower( $county->ilce_title, 'UTF-8' );
         $countyName = mb_strtoupper( mb_substr( $countyName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $countyName, 1, null, 'UTF-8' );
 
-        $neighborhoods = Neighborhood::whereRaw( 'mahalle_ilcekey = ?', [ $county ] )
+        $neighborhoods = Neighborhood::whereRaw( 'mahalle_ilcekey = ?', [ $county->id ] )
         ->get();
 
         return response()->json( [
