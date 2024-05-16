@@ -13,7 +13,7 @@ class CountyController extends Controller
     public function getCounties($city)
     {
         $city = City::where("id", $city)->first();
-        $counties = District::where('ilce_sehirkey', $city)->get();
+        $counties = District::where('ilce_sehirkey', $city->id)->get();
         return response()->json([
             "counties" => $counties,
             "cityName" => $city->title
