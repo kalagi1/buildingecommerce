@@ -36,7 +36,7 @@ class CountyController extends Controller {
         $countyName = mb_strtolower( $county->ilce_title, 'UTF-8' );
         $countyName = mb_strtoupper( mb_substr( $countyName, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $countyName, 1, null, 'UTF-8' );
 
-        $neighborhoods = Neighborhood::where( 'mahalle_ilcekey', $county->id )->get();
+        $neighborhoods = Neighborhood::where( 'mahalle_ilcekey', $county->ilce_key )->get();
 
 
         return response()->json( [
