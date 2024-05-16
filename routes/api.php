@@ -144,6 +144,10 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
         });
 
+        Route::middleware(['checkPermission:UpdateUser'])->group(function () {
+            Route::put('/users/{user}', [InstitutionalUserController::class, 'update'])->name('users.update');
+        });
+
         Route::put('/club/update', [InstitutionalClubController::class, 'clubUpdate'])->name('club.update');
 
 

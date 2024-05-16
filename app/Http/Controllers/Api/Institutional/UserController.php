@@ -112,6 +112,68 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    public function update(Request $request, $id) {
+        // Form doğrulama kurallarını tanımlayın
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'type' => 'required',
+            'mobile_phone' => 'required',
+            'title' => 'required',
+            'is_active' => 'nullable',
+        ];
+    
+        try {
+            // Form doğrulama işlemini gerçekleştirin
+            $validatedData = $request->validate($rules);
+    
+            // Kullanıcıyı bulun veya hata döndürün
+            $user = User::findOrFail($id);
+    
+            // Kullanıcıyı güncelleyin
+            $user->name = $validatedData['name'];
+            $user->email = $validatedData['email'];
+            $user->title = $validatedData['title'];
+            $user->mobile_phone = $validatedData['mobile_phone'];
+            $user->type = $validatedData['type'];
+            $user->status = $request->has('is_active') ? 1 : 5;
+    
+            if ($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
+                $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('profile_images', $imageFileName, 'public');
+                $user->profile_image = $imageFileName; 
+            }
+    
+            // Şifre güncelleme işlemini kontrol edin
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->input('password'));
+            }
+    
+            // Kullanıcıyı veritabanına kaydedin
+            $user->save();
+    
+            // Başarılı bir işlem sonrası JSON yanıtı
+            return response()->json([
+                'success' => true,
+                'message' => 'Kullanıcı başarıyla güncellendi.',
+                'data' => $user
+            ], 200);
+    
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Beklenmedik bir hata oluştu.'
+            ], 500);
+        }
+    }
+    
     
     public function destroy($id)
     {
