@@ -78,7 +78,7 @@
                                             <td>
                                                 @if ($user->status == 1)
                                                     <span class="badge bg-success">Hesap Doğrulandı</span>
-                                                @elseif($suer->status == 0)
+                                                @elseif($user->status == 0)
                                                     <span class="badge bg-warning">Hesap Doğrulanmadı</span>
                                                 @else
                                                     <span class="badge bg-red">Hesap Engellendi</span>
