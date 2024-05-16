@@ -284,13 +284,14 @@
                                         <div class="listing-title-bar text-start w-100">
 
 
+                                            @if ($off_sale_check && $projectDiscountAmount)
+                                            
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 <span class="text-center w-100">
                                                     1 Hisse Fiyatı
                                                 </span>
                                             @endif
 
-                                            @if ($off_sale_check && $projectDiscountAmount)
                                                 <h4>
                                                     <div style="text-align: center">
                                                         <svg viewBox="0 0 24 24" width="18" height="18"
