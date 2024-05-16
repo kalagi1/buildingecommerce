@@ -686,7 +686,7 @@
                                                                             <div class="mb-2"><label class="form-label"
                                                                                     for="bootstrap-wizard-validation-wizard-phone">İade
                                                                                     Yapılacak IBAN</label><input
-                                                                                    class="form-control" type="number"
+                                                                                    class="form-control" type="text"
                                                                                     name="return_iban" placeholder="IBAN"
                                                                                     id="bootstrap-wizard-validation-wizard-phone"
                                                                                     required="required"
