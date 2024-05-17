@@ -429,8 +429,9 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null)
+    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null)
     {
+
         $term = $request->input('term');
         $deneme = null;
         if ($slug == "al-sat-acil") {
@@ -439,7 +440,7 @@ class ProjectController extends Controller
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
 
-        $parameters = [$slug, $type, $optional, $title, $check];
+        $parameters = [$slug, $type, $optional, $title, $check, $city];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -460,6 +461,10 @@ class ProjectController extends Controller
 
         $optName = [];
         $items = [];
+
+        $cityTitle = null;
+        $cityID = null;
+
 
         if ($deneme) {
             $slug = "al-sat-acil";
@@ -529,7 +534,13 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
+                    $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
 
+
+                    if ($cityValue) {
+                        $cityTitle = $cityValue->title;
+                        $cityID = $cityValue->id;
+                     }
 
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();

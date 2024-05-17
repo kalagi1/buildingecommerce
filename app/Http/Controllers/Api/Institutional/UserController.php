@@ -59,7 +59,7 @@ class UserController extends Controller
 
         return response()->json([
             'user' => $user,
-            "balanceStatus1Lists" => $balanceStatus1Lists,
+            "balanceStatus1" => $balanceStatus1,
             "balanceStatus0" => $balanceStatus0,
             "balanceStatus2" => $balanceStatus2,
             "successPercentage" => $successPercentage,
