@@ -939,6 +939,7 @@
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
+            var cityID = @json($cityID ?? null);
 
             var term = @json($term ?? null);
 
@@ -950,6 +951,7 @@
                 optional: optional,
                 checkTitle: checkTitle,
                 term: term,
+                cityID: cityID
 
             });
 
