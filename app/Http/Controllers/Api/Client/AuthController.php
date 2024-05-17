@@ -127,7 +127,10 @@ class AuthController extends Controller
                     }
 
                     $accessToken = auth()->user()->createToken('authToken')->accessToken;
-
+                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+                        return $rolePermission->permissions->pluck('key');
+                    })->unique()->toArray();
+                    
                     return response()->json([
                         "status" => 200,
                         'success' => true,
@@ -149,6 +152,7 @@ class AuthController extends Controller
                         'mobile_phone' => $user->mobile_phone,
                         'access_token' => $accessToken,
                         "rolePermissions" => $user->role->rolePermissions,
+                        "permissions" => $permissions,
                         "works" => $user->works,
                         'token_type' => 'Bearer'
                     ]);
