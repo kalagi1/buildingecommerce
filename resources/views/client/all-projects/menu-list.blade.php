@@ -945,7 +945,7 @@
                             ".neighborhoodName")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
-                        .children(".neighborhoodName").html(res.neighborhoodName);
+                        .children(".countyNameP").html(res.neighborhoodName);
 
 
 
