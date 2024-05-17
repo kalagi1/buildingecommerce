@@ -547,7 +547,7 @@ class HomeController extends Controller
 
         $term = $request->input('term');
 
-        $parameters = ["slug", "type", "optional", "title", "checkTitle", "cityID"];
+        $parameters = ["slug", "type", "optional", "title", "checkTitle"];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -569,8 +569,6 @@ class HomeController extends Controller
         $housingTypet = null;
         $housingType = null;
 
-        $cityID = null;
-        $cityTitle = null;
 
 
         foreach ($parameters as $index => $paramValue) {
@@ -592,14 +590,7 @@ class HomeController extends Controller
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
 
-                    $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
-
-
-                    if ($cityValue) {
-                        $cityTitle = $cityValue->title;
-                        $cityID = $cityValue->id;
-                    }
-
+                
                     if ($item1) {
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;
@@ -725,9 +716,11 @@ class HomeController extends Controller
             $obj = $obj->where('housings.city_id', $request->input('city'));
         }
 
-        if ($cityID) {
-            $obj = $obj->where('housings.city_id', $cityID);
+        if ($request->input('cityID')) {
+            $obj = $obj->where('housings.city_id', $request->input('cityID'));
         }
+
+     
 
         if ($request->input('county')) {
             $obj = $obj->where('housings.county_id', $request->input('county'));
