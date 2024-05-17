@@ -24,6 +24,8 @@
                                         </th>
                                         <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
                                             style="width:5%;">No.</th>
+                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
+                                            style="width:5%;">REZERVASYON NO.</th>
                                         <th class="sort align-middle " scope="col" data-sort="customer" style="width:20%">
                                             İLAN</th>
                                         <th class="sort align-middle text-start" scope="col" data-sort="customer"
@@ -68,6 +70,9 @@
                                             <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold"
                                                     href="#!">{{ 1000000 + $order->id }}</a></td>
 
+
+                                            <td class="order align-middle white-space-nowrap py-0">{{  $order->key }}</td>
+
                                             <td class="customer align-middle white-space-nowrap  text-start">
                                                 {{ App\Models\Housing::find($order->housing_id ?? 0)->title ?? null }}
 
@@ -76,10 +81,11 @@
                                                 {{ $order->person_count }}
 
                                             </td>
+                                            @if($order->money_trusted == 0) 
                                             <td class="total align-middle text-start fw-semibold text-body-highlight"> {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }} ₺</td>
-
-                                            <td class="total align-middle text-start fw-semibold text-body-highlight"> {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2) + $estateSecured, 0, ',', '.') }} ₺ @if($order->money_trusted == 1) (+1000₺ Param Güvende Ödemesi) @endif </td>
-
+                                            @else
+                                            <td class="total align-middle text-start fw-semibold text-body-highlight"> {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2) + $order->money_is_safe, 0, ',', '.') }} ₺ ({{$order->money_is_safe}}₺ Param Güvende Ödemesi)  </td>
+                                            @endif
                                             <td class="customer align-middle white-space-nowrap  text-start">
                                                 {{ $check_in_date }}
 

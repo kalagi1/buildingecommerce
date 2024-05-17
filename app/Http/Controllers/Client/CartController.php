@@ -38,9 +38,11 @@ class CartController extends Controller {
         $this->middleware( 'auth' );
     }
 
-    public function payCart( Request $request ) {
+    public function payCart(Request $request)
+    {
+   
+        $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
-        $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
 
         if ( !$cartItem ) {
 

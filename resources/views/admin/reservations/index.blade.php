@@ -70,8 +70,8 @@
                                                 data-sort="order_user">Alıcı</th>
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_user">Satıcı</th>
-                                                <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                                data-sort="order_user">Onay</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                                data-sort="order_detail">Detay</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="order-table-body">
@@ -84,19 +84,23 @@
                                                 @endphp
                                                 <tr>
                                                     <td class="order_no">
-                                                        {{ $order->created_at }} <br>
-                                                        {{ App\Models\Housing::find($order->housing_id ?? 0)->title }} <br>
-                                                        {{ $order->key }} </td>
+                                                        {{$order->key}}
+                                                    </td>
                                                     <td class="order_image">
                                                         <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find($order->housing_id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                             width="100px" style="object-fit: contain;" />
+                                                            <br>
+
+                                                            {{ $order->created_at }} <br>
+                                                        {{ App\Models\Housing::find($order->housing_id ?? 0)->title }} <br>
+                                                        {{ $order->key }} 
 
                                                     </td>
                                                     <td class="order_amount">
                                                         {{ number_format($order->total_price, 0, ',', '.') }} ₺
                                                     </td>
                                                     <td class="order_amount">
-                                                        {{ number_format(($order->total_price / 2) + $estateSecured, 0, ',', '.') }}₺ @if($order->money_trusted == 1) (+1000₺ Param Güvende Ödemesi) @endif 
+                                                        {{ number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.') }}₺ ({{$order->money_is_safe}}₺ Param Güvende Ödemesi)  
                                                     </td>
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}</td>
@@ -124,10 +128,13 @@
                                                         {{ $order->owner->name }} <br>
                                                         {{ $order->owner->email }}
                                                     </td>
-                                                    <td class="order_user">
-                                                        {{ $order->owner->name }} <br>
-                                                        {{ $order->owner->email }}</td>
-                                                        <td class="order_details">
+                                                    
+
+                                                    <td class="order_details"> 
+                                                        <a href="{{ route('admin.reservation.detail', ['reservations_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                    </td>
+                                                    
+                                                        {{-- <td class="order_details">
                                                             @if ($order->status == 0 || $order->status == 2)
                                                                 <!-- Eğer sipariş durumu 0 veya 2 ise -->
                                                                 <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
@@ -158,7 +165,7 @@
                                                             @if(isset($order->cancelRequest))
                                                                 <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
                                                             @endif
-                                                        </td>
+                                                        </td> --}}
                                                 </tr>
                                             @endforeach
                                         @else
@@ -198,7 +205,7 @@
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_user">Satıcı</th>
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                                data-sort="order_user">Onay</th>
+                                                data-sort="order_user">Detay</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="order-table-body">
@@ -249,7 +256,7 @@
                                                         <td class="order_user">
                                                             {{ $order->owner->name }} <br>
                                                             {{ $order->owner->email }}</td>
-                                                            <td class="order_details">
+                                                            {{-- <td class="order_details">
                                                                 @if ($order->status == 0 || $order->status == 2)
                                                                     <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
                                                                 @else
@@ -276,7 +283,13 @@
                                                                 @if(isset($order->cancelRequest))
                                                                     <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
+
+
+                                                    <td class="order_details"> 
+                                                        <a href="{{ route('admin.reservation.detail', ['reservations_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                    </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         @else
@@ -316,7 +329,7 @@
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_user">Satıcı</th>
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                                data-sort="order_user">Onay</th>
+                                                data-sort="order_user">Detay</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="order-table-body">
@@ -371,7 +384,7 @@
                                                         {{ $order->owner->name }} <br>
                                                         {{ $order->owner->email }}
                                                     </td>
-                                                    <td class="order_details">
+                                                    {{-- <td class="order_details">
                                                         @if ($order->status == 0 || $order->status == 2)
                                                             <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
                                                         @else
@@ -398,7 +411,13 @@
                                                         @if(isset($order->cancelRequest))
                                                             <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
                                                         @endif
+                                                    </td> --}}
+
+
+                                                    <td class="order_details"> 
+                                                        <a href="{{ route('admin.reservation.detail', ['reservations_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         @else
@@ -438,7 +457,7 @@
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_user">Satıcı</th>
                                                 <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                                data-sort="order_user">Onay</th>
+                                                data-sort="order_user">Detay</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="order-table-body">
@@ -490,7 +509,7 @@
                                                         <td class="order_user">
                                                             {{ $order->owner->name }} <br>
                                                             {{ $order->owner->email }}</td>
-                                                            <td class="order_details">
+                                                            {{-- <td class="order_details">
                                                                 @if ($order->status == 0 || $order->status == 2)
                                                                     <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
                                                                 @else
@@ -517,7 +536,12 @@
                                                                 @if(isset($order->cancelRequest))
                                                                     <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
                                                                 @endif
-                                                            </td>
+                                                            </td> --}}
+
+                                                    <td class="order_details"> 
+                                                        <a href="{{ route('admin.reservation.detail', ['reservations_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                    </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         @else
@@ -557,7 +581,7 @@
                                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                             data-sort="order_user">Satıcı</th>
                                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                            data-sort="order_user">Onay</th>
+                                            data-sort="order_user">Detay</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list" id="order-table-body">
@@ -611,9 +635,11 @@
                                                         {{ $order->owner->name }} <br>
                                                         {{ $order->owner->email }}
                                                     </td>
-                                                    <td class="order_details">
-                                                        
+                                                   
+                                                    <td class="order_details"> 
+                                                        <a href="{{ route('admin.reservation.detail', ['reservations_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
+                                                    
                                                 </tr>
                                             @endforeach
                                         @else

@@ -83,6 +83,13 @@ class HomeController extends Controller {
         return view( 'admin.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
 
+    public function ReservationDetail( $id ) {
+        $order = Reservation::where( 'id', $id )->first();
+     
+        return view( 'admin.reservations.detail', compact( 'order' ) );
+    }
+    
+
     public function deleteCancelRequest( $id ) {
         $reservation = Reservation::where( 'id', $id )->first();
         $cancelRequest = $reservation->cancelRequest;

@@ -32,11 +32,13 @@ use App\Models\Order;
 use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\UseCoupon;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Models\NeighborPayment;
 use App\Models\Rate;
 use Termwind\Components\Raw;
+use Carbon\Carbon;
 
 class PayController extends Controller
 {
@@ -54,7 +56,7 @@ class PayController extends Controller
 
     public function index()
     {
-
+        
         if (Auth::check()) {
 
             $userId = Auth::user()->id;
@@ -138,9 +140,7 @@ class PayController extends Controller
 
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
-
-
-
+ 
 
     public function initiate3DPayment(Request $request)
     {
