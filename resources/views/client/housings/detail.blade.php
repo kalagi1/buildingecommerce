@@ -527,28 +527,18 @@
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                        <div class="mobileHour mobileHourDiv">
-                            <div class="homes-content details-2">
-                                <ul class="homes-list reservation-list clearfix">
-                                    <li>
-                                        <span>Giriş:</span>
-                                        @if(isset(json_decode($housing->housing_type_data)->start_time))
-                                            @foreach(json_decode($housing->housing_type_data)->start_time as $startTime)
-                                                <span>{{ $startTime }}</span>
-                                            @endforeach
-                                        @endif
-                                    </li>
-                                    <li>
-                                        <span>Çıkış:</span>
-                                        @if(isset(json_decode($housing->housing_type_data)->end_time))
-                                            <span>{{ json_decode($housing->housing_type_data)->end_time[0] }}</span>
-                                 
-                                        @endif
-                                    </li>
-                                </ul>
+                            <div class="mobileHour mobileHourDiv">
+                                <div class="homes-content details-2">
+                                    <ul class="homes-list reservation-list clearfix">
+                                        <li>
+                                            <span>Giriş: {{ getData($housing, 'start_time') }}</span>
+                                        </li>
+                                        <li>
+                                            <span>Çıkış: {{ getData($housing, 'end_time') }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        
                         @else
                             {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
                         style="background-color: green "></div> --}}
@@ -715,11 +705,10 @@
                                         </div>
                                     </div>
                                 </div>
-                              
+                           
                             </div>
 
                         @endif
-
 
                         @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                         <div class="add-to-collections-wrapper addCollection" data-type='housing'
@@ -1220,13 +1209,9 @@
                                     </form>
                                 </div>
 
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-
-                        @endif
-
+                        </div>
+                    </div>
                             <div class="mt-5 mb-5">
                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                         <div class="mobileMove" id="mobileMoveID">
@@ -2452,6 +2437,10 @@
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+
+                    var moneyTrusted = $("#money-trusted").is(':checked');
+                    var moneyIsSafe = moneyTrusted ? 1000 : 0;
+
                     // Gerekli alanları kontrol et
                     // if (!fullName || !email || !tc || !phone || !address) {
                     //     toastr.error("Lütfen tüm zorunlu alanları doldurun.")
@@ -2473,7 +2462,7 @@
 
                     // AJAX ile sunucuya gönder
                     $.ajax({
-                        url: "{{ route('reservation.store') }}",
+                        url: "{{ route('reservation.sessions') }}",
                         type: "POST",
                         data: {
                             _token: $('input[name="_token"]').val(),
@@ -2482,7 +2471,9 @@
                             person_count: personCount,
                             housing_id: {{ $housing->id }},
                             owner_id: {{ $housing->user->id }},
-                            price: price * diffDays,
+                            price: price ,
+                            total_price : price * diffDays,
+                            money_is_safe : moneyIsSafe,
                             key: key,
                             // fullName: fullName,
                             // email: email,
@@ -2552,7 +2543,7 @@
                         if ($('.bank-account.selected').length === 0) {
                             toastr.error('Lütfen banka seçimi yapınız.');
                         } else {
-                            $('#reservationModal').removeClass('show').hide();
+                            $('#paymentModal').removeClass('show').hide();
                             $('.modal-backdrop').removeClass('show');
                             $(".modal-backdrop").remove();
                             $('#finalConfirmationModal').modal('show');

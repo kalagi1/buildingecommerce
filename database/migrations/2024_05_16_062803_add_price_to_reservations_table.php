@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('reservations', function (Blueprint $table) {         
-            $table->string('transaction')->nullable();
-            $table->json('payment_result')->nullable();
-            $table->string('dekont')->nullable();
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->integer('price')->default(0);
+            $table->integer('money_is_safe')->default(0);
         });
     }
 

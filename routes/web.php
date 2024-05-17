@@ -164,10 +164,15 @@ Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::cla
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
-Route::get('/reservation/checkout/{housing}',[PayController::class,'reservation'])->name('payment.reservation.index');
+Route::post('/reservation/dekot/file/upload', [ReservationController::class, 'dekontfileUpload'])->name('reservation.dekont.file.upload');
+Route::get('/reservation/pay/success/{reservation}', [ReservationController::class, 'paySuccess'])->name('reservation.pay.success');
+Route::post('/reservation/sessions', [ReservationController::class, "addsessions"])->name('reservation.sessions');
+Route::get('/reservation/checkout/{housing}',[ReservationController::class,'reservation'])->name('payment.reservation.index');
+Route::post('/reservation/3d-payment', [ReservationController::class, 'reservation3DPayment'])->name('reservation.3d.pay');
+Route::post('/reservation/resultpaymentsuccess', [ReservationController::class, 'resultPaymentSuccess'])->name('reservation.result.payment');
+Route::post('/reservation/resultpaymentfail', [ReservationController::class, 'resultPaymentFail'])->name('reservation.result.payment');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
-Route::post('/reservation/3d-payment', [PayController::class, 'reservation3DPayment'])->name('reservation.3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
 Route::post('/resultpaymentfail', [PayController::class, 'resultPaymentFail'])->name('result.payment');
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
@@ -327,6 +332,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
         Route::get('/order_detail/{order_id}', [AdminHomeController::class, 'orderDetail'])->name('order.detail');
+        Route::get('/reservation_detail/{reservations_id}', [AdminHomeController::class, 'reservationDetail'])->name('reservation.detail');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
         Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
@@ -345,8 +351,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::post('/price/unapprove/{price}', [AdminHomeController::class, 'unapprovePrice'])->name('unapprove-price');
 
 
-        Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
-        Route::get('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');
+        Route::post('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
+        Route::post('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');
 
         Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');

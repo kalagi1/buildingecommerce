@@ -4,9 +4,9 @@
 
 @section('content')
 
-    @if (session('error'))
+    @if (isset($error))
         <div class="alert alert-danger">
-            {{ session('error') }}
+            {{ $error }}
         </div>
     @endif
     @php
@@ -161,7 +161,7 @@
 
                         </div>
                         <div class="moneys fs-30 fw-7 lh-45 text-color-3">
-                            {{ number_format($reservation->total_price, 0, ',', '.') }}
+                            {{ number_format($reservation['total_price'], 0, ',', '.') }}
                             TL</div>
 
                         <div class="show-mobile">
@@ -177,13 +177,13 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="row">
 
-              
+
                     <div class="col-md-12 col-lg-12 col-xl-6 mb-5">
-                        <div  style="background: white !important;">
+                        <div style="background: white !important;">
                             <div class="tr-single-box">
 
                                 <div class="tr-single-body">
@@ -199,13 +199,13 @@
                                             <li>Rezervasyon Tarihi:<strong class="pull-right">{{ date('d.m.Y') }}</strong>
                                             </li>
                                             <li>Giriş Tarihi:<strong
-                                                    class="pull-right">{{ $reservation->check_in_date }}</strong>
+                                                    class="pull-right">{{ $reservation['check_in_date'] }}</strong>
                                             </li>
                                             <li>Çıkış Tarihi:<span
-                                                    class="pull-right">{{ $reservation->check_out_date }}</span>
+                                                    class="pull-right">{{ $reservation['check_out_date'] }}</span>
                                             </li>
                                             <li>Kişi Sayısı:<strong
-                                                    class="pull-right">{{ $reservation->person_count }}</strong>
+                                                    class="pull-right">{{ $reservation['person_count'] }}</strong>
                                             </li>
                                         </ul>
                                     </div>
@@ -226,7 +226,7 @@
                                     <input type="hidden" name="have_discount" class="have_discount">
                                     <input type="hidden" name="discount" class="discount"> --}}
                                     <div class="row">
-                                      
+
                                         <div class="col-sm-6">
                                             <label for="tc">TC: </label>
                                             <input type="number" class="form-control" id="tc" name="tc"
@@ -363,18 +363,18 @@
                                             </div>
                                         </div>
 
-                                       
-                                            
-                                                <div class="col-sm-12 pt-2">
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <input id="checkSignature" type="checkbox" name="checkSignature">
-                                                        <label for="checkSignature" class="m-0 ml-1 text-black">
-                                                            Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
-                                                            kabul ve beyan ediyorum.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            
+
+
+                                        <div class="col-sm-12 pt-2">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <input id="checkSignature" type="checkbox" name="checkSignature">
+                                                <label for="checkSignature" class="m-0 ml-1 text-black">
+                                                    Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
+                                                    kabul ve beyan ediyorum.
+                                                </label>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -382,7 +382,7 @@
 
                     </div>
 
-                    
+
 
                     <div class="col-md-12 col-lg-12 col-xl-6 mb-5">
                         <div class="row">
@@ -403,13 +403,14 @@
                                             @else
                                                 <ul>
 
-                                                    <li>Gecelik 3000 TL<strong class="pull-right">
+                                                    <li>Gecelik {{ number_format($reservation['price'], 0, ',', '.') }}
+                                                        TL<strong class="pull-right">
                                                             {{ $diffDate }} X Gece
                                                         </strong></li>
 
 
                                                     <li>Toplam Tutar<strong class="pull-right">
-                                                            {{ number_format($payTotalPrice, 0, ',', '.') }}
+                                                            {{ number_format($reservation['total_price'], 0, ',', '.') }}
                                                             TL</strong></li>
 
                                                     {{-- @if ($housingDiscountAmount != 0)
@@ -443,6 +444,9 @@
                                                                         % </span></strong></li>
                                                         @endif --}}
 
+
+
+
                                                     <li>Kapıda Ödenecek Tutar<strong class="pull-right">
                                                             {{ number_format($payPrice, 0, ',', '.') }}
 
@@ -460,6 +464,9 @@
                                                                     TL</strong></li>
                                                         @endif --}}
 
+                                                    <li>Param Güvende<strong class="pull-right">
+                                                            {{ number_format($reservation['money_is_safe'], 0, ',', '.') }}
+                                                            TL</strong></li>
                                                 </ul>
                                             @endif
                                         </div>
@@ -472,9 +479,13 @@
                                                             TL</strong></div>
                                                 </div>
                                             @else --}}
+
+
+
+
                                         <div id="other-amount">
                                             <div class="text-success">Şimdi Ödenecek Tutar : <strong
-                                                    class="button-price-inner pull-right text-success">{{ number_format($payPrice, 0, ',', '.') }}
+                                                    class="button-price-inner pull-right text-success">{{ number_format($payPrice + $reservation['money_is_safe'], 0, ',', '.') }}
                                                     TL</strong></div>
                                         </div>
                                         {{-- @endif --}}
@@ -606,9 +617,31 @@
                                                 </div>
                                             </div>
                                             <div class='form'>
-                                                <form method="POST" id="3dPayForm" action="{{ route('reservation.3d.pay') }}">
+                                                <form method="POST" id="3dPayForm"
+                                                    action="{{ route('reservation.3d.pay') }}">
                                                     @csrf
-                                                    <input type="hidden" name="payable_amount" id="payableAmountInput">
+                                                    <input type="hidden" name="totalPrice"
+                                                        value="{{ $reservation['total_price'] }}" id="totalprice">
+                                                    <input type="hidden" name="id"
+                                                        value="{{ $reservation['housing_id'] }}" id="id">
+                                                    <input type="hidden" name="check_in_date"
+                                                        value="{{ $reservation['check_in_date'] }}" id="check_in_date">
+                                                    <input type="hidden" name="check_out_date"
+                                                        value="{{ $reservation['check_out_date'] }}" id="check_out_date">
+                                                    <input type="hidden" name="person_count"
+                                                        value="{{ $reservation['person_count'] }}" id="person_count">
+                                                    <input type="hidden" name="owner_id"
+                                                        value="{{ $reservation['owner_id'] }}" id="owner_id">
+                                                    <input type="hidden" name="money_trusted"
+                                                        value="{{ $reservation['money_trusted'] }}" id="money_trusted">
+                                                    <input type="hidden" name="total_price"
+                                                        value="{{ $reservation['total_price'] }}" id="total_price">
+                                                    <input type="hidden" name="price"
+                                                        value="{{ $reservation['price'] }}" id="price">
+                                                    <input type="hidden" name="money_is_safe"
+                                                        value="{{ $reservation['money_is_safe'] }}" id="money_is_safe">
+                                                    <input type="hidden" name="key"
+                                                        value="{{ $reservation['key'] }}" id="key">
                                                     <input type="hidden" id="fullName2" name="fullName">
                                                     <input type="hidden" id="email2" name="email">
                                                     <input type="hidden" id="tc2" name="tc">
@@ -766,9 +799,9 @@
                         </div>
                     </div>
 
-               
 
-                    
+
+
                 </div>
 
 
@@ -890,7 +923,7 @@
     </script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             $('input[type="radio"]').change(function() {
                 var paymentOption = $(this).val();
                 $('.payment').hide();
@@ -908,28 +941,26 @@
     </script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
 
-        $('#fileInput').change(function() {
-            var file = $(this)[0].files[0];
-            var fileName = file.name;
-            var fileExt = fileName.split('.').pop().toLowerCase(); // Dosya uzantısını al
+            $('#fileInput').change(function() {
+                var file = $(this)[0].files[0];
+                var fileName = file.name;
+                var fileExt = fileName.split('.').pop().toLowerCase(); // Dosya uzantısını al
 
-            // Sadece PDF dosyalarını kabul et
-            if (fileExt !== 'pdf') {
-                toastr.error("Lütfen PDF formatında bir dosya seçiniz.");
-                $(this).val(''); // Dosya seçimini temizle
-                $('#fileStatus').text(''); // Dosya adı gösterimini temizle
-            } else {
-                $('#fileStatus').text('Dosya Eklendi: ' + fileName); // Dosya adını görüntüle
-            }
-        });
+                // Sadece PDF dosyalarını kabul et
+                if (fileExt !== 'pdf') {
+                    toastr.error("Lütfen PDF formatında bir dosya seçiniz.");
+                    $(this).val(''); // Dosya seçimini temizle
+                    $('#fileStatus').text(''); // Dosya adı gösterimini temizle
+                } else {
+                    $('#fileStatus').text('Dosya Eklendi: ' + fileName); // Dosya adını görüntüle
+                }
+            });
         });
     </script>
 
     <script>
-
-
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
             var textArea = document.createElement("textarea");
@@ -948,35 +979,35 @@
         }
 
 
-          $('.bank-account').on('click', function() {
-                // Tüm banka görsellerini seçim olmadı olarak ayarla
-                $('.bank-account').removeClass('selected');
-                // Seçilen banka görselini işaretle
-                $(this).addClass('selected');
-                // İlgili IBAN bilgisini al
-                var selectedBankIban = $(this).data('iban');
-                var selectedBankIbanID = $(this).data('id');
-                var selectedBankTitle = $(this).data('title');
-                $('#bankaID').val(selectedBankIbanID);
-                var ibanInfo = "<span style='color:black'><strong>Hesap Sahibinin Adı Soyadı:</strong> " +
-                    selectedBankTitle + "<br><br><strong>IBAN:</strong> " + selectedBankIban +
-                    "</span><br><br>";
-                $('#ibanInfo').html(ibanInfo);
-            });
-            $('#completePaymentButton').on('click', function() {
-                if ($('.bank-account.selected').length === 0) {
-                    toastr.error('Lütfen EFT/Havale kart seçimi yapınız.')
-                } else {
-                    $('#paymentModal').removeClass('show').hide();
-                    $('.modal-backdrop').removeClass('show');
-                    $('.modal-backdrop').remove();
-                    $('#finalConfirmationModal').modal('show');
-                }
-            });
+        $('.bank-account').on('click', function() {
+            // Tüm banka görsellerini seçim olmadı olarak ayarla
+            $('.bank-account').removeClass('selected');
+            // Seçilen banka görselini işaretle
+            $(this).addClass('selected');
+            // İlgili IBAN bilgisini al
+            var selectedBankIban = $(this).data('iban');
+            var selectedBankIbanID = $(this).data('id');
+            var selectedBankTitle = $(this).data('title');
+            $('#bankaID').val(selectedBankIbanID);
+            var ibanInfo = "<span style='color:black'><strong>Hesap Sahibinin Adı Soyadı:</strong> " +
+                selectedBankTitle + "<br><br><strong>IBAN:</strong> " + selectedBankIban +
+                "</span><br><br>";
+            $('#ibanInfo').html(ibanInfo);
+        });
+        $('#completePaymentButton').on('click', function() {
+            if ($('.bank-account.selected').length === 0) {
+                toastr.error('Lütfen EFT/Havale kart seçimi yapınız.')
+            } else {
+                $('#paymentModal').removeClass('show').hide();
+                $('.modal-backdrop').removeClass('show');
+                $('.modal-backdrop').remove();
+                $('#finalConfirmationModal').modal('show');
+            }
+        });
     </script>
 
     <script>
-         $('.3dPaySuccess').on('click', function() {
+        $('.3dPaySuccess').on('click', function() {
             // var $cart = JSON.parse($('#3dPayForm input[name="cart"]').val());
             // Kullanıcı bilgilerini al
             var fullName = $('#fullName').val();
@@ -1049,6 +1080,158 @@
                 // $("#is_reference2").val(is_reference)
 
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.paySuccess').on('click', function() {
+                var fileInput = document.getElementById('fileInput');
+                if (fileInput.files.length == 0) {
+                    toastr.warning('Lütfen dekont yükleyiniz.')
+                    return false;
+                }
+                if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
+                    toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
+                    return;
+                }
+                if ($('#fullName').val() === '') {
+                    toastr.warning('Ad Soyad alanı zorunludur.')
+                    return;
+                }
+                if ($('#tc').val() === '') {
+                    toastr.warning('TC alanı zorunludur.')
+                    return;
+                }
+                if ($('#email').val() === '') {
+                    toastr.warning('E-posta alanı zorunludur.')
+                    return;
+                }
+                if (!$('#checkPay').prop('checked')) {
+                    toastr.warning('Lütfen sözleşmeyi onaylayınız.');
+                    $('#checkPay').css({
+                        "border": "1px solid red"
+                    });
+                    return;
+                }
+                if (!$('#checkSignature').prop('checked')) {
+                    toastr.warning('Lütfen onay veriniz.');
+                    $('#checkSignature').css({
+                        "border": "1px solid red"
+                    });
+                    return;
+                }
+                $.ajax({
+                    url: "{{ route('reservation.store') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        fullName: $('#fullName').val(),
+                        email: $('#email').val(),
+                        tc: $('#tc').val(),
+                        phone: $('#phone').val(),
+                        address: $('#address').val(),
+                        notes: $('#notes').val(),
+
+                        price: "{{ $reservation['price'] }}",
+                        check_in_date: "{{ $reservation['check_in_date'] }}",
+                        check_out_date: "{{ $reservation['check_out_date'] }}",
+                        key: "{{ $reservation['key'] }}",
+                        money_trusted: "{{ $reservation['money_trusted'] }}",
+                        person_count: "{{ $reservation['person_count'] }}",
+                        owner_id: "{{ $reservation['owner_id'] }}",
+                        total_price: "{{ $reservation['total_price'] }}",
+                        money_is_safe: "{{ $reservation['money_is_safe'] }}",
+                        housing_id: "{{ $reservation['housing_id'] }}",
+
+                    },
+                    success: function(response) {
+                        var reservationId = response.reservation;
+                        console.log("reservationId" + reservationId);
+                        if (response.success == "fail") {
+                            toastr.error('bu tarihler arasında rezervasyon yapılmıştır.');
+
+                        } else {
+                            var formData = new FormData();
+                            formData.append('file', $('#fileInput')[0].files[0]);
+                           
+                            // Cart order ID'yi ikinci AJAX isteğine ekleyelim
+                            formData.append('reservation', reservationId);
+                            formData.append('_token', '{{ csrf_token() }}');
+
+                            $.ajax({
+                                url: "{{ route('reservation.dekont.file.upload') }}",
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                
+                                success: function(response) {
+                                  
+                                    toastr.success("Dosya başarıyla yüklendi.");
+                                    var reservationId = response.reservation;
+
+                                    console.log("dekont" + reservationId)
+                                    var redirectUrl = "{{ route('reservation.pay.success', ['reservation' => ':reservationId']) }}";
+                                     window.location.href = redirectUrl.replace(':reservationId', reservationId);
+                                  
+                                },
+                                error: function(error) {
+                                    toastr.error(
+                                        "Dosya yüklenirken bir hata oluştu.");
+                                    console.error("Hata oluştu: " + error
+                                        .responseText);
+                                }
+
+                            });                       
+                              // Başarılı yükleme durumunda, başka bir sayfaya yönlendirme
+                            
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        toastr.error('Ödeme işlemi sırasında bir hata oluştu.')
+                    },
+                    complete: function() {
+                        $("#loadingOverlay").css("visibility",
+                            "hidden"); // Visible olarak ayarla
+                    }
+                });
+                
+            });
+            
+            //  $('#completePaymentButton').prop('disabled', false);
+            $('.bank-account').on('click', function() {
+                // Tüm banka görsellerini seçim olmadı olarak ayarla
+                $('.bank-account').removeClass('selected');
+                // Seçilen banka görselini işaretle
+                $(this).addClass('selected');
+                // İlgili IBAN bilgisini al
+                var selectedBankIban = $(this).data('iban');
+                var selectedBankIbanID = $(this).data('id');
+                var selectedBankTitle = $(this).data('title');
+                $('#bankaID').val(selectedBankIbanID);
+                var ibanInfo = "<span style='color:black'><strong>Hesap Sahibinin Adı Soyadı:</strong> " +
+                    selectedBankTitle + "<br><br><strong>IBAN:</strong> " + selectedBankIban +
+                    "</span><br><br>";
+                $('#ibanInfo').html(ibanInfo);
+            });
+            $('#completePaymentButton').on('click', function() {
+                if ($('.bank-account.selected').length === 0) {
+                    toastr.error('Lütfen EFT/Havale kart seçimi yapınız.')
+                } else {
+                    $('#paymentModal').removeClass('show').hide();
+                    $('.modal-backdrop').removeClass('show');
+                    $('.modal-backdrop').remove();
+                    $('#finalConfirmationModal').modal('show');
+                }
+            });
+
+            function formatPrice(price) {
+                var parts = price.toString().split(".");
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return parts.join(".");
+            }
         });
     </script>
 @endsection
