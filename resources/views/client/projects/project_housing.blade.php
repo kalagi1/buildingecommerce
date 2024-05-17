@@ -128,6 +128,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
+                                                'blockName' => $blockName,
+                                                'blockHousingOrder' => $blockHousingOrder,
                                             ])
                                         @else
                                             @include('client.layouts.partials.project_title', [
@@ -135,6 +137,8 @@
                                                 'advertiseTitle' => $advertiseTitle,
                                                 'housingOrder' => $housingOrder,
                                                 'step1Slug' => $project->step1_slug,
+                                                'blockName' => $blockName,
+                                                'blockHousingOrder' => $blockHousingOrder,
                                             ])
                                         @endif
                                         @if ($project->step1_slug)
@@ -280,13 +284,13 @@
                                         <div class="listing-title-bar text-start w-100">
 
 
-                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                <span class="text-center w-100">
-                                                    1 Hisse Fiyatı
-                                                </span>
-                                            @endif
-
                                             @if ($off_sale_check && $projectDiscountAmount)
+                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                    <span class="text-center w-100">
+                                                        1 Hisse Fiyatı
+                                                    </span>
+                                                @endif
+
                                                 <h4>
                                                     <div style="text-align: center">
                                                         <svg viewBox="0 0 24 24" width="18" height="18"
@@ -330,76 +334,85 @@
                                     </div>
                                 @endif
 
-                                <div class="  @if (
-                                    ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        !$sold ||
+                                @php
+                                    $soldOut =
+                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         ($sold && $sold->status == '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$housingOrder]) &&
                                             $sold &&
                                             $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) col-md-7 col-7
-                                    @else
-                                    col-md-12 col-12 @endif "
-                                    style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
-                                    @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
-                                        <button class="btn second-btn"
-                                            style="background: #EA2B2E !important; width: 100%; color: White; ">
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
+                                 
+                                    $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
+
+                                    $saleClosed =
+                                        $sold &&
+                                        $sold->status == '2' &&
+                                        $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
+
+                                    $soldAndNotStatus2 =
+                                        ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                        ($sold && $sold->status != '2' && empty($share_sale)) ||
+                                        (isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sold &&
+                                            $sold->status != '2' &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
+
+                                    $style = "style='background: #EA2B2E !important; width: 100%; color: White;'";
+                                    $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
+                                    $satildiStyle =
+                                        "style='background: #EA2B2E !important; color: White; width: 100%;'";
+
+                                    if (
+                                        ($sold &&
+                                            $sold->status == '0' &&
+                                            (empty($share_sale) || $share_sale == '[]')) ||
+                                        (isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
+                                    ) {
+                                        $btnStyle = $rezerveStyle;
+                                    } elseif ($sold && $sold->status == '1') {
+                                        $btnStyle = $satildiStyle;
+                                    } else {
+                                        $btnStyle = $satildiStyle;
+                                    }
+
+                                @endphp
+                                <div class="@if ($soldOut || !$offSale && !$sold ) col-md-7 col-7 @else col-md-12 col-12 @endif"
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
+                                    @if ($offSale || $saleClosed)
+                                        <button class="btn second-btn" {!! $style !!}>
                                             <span class="text">Satışa Kapatıldı</span>
                                         </button>
-                                    @elseif ($sold && $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
-                                        <button class="btn second-btn"
-                                            style="background: #EA2B2E !important; width: 100%; color: White;">
-                                            <span class="text">Satışa Kapatıldı</span>
+                                    @elseif ($soldAndNotStatus2)
+                                        <button class="btn second-btn" {!! $btnStyle !!}>
+                                            @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
+                                                <span class="text">Rezerve Edildi</span>
+                                            @elseif (
+                                                ($sold->status == '1' && ($share_sale == '[]' || empty($share_sale))) ||
+                                                    (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                                <span class="text">Satıldı</span>
+                                            @endif
                                         </button>
                                     @else
-                                        @if (
-                                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                                ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                                (isset($sumCartOrderQt[$housingOrder]) &&
-                                                    $sold &&
-                                                    $sold->status != '2' &&
-                                                    $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
-                                            <button class="btn second-btn"
-                                                @if (
-                                                    ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
-                                                        (isset($share_sale) &&
-                                                            $share_sale != '[]' &&
-                                                            isset($sumCartOrderQt[$housingOrder]) &&
-                                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;width:100% "
-                                    @elseif ($sold->status == '1')
-                                        style="background: #EA2B2E !important; color: White;width:100%"
-                                    @else
-                                        style="background: #EA2B2E !important; color: White;width:100% " @endif>
-                                                @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
-                                                    <span class="text">Rezerve Edildi</span>
-                                                @elseif (
-                                                    ($sold->status == '1' && $share_sale == '[]') ||
-                                                        ($sold->status == '1' && empty($share_sale)) ||
-                                                        (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
-                                                    <span class="text">Satıldı</span>
-                                                @endif
-                                            </button>
-                                        @else
-                                            <button class="CartBtn second-btn" data-type='project'
-                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
-                                                data-share="{{ $share_sale }}"
-                                                data-number-share="{{ $number_of_share }}">
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
-                                        @endif
+                                        <button class="CartBtn second-btn" data-type='project'
+                                            data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
+                                            data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
+                                            <span class="IconContainer">
+                                                <img src="{{ asset('sc.png') }}" alt="">
+                                            </span>
+                                            <span class="text">Sepete Ekle</span>
+                                        </button>
                                     @endif
 
-                                    {{-- <div class="button-effect toggle-project-favorite"
-                                        style="margin-left:13px;width:40px !important"
-                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
-                                        data-project-id={{ $project->id }}>
+                                    {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
+                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div> --}}
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -1047,7 +1060,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]' || $offSale || $saleClosed) ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1183,6 +1196,7 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
+                                                                id="contentblocktab-{{ $block['id'] }}"
                                                                 onclick="changeTabContent('{{ $block['id'] }}',{{ $key }})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
@@ -1785,10 +1799,10 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Uyarı',
-                    text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
+                    text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
                     confirmButtonText: 'Kapat'
                 });
-                var html = "<span>Bu ürün için ödeme detay bilgisi gösterilemiyor.</span>";
+                var html = "<span>Bu ilan için ödeme detay bilgisi gösterilemiyor.</span>";
                 $('.payment-plan-table tbody').html(html);
             } else {
                 $.ajax({
@@ -2485,6 +2499,10 @@
                 content.classList.remove('active');
             });
             document.getElementById('contentblock-' + tabName).classList.add('active');
+            document.getElementById('contentblocktab-' + tabName).classList.add('active');
+
+
+
             var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
 
             var blockIndex = $('#contentblock-' + tabName).index() - 1;

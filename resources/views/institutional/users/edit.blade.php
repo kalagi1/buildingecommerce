@@ -53,25 +53,25 @@
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
-                                            value="{{ old('name', $subUser->name) }}" required="">
+                                            value="{{ $subUser->name }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">Unvan</label>
-                                        <input name="title" class="form-control"  value="{{ old('title', $subUser->title) }}" id="title" type="text" value=""
+                                        <input name="title" class="form-control"  value="{{ $subUser->title }}" id="title" type="text" value=""
                                             required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
-                                            value="{{ old('email', $subUser->email) }}" required="">
+                                            value="{{  $subUser->email}}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="phone">Cep No</label>
                                         <input name="mobile_phone" class="form-control" id="phone" type="number"
-                                            value="{{ old('mobile_phone', $subUser->mobile_phone) }}" required="">
+                                            value="{{ $subUser->mobile_phone }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
@@ -86,7 +86,7 @@
                                         <select name="type" class="form-select" id="validationCustom04" required="">
                                             @foreach ($roles as $item)
                                                 <option value={{ $item->id }}
-                                                    {{ old('type', $subUser->type) == $item->id ? 'selected' : '' }}>
+                                                    {{$subUser->type == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
                                             @endforeach
                                         </select>
@@ -95,9 +95,9 @@
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="is_active"
                                                 id="flexSwitchCheckCheckedDisabled" type="checkbox"
-                                                {{ old('is_active', $subUser->status) ? 'checked' : '' }} />
+                                                {{  $subUser->status == 5 ? 'checked' : '' }} />
                                             <label class="form-check-label"
-                                                for="flexSwitchCheckCheckedDisabled">Aktif</label>
+                                                for="flexSwitchCheckCheckedDisabled">Kullanıcıyı Engelle</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
