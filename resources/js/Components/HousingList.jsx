@@ -245,17 +245,15 @@ const HousingList = ({ projectId }) => {
                 header: 'Proje İlanları',
                 columns: [
                     {
-                        accessorFn: (row) => `${row['no']}`, //accessorFn used to join multiple data into a single cell
-                        id: 'id', //id is still required when using accessorFn instead of accessorKey
+                        id: 'no', //id is still required when using accessorFn instead of accessorKey
                         header: 'No',
                         size: 10,
+                        accessorKey : "no",
                         enableColumnFilterModes: false,
                         enableColumnFilter: false,
                         enableSorting: true,
-                        enableColumnOrdering: false,
                         enableColumnActions: false,
                         enableEditing: false,
-                        enableColumnPinning : true,
                         muiEditTextFieldProps: {
                             select: false,
                             onChange: (event) => {
@@ -780,7 +778,7 @@ const HousingList = ({ projectId }) => {
 
     const changeSelectedItems = (selectedFunc) => {
         var items = selectedFunc();
-
+        console.log(selectedFunc);
         console.log(items , typeof items);
 
         if(typeof items == "object"){
@@ -838,6 +836,7 @@ const HousingList = ({ projectId }) => {
         enableFacetedValues: true,
         enableRowActions: true,
         enableCellActions: true,
+        enableColumnPinning: true,
         enableRowSelection: (row) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
@@ -872,7 +871,7 @@ const HousingList = ({ projectId }) => {
             showColumnFilters: true,
             showGlobalFilter: true,
             columnPinning: {
-                left: ['mrt-row-expand', 'mrt-row-select', 'no'],
+                left: ['mrt-row-select', 'no'],
                 right: ['mrt-row-actions'],
             },
             pagination: pagination,
@@ -1061,12 +1060,17 @@ const HousingList = ({ projectId }) => {
 
     return (
         <>
-            <div class="tabs">
-                <ul>
-                    <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
-                    <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
-                </ul>
-            </div>
+            {
+                haveBlocks ? 
+                    <div class="tabs">
+                        <ul>
+                            <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
+                            <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
+                        </ul>
+                    </div>
+                : ''
+            }
+            
             {
                 Object.keys(selectedRoomsTemp).length > 0 ? 
                     <div className="card px-3 mb-2 pb-2">
