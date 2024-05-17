@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\County;
+use App\Models\District;
 use App\Models\Filter;
 use App\Models\Housing;
 use App\Models\HousingStatus;
@@ -543,7 +544,7 @@ class ProjectController extends Controller
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
                     $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
-                    $countyValue = County::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->first();
+                    $countyValue = District::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->first();
                     $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->first();
 
 
