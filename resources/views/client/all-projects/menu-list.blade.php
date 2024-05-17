@@ -942,7 +942,7 @@
 
                     // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
                     $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex").children(
-                            ".neighborhoodName")
+                            ".countyNameP")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
                         .children(".countyNameP").html(res.neighborhoodName);
