@@ -9,12 +9,14 @@ use App\Models\Block;
 use App\Models\Brand;
 use App\Models\CartOrder;
 use App\Models\City;
+use App\Models\County;
 use App\Models\Filter;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\Menu;
+use App\Models\Neighborhood;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
@@ -429,11 +431,11 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null)
+    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null, $county = null, $neighborhood = null)
     {
-
         $term = $request->input('term');
         $deneme = null;
+
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
         }
@@ -464,6 +466,12 @@ class ProjectController extends Controller
 
         $cityTitle = null;
         $cityID = null;
+
+        $countyTitle = null;
+        $countyID = null;
+
+        $neighborhoodTitle = null;
+        $neighborhoodID = null;
 
 
         if ($deneme) {
@@ -535,12 +543,24 @@ class ProjectController extends Controller
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
                     $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
+                    $countyValue = County::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->first();
+                    $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->first();
 
 
                     if ($cityValue) {
                         $cityTitle = $cityValue->title;
                         $cityID = $cityValue->id;
-                     }
+                    }
+
+                    if ($countyValue) {
+                        $countyTitle = $countyValue->ilce_title;
+                        $countyID = $countyValue->id;
+                    }
+
+                    if ($neighborhoodValue) {
+                        $neighborhoodTitle = $neighborhoodValue->mahalle_title;
+                        $neighborhoodID = $neighborhoodValue->id;
+                    }
 
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
@@ -965,7 +985,7 @@ class ProjectController extends Controller
         $pageInfo = json_decode($pageInfo);
 
 
-        return view('client.all-projects.menu-list', compact('pageInfo', "cityID",'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
+        return view('client.all-projects.menu-list', compact('pageInfo', "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
 
     public function allProjects($slug)

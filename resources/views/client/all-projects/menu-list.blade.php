@@ -940,6 +940,9 @@
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
             var cityID = @json($cityID ?? null);
+            var countyID = @json($countyID ?? null);
+            var neighborhoodID = @json($neighborhoodID ?? null);
+
 
             var term = @json($term ?? null);
 
@@ -951,7 +954,9 @@
                 optional: optional,
                 checkTitle: checkTitle,
                 term: term,
-                cityID: cityID
+                cityID: cityID,
+                neighborhoodID: neighborhoodID,
+                countyID: countyID
 
             });
 
