@@ -432,7 +432,7 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null, $county = null, $neighborhood = null)
+    public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null, $county = null, $hood = null)
     {
         $term = $request->input('term');
         $deneme = null;
@@ -442,8 +442,7 @@ class ProjectController extends Controller
         }
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
-
-        $parameters = [$slug, $type, $optional, $title, $check, $city];
+        $parameters = [$slug, $type, $optional, $title, $check, $city, $county, $hood];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -547,7 +546,6 @@ class ProjectController extends Controller
                     $countyValue = District::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->first();
                     $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->first();
 
-
                     if ($cityValue) {
                         $cityTitle = $cityValue->title;
                         $cityID = $cityValue->id;
@@ -555,12 +553,12 @@ class ProjectController extends Controller
 
                     if ($countyValue) {
                         $countyTitle = $countyValue->ilce_title;
-                        $countyID = $countyValue->id;
+                        $countyID = $countyValue->ilce_key;
                     }
 
                     if ($neighborhoodValue) {
                         $neighborhoodTitle = $neighborhoodValue->mahalle_title;
-                        $neighborhoodID = $neighborhoodValue->id;
+                        $neighborhoodID = $neighborhoodValue->mahalle_key;
                     }
 
                     if ($item1) {
@@ -985,7 +983,6 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-
         return view('client.all-projects.menu-list', compact('pageInfo', "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
 
@@ -1245,6 +1242,7 @@ class ProjectController extends Controller
         return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
+    
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
     {
         $menu = Menu::getMenuItems();

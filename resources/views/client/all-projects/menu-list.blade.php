@@ -797,9 +797,12 @@
         let bathroom_count;
 
         var button = document.getElementById('submit-filters');
+        var cityID = @json($cityID ?? null);
+        var countyID = @json($countyID ?? null);
+        var neighborhoodID = @json($neighborhoodID ?? null);
 
         $(document).ready(function() {
-            if ($cityID) {
+            if (cityID) {
                 $.ajax({
                     method: "GET",
                     url: "{{ url('get-counties') }}/" + cityID,
@@ -845,6 +848,89 @@
                     }
                 });
 
+            }
+
+
+            if (countyID) {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-neighborhoods-for-client') }}/" + countyID,
+                    success: function(res) {
+                        $('#neighborhood').empty();
+                        // Şehir adını slug formatına çevir
+                        var slug = res.countyName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g,
+                            '');
+
+                        // Mevcut URL'yi al
+                        var currentUrl = window.location.href;
+
+                        // Yeni URL'yi oluştur
+                        var newUrl = currentUrl + '/' + slug;
+
+                        // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
+                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex").children(
+                                ".countyNameP")
+                            .wrap('<a></a>')
+                            .parent('a').attr('href', newUrl)
+                            .children(".countyNameP").html(res.countyName);
+
+
+                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                        $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
+
+                        res.neighborhoods.forEach((e) => {
+                            $('#neighborhood').append(
+                                `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
+                            );
+                        });
+
+                        // Eğer countyID varsa, onu seçili yap
+                        if (typeof neighborhoodID !== 'undefined') {
+                            $('#neighborhood').val(neighborhoodID).trigger('change');
+                        } else {
+                            $('#neighborhood').val('#');
+                        }
+
+
+                        $('#neighborhood').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        });
+
+
+                    }
+                });
+            }
+
+            if (neighborhoodID) {
+                $.ajax({
+                method: "GET",
+                url: "{{ url('get-neighborhood') }}/" + neighborhoodID,
+                success: function(res) {
+                    // Şehir adını slug formatına çevir
+                    var slug = res.neighborhoodName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g,
+                        '');
+
+                    // Mevcut URL'yi al
+                    var currentUrl = window.location.href;
+
+                    // Yeni URL'yi oluştur
+                    var newUrl = currentUrl + '/' + slug;
+
+                    // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
+                    $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex").children(
+                            ".countyNameP")
+                        .wrap('<a></a>')
+                        .parent('a').attr('href', newUrl)
+                        .children(".countyNameP").html(res.neighborhoodName);
+
+
+
+                }
+            });
+                
             }
         });
 
@@ -1298,17 +1384,17 @@
                                                                             `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                             :
                                                                             `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                    </button>` :
+                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                            </button>` :
                                                                 `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                                                                                                            <span class="IconContainer">
-                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                            </span>
-                                                                                                                                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -1388,17 +1474,17 @@
                                                                                         `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                                         :
                                                                                         `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                                                                                                                                    <span class="IconContainer">
-                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                                </button>` :
+                                                                                                                                                                                                                            <span class="IconContainer">
+                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                        </button>` :
                                                                             `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                                                                                    </button>`
+                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                            </button>`
                                                                         }
                                                                     </ul>
                                                                                                                                     </div>
@@ -1456,36 +1542,36 @@
                                                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="text">Satışa Kapatıldı</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    style="background: orange !important;color:White">Rezerve Edildi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: orange !important;color:White">Rezerve Edildi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style="border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
                                                                             :
                                                                             `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </button>` :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                data-id='${res.id}'>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>` :
                                                                                 `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn mobileCBtn CartBtn">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="IconContainer">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="text">Rezervasyon Yap</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="text">Rezervasyon Yap</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>`
                                                                             }
                                                                                 </div>
                                                                                 <span class="ml-auto text-primary priceFont"

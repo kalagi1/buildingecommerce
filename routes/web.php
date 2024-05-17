@@ -1079,7 +1079,7 @@ Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
 
-Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{neighborhood?}', [ClientProjectController::class, "allMenuProjects"])
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientProjectController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
 Route::get('/user-chat', [SupportChatController::class, 'userChat']);
