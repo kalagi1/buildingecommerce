@@ -79,7 +79,7 @@ class UserController extends Controller
         // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
         if ($user->corporate_type == 'Emlak Ofisi') {
 
-            $filteredPermissions = $permissions->reject(function ($permission) use ($specialPermissions) {
+            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissions) {
                 return in_array($permission->key, $specialPermissions);
             });
         }
@@ -101,6 +101,7 @@ class UserController extends Controller
         $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissionKeys) {
             return in_array($permission->key, $specialPermissionKeys);
         });
+        return $filteredPermissions;
 
         $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "0")->get();
