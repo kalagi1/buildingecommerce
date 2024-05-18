@@ -815,9 +815,9 @@
             if (countyID) {
                 $('#county').val(countyID).trigger('change');
             }
-            if (neighborhoodID) {
-                $('#neighborhood').val(neighborhoodID);
-            }
+            // if (neighborhoodID) {
+            //     $('#neighborhood').val(neighborhoodID);
+            // }
         });
 
 
