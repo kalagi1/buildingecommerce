@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\Institutional\SharerController;
 use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
@@ -117,6 +118,7 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+        Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
@@ -127,7 +129,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
             Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
         });
 
 

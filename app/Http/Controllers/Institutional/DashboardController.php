@@ -37,22 +37,120 @@ class DashboardController extends Controller
     public function getReservations()
     {
         $user = Auth::user();
-        $housingReservations = Reservation::with("user", "housing")
-            ->where("owner_id", $user->id)
-            ->get();
 
-        return view('institutional.reservations.index', compact('housingReservations'));
+        $housingReservations = Reservation::select( 'reservations.*' )
+        ->with( 'user', 'housing', 'owner' )->where( 'status', '=', 1 )
+        ->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+        ->whereNull( 'cancel_requests.id' )
+        ->where("owner_id", $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+        $confirmReservations = Reservation::select( 'reservations.*' )
+        ->with( 'user', 'housing', 'owner' )
+        ->where("owner_id", $user->id)
+        ->where( 'status', '!=', 3 )
+        ->where( 'status', '!=', 1 )
+        ->where( 'check_in_date', '>=', date( 'Y-m-d' ) )
+        ->where( 'status', '!=', 3 )
+        ->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+        ->whereNull( 'cancel_requests.id' )
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $expiredReservations = Reservation::select( 'reservations.*' )
+        ->with( 'user', 'housing', 'owner' )
+        ->where( 'check_in_date', '<=', date( 'Y-m-d' ) )
+        ->where( 'status', '!=', 3 )
+        ->where("owner_id", $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $cancelReservations = Reservation::select( 'reservations.*' )
+        ->with( 'user', 'housing', 'owner' )
+        ->where( 'status', '=', 3 )
+        ->where("owner_id", $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $cancelRequestReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )
+        ->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+        ->where("owner_id", $user->id)
+        ->where( 'status', '!=', 3 )->whereNotNull( 'cancel_requests.id' )
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $refundedReservations = Reservation::whereHas('refund')
+        ->with('user', 'housing', 'owner', 'refund')
+        ->where('owner_id', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+
+        return view('institutional.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations','refundedReservations' ) );
+
     }
 
     public function getMyReservations()
     {
         $user = Auth::user();
         $housingReservations = Reservation::with("user", "housing", "owner")
-            ->where("user_id", $user->id)
+           
             ->where('status', '!=', 3)
             ->get();
 
-        return view('institutional.reservations.get', compact('housingReservations'));
+
+            $housingReservations = Reservation::select( 'reservations.*' )
+            ->with( 'user', 'housing', 'owner' )
+            ->where( 'status', '=', 1 )
+            ->where("user_id", $user->id)
+            ->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+            ->whereNull( 'cancel_requests.id' )
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $confirmReservations = Reservation::select( 'reservations.*' )
+            ->with( 'user', 'housing', 'owner' )
+            ->where( 'status', '!=', 3 )
+            ->where( 'status', '!=', 1 )
+            ->where("user_id", $user->id)
+            ->where( 'check_in_date', '>=', date( 'Y-m-d' ) )
+            ->where( 'status', '!=', 3 )
+            ->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+            ->whereNull( 'cancel_requests.id' )
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+            $expiredReservations = Reservation::select( 'reservations.*' )
+            ->with( 'user', 'housing', 'owner' )
+            ->where( 'check_in_date', '<=', date( 'Y-m-d' ) )
+            ->where( 'status', '!=', 3 )
+            ->where("user_id", $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+            $cancelReservations = Reservation::select( 'reservations.*' )
+            ->with( 'user', 'housing', 'owner' )
+            ->where( 'status', '=', 3 )
+            ->where("user_id", $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+            $cancelRequestReservations = Reservation::select( 'reservations.*' )
+            ->with( 'user', 'housing', 'owner' )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )
+            ->where("user_id", $user->id)
+            ->where( 'status', '!=', 3 )->whereNotNull( 'cancel_requests.id' )
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+            $refundedReservations = Reservation::whereHas('refund')
+            ->with('user', 'housing', 'owner', 'refund')
+            ->where('owner_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+    
+            return view( 'institutional.reservations.get', compact('refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
 
     public function cancelReservationRequest(Request $request, $id)

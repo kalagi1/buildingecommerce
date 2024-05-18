@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Services\SmsService;
+use App\Models\ReservationRefund;
 
 class HomeController extends Controller {
     protected $smsService;
@@ -67,21 +68,38 @@ class HomeController extends Controller {
 
     public function getReservations() {
         $housingReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '=', 1 )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->whereNull( 'cancel_requests.id' )
+        ->orderBy('created_at', 'desc')
         ->get();
         $confirmReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '!=', 3 )->where( 'status', '!=', 1 )->where( 'check_in_date', '>=', date( 'Y-m-d' ) )->where( 'status', '!=', 3 )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->whereNull( 'cancel_requests.id' )
+        ->orderBy('created_at', 'desc')
         ->get();
 
         $expiredReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'check_in_date', '<=', date( 'Y-m-d' ) )->where( 'status', '!=', 3 )
+        ->orderBy('created_at', 'desc')
         ->get();
 
         $cancelReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '=', 3 )
+        ->orderBy('created_at', 'desc')
         ->get();
 
         $cancelRequestReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->where( 'status', '!=', 3 )->whereNotNull( 'cancel_requests.id' )
+        ->orderBy('created_at', 'desc')
         ->get();
 
-        return view( 'admin.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
+        $refundedReservations = Reservation::whereHas('refund')
+        ->with('user', 'housing', 'owner', 'refund')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return view( 'admin.reservations.index', compact( 'refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
+
+    public function ReservationDetail( $id ) {
+        $order = Reservation::where( 'id', $id )->first();
+     
+        return view( 'admin.reservations.detail', compact( 'order' ) );
+    }
+    
 
     public function deleteCancelRequest( $id ) {
         $reservation = Reservation::where( 'id', $id )->first();
@@ -370,6 +388,105 @@ class HomeController extends Controller {
         }
     }
 
+     public function reservationUpload( Request $request ) {
+        // PDF dosyasını al
+        $pdfFile = $request->file( 'pdf_file' );
+        // Gelen requestten refund_id'yi alın
+        $refund_id = $request->refund_id;
+
+        // İlgili CartOrderRefund'ı bulun
+        $refund = ReservationRefund::find( $refund_id );
+
+        // Dosya yüklendiyse ve refund bulunduysa devam et
+        if ( $pdfFile && $refund ) {
+            // Dosyayı belirtilen dizine kaydet ( örneğin: storage/app/pdf )
+            $newFileName = now()->format( 'H-i-s' ) . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'refund-receipt-pdf/' . $refund->id;
+            $newFilePath = public_path( $folderName );
+            $pdfFile->move( $newFilePath, $newFileName );
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName;
+            // Dosya yolu ve adını birleştirin
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $refund->filename = $pdfFile->getClientOriginalName();
+            // Dosya adını alabilirsiniz
+            $refund->path = $pdfPath;
+            $refund->status = '3';
+            // Dosya yolunu kaydedin
+            $refund->save();
+
+            $this->reservationSendEmail( $refund );
+
+            $this->reservationSendSMS( $refund );
+
+            return redirect()->back()->with( 'success', 'PDF dosyası başarıyla yüklendi.' );
+        } else {
+            return redirect()->back()->with( 'error', 'PDF dosyası yüklenirken bir hata oluştu.' );
+        }
+    }
+    
+
+    
+
+    private function reservationSendEmail( $refund ) {
+        $pdfDownloadLink = asset( $refund->path );
+        $name = $refund->user->name;
+        $cartID = $refund->reservation->key;
+
+        $content = '
+
+        <p>Merhaba '. $name .' , '. $cartID .' nolu rezervasyonunuza ait geri ödeme tarafınıza iletilmiştir.</p>
+        <p>Aşağıdaki butona basarak dekontu indirebilirsiniz</p>
+        
+        
+        <a href="' . $pdfDownloadLink . '" onclick="downloadPDF()" style="background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;">Dekont İndir</a>
+        
+        <!-- JavaScript fonksiyonu -->
+        <script>
+        function downloadPDF() {
+            window.location.href = "' . $pdfDownloadLink . '";
+        }
+        </script>
+        ';
+
+        // E-posta gönderme işlemi
+        $subject = 'İade Talebi';
+
+        // E-posta gönder
+        Mail::to( $refund->user->email )->send( new CustomMail( $subject, $content ) );
+    }
+
+    private function reservationSendSMS( $refund ) {
+        // Kullanıcının telefon numarasını al
+        $userPhoneNumber = $refund->user->mobile_phone;
+
+        // Kullanıcının adını ve soyadını al
+        $name = $refund->user->name;
+        $cartID = $refund->reservation->key;
+
+        // SMS metni oluştur
+        $message = "Merhaba $name , $cartID no'lu rezervasyonunuza ait geri ödeme tarafınıza iletilmiştir. Dekontunuzu mail adresinize gönderdik, kontrol edebilirsiniz.";
+
+        // SMS gönderme işlemi
+        $smsService = new SmsService();
+        $source_addr = 'Emlkspette';
+
+        $smsService->sendSms( $source_addr, $message, $userPhoneNumber );
+    }
+
+
+
     private function sendEmail( $refund ) {
         $pdfDownloadLink = asset( $refund->path );
         $name = $refund->user->name;
@@ -478,4 +595,60 @@ class HomeController extends Controller {
 
         return redirect()->back()->with( 'success', 'İade durumu başarıyla güncellendi.' );
     }
+
+    public function  reservationUpdateStatus( Request $request, $refundId ) {
+        $refund = reservationRefund::find( $refundId );
+        $userId = $refund->user_id;
+        $now = Carbon::now();
+
+        if ( !$refund ) {
+            return redirect()->back()->with( 'error', 'İlgili iade talebi bulunamadı.' );
+        }
+
+        $validatedData = $request->validate( [
+            'status' => 'required|in:1,2,3',
+        ] );
+
+        $refund->status = $validatedData[ 'status' ];
+        $refund->save();
+
+        if ( $refund->status == 1 ) {
+            if ( $refund->reservation->status != 2 ) {
+                $refund->reservation->status = '2';
+                // Sipariş durumunu 2 olarak güncelle
+                $refund->reservation->save();
+            }
+        }
+
+        if ( $refund->status == 3 ) {
+            $createdAt = Carbon::parse( $refund->reservation->created_at );
+            $differenceInDays = $createdAt->diffInDays( $now );
+            $amount = $refund->reservation->amount;
+
+            if ( $differenceInDays <= 14 ) {
+                $amountFloat = ( float ) str_replace( ',', '.', str_replace( '.', '', $amount ) );
+                $refundAmount = $amountFloat * 0.10;
+            } else {
+                $refundAmount = $amount;
+            }
+            
+            // SharerPrice tablosundaki ilgili kayıtları güncelle
+            SharerPrice::where('cart_id', $refund->reservation->id)->update(['status' => '2']);
+            // CartPrice tablosundaki ilgili kayıtları al ve güncelle
+            $cartPrices = CartPrice::where( [
+                [ 'user_id', $refund->user_id ],
+                [ 'cart_id', $refund->reservation->id ],
+                [ 'status', 1 ],
+            ] )->get();
+            foreach ( $cartPrices as $cartPrice ) {
+                $cartPrice->earn = $refundAmount;
+                $cartPrice->earn2 = '0';
+                $cartPrice->save();
+            }
+        }
+
+        return redirect()->back()->with( 'success', 'İade durumu başarıyla güncellendi.' );
+    }
+
+   
 }

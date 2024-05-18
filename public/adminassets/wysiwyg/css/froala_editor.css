@@ -1385,14 +1385,14 @@ span.fr-sr-only {
   border-color: #f3eec3; }
 
 .fr-tracking-deleted.fr-tracking-deleted > table td, .fr-tracking-deleted.fr-tracking-deleted > hr {
-  border-color: #dc3545; }
+  border-color: #ea2a28; }
 
 .fr-tracking-deleted img, .fr-tracking-deleted > .fr-video > video, .fr-tracking-deleted > .fr-video > iframe, .fr-tracking-deleted > .fr-embedly > .embedly-card > .embedly-card-hug > iframe {
   opacity: 0.5;
-  background-color: #dc3545; }
+  background-color: #ea2a28; }
 
 .fr-view .fr-tracking-deleted {
-  background-color: #dc3545;
+  background-color: #ea2a28;
   text-decoration: line-through;
   pointer-events: none;
   user-select: none;

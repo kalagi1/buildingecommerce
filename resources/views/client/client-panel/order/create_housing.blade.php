@@ -2837,7 +2837,7 @@
         }
 
 .dz-preview:hover .dz-remove{
-    background-color: #dc3545;
+    background-color: #ea2a28;
     cursor: pointer;
     border-radius: 100%;
 }

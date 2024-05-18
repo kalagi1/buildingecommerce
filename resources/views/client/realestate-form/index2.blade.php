@@ -1,418 +1,235 @@
 @extends('client.layouts.master')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mt-5 mb-3">
-                <div>
-                    <p class="message">Hızlı güvenli ve kolay satışın yolu... Emlaksepette/Sat Kirala</p>
+    <section style="background-color: rgb(247, 247, 247);">
+        <div class="div" style="padding-top: 40px; padding-bottom: 40px;">
+
+
+            <div class="container">
+                <div class="sec-title">
+                    <h2 style="font-size: 20px">Emlak Sepette ile <span style="color: #ea2a28!important;font-weight:700">Sat
+                            Kirala</span> </h2>
                 </div>
+                <div class="row mt-5">
+                    <div class="col-lg-4">
+                        <div class="div"
+                            style="background-color: rgb(255, 255, 255); border: 1px solid rgb(205, 205, 211); box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 15px; text-align: center; padding: 29px; border-radius: 20px; ">
+                            <img src="https://www.zillowstatic.com/bedrock/app/uploads/sites/5/2024/04/homepage-spot-agent-lg-1.webp"
+                                style="border-radius: 50px; width:160px; height:160px" alt="">
+                            <h4 style="margin-top: 20px; font-weight: 700;font-size:15px;color:black !important">Kirala</h4>
+                            <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                                gayrimenkullerinizin satış veya kiralamasını
+                                emlaksepette.com sizin yerinize yapsın
+                                zamanınız size kalsın.
+                            </p>
+                            <button onclick="checkAuth()" style="font-weight: 700;width:100px" type="button"
+                                class="btn btn-outline-danger">Kirala</button>
 
-                <div style="margin-top: 17px;margin-bottom:40px;">
-                    <p class="message2">Arsa, konut, işyeri, turistik tesis, devremülk tüm <br> gayrimenkullerinizin satış
-                        veya kiralamasını <br> <span class="text-red">emlaksepette.com</span> sizin yerinize yapsın <br>
-                        zamanınız size kalsın.</p>
-                </div>
-
-                <div style="margin-top: 17px;">
-                    <p class="message2 " style=" border-bottom: 2px solid #FF6B6B; padding-bottom:5px; width:74%; ">Formu
-                        doldur bilgilerini gir kolay sat kirala!</p>
-                </div>
-
-                {{-- <div style="margin-top: 40px">
-                    <a href="{{ route('real.estate.index') }}" class="btnForm">Formu Doldur</a>
-                </div> --}}
-
-                <div style="margin-top: 40px">
-                    <a href="#" onclick="checkAuth()" class="btnForm">Ücretsiz İlan Yayınla</a>
-                </div>
-
-                <script>
-                    function checkAuth() {
-                        if ({{ auth()->check() ? 'true' : 'false' }}) {
-                            window.location.href = "{{ route('institutional.housing.create.v3') }}";
-                        } else {
-                            window.location.href = "{{ route('client.login') }}";
-                        }
-                    }
-                </script>
-            </div>
-
-            <div class="col-md-6 mt-3 mb-3">
-                <img src="{{ asset('sat_kirala/sat_kirala.svg') }}" alt="SVG Resim" class="gorsel" width="200%"
-                    height="auto">
-            </div>
-        </div>
-
-        <div class="row" style="margin-top: 70px; margin-bottom:70px;">
-            <div class="col-md-12 text-center">
-                <p class="messageBaslik">Sat Kiralanın Avantajları</p>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top:70px; ">
-            <div class="card-container mb-5">
-                <div class="col-md-4 col-12">
-                    <div class="card">
-                        <div class="mt-3 mb-3" style="display: flex; align-items: center; justify-content: center;">
-                            <img src="{{ asset('sat_kirala/sales_user.svg') }}" alt="SVG Resim" class="gorsel"
-                                style="width: 13%; height: auto; ">
                         </div>
-
-                        <p class="cardP1">Sat Kirala ile Hızlı Satış</p>
-                        <p class="cardP2">Satmak veya kiralamak istediğiniz gayrimenkulünüzün bilgilerini girin. Binlerce
-                            profesyonel emlak danışmanı vasıtasıyla hızlı ve kolayca satışını sizin yerinize biz sağlayalım.
-                        </p>
                     </div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="card">
-                        <div class="mt-3 mb-3" style="display: flex; align-items: center; justify-content: center;">
-                            <img src="{{ asset('sat_kirala/security.svg') }}" alt="SVG Resim" class="gorsel" width="13%"
-                                height="auto">
+                    <div class="col-lg-4">
+                        <div class="div"
+                            style="background-color: rgb(255, 255, 255); border: 1px solid rgb(205, 205, 211); box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 15px; text-align: center; padding: 29px; border-radius: 20px; ">
+
+                            <img src="https://www.zillowstatic.com/bedrock/app/uploads/sites/5/2024/04/homepage-spot-sell-lg-1.webp"
+                                style="border-radius: 50px; width:160px; height:160px" alt="">
+                            <h4 style="margin-top: 20px; font-weight: 700;font-size:15px;color:black !important">Sat</h4>
+                            <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                                gayrimenkullerinizin satış veya kiralamasını
+                                emlaksepette.com sizin yerinize yapsın
+                                zamanınız size kalsın.
+                            </p>
+                            <button style="font-weight: 700;width:100px" onclick="checkAuth()" type="button"
+                                class="btn btn-outline-danger">Sat</button>
+
                         </div>
-                        <p class="cardP1">Kapora Güvence Sistemi</p>
-                        <p class="cardP2">Gayrimenkulünüzün satışı tamamlandığı takdirde kapora güvence sistemiyle kaporanız
-                            bizim güvencemiz altındadır.</p>
                     </div>
-                </div>
+                    <div class="col-lg-4">
+                        <div class="div"
+                            style="background-color: rgb(255, 255, 255); border: 1px solid rgb(205, 205, 211); box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 15px; text-align: center; padding: 29px; border-radius: 20px; ">
 
-                <div class="col-md-4 col-12">
-                    <div class="card">
-                        <div class="mt-3 mb-3" style="display: flex; align-items: center; justify-content: center;">
-                            <img src="{{ asset('sat_kirala/user_fill.svg') }}" alt="SVG Resim" class="gorsel" width="13%"
-                                height="auto">
+                            <img src="https://www.zillowstatic.com/bedrock/app/uploads/sites/5/2024/04/homepage-spot-rent-lg-1.webp"
+                                style="border-radius: 50px; width:160px; height:160px" alt="">
+                            <h4 style="margin-top: 20px; font-weight: 700;font-size:15px;color:black !important">Neden Sat
+                                Kirala?</h4>
+                            <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                                gayrimenkullerinizin satış veya kiralamasını
+                                emlaksepette.com sizin yerinize yapsın
+                                zamanınız size kalsın.
+                            </p>
+                            <a href="">
+                                <button style="font-weight: 700;width:100px" type="button"
+                                    class="btn btn-outline-danger">Detaylı
+                                    Bilgi</button>
+                            </a>
                         </div>
-                        <p class="cardP1">Emlaksepette.com Uzmanlğı</p>
-                        <p class="cardP2">Emlaksepette.com ile tüm satış veya kiralama süreçlerinde profesyonel ve güvenilir
-                            hizmet alırsınız.</p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <section class="divIlan">
-        <div class="container">
-            <div class="p-1">
-                <div class="row " style="margin-top: 70px; margin-bottom:70px;">
-                    <div class="col-md-12 text-center">
-                        <p class="messageBaslik">İlanımı nasıl satarım ?</p>
-                    </div>
-                </div>
 
-                <div class="row mt-5 " style="margin-bottom: 80px;">
-                    <div class="card-containerIlan mb-5">
-                        <div class="col-md-4 col-12">
-                            <div class="card">
-                                <div class="mt-3 mb-3">
-                                    <img src="{{ asset('sat_kirala/form.svg') }}" alt="SVG Resim" class="gorsel"
-                                        width="16%" height="auto"
-                                        style=" border-bottom: 2px solid red; padding-bottom:10px;">
-                                </div>
 
-                                <p class="cardP3 mt-5">Formu Doldurun</p>
-                                <p class="cardP4 mt-3">Satmak veya kiralamak istediğiniz gayrimenkulünüzün ilan bilgilerini
-                                    girin (Fiyat,Lokasyon vb) profesyonel gayrimenkul danışmanlarımız sizi arasın.</p>
-                            </div>
-                            <div class="mt-3 mb-3">
-                                <img src="{{ asset('sat_kirala/sağa_ok.svg') }}" alt="SVG Resim" class="gorselSagOk"
-                                    width="30%" height="auto">
-                            </div>
-                        </div>
 
-                        <div class="col-md-4 col-12">
-                            <div class="card">
-                                <div class="mt-3 mb-3">
-                                    <img src="{{ asset('sat_kirala/Vector.svg') }}" alt="SVG Resim" class="gorsel"
-                                        width="16%" height="auto"
-                                        style=" border-bottom: 2px solid red; padding-bottom:10px;">
-                                </div>
-                                <p class="cardP3 mt-5">Profesyonel Emlak Danışmanlığı</p>
-                                <p class="cardP4 mt-3">İlanınız gerekli incelemeler sonrasında onaylandığında profesyonel
-                                    emlak danışmanlarımız satış süreciyle ilgili tüm süreçlerde danışmanlık hizmeti
-                                    vermektedir. Gayrimenkulünüzün Fotoğraf çekimleri, potansiyel alıcı/müşteri bulma, satış
-                                    sürecindeki devir ve tüm yasal işlemleri adınıza takip etmektedir.</p>
-                            </div>
-                            <div class="mt-3 mb-3">
-                                <img src="{{ asset('sat_kirala/yukari_ok.svg') }}" alt="SVG Resim"
-                                    class="gorselYukariOk" width="30%" height="auto">
-                            </div>
-                        </div>
 
-                        <div class="col-md-4 col-12">
-                            <div class="card">
-                                <div class="mt-3 mb-3">
-                                    <img src="{{ asset('sat_kirala/money.svg') }}" alt="SVG Resim" class="gorsel"
-                                        width="16%" height="auto"
-                                        style=" border-bottom: 2px solid red; padding-bottom:10px;">
-                                </div>
-                                <p class="cardP3 mt-5">Hızlı Güvenli ve Kolay Satın</p>
-                                <p class="cardP4 mt-3">Gayrimenkulünüzün sorunsuz zahmetsiz hızlı ve kolay satışını
-                                    tamamlayın.</p>
-                            </div>
-                        </div>
 
-                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="container">
-        <div class="row" style="margin-bottom:50px;">
-            <div class="col-md-12 text-center">
-                <p class="messageBaslik">Sıkça Sorulan Sorular</p>
-            </div>
-        </div>
-
-        <div class="row" style="margin-bottom: 70px;">
-            <div class="col-md-12">
-                <div class="kategori-container">
-                    <ul class="kategori-listesi">
-                        <li class="kategori" data-category="kategori1">Genel Bilgiler</li>
-                        <li class="kategori" data-category="kategori2">Fiyatlama Süreci</li>
-                        <li class="kategori" data-category="kategori3">Randevu Süreci</li>
-                        <li class="kategori" data-category="kategori4">Başvuru ve Onay Süreci</li>
-                    </ul>
+    <section style="margin-top: 50px">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <div class="sec-title">
+                        <h2 style="font-size: 20px">Hızlı ve güvenli satışın yolu</h2>
+                    </div>
+                    <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                        gayrimenkullerinizin satış veya kiralamasını
+                        emlaksepette.com sizin yerinize yapsın
+                        zamanınız size kalsın.
+                        Formu doldur bilgilerini gir kolay sat kirala!Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                        gayrimenkullerinizin satış veya kiralamasını
+                        emlaksepette.com sizin yerinize yapsın
+                        zamanınız size kalsın.
+                        Formu doldur bilgilerini gir kolay sat kirala!</p>
+             
+                        <button style="margin-top: 20px;" onclick="checkAuth()" type="button" class="btn btn-lg btn-danger">Formu
+                            Doldur</button>
+                </div>
+                <div class="col-md-5">
+                    <img src="https://delivery.digitalassets.zillowgroup.com/api/public/content/2x_Miso_FSBO_Vector_CMS_Full.png?v=e53ae166" alt="" style="width: 100%">
                 </div>
             </div>
+            <div class="row mt-2" style="margin-bottom:30px">
+                <div class="col-md-4">
+                    <div class="sec-title">
+                        <h2 style="font-size: 15px">Sat Kirala Nedir ?</h2>
+                    </div>
+                    <ul style="list-style: none; margin: 0; padding: 0; margin-top: 20px;">
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
+                            bidding wars</li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
+                            bidding wars</li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
+                            bidding wars</li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
+                            bidding wars</li>
+
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="sec-title">
+                        <h2 style="font-size: 15px">Sat Kirala Avantajları</h2>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p>Sat kirala sistemi gayrimenkullerini hızlı güvenli ve değerinde satmak isteyen bireysel
+                            satıcıların gayrimenkullerin platforma kayıtlı kurumsal emlak firmaları vasıtasıyla satışını
+                            sağlayan bir hizmettir.</p>
+                    </div>
+                  
+                </div>
+            </div>
+            <hr>
         </div>
+    </section>
+    <section class="faq service-details bg-white">
+        <div class="container">
+            <h2 class="mb-3" style="font-size: 15px">Sıkça Sorulan Sorular
+            </h2>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <ul class="accordion accordion-1 one-open">
+                        <li class="active">
+                            <div class="title">
+                                <span>
+                                    Sat Kirala nedir?
+                                </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-down"></i>
 
-        <div class="row" style="margin:-top:70px;margin-bottom:60px; ">
-            <div class="col-md-12">
-                <div id="kategori1Content" class="accordion-content">
-
-                    {{-- GENEL bilgiler soruları --}}
-                    <div class="accordion" id="accordionExample">
-
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingOne">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button"
-                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                        Sat Kirala nedir?
-                                    </button>
-                                    </h2>
                             </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
+                            <div class="content">
+                                <p>
+                              
                                     Sat kirala sistemi gayrimenkullerini hızlı güvenli ve değerinde satmak isteyen bireysel
                                     satıcıların gayrimenkullerin platforma kayıtlı kurumsal emlak firmaları vasıtasıyla
                                     satışını sağlayan bir hizmettir.
-                                </div>
+                                
+                                </p>
                             </div>
-                        </div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <span>
+                                    Hangi Gayrimenkuller Sat Kirala ile satılabilir?
+                                
+                                </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
 
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingTwo">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                        aria-controls="collapseTwo">
-                                        Hangi Gayrimenkuller Sat Kirala ile satılabilir?
-                                    </button>
-                                    </h2>
                             </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <ul class="fa-ul">
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Arsa</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Konut</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> İşyeri</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Turistik Tesis</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Devre Mülk</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Prefabrik</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Bina</li>
-                                    </ul>
-
-
-                                </div>
+                            <div class="content">
+                                <ul class="fa-ul mt-3 mb-3">
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Arsa</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Konut</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> İşyeri</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Turistik Tesis</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Devre Mülk</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Prefabrik</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Bina</li>
+                                </ul>
                             </div>
-                        </div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <span>
+                                    Satış süreci ne kadar sürüyor?
+                                
+                                </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
 
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingFour">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
-                                        aria-controls="collapseFour">
-                                        Süreç nasıl işliyor?
-                                    </button>
-                                    </h2>
                             </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <ul class="fa-ul">
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Web sitemiz veya
-                                            mobil uygulamamız üzerinden ilan bilgileri girilir</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Kriterlere uygun
-                                            ilanlar onaylanır.</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Emlak sepette
-                                            sistemine dahil olan kurumsal satıcılara ilanınız ulaştırılır.</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Sat Kirala sistemine
-                                            dahil olan kurumsal satıcılara ulaştırılır.</li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Kurumsal satıcımız
-                                            sizinle temas kurarak gayrimenkulünüzün Fotoğraf çekimleri, değerleme,
-                                            potansiyel alıcı/müşteri bulma, satış sürecindeki devir ve tüm yasal işlemleri
-                                            adınıza takip etmektedir. </li>
-                                        <li><span class="fa-li"><i class="fas fa-circle"></i></span> Satış süreci olumlu
-                                            tamamlandığında noter ve devi işlemleri sonrasında satışınız tamamlanmış olur.
-                                        </li>
-                                    </ul>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingThree">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Satış süreci ne kadar sürüyor?
-                                    </button>
-                                    </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
+                            <div class="content">
+                                <p>
+                                 
                                     İlanınız kurumsal satıcımıza ulaştığında onayınız doğrultusunda minimum 90 gün olmak
                                     üzere kurumsal satıcımız ile yapacağınız yetkilendirme sözleşmesi süresi boyunca satış
                                     süreçleri tarafımızdan yönetilir. Satış gerçekleşmediği taktirde onayınız doğrultusunda
                                     hiçbir bedel ödemeden satış sürecini sonlandırabilirsiniz.
-                                </div>
+                                </p>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li>
+                            <div class="title">
 
-                </div>
-
-                <div id="kategori2Content" class="accordion-content" style="display: none;">
-
-                    {{-- Fiyatlama Süreci soruları --}}
-                    <div class="accordion" id="accordionExample">
-
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingOne">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button"
-                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                        Sat Kirala sistemi ile yayınladığım ilanımın fiyatı nasıl belirleniyor?
-                                    </button>
-                                    </h2>
+                                <span>
+                                    Süreç nasıl işliyor?
+                                
+                                </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Web sitemiz yada mobil uygulamamız üzerinden bize ulaştırdığınız gayrimenkulün fiyatını
-                                    piyasa koşullarına göre serbest bir şekilde siz belirlersiniz.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingTwo">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                        aria-controls="collapseTwo">
-                                        Satış gerçekleştiğinde mülk sahibinden komisyon alınıyor mu?
-                                    </button>
-                                    </h2>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Sat Kirala sistemine katılım ücretsizdir. Gayrimenkulünü satmak isteyen
-                                    kullanıcılarımızdan herhangi bir komisyon veya ücret alınmamaktadır.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div id="kategori3Content" class="accordion-content" style="display: none;">
-                    {{-- Randevu Süreci soruları --}}
-                    <div class="accordion" id="accordionExample">
-
-                        <div class="card accordionCard">
-                            <div class="card-header" id="headingOne">
-                                <h3 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button"
-                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                        Sat kirala üzerinden nasıl randevu alabilirim?
-                                    </button>
-                                    </h2>
-                            </div>
-
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    Web sitemiz yada mobil uygulamamız üzerinden girdiğiniz ilanınız onaylandıktan sonra
-                                    binlerce kurumsal mağazamız içerisinden lokasyonunuza en uygun konumdaki kurumsal
-                                    satıcımız size ulaşıp randevu alacaktır.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div id="kategori4Content" class="accordion-content" style="display: none;">
-                {{-- başvuru ve onay Süreci soruları --}}
-                <div class="accordion" id="accordionExample">
-
-                    <div class="card accordionCard">
-                        <div class="card-header" id="headingOne">
-                            <h3 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Başvuru ve Onay Süreci
-                                </button>
-                                </h2>
-                        </div>
-
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-parent="#accordionExample">
-                            <div class="card-body">
-                                Hangi durumlarda başvurum geçersiz olur.
-                                <ul class="fa-ul">
-                                    <li><span class="fa-li"><i class="fas fa-circle"></i></span> Başvuruyu yapan kişinin
-                                        mutlaka tapu sahibi olması gerekmektedir.</li>
-                                    <li><span class="fa-li"><i class="fas fa-circle"></i></span> Gayrimenkul üzerinde
-                                        satışa engel oluşturacak kredi, rehin gibi borçlar bulunmamalıdır.</li>
-                                    <li><span class="fa-li"><i class="fas fa-circle"></i></span> İlanınızın satışa
-                                        çıkarılmasına onay verdiğinizde minimum 90 gün olarak düzenlenmiş yetkilendirme
-                                        sözleşmesi gerekmektedir.</li>
-                                    <li><span class="fa-li"><i class="fas fa-circle"></i></span> Bu şartları
-                                        sağladığınızda gayrimenkulünüz satış süreci başlatılmış olur.</li>
+                            <div class="content">
+                                <ul class="fa-ul mt-3 mb-3">
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Web sitemiz veya
+                                        mobil uygulamamız üzerinden ilan bilgileri girilir</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Kriterlere uygun
+                                        ilanlar onaylanır.</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Emlak sepette
+                                        sistemine dahil olan kurumsal satıcılara ilanınız ulaştırılır.</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Sat Kirala sistemine
+                                        dahil olan kurumsal satıcılara ulaştırılır.</li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Kurumsal satıcımız
+                                        sizinle temas kurarak gayrimenkulünüzün Fotoğraf çekimleri, değerleme,
+                                        potansiyel alıcı/müşteri bulma, satış sürecindeki devir ve tüm yasal işlemleri
+                                        adınıza takip etmektedir. </li>
+                                    <li><span class="fa-li"><i class="fa fa-circle"></i></span> Satış süreci olumlu
+                                        tamamlandığında noter ve devi işlemleri sonrasında satışınız tamamlanmış olur.
+                                    </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-
+                        </li>
+                    </ul>
+                    <!--end of accordion-->
                 </div>
-
-
             </div>
-
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('scripts')
@@ -435,6 +252,24 @@
                 $('.kategori').removeClass('active');
                 $(this).addClass('active');
             });
+        });
+    </script>
+    <script>
+        function checkAuth() {
+            if ({{ auth()->check() ? 'true' : 'false' }}) {
+                window.location.href = "{{ route('institutional.housing.create.v3') }}";
+            } else {
+                window.location.href = "{{ route('client.login') }}";
+            }
+        }
+    </script>
+    <script>
+        $(".accordion li").click(function() {
+            $(".faq li").not(this).removeClass("active");
+            $(".faq li i").not($(this).find("i")).removeClass("fa-chevron-down").addClass("fa-chevron-right");
+            $(this).toggleClass("active").find("i").toggleClass("fa-chevron-right", !$(this).hasClass("active"))
+                .toggleClass("fa-chevron-down", $(this).hasClass("active"));
+
         });
     </script>
 @endsection

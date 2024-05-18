@@ -209,7 +209,7 @@
 
                                                     $housingAmount = $itemPrice - $housingDiscountAmount;
                                                     $discountedPrice =
-                                                        $housingAmount - ($housingAmount * $discountRate) / 100;
+                                                    $housingAmount - ($housingAmount * $discountRate) / 100;
                                                 } else {
                                                     $project = App\Models\Project::find($cart['item']['id']);
                                                     $roomOrder = $cart['item']['housing'];

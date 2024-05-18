@@ -223,7 +223,7 @@
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                     <del
-                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                        style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
 
                                                         {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                         ₺

@@ -221,7 +221,7 @@
                                         </h6>
 
                                         <h6
-                                            style="color: #e54242 !important;position: relative;font-weight:700;font-size: 11px;text-decoration:line-through;">
+                                            style="color: #ea2a28!important;position: relative;font-weight:700;font-size: 11px;text-decoration:line-through;">
                                             {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                             ₺
                                         </h6>

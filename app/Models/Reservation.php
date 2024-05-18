@@ -38,4 +38,9 @@ class Reservation extends Model
     public function cancelRequest(){
         return $this->hasOne(CancelRequest::class,"reservation_id","id")->where('item_type',1);
     }
+
+    public function refund()
+    {
+        return $this->hasOne(ReservationRefund::class);
+    }
 }
