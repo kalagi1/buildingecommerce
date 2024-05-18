@@ -863,55 +863,52 @@
             }
         })
         $('#city').on('change', function() {
+    $.ajax({
+        method: "GET",
+        url: "{{ url('get-counties') }}/" + $(this).val(),
+        success: function(res) {
+            console.log(res);
 
-            $.ajax({
-                method: "GET",
-                url: "{{ url('get-counties') }}/" + $(this).val(),
-                success: function(res) {
-                    console.log(res);
+            $('#county').empty();
+            $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+            $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
-                    $('#county').empty();
-                    $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
-                    $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+            // Şehir adını slug formatına çevir
+            var citySlug = res.citySlug;
 
-                    // Şehir adını slug formatına çevir
-                    var citySlug = res.citySlug;
+            // Mevcut URL'yi al
+            var currentUrl = window.location.href;
 
-                    // Mevcut URL'yi al
-                    var currentUrl = window.location.href;
+            // Yeni URL'yi oluştur
+            var newUrl = currentUrl + '/' + citySlug;
 
-                    // Yeni URL'yi oluştur
-                    var newUrl = currentUrl + '/' + citySlug;
+            // .hiddenCityName altındaki .cityNameP öğesini güncelle
+            $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
 
-                    // .hiddenCityName altındaki .cityNameP öğesini güncelle
-                    $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
+            var cityNameElement = $(".hiddenCityName").children(".cityNameP");
 
-                    // .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
-                    var cityNameElement = $(".hiddenCityName").children(".cityNameP");
+            // .cityNameP zaten a etiketi içindeyse, unwrap ile çıkart
+            if (cityNameElement.parent('a').length) {
+                cityNameElement.unwrap();
+            }
 
-                    // Eğer .cityNameP zaten a etiketi içindeyse, sadece href ve içeriği güncelle
-                    if (cityNameElement.parent('a').length) {
-                        cityNameElement.parent('a').attr('href', newUrl).children(".cityNameP").html(res
-                            .cityName);
-                    } else {
-                        cityNameElement.wrap('<a></a>').parent('a').attr('href', newUrl).children(
-                            ".cityNameP").html(res.cityName);
-                    }
+            // .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
+            cityNameElement.wrap('<a></a>').parent('a').attr('href', newUrl).children(".cityNameP").html(res.cityName);
 
-                    res.counties.forEach((e) => {
-                        $('#county').append(
-                            `<option value="${e.ilce_key}">${e.ilce_title}</option>`
-                        );
-                    });
-
-                    $('#county').select2({
-                        placeholder: 'İlçe',
-                        width: '100%',
-                        searchInputPlaceholder: 'Ara...'
-                    });
-                }
+            res.counties.forEach((e) => {
+                $('#county').append(
+                    `<option value="${e.ilce_key}">${e.ilce_title}</option>`
+                );
             });
-        });
+
+            $('#county').select2({
+                placeholder: 'İlçe',
+                width: '100%',
+                searchInputPlaceholder: 'Ara...'
+            });
+        }
+    });
+});
 
 
         $('#county').on('change', function() {
