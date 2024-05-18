@@ -815,9 +815,6 @@
             if (countyID) {
                 $('#county').val(countyID).trigger('change');
             }
-            // if (neighborhoodID) {
-            //     $('#neighborhood').val(neighborhoodID);
-            // }
         });
 
 
@@ -945,7 +942,7 @@
                         if (!neighborhoodID) {
                             $('#neighborhood').val('#');
                         } else {
-                            $('#neighborhood').val(neighborhoodID);
+                            $('#neighborhood').val(neighborhoodID).trigger("change");
 
                         }
                     });
@@ -961,27 +958,27 @@
             });
         });
 
-        // $('#neighborhood').on('change', function() {
-        //     $.ajax({
-        //         method: "GET",
-        //         url: "{{ url('get-neighborhood') }}/" + $(this).val(),
-        //         success: function(res) {
-        //             // Mevcut URL'yi al
-        //             var currentUrl = window.location.href;
+        $('#neighborhood').on('change', function() {
+            $.ajax({
+                method: "GET",
+                url: "{{ url('get-neighborhood') }}/" + $(this).val(),
+                success: function(res) {
+                    // Mevcut URL'yi al
+                    var currentUrl = window.location.href;
 
-        //             // Yeni URL'yi oluştur
-        //             var newUrl = currentUrl + '/' + res.neighborhoodSlug;
-        //             $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex").children(
-        //                     ".countyNameP")
-        //                 .wrap('<a></a>')
-        //                 .parent('a').attr('href', newUrl)
-        //                 .children(".countyNameP").html(res.neighborhoodName);
+                    // Yeni URL'yi oluştur
+                    var newUrl = currentUrl + '/' + res.neighborhoodSlug;
+                    $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex").children(
+                            ".countyNameP")
+                        .wrap('<a></a>')
+                        .parent('a').attr('href', newUrl)
+                        .children(".countyNameP").html(res.neighborhoodName);
 
                   
-        //         }
-        //     });
+                }
+            });
 
-        // });
+        });
 
         function ucfirst(str) {
             if (typeof str !== 'string') return '';
