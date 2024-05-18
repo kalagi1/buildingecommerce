@@ -867,10 +867,14 @@
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
-                    console.log(res);
-
                     $('#county').empty();
+                    $('#county').append(
+                            `<option value="#">İlçe</option>`
+                        );
                     $("#neighborhood").empty();
+                    $('#neighborhood').append(
+                            `<option value="#">Mahalle</option>`
+                        );
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
@@ -921,6 +925,7 @@
                 success: function(res) {
                     console.log(res);
                     $('#neighborhood').empty();
+                    $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
 
                     // İlçe adını slug formatına çevir
                     var countySlug = res.countySlug;
@@ -946,10 +951,7 @@
 
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
-                    $('#neighborhood').append(
-                            `<option value="#">Mahalle</option>`
-                        );
-                    $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
+                 
                     res.neighborhoods.forEach((e) => {
                         $('#neighborhood').append(
                             `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
