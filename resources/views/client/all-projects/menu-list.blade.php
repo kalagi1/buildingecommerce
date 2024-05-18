@@ -905,7 +905,7 @@
                 });
             }
 
-            if (neighborhoodID) {
+            if (neighborhoodTitle) {
                 $.ajax({
                 method: "GET",
                 url: "{{ url('get-neighborhood') }}/" + neighborhoodID,
