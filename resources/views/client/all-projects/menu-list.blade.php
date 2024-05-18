@@ -913,6 +913,10 @@
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
                         );
+                        if (!countyID) {
+                            $('#county').val('#');
+                        }
+                       
                     });
                     $('#county').select2({
                         placeholder: 'İlçe',
@@ -954,6 +958,9 @@
                         $('#neighborhood').append(
                             `<option value="${e.mahalle_key}">${e.mahalle_title}</option>`
                         );
+                        if (!neighborhoodID) {
+                            $('#neighborhood').val('#');
+                        }
                     });
 
 
