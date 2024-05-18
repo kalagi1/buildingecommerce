@@ -78,6 +78,7 @@ class UserController extends Controller
         $collections = Collection::with("links.project", "links.housing","clicks")->where("user_id",  $user->id)->orderBy("id", "desc")->limit(6)->get();
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+        $permissions = array_values($permissions);
 
         return response()->json([
             'user' => $user,
