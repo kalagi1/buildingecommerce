@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('reservations', function (Blueprint $table) {
             $table->integer('price')->default(0);
             $table->integer('money_is_safe')->default(0);
+            $table->string('filename')->nullable();
+            $table->string('path')->nullable(); 
         });
     }
 

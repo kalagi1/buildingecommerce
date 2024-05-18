@@ -17,13 +17,30 @@ $months = [
     'Aralık',
 ];
 @endphp
+@php
+// İade talebinin oluşturulma tarihini al
+$refundCreatedAt = $order->created_at;
+
+// Şu anki zamanı al
+$now = now();
+
+// İade talebinin oluşturulma tarihinden 14 gün sonrasını al
+$expirationDate = $refundCreatedAt->addDays(14);
+
+// İade talebinin oluşturulma tarihinden 14 gün sonrasına kadar kaç gün kaldığını hesapla
+$daysLeft = $now->diffInDays($expirationDate);
+
+// İade talebi 14 günü geçmişse
+$isExpired = $now->greaterThan($expirationDate);
+
+@endphp
 
     <div class="content">
         <div class="breadcrumb">
             <ul>
                 <li><i class="fa fa-home"></i> Yönetim Paneli</li>
-                <li>Siparişler</li>
-                <li>Tüm Siparişler</li>
+                <li>Rezervasyonlar</li>
+                <li>Tüm Rezervasyonlar</li>
                 <li>#{{ $order->key }} Nolu Rezervasyon Detayı</li>
             </ul>
         </div>
@@ -31,12 +48,12 @@ $months = [
             <div class="col-12 col-xl-8 col-xxl-9">
                 <div class="card p-3">
                     <div>
-                        <a href="{{ route('admin.orders') }}" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
+                        <a href="{{ route('admin.reservations') }}" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
                         <h5>#{{ $order->key}} Nolu Rezervasyon Detayı</h5>
 
-                        {{-- @if ($order->refund != null)
+                        @if ($order->refund != null)
                             <div class="order-status-container mt-3"
                                 style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 1)  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
                                 <div class="left">
@@ -55,7 +72,7 @@ $months = [
                                 </div>
 
                             </div>
-                        @else --}}
+                        @else
                             <div class="order-status-container mt-3"
                                 style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
                                 <div class="left">
@@ -72,7 +89,7 @@ $months = [
                                 </div>
 
                             </div>
-                        {{-- @endif --}}
+                        @endif
 
                         {{-- @if ($order->reference)
                             <div class="order-status-container mt-3" style="background-color : #1581f5 ">
@@ -339,7 +356,7 @@ $months = [
                         </div>
                     </div>
 
-                    {{-- @if ($order->refund != null)
+                    @if ($order->refund != null)
                         <div class="col-12 mb-3">
                             <div class="card">
                                 <div class="card-body">
@@ -454,7 +471,7 @@ $months = [
 
                                                                     <div class="order_status mt-3">
                                                                         <form
-                                                                            action="{{ route('admin.receipt.refund.upload.pdf') }}"
+                                                                            action="{{ route('admin.reservation.receipt.refund.upload.pdf') }}"
                                                                             method="POST" enctype="multipart/form-data">
                                                                             @csrf
                                                                             <input type="hidden" name="refund_id"
@@ -481,7 +498,7 @@ $months = [
 
 
                                                                     <form
-                                                                        action="{{ route('admin.refund.update.status', $order->refund->id) }}"
+                                                                        action="{{ route('admin.reservation.refund.update.status', $order->refund->id) }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         <select class="form-select" name="status">
@@ -517,7 +534,7 @@ $months = [
                                 </div>
                             </div>
                         </div>
-                    @endif --}}
+                    @endif
 
 
                    <div class="col-12 mb-3">
