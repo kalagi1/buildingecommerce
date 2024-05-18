@@ -812,9 +812,11 @@
             console.log(cityID);
             if (cityID) {
                 $('#city').val(cityID).trigger('change');
-                drawList(filters: {
-                    "city": cityID
-                })
+                drawList({
+    filters: {
+        "city": cityID
+    }
+});
 
             }
             if (countyID) {
