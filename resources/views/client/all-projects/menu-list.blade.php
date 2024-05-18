@@ -809,28 +809,14 @@
 
 
         $(document).ready(function() {
-            console.log(cityID);
             if (cityID) {
                 $('#city').val(cityID).trigger('change');
-                drawList({
-    filters: {
-        "city": cityID
-    }
-});
-
             }
             if (countyID) {
-
                 $('#county').val(countyID).trigger('change');
-
-
             }
-
-
             if (neighborhoodID) {
-
                 $('#neighborhood').val(neighborhoodID).trigger('change');
-
             }
         });
 
@@ -1038,7 +1024,10 @@
                 title: title,
                 optional: optional,
                 checkTitle: checkTitle,
-                term: term
+                term: term,
+                city: cityID,
+                county: countyID,
+                neighborhood: neighborhoodID
             });
 
 

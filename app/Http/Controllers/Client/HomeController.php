@@ -547,7 +547,7 @@ class HomeController extends Controller
 
         $term = $request->input('term');
 
-        $parameters = ["slug", "type", "optional", "title", "checkTitle","cityID","neighborhoodID","countyID"];
+        $parameters = ["slug", "type", "optional", "title", "checkTitle"];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
