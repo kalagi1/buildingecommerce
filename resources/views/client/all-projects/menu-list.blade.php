@@ -1023,9 +1023,9 @@
                 optional: optional,
                 checkTitle: checkTitle,
                 term: term,
-                city: cityID,
-                county: countyID,
-                neighborhood: neighborhoodID
+                city: $("#city").val(),
+                county: $("#county").val(),
+                neighborhood: $("#neighborhood").val()
             });
 
 
