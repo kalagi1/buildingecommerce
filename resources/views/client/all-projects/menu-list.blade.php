@@ -816,7 +816,7 @@
                 $('#county').val(countyID).trigger('change');
             }
             if (neighborhoodID) {
-                $('#neighborhood').val(neighborhoodID).trigger('change');
+                $('#neighborhood').val(neighborhoodID);
             }
         });
 
@@ -907,7 +907,6 @@
                         width: '100%',
                         searchInputPlaceholder: 'Ara...'
                     });
-                    filterNow();
                 }
             });
         });
@@ -957,7 +956,6 @@
                         width: '100%',
                         searchInputPlaceholder: 'Ara...'
                     });
-                    filterNow();
 
                 }
             });
@@ -979,7 +977,7 @@
                         .parent('a').attr('href', newUrl)
                         .children(".countyNameP").html(res.neighborhoodName);
 
-                    filterNow();
+                  
                 }
             });
 
