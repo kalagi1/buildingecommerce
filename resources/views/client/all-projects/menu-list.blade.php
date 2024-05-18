@@ -881,6 +881,7 @@
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
+                    console.log(res);
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
                     // Şehir adını slug formatına çevir
