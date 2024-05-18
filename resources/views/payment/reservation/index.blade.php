@@ -363,7 +363,7 @@
                                             </div>
                                         </div>
 
-
+{{-- 
 
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
@@ -373,7 +373,7 @@
                                                     kabul ve beyan ediyorum.
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                     </div>
                                 </form>
@@ -1114,13 +1114,13 @@
                     });
                     return;
                 }
-                if (!$('#checkSignature').prop('checked')) {
-                    toastr.warning('Lütfen onay veriniz.');
-                    $('#checkSignature').css({
-                        "border": "1px solid red"
-                    });
-                    return;
-                }
+                // if (!$('#checkSignature').prop('checked')) {
+                //     toastr.warning('Lütfen onay veriniz.');
+                //     $('#checkSignature').css({
+                //         "border": "1px solid red"
+                //     });
+                //     return;
+                // }
                 $.ajax({
                     url: "{{ route('reservation.store') }}",
                     method: "POST",
