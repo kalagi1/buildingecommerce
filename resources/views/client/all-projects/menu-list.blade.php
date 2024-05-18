@@ -647,7 +647,7 @@
                                 </div>
                                 <div class="hiddenNeighborhoodName d-none">
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
-                                    <p class="brand-name countyNameP" style="color: black"></p>
+                                    <p class="brand-name neighborhoodNameP" style="color: black"></p>
                                 </div>
                                 {{-- @if ($checkTitle)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
