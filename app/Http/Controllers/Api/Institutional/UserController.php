@@ -28,7 +28,9 @@ class UserController extends Controller
     {
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
-        })->unique()->toArray();
+        })->unique()->flatten();
+
+        return $permissions;
 
         if ($user->type != "1" || $user->type != "3") {
 
