@@ -892,7 +892,7 @@
 
                     // .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
                     cityNameElement.wrap('<a></a>').parent('a').attr('href', newUrl).children(
-                        ".cityNameP").html(res.cityName);
+                        ".cityNameP").text(res.cityName);
                         console.log(res.cityName);
 
                     res.counties.forEach((e) => {
