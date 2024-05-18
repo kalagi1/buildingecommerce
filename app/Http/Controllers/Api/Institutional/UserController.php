@@ -30,6 +30,28 @@ class UserController extends Controller
             return $rolePermission->permissions->pluck('key');
         })->unique()->toArray();
 
+        if ($user->type != "1" || $user->type != "3") {
+
+            if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
+                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+            }
+
+            if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
+                $permissions = array_diff($permissions, [
+                    "Offers",
+                    "CreateOffer",
+                    "Offers",
+                    "DeleteOffer",
+                    "GetOfferById",
+                    "UpdateOffer",
+                    "GetOffers"
+                ]);
+            }
+
+            if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+            }
+        }
 
         $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "0")->get();
