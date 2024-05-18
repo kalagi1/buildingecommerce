@@ -29,17 +29,14 @@ class UserController extends Controller
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->unique()->flatten();
-
-        return $permissions;
-
-        if ($user->type != "1" || $user->type != "3") {
-
+    
+        if ($user->type != "1" && $user->type != "3") {
             if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
-                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                $permissions = $permissions->diff(['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
             }
-
+    
             if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
-                $permissions = array_diff($permissions, [
+                $permissions = $permissions->diff([
                     "Offers",
                     "CreateOffer",
                     "Offers",
@@ -49,38 +46,40 @@ class UserController extends Controller
                     "GetOffers"
                 ]);
             }
-
+    
             if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+                $permissions = $permissions->diff(['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
             }
         }
-
+    
         $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "0")->get();
-
+    
         $balanceStatus0 = SharerPrice::where("user_id", $user->id)
             ->where("status", "0")
             ->sum('balance');
-
+    
         $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "1")->get();
-
+    
         $balanceStatus1 = SharerPrice::where("user_id", $user->id)
             ->where("status", "1")
             ->sum('balance');
-
-
+    
         $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "2")->get();
-
+    
         $balanceStatus2 = SharerPrice::where("user_id", $user->id)
             ->where("status", "2")
             ->sum('balance');
-
-        $collections = Collection::with("links.project", "links.housing","clicks")->where("user_id",  $user->id)->orderBy("id", "desc")->limit(6)->get();
+    
+        $collections = Collection::with("links.project", "links.housing", "clicks")->where("user_id",  $user->id)->orderBy("id", "desc")->limit(6)->get();
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
-
+    
+        // Implode the permissions array into a comma-separated string
+        $permissionsString = $permissions->implode(',');
+    
         return response()->json([
             'user' => $user,
             "balanceStatus1" => $balanceStatus1,
@@ -88,10 +87,10 @@ class UserController extends Controller
             "balanceStatus2" => $balanceStatus2,
             "successPercentage" => $successPercentage,
             "collections" => $collections,
-            "permissions" => $permissions,
-
+            "permissions" => $permissionsString,
         ]);
     }
+    
 
     public function index()
     {
