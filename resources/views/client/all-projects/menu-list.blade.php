@@ -1986,7 +1986,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: #e54242 !important;
+                color: #ea2a28!important;
                 padding-right: 5px
             }
 

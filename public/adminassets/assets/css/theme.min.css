@@ -1567,7 +1567,7 @@
 
 .dark .dark__border-primary,
 .dark .picmo__popupContainer.picmo__light .dark__border-primary {
-    --phoenix-border-color: #e54242 !important
+    --phoenix-border-color: #ea2a28!important
 }
 
 .dark .navbar-darker,
@@ -27363,7 +27363,7 @@ pre[class*=language-] {
 .is-focused .choices__inner,
 .is-open .choices__inner {
     border-radius: .375rem !important;
-    border-color: #e54242 !important;
+    border-color: #ea2a28!important;
     -webkit-box-shadow: 0 0 0 .25rem rgba(56, 116, 255, .25) !important;
     box-shadow: 0 0 0 .25rem rgba(56, 116, 255, .25) !important;
     outline: 0
@@ -27521,7 +27521,7 @@ pre[class*=language-] {
 }
 
 .tox .tox-textfield:focus {
-    border-color: #e54242 !important;
+    border-color: #ea2a28!important;
     -webkit-box-shadow: inset 0 0 0 30px var(--phoenix-input-bg), 0 0 0 .25rem rgba(56, 116, 255, .25) !important;
     box-shadow: inset 0 0 0 30px var(--phoenix-input-bg), 0 0 0 .25rem rgba(56, 116, 255, .25) !important
 }
@@ -27623,7 +27623,7 @@ pre[class*=language-] {
 .editor-focused {
     -webkit-box-shadow: inset 0 0 0 30px var(--phoenix-input-bg), 0 0 0 .25rem rgba(56, 116, 255, .25) !important;
     box-shadow: inset 0 0 0 30px var(--phoenix-input-bg), 0 0 0 .25rem rgba(56, 116, 255, .25) !important;
-    border-color: #e54242 !important
+    border-color: #ea2a28!important
 }
 
 .flatpickr-input-container {
@@ -28594,11 +28594,11 @@ html[dir=rtl] .googlemap .gm-style-iw.gm-style-iw-c button[title=Close] {
 }
 
 .fc .fc-timegrid .text-primary .fc-event-main:after {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .fc .text-primary .fc-event-main:after {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .fc .text-primary.fc-v-event {
@@ -28669,11 +28669,11 @@ html[dir=rtl] .googlemap .gm-style-iw.gm-style-iw-c button[title=Close] {
 }
 
 .fc .fc-timegrid .text-info .fc-event-main:after {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .fc .text-info .fc-event-main:after {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .fc .text-info.fc-v-event {
@@ -35406,7 +35406,7 @@ a[href].bg-200:focus {
 
 .hover-primary:hover,
 .hover-primary:focus {
-    color: #e54242 !important
+    color: #ea2a28!important
 }
 
 .hover-danger:hover,
@@ -38648,12 +38648,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 
 .dark .dark__bg-primary,
 .dark .picmo__popupContainer.picmo__light .dark__bg-primary {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .dark .dark__text-primary,
 .dark .picmo__popupContainer.picmo__light .dark__text-primary {
-    color: #e54242 !important
+    color: #ea2a28!important
 }
 
 .dark .dark__bg-secondary,
@@ -38678,12 +38678,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 
 .dark .dark__bg-info,
 .dark .picmo__popupContainer.picmo__light .dark__bg-info {
-    background-color: #e54242 !important
+    background-color: #ea2a28!important
 }
 
 .dark .dark__text-info,
 .dark .picmo__popupContainer.picmo__light .dark__text-info {
-    color: #e54242 !important
+    color: #ea2a28!important
 }
 
 .dark .dark__bg-warning,
@@ -39238,7 +39238,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 
 .variant-container:hover .img-container+h5,
 .variant-container:hover .img-container+.h5 {
-    color: #e54242 !important
+    color: #ea2a28!important
 }
 
 .variant-container:hover .side-panel-thumb {
@@ -39345,7 +39345,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 
 .page-container:hover .img-container+h5,
 .page-container:hover .img-container+.h5 {
-    color: #e54242 !important
+    color: #ea2a28!important
 }
 
 .feature-figma-img {
@@ -40893,7 +40893,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .dz-preview:hover .dz-remove {
-    background-color: #dc3545;
+    background-color: #ea2a28;
     cursor: pointer;
     border-radius: 100%;
 }
@@ -41782,8 +41782,8 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     padding: 1px 3px;
     margin-right: 10px;
     color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
+    background-color: #ea2a28;
+    border-color: #ea2a28;
 }
 
 .pop-up-housing {

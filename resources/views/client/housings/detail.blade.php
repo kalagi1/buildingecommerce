@@ -726,11 +726,11 @@
                                                 <g id="Frame 21409">
                                                     <g id="Group 6385">
                                                         <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                            height="48" rx="8" fill="#e54242 " />
+                                                            height="48" rx="8" fill="#ea2a28" />
                                                         <g id="Group 2664">
                                                             <rect id="Rectangle 316" width="32"
                                                                 height="32" rx="4"
-                                                                fill="#e54242 " />
+                                                                fill="#ea2a28" />
                                                             <g id="Group 72">
                                                                 <path id="Rectangle 12"
                                                                     d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"

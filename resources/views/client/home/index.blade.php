@@ -763,7 +763,7 @@
         }
 
         .modal12 {
-            background-image: linear-gradient(135deg, #e54242 5.77%, #fff 5.77%, #fff 25%, #111 25%, #111 30.77%, #fff 30.77%, #fff 50%, #e54242 50%, #e54242 55.77%, #fff 55.77%, #fff 75%, #111 75%, #111 80.77%, #fff 80.77%, #fff 100%);
+            background-image: linear-gradient(135deg, #ea2a285.77%, #fff 5.77%, #fff 25%, #111 25%, #111 30.77%, #fff 30.77%, #fff 50%, #ea2a2850%, #ea2a2855.77%, #fff 55.77%, #fff 75%, #111 75%, #111 80.77%, #fff 80.77%, #fff 100%);
             background-size: 36.77px 36.77px;
             background-color: white;
         }
