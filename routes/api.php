@@ -118,6 +118,7 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+        Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
@@ -183,7 +184,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/client/password/update', [AuthController::class, "clientPasswordUpdate"])->name('client.password.update');
 
     Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
-    Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
 
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
