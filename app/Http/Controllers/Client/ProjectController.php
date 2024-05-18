@@ -437,6 +437,29 @@ class ProjectController extends Controller
         $term = $request->input('term');
         $deneme = null;
 
+        function slugify($text)
+        {
+            // Replace non-letter or digits by -
+            $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+            // Transliterate
+            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+            // Remove unwanted characters
+            $text = preg_replace('~[^-\w]+~', '', $text);
+
+            // Trim
+            $text = trim($text, '-');
+
+            // Remove duplicate -
+            $text = preg_replace('~-+~', '-', $text);
+
+            // Lowercase
+            $text = strtolower($text);
+
+            return $text;
+        }
+
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
         }
@@ -465,12 +488,15 @@ class ProjectController extends Controller
         $items = [];
 
         $cityTitle = null;
+        $citySlug = null;
         $cityID = null;
 
         $countyTitle = null;
+        $countySlug = null;
         $countyID = null;
 
         $neighborhoodTitle = null;
+        $neighborhoodSlug = null;
         $neighborhoodID = null;
 
 
@@ -519,48 +545,63 @@ class ProjectController extends Controller
                 ->get();
         }
 
+        
         foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
-
-                if ($paramValue == "satilik" || $paramValue == "devren-satilik" || $paramValue == "devren-kiralik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
-                    $opt = $paramValue;
-                    if ($opt) {
-                        $opt = $opt;
-                        if ($opt == "kiralik") {
+                if (in_array($paramValue, ["satilik", "devren-satilik", "devren-kiralik", "kiralik", "gunluk-kiralik"])) {
+                    switch ($paramValue) {
+                        case "kiralik":
                             $optName = "Kiralık";
-                        } elseif ($opt == "satilik") {
+                            break;
+                        case "satilik":
                             $optName = "Satılık";
-                        } elseif ($opt == "gunluk-kiralik") {
+                            break;
+                        case "gunluk-kiralik":
                             $optName = "Günlük Kiralık";
-                        } elseif ($opt == "devren-satilik") {
+                            break;
+                        case "devren-satilik":
                             $optName = "Devren Satılık";
-                        } elseif ($opt == "devren-kiralik") {
+                            break;
+                        case "devren-kiralik":
                             $optName = "Devren Kiralık";
-                        }
+                            break;
                     }
                 } else {
+                    // City check
+                    if (!$cityID) {
+                        $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
+                        if ($cityValue) {
+                            $cityTitle = $cityValue->title;
+                            $cityID = $cityValue->id;
+                            $citySlug = slugify($cityValue->title);
+                        }
+                    }
+        
+                    // County check
+                    if ($cityID && !$countyID) {
+                        $countyValue = District::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->where('ilce_sehirkey', $cityID)->first();
+                        if ($countyValue) {
+                            $countyTitle = $countyValue->ilce_title;
+                            $countyID = $countyValue->ilce_key;
+                            $countySlug = slugify($countyValue->ilce_title);
+                        }
+                    }
+        
+                    // Neighborhood check
+                    if ($countyID && !$neighborhoodID) {
+                        $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->where('mahalle_ilcekey', $countyID)->first();
+                        if ($neighborhoodValue) {
+                            $neighborhoodTitle = $neighborhoodValue->mahalle_title;
+                            $neighborhoodID = $neighborhoodValue->mahalle_key;
+                            $neighborhoodSlug = slugify($neighborhoodValue->mahalle_title);
+                        }
+                    }
+        
+                    // Housing status, type and parent type checks
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
-                    $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
-                    $countyValue = District::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->first();
-                    $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->first();
-
-                    if ($cityValue) {
-                        $cityTitle = $cityValue->title;
-                        $cityID = $cityValue->id;
-                    }
-
-                    if ($countyValue) {
-                        $countyTitle = $countyValue->ilce_title;
-                        $countyID = $countyValue->ilce_key;
-                    }
-
-                    if ($neighborhoodValue) {
-                        $neighborhoodTitle = $neighborhoodValue->mahalle_title;
-                        $neighborhoodID = $neighborhoodValue->mahalle_key;
-                    }
-
+        
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
                         $is_project = $item1->is_project;
@@ -568,15 +609,13 @@ class ProjectController extends Controller
                         $slugItem = $item1->slug;
                         $slug = $item1->id;
                     }
-
-
+        
                     if ($housingTypeParent) {
                         $items = HousingTypeParent::with("connections.housingType")->where("parent_id", $housingTypeParent->id)->get();
                         $housingTypeSlugName = $housingTypeParent->title;
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
-
-
+        
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
                         $housingTypeSlug = $housingType->slug;
@@ -584,14 +623,13 @@ class ProjectController extends Controller
                         $newHousingType = $housingType;
                     }
                 }
-
-
-                if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
-                    $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
-                }
             }
         }
-
+        
+        if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
+            $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
+        }
+        
         if ($slug) {
             if ($is_project) {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
@@ -982,8 +1020,7 @@ class ProjectController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
-
-        return view('client.all-projects.menu-list', compact('pageInfo', "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
+        return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
 
     public function allProjects($slug)
@@ -1242,7 +1279,7 @@ class ProjectController extends Controller
         return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
-    
+
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
     {
         $menu = Menu::getMenuItems();
