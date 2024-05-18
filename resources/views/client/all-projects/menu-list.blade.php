@@ -1241,7 +1241,7 @@
                                                         </a>
                                                         <p class="homes-address mb-3">
                                                             <a href="${res.housing_url}">
-                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
+                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                             </a>
                                                         </p>
                                                         <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
@@ -1329,7 +1329,7 @@
                                                                         <span>${res.title}</span>
                                                                     </a>
                                             <p class="homes-address mb-3">
-                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
+                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                                     
                                             </p>
                                             <!-- homes List -->
@@ -1608,7 +1608,6 @@
 
                 var listingDate = $("input[name='listing_date']:checked").val();
                 var corporateType = $("input[name='corporate_type']:checked").val();
-                console.log(listingDate);
                 drawList({
                     page: current_page,
                     city: $('#city').val(),
