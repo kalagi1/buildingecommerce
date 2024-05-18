@@ -48,7 +48,7 @@ class ProfileController extends Controller
     {
         $order = Reservation::where('id', $id)->first();
 
-        return view('institutional.Reservations.detail', compact('order'));
+        return view('institutional.reservations.detail', compact('order'));
     }
 
     public function upload(Request $request)
