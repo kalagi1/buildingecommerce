@@ -905,7 +905,7 @@
                         if (!countyID) {
                             $('#county').val('#');
                         } else {
-                            $('#county').val(countyID);
+                            $('#county').val(countyID).trigger("change");
 
                         }
 
@@ -954,7 +954,7 @@
                         if (!neighborhoodID) {
                             $('#neighborhood').val('#');
                         } else {
-                            $('#neighborhood').val(neighborhoodID);
+                            $('#neighborhood').val(neighborhoodID).trigger("change");
 
                         }
                     });
