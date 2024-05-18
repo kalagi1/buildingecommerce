@@ -820,7 +820,7 @@
             }
             if (countySlug) {
 
-                if (typeof cityID !== 'undefined') {
+                if (typeof countyID !== 'undefined') {
                     $('#county').val(countyID).trigger('change');
                 } else {
                     $('#county').val('#');
