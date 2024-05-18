@@ -1133,7 +1133,10 @@
                 title: title,
                 optional: optional,
                 checkTitle: checkTitle,
-                term: term
+                term: term,
+                city: city,
+                county: countyID,
+                neighborhood: neighborhoodID
 
             });
 
