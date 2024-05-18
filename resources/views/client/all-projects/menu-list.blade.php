@@ -1046,7 +1046,6 @@
                     currentData[e] = data[e];
             });
 
-            console.log(currentData);
 
             $.ajax({
                 method: "POST",
