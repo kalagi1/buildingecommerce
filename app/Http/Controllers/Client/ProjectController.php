@@ -685,6 +685,18 @@ class ProjectController extends Controller
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
 
+            if ($cityID) {
+                $query->where('city_id', $cityID);
+            }
+
+            if ($countyID) {
+                $query->where('county_id', $countyID);
+            }
+
+            if ($neighborhoodID) {
+                $query->where('neighborhood_id', $neighborhoodID);
+            }
+
 
             if ($housingType) {
                 $query->where('housing_type_id', $newHousingType);
