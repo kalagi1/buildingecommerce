@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\CartOrderRefund;
+use App\Models\reservationRefund;
 
 class ProfileController extends Controller
 {
@@ -41,6 +42,13 @@ class ProfileController extends Controller
         $order = CartOrder::where('id', $id)->first();
 
         return view('institutional.orders.detail', compact('order'));
+    }
+
+    public function reservationDetail($id)
+    {
+        $order = Reservation::where('id', $id)->first();
+
+        return view('institutional.Reservations.detail', compact('order'));
     }
 
     public function upload(Request $request)
@@ -78,6 +86,42 @@ class ProfileController extends Controller
         }
     }
 
+    public function reservationUpload(Request $request)
+    {
+
+        // dd($request->all());
+        // PDF dosyasını al
+        $pdfFile = $request->file('pdf_file');
+        // Gelen requestten order_id'yi alın
+        $reservation_id = $request->reservation_id;
+
+        // İlgili CartOrder'ı bulun
+        $reservation = Reservation::find($reservation_id);
+
+        // Dosya yüklendiyse devam et
+        if ($pdfFile && $reservation) {
+            // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
+            $newFileName = now()->format('H-i-s') . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'contract-pdf/' . $reservation->id;
+            $newFilePath = public_path($folderName);
+            $pdfFile->move($newFilePath, $newFileName);
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName; // Dosya yolu ve adını birleştirin
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $reservation->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
+            $reservation->path = $pdfPath; // Dosya yolunu kaydedin
+            $reservation->save();
+
+
+            return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
+        } else {
+            return redirect()->back()->with('error', 'PDF dosyası yüklenirken bir hata oluştu.');
+        }
+    }
+
+  
     public function cartOrderDetail(CartOrder $order)
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
@@ -257,4 +301,58 @@ class ProfileController extends Controller
     }
 
     
+
+    public function reservationRefund(Request $request) 
+    {
+        
+        $validatedData = $request->validate([
+            'terms' => 'required|boolean',
+            'name' => 'required|string|max:255',
+            'phone' => 'required',
+            'email' => 'required|string|email|max:255',
+            'content' => 'required|string',
+            'reservation_id' =>'required',
+            'return_bank' => 'required',
+            'return_iban' => 'required',
+        ]);
+
+        $userId = auth()->id();
+        
+        // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
+        $existingRefund = reservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
+
+        if ($existingRefund) {
+            // İade talebi zaten var, güncelle
+            $existingRefund->update([
+                'terms'       => $validatedData['terms'],
+                'name'        => $validatedData['name'],
+                'phone'       => $validatedData['phone'],
+                'email'       => $validatedData['email'],
+                'return_bank' => $validatedData['return_bank'],
+                'return_iban' => $validatedData['return_iban'],
+                'content'     => $validatedData['content'],
+                'status'      => '0',
+                'user_id'     => $userId
+            ]);
+        } else {
+            // İade talebi yok, yeni kayıt oluştur
+            $refund = new reservationRefund([
+                'terms'         => $validatedData['terms'],
+                'name'          => $validatedData['name'],
+                'phone'         => $validatedData['phone'],
+                'email'         => $validatedData['email'],
+                'return_bank'   => $validatedData['return_bank'],
+                'return_iban'   => $validatedData['return_iban'],
+                'content'       => $validatedData['content'],
+                'status'        => '0',
+                'user_id'       => $userId,
+                'reservation_id' => $validatedData['reservation_id']
+            ]);
+            $refund->save();
+        }
+
+        // İade talebi başarıyla kaydedildi mesajını döndür
+        return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
+    }
+
 }
