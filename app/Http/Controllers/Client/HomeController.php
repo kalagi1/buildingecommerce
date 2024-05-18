@@ -716,27 +716,12 @@ class HomeController extends Controller
             $obj = $obj->where('housings.city_id', $request->input('city'));
         }
 
-        if ($request->input('cityID')) {
-            $obj = $obj->where('housings.city_id', $request->input('cityID'));
-        }
-
-     
-
         if ($request->input('county')) {
             $obj = $obj->where('housings.county_id', $request->input('county'));
         }
 
         if ($request->input('neighborhood')) {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
-        }
-
-
-        if ($request->input('countyID')) {
-            $obj = $obj->where('housings.county_id', $request->input('countyID'));
-        }
-
-        if ($request->input('neighborhoodID')) {
-            $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhoodID'));
         }
 
         if ($request->input('term')) {
