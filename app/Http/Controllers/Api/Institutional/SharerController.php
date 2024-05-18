@@ -17,6 +17,7 @@ class SharerController extends Controller
 {
     public function show($id)
     {
+        return $id;
         $collection = Collection::where('id', $id)->first();
         $sharer = User::findOrFail(auth()->user()->id);
 
