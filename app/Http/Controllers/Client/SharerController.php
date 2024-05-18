@@ -416,7 +416,7 @@ class SharerController extends Controller
             return array_merge($item, $itemArray);
         }, $items->toArray(), $itemsArray->toArray());
 
-        return view('institutional.sharer-panuel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
+        return view('institutional.sharer-panel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
     }
 
     public function sharerPanel()
