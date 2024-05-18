@@ -896,7 +896,7 @@
                     $(".hiddenCityName").removeClass("d-none").addClass("d-flex").children(".cityNameP")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
-                        .children(".cityNameP").html(cityTitle);
+                        .children(".cityNameP").html(res.cityName);
 
                     res.counties.forEach((e) => {
                         $('#county').append(
@@ -941,7 +941,7 @@
                             ".countyNameP")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
-                        .children(".countyNameP").html(countyTitle);
+                        .children(".countyNameP").html(res.countyName);
 
 
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
@@ -983,7 +983,7 @@
                     ".countyNameP")
                 .wrap('<a></a>')
                 .parent('a').attr('href', newUrl)
-                .children(".countyNameP").html(neighborhoodName);
+                .children(".countyNameP").html(res.neighborhoodName);
 
 
         });
