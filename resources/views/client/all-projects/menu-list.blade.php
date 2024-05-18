@@ -880,7 +880,6 @@
 
                         $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
 
-                        console.log(res.neighborhoods);
                         res.neighborhoods.forEach((e) => {
                             $('#neighborhood').append(
                                 `<option value="${e.mahalle_key}">${e.mahalle_title}</option>`
