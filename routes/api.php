@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\Institutional\SharerController;
 use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
@@ -127,7 +128,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
             Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
         });
 
 
@@ -183,6 +183,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/client/password/update', [AuthController::class, "clientPasswordUpdate"])->name('client.password.update');
 
     Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
+    Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
 
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
