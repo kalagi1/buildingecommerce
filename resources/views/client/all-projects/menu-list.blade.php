@@ -1140,11 +1140,7 @@
                 title: title,
                 optional: optional,
                 checkTitle: checkTitle,
-                term: term,
-                city: cityID,
-                county: countyID,
-                neighborhood: neighborhoodID
-
+                term: term
             });
 
 
