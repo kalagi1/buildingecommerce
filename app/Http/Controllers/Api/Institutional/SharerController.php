@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class SharerController extends Controller
 {
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $collection = Collection::where('id', $id)->first();
         $sharer = User::findOrFail(auth()->user()->id);
