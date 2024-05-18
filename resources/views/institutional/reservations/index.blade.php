@@ -134,7 +134,7 @@
                                                     
 
                                                     <td class="order_details"> 
-                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                        <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
                                                     
                                                         {{-- <td class="order_details">
@@ -290,7 +290,7 @@
 
 
                                                     <td class="order_details"> 
-                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                        <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
                                                     
                                                 </tr>
@@ -418,7 +418,7 @@
 
 
                                                     <td class="order_details"> 
-                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                        <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
                                                     
                                                 </tr>
@@ -542,7 +542,7 @@
                                                             </td> --}}
 
                                                     <td class="order_details"> 
-                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                        <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
                                                     
                                                 </tr>
@@ -737,7 +737,7 @@
                                                         {{ $order->owner->email }}
                                                     </td>
                                                     <td class="order_details"> 
-                                                        <a href="{{ route('admin.reservation.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                        <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
                                                     </td>
                                                 </tr>
                                             @endforeach
