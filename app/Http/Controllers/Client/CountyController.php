@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\New_;
 
 class CountyController extends Controller
 {
-    private function slugify($text)
+     function slugify($text)
     {
         // Replace non-letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);

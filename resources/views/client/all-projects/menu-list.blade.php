@@ -875,7 +875,6 @@
         })
 
         $('#city').on('change', function() {
-console.log("asssass");
             $.ajax({
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
