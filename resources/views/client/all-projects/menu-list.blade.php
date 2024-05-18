@@ -896,7 +896,6 @@
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
                     // Şehir adını slug formatına çevir
-                    var slug = res.cityName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
                     // Mevcut URL'yi al
                     var currentUrl = window.location.href;
@@ -908,13 +907,12 @@
                     $(".hiddenCityName").removeClass("d-none").addClass("d-flex").children(".cityNameP")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
-                        .children(".cityNameP").html(res.cityName);
+                        .children(".cityNameP").html(cityTitle);
 
                     res.counties.forEach((e) => {
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
                         );
-                        $('#county').val('#');
                     });
                     $('#county').select2({
                         placeholder: 'İlçe',
@@ -934,7 +932,6 @@
                 success: function(res) {
                     $('#neighborhood').empty();
                     // Şehir adını slug formatına çevir
-                    var slug = res.countyName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
                     // Mevcut URL'yi al
                     var currentUrl = window.location.href;
@@ -947,7 +944,7 @@
                             ".countyNameP")
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
-                        .children(".countyNameP").html(res.countyName);
+                        .children(".countyNameP").html(countyTitle);
 
 
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
@@ -957,7 +954,6 @@
                         $('#neighborhood').append(
                             `<option value="${e.mahalle_key}">${e.mahalle_title}</option>`
                         );
-                        $('#neighborhood').val('#');
                     });
 
 
@@ -993,12 +989,6 @@
                         .wrap('<a></a>')
                         .parent('a').attr('href', newUrl)
                         .children(".countyNameP").html(res.neighborhoodName);
-
-                    if (typeof neighborhoodID !== 'undefined') {
-                        $('#neighborhood').val(neighborhoodID).trigger('change');
-                    } else {
-                        $('#neighborhood').val('#');
-                    }
 
 
                 }
