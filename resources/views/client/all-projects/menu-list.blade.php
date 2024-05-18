@@ -810,126 +810,23 @@
 
         $(document).ready(function() {
             if (citySlug) {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-counties') }}/" + cityID,
-                    success: function(res) {
-                        $('#county').empty();
-                        $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
-
-
-                        // Mevcut URL'yi al
-                        var currentUrl = window.location.href;
-
-                        // Yeni URL'yi oluştur
-                        var newUrl = currentUrl + '/' + citySlug;
-
-                        // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
-                        $(".hiddenCityName").removeClass("d-none").addClass("d-flex").children(
-                                ".cityNameP")
-                            .wrap('<a></a>')
-                            .parent('a').attr('href', newUrl)
-                            .children(".cityNameP").html(cityTitle);
-
-                        res.counties.forEach((e) => {
-                            $('#county').append(
-                                `<option value="${e.ilce_key}">${e.ilce_title}</option>`
-                            );
-                        });
-
-                        // Eğer countyID varsa, onu seçili yap
-                        if (typeof countyID !== 'undefined') {
+                if (typeof countyID !== 'undefined') {
                             $('#county').val(countyID).trigger('change');
                         } else {
                             $('#county').val('#');
                         }
-                        $('#county').select2({
-                            placeholder: 'İlçe',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-                    }
-                });
 
             }
 
 
             if (countyTitle) {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-neighborhoods-for-client') }}/" + countyID,
-                    success: function(res) {
-                        $('#neighborhood').empty();
-
-                        var currentUrl = window.location.href;
-
-                        // Yeni URL'yi oluştur
-                        var newUrl = currentUrl + '/' + countySlug;
-
-                        // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
-                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex").children(
-                                ".countyNameP")
-                            .wrap('<a></a>')
-                            .parent('a').attr('href', newUrl)
-                            .children(".countyNameP").html(countyTitle);
-
-
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
-
-                        $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
-
-                        res.neighborhoods.forEach((e) => {
-                            $('#neighborhood').append(
-                                `<option value="${e.mahalle_key}">${e.mahalle_title}</option>`
-                            );
-                        });
-
+           
                         // Eğer countyID varsa, onu seçili yap
                         if (typeof neighborhoodID !== 'undefined') {
                             $('#neighborhood').val(neighborhoodID).trigger('change');
                         } else {
                             $('#neighborhood').val('#');
                         }
-
-
-                        $('#neighborhood').select2({
-                            placeholder: 'Mahalle',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-
-                    }
-                });
-            }
-
-            if (neighborhoodTitle) {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-neighborhood') }}/" + neighborhoodID,
-                    success: function(res) {
-
-
-                        // Mevcut URL'yi al
-                        var currentUrl = window.location.href;
-
-                        // Yeni URL'yi oluştur
-                        var newUrl = currentUrl + '/' + neighborhoodSlug;
-
-                        // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
-                        $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex").children(
-                                ".countyNameP")
-                            .wrap('<a></a>')
-                            .parent('a').attr('href', newUrl)
-                            .children(".countyNameP").html(neighborhoodTitle);
-
-
-
-                    }
-                });
-
             }
         });
 
@@ -1126,9 +1023,6 @@
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
-            var cityID = @json($cityID ?? null);
-            var countyID = @json($countyID ?? null);
-            var neighborhoodID = @json($neighborhoodID ?? null);
 
 
             var term = @json($term ?? null);
