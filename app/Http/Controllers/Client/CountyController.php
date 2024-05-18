@@ -50,7 +50,7 @@ class CountyController extends Controller
     public function getNeighborhood($neighborhood)
     {
        
-        $neighborhood = Neighborhood::where("mahalle_key", $neighborhood)->first();
+        $neighborhood = Neighborhood::where("mahalle_id", $neighborhood)->first();
         function slugifys($text)
         {
             // Replace non-letter or digits by -
