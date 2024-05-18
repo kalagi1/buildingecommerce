@@ -880,7 +880,7 @@
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
-                    console.log(res);
+                   
                     $('#county').empty();
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
@@ -915,7 +915,7 @@
                         width: '100%',
                         searchInputPlaceholder: 'Ara...'
                     });
-
+                    filterNow();
                 }
             });
         });
@@ -965,7 +965,7 @@
                         width: '100%',
                         searchInputPlaceholder: 'Ara...'
                     });
-
+                    filterNow();
 
                 }
             });
@@ -987,7 +987,7 @@
                         .parent('a').attr('href', newUrl)
                         .children(".countyNameP").html(res.neighborhoodName);
 
-
+                        filterNow();
                 }
             });
 
