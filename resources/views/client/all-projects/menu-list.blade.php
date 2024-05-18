@@ -894,7 +894,10 @@
 
                     // .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
                     cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr('href', newUrl);
-
+                   
+                    $('#county').append(
+                            `<option value="#">İlçe</option>`
+                        );
                     res.counties.forEach((e) => {
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
@@ -943,6 +946,9 @@
 
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
+                    $('#neighborhood').append(
+                            `<option value="#">Mahalle</option>`
+                        );
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
                     res.neighborhoods.forEach((e) => {
                         $('#neighborhood').append(
