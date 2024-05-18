@@ -592,7 +592,7 @@ class ProjectController extends Controller
                         $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->where('mahalle_ilcekey', $countyID)->first();
                         if ($neighborhoodValue) {
                             $neighborhoodTitle = $neighborhoodValue->mahalle_title;
-                            $neighborhoodID = $neighborhoodValue->mahalle_key;
+                            $neighborhoodID = $neighborhoodValue->mahalle_id;
                             $neighborhoodSlug = slugify($neighborhoodValue->mahalle_title);
                         }
                     }
