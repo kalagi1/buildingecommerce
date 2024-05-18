@@ -881,7 +881,6 @@
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
-                    console.log(res);
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
                     // Şehir adını slug formatına çevir
@@ -926,6 +925,7 @@
                 method: "GET",
                 url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                 success: function(res) {
+                    console.log(res);
                     $('#neighborhood').empty();
                     // Şehir adını slug formatına çevir
 
@@ -933,7 +933,7 @@
                     var currentUrl = window.location.href;
 
                     // Yeni URL'yi oluştur
-                    var newUrl = currentUrl + '/' + slug;
+                    var newUrl = currentUrl + '/' + countySlug;
 
                     // .hiddenCityName altındaki .cityNameP öğesini a etiketi içine al ve href olarak newUrl'yi kullan
                     $(".hiddenCountyName").removeClass("d-none").addClass("d-flex").children(
@@ -982,7 +982,7 @@
                     ".countyNameP")
                 .wrap('<a></a>')
                 .parent('a').attr('href', newUrl)
-                .children(".countyNameP").html(res.neighborhoodName);
+                .children(".countyNameP").html(neighborhoodName);
 
 
         });
