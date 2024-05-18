@@ -880,6 +880,7 @@
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
+                    console.log(res);
                     $('#county').empty();
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
