@@ -121,24 +121,24 @@ $isExpired = $now->greaterThan($expirationDate);
                                         ])
 
                                             }}">
-                                        {{ $order->housing->id }}
+                                        {{ $order->housing->id + 2000000 }}
                                     </a>
                                 </div>
 
                                 <div class="col-md-2 text-center">
-                                    <p>Rezervasyon Tarihi</p>
-                                    <span><strong>{{ date('d', strtotime($order->created_at)) . ' ' . $months[date('n', strtotime($order->created_at)) - 1] . ' ' . date('Y , H:i', strtotime($order->created_at)) }}</strong></span>
+                                    <p>Oluşturma Tarihi</p>
+                                    <span><strong>{{ date('d', strtotime($order->created_at)) . ' ' . $months[date('n', strtotime($order->created_at)) - 1] . ' ' . date('Y', strtotime($order->created_at)) }}</strong></span>
                                 </div>
 
                                 <div class="col-md-2 text-center">
-                                    <p>Rezervasyon Giriş Tarihi</p>
-                                    <span><strong>{{ date('d', strtotime($order->check_in_date)) . ' ' . $months[date('n', strtotime($order->check_in_date)) - 1] . ' ' . date('Y , H:i', strtotime($order->check_in_date)) }}</strong></span>
+                                    <p>Giriş Tarihi</p>
+                                    <span><strong>{{ date('d', strtotime($order->check_in_date)) . ' ' . $months[date('n', strtotime($order->check_in_date)) - 1] . ' ' . date('Y', strtotime($order->check_in_date)) }}</strong></span>
                                 </div>
 
 
                                 <div class="col-md-2 text-center">
-                                    <p>Rezervasyon Çıkış Tarihi</p>
-                                    <span><strong>{{ date('d', strtotime($order->check_out_date)) . ' ' . $months[date('n', strtotime($order->check_out_date)) - 1] . ' ' . date('Y , H:i', strtotime($order->check_out_date)) }}</strong></span>
+                                    <p>Çıkış Tarihi</p>
+                                    <span><strong>{{ date('d', strtotime($order->check_out_date)) . ' ' . $months[date('n', strtotime($order->check_out_date)) - 1] . ' ' . date('Y', strtotime($order->check_out_date)) }}</strong></span>
                                 </div>
 
 
@@ -285,7 +285,7 @@ $isExpired = $now->greaterThan($expirationDate);
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
                                 <i class="fa fa-edit"></i>
-                                <h4>Sipariş Notları </h4>
+                                <h4>Rezervasyon Notları </h4>
                             </div>
                             <div class="row py-3 px-3">
                                 <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10"
@@ -323,7 +323,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">İlan Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{$order->price}}₺
+                                            {{number_format($order->price, 0, ',', '.')}}₺
                                         </p>
                                     </div>
 
@@ -331,7 +331,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Toplam Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{$order->total_price}}₺
+                                            {{number_format($order->total_price, 0, ',', '.')}}₺
                                         </p>
                                     </div>
 
@@ -339,7 +339,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Param Güvende Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{$order->money_is_safe}}₺
+                                            {{number_format($order->money_is_safe, 0, ',', '.')}}₺
                                         </p>
                                     </div>
 
@@ -347,7 +347,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödenen Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{($order->total_price / 2) + $order->money_is_safe}}₺
+                                            {{number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.')}}₺
                                         </p>
                                     </div>
 
@@ -540,15 +540,15 @@ $isExpired = $now->greaterThan($expirationDate);
                    <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title mb-4">Sipariş Durumu</h3>
+                                <h3 class="card-title mb-4">Rezervasyon Durumu</h3>
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
                                     <select class="form-select mb-4" name="status" id="status"
                                         onchange="submitForm()">
                                         <option value="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}"
-                                            @if ($order->status == 1) selected @endif>İlan Satışını Onayla</option>
+                                            @if ($order->status == 1) selected @endif>Onayla</option>
                                         <option value="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}"
-                                            @if ($order->status != 1) selected @endif>İlan Satışını Reddet</option>
+                                            @if ($order->status != 1) selected @endif>Reddet</option>
                                         <option value="" @if ($order->status == 0) selected @endif>Onay
                                             Bekleniyor</option>
 
@@ -719,7 +719,16 @@ $isExpired = $now->greaterThan($expirationDate);
             }
         }
     }
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+            number = number.toFixed(decimals);
+            var parts = number.toString().split(dec_point);
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+            return parts.join(dec_point);
+        }
 </script>
+
+
 @endsection
 
 @section('css')
