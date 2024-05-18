@@ -11,6 +11,28 @@ use PhpParser\Node\Expr\New_;
 
 class CountyController extends Controller
 {
+    private function slugify($text)
+    {
+        // Replace non-letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // Transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // Remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // Trim
+        $text = trim($text, '-');
+
+        // Remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // Lowercase
+        $text = strtolower($text);
+
+        return $text;
+    }
     public function getCounties($city)
     {
         $city = City::where('id', $city)->first();
@@ -20,18 +42,20 @@ class CountyController extends Controller
 
         return response()->json([
             'counties' => $counties,
-            'cityName' => $cityName
+            'cityName' => $city->title,
+            "citySlug" => slugify($city->title)
         ]);
     }
 
     public function getNeighborhood($neighborhood)
     {
+       
         $neighborhood = Neighborhood::where("mahalle_id", $neighborhood)->first();
-        $neighborhoodName = mb_strtolower($neighborhood->mahalle_title, 'UTF-8');
-        $neighborhoodName = mb_strtoupper(mb_substr($neighborhoodName, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($neighborhoodName, 1, null, 'UTF-8');
+
 
         return response()->json([
-            'neighborhoodName' => $neighborhoodName
+            'neighborhoodName' => $neighborhood->mahalle_title,
+            "neighborhoodSlug" => slugify($neighborhood->mahalle_title)
         ]);
     }
 
@@ -58,7 +82,9 @@ class CountyController extends Controller
 
         return response()->json([
             'neighborhoods' => $neighborhoods,
-            'countyName' => $countyName
+            'countyName' => $county->ilce_title,
+            "countySlug" => slugify($county->ilce_title)
+
         ]);
     }
 }
