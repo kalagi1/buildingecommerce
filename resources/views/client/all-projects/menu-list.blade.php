@@ -1052,6 +1052,13 @@
                         );
                         $('#neighborhood').val('#');
                     });
+
+                    if (typeof neighborhoodID !== 'undefined') {
+                            $('#neighborhood').val(neighborhoodID).trigger('change');
+                        } else {
+                            $('#neighborhood').val('#');
+                        }
+
                     $('#neighborhood').select2({
                         placeholder: 'Mahalle',
                         width: '100%',
