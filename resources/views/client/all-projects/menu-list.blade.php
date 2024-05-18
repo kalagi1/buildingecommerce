@@ -945,7 +945,7 @@
                         if (!neighborhoodID) {
                             $('#neighborhood').val('#');
                         } else {
-                            $('#neighborhood').val(neighborhoodID).trigger("change");
+                            $('#neighborhood').val(neighborhoodID);
 
                         }
                     });
