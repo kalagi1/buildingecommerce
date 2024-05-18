@@ -28,81 +28,30 @@ class UserController extends Controller
     {
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
-        })->flatten();
+        })->unique()->toArray();
 
-        $specialPermissions = [
-            'Projects',
-            'CreateProject',
-            'GetProjects',
-            'DeleteProject',
-            'UpdateProject',
-            'GetProjectById',
-        ];
+        if ($user->type != "1" || $user->type != "3") {
 
-        $reservationPermissions = [
-            'Reservations',
-            'CreateReservation',
-            'GetReservations',
-            'DeleteReservation',
-            'UpdateReservation',
-            'GetReservationById',
-        ];
+            if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
+                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+            }
 
-        $offerPermissions = [
-            "Offers",
-            "CreateOffer",
-            "Offers",
-            "DeleteOffer",
-            "GetOfferById",
-            "UpdateOffer",
-            "GetOffers"
-        ];
+            if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
+                $permissions = array_diff($permissions, [
+                    "Offers",
+                    "CreateOffer",
+                    "Offers",
+                    "DeleteOffer",
+                    "GetOfferById",
+                    "UpdateOffer",
+                    "GetOffers"
+                ]);
+            }
 
-        $specialPermissionKeys = [
-            'ChangePassword',
-            'EditProfile',
-            'ViewDashboard',
-            'ShowCartOrders',
-            'GetMyCollection',
-            'GetMyEarnings',
-            'neighborView',
-            'GetOrders',
-            'GetReceivedOffers',
-            'GetGivenOffers',
-            'GetSwapApplications',
-            'MyReservations',
-            'Reservations',
-            'Orders'
-        ];
-
-        $filteredPermissions  = $permissions;
-
-        // Başlangıçta orijinal izinleri kullanarak bir kopya oluşturun
-        if ($user->corporate_type == 'Emlak Ofisi') {
-
-            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissions) {
-                return in_array($permission->key, $specialPermissions);
-            });
+            if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+            }
         }
-
-        // Eğer 'Turizm Amaçlı Kiralama' değilse, 'reservationPermissions'ı çıkartın
-        if ($user->corporate_type !== 'Turizm Amaçlı Kiralama') {
-            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($reservationPermissions) {
-                return in_array($permission->key, $reservationPermissions);
-            });
-        }
-
-
-        if ($user->corporate_type !== 'İnşaat Ofisi') {
-            $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($offerPermissions) {
-                return in_array($permission->key, $offerPermissions);
-            });
-        }
-
-        $filteredPermissions = $filteredPermissions->reject(function ($permission) use ($specialPermissionKeys) {
-            return in_array($permission->key, $specialPermissionKeys);
-        });
-        return $filteredPermissions;
 
         $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
             ->where("status", "0")->get();
@@ -137,7 +86,7 @@ class UserController extends Controller
             "balanceStatus2" => $balanceStatus2,
             "successPercentage" => $successPercentage,
             "collections" => $collections,
-            "permissions" => $filteredPermissions,
+            "permissions" => $permissions,
 
         ]);
     }
