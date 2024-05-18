@@ -729,81 +729,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-           function filterNow() {
-                let room_count = [];
-                $('#room_count_field .mb-2').each(function() {
-                    let i = $(this).find('.form-check-input');
-                    if (i.is(':checked')) {
-                        room_count.push(i.attr('id').replace('_', '+'));
-                    }
-                });
-
-                let post_date;
-                $('#post_date_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    if (i.is(':checked')) {
-                        post_date = i.attr('id');
-                        return false;
-                    }
-                });
-
-                let from_owner;
-                $('#from_owner_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    if (i.is(':checked')) {
-                        from_owner = i.attr('id');
-                        return false;
-                    }
-                });
-
-                function getCheckedValues(selector) {
-                    return $(selector + ':checked').map(function() {
-                        return $(this).val();
-                    }).get();
-                }
-
-                function getInputValue(selector) {
-                    var input = $(selector);
-                    return input.length ? input.val() : '';
-                }
-
-                var filterValues = {};
-
-                @foreach ($filters as $filter)
-                    @if ((isset($filter['type']) && $filter['type'] == 'select') || $filter['type'] == 'checkbox-group')
-                        filterValues["{{ $filter['name'] }}"] = getCheckedValues(
-                            'input[name="{{ $filter['name'] }}[]"]');
-                    @else
-                        @if (isset($filter['text_style']) && $filter['text_style'] == 'min-max')
-                            filterValues["{{ $filter['name'] }}-min"] = getInputValue(
-                                'input[name="{{ $filter['name'] }}-min"]').replace(/\./g, "");
-                            filterValues["{{ $filter['name'] }}-max"] = getInputValue(
-                                'input[name="{{ $filter['name'] }}-max"]').replace(/\./g, "");
-                        @else
-                            filterValues["{{ $filter['name'] }}"] = getInputValue(
-                                'input[name="{{ $filter['name'] }}"]');
-                        @endif
-                    @endif
-                @endforeach
-
-                var listingDate = $("input[name='listing_date']:checked").val();
-                var corporateType = $("input[name='corporate_type']:checked").val();
-                drawList({
-                    page: current_page,
-                    city: $('#city').val(),
-                    county: $('#county').val(),
-                    project_type: $("#project_type").val(),
-                    neighborhood: $('#neighborhood').val(),
-                    filterDate: $(".filter-date:checked").val(),
-                    zoning: $("#zoning").val(),
-                    sort: sortSelectFilters($('#sort-select').val()),
-                    listing_date: listingDate,
-                    corporateType: corporateType,
-                    ...filterValues
-                });
-
-            }
-
         // Görünüm değiştirme düğmeleri için işlev
         function changeView(view) {
             // Aktif görünüm düğmesinin rengini güncelle
@@ -1628,7 +1553,81 @@
         $(function() {
             drawList();
 
-         
+            function filterNow() {
+                let room_count = [];
+                $('#room_count_field .mb-2').each(function() {
+                    let i = $(this).find('.form-check-input');
+                    if (i.is(':checked')) {
+                        room_count.push(i.attr('id').replace('_', '+'));
+                    }
+                });
+
+                let post_date;
+                $('#post_date_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    if (i.is(':checked')) {
+                        post_date = i.attr('id');
+                        return false;
+                    }
+                });
+
+                let from_owner;
+                $('#from_owner_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    if (i.is(':checked')) {
+                        from_owner = i.attr('id');
+                        return false;
+                    }
+                });
+
+                function getCheckedValues(selector) {
+                    return $(selector + ':checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                }
+
+                function getInputValue(selector) {
+                    var input = $(selector);
+                    return input.length ? input.val() : '';
+                }
+
+                var filterValues = {};
+
+                @foreach ($filters as $filter)
+                    @if ((isset($filter['type']) && $filter['type'] == 'select') || $filter['type'] == 'checkbox-group')
+                        filterValues["{{ $filter['name'] }}"] = getCheckedValues(
+                            'input[name="{{ $filter['name'] }}[]"]');
+                    @else
+                        @if (isset($filter['text_style']) && $filter['text_style'] == 'min-max')
+                            filterValues["{{ $filter['name'] }}-min"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}-min"]').replace(/\./g, "");
+                            filterValues["{{ $filter['name'] }}-max"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}-max"]').replace(/\./g, "");
+                        @else
+                            filterValues["{{ $filter['name'] }}"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}"]');
+                        @endif
+                    @endif
+                @endforeach
+
+                var listingDate = $("input[name='listing_date']:checked").val();
+                var corporateType = $("input[name='corporate_type']:checked").val();
+                drawList({
+                    page: current_page,
+                    city: $('#city').val(),
+                    county: $('#county').val(),
+                    project_type: $("#project_type").val(),
+                    neighborhood: $('#neighborhood').val(),
+                    filterDate: $(".filter-date:checked").val(),
+                    zoning: $("#zoning").val(),
+                    sort: sortSelectFilters($('#sort-select').val()),
+                    listing_date: listingDate,
+                    corporateType: corporateType,
+                    ...filterValues
+                });
+
+            }
+
 
             $('#sort-select').on('change', filterNow);
             $("#submit-filters").on("change", filterNow);
