@@ -26,13 +26,9 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        // $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-        //     return $rolePermission->permissions->pluck('key');
-        // })->unique()->toArray();
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->flatten();
-        return $permissions;
 
         $specialPermissions = [
             'Projects',
