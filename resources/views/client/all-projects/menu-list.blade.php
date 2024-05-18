@@ -868,9 +868,13 @@
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
-                   
+                    $('#county').append(
+                            `<option value="#">İlçe Seçiniz</option>`
+                        );
                     $("#neighborhood").empty();
-                   
+                    $('#neighborhood').append(
+                            `<option value="">Mahalle</option>`
+                        );
                     $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                     $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
@@ -921,7 +925,9 @@
                 success: function(res) {
                     console.log(res);
                     $("#neighborhood").empty();
-                
+                    $('#neighborhood').append(
+                            `<option value="#">Mahalle Seçiniz</option>`
+                        );
                     // İlçe adını slug formatına çevir
                     var countySlug = res.countySlug;
 
