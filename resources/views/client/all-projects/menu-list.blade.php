@@ -809,6 +809,7 @@
 
 
         $(document).ready(function() {
+            console.log(cityID);
             if (cityID) {
                 $('#city').val(cityID).trigger('change');
 
