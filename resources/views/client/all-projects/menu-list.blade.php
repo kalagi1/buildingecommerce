@@ -856,7 +856,7 @@
             }
 
 
-            if (countySlug) {
+            if (countyTitle) {
                 $.ajax({
                     method: "GET",
                     url: "{{ url('get-neighborhoods-for-client') }}/" + countyID,
