@@ -433,13 +433,13 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title mb-4">İade Talebi</h3>
+                                    <h3 class="card-title mb-4">Rezervasyon İptal Talebi</h3>
                                     <h6 class="mb-2"></h6>
                                     @if (!$order->refund)
                                         <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">İade Talebinde Bulun</button>
+                                            data-bs-target="#exampleModal">İptal Talebinde Bulun</button>
                                     @else
-                                        <p>İade Başvurunuz İnceleniyor</p>
+                                        <p>Rezervasyon İptal Başvurunuz İnceleniyor</p>
                                         <br>
                                         <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
                                     @endif
@@ -659,10 +659,10 @@
                                                                             <div class="mb-2"><label class="form-label"
                                                                                     for="bootstrap-wizard-validation-wizard-phone">İade
                                                                                     Yapılacak IBAN</label><input
-                                                                                    class="form-control" type="number"
+                                                                                    class="form-control" type="text"
                                                                                     name="return_iban" placeholder="IBAN"
                                                                                     id="bootstrap-wizard-validation-wizard-phone"
-                                                                                    required="required">
+                                                                                    required="required" oninput="formatIBAN(this)">
                                                                                 <div class="invalid-feedback">Alan
                                                                                     Zorunludur.
                                                                                 </div>
@@ -878,6 +878,32 @@
             return parts.join(dec_point);
         }
     </script>
+
+<script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var value = input.value.toUpperCase().replace(/\s+/g, '');
+        var formattedIBAN = 'TR';
+
+        // TR harflerini başa eklemek için
+        if (value.startsWith('TR')) {
+            value = value.substring(2);
+        }
+
+        // Gelen değerden sadece rakamları al ve ilk 24 karakteri sınırla
+        var numbersOnly = value.replace(/[^0-9]/g, '').substring(0, 22);
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += ' ' + numbersOnly.substr(i, 4);
+        }
+
+        // Formatlanmış IBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+</script>
+
+
 @endsection
 
 @section('css')
