@@ -54,9 +54,9 @@ class BoughtController extends Controller
 
 
         $cartOrders = $projectOrders->merge($housingOrders);
-        return $cartOrders;
+
         return response()->json([
-            "cartOrders" => $cartOrders
+            "solds" => $cartOrders
         ]);
     }
 }
