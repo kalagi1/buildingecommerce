@@ -835,7 +835,7 @@
 
             function buildNewUrl(slug, type) {
                 var currentUrl = new URL(window.location.href);
-                var pathnameParts = currentUrl.pathname.split('/');
+                var pathnameParts = currentUrl;
                 var categoryIndex = pathnameParts.indexOf('kategori');
 
                 // Ensure that only one type of slug is added at a time, based on the type (city, county, neighborhood)
