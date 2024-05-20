@@ -126,10 +126,6 @@
                                                 @endif
                                             </td>
                                         </tr>
-                                    @else
-                                        <tr>
-                                            <td colspan="9">Veri bulunamadı</td>
-                                        </tr>
                                     @endif
                                 @else
                                     @if(isset($item->cart) && isset($item->cart->cart))
