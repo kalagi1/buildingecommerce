@@ -834,30 +834,30 @@
             }
 
             function buildNewUrl(slug, type) {
-                var currentUrl = new URL(window.location.href);
-                var pathnameParts = currentUrl;
-                var categoryIndex = pathnameParts.indexOf('kategori');
+    var currentUrl = new URL(window.location.href);
+    var pathnameParts = currentUrl.pathname.split('/');
+    var categoryIndex = pathnameParts.indexOf('kategori');
 
-                // Ensure that only one type of slug is added at a time, based on the type (city, county, neighborhood)
-                if (type === 'city') {
-                    pathnameParts = pathnameParts.slice(0, categoryIndex + 2);
-                    pathnameParts.push(slug);
-                } else if (type === 'county') {
-                    // Remove any existing county and neighborhood slugs
-                    if (pathnameParts.length > categoryIndex + 3) {
-                        pathnameParts = pathnameParts.slice(0, categoryIndex + 3);
-                    }
-                    pathnameParts.push(slug);
-                } else if (type === 'neighborhood') {
-                    // Remove any existing neighborhood slugs
-                    if (pathnameParts.length > categoryIndex + 4) {
-                        pathnameParts = pathnameParts.slice(0, categoryIndex + 4);
-                    }
-                    pathnameParts.push(slug);
-                }
+    // Ensure that only one type of slug is added at a time, based on the type (city, county, neighborhood)
+    var indexToSlice = categoryIndex + 2; // Default slice index, after 'kategori'
+    if (type === 'city') {
+        pathnameParts = pathnameParts.slice(0, categoryIndex + 2);
+    } else if (type === 'county') {
+        indexToSlice = categoryIndex + 3;
+    } else if (type === 'neighborhood') {
+        indexToSlice = categoryIndex + 4;
+    }
 
-                return currentUrl.origin + pathnameParts.join('/');
-            }
+    // Remove any existing slugs beyond the category
+    if (pathnameParts.length > indexToSlice) {
+        pathnameParts = pathnameParts.slice(0, indexToSlice);
+    }
+
+    // Push the new slug
+    pathnameParts.push(slug);
+
+    return currentUrl.origin + pathnameParts.join('/');
+}
 
             $('#city').on('change', function() {
                 $.ajax({
