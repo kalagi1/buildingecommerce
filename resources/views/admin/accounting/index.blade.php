@@ -96,7 +96,7 @@
                                             </td>
                                             <td>
                                                 @if (isset($item->earn))
-                                                    <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') : null }} ₺</span>
+                                                    <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) , 0, ',', '.') : null }} ₺</span>
                                                     @if($reservation->money_trusted)
                                                         <div class="d-flex" style="align-items: center;">
                                                             {{$reservation->money_is_safe}} ₺'si param güvende ödemesidir
