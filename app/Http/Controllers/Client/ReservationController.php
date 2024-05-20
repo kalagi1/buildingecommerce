@@ -87,7 +87,7 @@ class ReservationController extends Controller
         // Tarih aralığı farkını hesapla
         $diffDate = $check_out_date->diffInDays($check_in_date);
 
-        $payPrice = $reservation['total_price'];
+        $payPrice = $reservation['total_price'] / 2;
 
         return view('payment.reservation.index', compact('payPrice', "hasCounter", 'diffDate', 'image', 'reservation', 'bankAccounts', 'housing'));
     }
