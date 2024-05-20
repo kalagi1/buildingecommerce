@@ -61,6 +61,8 @@
                                         <tr>
                                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_no">Kod</th>
+                                                <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                                data-sort="order_no">Tarih</th>
                                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                                 data-sort="order_image">Konut</th>
                                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -97,14 +99,16 @@
                                                     <td class="order_no">
                                                         {{ $order->key }}
                                                     </td>
+                                                    <td>
+                                                          {{ $order->created_at }}
+                                                    </td>
                                                     <td class="order_image">
                                                         <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find($order->housing_id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                            width="100px" style="object-fit: contain;" />
+                                                            width="50px" height="50px" style="object-fit: contain;" />
                                                         <br>
 
-                                                        {{ $order->created_at }} <br>
-                                                        {{ App\Models\Housing::find($order->housing_id ?? 0)->title }} <br>
-                                                        {{ $order->key }}
+                                                       <br>
+                                                        {{ App\Models\Housing::find($order->housing_id ?? 0)->title }} 
 
                                                     </td>
                                                     <td class="order_amount">
