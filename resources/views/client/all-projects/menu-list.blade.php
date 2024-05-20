@@ -808,149 +808,141 @@
         var citySlug = @json($citySlug ?? null);
 
         $(document).ready(function() {
-            var cityID = {{ $cityID ?? 'null' }};
-            var countyID = {{ $countyID ?? 'null' }};
-            var neighborhoodID = {{ $neighborhoodID ?? 'null' }};
+    var cityID = {{ $cityID ?? 'null' }};
+    var countyID = {{ $countyID ?? 'null' }};
+    var neighborhoodID = {{ $neighborhoodID ?? 'null' }};
 
-            function updateURL(newUrl) {
-                window.history.pushState(null, '', newUrl);
-            }
+    function updateURL(newUrl) {
+        window.history.pushState(null, '', newUrl);
+    }
 
-            function selectCityByID(cityID) {
-                if (cityID) {
-                    $('#city').val(cityID).trigger('change');
+    function selectCityByID(cityID) {
+        if (cityID) {
+            $('#city').val(cityID).trigger('change');
+        }
+    }
+
+    function selectCountyByID(countyID) {
+        if (countyID) {
+            $('#county').val(countyID).trigger('change');
+        }
+    }
+
+    function selectNeighborhoodByID(neighborhoodID) {
+        if (neighborhoodID) {
+            $('#neighborhood').val(neighborhoodID).trigger('change');
+        }
+    }
+
+    $('#city').on('change', function() {
+        $.ajax({
+            method: "GET",
+            url: "{{ url('get-counties') }}/" + $(this).val(),
+            success: function(res) {
+                $('#county').empty();
+                $('#neighborhood').empty();
+                $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+                $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                var citySlug = res.citySlug;
+                var currentUrlParts = window.location.href.split('/');
+                var newUrl = currentUrlParts.slice(0, 3).join('/') + '/' + citySlug;
+
+                updateURL(newUrl);
+
+                $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
+
+                var cityNameElement = $(".hiddenCityName").find(".cityNameP");
+                if (cityNameElement.parent('a').length) {
+                    cityNameElement.unwrap();
                 }
-            }
 
-            function selectCountyByID(countyID) {
+                cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr('href', newUrl);
+
+                $('#county').append(`<option value="#">İlçe</option>`);
+                res.counties.forEach((e) => {
+                    $('#county').append(`<option value="${e.ilce_key}">${e.ilce_title}</option>`);
+                });
+
+                $('#county').select2({
+                    placeholder: 'İlçe',
+                    width: '100%',
+                    searchInputPlaceholder: 'Ara...'
+                });
+
                 if (countyID) {
-                    $('#county').val(countyID).trigger('change');
+                    selectCountyByID(countyID);
                 }
             }
-
-            function selectNeighborhoodByID(neighborhoodID) {
-                if (neighborhoodID) {
-                    $('#neighborhood').val(neighborhoodID).trigger('change');
-                }
-            }
-
-            $('#city').on('change', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-counties') }}/" + $(this).val(),
-                    success: function(res) {
-                        $('#county').empty();
-                        $('#neighborhood').empty();
-                        $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
-
-                        var citySlug = res.citySlug;
-                        var currentUrl = window.location.href.split('/').slice(0, 3).join('/');
-                        var newUrl = currentUrl + '/' + citySlug;
-
-                        updateURL(newUrl);
-
-                        $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
-
-                        var cityNameElement = $(".hiddenCityName").find(".cityNameP");
-                        if (cityNameElement.parent('a').length) {
-                            cityNameElement.unwrap();
-                        }
-
-                        cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
-                            'href', newUrl);
-
-                        $('#county').append(`<option value="#">İlçe</option>`);
-                        res.counties.forEach((e) => {
-                            $('#county').append(
-                                `<option value="${e.ilce_key}">${e.ilce_title}</option>`
-                                );
-                        });
-
-                        $('#county').select2({
-                            placeholder: 'İlçe',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-                        if (countyID) {
-                            selectCountyByID(countyID);
-                        }
-                    }
-                });
-            });
-
-            $('#county').on('change', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
-                    success: function(res) {
-                        $('#neighborhood').empty();
-                        var countySlug = res.countySlug;
-                        var currentUrl = window.location.href.split('/');
-                        var newUrl = currentUrl + '/' + countySlug;
-
-                        updateURL(newUrl);
-
-                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
-
-                        var countyNameElement = $(".hiddenCountyName").find(".countyNameP");
-                        if (countyNameElement.parent('a').length) {
-                            countyNameElement.unwrap();
-                        }
-
-                        countyNameElement.html(res.countyName).wrap('<a></a>').parent('a').attr(
-                            'href', newUrl);
-
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
-
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
-                        res.neighborhoods.forEach((e) => {
-                            $('#neighborhood').append(
-                                `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
-                                );
-                        });
-
-                        $('#neighborhood').select2({
-                            placeholder: 'Mahalle',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-                        if (neighborhoodID) {
-                            selectNeighborhoodByID(neighborhoodID);
-                        }
-                    }
-                });
-            });
-
-            $('#neighborhood').on('change', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-neighborhood') }}/" + $(this).val(),
-                    success: function(res) {
-                        var neighborhoodSlug = res.neighborhoodSlug;
-                        var currentUrl = window.location.href.split('/').slice(0, 5).join('/');
-                        var newUrl = currentUrl + '/' + neighborhoodSlug;
-
-                        updateURL(newUrl);
-
-                        $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex");
-
-                        var neighborhoodNameElement = $(".hiddenNeighborhoodName").find(
-                            ".neighborhoodNameP");
-                        if (neighborhoodNameElement.parent('a').length) {
-                            neighborhoodNameElement.unwrap();
-                        }
-
-                        neighborhoodNameElement.html(res.neighborhoodName).wrap('<a></a>')
-                            .parent('a').attr('href', newUrl);
-                    }
-                });
-            });
-
-            selectCityByID(cityID);
         });
+    });
+
+    $('#county').on('change', function() {
+        $.ajax({
+            method: "GET",
+            url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
+            success: function(res) {
+                $('#neighborhood').empty();
+                var countySlug = res.countySlug;
+                var currentUrlParts = window.location.href.split('/');
+                var newUrl = currentUrlParts.slice(0, 4).join('/') + '/' + countySlug;
+
+                updateURL(newUrl);
+
+                $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
+
+                var countyNameElement = $(".hiddenCountyName").find(".countyNameP");
+                if (countyNameElement.parent('a').length) {
+                    countyNameElement.unwrap();
+                }
+
+                countyNameElement.html(res.countyName).wrap('<a></a>').parent('a').attr('href', newUrl);
+
+                $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                res.neighborhoods.forEach((e) => {
+                    $('#neighborhood').append(`<option value="${e.mahalle_id}">${e.mahalle_title}</option>`);
+                });
+
+                $('#neighborhood').select2({
+                    placeholder: 'Mahalle',
+                    width: '100%',
+                    searchInputPlaceholder: 'Ara...'
+                });
+
+                if (neighborhoodID) {
+                    selectNeighborhoodByID(neighborhoodID);
+                }
+            }
+        });
+    });
+
+    $('#neighborhood').on('change', function() {
+        $.ajax({
+            method: "GET",
+            url: "{{ url('get-neighborhood') }}/" + $(this).val(),
+            success: function(res) {
+                var neighborhoodSlug = res.neighborhoodSlug;
+                var currentUrlParts = window.location.href.split('/');
+                var newUrl = currentUrlParts.slice(0, 5).join('/') + '/' + neighborhoodSlug;
+
+                updateURL(newUrl);
+
+                $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex");
+
+                var neighborhoodNameElement = $(".hiddenNeighborhoodName").find(".neighborhoodNameP");
+                if (neighborhoodNameElement.parent('a').length) {
+                    neighborhoodNameElement.unwrap();
+                }
+
+                neighborhoodNameElement.html(res.neighborhoodName).wrap('<a></a>').parent('a').attr('href', newUrl);
+            }
+        });
+    });
+
+    selectCityByID(cityID);
+});
 
 
 
