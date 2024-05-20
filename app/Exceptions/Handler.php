@@ -43,13 +43,13 @@ class Handler extends ExceptionHandler
             }
         }
 
-        if ($exception instanceof HttpException && $exception->getStatusCode() == 500) {
-            return redirect('/')->with('error', 'Bir Hata Oluştu');
-        }
+        // if ($exception instanceof HttpException && $exception->getStatusCode() == 500) {
+        //     return redirect('/')->with('error', 'Bir Hata Oluştu');
+        // }
 
-        if ($exception instanceof \ErrorException && strpos($exception->getMessage(), 'Undefined property') !== false) {
-            return redirect('/')->with('error', 'Bir Hata Oluştu');
-        }
+        // if ($exception instanceof \ErrorException && strpos($exception->getMessage(), 'Undefined property') !== false) {
+        //     return redirect('/')->with('error', 'Bir Hata Oluştu');
+        // }
 
         return parent::render($request, $exception);
     }
