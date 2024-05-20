@@ -63,7 +63,7 @@
                         <a
                             href="{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                         </a>
-                        <img alt="my-properties-3" src="{{ asset('storage/profile_images/' . $image) }}" class="img-fluid">
+                        <img alt="my-properties-3" src="{{ url('housing_images/' . $image) }}" class="img-fluid">
                         </a>
                     </div>
                     <div class="box-1">
