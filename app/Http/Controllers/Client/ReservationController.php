@@ -87,7 +87,7 @@ class ReservationController extends Controller
         // Tarih aralığı farkını hesapla
         $diffDate = $check_out_date->diffInDays($check_in_date);
 
-        $payPrice = $reservation['total_price'] / 2;
+        $payPrice = $reservation['total_price'];
 
         return view('payment.reservation.index', compact('payPrice', "hasCounter", 'diffDate', 'image', 'reservation', 'bankAccounts', 'housing'));
     }
@@ -142,7 +142,7 @@ class ReservationController extends Controller
             $clientId = '190100000';
             $storeKey = '123456';
 
-            $amountToBePaid = ($reservation->total_price / 2) + $reservation->money_is_safe;
+            $amountToBePaid = $reservation->total_price;
 
             $amount = $amountToBePaid;
             $expDateMonth = $requestData['month'];
@@ -226,7 +226,7 @@ class ReservationController extends Controller
                     ->latest('created_at')
                     ->first();
 
-                $earnMoney = (intval($reservation->total_price) + intval($reservation->money_is_safe)) / 2;
+                $earnMoney = intval($reservation->total_price);
 
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
@@ -475,7 +475,7 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = (intval($request->input('total_price')) + intval($reservation->money_is_safe)) / 2;
+        $earnMoney = $request->input('total_price');
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();

@@ -664,7 +664,7 @@
                                                     <input type="hidden" name="money_trusted"
                                                         value="{{ $reservation['money_trusted'] }}" id="money_trusted">
                                                     <input type="hidden" name="total_price"
-                                                        value="{{ $reservation['total_price'] }}" id="total_price">
+                                                        value="{{ $discountedPrice }}" id="total_price">
                                                     <input type="hidden" name="price"
                                                         value="{{ $reservation['price'] }}" id="price">
                                                     <input type="hidden" name="money_is_safe"
