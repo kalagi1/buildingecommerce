@@ -226,7 +226,7 @@ class ReservationController extends Controller
                     ->latest('created_at')
                     ->first();
 
-                $earnMoney = intval($reservation->total_price);
+                $earnMoney = (intval($reservation->total_price) + intval($reservation->money_is_safe)) / 2;
 
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
@@ -475,7 +475,7 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = $request->input('total_price');
+        $earnMoney = intval($request->input('total_price'));
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
