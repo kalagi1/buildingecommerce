@@ -1348,6 +1348,9 @@
                                                                         <!-- homes img -->
                                                                         <div class="homes-img">
                                                                             ${featuredHtml}
+                                                                            ` +
+                                    `
+                                                                <div class="${spanClass} homes-price"  style="height:auto !important"><i class="fa fa-handshake-o"></i></div> ` + `
                                                                             <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive" style="height: 110px !important;">
                                                                         </div>
                                                                     </div>
