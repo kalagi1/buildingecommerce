@@ -23,10 +23,8 @@ class BoughtController extends Controller
     public function solds()
     {
         $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
-        return $user;
         $userProjectIds = $user->projects->pluck('id')->toArray();
 
-        // Projects için sorgu
         $projectOrders = CartOrder::select('cart_orders.*')
             ->with("user", "invoice", "reference")
             ->where(function ($query) use ($userProjectIds) {
@@ -54,7 +52,9 @@ class BoughtController extends Controller
             ->get();
 
 
+
         $cartOrders = $projectOrders->merge($housingOrders);
+        return $cartOrders;
         return response()->json([
             "cartOrders" => $cartOrders
         ]);
