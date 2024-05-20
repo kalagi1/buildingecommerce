@@ -168,6 +168,8 @@ class AuthController extends Controller
                         'name' => $user->name,
                         "bank_name" => $user->bank_name,
                         "iban" => $user->iban,
+                        "longitude" => $user->longitude,
+                        "latitude" => $user->latitude,
                         "account_type" => $user->account_type,
                         "corporate_type" => $user->corporate_type,
                         'has_club' => $user->has_club,
