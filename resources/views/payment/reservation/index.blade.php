@@ -664,7 +664,9 @@
                                                     <input type="hidden" name="money_trusted"
                                                         value="{{ $reservation['money_trusted'] }}" id="money_trusted">
                                                     <input type="hidden" name="total_price"
-                                                        value="{{ $discountedPrice }}" id="total_price">
+                                                        value="{{ $reservation['total_price'] }}" id="total_price">
+                                                        <input type="hidden" name="down_payment"
+                                                        value="{{ $discountedPrice }}" id="down_payment">
                                                     <input type="hidden" name="price"
                                                         value="{{ $reservation['price'] }}" id="price">
                                                     <input type="hidden" name="money_is_safe"
@@ -1170,6 +1172,7 @@
                         person_count: "{{ $reservation['person_count'] }}",
                         owner_id: "{{ $reservation['owner_id'] }}",
                         total_price: "{{ $reservation['total_price'] }}",
+                        down_payment: "{{$discountedPrice}}";
                         money_is_safe: "{{ $reservation['money_is_safe'] }}",
                         housing_id: "{{ $reservation['housing_id'] }}",
 
