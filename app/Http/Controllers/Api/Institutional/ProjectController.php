@@ -1333,7 +1333,7 @@ class ProjectController extends Controller
             "full_name" => $request->input('name'),
             "email" => $request->input('email'),
             "phone" => $request->input('phone'),
-            "is_swap" => $request->input('sale_type'),
+            "is_swap" => $request->input('sale_type') == 1 ? 0 : 1,
             "is_show_user" => $request->input('show_neighbour') ? "on" : null,
         ]);
 
