@@ -104,7 +104,8 @@
                                                         {{ number_format($order->total_price, 0, ',', '.') }} ₺
                                                     </td>
                                                     <td class="order_amount">
-                                                        {{ number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.') }}₺ ({{$order->money_is_safe}}₺ Param Güvende Ödemesi)  
+                                                        {{ number_format($order->down_payment, 0, ',', '.') }}₺ <br>
+                                                         ({{$order->money_is_safe}}₺ Param Güvende Ödemesi)  
                                                     </td>
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}</td>
