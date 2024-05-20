@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Collection;
@@ -17,6 +18,15 @@ class PageController extends Controller
         $collections = Collection::where("user_id", Auth::user()->id)->get();
 
         return response()->json( [ 'collections' => $collections ] );
+    }
+
+  
+    public function orderDetail($id)
+    {
+        $order = CartOrder::where('id', $id)->first();
+        return response()->json([
+            "order" => $order
+        ]);
     }
     
     public function index($slug)
