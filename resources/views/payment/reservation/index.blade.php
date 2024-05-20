@@ -39,6 +39,7 @@
     @endphp
     @php
         $itemPrice = $payPrice + $reservation['money_is_safe'];
+        $housingDiscountAmount = 0;
 
         if ($hasCounter) {
             $housingData = json_decode($housing->housing_type_data);
