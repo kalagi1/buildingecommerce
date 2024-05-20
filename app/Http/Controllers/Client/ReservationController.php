@@ -335,12 +335,10 @@ class ReservationController extends Controller
         // Kullanıcı veya sipariş bulunamazsa, giriş sayfasına yönlendirin veya başka bir işlem yapın
         return redirect()->route('client.login');
     }
-
     public function addsessions(Request $request)
     {
-
         $lastClick = Click::where('user_id', auth()->user()->id)
-            ->where('created_at', '>=', now()->subDays(24))
+            ->where('created_at', '>=', now()->subDays(1))
             ->latest('created_at')
             ->first();
 
@@ -348,9 +346,9 @@ class ReservationController extends Controller
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
-            if (isset($collection)) {
+            if ($collection) {
                 foreach ($collection->links as $link) {
-                    if (($link->user_id != Auth::user()->id)) {
+                    if ($link->user_id != Auth::user()->id) {
                         $hasCounter = true;
                     }
                 }
@@ -358,7 +356,7 @@ class ReservationController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'housing_id' => 'required|exists:housings, id',
+            'housing_id' => 'required|exists:housings,id', // Fixed the space issue here
             'check_in_date' => 'required|date',
             'check_out_date' => 'required|date|after_or_equal:check_in_date',
             'person_count' => 'required|integer|min:1',
@@ -367,15 +365,12 @@ class ReservationController extends Controller
             'total_price' => 'required|numeric|min:0',
             'money_is_safe' => 'nullable|numeric|min:0',
             'key' => 'required',
-
         ]);
 
-        // Doğrulama başarısız ise hata mesajı döndür
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'message' => 'Geçersiz istek.', 'errors' => $validator->errors()]);
+            return response()->json(['success' => false, 'message' => 'Invalid request.', 'errors' => $validator->errors()]);
         }
 
-        // Tüm rezervasyon verilerini bir dizi içinde toplama
         $reservationData = [
             'housing_id' => $request->input('housing_id'),
             'check_in_date' => $request->input('check_in_date'),
@@ -387,16 +382,14 @@ class ReservationController extends Controller
             'money_is_safe' => $request->input('money_is_safe'),
             'key' => $request->input('key'),
             'money_trusted' => $request->input('money_trusted'),
-            "hasCounter" => $hasCounter
+            'hasCounter' => $hasCounter
         ];
 
-        // Rezervasyon verilerini session'a kaydetme
         session()->put('reservation_data', $reservationData);
 
-        return response()->json(['success' => true, 'message' => 'Rezervasyon başarıyla kaydedildi.']);
-
-        // Devam eden işlemler...
+        return response()->json(['success' => true, 'message' => 'Reservation successfully saved.']);
     }
+
 
     public function paySuccess(Request $request, reservation $reservation)
     {
@@ -490,7 +483,7 @@ class ReservationController extends Controller
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
             $sales_rate_club = null;
-           
+
             foreach ($rates as $rate) {
                 if ($collection->user->corporate_type == $rate->institution->name) {
                     // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
