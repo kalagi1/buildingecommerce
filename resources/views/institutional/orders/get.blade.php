@@ -17,7 +17,7 @@
         <nav class="mb-3 mt-3" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="#!">Emlak Sepette</a></li>
-                <li class="breadcrumb-item active">Siparişlerim</li>
+                <li class="breadcrumb-item active">Aldıklarım</li>
             </ol>
         </nav>
 
