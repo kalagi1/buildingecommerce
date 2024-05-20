@@ -1,39 +1,39 @@
 @extends('admin.layouts.master')
 
 @section('content')
-@php
-$months = [
-    'Ocak',
-    'Şubat',
-    'Mart',
-    'Nisan',
-    'Mayıs',
-    'Haziran',
-    'Temmuz',
-    'Ağustos',
-    'Eylül',
-    'Ekim',
-    'Kasım',
-    'Aralık',
-];
-@endphp
-@php
-// İade talebinin oluşturulma tarihini al
-$refundCreatedAt = $order->created_at;
+    @php
+        $months = [
+            'Ocak',
+            'Şubat',
+            'Mart',
+            'Nisan',
+            'Mayıs',
+            'Haziran',
+            'Temmuz',
+            'Ağustos',
+            'Eylül',
+            'Ekim',
+            'Kasım',
+            'Aralık',
+        ];
+    @endphp
+    @php
+        // İade talebinin oluşturulma tarihini al
+        $refundCreatedAt = $order->created_at;
 
-// Şu anki zamanı al
-$now = now();
+        // Şu anki zamanı al
+        $now = now();
 
-// İade talebinin oluşturulma tarihinden 14 gün sonrasını al
-$expirationDate = $refundCreatedAt->addDays(14);
+        // İade talebinin oluşturulma tarihinden 14 gün sonrasını al
+        $expirationDate = $refundCreatedAt->addDays(14);
 
-// İade talebinin oluşturulma tarihinden 14 gün sonrasına kadar kaç gün kaldığını hesapla
-$daysLeft = $now->diffInDays($expirationDate);
+        // İade talebinin oluşturulma tarihinden 14 gün sonrasına kadar kaç gün kaldığını hesapla
+        $daysLeft = $now->diffInDays($expirationDate);
 
-// İade talebi 14 günü geçmişse
-$isExpired = $now->greaterThan($expirationDate);
+        // İade talebi 14 günü geçmişse
+        $isExpired = $now->greaterThan($expirationDate);
 
-@endphp
+    @endphp
 
     <div class="content">
         <div class="breadcrumb">
@@ -48,10 +48,11 @@ $isExpired = $now->greaterThan($expirationDate);
             <div class="col-12 col-xl-8 col-xxl-9">
                 <div class="card p-3">
                     <div>
-                        <a href="{{ route('admin.reservations') }}" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
+                        <a href="{{ route('admin.reservations') }}" class="button-back"><i class="fa fa-angle-left"></i> Geri
+                            Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
-                        <h5>#{{ $order->key}} Nolu Rezervasyon Detayı</h5>
+                        <h5>#{{ $order->key }} Nolu Rezervasyon Detayı</h5>
 
                         @if ($order->refund != null)
                             <div class="order-status-container mt-3"
@@ -115,12 +116,10 @@ $isExpired = $now->greaterThan($expirationDate);
                                 <div class="col-md-2 text-center">
                                     <p>İlan No</p>
                                     <a target="_blank"
-                                        href="{{   route('housing.show', [
+                                        href="{{ route('housing.show', [
                                             'housingSlug' => $order->housing->slug,
                                             'housingID' => $order->housing->id + 2000000,
-                                        ])
-
-                                            }}">
+                                        ]) }}">
                                         {{ $order->housing->id + 2000000 }}
                                     </a>
                                 </div>
@@ -323,7 +322,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">İlan Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->price, 0, ',', '.')}}₺
+                                            {{ number_format($order->price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -331,7 +330,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Toplam Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->total_price, 0, ',', '.')}}₺
+                                            {{ number_format($order->total_price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -339,7 +338,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Param Güvende Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->money_is_safe, 0, ',', '.')}}₺
+                                            {{ number_format($order->money_is_safe, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -347,7 +346,7 @@ $isExpired = $now->greaterThan($expirationDate);
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödenen Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.')}}₺
+                                            {{ number_format($order->down_payment, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -537,7 +536,7 @@ $isExpired = $now->greaterThan($expirationDate);
                     @endif
 
 
-                   <div class="col-12 mb-3">
+                    <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Rezervasyon Durumu</h3>
@@ -545,9 +544,11 @@ $isExpired = $now->greaterThan($expirationDate);
                                 <div class="order_status">
                                     <select class="form-select mb-4" name="status" id="status"
                                         onchange="submitForm()">
-                                        <option value="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}"
+                                        <option
+                                            value="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}"
                                             @if ($order->status == 1) selected @endif>Onayla</option>
-                                        <option value="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}"
+                                        <option
+                                            value="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}"
                                             @if ($order->status != 1) selected @endif>Reddet</option>
                                         <option value="" @if ($order->status == 0) selected @endif>Onay
                                             Bekleniyor</option>
@@ -655,80 +656,77 @@ $isExpired = $now->greaterThan($expirationDate);
 @endsection
 
 @section('scripts')
+    <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
 
-<script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+    <script src="https://cdn.tiny.cloud/1/uzaxwtnfjkyj1l9egzl3mea3go0cq6xgmlkoanf5eb2jry8u/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        CKEDITOR.replace('emailContent', {
+            filebrowserUploadUrl: "{{ route('admin.ckeditor.upload', ['_token' => csrf_token()]) }}",
+            filebrowserUploadMethod: 'form'
+        });
+        //  tinymce.init({
+        //     selector: 'textarea#body', // Hedef elementin id'si
+        //     plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
+        //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        //     menubar: true,
+        //     branding: true
+        // });
+    </script>
+    <script>
+        // function submitForm() {
+        //     var form = document.getElementById("status-form");
+        //     var select = document.getElementById("status");
+        //     var selectedOption = select.options[select.selectedIndex];
 
-<script src="https://cdn.tiny.cloud/1/uzaxwtnfjkyj1l9egzl3mea3go0cq6xgmlkoanf5eb2jry8u/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
-<script>
-    CKEDITOR.replace('emailContent', {
-        filebrowserUploadUrl: "{{ route('admin.ckeditor.upload', ['_token' => csrf_token()]) }}",
-        filebrowserUploadMethod: 'form'
-    });
-    //  tinymce.init({
-    //     selector: 'textarea#body', // Hedef elementin id'si
-    //     plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
-    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    //     menubar: true,
-    //     branding: true
-    // });
-</script>
-<script>
-    // function submitForm() {
-    //     var form = document.getElementById("status-form");
-    //     var select = document.getElementById("status");
-    //     var selectedOption = select.options[select.selectedIndex];
+        //     if (selectedOption.value) {
+        //         form.action = selectedOption.value;
+        //         form.submit();
+        //     }
+        // }
 
-    //     if (selectedOption.value) {
-    //         form.action = selectedOption.value;
-    //         form.submit();
-    //     }
-    // }
+        function submitFormPriceAndShare(select) {
+            var form = document.getElementById("status-form");
+            var selectedOption = select.options[select.selectedIndex];
 
-    function submitFormPriceAndShare(select) {
-        var form = document.getElementById("status-form");
-        var selectedOption = select.options[select.selectedIndex];
-
-        if (selectedOption.value) {
-            var actionText = selectedOption.text.includes("Onayla") ? "Onaylamak" : "Reddetmek";
-            if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
-                form.action = selectedOption.value;
-                form.submit();
+            if (selectedOption.value) {
+                var actionText = selectedOption.text.includes("Onayla") ? "Onaylamak" : "Reddetmek";
+                if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
+                    form.action = selectedOption.value;
+                    form.submit();
+                }
             }
         }
-    }
 
 
 
-    function submitForm() {
-        var form = document.getElementById("status-form");
-        var select = document.getElementById("status");
-        var selectedOption = select.options[select.selectedIndex];
+        function submitForm() {
+            var form = document.getElementById("status-form");
+            var select = document.getElementById("status");
+            var selectedOption = select.options[select.selectedIndex];
 
-        if (selectedOption.value) {
-            var actionText = "";
-            if (selectedOption.text.includes("Onayla")) {
-                actionText = "Onaylamak";
-            } else if (selectedOption.text.includes("Reddet")) {
-                actionText = "Reddetmek";
-            }
+            if (selectedOption.value) {
+                var actionText = "";
+                if (selectedOption.text.includes("Onayla")) {
+                    actionText = "Onaylamak";
+                } else if (selectedOption.text.includes("Reddet")) {
+                    actionText = "Reddetmek";
+                }
 
-            if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
-                form.action = selectedOption.value;
-                form.submit();
+                if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
+                    form.action = selectedOption.value;
+                    form.submit();
+                }
             }
         }
-    }
 
-    function number_format(number, decimals, dec_point, thousands_sep) {
+        function number_format(number, decimals, dec_point, thousands_sep) {
             number = number.toFixed(decimals);
             var parts = number.toString().split(dec_point);
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
             return parts.join(dec_point);
         }
-</script>
-
-
+    </script>
 @endsection
 
 @section('css')
