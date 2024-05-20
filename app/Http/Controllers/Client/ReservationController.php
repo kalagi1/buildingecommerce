@@ -264,8 +264,8 @@ class ReservationController extends Controller
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
     
-                        $estateclubrate = $earnMoney * $sales_rate_club;
-                        $remaining = $earnMoney - $estateclubrate;
+                        $estateclubrate = ($earnMoney * $share_percent_balance) * $sales_rate_club;
+                        $remaining = $earnMoney * $share_percent_earn;
     
                         // Yeni SharerPrice oluştur
                         SharerPrice::create([
@@ -497,8 +497,8 @@ class ReservationController extends Controller
                 $sales_rate_club = $rates->last()->sales_rate_club;
             }
 
-            $estateclubrate = $earnMoney * $sales_rate_club;
-            $remaining = $earnMoney - $estateclubrate;
+            $estateclubrate = ($earnMoney * $share_percent_balance) * $sales_rate_club;
+            $remaining = $earnMoney * $share_percent_earn;
 
             SharerPrice::create([
                 'collection_id' => $lastClick->collection_id,
