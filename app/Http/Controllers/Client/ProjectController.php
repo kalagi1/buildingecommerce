@@ -545,10 +545,11 @@ class ProjectController extends Controller
                 ->get();
         }
 
-        
+
         foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
                 if (in_array($paramValue, ["satilik", "devren-satilik", "devren-kiralik", "kiralik", "gunluk-kiralik"])) {
+                    $opt = $paramValue;
                     switch ($paramValue) {
                         case "kiralik":
                             $optName = "Kiralık";
@@ -576,7 +577,7 @@ class ProjectController extends Controller
                             $citySlug = slugify($cityValue->title);
                         }
                     }
-        
+
                     // County check
                     if ($cityID && !$countyID) {
                         $countyValue = District::whereRaw('LOWER(REPLACE(ilce_title, " ", "-")) = ?', [$paramValue])->where('ilce_sehirkey', $cityID)->first();
@@ -586,7 +587,7 @@ class ProjectController extends Controller
                             $countySlug = slugify($countyValue->ilce_title);
                         }
                     }
-        
+
                     // Neighborhood check
                     if ($countyID && !$neighborhoodID) {
                         $neighborhoodValue = Neighborhood::whereRaw('LOWER(REPLACE(mahalle_title, " ", "-")) = ?', [$paramValue])->where('mahalle_ilcekey', $countyID)->first();
@@ -596,12 +597,12 @@ class ProjectController extends Controller
                             $neighborhoodSlug = slugify($neighborhoodValue->mahalle_title);
                         }
                     }
-        
+
                     // Housing status, type and parent type checks
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
-        
+
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
                         $is_project = $item1->is_project;
@@ -609,13 +610,13 @@ class ProjectController extends Controller
                         $slugItem = $item1->slug;
                         $slug = $item1->id;
                     }
-        
+
                     if ($housingTypeParent) {
                         $items = HousingTypeParent::with("connections.housingType")->where("parent_id", $housingTypeParent->id)->get();
                         $housingTypeSlugName = $housingTypeParent->title;
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
-        
+
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
                         $housingTypeSlug = $housingType->slug;
@@ -626,11 +627,11 @@ class ProjectController extends Controller
             }
         }
 
-        
+
         if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
-        
+
         if ($slug) {
             if ($is_project) {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
@@ -1033,7 +1034,7 @@ class ProjectController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
-    
+
 
         return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }
