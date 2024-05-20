@@ -173,23 +173,22 @@
                             </a>
 
                         </div>
-                        @if (isset($discountRate) && $discountRate != '0')
-                        <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
-                                class="pull-right">
-                                <svg viewBox="0 0 24 24" width="18" height="18"
-                                    stroke="currentColor" stroke-width="2" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="css-i6dzq1">
-                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                </svg>
-                                <span style="margin-left: 2px">{{ $discountRate }}
-                                    % </span></strong></li>
-                    @endif
+
+
+
 
                         <div class="moneys fs-30 fw-7 lh-45 text-color-3">
+                            @if (isset($discountRate) && $discountRate != '0')
+                                <div id="other-amount">
+                                    <div class="text-danger">Emlak Kulüp İndirim Oranı : <strong
+                                            class="button-price-inner pull-right text-success">{{ $discountRate }}
+                                            % </strong></div>
+                                </div>
+                            @endif
+
                             {{ number_format($discountedPrice, 0, ',', '.') }}
-                            TL</div>
+                            TL
+                        </div>
 
                         <div class="show-mobile">
                             <a
@@ -508,18 +507,13 @@
                                             @else --}}
 
                                         @if (isset($discountRate) && $discountRate != '0')
-                                            <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
-                                                    class="pull-right">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                        class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span style="margin-left: 2px">{{ $discountRate }}
-                                                        % </span></strong></li>
+                                            <div id="other-amount">
+                                                <div class="text-danger">Emlak Kulüp İndirim Oranı : <strong
+                                                        class="button-price-inner pull-right text-success">{{ $discountRate }}
+                                                        % </strong></div>
+                                            </div>
                                         @endif
+
 
 
                                         <div id="other-amount">
