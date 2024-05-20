@@ -8,10 +8,10 @@
                 width="128px" height="128px" class="mb-3" />
 
             <div style="color: #27ae60; font-size: 26px; text-align: center;">ÖDEME BAŞARILI</div>
-            <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş Numaranız: {{ $reservation->key }}</p>
+            <p style="font-size: 18px;">Rezervasyon başarıyla verildi. Sipariş Numaranız: {{ $reservation->key }}</p>
 
 
-            <a href="{{ route('institutional.myreservations') }}" class="btn btn-primary btn-lg">Siparişleri
+            <a href="{{ route('institutional.myreservations') }}" class="btn btn-primary btn-lg">Rezervasyonları
                 Görüntüle</a>
 
             <a href="{{ url('/') }}" class="btn btn-primary btn-lg">Anasayfaya Git</a>
@@ -35,7 +35,7 @@
     <script>
         $(document).ready(function() {
             // Toastr bilgilendirme mesajını göster
-            toastr.success("Sipariş başarıyla verildi. Sipariş Numaranız: {{ $reservation->key }}");
+            toastr.success("Rezervasyon başarıyla verildi. Rezervasyon Numaranız: {{ $reservation->key }}");
 
             toastr.success("Dosya başarıyla yüklendi.");
                                 // Sayfayı belirli bir süre sonra yönlendir
