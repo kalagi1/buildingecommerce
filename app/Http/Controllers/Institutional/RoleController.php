@@ -33,6 +33,7 @@ class RoleController extends Controller
             'DeleteProject',
             'UpdateProject',
             'GetProjectById',
+            "GetReceivedOffers"
         ];
 
         $reservationPermissions = [
@@ -123,6 +124,7 @@ class RoleController extends Controller
             'GetProjects',
             'DeleteProject',
             'UpdateProject',
+            "GetReceivedOffers",
             'GetProjectById',
         ];
 

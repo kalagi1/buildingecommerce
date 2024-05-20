@@ -23,6 +23,7 @@ import UpdateSingleHousingModal from './create_project_components/UpdateSingleHo
 import PayDecTable from './create_project_components/PayDecTable';
 import ImageChange from './create_project_components/ImageChange';
 import EditIcon from '@mui/icons-material/Edit';
+import UserIcon from '@mui/icons-material/Person';
 
 
 const HousingList = ({ projectId }) => {
@@ -53,6 +54,10 @@ const HousingList = ({ projectId }) => {
     const [selectedRoomsTemp,setSelectedRoomsTemp] = useState([]);
     const [selectedRoomsTemp2,setSelectedRoomsTemp2] = useState([]);
     const [customEditOpen,setCustomEditOpen] = useState(false);
+    const [allSelectedCheckbox,setAllSelectedCheckbox] = useState(false);
+    const [saleModalOpen,setSaleModalOpen] = useState(false);
+    const [selectedSaleData,setSelectedSaleData] = useState({});
+    const [selectedRoomOrder,setSelectedRoomOrder] = useState(null);
     const [project, setProject] = useState({
         blocks: []
     });
@@ -80,9 +85,9 @@ const HousingList = ({ projectId }) => {
     
 
     const findOrderQt = (roomOrder) => {
-        var haveSumCartQts = sumCartQts.find((cartQts) => { return cartQts.housing_id == roomOrder; });
+        var haveSumCartQts = sumCartQts.find((cartQts) => { return cartQts.housing_id == roomOrder ; });
         if (haveSumCartQts && haveSumCartQts != undefined) {
-            return haveSumCartQts.qt_total
+            return haveSumCartQts.qt_total >= 0
         } else {
             return 0;
         }
@@ -238,6 +243,31 @@ const HousingList = ({ projectId }) => {
         setSelectedRoomsTemp2(newItems)
     },[selectedRoomsTemp])
 
+    const allSelected = () => {
+        if(allSelectedCheckbox){
+            tempSelected = {};
+        }else{
+            var tempSelected = {};
+            for (var i = 0; i < totalProjectsCount; i++) {
+                var soldx = solds.find((sold) => {
+                    var soldJson = JSON.parse(sold.cart);
+                    if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + i + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                        return sold
+                    }
+                })
+                if(!soldx){
+                    tempSelected[i+1] = true;   
+                }
+            }
+        }
+        
+        setAllSelectedCheckbox(!allSelectedCheckbox);
+
+        setSelectedRoomsTemp(tempSelected);
+    }
+
+    console.log(selectedRoomsTemp);
+
     const columns = useMemo(
         () => [
             {
@@ -245,17 +275,17 @@ const HousingList = ({ projectId }) => {
                 header: 'Proje İlanları',
                 columns: [
                     {
-                        accessorFn: (row) => `${row['no']}`, //accessorFn used to join multiple data into a single cell
-                        id: 'id', //id is still required when using accessorFn instead of accessorKey
+                        id: 'no', //id is still required when using accessorFn instead of accessorKey
                         header: 'No',
                         size: 10,
+                        accessorKey : "no",
                         enableColumnFilterModes: false,
                         enableColumnFilter: false,
-                        enableSorting: true,
-                        enableColumnOrdering: false,
+                        enableSorting: false,
                         enableColumnActions: false,
                         enableEditing: false,
-                        enableColumnPinning : true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: {
                             select: false,
                             onChange: (event) => {
@@ -272,9 +302,13 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['image[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'image[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'İlan Görseli',
-                        enableEditing: false,
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
-                        enableColumnPinning : true,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
@@ -311,14 +345,20 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['advertise_title[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'advert_title[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'İlan Başlığı',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "advertise_title",
                                     value: value2,
                                     is_dot: false,
@@ -327,30 +367,74 @@ const HousingList = ({ projectId }) => {
                                 })
                             },
                         }),
-                        Cell: ({ renderedCellValue, row }) => (
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                }}
-                            >
-                                <span>{renderedCellValue}</span>
-                            </Box>
-                        ),
+                        Cell: ({ renderedCellValue, row }) => {
+                            console.log(row.id)
+                            var soldx = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.id && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                    return sold
+                                }
+                            })
+                            if(soldx){
+                                return(
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '1rem',
+                                        }}
+                                    >
+                                        <div>
+                                            No : {row.id}
+                                        </div>
+                                        <div>
+                                            Alıcı Adı soyadı : {soldx.full_name}
+                                        </div>
+                                        <div>
+                                            Alıcı Telefon Numarası : {soldx.phone}
+                                        </div>
+                                        <div>
+                                            Satış Tipi : {soldx.is_swap == 0 ? "Peşin Satış" : "Taksitli Satış"}
+                                        </div>
+                                        <div>
+                                            Satış Fiyatı : {soldx.is_swap == 0 ? dotNumberFormat(row.original['price[]']) : dotNumberFormat(row.original['installments-price[]'])} ₺
+                                        </div>
+                                    </Box>
+                                )
+                            }else{
+                                return(
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '1rem',
+                                        }}
+                                    >
+                                        <span>{renderedCellValue}</span>
+                                    </Box>
+                                )
+                            }
+                            
+                        },
                     },
                     {
                         accessorFn: (row) => `${row['price[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'price[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Fiyat',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "price",
                                     value: value2,
                                     is_dot: false,
@@ -375,7 +459,13 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['installments-price[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'installments-price[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Taksitli Fiyat',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         size : 10,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
@@ -383,7 +473,7 @@ const HousingList = ({ projectId }) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "installments-price",
                                     value: value2,
                                     is_dot: false,
@@ -414,12 +504,18 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['pay-decs[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'pay-decs[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Ara Ödemeler',
-                        enableColumnFilter: false,
                         enableEditing: false,
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
-                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                                     return sold
                                 }
                             });
@@ -454,14 +550,20 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['installments[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'installments[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Taksit Sayısı',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "installments",
                                     value: value2,
                                     is_dot: false,
@@ -486,14 +588,21 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['advance[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'advance[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Peşinat',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        visibleInShowHideMenu: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "advance",
                                     value: value2,
                                     is_dot: false,
@@ -524,14 +633,20 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['number_of_shares[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'number_of_shares[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Hisse Sayısı',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
 
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "number_of_shares",
                                     value: value2,
                                     is_dot: false,
@@ -557,7 +672,13 @@ const HousingList = ({ projectId }) => {
                         accessorFn: (row) => `${row['off_sale[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'off_sale[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Satış Durumu',
+                        enableColumnFilterModes: false,
                         enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
                         editVariant: 'select',
                         editSelectOptions: [
                             {
@@ -605,8 +726,8 @@ const HousingList = ({ projectId }) => {
                                                 <button className="badge badge-phoenix badge-phoenix-danger value-text">
                                                     Satışa Kapatıldı
                                                 </button>
-                                            : <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                Satışa Açık
+                                            : <button disabled={true} className="badge badge-phoenix badge-phoenix-danger value-text">
+                                                Satıldı
                                             </button>
                                     }
                                 </Box>
@@ -648,7 +769,15 @@ const HousingList = ({ projectId }) => {
         setSelectedRooms([]);
         toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
         setSelectedRoomsTemp({});
-        axiosRequestGetData(page)
+        axiosRequestGetData(pagination.pageIndex)
+    }
+
+    const reloadData2 = () => {
+        setLoading(true);
+        setChangeData("");
+        setSelectedRooms([]);
+        setSelectedRoomsTemp({});
+        axiosRequestGetData(pagination.pageIndex)
     }
 
     const saveSingleHousing = () => {
@@ -780,7 +909,7 @@ const HousingList = ({ projectId }) => {
 
     const changeSelectedItems = (selectedFunc) => {
         var items = selectedFunc();
-
+        console.log(selectedFunc);
         console.log(items , typeof items);
 
         if(typeof items == "object"){
@@ -828,6 +957,33 @@ const HousingList = ({ projectId }) => {
         
     }
 
+    const saleModalFunc = (id) => {
+        var saleData = {};
+        setSaleModalOpen(true)
+        solds.map((sold) => {
+            var cart = JSON.parse(sold.cart);
+            if(cart.item.id == projectId && cart.item.housing == id){
+                var payDecs = [];
+                for(var i = 0; i < data[id - 1]['pay-dec-count'+id];i++){
+                    payDecs.push({});
+                    payDecs[i]['price'] = data[id - 1]['pay_desc_price'+id+""+i];
+                    payDecs[i]['date'] = data[id - 1]['pay_desc_date'+id+""+i];
+                }
+                saleData['name'] = sold.full_name;
+                saleData['email'] = sold.email;
+                saleData['phone'] = sold.phone;
+                saleData['sale_type'] = sold.is_swap == 0 ? 1 : 2,
+                saleData['price'] = data[id - 1]['price[]'],
+                saleData['advance'] = data[id - 1]['advance[]'],
+                saleData['installments'] = data[id - 1]['installments[]']
+                saleData['pay_decs'] = payDecs
+                saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
+            }
+        })
+        setSelectedSaleData(saleData);
+        setSelectedRoomOrder(id);
+    }
+
     const table = useMaterialReactTable({
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -838,10 +994,11 @@ const HousingList = ({ projectId }) => {
         enableFacetedValues: true,
         enableRowActions: true,
         enableCellActions: true,
+        enableColumnPinning: true,
         enableRowSelection: (row) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
@@ -857,7 +1014,7 @@ const HousingList = ({ projectId }) => {
         enableEditing: (row) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
@@ -872,7 +1029,7 @@ const HousingList = ({ projectId }) => {
             showColumnFilters: true,
             showGlobalFilter: true,
             columnPinning: {
-                left: ['mrt-row-expand', 'mrt-row-select', 'no'],
+                left: ['mrt-row-select', 'no'],
                 right: ['mrt-row-actions'],
             },
             pagination: pagination,
@@ -886,25 +1043,41 @@ const HousingList = ({ projectId }) => {
         },
         paginationDisplayMode: 'pages',
         positionToolbarAlertBanner: 'bottom',
-        muiSearchTextFieldProps: {
-            size: 'small',
-            variant: 'outlined',
-        },
         muiTableBodyCellProps: ( data ) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == data.row.index + 1 && soldJson.type == "project"){
+                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + data.row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
             if(soldx){
-                return({
-                    //conditionally style pinned columns
-                    sx: {
-                      backgroundColor: "#EA2B2E",
-                      color : '#fff'
-                    },
-                })
+                console.log(data.cell.column)
+                if(data.cell.column.id === 'advert_title[]'){
+                    return({
+                        //conditionally style pinned columns
+                        colSpan : 11,
+                        sx: {
+                          backgroundColor: "#28a745",
+                          color : '#fff'
+                        },
+                    })
+                }else{
+                    if(data.cell.column.id == 'mrt-row-actions' ){
+                        return {
+                            sx: {
+                                display: 'block', // Diğer hücreleri gizlemek için
+                            },
+                        };
+                    }else{
+                        return {
+                            sx: {
+                                display: 'none', // Diğer hücreleri gizlemek için
+                            },
+                        };
+                    }
+                    
+                }
+                
             }
         },
         muiPaginationProps: {
@@ -916,21 +1089,59 @@ const HousingList = ({ projectId }) => {
         onPaginationChange: setPagination,
         manualPagination: true,
         rowCount: totalProjectsCount,
-        renderRowActionMenuItems: ({ closeMenu }) => [
-            <MenuItem
-                key={0}
-                onClick={() => {
-                    // View profile logic...
-                    closeMenu();
-                }}
-                sx={{ m: 0 }}
-            >
-                <ListItemIcon>
-                    <EditIcon />
-                </ListItemIcon>
-                İlanı Düzenle
-            </MenuItem>,
-        ],
+        enableStickyHeader: true,
+        enableStickyFooter: true,
+        onShowGlobalFilterChange : false,
+        enableGlobalFilterModes : false,
+        enableGlobalFilter: false,
+        enableGlobalFilterRankedResults:false,
+        enableFilterMatchHighlighting : false,
+        muiTableContainerProps: { sx: { maxHeight: 'calc(100vh - 330px)' } },
+        renderRowActionMenuItems: ({ closeMenu,row }) => {
+            console.log(solds);
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                    return sold
+                }
+            })
+
+            if(soldx){
+                return [
+                    <MenuItem
+                        key={0}
+                        onClick={() => {
+                            saleModalFunc(row.id)
+                            // View profile logic...
+                            closeMenu();
+                        }}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <UserIcon />
+                        </ListItemIcon>
+                        Satış Bilgilerini Düzenle
+                    </MenuItem>
+                ]
+            }else{
+                return [
+                    <MenuItem
+                        key={0}
+                        onClick={() => {
+                            // View profile logic...
+                            closeMenu();
+                        }}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <EditIcon />
+                        </ListItemIcon>
+                        İlanı Düzenle
+                    </MenuItem>
+                ]
+            }
+            
+        },
         renderTopToolbar: ({ table }) => {
 
             return (
@@ -946,7 +1157,6 @@ const HousingList = ({ projectId }) => {
                     <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                         {/* import MRT sub-components */}
                         <MRT_GlobalFilterTextField table={table} />
-                        <MRT_ToggleFiltersButton table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: 'flex', gap: '0.5rem' }}>
@@ -1061,12 +1271,16 @@ const HousingList = ({ projectId }) => {
 
     return (
         <>
-            <div class="tabs">
-                <ul>
-                    <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
-                    <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
-                </ul>
-            </div>
+            {
+                haveBlocks ? 
+                    <div class="tabs">
+                        <ul>
+                            <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
+                            <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
+                        </ul>
+                    </div>
+                : ''
+            }
             {
                 Object.keys(selectedRoomsTemp).length > 0 ? 
                     <div className="card px-3 mb-2 pb-2">
@@ -1084,6 +1298,7 @@ const HousingList = ({ projectId }) => {
                 : ''
             }
             
+            <button className='all_selected_button' onClick={() => {allSelected()}}> <span className='buyUserRequest__text'>{allSelectedCheckbox ? 'Seçimi Kaldır' : 'Projedeki Tüm Konutları Seç'}</span> </button>
 
             <CustomEdit reloadData={reloadData} selectedRoomsTemp={selectedRoomsTemp} open={customEditOpen} setOpen={setCustomEditOpen} project={project}/>
             <MaterialReactTable table={table} />
@@ -1092,6 +1307,7 @@ const HousingList = ({ projectId }) => {
             <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
             <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
+            <SaleModal reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}/>   
         </>
     );
 };
@@ -1104,6 +1320,7 @@ import { baseUrl, dotNumberFormat, frontEndUrl } from '../define/variables';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomEdit from './create_project_components/CustomEdit';
+import SaleModal from './create_project_components/SaleModal';
 
 const ExampleWithLocalizationProvider = ({ projectId }) => (
     //App.tsx or AppProviders file

@@ -1,5 +1,4 @@
-[
-    {
+[{
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "home",
@@ -66,7 +65,7 @@
         "id": "GetGivenOffers",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Başvurularım",
+        "text": "Proje Başvurularım",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
         "activePath": "/hesabim/basvurularim"
@@ -80,7 +79,7 @@
         "url": "institutional.estate.coupons",
         "activePath": "/hesabim/coupons"
     },
-   
+
     {
         "id": "shopping-bag",
         "label": "Emlak Kulüp",
@@ -116,8 +115,7 @@
         "key": "Roles",
         "url": "#nv-role",
         "activePath": "/hesabim/roles*",
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Yeni Ekle",
                 "key": "CreateRole",
                 "url": "institutional.roles.create",
@@ -151,8 +149,7 @@
             "/hesabim/sattiklarim*",
             "/hesabim/aldiklarim"
         ],
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Aldıklarım",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
@@ -177,8 +174,7 @@
             "/hesabim/kiraladiklarim",
             "/hesabim/reservations"
         ],
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Kiraya Verdiklerim",
                 "key": "GetReservations",
                 "url": "institutional.reservations",
@@ -200,8 +196,7 @@
         "key": "Users",
         "url": "#nv-users",
         "activePath": "/hesabim/users*",
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Yeni Ekle",
                 "key": "CreateUser",
                 "url": "institutional.users.create",
@@ -223,8 +218,7 @@
         "key": "Offers",
         "url": "#nv-offers",
         "activePath": "/hesabim/offers*",
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Oluştur",
                 "key": "CreateOffer",
                 "url": "institutional.offers.create",
@@ -246,8 +240,7 @@
         "key": "Brands",
         "url": "#nv-brands",
         "activePath": "/hesabim/brands*",
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Oluştur",
                 "key": "CreateBrand",
                 "url": "institutional.brands.create",
@@ -269,8 +262,7 @@
         "key": "StoreBanners",
         "url": "#nv-store-banners",
         "activePath": "/hesabim/store-banners*",
-        "subMenu": [
-            {
+        "subMenu": [{
                 "text": "Oluştur",
                 "key": "CreateStoreBanner",
                 "url": "institutional.storeBanners.create",
@@ -293,5 +285,5 @@
         "url": "membershipType.index",
         "activePath": "/hesabim/membershipType"
     }
-  
+
 ]

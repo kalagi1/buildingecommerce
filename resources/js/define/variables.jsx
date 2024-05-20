@@ -17,3 +17,4 @@ export const dotNumberFormat = (number) => {
     }
     
 }
+

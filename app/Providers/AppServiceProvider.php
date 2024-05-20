@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
                 if ($user->type != "1" || $user->type != "3") {
 
                     if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
-                        $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                        $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetReceivedOffers",  "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
                     }
 
                     if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {

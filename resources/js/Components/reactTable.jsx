@@ -456,7 +456,6 @@ function ReactTable(props) {
                                                     <div className="d-flex">
                                                         <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/hesabim/projects/${row.id}/logs`}>İşlem Kayıtları</a>
                                                         <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
-
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>

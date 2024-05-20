@@ -171,6 +171,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/get_boughts', [BoughtController::class, 'bougths'])->name('react.bougths');
         Route::get('/get_solds', [BoughtController::class, 'solds'])->name('react.solds');
         Route::post('give_offer', [ProjectController::class, 'give_offer'])->name('give_offer');
+        Route::get('/order_detail/{order_id}', [ClientPageController::class, 'orderDetail'])->name('order.detail');
 
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
@@ -197,4 +198,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/getCollections', [ClientPageController::class, 'getCollections']);
 
     Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
+    Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
 });
