@@ -1262,7 +1262,7 @@
                                                                 ${featuredHtml}
                                                                 ` +
                                     `
-                                                                <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div> ` + `
+                                                                <div class="${spanClass} homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div> ` + `
                                                                 <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
                                                             </div>
                                                         </div>
