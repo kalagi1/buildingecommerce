@@ -364,7 +364,6 @@ class ReservationController extends Controller
             'owner_id' => 'required',
             'price' => 'required|numeric|min:0',
             'total_price' => 'required|numeric|min:0',
-            'down_payment' => 'required|numeric|min:0',
             'money_is_safe' => 'nullable|numeric|min:0',
             'key' => 'required',
         ]);

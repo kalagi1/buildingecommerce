@@ -482,21 +482,22 @@
                                                             {{ number_format($reservation['money_is_safe'], 0, ',', '.') }}
                                                             TL</strong></li>
 
-                                                            
-                                        @if (isset($discountRate) && $discountRate != '0')
-                                        <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
-                                                class="pull-right">
-                                                <svg viewBox="0 0 24 24" width="18" height="18"
-                                                    stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="css-i6dzq1">
-                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                                </svg>
-                                                <span style="margin-left: 2px">{{ $discountRate }}
-                                                    % </span></strong></li>
-                                    @endif
-                                 
+
+                                                    @if (isset($discountRate) && $discountRate != '0')
+                                                        <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
+                                                                class="pull-right">
+                                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="css-i6dzq1">
+                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                                </svg>
+                                                                <span style="margin-left: 2px">{{ $discountRate }}
+                                                                    % </span></strong></li>
+                                                    @endif
+
                                                 </ul>
                                             @endif
                                         </div>
@@ -665,7 +666,7 @@
                                                         value="{{ $reservation['money_trusted'] }}" id="money_trusted">
                                                     <input type="hidden" name="total_price"
                                                         value="{{ $reservation['total_price'] }}" id="total_price">
-                                                        <input type="hidden" name="down_payment"
+                                                    <input type="hidden" name="down_payment"
                                                         value="{{ $discountedPrice }}" id="down_payment">
                                                     <input type="hidden" name="price"
                                                         value="{{ $reservation['price'] }}" id="price">
@@ -1172,7 +1173,7 @@
                         person_count: "{{ $reservation['person_count'] }}",
                         owner_id: "{{ $reservation['owner_id'] }}",
                         total_price: "{{ $reservation['total_price'] }}",
-                        down_payment: "{{$discountedPrice}}",
+                        down_payment: "{{ $discountedPrice }}",
                         money_is_safe: "{{ $reservation['money_is_safe'] }}",
                         housing_id: "{{ $reservation['housing_id'] }}",
 
