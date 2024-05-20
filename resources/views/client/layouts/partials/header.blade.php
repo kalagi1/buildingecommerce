@@ -33,7 +33,7 @@
         <link rel="canonical" href="{{ $canonicalUrl }}" />
     @endif
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css" integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
     <!-- FONT AWESOME -->
@@ -509,7 +509,7 @@
                                                             : 'Koleksiyonlarım',
                                                 ],
                                                 [
-                                                    'url' => url('institutional/ilan-tipi-sec'),
+                                                    'url' => url('hesabim/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
@@ -699,7 +699,7 @@
 
                                         switch ($userType) {
                                             case 2:
-                                                $link = url('institutional/ilan-tipi-sec');
+                                                $link = url('hesabim/ilan-tipi-sec');
                                                 $text = 'İlan Ekle';
                                                 break;
                                             case 3:

@@ -92,7 +92,6 @@ function PayDecTable({savePayDecsSingle,saveHousing,open,setOpen,setData,data,sa
 
                     <button className='btn btn-primary mt-2' onClick={() => {savePayDecsSingle();setOpen(false);}}>Seçilen Konuta Uygula</button>
                     <button className='btn btn-primary mt-2 mx-1' onClick={() => {saveHousing();setOpen(false);}}>Tüm Konutlara Uygula</button>
-                    <button className='btn btn-primary mt-2 mx-1' onClick={() => {saveSelectedHousing();setOpen(false);}}>Seçilen Konutlara Uygula</button>
                 </Box>
             </Modal>
         </div>

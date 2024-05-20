@@ -21,10 +21,15 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Town;
 use Illuminate\Support\Facades\URL;
 use App\Services\SmsService;
-
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
+    public function logs()
+    {
+        $activities = Activity::all();
+        return view("admin.activities.index", compact("activities"));
+    }
     public function upload(Request $request)
     {
         if ($request->hasFile('upload')) {

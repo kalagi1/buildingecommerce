@@ -230,7 +230,6 @@
                                             @endif
                                         </div>
 
-                                        <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
                                         <script>
                                             function togglePassword2() {
                                                 var passwordInput = document.getElementById("passwordInput2");

@@ -103,7 +103,8 @@
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
             var exportLink = document.createElement("a");
             exportLink.className = "badge badge-phoenix badge-phoenix-primary";
-            exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/is-share/detail';
+            // exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/is-share/detail';
+            exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/detail';
             exportLink.textContent = "Görüntüle";
             // var viewLink = document.createElement("a");
             // viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";

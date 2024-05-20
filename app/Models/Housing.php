@@ -6,70 +6,101 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
-class Housing extends Model {
+class Housing extends Model
+{
     use HasFactory;
     use SoftDeletes;
-    
+    use LogsActivity;
+
     protected $guarded = [];
 
-    public function housing_type() {
-        return $this->belongsTo( HousingType::class );
+
+    // Implementing the required method for Spatie's Activity Log
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('housing_activities')
+            ->logOnlyDirty() // Only log changes
+            ->dontSubmitEmptyLogs() // Avoid empty logs
+            ->logAll(); // Logs all attributes
     }
 
-    public function rates() {
-        return $this->hasMany( Rate::class );
+
+    public function housing_type()
+    {
+        return $this->belongsTo(HousingType::class);
     }
 
-    public function images() {
-        return $this->hasMany( HousingImages::class );
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
     }
 
-    public function housingStatus() {
-        return $this->hasMany( HousingStatusConnection::class, 'housing_id', 'id' );
+    public function images()
+    {
+        return $this->hasMany(HousingImages::class);
     }
 
-    public function reservations() {
-        return $this->hasMany( Reservation::class, 'housing_id', 'id' );
+    public function housingStatus()
+    {
+        return $this->hasMany(HousingStatusConnection::class, 'housing_id', 'id');
     }
 
-    public function brand() {
-        return $this->hasOne( Brand::class, 'id', 'brand_id' );
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'housing_id', 'id');
     }
 
-    public function favorites() {
-        return $this->belongsToMany( User::class, 'housing_favorites', 'housing_id', 'user_id' );
+    public function brand()
+    {
+        return $this->hasOne(Brand::class, 'id', 'brand_id');
     }
 
-    public function user() {
-        return $this->hasOne( User::class, 'id', 'user_id' );
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'housing_favorites', 'housing_id', 'user_id');
     }
 
-    public function city() {
-        return $this->hasOne( City::class, 'id', 'city_id' );
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function county() {
-        return $this->hasOne( County::class, 'key_x', 'county_id' );
+    public function city()
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
     }
 
-    public function neighborhood() {
-        return $this->hasOne( Neighborhood::class,'mahalle_id', 'neighborhood_id' );
+    public function county()
+    {
+        return $this->hasOne(County::class, 'key_x', 'county_id');
     }
 
-    public function rejectedLog() {
-        return $this->hasOne( Log::class, 'item_id', 'id' )->where( 'item_type', 2 )->where( 'is_rejected', 1 )->orderByDesc( 'created_at' );
+    public function neighborhood()
+    {
+        return $this->hasOne(Neighborhood::class, 'mahalle_id', 'neighborhood_id');
     }
 
-    public function listItems() {
-        return $this->hasOne( ProjectListItem::class, 'housing_type_id', 'housing_type_id' );
+    public function rejectedLog()
+    {
+        return $this->hasOne(Log::class, 'item_id', 'id')->where('item_type', 2)->where('is_rejected', 1)->orderByDesc('created_at');
+    }
+
+    public function listItems()
+    {
+        return $this->hasOne(ProjectListItem::class, 'housing_type_id', 'housing_type_id');
     }
 
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
-    
 
-    
+    public function consultant()
+    {
+        return $this->belongsTo(User::class, 'consultant_id');
+    }
 }

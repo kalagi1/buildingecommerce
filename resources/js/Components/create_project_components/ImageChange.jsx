@@ -30,7 +30,7 @@ function ImageChange({saveHousing,saveSingleHousing,open,setOpen,data,setData,se
                     </div>
 
                     <button className='btn btn-primary mt-2' onClick={() => {saveSingleHousing();setOpen(false);}}>Seçilen Konuta Uygula</button>
-                    <button className='btn btn-primary mt-2' onClick={() => {saveHousing();setOpen(false);}}>Tüm Konutlara Uygula</button>
+                    <button className='btn btn-primary mt-2 mx-2' onClick={() => {saveHousing();setOpen(false);}}>Tüm Konutlara Uygula</button>
                 </Box>
             </Modal>
         </div>

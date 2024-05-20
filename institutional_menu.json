@@ -15,14 +15,14 @@
         "text": "Komşumu Gör",
         "key": "neighborView",
         "url": "neighbors.index",
-        "activePath": "/neighbors"
+        "activePath": "/komsumu-gor"
     },
     {
         "id": "projects",
         "label": "İlanlarım",
         "icon": "plus",
         "text": "Proje İlanlarım",
-        "key": "Projects",
+        "key": "GetProjects",
         "url": "institutional.react.projects",
         "activePath": "/institutional/projects"
     },
@@ -31,9 +31,9 @@
         "label": "İlanlarım",
         "icon": "plus",
         "text": "Emlak İlanlarım",
-        "key": "Housings",
+        "key": "GetHousings",
         "url": "institutional.housing.list",
-        "activePath": "/institutional/housings"
+        "activePath": "/hesabim/konutlar"
     },
     {
         "id": "GetSwapApplications",
@@ -42,7 +42,7 @@
         "text": "Takas Başvurularım",
         "key": "GetSwapApplications",
         "url": "institutional.react.swap.applications",
-        "activePath": "/institutional/swap_applications"
+        "activePath": "/hesabim/takas-basvurularim"
     },
     {
         "id": "GetReceivedOffers",
@@ -51,7 +51,7 @@
         "text": "Gelen Konut Başvuruları",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
-        "activePath": "/institutional/get_received_offers"
+        "activePath": "/hesabim/gelen-konut-basvurulari"
     },
     {
         "id": "GetGivenOffers",
@@ -60,7 +60,7 @@
         "text": "Başvurularım",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
-        "activePath": "/institutional/get_given_offers"
+        "activePath": "/hesabim/basvurularim"
     },
     {
         "id": "EmlakClubGift",
@@ -78,7 +78,7 @@
         "text": "Gösterge Paneli",
         "key": "ViewDashboard",
         "url": "institutional.index",
-        "activePath": "/institutional"
+        "activePath": "/hesabim"
     },
     {
         "id": "shopping-bag",
@@ -87,7 +87,7 @@
         "text": "Koleksiyonlarım",
         "key": "GetMyCollection",
         "url": "institutional.sharer.index",
-        "activePath": "/institutional/my-collections*"
+        "activePath": "/hesabim/koleksiyonlarim*"
     },
     {
         "id": "EditProfile",
@@ -96,7 +96,7 @@
         "text": "Profili Güncelle",
         "key": "EditProfile",
         "url": "institutional.profile.edit",
-        "activePath": "/institutional/profile/edit"
+        "activePath": "/hesabim/profil/duzenleme"
     },
     {
         "id": "ChangePassword",
@@ -105,7 +105,7 @@
         "text": "Şifreyi Değiştir",
         "key": "ChangePassword",
         "url": "institutional.password.edit",
-        "activePath": "/institutional/password/edit"
+        "activePath": "/hesabim/sifre/guncelleme"
     },
     {
         "id": "role",
@@ -120,13 +120,13 @@
                 "text": "Yeni Ekle",
                 "key": "CreateRole",
                 "url": "institutional.roles.create",
-                "activePath": "/institutional/roles/create"
+                "activePath": "/institutional/rol/olustur"
             },
             {
                 "text": "Listele",
                 "key": "GetRoles",
                 "url": "institutional.roles.index",
-                "activePath": "/institutional/roles"
+                "activePath": "/hesabim/roller"
             }
         ]
     },
@@ -147,21 +147,21 @@
         "key": "Orders",
         "url": "#nv-shopping",
         "activePath": [
-            "/institutional/orders*",
-            "/institutional/my-orders"
+            "/hesabim/sattiklarim*",
+            "/hesabim/aldiklarim"
         ],
         "subMenu": [
             {
                 "text": "Aldıklarım",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
-                "activePath": "/institutional/my-orders"
+                "activePath": "/hesabim/aldiklarim"
             },
             {
                 "text": "Sattıklarım",
                 "key": "GetOrders",
                 "url": "institutional.orders",
-                "activePath": "/institutional/orders"
+                "activePath": "/hesabim/sattiklarim"
             }
         ]
     },
@@ -173,7 +173,7 @@
         "key": "Reservations",
         "url": "#nv-shopping",
         "activePath": [
-            "/institutional/my-reservations*",
+            "/hesabim/kiraladiklarim",
             "/institutional/reservations"
         ],
         "subMenu": [
@@ -187,7 +187,7 @@
                 "text": "Kiraladıklarım",
                 "key": "MyReservations",
                 "url": "institutional.myreservations",
-                "activePath": "/institutional/my-reservations"
+                "activePath": "/hesabim/kiraladiklarim"
             }
         ]
     },
@@ -204,13 +204,13 @@
                 "text": "Yeni Ekle",
                 "key": "CreateUser",
                 "url": "institutional.users.create",
-                "activePath": "/institutional/users/create"
+                "activePath": "/hesabim/kullanici/olustur"
             },
             {
                 "text": "Listele",
                 "key": "GetUsers",
                 "url": "institutional.users.index",
-                "activePath": "/institutional/users"
+                "activePath": "/institutional/kullanicilar"
             }
         ]
     },
@@ -227,13 +227,13 @@
                 "text": "Oluştur",
                 "key": "CreateOffer",
                 "url": "institutional.offers.create",
-                "activePath": "/institutional/offers/create"
+                "activePath": "/hesabim/kampanya-olustur"
             },
             {
                 "text": "Listele",
                 "key": "GetOffers",
                 "url": "institutional.offers.index",
-                "activePath": "/institutional/offers"
+                "activePath": "/hesabim/kampanyalar"
             }
         ]
     },
@@ -273,13 +273,13 @@
                 "text": "Oluştur",
                 "key": "CreateStoreBanner",
                 "url": "institutional.storeBanners.create",
-                "activePath": "/institutional/store-banners/create"
+                "activePath": "/hesabim/reklam-gorseli/olustur"
             },
             {
                 "text": "Listele",
                 "key": "GetStoreBanners",
                 "url": "institutional.storeBanners.index",
-                "activePath": "/institutional/store-banners"
+                "activePath": "/hesabim/reklam-gorselleri"
             }
         ]
     },

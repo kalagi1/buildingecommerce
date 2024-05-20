@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
 
     public function boot()
     {
@@ -47,9 +49,9 @@ class AppServiceProvider extends ServiceProvider
     private function composeClientView()
     {
         $cacheKey = 'client_view_data';
-    
+
         $cachedData = Cache::get($cacheKey);
-    
+
         if (!$cachedData) {
             $cachedData = [
                 'fl' => FooterLink::all(),
@@ -59,19 +61,20 @@ class AppServiceProvider extends ServiceProvider
                 'footerLinks' => FooterLink::all(),
                 'adBanners' => AdBanner::where("is_visible", "1")->get(),
             ];
-    
+
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
-    
-        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", 
-          "client.layouts.partials.cart_icon"  ,"client.client-panel*"], function ($view) use ($cachedData) {
+
+        View::composer([
+            "client.layouts.partials.header", "client.layouts.partials.footer",
+            "client.layouts.partials.cart_icon", "client.client-panel*"
+        ], function ($view) use ($cachedData) {
             if (Auth::check()) {
-                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
+                $sharerLinks = ShareLink::where("user_id", Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
                 // $cartItemCount = request()->session()->get('cart');
-                $cartItemCount = CartItem::where('user_id',Auth::user()->id)->first();
+                $cartItemCount = CartItem::where('user_id', Auth::user()->id)->first();
                 $view->with("cartItemCount", $cartItemCount);
-
             }
             $menu = Menu::getMenuItems();
             $view->with("menu", $menu);
@@ -79,7 +82,7 @@ class AppServiceProvider extends ServiceProvider
             $this->composeView($view, 'client_menu.json');
         });
     }
-    
+
 
     private function composeInstitutionalView()
     {
@@ -97,6 +100,27 @@ class AppServiceProvider extends ServiceProvider
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
+
+                if ($user->corporate_type == 'Emlak Ofisi') {
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                }
+
+                if ($user->corporate_type != 'İnşaat Ofisi') {
+                    $permissions = array_diff($permissions, [
+                        "Offers",
+                        "CreateOffer",
+                        "Offers",
+                        "DeleteOffer",
+                        "GetOfferById",
+                        "UpdateOffer",
+                        "GetOffers"
+                    ]);
+                }
+
+                if ($user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                    $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+                }
+
 
                 $jsonFilePath = base_path($jsonFileName);
 
@@ -127,6 +151,15 @@ class AppServiceProvider extends ServiceProvider
 
     private function setMenuVisibility(&$menuItem, $permissions)
     {
-        $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+        if (isset($menuItem['subMenu'])) {
+            // Alt menü anahtarlarını pluck et ve kontrol et
+            $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
+    
+            // Alt menülerde izinlerle kesişen varsa, ana menüyü görünür yap
+            $menuItem['visible'] = $subMenuKeys->intersect($permissions)->isNotEmpty();
+        } else {
+            // Ana menüyü izinlerde olup olmadığını kontrol et
+            $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+        }
     }
 }

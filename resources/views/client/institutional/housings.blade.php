@@ -146,6 +146,17 @@
                         </div>
                     </section>
                 </div>
+                <div class="mobile-show">
+                    <div id="housingMobileRow">
+                        @foreach ($secondhandHousings as $housing)
+                            @php($sold = $housing->sold)
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                            @endif
+                        @endforeach
+                    </div>
+
+                </div>
             </div>
         @else
             <div class="container mt-5">

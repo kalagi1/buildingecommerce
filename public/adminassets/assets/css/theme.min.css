@@ -45902,3 +45902,33 @@ hr {
     padding: 27px 15px 27px 15px;
   }
 }/*# sourceMappingURL=style.css.map */
+
+.save_button{
+    width: 100% !important;
+    height: 48px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: #f27a1a !important;
+    font-size: 18px !important;
+    letter-spacing: .03em !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    transition: all .3s step-start !important;
+    overflow: hidden !important;
+    font-family: source_sans_prosemibold, serif !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.all_selected_button{
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #EA2B2E;
+    background-color: #EA2B2E !important;
+    padding : 10px 20px;
+    color: #fff; 
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}

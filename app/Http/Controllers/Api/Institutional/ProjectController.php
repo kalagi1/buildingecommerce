@@ -891,7 +891,14 @@ class ProjectController extends Controller
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+
+        if ($ownerId != null) {
+            $postData['open_sharing1'] = "Evet";
+        }
+
         $isShare = auth()->user()->type == 1 ? true : false;
+
+        $consultant = auth()->user()->parent_id ? true : false;
 
         $project = Housing::create(
             [
@@ -918,6 +925,7 @@ class ProjectController extends Controller
                 'status' => 2,
                 'owner_id' =>  $ownerId,
                 'is_share' =>  $isShare,
+                'consultant_id' => $consultant ? auth()->user()->id : null
 
             ]
         );
@@ -1064,23 +1072,61 @@ class ProjectController extends Controller
     public function saveHousing(Request $request)
     {
         if ($request->input('is_dot')) {
-            ProjectHousing::where('project_id', $request->input('project_id'))
-                ->whereIn('room_order', $request->input('rooms'))
+            for($i = 0; $i < count($request->input('rooms')); $i++){
+                $hasData = ProjectHousing::where('project_id', $request->input('project_id'))
+                ->where('room_order', $request->input('rooms')[$i])
+                ->where('name', $request->input('column_name') . '[]')
+                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 0)))"))
+                ->first();
+
+                if($hasData){
+                    ProjectHousing::where('project_id', $request->input('project_id'))
+                    ->where('room_order', $request->input('rooms')[$i])
+                    ->where('name', $request->input('column_name') . '[]')
+                    ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 0)))"))
+                    ->update([
+                        "name" => $request->input('column_name') . "[]",
+                        "value" => str_replace('.', '', $request->input('value'))
+                    ]);
+                }else{
+                    ProjectHousing::create([
+                        "key" => "Asd",
+                        "name" => $request->input('column_name').'[]',
+                        "value" => str_replace('.', '', $request->input('value')),
+                        "project_id" => $request->input('project_id'),
+                        "room_order" => $request->input('rooms')[$i]
+                    ]);
+                }
+                
+            }
+            
+        } else {
+            for($i = 0; $i < count($request->input('rooms')); $i++){
+                $hasData = ProjectHousing::where('project_id', $request->input('project_id'))
+                ->where('room_order', $request->input('rooms')[$i])
                 ->where('name', $request->input('column_name') . '[]')
                 ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2)))"))
-                ->update([
-                    "name" => $request->input('column_name') . "[]",
-                    "value" => str_replace('.', '', $request->input('value'))
-                ]);
-        } else {
-            ProjectHousing::where('project_id', $request->input('project_id'))
-                ->whereIn('room_order', $request->input('rooms'))
-                ->where('name', $request->input('column_name') . '[]')
-                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
-                ->update([
-                    "name" => $request->input('column_name') . "[]",
-                    "value" => str_replace('.', '', $request->input('value'))
-                ]);
+                ->first();
+                
+                if($hasData){
+                    ProjectHousing::where('project_id', $request->input('project_id'))
+                    ->where('room_order', $request->input('rooms')[$i])
+                    ->where('name', $request->input('column_name') . '[]')
+                    ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+                    ->update([
+                        "name" => $request->input('column_name') . "[]",
+                        "value" => str_replace('.', '', $request->input('value'))
+                    ]);
+                }else{
+                    ProjectHousing::create([
+                        "key" => "Asd",
+                        "name" => $request->input('column_name').'[]',
+                        "value" => str_replace('.', '', $request->input('value')),
+                        "project_id" => $request->input('project_id'),
+                        "room_order" => $request->input('rooms')[$i]
+                    ]);
+                }
+            }
         }
 
         return json_encode([
@@ -1237,6 +1283,112 @@ class ProjectController extends Controller
 
         return json_encode([
             "data" => $data
+        ]);
+    }
+
+    public function getHousingTypeData($housingTypeId){
+        $housingType = HousingType::where('id',$housingTypeId)->first();
+
+        return json_encode([
+            "data" => $housingType
+        ]);
+    }
+
+    public function saveHousingCheckboxes(Request $request){
+        for($i = 0; $i < count($request->input('rooms')); $i++){
+            $hasData = ProjectHousing::where('project_id', $request->input('project_id'))
+            ->where('room_order', $request->input('rooms')[$i])
+            ->where('name', $request->input('column_name') . '[]')
+            ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+            ->first();
+
+            if($hasData){
+                ProjectHousing::where('project_id', $request->input('project_id'))
+                ->where('room_order', $request->input('rooms')[$i])
+                ->where('name', $request->input('column_name') . '[]')
+                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+                ->update([
+                    "name" => $request->input('column_name') . "[]",
+                    "value" => json_encode($request->input('value'))
+                ]);
+            }else{
+                ProjectHousing::create([
+                    "key" => "Asd",
+                    "name" => $request->input('column_name').'[]',
+                    "value" => str_replace('.', '', $request->input('value')),
+                    "project_id" => $request->input('project_id'),
+                    "room_order" => $request->input('rooms')[$i]
+                ]);
+            }
+        }
+        
+
+        return json_encode([
+            "status" => true,
+        ]);
+    }
+
+    public function saveSale(Request $request , $projectId){
+        CartOrder::whereRaw(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = ".$projectId))->whereRaw(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = ".$request->input('room_order')))->update([
+            "full_name" => $request->input('name'),
+            "email" => $request->input('email'),
+            "phone" => $request->input('phone'),
+            "is_swap" => $request->input('sale_type'),
+            "is_show_user" => $request->input('show_neighbour') ? "on" : null,
+        ]);
+
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','price[]')->update([
+            "value" => str_replace('.','',$request->input('price'))
+        ]);
+
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','advance[]')->update([
+            "value" => str_replace('.','',$request->input('advance'))
+        ]);
+
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','installments[]')->update([
+            "value" => $request->input('installments')
+        ]);
+
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
+            "value" => count($request->input('pay_decs'))
+        ]);
+
+        for($i = 0; $i < count($request->input('pay_decs')); $i++){
+            $checkPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_price'.$request->input('room_order').$i)->first();
+            $checkDate = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_date'.$request->input('room_order').$i)->first();
+            if($checkPrice){
+                ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name',"pay_desc_price".$request->input('room_order').$i)->update([
+                    "value" => $request->input('pay_decs')[$i]['price']
+                ]);
+            }else{
+                ProjectHousing::create([
+                    "project_id" => $projectId,
+                    "room_order" => $request->input('room_order'),
+                    "name" => "pay_desc_price".$request->input('room_order').$i,
+                    "value" => $request->input('pay_decs')[$i]['price'],
+                    "key" => "pay_desc_price".$request->input('room_order').$i
+                ]);
+            }
+
+            if($checkDate){
+                ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name',"pay_desc_date".$request->input('room_order').$i)->update([
+                    "value" => $request->input('pay_decs')[$i]['date']
+                ]);
+            }else{
+                ProjectHousing::create([
+                    "project_id" => $projectId,
+                    "room_order" => $request->input('room_order'),
+                    "name" => "pay_desc_date".$request->input('room_order').$i,
+                    "value" => $request->input('pay_decs')[$i]['date'],
+                    "key" => "pay_desc_date".$request->input('room_order').$i
+                ]);
+            }
+        }
+
+        
+
+        return json_encode([
+            "status" => true
         ]);
     }
 }

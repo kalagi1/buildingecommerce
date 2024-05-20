@@ -209,10 +209,12 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
             'cart_order_id' =>'required',
+            'return_bank' => 'required',
+            'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
@@ -223,24 +225,28 @@ class ProfileController extends Controller
         if ($existingRefund) {
             // İade talebi zaten var, güncelle
             $existingRefund->update([
-                'terms' => $validatedData['terms'],
-                'name' => $validatedData['name'],
-                'phone' => $validatedData['phone'],
-                'email' => $validatedData['email'],
-                'content' => $validatedData['content'],
-                'status' => '0',
-                'user_id' => $userId
+                'terms'       => $validatedData['terms'],
+                'name'        => $validatedData['name'],
+                'phone'       => $validatedData['phone'],
+                'email'       => $validatedData['email'],
+                'return_bank' => $validatedData['return_bank'],
+                'return_iban' => $validatedData['return_iban'],
+                'content'     => $validatedData['content'],
+                'status'      => '0',
+                'user_id'     => $userId
             ]);
         } else {
             // İade talebi yok, yeni kayıt oluştur
             $refund = new CartOrderRefund([
-                'terms' => $validatedData['terms'],
-                'name' => $validatedData['name'],
-                'phone' => $validatedData['phone'],
-                'email' => $validatedData['email'],
-                'content' => $validatedData['content'],
-                'status' => '0',
-                'user_id' => $userId,
+                'terms'         => $validatedData['terms'],
+                'name'          => $validatedData['name'],
+                'phone'         => $validatedData['phone'],
+                'email'         => $validatedData['email'],
+                'return_bank'   => $validatedData['return_bank'],
+                'return_iban'   => $validatedData['return_iban'],
+                'content'       => $validatedData['content'],
+                'status'        => '0',
+                'user_id'       => $userId,
                 'cart_order_id' => $validatedData['cart_order_id']
             ]);
             $refund->save();

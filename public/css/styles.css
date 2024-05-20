@@ -214,7 +214,7 @@ button {
 .top-headings-section h2::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 100px;
@@ -603,7 +603,7 @@ img {
     width: 50px !important;
     height: 50px !important;
     border-radius: 30px;
-    object-fit:contain !important;
+    object-fit: contain !important;
 }
 
 .brand-head .brand-name {
@@ -1294,7 +1294,7 @@ strong {
 
 .button--size-s {
     font-size: 11px;
-    
+
 }
 
 .button--size-m {
@@ -2076,7 +2076,7 @@ section.recently.portfolio {
 
 .hp1 .request h3 {
     text-transform: uppercase;
-    
+
     font-size: 1.5rem;
     color: #fff;
 }
@@ -2088,7 +2088,7 @@ section.recently.portfolio {
 .hp1 .request h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -2103,7 +2103,7 @@ section.recently.portfolio {
 .hp1 .call-info h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -3761,7 +3761,7 @@ section.popular-places {
     width: 100%;
     display: block;
     font-size: 11px;
-    
+
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -3915,7 +3915,7 @@ section.feature-cities-1 {
     width: 100%;
     display: block;
     font-size: 11px;
-    
+
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -4354,7 +4354,7 @@ section.top-location {
 
 .top-location .tp-caption p {
     color: #18ba60;
-    
+
     opacity: 0;
     -webkit-transition: all ease-in-out 0.3s;
     transition: all ease-in-out 0.3s;
@@ -5151,7 +5151,7 @@ section.counterup {
 .first-footer .netabout h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: #fff;
     content: " ";
     width: 50px;
@@ -5310,7 +5310,7 @@ section.counterup {
 .first-footer .contactus h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -5377,7 +5377,7 @@ section.counterup {
 .first-footer .navigation h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -5450,7 +5450,7 @@ section.counterup {
 .first-footer .widget h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -5545,7 +5545,7 @@ section.counterup {
 .first-footer .newsletters h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -5592,7 +5592,7 @@ section.counterup {
     background: black;
     color: #fff;
     text-transform: uppercase;
-    
+
     margin-top: 1.5rem;
     cursor: pointer;
     -webkit-box-flex: 1;
@@ -6035,7 +6035,7 @@ element.style {
     cursor: pointer;
 }
 
-.add-to-swap-wrapper{
+.add-to-swap-wrapper {
     background-color: #fef4eb;
     padding: 8px;
     margin-top: 30px;
@@ -6131,6 +6131,7 @@ element.style {
 .homepage-2 .portfolio .homes-price i {
     color: white !important
 }
+
 .homepage-2 .portfolio .project-head:before {
     background: transparent !important;
 }
@@ -8551,6 +8552,7 @@ html input[disabled] {
 
     .itemCircleFont {
         font-size: 11px;
+        margin-left:10px;
     }
 
     .button-tabs .tab-title {
@@ -13048,7 +13050,7 @@ section.visited-cities {
     width: 100%;
     display: block;
     font-size: 11px;
-    
+
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -14262,7 +14264,7 @@ form label.error {
 
 .th-8 .contact-us h3 {
     text-transform: uppercase;
-    
+
     font-size: 1.2rem;
 }
 
@@ -15991,7 +15993,7 @@ a.button {
 
 .homepage-24 .request h3 {
     text-transform: uppercase;
-    
+
     font-size: 1.5rem;
     color: #fff;
 }
@@ -16003,7 +16005,7 @@ a.button {
 .homepage-24 .request h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -16047,7 +16049,7 @@ a.button {
 
 .homepage-24 .request h3 {
     text-transform: uppercase;
-    
+
     font-size: 1.4rem;
     color: #fff;
     margin-bottom: 2rem;
@@ -16791,7 +16793,7 @@ a.button {
 .inner-pages .blog .main-search-field-2 h5,
 .inner-pages .blog .section-heading .media .media-body h5 {
     font-family: 'Montserrat', sans-serif;
-    
+
     text-transform: capitalize;
 }
 
@@ -17695,6 +17697,7 @@ section.headings-2 {
 .inner-pages .headings-2 .listing-title-bar h3 {
     font-size: 16px;
     font-weight: 600;
+    line-height: 34px;
     color: #222;
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
@@ -17706,7 +17709,7 @@ section.headings-2 {
     color: black;
     display: block;
     height: 3px;
-    
+
     width: 50px;
 }
 
@@ -17720,27 +17723,27 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 .listing-title-bar h4 {
-    font-size: 24px;
+    font-size: 15px;
     font-weight: 700;
     color: #274abb;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
     text-transform: capitalize !important;
 }
 
 .inner-pages .headings-2 .listing-title-bar a,
 .inner-pages .headings-2 .listing-title-bar a p {
-    font-size: 17px;
+    font-size: 11px;
     text-decoration: none;
     color: #333;
 }
 
 .inner-pages .headings-2 span.category-tag {
     font-size: 11px;
-    background: black;
+    background: #EA2B2E;
     color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid #EA2B2E;
     padding: 5px 15px;
     border-radius: 50px;
     top: -3px;
@@ -18042,9 +18045,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .sidebar-widget .author-box img {
     float: left;
-    width: 85px;
+    width: 65px;
     object-fit: cover;
-    height: 85px;
+    height: 65px;
     border: 4px solid #fff;
     margin-right: 15px;
 }
@@ -18717,20 +18720,20 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .blog .sorting-options span {
     color: #121B22;
     font-family: 'Montserrat', sans-serif;
-    
+
     text-transform: uppercase;
 }
 
 .inner-pages .blog .sorting-options h5 {
     color: black;
     font-family: 'Montserrat', sans-serif;
-    
+
     margin-top: 0px;
 }
 
 .inner-pages .blog .sorting-options h6 {
     color: #18ba60;
-    
+
     margin-right: 3.2rem;
 }
 
@@ -18762,7 +18765,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: black;
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -19083,7 +19086,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .blog .homes-content.details .fa {
     color: black;
     font-size: 1.5rem;
-    
+
 }
 
 .inner-pages .blog .homes-content.details span {
@@ -21917,7 +21920,7 @@ header.payment-card-header .pull-right img {
 .inner-pages .about-us h2::after {
     display: block;
     height: 3px;
-    
+
     background-color: #121B22;
     content: " ";
     width: 97px;
@@ -23585,7 +23588,7 @@ a.btn_1 {
         font-weight: 600;
         width: 60% !important;
         font-size: 11px;
-        text-align: center;
+        text-align: right;
         color: #274abb !important;
     }
 }
@@ -24013,7 +24016,7 @@ a.btn_1 {
 .inner-pages .leve-comments h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -24179,7 +24182,7 @@ form label.error {
 
 .inner-pages .contact-us h3 {
     text-transform: uppercase;
-    
+
     font-size: 1.2rem;
 }
 
@@ -24203,7 +24206,7 @@ form label.error {
 .inner-pages .request h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: black;
     content: " ";
     width: 50px;
@@ -24223,7 +24226,7 @@ form label.error {
 .inner-pages .call-info h3::after {
     display: block;
     height: 3px;
-    
+
     background-color: #fff;
     content: " ";
     width: 50px;
@@ -26389,7 +26392,7 @@ select {
     padding-left: 20px;
     position: relative;
     font-size: 11px;
-    
+
     color: #777;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -26452,7 +26455,7 @@ select {
 h4 {
     margin-right: -2px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     color: #444;
     font-weight: 400;
 }
@@ -26516,7 +26519,7 @@ h4 {
     cursor: pointer;
     font-size: 11px;
     text-transform: uppercase;
-    
+
     border-radius: 0 !important;
 }
 
@@ -26534,7 +26537,7 @@ h4 {
 .skills h4::after {
     display: block;
     height: 3px;
-    
+
     background-color: #e72660;
     content: " ";
     width: 50px;
@@ -26793,7 +26796,7 @@ h4 {
 }
 
 .shop .blog .blog-pots h3 {
-    
+
     font-size: 11px;
     margin: 0;
 }
@@ -26816,7 +26819,7 @@ h4 {
 
 .shop p.recent-price {
     color: #fe4f4f;
-    
+
     margin-bottom: 30px;
 }
 
@@ -27343,7 +27346,7 @@ h4 {
     height: 48px;
     border-radius: 4px;
     text-transform: uppercase;
-    
+
     transition: all 0.3s ease;
     font-size: 11px;
 }
@@ -27370,7 +27373,7 @@ h4 {
     border: 1px black solid;
     border-radius: 24px;
     padding: .5rem 4rem;
-    
+
 }
 
 .loginItems #next:hover {
@@ -27407,9 +27410,7 @@ h4 {
     margin-top: 20px;
 }
 
-.user-type-selection label {
-    
-}
+.user-type-selection label {}
 
 .button-group {
     display: flex;
@@ -28034,7 +28035,7 @@ font {
     align-items: center;
     width: 35%;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
 }
 
 @media (max-width: 768px) {
@@ -28281,7 +28282,7 @@ font {
     align-items: center;
     font-size: 11px;
     color: #2a2a2a;
-    
+
     margin-bottom: 20px;
 }
 
@@ -28430,7 +28431,7 @@ font {
 
 #orders-container .order .order-header .order-header-info {
     color: #666;
-    
+
     font-size: 11px;
     display: flex;
 }
@@ -28571,9 +28572,7 @@ font {
     margin-right: 7px;
 }
 
-#orders-container .order .order-item .order-item-status strong {
-    
-}
+#orders-container .order .order-item .order-item-status strong {}
 
 #orders-container .order .order-item .order-item-status .at_collection_point,
 #orders-container .order .order-item .order-item-status .az_at_collection_point,
@@ -29220,7 +29219,7 @@ font {
 #orders-container .countdown .title {
     color: #fff;
     font-size: 10px;
-    
+
     align-self: center;
     margin-bottom: 4px;
 }
@@ -29660,7 +29659,7 @@ font {
 
 .msg-info-name {
     margin-right: 10px;
-    
+
 }
 
 .msg-info-time {
@@ -29713,7 +29712,7 @@ font {
     margin-left: 10px;
     background: rgb(0, 196, 65);
     color: #fff;
-    
+
     cursor: pointer;
     transition: background 0.23s;
 }
@@ -29889,6 +29888,12 @@ textarea::placeholder {
 }
 
 @media (max-width: 768px) {
+
+    .toggle-project-favorite,
+    .toggle-favorite {
+        margin-left: 10px;
+    }
+
     .chatbox-popup {
         left: 10px;
     }
@@ -29958,7 +29963,7 @@ a {
     text-decoration: none !important;
 }
 
-   .newButtonStyle{
+.newButtonStyle {
     background-color: white !important;
     position: relative;
     width: 150px;
@@ -29969,7 +29974,7 @@ a {
     color: #000;
     justify-content: center;
     border: 1px solid #000;
-    }
+}
 
 
 .buyUserRequest {
@@ -30422,6 +30427,7 @@ a {
     width: fit-content;
     transition: 0.3s;
     border-radius: 50%;
+    z-index: 1;
 }
 
 
@@ -30660,14 +30666,14 @@ a {
     margin-left: 20px;
 }
 
-.newButtonStyle img{
+.newButtonStyle img {
     position: absolute;
     top: -16px;
     left: 22px;
     width: 67px;
 }
 
-.newButtonStyle__text{
+.newButtonStyle__text {
     font-weight: bold;
 }
 

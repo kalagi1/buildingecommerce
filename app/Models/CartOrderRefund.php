@@ -18,6 +18,9 @@ class CartOrderRefund extends Model
         'user_id',
         'cart_order_id',
         'status',
+        'return_iban',
+        'return_bank',
+        
     ];
 
     // User modeli ile ilişkiyi tanımlayın

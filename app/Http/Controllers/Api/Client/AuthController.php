@@ -22,6 +22,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use PhpParser\JsonDecoder;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -478,6 +480,32 @@ class AuthController extends Controller
         return Password::broker();
     }
 
+    public function clientPasswordUpdate(Request $request){
+        $user = User::where("id", auth()->user()->id)->first();
+
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:5|confirmed',
+        ], [
+            'current_password.required' => 'Mevcut şifre alanı zorunludur.',
+            'new_password.required' => 'Yeni şifre alanı zorunludur.',
+            'new_password.min' => 'Yeni şifre en az :min karakter olmalıdır.',
+            'new_password.confirmed' => 'Yeni şifreler uyuşmuyor.',
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'Mevcut şifre hatalı.']);
+        }
+
+        // Yeni şifreyi güncelle
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'success' => "Şifre başarıyla güncellendi",
+            'data'    => $user
+        ]);
+}
     public function clientProfileUpdate(Request $request){
         $request->validate([
             "name" => "required",
