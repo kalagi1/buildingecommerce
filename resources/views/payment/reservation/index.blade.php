@@ -1172,7 +1172,7 @@
                         person_count: "{{ $reservation['person_count'] }}",
                         owner_id: "{{ $reservation['owner_id'] }}",
                         total_price: "{{ $reservation['total_price'] }}",
-                        down_payment: "{{$discountedPrice}}";
+                        down_payment: "{{$discountedPrice}}",
                         money_is_safe: "{{ $reservation['money_is_safe'] }}",
                         housing_id: "{{ $reservation['housing_id'] }}",
 
