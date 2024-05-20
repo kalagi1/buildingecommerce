@@ -813,6 +813,8 @@
                 $('#city').val(cityID).trigger('change');
             }
             if (countyID) {
+                console.log("scsdsf");
+                console.log(countyID);
                 $('#county').val(countyID).trigger('change');
             }
         });
