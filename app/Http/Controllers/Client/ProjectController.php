@@ -625,6 +625,8 @@ class ProjectController extends Controller
                 }
             }
         }
+
+        return $countySlug
         
         if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
