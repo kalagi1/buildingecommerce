@@ -124,7 +124,7 @@
                                                         <li class="the-icons mobile-hidden">
                                                             <span>
                                                                 <h6
-                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                    style="color: #ea2a28 !important;position: relative;top:4px;font-weight:600">
                                                                     {{number_format($items[$i]['project_values']['price[]'], 0, ',', '.')}}
                                                                     ₺
                                                                 </h6>
@@ -143,7 +143,7 @@
                                                             alt="" class="mr-2"> Master Realtor
                                                     </a>
                                                     <span class="price-mobile">
-                                                        <h6 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                        <h6 style="color: #ea2a28 !important;position: relative;top:4px;font-weight:600">
                                                             {{number_format($items[$i]['project_values']['price[]'], 0, ',', '.')}} ₺
                                                         </h6>
                     
@@ -295,7 +295,7 @@
                                                         <li class="the-icons mobile-hidden">
                                                             <span>
                                                                 <h6
-                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                    style="color: #ea2a28 !important;position: relative;top:4px;font-weight:600">
                                                                     {{number_format($housingTypeData->price[0], 0, ',', '.')}}
                                                                     ₺
                                                                 </h6>
@@ -314,7 +314,7 @@
                                                             alt="" class="mr-2"> Master Realtor
                                                     </a>
                                                     <span class="price-mobile">
-                                                        <h6 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                        <h6 style="color: #ea2a28 !important;position: relative;top:4px;font-weight:600">
                                                             {{number_format($housingTypeData->price[0], 0, ',', '.')}} ₺
                                                         </h6>
                     

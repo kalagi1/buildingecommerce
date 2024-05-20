@@ -1,5 +1,7 @@
+{{ $advertiseTitle ? $advertiseTitle : ' ' }}
 
-<h3 class="mobile-hidden">{{$title}}</h3>
-<span class="title-fsp" style="margin-top: 5px">{{ $advertiseTitle ? $advertiseTitle : " " }}  {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}</span>
-
-
+@if ($blockName)
+    {{ $blockName }} {{ ' ' }} {{ $blockHousingOrder }} {{ "No'lu" }} {{ $step1Slug }}
+@else
+    {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}
+@endif

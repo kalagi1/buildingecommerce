@@ -108,7 +108,6 @@ Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.inde
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
-Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
 Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
 Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
 Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
@@ -155,6 +154,8 @@ Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::c
 Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('institutional.teams');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");
+Route::get('/get-neighborhood/{neighborhood}', [CountyController::class, "getNeighborhood"])->name("getNeighborhood");
+
 Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCountiesForClient"])->name("getCountiesForClient");
 Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
@@ -165,6 +166,13 @@ Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::cla
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
+Route::post('/reservation/dekot/file/upload', [ReservationController::class, 'dekontfileUpload'])->name('reservation.dekont.file.upload');
+Route::get('/reservation/pay/success/{reservation}', [ReservationController::class, 'paySuccess'])->name('reservation.pay.success');
+Route::post('/reservation/sessions', [ReservationController::class, "addsessions"])->name('reservation.sessions');
+Route::get('/reservation/checkout/{housing}',[ReservationController::class,'reservation'])->name('payment.reservation.index');
+Route::post('/reservation/3d-payment', [ReservationController::class, 'reservation3DPayment'])->name('reservation.3d.pay');
+Route::post('/reservation/resultpaymentsuccess', [ReservationController::class, 'resultPaymentSuccess'])->name('reservation.result.payment');
+Route::post('/reservation/resultpaymentfail', [ReservationController::class, 'resultPaymentFail'])->name('reservation.result.payment');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
@@ -326,11 +334,12 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
         Route::get('/order_detail/{order_id}', [AdminHomeController::class, 'orderDetail'])->name('order.detail');
+        Route::get('/reservation_detail/{reservation_id}', [AdminHomeController::class, 'reservationDetail'])->name('reservation.detail');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
         Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
         Route::post('/receipt/pdf', [AdminHomeController::class, 'upload'])->name('receipt.refund.upload.pdf');
-
+        Route::post('reservation/receipt/pdf', [AdminHomeController::class, 'reservationUpload'])->name('reservation.receipt.refund.upload.pdf');
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
         Route::post('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
@@ -344,13 +353,14 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::post('/price/unapprove/{price}', [AdminHomeController::class, 'unapprovePrice'])->name('unapprove-price');
 
 
-        Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
-        Route::get('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');
+        Route::post('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
+        Route::post('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');
 
         Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
 
         Route::post('/update/status/{refundId}', [AdminHomeController::class, 'updateStatus'])->name('refund.update.status');
+        Route::post('reservation/update/status/{refundId}', [AdminHomeController::class, 'reservationUpdateStatus'])->name('reservation.refund.update.status');
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -781,6 +791,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/takas-basvurularim', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
+    Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
 
     Route::get('gelen-konut-basvurulari', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('basvurularim', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -1063,10 +1074,15 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
+        Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
+        Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
+      
     });
+    Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
+
 
 Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
 Route::get('sold/order_detail/{id}', [InstitutionalProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
@@ -1077,7 +1093,7 @@ Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
 
-Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}', [ClientProjectController::class, "allMenuProjects"])
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientProjectController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
 Route::get('/user-chat', [SupportChatController::class, 'userChat']);

@@ -149,7 +149,7 @@
                                                 optional($housing->county)->title .
                                                 ' / ' .
                                                 optional($housing->neighborhood)->mahalle_title ??
-                                                '' !!}</span>
+                                                '' !!}
                                         </a>
                                     </div>
                                 </div>
@@ -282,180 +282,15 @@
 
 
                             </ul>
+                            
                             <div class="tab-content" id="myTabContent">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                     <div class="tab-pane fade show active blog-info details mb-30" id="rez"
                                         role="tabpanel" aria-labelledby="rez-tab">
                                         <div class="row">
-                                            <div class="col-md-8 col-12">
+                                            <div class="col-md-12 col-12 mb-5">
                                                 <div id="reservation-calendar"></div>
                                             </div>
-                                            <div class="col-md-4 col-12">
-                                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                    <div class="mobileMove" id="mobileMoveID">
-
-                                                        <div class="schedule widget-boxed mt-33 mt-0">
-                                                            <div class="widget-boxed-header">
-
-                                                                <div
-                                                                    class="d-flex justify-content-between align-items-center">
-                                                                    <h4><i
-                                                                            class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
-                                                                        Yap
-                                                                    </h4>
-                                                                    <div
-                                                                        class="d-flex align-items-center justify-content-around mobile-action-move">
-                                                                        <div class="buttons" style="margin-right: 5px">
-                                                                            <button class="main-button">
-                                                                                <svg width="20" height="30"
-                                                                                    fill="currentColor"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path
-                                                                                        d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                                                    </path>
-                                                                                </svg>
-                                                                            </button>
-                                                                            <button class="twitter-button button"
-                                                                                style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-
-                                                                                <a
-                                                                                    href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                                                    <svg viewBox="0 0 24 24"
-                                                                                        width="24" height="24"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" fill="none"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="css-i6dzq1">
-                                                                                        <path
-                                                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                                                        </path>
-                                                                                    </svg></a>
-                                                                            </button>
-
-                                                                            <button class="reddit-button button"
-                                                                                style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                                                <a
-                                                                                    href="whatsapp://send?text={{ $shareUrl }}">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        fill="currentColor" height="24"
-                                                                                        width="24">
-                                                                                        <path
-                                                                                            d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                                                        </path>
-                                                                                    </svg>
-                                                                                </a>
-
-                                                                            </button>
-                                                                            <button class="messenger-button button"
-                                                                                style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                                                <a
-                                                                                    href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                                                    <svg viewBox="0 0 24 24"
-                                                                                        width="24" height="24"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" fill="none"
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        class="css-i6dzq1">
-                                                                                        <line x1="22"
-                                                                                            y1="2" x2="11"
-                                                                                            y2="13"></line>
-                                                                                        <polygon
-                                                                                            points="22 2 15 22 11 13 2 9 22 2">
-                                                                                        </polygon>
-                                                                                    </svg></a>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="button-effect toggle-favorite"
-                                                                            data-housing-id={{ $housing->id }}>
-                                                                            <i class="fa fa-heart-o"></i>
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="widget-boxed-body">
-                                                                <form id="rezervasyonForm">
-                                                                    @csrf
-                                                                    <div class="row">
-                                                                        <div class="col-lg-6 col-md-12 col-6 book">
-                                                                            <input type="date" id="date-checkin"
-                                                                                placeholder="Giriş Tarihi"
-                                                                                name="check_in_date"
-                                                                                class="date-field form-control">
-                                                                        </div>
-                                                                        <div class="col-lg-6 col-md-12 col-6 book2">
-                                                                            <input type="date" id="date-checkout"
-                                                                                placeholder="Çıkış Tarihi"
-                                                                                name="check_out_date"
-                                                                                class="date-field form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row mrg-top-15 mb-3">
-                                                                        <div class="col-lg-6 col-md-12 mt-3 mb-2">
-                                                                            <label>Kişi Sayısı</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-btn">
-                                                                                    <button type="button"
-                                                                                        class="btn counter-btn theme-cl btn-number"
-                                                                                        disabled="disabled"
-                                                                                        data-type="minus"
-                                                                                        data-field="quant[1]">
-                                                                                        <i class="fa fa-minus"></i>
-                                                                                    </button>
-                                                                                </span>
-                                                                                <input type="number" name="person_count"
-                                                                                    class="border-0 text-center form-control input-number"
-                                                                                    data-min="1" data-max="10"
-                                                                                    value="1" readonly>
-                                                                                <span class="input-group-btn">
-                                                                                    <button type="button"
-                                                                                        class="btn counter-btn theme-cl btn-number"
-                                                                                        data-type="plus"
-                                                                                        data-field="quant[1]">
-                                                                                        <i class="fa fa-plus"></i>
-                                                                                    </button>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="col-lg-6 col-md-12 mt-3 showPrice d-none">
-                                                                            <label>Toplam Tutar</label>
-                                                                            <div class="input-group">
-                                                                                <span id="totalPrice">₺</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-lg-12 col-md-12 mt-3 ">
-                                                                        <div class="row">
-                                                                            <div class="d-flex align-items-center">
-                                                                                <input id="money-trusted" type="checkbox">
-                                                                                <i class="fa fa-info-circle ml-2"
-                                                                                    title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır."
-                                                                                    style="font-size: 18px;"></i>
-                                                                                <label for="money-trusted"
-                                                                                    class="m-0 ml-1"> Param
-                                                                                    güvende (+1.000₺)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="button"
-                                                                        @if (!Auth::check()) onclick="redirectToPage()" @endif
-                                                                        class="reservationBtn reservation btn-radius full-width mt-2 text-white">Rezervasyon
-                                                                        Yap</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-
                                         </div>
 
                                     </div>
@@ -870,513 +705,680 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                                    <div class="add-to-collections-wrapper addCollection" data-type='housing'
-                                        data-id="{{ $housing->id }}">
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
-
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#e54242" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#e54242 " />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#e54242 " />
-                                                                        <g id="Group 72">
-                                                                            <path id="Rectangle 12"
-                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                                fill="white" stroke="white"
-                                                                                stroke-width="2" />
-                                                                        </g>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg><span class="add-to-collection-button-text">
-                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                        Portföyüme Ekle
-                                                    @else
-                                                        Koleksiyona Ekle
-                                                    @endif
-                                                </span>
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if (isset(json_decode($housing->housing_type_data)->swap[0]))
-                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
-
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#F0F0F0" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#FEF4EB" />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#F27A1A" />
-                                                                        <g id="Group 72">
-                                                                            <path d="M16 11V21M11 16H21" stroke="white"
-                                                                                stroke-width="2" stroke-linecap="round" />
-                                                                        </g>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-
-                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="modal fade" id="takasModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <form action="{{ route('form.kaydet') }}" method="POST"
-                                                    enctype="multipart/form-data" id="takasFormu">
-                                                    @csrf
-
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="ad">Ad:</label>
-                                                            <input class="formInput" type="text" id="ad"
-                                                                name="ad" required>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="soyad">Soyadınız:</label>
-                                                            <input class="formInput" type="text" id="soyad"
-                                                                name="soyad" required>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="telefon">Telefon
-                                                                Numaranız:</label>
-                                                            <input class="formInput" type="number" id="telefon"
-                                                                name="telefon" required maxlength="10">
-                                                            <span id="error_message" class="error-message"></span>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="email">E-mail:</label>
-                                                            <input class="formInput" type="email" id="email"
-                                                                name="email" required>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="sehir">Şehir:</label>
-                                                            <select class="formInput" id="sehir" name="sehir"
-                                                                required>
-                                                                <option value="">Şehir Seçiniz</option>
-                                                                @foreach ($cities as $city)
-                                                                    <option value="{{ $city->id }}">
-                                                                        {{ $city->title }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="ilce">İlçe:</label>
-                                                            <select class="formInput" id="ilce" name="ilce"
-                                                                disabled required>
-                                                                <option value="">İlçe Seçiniz</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-12 col-12">
-                                                            <label class="form-label" for="takas_tercihi">Takas
-                                                                Tercihiniz:</label>
-                                                            <select class="formInput" id="takas_tercihi"
-                                                                name="takas_tercihi" required>
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="emlak">Emlak</option>
-                                                                <option value="araç">Araç</option>
-                                                                <option value="barter">Barter</option>
-                                                                <option value="diğer">Diğer</option>
-                                                            </select>
-                                                        </div>
-
-
-                                                        <div id="digeryse" style="display: none;"
-                                                            class="col-md-12 col-12">
-                                                            <label class="form-label" for="diger_detay">Takas ile ilgili
-                                                                ürün/hizmet detayı:</label>
-                                                            <textarea class="formInput" id="diger_detay" name="diger_detay"></textarea>
-                                                        </div>
-
-                                                        <div id="barteryse" style="display: none;"
-                                                            class="col-md-12 col-12">
-                                                            <label class="form-label" for="barter_detay">Lütfen barter
-                                                                durumunuz ile ilgili detaylı bilgileri
-                                                                giriniz:</label>
-                                                            <textarea class="formInput" id="barter_detay" name="barter_detay"></textarea>
-                                                        </div>
-
-                                                        <div id="emlakyse" style="display: none;"
-                                                            class="col-md-12 col-12">
-                                                            <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
-                                                            <select class="formInput" id="emlak_tipi" name="emlak_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="konut">Konut</option>
-                                                                <option value="arsa">Arsa</option>
-                                                                <option value="işyeri">İşyeri</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div id="konutyse" style="display: none;"
-                                                            class="col-md-12 col-12">
-                                                            <label class="form-label" for="konut_tipi">Konut Tipi:</label>
-                                                            <select class="formInput" id="konut_tipi" name="konut_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="daire">Daire</option>
-                                                                <option value="villa">Villa</option>
-                                                                <option value="residance">Residance</option>
-                                                                <option value="prefabrik_ev">Prefabrik Ev</option>
-                                                                <option value="çiftlik_evi">Çiftlik Evi</option>
-                                                            </select>
-
-                                                            <label for="oda_sayisi">Oda Sayısı</label>
-                                                            <select class="form-select formInput"
-                                                                aria-label="Default select example" id="oda_sayisi"
-                                                                name="oda_sayisi">
-                                                                <option selected>Seçiniz</option>
-                                                                <option value="1+0">1+0</option>
-                                                                <option value="1.5+1">1.5+1</option>
-                                                                <option value="2+0">2+0</option>
-                                                                <option value="2+1">2+1</option>
-                                                                <option value="2.5+1">2.5+1</option>
-                                                                <option value="3+0">3+0</option>
-                                                                <option value="3+1">3+1</option>
-                                                                <option value="3.5+1">3.5+1</option>
-                                                                <option value="3+2">3+2</option>
-                                                                <option value="3+3">3+3</option>
-                                                                <option value="4+0">4+0</option>
-                                                                <option value="4+1">4+1</option>
-                                                                <option value="4.5+1">4.5+1</option>
-                                                                <option value="4+2">4+2</option>
-                                                                <option value="4+3">4+3</option>
-                                                                <option value="4+4">4+4</option>
-                                                                <option value="5+1">5+1</option>
-                                                                <option value="5.5+1">5.5+1</option>
-                                                                <option value="5+2">5+2</option>
-                                                                <option value="5+3">5+3</option>
-                                                                <option value="5+4">5+4</option>
-                                                                <option value="6+1">6+1</option>
-                                                                <option value="6+2">6+2</option>
-                                                                <option value="6.5+1">6.5+1</option>
-                                                                <option value="6+3">6+3</option>
-                                                                <option value="6+4">6+4</option>
-                                                                <option value="7+1">7+1</option>
-                                                                <option value="7+2">7+2</option>
-                                                                <option value="7+3">7+3</option>
-                                                                <option value="8+1">8+1</option>
-                                                                <option value="8+2">8+2</option>
-                                                                <option value="8+3">8+3</option>
-                                                                <option value="8+4">8+4</option>
-                                                                <option value="9+1">9+1</option>
-                                                                <option value="9+2">9+2</option>
-                                                                <option value="9+3">9+3</option>
-                                                                <option value="9+4">9+4</option>
-                                                                <option value="9+5">9+5</option>
-                                                                <option value="9+6">9+6</option>
-                                                                <option value="10+1">10+1</option>
-                                                                <option value="10+2">10+2</option>
-                                                                <option value="11+1">11+1</option>
-                                                                <option value="12 ve üzeri">12 ve üzeri</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="konut_tipi">Konut Yaşı:</label>
-                                                            <select class="formInput" id="konut_yasi" name="konut_yasi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                                <option value="5-10">5-10</option>
-                                                                <option value="11-15">11-15</option>
-                                                                <option value="16-20">16-20</option>
-                                                                <option value="20 ve Üzeri">20 ve Üzeri</option>
-                                                            </select>
-
-                                                            <input class="formInput" type="hidden" id="store_id"
-                                                                name="store_id" value="{{ $housing->user->id }}">
-
-                                                            <label class="form-label" for="kullanim_durumu">Kullanım
-                                                                Durumu:</label>
-                                                            <select class="formInput" id="kullanim_durumu"
-                                                                name="kullanim_durumu">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="kiracılı">Kiracılı</option>
-                                                                <option value="boş">Boş</option>
-                                                                <option value="mülk_sahibi">Mülk Sahibi</option>
-                                                            </select>
-
-                                                            <label class="form-label"
-                                                                for="konut_satis_rakami">Düşündüğünüz Satış Rakamı:</label>
-                                                            <input class="formInput" type="text"
-                                                                id="konut_satis_rakami" name="konut_satis_rakami"
-                                                                min="0">
-
-                                                            <label class="form-label" for="tapu_belgesi">Tapu Belgesi
-                                                                Yükleyiniz:</label>
-                                                            <input class="formInput" type="file" id="tapu_belgesi"
-                                                                name="tapu_belgesi" accept=".pdf,.doc,.docx">
-                                                        </div>
-
-                                                        <div id="arsayse" style="display: none;"
-                                                            class="col-md-12 col-12">
-
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_il">Arsa
-                                                                        İl:</label>
-                                                                    <select class="formInput" id="arsa_il"
-                                                                        name="arsa_il">
-                                                                        <option value="">Şehir Seçiniz</option>
-                                                                        @foreach ($cities as $city)
-                                                                            <option value="{{ $city->id }}">
-                                                                                {{ $city->title }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_ilce">Arsa
-                                                                        İlçe:</label>
-                                                                    <select class="formInput" id="arsa_ilce"
-                                                                        name="arsa_ilce" disabled>
-                                                                        <option value="">İlçe Seçiniz</option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <label class="form-label" for="arsa_mahalle">Arsa
-                                                                        Mahalle:</label>
-                                                                    <select class="formInput" id="arsa_mahalle"
-                                                                        name="arsa_mahalle" disabled>
-                                                                        <option value="">Mahalle Seçiniz</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <label class="form-label" for="ada_parsel">Ada Parsel
-                                                                Bilgisi:</label>
-                                                            <input class="formInput" type="text" id="ada_parsel"
-                                                                name="ada_parsel">
-
-                                                            <label class="form-label" for="imar_durumu">Arsa İmar
-                                                                Durumu:</label>
-                                                            <select class="formInput" id="imar_durumu"
-                                                                name="imar_durumu">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="villa">Villa</option>
-                                                                <option value="konut">Konut</option>
-                                                                <option value="turizm">Turizm Amaçlı Kiralama</option>
-                                                                <option value="sanayi">Sanayi</option>
-                                                                <option value="ticari">Ticari</option>
-                                                                <option value="bağ_bahçe">Bağ Bahçe</option>
-                                                                <option value="tarla">Tarla</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="satis_rakami">Düşündüğünüz
-                                                                Satış Rakamı:</label>
-                                                            <input class="formInput" type="text" id="satis_rakami"
-                                                                name="satis_rakami" min="0">
-                                                        </div>
-
-                                                        <div id="aracyse" style="display: none;"
-                                                            class="col-md-12 col-12">
-
-                                                            <label class="form-label" for="arac_model_yili">Araç Model
-                                                                Yılı:</label>
-                                                            <select class="formInput" id="arac_model_yili"
-                                                                name="arac_model_yili">
-                                                                <option value="">Model Yılı Seçiniz</option>
-                                                                @for ($year = date('Y'); $year >= 2004; $year--)
-                                                                    <option value="{{ $year }}">
-                                                                        {{ $year }}</option>
-                                                                @endfor
-                                                            </select>
-
-
-                                                            <label class="form-label" for="arac_markasi">Araç
-                                                                Markası:</label>
-                                                            <select class="formInput" name="arac_markasi"
-                                                                id="arac_markasi">
-                                                                <option value="">Seçiniz...</option>
-                                                                <option value="Alfa Romeo">Alfa Romeo</option>
-                                                                <option value="Aston Martin">Aston Martin</option>
-                                                                <option value="Audi">Audi</option>
-                                                                <option value="Bentley">Bentley</option>
-                                                                <option value="BMW">BMW</option>
-                                                                <option value="Bugatti">Bugatti</option>
-                                                                <option value="Buick">Buick</option>
-                                                                <option value="Cadillac">Cadillac</option>
-                                                                <option value="Chery">Chery</option>
-                                                                <option value="Chevrolet">Chevrolet</option>
-                                                                <option value="Chrysler">Chrysler</option>
-                                                                <option value="Citroen">Citroen</option>
-                                                                <option value="Cupra">Cupra</option>
-                                                                <option value="Dacia">Dacia</option>
-                                                                <option value="DS Automobiles">DS Automobiles</option>
-                                                                <option value="Daewoo">Daewoo</option>
-                                                                <option value="Daihatsu">Daihatsu</option>
-                                                                <option value="Dodge">Dodge</option>
-                                                                <option value="Ferrari">Ferrari</option>
-                                                                <option value="Fiat">Fiat</option>
-                                                                <option value="Ford">Ford</option>
-                                                                <option value="Geely">Geely</option>
-                                                                <option value="Honda">Honda</option>
-                                                                <option value="Hyundai">Hyundai</option>
-                                                                <option value="Infiniti">Infiniti</option>
-                                                                <option value="Isuzu">Isuzu</option>
-                                                                <option value="Iveco">Iveco</option>
-                                                                <option value="Jaguar">Jaguar</option>
-                                                                <option value="Jeep">Jeep</option>
-                                                                <option value="Kia">Kia</option>
-                                                                <option value="Lada">Lada</option>
-                                                                <option value="Lamborghini">Lamborghini</option>
-                                                                <option value="Lancia">Lancia</option>
-                                                                <option value="Land-rover">Land-rover</option>
-                                                                <option value="Leapmotor">Leapmotor</option>
-                                                                <option value="Lexus">Lexus</option>
-                                                                <option value="Lincoln">Lincoln</option>
-                                                                <option value="Lotus">Lotus</option>
-                                                                <option value="Maserati">Maserati</option>
-                                                                <option value="Mazda">Mazda</option>
-                                                                <option value="McLaren">McLaren</option>
-                                                                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                                                                <option value="MG">MG</option>
-                                                                <option value="Mini">Mini</option>
-                                                                <option value="Mitsubishi">Mitsubishi</option>
-                                                                <option value="Nissan">Nissan</option>
-                                                                <option value="Opel">Opel</option>
-                                                                <option value="Peugeot">Peugeot</option>
-                                                                <option value="Porsche">Porsche</option>
-                                                                <option value="Proton">Proton</option>
-                                                                <option value="Renault">Renault</option>
-                                                                <option value="Rolls Royce">Rolls Royce</option>
-                                                                <option value="Rover">Rover</option>
-                                                                <option value="Saab">Saab</option>
-                                                                <option value="Seat">Seat</option>
-                                                                <option value="Skoda">Skoda</option>
-                                                                <option value="Smart">Smart</option>
-                                                                <option value="Ssangyong">Ssangyong</option>
-                                                                <option value="Subaru">Subaru</option>
-                                                                <option value="Suzuki">Suzuki</option>
-                                                                <option value="Tata">Tata</option>
-                                                                <option value="Tesla">Tesla</option>
-                                                                <option value="Tofaş">Tofaş</option>
-                                                                <option value="Toyota">Toyota</option>
-                                                                <option value="Volkswagen">Volkswagen</option>
-                                                                <option value="Volvo">Volvo</option>
-                                                                <option value="Voyah">Voyah</option>
-                                                                <option value="Yudo">Yudo</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
-                                                            <select class="formInput" id="yakit_tipi" name="yakit_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="benzin">Benzin</option>
-                                                                <option value="dizel">Dizel</option>
-                                                                <option value="lpg">LPG</option>
-                                                                <option value="elektrik">Elektrik</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="vites_tipi">Vites Tipi:</label>
-                                                            <select class="formInput" id="vites_tipi" name="vites_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="manuel">Manuel</option>
-                                                                <option value="otomatik">Otomatik</option>
-                                                            </select>
-
-                                                            <label class="form-label" for="arac_satis_rakami">Satış
-                                                                Rakamı:</label>
-                                                            <input class="formInput" type="text"
-                                                                id="arac_satis_rakami" name="arac_satis_rakami"
-                                                                min="0">
-
-                                                            <label class="form-label" for="ruhsat_belgesi">Ruhsat
-                                                                Belgesi
-                                                                Yükleyiniz:</label>
-                                                            <input class="formInput" type="file" id="ruhsat_belgesi"
-                                                                name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
-                                                        </div>
-
-                                                        <div id="isyeriyse" style="display: none;"
-                                                            class="mb-3 col-md-12 col-12">
-
-                                                            <label for="ticari_bilgiler" class="form-label">Ticari ile
-                                                                ilgili Bilgileri Giriniz:</label>
-                                                            <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
-
-                                                            <label for="isyeri_satis_rakami"
-                                                                class="form-label">Düşündüğünüz Satış Rakamı:</label>
-                                                            <input type="text" class="formInput"
-                                                                id="isyeri_satis_rakami" name="isyeri_satis_rakami"
-                                                                min="0">
-                                                        </div>
-
-                                                    </div>
-
-                                                    <button type="submit"
-                                                        style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
-                                                    <button type="button" data-bs-dismiss="modal"
-                                                        style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
-                                                </form>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                           
                             </div>
 
                         @endif
 
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                            data-id="{{ $housing->id }}">
+                            <div class="add-to-collection-button-wrapper">
+                                <div class="add-to-collection-button">
 
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="32" fill="#e54242" />
+                                        <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                            <rect width="1440" height="1577"
+                                                transform="translate(-1100 -1183)" fill="white" />
+                                            <g id="Group 6131">
+                                                <g id="Frame 21409">
+                                                    <g id="Group 6385">
+                                                        <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                            height="48" rx="8" fill="#ea2a28" />
+                                                        <g id="Group 2664">
+                                                            <rect id="Rectangle 316" width="32"
+                                                                height="32" rx="4"
+                                                                fill="#ea2a28" />
+                                                            <g id="Group 72">
+                                                                <path id="Rectangle 12"
+                                                                    d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                    fill="white" stroke="white"
+                                                                    stroke-width="2" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1750_971">
+                                                <rect width="1440" height="1577" fill="white"
+                                                    transform="translate(-1100 -1183)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg><span class="add-to-collection-button-text">
+                                        @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                            Portföyüme Ekle
+                                        @else
+                                            Koleksiyona Ekle
+                                        @endif
+                                    </span>
+                                </div>
+                                <i class="fa fa-caret-right"></i>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                        <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                            <div class="add-to-collection-button-wrapper">
+                                <div class="add-to-collection-button">
+
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="32" fill="#F0F0F0" />
+                                        <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                            <rect width="1440" height="1577"
+                                                transform="translate(-1100 -1183)" fill="white" />
+                                            <g id="Group 6131">
+                                                <g id="Frame 21409">
+                                                    <g id="Group 6385">
+                                                        <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                            height="48" rx="8" fill="#FEF4EB" />
+                                                        <g id="Group 2664">
+                                                            <rect id="Rectangle 316" width="32"
+                                                                height="32" rx="4"
+                                                                fill="#F27A1A" />
+                                                            <g id="Group 72">
+                                                                <path d="M16 11V21M11 16H21" stroke="white"
+                                                                    stroke-width="2" stroke-linecap="round" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1750_971">
+                                                <rect width="1440" height="1577" fill="white"
+                                                    transform="translate(-1100 -1183)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                    <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                </div>
+                                <i class="fa fa-caret-right"></i>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="modal fade" id="takasModal" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{{ route('form.kaydet') }}" method="POST"
+                                        enctype="multipart/form-data" id="takasFormu">
+                                        @csrf
+
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="ad">Ad:</label>
+                                                <input class="formInput" type="text" id="ad"
+                                                    name="ad" required>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="soyad">Soyadınız:</label>
+                                                <input class="formInput" type="text" id="soyad"
+                                                    name="soyad" required>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="telefon">Telefon
+                                                    Numaranız:</label>
+                                                <input class="formInput" type="number" id="telefon"
+                                                    name="telefon" required maxlength="10">
+                                                <span id="error_message" class="error-message"></span>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="email">E-mail:</label>
+                                                <input class="formInput" type="email" id="email"
+                                                    name="email" required>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="sehir">Şehir:</label>
+                                                <select class="formInput" id="sehir" name="sehir"
+                                                    required>
+                                                    <option value="">Şehir Seçiniz</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->id }}">
+                                                            {{ $city->title }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label class="form-label" for="ilce">İlçe:</label>
+                                                <select class="formInput" id="ilce" name="ilce"
+                                                    disabled required>
+                                                    <option value="">İlçe Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12 col-12">
+                                                <label class="form-label" for="takas_tercihi">Takas
+                                                    Tercihiniz:</label>
+                                                <select class="formInput" id="takas_tercihi"
+                                                    name="takas_tercihi" required>
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="emlak">Emlak</option>
+                                                    <option value="araç">Araç</option>
+                                                    <option value="barter">Barter</option>
+                                                    <option value="diğer">Diğer</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div id="digeryse" style="display: none;"
+                                                class="col-md-12 col-12">
+                                                <label class="form-label" for="diger_detay">Takas ile ilgili
+                                                    ürün/hizmet detayı:</label>
+                                                <textarea class="formInput" id="diger_detay" name="diger_detay"></textarea>
+                                            </div>
+
+                                            <div id="barteryse" style="display: none;"
+                                                class="col-md-12 col-12">
+                                                <label class="form-label" for="barter_detay">Lütfen barter
+                                                    durumunuz ile ilgili detaylı bilgileri
+                                                    giriniz:</label>
+                                                <textarea class="formInput" id="barter_detay" name="barter_detay"></textarea>
+                                            </div>
+
+                                            <div id="emlakyse" style="display: none;"
+                                                class="col-md-12 col-12">
+                                                <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
+                                                <select class="formInput" id="emlak_tipi" name="emlak_tipi">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="konut">Konut</option>
+                                                    <option value="arsa">Arsa</option>
+                                                    <option value="işyeri">İşyeri</option>
+                                                </select>
+                                            </div>
+
+                                            <div id="konutyse" style="display: none;"
+                                                class="col-md-12 col-12">
+                                                <label class="form-label" for="konut_tipi">Konut Tipi:</label>
+                                                <select class="formInput" id="konut_tipi" name="konut_tipi">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="daire">Daire</option>
+                                                    <option value="villa">Villa</option>
+                                                    <option value="residance">Residance</option>
+                                                    <option value="prefabrik_ev">Prefabrik Ev</option>
+                                                    <option value="çiftlik_evi">Çiftlik Evi</option>
+                                                </select>
+
+                                                <label for="oda_sayisi">Oda Sayısı</label>
+                                                <select class="form-select formInput"
+                                                    aria-label="Default select example" id="oda_sayisi"
+                                                    name="oda_sayisi">
+                                                    <option selected>Seçiniz</option>
+                                                    <option value="1+0">1+0</option>
+                                                    <option value="1.5+1">1.5+1</option>
+                                                    <option value="2+0">2+0</option>
+                                                    <option value="2+1">2+1</option>
+                                                    <option value="2.5+1">2.5+1</option>
+                                                    <option value="3+0">3+0</option>
+                                                    <option value="3+1">3+1</option>
+                                                    <option value="3.5+1">3.5+1</option>
+                                                    <option value="3+2">3+2</option>
+                                                    <option value="3+3">3+3</option>
+                                                    <option value="4+0">4+0</option>
+                                                    <option value="4+1">4+1</option>
+                                                    <option value="4.5+1">4.5+1</option>
+                                                    <option value="4+2">4+2</option>
+                                                    <option value="4+3">4+3</option>
+                                                    <option value="4+4">4+4</option>
+                                                    <option value="5+1">5+1</option>
+                                                    <option value="5.5+1">5.5+1</option>
+                                                    <option value="5+2">5+2</option>
+                                                    <option value="5+3">5+3</option>
+                                                    <option value="5+4">5+4</option>
+                                                    <option value="6+1">6+1</option>
+                                                    <option value="6+2">6+2</option>
+                                                    <option value="6.5+1">6.5+1</option>
+                                                    <option value="6+3">6+3</option>
+                                                    <option value="6+4">6+4</option>
+                                                    <option value="7+1">7+1</option>
+                                                    <option value="7+2">7+2</option>
+                                                    <option value="7+3">7+3</option>
+                                                    <option value="8+1">8+1</option>
+                                                    <option value="8+2">8+2</option>
+                                                    <option value="8+3">8+3</option>
+                                                    <option value="8+4">8+4</option>
+                                                    <option value="9+1">9+1</option>
+                                                    <option value="9+2">9+2</option>
+                                                    <option value="9+3">9+3</option>
+                                                    <option value="9+4">9+4</option>
+                                                    <option value="9+5">9+5</option>
+                                                    <option value="9+6">9+6</option>
+                                                    <option value="10+1">10+1</option>
+                                                    <option value="10+2">10+2</option>
+                                                    <option value="11+1">11+1</option>
+                                                    <option value="12 ve üzeri">12 ve üzeri</option>
+                                                </select>
+
+                                                <label class="form-label" for="konut_tipi">Konut Yaşı:</label>
+                                                <select class="formInput" id="konut_yasi" name="konut_yasi">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5-10">5-10</option>
+                                                    <option value="11-15">11-15</option>
+                                                    <option value="16-20">16-20</option>
+                                                    <option value="20 ve Üzeri">20 ve Üzeri</option>
+                                                </select>
+
+                                                <input class="formInput" type="hidden" id="store_id"
+                                                    name="store_id" value="{{ $housing->user->id }}">
+
+                                                <label class="form-label" for="kullanim_durumu">Kullanım
+                                                    Durumu:</label>
+                                                <select class="formInput" id="kullanim_durumu"
+                                                    name="kullanim_durumu">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="kiracılı">Kiracılı</option>
+                                                    <option value="boş">Boş</option>
+                                                    <option value="mülk_sahibi">Mülk Sahibi</option>
+                                                </select>
+
+                                                <label class="form-label"
+                                                    for="konut_satis_rakami">Düşündüğünüz Satış Rakamı:</label>
+                                                <input class="formInput" type="text"
+                                                    id="konut_satis_rakami" name="konut_satis_rakami"
+                                                    min="0">
+
+                                                <label class="form-label" for="tapu_belgesi">Tapu Belgesi
+                                                    Yükleyiniz:</label>
+                                                <input class="formInput" type="file" id="tapu_belgesi"
+                                                    name="tapu_belgesi" accept=".pdf,.doc,.docx">
+                                            </div>
+
+                                            <div id="arsayse" style="display: none;"
+                                                class="col-md-12 col-12">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="arsa_il">Arsa
+                                                            İl:</label>
+                                                        <select class="formInput" id="arsa_il"
+                                                            name="arsa_il">
+                                                            <option value="">Şehir Seçiniz</option>
+                                                            @foreach ($cities as $city)
+                                                                <option value="{{ $city->id }}">
+                                                                    {{ $city->title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="arsa_ilce">Arsa
+                                                            İlçe:</label>
+                                                        <select class="formInput" id="arsa_ilce"
+                                                            name="arsa_ilce" disabled>
+                                                            <option value="">İlçe Seçiniz</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="arsa_mahalle">Arsa
+                                                            Mahalle:</label>
+                                                        <select class="formInput" id="arsa_mahalle"
+                                                            name="arsa_mahalle" disabled>
+                                                            <option value="">Mahalle Seçiniz</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <label class="form-label" for="ada_parsel">Ada Parsel
+                                                    Bilgisi:</label>
+                                                <input class="formInput" type="text" id="ada_parsel"
+                                                    name="ada_parsel">
+
+                                                <label class="form-label" for="imar_durumu">Arsa İmar
+                                                    Durumu:</label>
+                                                <select class="formInput" id="imar_durumu"
+                                                    name="imar_durumu">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="villa">Villa</option>
+                                                    <option value="konut">Konut</option>
+                                                    <option value="turizm">Turizm Amaçlı Kiralama</option>
+                                                    <option value="sanayi">Sanayi</option>
+                                                    <option value="ticari">Ticari</option>
+                                                    <option value="bağ_bahçe">Bağ Bahçe</option>
+                                                    <option value="tarla">Tarla</option>
+                                                </select>
+
+                                                <label class="form-label" for="satis_rakami">Düşündüğünüz
+                                                    Satış Rakamı:</label>
+                                                <input class="formInput" type="text" id="satis_rakami"
+                                                    name="satis_rakami" min="0">
+                                            </div>
+
+                                            <div id="aracyse" style="display: none;"
+                                                class="col-md-12 col-12">
+
+                                                <label class="form-label" for="arac_model_yili">Araç Model
+                                                    Yılı:</label>
+                                                <select class="formInput" id="arac_model_yili"
+                                                    name="arac_model_yili">
+                                                    <option value="">Model Yılı Seçiniz</option>
+                                                    @for ($year = date('Y'); $year >= 2004; $year--)
+                                                        <option value="{{ $year }}">
+                                                            {{ $year }}</option>
+                                                    @endfor
+                                                </select>
+
+
+                                                <label class="form-label" for="arac_markasi">Araç
+                                                    Markası:</label>
+                                                <select class="formInput" name="arac_markasi"
+                                                    id="arac_markasi">
+                                                    <option value="">Seçiniz...</option>
+                                                    <option value="Alfa Romeo">Alfa Romeo</option>
+                                                    <option value="Aston Martin">Aston Martin</option>
+                                                    <option value="Audi">Audi</option>
+                                                    <option value="Bentley">Bentley</option>
+                                                    <option value="BMW">BMW</option>
+                                                    <option value="Bugatti">Bugatti</option>
+                                                    <option value="Buick">Buick</option>
+                                                    <option value="Cadillac">Cadillac</option>
+                                                    <option value="Chery">Chery</option>
+                                                    <option value="Chevrolet">Chevrolet</option>
+                                                    <option value="Chrysler">Chrysler</option>
+                                                    <option value="Citroen">Citroen</option>
+                                                    <option value="Cupra">Cupra</option>
+                                                    <option value="Dacia">Dacia</option>
+                                                    <option value="DS Automobiles">DS Automobiles</option>
+                                                    <option value="Daewoo">Daewoo</option>
+                                                    <option value="Daihatsu">Daihatsu</option>
+                                                    <option value="Dodge">Dodge</option>
+                                                    <option value="Ferrari">Ferrari</option>
+                                                    <option value="Fiat">Fiat</option>
+                                                    <option value="Ford">Ford</option>
+                                                    <option value="Geely">Geely</option>
+                                                    <option value="Honda">Honda</option>
+                                                    <option value="Hyundai">Hyundai</option>
+                                                    <option value="Infiniti">Infiniti</option>
+                                                    <option value="Isuzu">Isuzu</option>
+                                                    <option value="Iveco">Iveco</option>
+                                                    <option value="Jaguar">Jaguar</option>
+                                                    <option value="Jeep">Jeep</option>
+                                                    <option value="Kia">Kia</option>
+                                                    <option value="Lada">Lada</option>
+                                                    <option value="Lamborghini">Lamborghini</option>
+                                                    <option value="Lancia">Lancia</option>
+                                                    <option value="Land-rover">Land-rover</option>
+                                                    <option value="Leapmotor">Leapmotor</option>
+                                                    <option value="Lexus">Lexus</option>
+                                                    <option value="Lincoln">Lincoln</option>
+                                                    <option value="Lotus">Lotus</option>
+                                                    <option value="Maserati">Maserati</option>
+                                                    <option value="Mazda">Mazda</option>
+                                                    <option value="McLaren">McLaren</option>
+                                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                                    <option value="MG">MG</option>
+                                                    <option value="Mini">Mini</option>
+                                                    <option value="Mitsubishi">Mitsubishi</option>
+                                                    <option value="Nissan">Nissan</option>
+                                                    <option value="Opel">Opel</option>
+                                                    <option value="Peugeot">Peugeot</option>
+                                                    <option value="Porsche">Porsche</option>
+                                                    <option value="Proton">Proton</option>
+                                                    <option value="Renault">Renault</option>
+                                                    <option value="Rolls Royce">Rolls Royce</option>
+                                                    <option value="Rover">Rover</option>
+                                                    <option value="Saab">Saab</option>
+                                                    <option value="Seat">Seat</option>
+                                                    <option value="Skoda">Skoda</option>
+                                                    <option value="Smart">Smart</option>
+                                                    <option value="Ssangyong">Ssangyong</option>
+                                                    <option value="Subaru">Subaru</option>
+                                                    <option value="Suzuki">Suzuki</option>
+                                                    <option value="Tata">Tata</option>
+                                                    <option value="Tesla">Tesla</option>
+                                                    <option value="Tofaş">Tofaş</option>
+                                                    <option value="Toyota">Toyota</option>
+                                                    <option value="Volkswagen">Volkswagen</option>
+                                                    <option value="Volvo">Volvo</option>
+                                                    <option value="Voyah">Voyah</option>
+                                                    <option value="Yudo">Yudo</option>
+                                                </select>
+
+                                                <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
+                                                <select class="formInput" id="yakit_tipi" name="yakit_tipi">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="benzin">Benzin</option>
+                                                    <option value="dizel">Dizel</option>
+                                                    <option value="lpg">LPG</option>
+                                                    <option value="elektrik">Elektrik</option>
+                                                </select>
+
+                                                <label class="form-label" for="vites_tipi">Vites Tipi:</label>
+                                                <select class="formInput" id="vites_tipi" name="vites_tipi">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="manuel">Manuel</option>
+                                                    <option value="otomatik">Otomatik</option>
+                                                </select>
+
+                                                <label class="form-label" for="arac_satis_rakami">Satış
+                                                    Rakamı:</label>
+                                                <input class="formInput" type="text"
+                                                    id="arac_satis_rakami" name="arac_satis_rakami"
+                                                    min="0">
+
+                                                <label class="form-label" for="ruhsat_belgesi">Ruhsat
+                                                    Belgesi
+                                                    Yükleyiniz:</label>
+                                                <input class="formInput" type="file" id="ruhsat_belgesi"
+                                                    name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
+                                            </div>
+
+                                            <div id="isyeriyse" style="display: none;"
+                                                class="mb-3 col-md-12 col-12">
+
+                                                <label for="ticari_bilgiler" class="form-label">Ticari ile
+                                                    ilgili Bilgileri Giriniz:</label>
+                                                <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
+
+                                                <label for="isyeri_satis_rakami"
+                                                    class="form-label">Düşündüğünüz Satış Rakamı:</label>
+                                                <input type="text" class="formInput"
+                                                    id="isyeri_satis_rakami" name="isyeri_satis_rakami"
+                                                    min="0">
+                                            </div>
+
+                                        </div>
+
+                                        <button type="submit"
+                                            style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
+                                        <button type="button" data-bs-dismiss="modal"
+                                            style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                            <div class="mt-5 mb-5">
+                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                        <div class="mobileMove" id="mobileMoveID">
+
+                                            <div class="schedule widget-boxed mt-33 mt-0">
+                                                <div class="widget-boxed-header">
+
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center">
+                                                        <h4><i
+                                                                class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
+                                                            Yap
+                                                        </h4>
+                                                        <div
+                                                            class="d-flex align-items-center justify-content-around mobile-action-move">
+                                                            <div class="buttons" style="margin-right: 5px">
+                                                                <button class="main-button">
+                                                                    <svg width="20" height="30"
+                                                                        fill="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </button>
+                                                                <button class="twitter-button button"
+                                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
+
+                                                                    <a
+                                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24"
+                                                                            width="24" height="24"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <path
+                                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                                            </path>
+                                                                        </svg></a>
+                                                                </button>
+
+                                                                <button class="reddit-button button"
+                                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
+                                                                    <a
+                                                                        href="whatsapp://send?text={{ $shareUrl }}">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
+                                                                            fill="currentColor" height="24"
+                                                                            width="24">
+                                                                            <path
+                                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </button>
+                                                                <button class="messenger-button button"
+                                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
+                                                                    <a
+                                                                        href="https://telegram.me/share/url?url={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24"
+                                                                            width="24" height="24"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <line x1="22"
+                                                                                y1="2" x2="11"
+                                                                                y2="13"></line>
+                                                                            <polygon
+                                                                                points="22 2 15 22 11 13 2 9 22 2">
+                                                                            </polygon>
+                                                                        </svg></a>
+                                                                </button>
+                                                            </div>
+                                                            <div class="button-effect toggle-favorite"
+                                                                data-housing-id={{ $housing->id }}>
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-boxed-body">
+                                                    <form id="rezervasyonForm">
+                                                        @csrf
+                                                        <input type="hidden" name="key" id="orderKey">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-12 col-6 book">
+                                                                <input type="date" id="date-checkin"
+                                                                    placeholder="Giriş Tarihi"
+                                                                    name="check_in_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 col-6 book2">
+                                                                <input type="date" id="date-checkout"
+                                                                    placeholder="Çıkış Tarihi"
+                                                                    name="check_out_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mrg-top-15 mb-3">
+                                                            <div class="col-lg-6 col-md-12 mt-3 mb-2">
+                                                                <label>Kişi Sayısı</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            disabled="disabled"
+                                                                            data-type="minus"
+                                                                            data-field="quant[1]">
+                                                                            <i class="fa fa-minus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="number" name="person_count"
+                                                                        class="border-0 text-center form-control input-number"
+                                                                        data-min="1" data-max="10"
+                                                                        value="1" readonly>
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            data-type="plus"
+                                                                            data-field="quant[1]">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-lg-6 col-md-12 mt-3 showPrice d-none">
+                                                                <label>Toplam Tutar</label>
+                                                                <div class="input-group">
+                                                                    <span id="totalPrice">₺</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12 col-md-12 mt-3 ">
+                                                            <div class="row">
+                                                                <div class="d-flex align-items-center">
+                                                                    <input id="money-trusted" type="checkbox">
+                                                                    <i class="fa fa-info-circle ml-2"
+                                                                        title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır."
+                                                                        style="font-size: 18px;"></i>
+                                                                    <label for="money-trusted"
+                                                                        class="m-0 ml-1"> Param
+                                                                        güvende (+1.000₺)</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button"
+                                                            @if (!Auth::check()) onclick="redirectToPage()" @endif
+                                                            class="reservationBtn reservation btn-radius full-width mt-2 text-white" id="submitBtn">Rezervasyon
+                                                            Yap</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                              
+
+                            </div>
 
                         <div class="moveStore">
                             <div class="widget-boxed removeClass mt-5 mb-5">
@@ -1523,18 +1525,6 @@
 
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        İl-İlçe-Mahalle :
-                                                        <span class="det">
-                                                            {!! optional($housing->city)->title .
-                                                                ' / ' .
-                                                                optional($housing->county)->title .
-                                                                ' / ' .
-                                                                optional($housing->neighborhood)->mahalle_title ??
-                                                                '' !!}</span>
-                                                    </td>
-                                                </tr>
                                                 @foreach ($labels as $label => $val)
                                                     @if (
                                                         $label != 'Kapak Resmi' &&
@@ -1601,7 +1591,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+    {{-- <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -1735,10 +1725,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
-    <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+    {{-- <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -1820,7 +1810,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')
@@ -2243,6 +2233,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $("#phone").on("input blur", function() {
@@ -2349,9 +2340,11 @@
                         $("#orderKey").val(uniqueCode);
                         $(".totalPriceCode").html(uniqueCode);
                         $(".reservationBtn").attr({
-                            "data-toggle": "modal",
-                            "data-target": "#paymentModal"
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#paymentModal"
                         })
+
+                  
                     }
 
                 });
@@ -2423,12 +2416,12 @@
 
                 $('#submitBtn').click(function() {
                     // Kullanıcı bilgileri
-                    var fullName = $('#fullName').val();
-                    var email = $('#email').val();
-                    var tc = $('#tc').val();
-                    var phone = $('#phone').val();
-                    var address = $('#address').val();
-                    var notes = $('#notes').val();
+                    // var fullName = $('#fullName').val();
+                    // var email = $('#email').val();
+                    // var tc = $('#tc').val();
+                    // var phone = $('#phone').val();
+                    // var address = $('#address').val();
+                    // var notes = $('#notes').val();
 
                     var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                     var checkInDate = $('#date-checkin').val();
@@ -2444,28 +2437,32 @@
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+
+                    var moneyTrusted = $("#money-trusted").is(':checked');
+                    var moneyIsSafe = moneyTrusted ? 1000 : 0;
+
                     // Gerekli alanları kontrol et
-                    if (!fullName || !email || !tc || !phone || !address) {
-                        toastr.error("Lütfen tüm zorunlu alanları doldurun.")
-                        return; // Fonksiyonu burada sonlandır
-                    }
+                    // if (!fullName || !email || !tc || !phone || !address) {
+                    //     toastr.error("Lütfen tüm zorunlu alanları doldurun.")
+                    //     return; // Fonksiyonu burada sonlandır
+                    // }
 
                     // TC Kimlik Numarası için regular expression
-                    var tcRegex = /^[1-9]{1}[0-9]{9}[02468]{1}$/;
+                    // var tcRegex = /^[1-9]{1}[0-9]{9}[02468]{1}$/;
 
                     // Check if the provided tc matches the expected format
-                    if (!tcRegex.test(tc)) {
-                        toastr.error("Lütfen geçerli bir TC Kimlik Numarası giriniz.");
-                        return;
-                    }
-
+                    // if (!tcRegex.test(tc)) {
+                    //     toastr.error("Lütfen geçerli bir TC Kimlik Numarası giriniz.");
+                    //     return;
+                    // }
+                        console.log(key);
 
                     // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
 
                     // AJAX ile sunucuya gönder
                     $.ajax({
-                        url: "{{ route('reservation.store') }}",
+                        url: "{{ route('reservation.sessions') }}",
                         type: "POST",
                         data: {
                             _token: $('input[name="_token"]').val(),
@@ -2474,28 +2471,30 @@
                             person_count: personCount,
                             housing_id: {{ $housing->id }},
                             owner_id: {{ $housing->user->id }},
-                            price: price * diffDays,
+                            price: price ,
+                            total_price : price * diffDays,
+                            money_is_safe : moneyIsSafe,
                             key: key,
-                            fullName: fullName,
-                            email: email,
-                            tc: tc,
-                            phone: phone,
-                            address: address,
+                            // fullName: fullName,
+                            // email: email,
+                            // tc: tc,
+                            // phone: phone,
+                            // address: address,
                             money_trusted: moneyTrusted
                         },
                         success: function(response) {
                             // $('#finalConfirmationModal').modal('hide');
                             // $('.modal-backdrop').remove();
                             // location.reload();
-
                             if (!response.success) {
                                 toastr.error(response.message);
                                 // location.reload();
                             } else {
-                                $('#finalConfirmationModal').modal('hide');
-                                $('.modal-backdrop').remove();
+                                // $('#finalConfirmationModal').modal('hide');
+                                // $('.modal-backdrop').remove();
                                 toastr.success(response.message);
-                                location.reload();
+                                console.log(response);
+                                window.location.href = "{{ route('payment.reservation.index', ['housing' => $housing->id ]) }}";
                             }
 
                         },

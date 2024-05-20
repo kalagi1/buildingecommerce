@@ -73,8 +73,7 @@
                         </div>
                     </div>
                 </div>
-
-                @if ($housing->owner)
+                @if (isset($housing->owner))
                     @if ($housing->status == 1)
                         <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
                             Emlak Ofisi Değiştir
@@ -414,34 +413,36 @@
                             @for ($i = 0; $i < 1; $i++)
                                 <div class="tab-pane fade show @if ($i == 0) active @endif"
                                     id="TabContent{{ $i }}" role="tabpanel">
+                                    @if (is_array($housingTypeData) || is_object($housingTypeData))
                                     @foreach ($housingTypeData as $key => $housingType)
-                                        @if ($housingType->type != 'file' && isset($housingType->name))
-                                            @if ($housingType->type == 'checkbox-group')
-                                                @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
-                                                    @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
-                                                        <div class="view-form-json mt-4">
-                                                            <label for=""
-                                                                style="">{{ $housingType->label }}</label>
-                                                            @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
-                                                                <p class="mb-1">
-                                                                    {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
-                                                                </p>
-                                                            @endforeach
-                                                        </div>
+                                        @if (is_object($housingType) && isset($housingType->type))
+                                            @if ($housingType->type != 'file' && isset($housingType->name))
+                                                @if ($housingType->type == 'checkbox-group')
+                                                    @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) && is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
+                                                        @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
+                                                            <div class="view-form-json mt-4">
+                                                                <label for="">{{ $housingType->label }}</label>
+                                                                @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
+                                                                    <p class="mb-1">
+                                                                        {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
+                                                                    </p>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
                                                     @endif
+                                                @else
+                                                    <div class="view-form-json">
+                                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) && is_array($housingData->{str_replace('[]', '', $housingType->name)}))
+                                                            <label for="">{!! $housingType->label !!}</label>
+                                                            <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
+                                                        @endif
+                                                    </div>
                                                 @endif
-                                            @else
-                                                <div class="view-form-json">
-                                                    @if (isset($housingData->{str_replace('[]', '', $housingType->name)}))
-                                                        <label for=""
-                                                            style="">{!! $housingType->label !!}</label>
-
-                                                        <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
-                                                    @endif
-                                                </div>
                                             @endif
                                         @endif
                                     @endforeach
+                                @endif
+                                
                                 </div>
                             @endfor
                         </div>

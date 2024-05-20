@@ -293,7 +293,9 @@
                                         <select id="city" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city['id'] }}">{{ $city['title'] }}</option>
+                                                <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
+                                                    @if (isset($cityID) && $cityID == $city['id']) selected @endif>
+                                                    {{ $city['title'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -331,6 +333,102 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                <div id="room_count_field" class="room_count_field">
+                                    <div class="trip-search mt-md-2">
+                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                            onclick="toggleFilter(this)">
+
+                                            <span>
+                                                İlan Tarihi
+                                            </span>
+                                        </div>
+                                        <div class="mt-md-2 filtreArea" style="display: none !important">
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio" name="listing_date"
+                                                    id="last_24_hours" value="24">
+                                                <label class="form-check-label w-100 ml-4" for="last_24_hours">Son 24
+                                                    Saat</label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio" name="listing_date"
+                                                    id="last_3_days" value="3">
+                                                <label class="form-check-label w-100 ml-4" for="last_3_days">Son 3
+                                                    Gün</label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio" name="listing_date"
+                                                    id="last_7_days" value="7">
+                                                <label class="form-check-label w-100 ml-4" for="last_7_days">Son 7
+                                                    Gün</label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio" name="listing_date"
+                                                    id="last_15_days" value="15">
+                                                <label class="form-check-label w-100 ml-4" for="last_15_days">Son 15
+                                                    Gün</label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio" name="listing_date"
+                                                    id="last_30_days" value="30">
+                                                <label class="form-check-label w-100 ml-4" for="last_30_days">Son 30
+                                                    Gün</label>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div id="room_count_field" class="room_count_field">
+                                    <div class="trip-search mt-md-2">
+                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                            onclick="toggleFilter(this)">
+                                            <span>
+                                                Kimden
+                                            </span>
+                                        </div>
+                                        <div class="mt-md-2 filtreArea" style="display: none !important">
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio"
+                                                    name="corporate_type" id="EmlakOfisi" value="Emlak Ofisi">
+                                                <label class="form-check-label w-100 ml-4" for="EmlakOfisi">Emlak
+                                                    Ofisinden
+                                                </label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio"
+                                                    name="corporate_type" id="İnsaatOfisi" value="İnşaat Ofisi">
+                                                <label class="form-check-label w-100 ml-4" for="İnsaatOfisi">İnşaat
+                                                    Ofisinden
+                                                </label>
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio"
+                                                    name="corporate_type" id="banka" value="Banka">
+                                                <label class="form-check-label w-100 ml-4" for="banka">Bankadan</label>
+
+                                            </div>
+
+                                            <div class="mb-2 d-flex align-items-center">
+                                                <input class="filter-now form-control" type="radio"
+                                                    name="corporate_type" id="TurizmAmaçliKiralama"
+                                                    value="Turizm Amaçlı Kiralama">
+                                                <label class="form-check-label w-100 ml-4"
+                                                    for="TurizmAmaçliKiralama">Turizm İşletmesinden
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                 @foreach ($filters as $filter)
@@ -487,285 +585,6 @@
                                     </script>
                                 @endforeach
 
-                                {{-- @foreach ($filters as $filter)
-                                    @if ($housingTypeParentSlug != 'mustakil-tatil')
-                                        @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
-                                            @if ($filter['type'] != 'text')
-                                                @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat')))
-                                                @else
-                                                    <div id="room_count_field" class="room_count_field ">
-                                                        <div class="trip-search mt-md-2">
-                                                            <div class="head widget-boxed-header mobile-title widget-boxed-header"
-                                                                onclick="toggleFilter(this)">
-                                                                <span>
-                                                                    @if ($filter['label'] == 'Peşin Fiyat')
-                                                                        Fiyat
-                                                                    @else
-                                                                        {{ $filter['label'] }}
-                                                                    @endif
-                                                                </span>
-                                                            </div>
-                                                            <div class="mt-md-2 filtreArea"
-                                                                @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                        @else
-                                                        style="display: none !important;" @endif>
-                                                        @if (isset($filter['values']))
-                                                        @foreach ($filter['values'] as $key => $value)
-                                                        @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                            <!-- Switch-slider öğesi -->
-                                                            <div class="mb-2 d-flex align-items-center">
-                                                                <label class="switch-slider">
-                                                                    <input name="{{ $filter['name'] }}[]"
-                                                                        type="checkbox" value="{{ $value->value }}"
-                                                                        class="filter-now form-control switch"
-                                                                        id="{{ $filter['name'] . $key }}">
-                                                                    <span class="slider"></span>
-                                                                </label>
-                                                                <label for="{{ $filter['name'] . $key }}"
-                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                            </div>
-                                                        @else
-                                                            @if ($filter['type'] == 'select')
-                                                                @if ($key != 0)
-                                                                    <div class="mb-2 d-flex align-items-center">
-                                                                        <input name="{{ $filter['name'] }}[]"
-                                                                            type="checkbox"
-                                                                            value="{{ $value->value }}"
-                                                                            class="filter-now form-control"
-                                                                            id="{{ $filter['name'] . $key }}">
-                                                                        <label for="{{ $filter['name'] . $key }}"
-                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                    </div>
-                                                                @endif
-                                                            @elseif($filter['type'] == 'checkbox-group')
-                                                                <div class="mb-2 d-flex align-items-center">
-                                                                    <input name="{{ $filter['name'] }}[]"
-                                                                        type="checkbox" value="{{ $value->value }}"
-                                                                        class="filter-now form-control"
-                                                                        id="{{ $filter['name'] . $key }}">
-                                                                    <label for="{{ $filter['name'] . $key }}"
-                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                        @endif
-                                                               
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            @endif
-
-                                            @if ($filter['type'] == 'text')
-                                                @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat')))
-                                                @else
-                                                    <div id="room_count_field"class="room_count_field ">
-                                                        <div class="trip-search mt-md-2">
-                                                            <div class="widget-boxed-header mobile-title widget-boxed-header"
-                                                                onclick="toggleFilterDiv(this)">
-                                                                <span>
-                                                                    @if ($filter['label'] == 'Peşin Fiyat')
-                                                                        Fiyat
-                                                                    @else
-                                                                        {{ $filter['label'] }}
-                                                                    @endif
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mt-md-2"
-                                                                @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                            @else
-                                                            style="display: none !important;" @endif>
-                                                                @if ($filter['text_style'] == 'min-max')
-                                                                    <span id="slider-range-value1">
-                                                                        <input type="text"
-                                                                            name="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                            id="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                            min="0" placeholder="En Düşük"
-                                                                            class="filter-now form-control price-only">
-                                                                    </span>
-                                                                    <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
-                                                                    <span id="slider-range-value2">
-                                                                        <input type="text"
-                                                                            id="{{ str_replace('[]', '', $filter['name']) }}-max"
-                                                                            min="0" placeholder="En Yüksek"
-                                                                            class="filter-now form-control price-only"
-                                                                            name="{{ str_replace('[]', '', $filter['name']) }}-max">
-                                                                    </span>
-                                                                @else
-                                                                    <span class="w-100">
-                                                                        <input type="text"
-                                                                            name="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                            id="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                            class="filter-now form-control">
-                                                                    </span>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        @endif
-                                    @else
-                                        @if ($filter['label'] != 'Peşin Fiyat')
-                                            @if ($filter['type'] != 'text')
-                                                <div id="room_count_field"class="room_count_field  @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif">
-                                                    <div class="trip-search mt-md-2">
-                                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
-                                                            onclick="toggleFilter(this)">
-                                                            <span>
-                                                                @if ($filter['label'] == 'Peşin Fiyat')
-                                                                    Fiyat
-                                                                @else
-                                                                    {{ $filter['label'] }}
-                                                                @endif
-                                                            </span>
-                                                        </div>
-                                                        <div class="mt-md-2 filtreArea"
-                                                            @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                        @else
-                                                        style="display: none !important;" @endif>
-                                                        @if (isset($filter['values']))
-                                                        @foreach ($filter['values'] as $key => $value)
-                                                        @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                            <!-- Switch-slider öğesi -->
-                                                            <div class="mb-2 d-flex align-items-center">
-                                                                <label class="switch-slider">
-                                                                    <input name="{{ $filter['name'] }}[]"
-                                                                        type="checkbox"
-                                                                        value="{{ $value->value }}"
-                                                                        class="filter-now form-control switch"
-                                                                        id="{{ $filter['name'] . $key }}">
-                                                                    <span class="slider"></span>
-                                                                </label>
-                                                                <label for="{{ $filter['name'] . $key }}"
-                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                            </div>
-                                                        @else
-                                                            @if ($filter['type'] == 'select')
-                                                                @if ($key != 0)
-                                                                    <div class="mb-2 d-flex align-items-center">
-                                                                        <input name="{{ $filter['name'] }}[]"
-                                                                            type="checkbox"
-                                                                            value="{{ $value->value }}"
-                                                                            class="filter-now form-control"
-                                                                            id="{{ $filter['name'] . $key }}">
-                                                                        <label for="{{ $filter['name'] . $key }}"
-                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                    </div>
-                                                                @endif
-                                                            @elseif($filter['type'] == 'checkbox-group')
-                                                                <div class="mb-2 d-flex align-items-center">
-                                                                    <input name="{{ $filter['name'] }}[]"
-                                                                        type="checkbox"
-                                                                        value="{{ $value->value }}"
-                                                                        class="filter-now form-control"
-                                                                        id="{{ $filter['name'] . $key }}">
-                                                                    <label for="{{ $filter['name'] . $key }}"
-                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                        @endif
-                                                          
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-
-                                            @if ($filter['type'] == 'text')
-                                                <div id="room_count_field"
-                                                    class="room_count_field  @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif ">
-
-                                                    <div class="trip-search mt-md-2">
-                                                        <div class="widget-boxed-header mobile-title widget-boxed-header"
-                                                            onclick="toggleFilterDiv(this)">
-                                                            <span>
-                                                                @if ($filter['label'] == 'Peşin Fiyat')
-                                                                    Fiyat
-                                                                @else
-                                                                    {{ $filter['label'] }}
-                                                                @endif
-                                                            </span>
-
-                                                        </div>
-                                                        <div class="d-flex align-items-center mt-md-2"
-                                                            @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                        @else
-                                                        style="display: none !important;" @endif>
-                                                            @if ($filter['text_style'] == 'min-max')
-                                                                <span id="slider-range-value1">
-                                                                    <input type="text"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                        min="0" placeholder="En Düşük"
-                                                                        class="filter-now form-control price-only">
-                                                                </span>
-                                                                <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
-                                                                <span id="slider-range-value2">
-                                                                    <input type="text"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-max"
-                                                                        min="0" placeholder="En Yüksek"
-                                                                        class="filter-now form-control price-only"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-max">
-                                                                </span>
-                                                            @else
-                                                                <span class="w-100">
-                                                                    <input type="text"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                        class="filter-now form-control">
-                                                                </span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endif
-                                    @endif
-
-
-                                    <script>
-                                        function toggleFilter(element) {
-                                            var filterArea = element.nextElementSibling; // Filtre alanı div'i
-
-                                            if (filterArea.style.display === 'none') {
-                                                filterArea.style.display = 'block';
-                                            } else {
-                                                filterArea.style.display = 'none';
-                                            }
-                                        }
-                                    </script>
-                                    <script>
-                                        function toggleFilterDiv(element) {
-                                            var filterContent = $(element).parent().find('.mt-md-2');
-                                            var filterIcon = $(element).parent().find('#filter-icon');
-
-                                            if (filterContent.css('display') === 'none') {
-                                                filterContent.attr('style', 'display: flex !important');
-                                                filterIcon.attr('style', 'transform: rotate(180deg) !important');
-                                            } else {
-                                                filterContent.attr('style', 'display: none !important');
-                                                filterIcon.attr('style', 'transform: rotate(0deg) !important');
-                                            }
-                                        }
-
-                                        function toggleFilter(element) {
-                                            var filterContent = $(element).parent().find('.mt-md-2');
-                                            var filterIcon = $(element).find('#filter-icon');
-
-                                            if (filterContent.css('display') === 'none') {
-                                                filterContent.attr('style', 'display: block !important');
-                                                filterIcon.attr('style', 'transform: rotate(180deg) !important');
-                                            } else {
-                                                filterContent.attr('style', 'display: none !important');
-                                                filterIcon.attr('style', 'transform: rotate(0deg) !important');
-                                            }
-                                        }
-                                    </script>
-                                @endforeach --}}
 
                             </div>
 
@@ -818,6 +637,18 @@
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $housingTypeName }}</p>
                                 @endif
+                                <div class="hiddenCityName d-none">
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name cityNameP" style="color: black"></p>
+                                </div>
+                                <div class="hiddenCountyName d-none">
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name countyNameP" style="color: black"></p>
+                                </div>
+                                <div class="hiddenNeighborhoodName d-none">
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name neighborhoodNameP" style="color: black"></p>
+                                </div>
                                 {{-- @if ($checkTitle)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">
@@ -929,6 +760,10 @@
                 $("#neighborhood").val("#").trigger('change'); // Mahalle seçeneğini sıfırla
                 $("input[type='checkbox']").prop('checked', false);
                 $("input").val("");
+                $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+                $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+                $(".hiddenCityName").removeClass("d-flex").addClass("d-none");
+
 
             });
         });
@@ -937,7 +772,8 @@
             $('#city').select2({
                 placeholder: 'İl',
                 width: '100%',
-                searchInputPlaceholder: 'Ara...'
+                searchInputPlaceholder: 'Ara...',
+
             });
             $("#project_type").select2({
                 minimumResultsForSearch: -1,
@@ -961,6 +797,189 @@
         let bathroom_count;
 
         var button = document.getElementById('submit-filters');
+        var cityID = @json($cityID ?? null);
+        var countyID = @json($countyID ?? null);
+        var neighborhoodID = @json($neighborhoodID ?? null);
+        var countyTitle = @json($countyTitle ?? null);
+        var neighborhoodTitle = @json($neighborhoodTitle ?? null);
+        var cityTitle = @json($cityTitle ?? null);
+        var countySlug = @json($countySlug ?? null);
+        var neighborhoodSlug = @json($neighborhoodSlug ?? null);
+        var citySlug = @json($citySlug ?? null);
+
+
+        $(document).ready(function() {
+            var cityID = {{ $cityID ?? 'null' }};
+            var countyID = {{ $countyID ?? 'null' }};
+            var neighborhoodID = {{ $neighborhoodID ?? 'null' }};
+
+            function updateURL(newUrl) {
+                window.history.pushState(null, '', newUrl);
+            }
+
+            function selectCityByID(cityID) {
+                if (cityID) {
+                    $('#city').val(cityID).trigger('change');
+                }
+            }
+
+            function selectCountyByID(countyID) {
+                if (countyID) {
+                    $('#county').val(countyID).trigger('change');
+                }
+            }
+
+            function selectNeighborhoodByID(neighborhoodID) {
+                if (neighborhoodID) {
+                    $('#neighborhood').val(neighborhoodID).trigger('change');
+                }
+            }
+
+            function buildNewUrl(slug, type) {
+                var currentUrl = new URL(window.location.href);
+                var pathnameParts = currentUrl.pathname.split('/');
+                var categoryIndex = pathnameParts.indexOf('kategori');
+
+                // Yeni URL için parçaları oluştur
+                var newPathParts = pathnameParts.slice(0, categoryIndex +
+                2); // 'kategori' ve 'emlak-ilanlari' kısımlarını tut
+
+                if (type === 'city') {
+                    // İl değişiminde il, ilçe ve mahalle bilgilerini tamamen temizle
+                    newPathParts.push(slug);
+                } else {
+                    // İlçe veya mahalle eklenmesi durumunda mevcut il bilgisi varsa ekle
+                    for (var i = categoryIndex + 2; i < pathnameParts.length; i++) {
+                        if (pathnameParts[i] !== '' && !['city', 'county', 'neighborhood'].includes(pathnameParts[
+                                i])) {
+                            newPathParts.push(pathnameParts[i]);
+                        }
+                    }
+                    newPathParts.push(slug);
+                }
+
+                return currentUrl.origin + newPathParts.join('/');
+            }
+
+            $('#city').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-counties') }}/" + $(this).val(),
+                    success: function(res) {
+                        $('#county').empty();
+                        $('#neighborhood').empty();
+
+                        $("#county").val("#");
+                        $("#neighborhood").val("#");
+                        $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                        var citySlug = res.citySlug;
+                        var newUrl = buildNewUrl(citySlug, 'city');
+
+                        updateURL(newUrl);
+
+                        $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
+
+                        var cityNameElement = $(".hiddenCityName").find(".cityNameP");
+                        if (cityNameElement.parent('a').length) {
+                            cityNameElement.unwrap();
+                        }
+
+                        cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
+                            'href', newUrl);
+
+                        $('#county').append(`<option value="#">İlçe</option>`);
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+
+                        res.counties.forEach((e) => {
+                            $('#county').append(
+                                `<option value="${e.ilce_key}">${e.ilce_title}</option>`
+                                );
+                        });
+
+                        $('#county').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        });
+
+                        if (countyID) {
+                            selectCountyByID(countyID);
+                        }
+                    }
+                });
+            });
+
+            $('#county').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
+                    success: function(res) {
+                        $('#neighborhood').empty();
+                        var countySlug = res.countySlug;
+                        var newUrl = buildNewUrl(countySlug, 'county');
+
+                        updateURL(newUrl);
+
+                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
+
+                        var countyNameElement = $(".hiddenCountyName").find(".countyNameP");
+                        if (countyNameElement.parent('a').length) {
+                            countyNameElement.unwrap();
+                        }
+
+                        countyNameElement.html(res.countyName).wrap('<a></a>').parent('a').attr(
+                            'href', newUrl);
+
+                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        res.neighborhoods.forEach((e) => {
+                            $('#neighborhood').append(
+                                `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
+                                );
+                        });
+
+                        $('#neighborhood').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        });
+
+                        if (neighborhoodID) {
+                            selectNeighborhoodByID(neighborhoodID);
+                        }
+                    }
+                });
+            });
+
+            $('#neighborhood').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-neighborhood') }}/" + $(this).val(),
+                    success: function(res) {
+                        var neighborhoodSlug = res.neighborhoodSlug;
+                        var newUrl = buildNewUrl(neighborhoodSlug, 'neighborhood');
+
+                        updateURL(newUrl);
+
+                        $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex");
+
+                        var neighborhoodNameElement = $(".hiddenNeighborhoodName").find(
+                            ".neighborhoodNameP");
+                        if (neighborhoodNameElement.parent('a').length) {
+                            neighborhoodNameElement.unwrap();
+                        }
+
+                        neighborhoodNameElement.html(res.neighborhoodName).wrap('<a></a>')
+                            .parent('a').attr('href', newUrl);
+                    }
+                });
+            });
+
+            selectCityByID(cityID);
+        });
 
 
         window.addEventListener('scroll', function() {
@@ -1008,55 +1027,6 @@
             }
         })
 
-        $('#city').on('change', function() {
-
-
-            $.ajax({
-                method: "GET",
-                url: "{{ url('get-counties') }}/" + $(this).val(),
-                success: function(res) {
-                    $('#county').empty();
-                    res.forEach((e) => {
-                        $('#county').append(
-                            `<option value="${e.ilce_key}">${e.ilce_title}</option>`
-                        );
-                        $('#county').val('#');
-                    });
-                    $('#county').select2({
-                        placeholder: 'İlçe',
-                        width: '100%',
-                        searchInputPlaceholder: 'Ara...'
-                    });
-
-                }
-            });
-        });
-
-        $('#county').on('change', function() {
-
-            $.ajax({
-                method: "GET",
-                url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
-                success: function(res) {
-                    $('#neighborhood').empty();
-                    $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
-                    res.forEach((e) => {
-                        $('#neighborhood').append(
-                            `<option value="${e.id}">${e.title}</option>`
-                        );
-                        $('#neighborhood').val('#');
-                    });
-                    $('#neighborhood').select2({
-                        placeholder: 'Mahalle',
-                        width: '100%',
-                        searchInputPlaceholder: 'Ara...'
-                    });
-
-
-                }
-            });
-        });
-
         function ucfirst(str) {
             if (typeof str !== 'string') return '';
             return str.charAt(0).toUpperCase() + str.slice(1);
@@ -1086,6 +1056,7 @@
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
 
+
             var term = @json($term ?? null);
 
             var data = Object.assign({}, filters, {
@@ -1095,16 +1066,23 @@
                 title: title,
                 optional: optional,
                 checkTitle: checkTitle,
-                term: term
+                term: term,
+                city: $("#city").val(),
+                county: $("#county").val(),
+                neighborhood: $("#neighborhood").val()
             });
 
 
             let currentData = {};
 
+
+
+
             Object.keys(data).map(e => {
                 if (data[e])
                     currentData[e] = data[e];
             });
+
 
             $.ajax({
                 method: "POST",
@@ -1282,6 +1260,9 @@
                                                             <!-- homes img -->
                                                             <div class="homes-img">
                                                                 ${featuredHtml}
+                                                                ` +
+                                    `
+                                                                <div class="${spanClass} homes-price"  style="height:auto !important"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div> ` + `
                                                                 <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
                                                             </div>
                                                         </div>
@@ -1304,7 +1285,7 @@
                                                         </a>
                                                         <p class="homes-address mb-3">
                                                             <a href="${res.housing_url}">
-                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
+                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                             </a>
                                                         </p>
                                                         <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
@@ -1336,17 +1317,17 @@
                                                                             `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                             :
                                                                             `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                                                                <span class="IconContainer">
-                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                </span>
-                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                            </button>` :
+                                                                                                                                                                                                                                                                                                                            <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                                                                                                        </button>` :
                                                                 `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                                                    <span class="IconContainer">
-                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                    </span>
-                                                                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                </button>`
+                                                                                                                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                                                                                                                            </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -1367,6 +1348,9 @@
                                                                         <!-- homes img -->
                                                                         <div class="homes-img">
                                                                             ${featuredHtml}
+                                                                            ` +
+                                    `
+                                                                <div class="${spanClass} homes-price"  style="height:auto !important"><i class="fa fa-handshake-o"></i></div> ` + `
                                                                             <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive" style="height: 110px !important;">
                                                                         </div>
                                                                     </div>
@@ -1392,7 +1376,7 @@
                                                                         <span>${res.title}</span>
                                                                     </a>
                                             <p class="homes-address mb-3">
-                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
+                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                                     
                                             </p>
                                             <!-- homes List -->
@@ -1426,17 +1410,17 @@
                                                                                         `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                                         :
                                                                                         `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                                                                            <span class="IconContainer">
-                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                            </span>
-                                                                                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                        </button>` :
+                                                                                                                                                                                                                                                                                                                                        <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                                                                                                                    </button>` :
                                                                             `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                                                                <span class="IconContainer">
-                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                </span>
-                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                            </button>`
+                                                                                                                                                                                                                                                                                                                            <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                                                                                                                                        </button>`
                                                                         }
                                                                     </ul>
                                                                                                                                     </div>
@@ -1494,36 +1478,36 @@
                                                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                            style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                                                                                                                                                                                                                                                                                                            <span class="text">Satışa Kapatıldı</span>
-                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: orange !important;color:White">Rezerve Edildi
-                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style="background: orange !important;color:White">Rezerve Edildi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                style="border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
                                                                             :
                                                                             `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                data-id='${res.id}'>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="IconContainer">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>` :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            data-id='${res.id}'>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>` :
                                                                                 `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn mobileCBtn CartBtn">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="IconContainer">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="text">Rezervasyon Yap</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="text">Rezervasyon Yap</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
                                                                             }
                                                                                 </div>
                                                                                 <span class="ml-auto text-primary priceFont"
@@ -1669,6 +1653,8 @@
                     @endif
                 @endforeach
 
+                var listingDate = $("input[name='listing_date']:checked").val();
+                var corporateType = $("input[name='corporate_type']:checked").val();
                 drawList({
                     page: current_page,
                     city: $('#city').val(),
@@ -1678,6 +1664,8 @@
                     filterDate: $(".filter-date:checked").val(),
                     zoning: $("#zoning").val(),
                     sort: sortSelectFilters($('#sort-select').val()),
+                    listing_date: listingDate,
+                    corporateType: corporateType,
                     ...filterValues
                 });
 
@@ -1933,7 +1921,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: #e54242 !important;
+                color: #ea2a28 !important;
                 padding-right: 5px
             }
 
@@ -1987,6 +1975,47 @@
         .button-effect-div {
             display: flex;
             opacity: inherit !important;
+        }
+
+
+        input[type="radio"] {
+            display: grid;
+            place-content: center;
+        }
+
+        input[type=radio]:checked {
+            background: none !important;
+        }
+
+
+        input[type="radio"] {
+            display: grid;
+            place-content: center;
+            width: 15px !important;
+            height: 15px !important;
+            margin-left: 3px !important;
+        }
+
+        input[type="radio"]:checked::before {
+            transform: scale(1);
+        }
+
+        input[type="radio"]::before {
+            transform-origin: bottom left;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        input[type="radio"]::before {
+            background-color: black;
+        }
+
+        input[type="radio"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em var(--form-control-color);
         }
     </style>
 @endsection

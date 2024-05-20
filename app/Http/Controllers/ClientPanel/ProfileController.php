@@ -16,24 +16,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\CartOrderRefund;
+use App\Models\reservationRefund;
 
 class ProfileController extends Controller
 {
-    public function getReservations() {
+    public function getReservations()
+    {
         $housingReservations = Reservation::with("user", "housing")
-        ->where("user_id",auth()->user()->id)
-        ->get();
+            ->where("user_id", auth()->user()->id)
+            ->get();
 
         return view('client.client-panel.profile.reservations', compact('housingReservations'));
     }
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
-        ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
-            return view('institutional.orders.get', compact('cartOrders'));
-
-    
-        
+            ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
+        return view('institutional.orders.get', compact('cartOrders'));
     }
 
     public function orderDetail($id)
@@ -41,6 +40,13 @@ class ProfileController extends Controller
         $order = CartOrder::where('id', $id)->first();
 
         return view('institutional.orders.detail', compact('order'));
+    }
+
+    public function reservationDetail($id)
+    {
+        $order = Reservation::where('id', $id)->first();
+
+        return view('institutional.reservations.detail', compact('order'));
     }
 
     public function upload(Request $request)
@@ -78,12 +84,47 @@ class ProfileController extends Controller
         }
     }
 
+    public function reservationUpload(Request $request)
+    {
+
+        // dd($request->all());
+        // PDF dosyasını al
+        $pdfFile = $request->file('pdf_file');
+        // Gelen requestten order_id'yi alın
+        $reservation_id = $request->reservation_id;
+
+        // İlgili CartOrder'ı bulun
+        $reservation = Reservation::find($reservation_id);
+
+        // Dosya yüklendiyse devam et
+        if ($pdfFile && $reservation) {
+            // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
+            $newFileName = now()->format('H-i-s') . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'contract-pdf/' . $reservation->id;
+            $newFilePath = public_path($folderName);
+            $pdfFile->move($newFilePath, $newFileName);
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName; // Dosya yolu ve adını birleştirin
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $reservation->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
+            $reservation->path = $pdfPath; // Dosya yolunu kaydedin
+            $reservation->save();
+
+
+            return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
+        } else {
+            return redirect()->back()->with('error', 'PDF dosyası yüklenirken bir hata oluştu.');
+        }
+    }
+
+
     public function cartOrderDetail(CartOrder $order)
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
-        
-        return view('institutional.orders.get', compact('cartOrders'));
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id", $order->id)->with("invoice")->orderBy("id", "desc")->get();
 
+        return view('institutional.orders.get', compact('cartOrders'));
     }
 
 
@@ -146,7 +187,8 @@ class ProfileController extends Controller
 
     public function upgradeProfile(Request $request, $id)
     {
-        $request->validate(['id' => $id],
+        $request->validate(
+            ['id' => $id],
             [
                 'id' =>
                 [
@@ -169,13 +211,14 @@ class ProfileController extends Controller
         }
 
         $data =
-            ['subscription_plan_id' => $plan->id,
-            'housing_limit' => $before->housing_limit + $plan->housing_limit,
-            'user_id' => auth()->user()->id,
-            'subscription_plan_id' => $id,
-            'project_limit' => 0,
-            'user_limit' => 0,
-        ];
+            [
+                'subscription_plan_id' => $plan->id,
+                'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                'user_id' => auth()->user()->id,
+                'subscription_plan_id' => $id,
+                'project_limit' => 0,
+                'user_limit' => 0,
+            ];
 
         DB::beginTransaction();
         UpgradeLog::create(
@@ -204,7 +247,7 @@ class ProfileController extends Controller
     }
 
 
-    public function refund(Request $request) 
+    public function refund(Request $request)
     {
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
@@ -212,13 +255,13 @@ class ProfileController extends Controller
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'cart_order_id' =>'required',
+            'cart_order_id' => 'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-        
+
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = CartOrderRefund::where('cart_order_id', $validatedData['cart_order_id'])->first();
 
@@ -256,5 +299,58 @@ class ProfileController extends Controller
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
 
-    
+
+
+    public function reservationRefund(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'terms' => 'required|boolean',
+            'name' => 'required|string|max:255',
+            'phone' => 'required',
+            'email' => 'required|string|email|max:255',
+            'content' => 'required|string',
+            'reservation_id' => 'required',
+            'return_bank' => 'required',
+            'return_iban' => 'required',
+        ]);
+
+        $userId = auth()->id();
+
+        // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
+        $existingRefund = reservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
+
+        if ($existingRefund) {
+            // İade talebi zaten var, güncelle
+            $existingRefund->update([
+                'terms'       => $validatedData['terms'],
+                'name'        => $validatedData['name'],
+                'phone'       => $validatedData['phone'],
+                'email'       => $validatedData['email'],
+                'return_bank' => $validatedData['return_bank'],
+                'return_iban' => $validatedData['return_iban'],
+                'content'     => $validatedData['content'],
+                'status'      => '0',
+                'user_id'     => $userId
+            ]);
+        } else {
+            // İade talebi yok, yeni kayıt oluştur
+            $refund = new reservationRefund([
+                'terms'         => $validatedData['terms'],
+                'name'          => $validatedData['name'],
+                'phone'         => $validatedData['phone'],
+                'email'         => $validatedData['email'],
+                'return_bank'   => $validatedData['return_bank'],
+                'return_iban'   => $validatedData['return_iban'],
+                'content'       => $validatedData['content'],
+                'status'        => '0',
+                'user_id'       => $userId,
+                'reservation_id' => $validatedData['reservation_id']
+            ]);
+            $refund->save();
+        }
+
+        // İade talebi başarıyla kaydedildi mesajını döndür
+        return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
+    }
 }

@@ -24,6 +24,7 @@ use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\UseCoupon;
 use App\Models\User;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,7 @@ class CartController extends Controller
     {
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
+
 
         if (!$cartItem) {
 
@@ -325,7 +327,7 @@ class CartController extends Controller
 
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $user = User::where('id', $housing->user_id)->first();
-                $rates = Rate::where("housing_id", $cart['item']['id'])->get();
+                $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                 foreach ($rates as $key => $rate) {
                     if ($user->corporate_type == $rate->institution->name) {
@@ -352,17 +354,19 @@ class CartController extends Controller
                 ]);
 
                 if ($coupon->user_id != Auth::user()->id) {
-                    $sales_rate_club = null; // Başlangıçta boş veya null değer
+                    $sales_rate_club = null;
+                    // Başlangıçta boş veya null değer
 
                     foreach ($rates as $rate) {
                         if ($coupon->user->corporate_type == $rate->institution->name) {
                             // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                             $sales_rate_club = $rate->sales_rate_club;
-                    
-                            break; // Eşleşme bulunduğunda döngüyü sonlandırın
+
+                            break;
+                            // Eşleşme bulunduğunda döngüyü sonlandırın
                         }
                     }
-                    
+
                     // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
                     if ($sales_rate_club === null && count($rates) > 0) {
                         $sales_rate_club = $rates->last()->sales_rate_club;
@@ -370,11 +374,10 @@ class CartController extends Controller
                     $estateclubrate = $sharedAmount_earn * $sales_rate_club;
                     $remaining = $sharedAmount_earn - $estateclubrate;
 
-
                     SharerPrice::create([
                         'user_id' => $coupon->user_id,
                         'cart_id' => $order->id,
-                        'status' => '1',
+                        'status' => '0',
                         'balance' => $estateclubrate,
                         'earn' => $sharedAmount_balance,
                         'earn2' => $remaining,
@@ -386,7 +389,7 @@ class CartController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
+                    $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                     foreach ($rates as $key => $rate) {
                         if ($user->corporate_type == $rate->institution->name) {
@@ -414,14 +417,16 @@ class CartController extends Controller
                     }
 
                     if ($collection->user_id != Auth::user()->id) {
-                        $sales_rate_club = null; // Başlangıçta boş veya null değer
+                        $sales_rate_club = null;
+                        // Başlangıçta boş veya null değer
 
                         foreach ($rates as $rate) {
                             if ($collection->user->corporate_type == $rate->institution->name) {
                                 // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                                 $sales_rate_club = $rate->sales_rate_club;
 
-                                break; // Eşleşme bulunduğunda döngüyü sonlandırın
+                                break;
+                                // Eşleşme bulunduğunda döngüyü sonlandırın
                             }
                         }
 
@@ -432,12 +437,11 @@ class CartController extends Controller
                         $estateclubrate = $sharedAmount_earn * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
-
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
                             'user_id' => $collection->user_id,
                             'cart_id' => $order->id,
-                            'status' => '1',
+                            'status' => '0',
                             'balance' => $estateclubrate,
                             'earn' => $sharedAmount_balance,
                             'earn2' => $remaining,
@@ -445,7 +449,7 @@ class CartController extends Controller
                     }
                 } elseif (!$lastClick) {
                     $newAmount = $amountWithoutDiscount;
-                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
+                    $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                     foreach ($rates as $key => $rate) {
                         if ($user->corporate_type == $rate->institution->name) {
@@ -482,7 +486,7 @@ class CartController extends Controller
                     ]);
                 } else {
                     $newAmount = $amountWithoutDiscount;
-                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
+                    $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                     foreach ($rates as $key => $rate) {
                         if ($user->corporate_type == $rate->institution->name) {
@@ -581,7 +585,11 @@ class CartController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    $share_percent = 0.5;
+                    if ($collection->user->type != '1') {
+                        $share_percent = 0.5;
+                    } else {
+                        $share_percent = 0.25;
+                    }
                     $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
                     $cart = json_decode($cartItem->cart, true);
@@ -606,7 +614,7 @@ class CartController extends Controller
                             'cart_id' => $order->id,
                             'status' => '0',
                             'balance' => $sharedAmount_balance,
-                            'earn' => $sharedAmount_balance,
+                            'earn' => $newAmount - $sharedAmount_balance,
                             'earn2' => 0,
 
                         ]);
@@ -703,7 +711,7 @@ class CartController extends Controller
             'text' => '#' . $code . " No'lu emlak siparişiniz için teşekkür ederiz. Siparişiniz, ödeme onayı için yönetici onayına gönderilmiştir. "
                 . 'Onay süreci tamamlandığında size bilgi verilecektir.',
             'item_id' => $order->id,
-            'link' => $user->type == 1 ? route('client.profile.cart-orders') : route('institutional.profile.cart-orders'),
+            'link' => route('institutional.profile.cart-orders'),
             'owner_id' => $user->id,
             'is_visible' => true,
         ]);
@@ -806,11 +814,10 @@ class CartController extends Controller
             // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = "https://test.emlaksepette.com/public/dekont/" .$order->dekont;
-       
+        $dekontDosyaYolu = 'https://emlaksepette.com/public/dekont/' . $order->dekont;
+
         if ($dekontDosyaYolu) {
             return redirect()->away($dekontDosyaYolu);
-
         } else {
             return abort(404);
             // Dekont bulunamazsa 404 hatası döndür
@@ -1005,8 +1012,6 @@ class CartController extends Controller
                 ->whereJsonContains('cart->type', $type)
                 ->count();
 
-            // dd( $orderCount );
-
             $cartItem = [];
             $cart = [];
             $hasCounter = false;
@@ -1180,7 +1185,23 @@ class CartController extends Controller
                     'user_id'  => Auth::id()
                 ]);
 
-                // Save cart data to session
+                $userPhoneNumber = $type == 'housing' ?  $housing->user->mobile_phone : $project->user->mobile_phone;
+
+                if ($type == "housing") {
+                    $message = "Sayın mağaza yetkilisi, #" . (intval($housing->id) + 2000000)  . " numaralı emlak ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
+
+                }else{
+                    $message = "Sayın mağaza yetkilisi, #" . (intval($project->id) + 1000000 + intval($id))  . " numaralı proje ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
+
+                }
+
+
+                // SMS gönderme işlemi
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+
+                $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+
                 return response(['message' => 'success']);
             }
         } catch (\Exception $e) {

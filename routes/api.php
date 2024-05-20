@@ -21,10 +21,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
 
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
-
+use App\Http\Controllers\Api\Institutional\BoughtController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\Institutional\SharerController;
+use App\Http\Controllers\Api\Institutional\UserController;
+use App\Http\Controllers\Api\InstitutionalClubController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -113,20 +118,41 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+        Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
             Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
         });
 
+        Route::middleware(['checkPermission:CreateUser'])->group(function () {
+            Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+            Route::post('/users', [UserController::class, 'store'])->name('users.store');
+            Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+        });
+
+
         Route::middleware(['checkPermission:GetRoleById'])->group(function () {
             Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        });
+        Route::middleware(['checkPermission:GetUserById'])->group(function () {
+            Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        });
+        Route::middleware(['checkPermission:GetUsers'])->group(function () {
+            Route::get('/users', [UserController::class, 'index'])->name('users.index');
         });
 
         // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
         Route::middleware(['checkPermission:UpdateRole'])->group(function () {
             Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
         });
+
+        Route::middleware(['checkPermission:UpdateUser'])->group(function () {
+            Route::put('/users/{user}', [InstitutionalUserController::class, 'update'])->name('users.update');
+        });
+
+        Route::put('/club/update', [InstitutionalClubController::class, 'clubUpdate'])->name('club.update');
+
 
         // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
         Route::middleware(['checkPermission:GetRoles'])->group(function () {
@@ -138,6 +164,13 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
         });
 
+        Route::middleware(['checkPermission:DeleteUser'])->group(function () {
+            Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        });
+
+        Route::get('/get_boughts', [BoughtController::class, 'bougths'])->name('react.bougths');
+        Route::get('/get_solds', [BoughtController::class, 'solds'])->name('react.solds');
+        Route::post('give_offer', [ProjectController::class, 'give_offer'])->name('give_offer');
 
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');

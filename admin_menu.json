@@ -17,6 +17,15 @@
         "activePath": "qR9zLp2xS6y/secured/see_neighbor_applications"
     },
     {
+        "id": "projects",
+        "label": "Emlak Sepette İlanları",
+        "icon": "stop-circle",
+        "text": "Proje İlanları",
+        "key": "GetProjects",
+        "url": "admin.projects.index",
+        "activePath": "qR9zLp2xS6y/secured/projects"
+    },
+    {
         "id": "SupportCenter",
         "label": "Destek Merkezi",
         "icon": "bell",
@@ -61,15 +70,7 @@
         "url": "admin.estate.coupons",
         "activePath": "qR9zLp2xS6y/secured/coupons"
     },
-    {
-        "id": "projects",
-        "label": "Emlak Sepette İlanları",
-        "icon": "thumbs-up",
-        "text": "Proje İlanları",
-        "key": "Projects",
-        "url": "admin.projects.index",
-        "activePath": "qR9zLp2xS6y/secured/projects"
-    },
+    
     {
         "id": "order",
         "label": "SİPARİŞLER & REZERVASYONLAR",
@@ -160,22 +161,22 @@
     {
         "id": "housing",
         "label": "Emlak Sepette İlanları",
-        "icon": "thumbs-up",
+        "icon": "stop-circle",
         "text": "Emlak İlanları",
-        "key": "Housings",
+        "key": "GetHousings",
         "url": "admin.housings.index",
-        "activePath": "qR9zLp2xS6y/secured/housing"
+        "activePath": "qR9zLp2xS6y/secured/housings"
     },
 
     
     {
         "id": "housing",
         "label": "Emlak Sepette İlanları",
-        "icon": "thumbs-up",
+        "icon": "share-alt",
         "text": "Paylaşımlı Emlak İlanları",
         "key": "IsShareHousings",
         "url": "admin.is_share.housings.index",
-        "activePath": "qR9zLp2xS6y/secured/housing/is-share"
+        "activePath": "qR9zLp2xS6y/secured/housings/is-share"
     },
 
     {
@@ -200,9 +201,6 @@
             }
         ]
     },
-  
-   
-
     {
         "id": "order",
         "label": "SİPARİŞLER & REZERVASYONLAR",

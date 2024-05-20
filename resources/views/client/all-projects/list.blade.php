@@ -144,7 +144,7 @@
                             id="clear-filters">Temizle</button>
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
-                            style="background: #e54242 !important"
+                            style="background: #ea2a28!important"
                             class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4" id="close-filters">Kapat</button>
 
                     </div>
@@ -170,7 +170,7 @@
                             style="gap: 16px;">
 
                             <div onclick="$('.filters-input-area').slideToggle();"
-                                style="background: #e54242 !important; padding: 6px; border-radius: 5px;cursor: pointer;"
+                                style="background: #ea2a28!important; padding: 6px; border-radius: 5px;cursor: pointer;"
                                 class="d-md-none">
                                 <svg class="rounded-sm" enable-background="new 0 0 32 32" width="24px" height="24px"
                                     id="Editable-line" version="1.1" viewBox="0 0 32 32" xml:space="preserve"
@@ -490,7 +490,7 @@
                 success: function(res) {
                     $('#neighborhood').empty();
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
-                    res.forEach((e) => {
+                    res.neighborhoods.forEach((e) => {
                         $('#neighborhood').append(
                             `<option value="${e.id}">${e.title}</option>`
                         );
@@ -875,7 +875,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: #e54242 !important;
+                color: #ea2a28!important;
                 padding-right: 5px
             }
 

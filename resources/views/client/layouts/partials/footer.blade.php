@@ -655,7 +655,7 @@
             Swal.fire({
                 icon: 'warning',
                 title: 'Uyarı',
-                text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
+                text: 'Bu ilan için ödeme detay bilgisi gösterilemiyor.',
                 confirmButtonText: 'Kapat'
             });
         } else {
@@ -1517,10 +1517,8 @@
                 },
                 success: function(response) {
                     if (response.status == 'added') {
-                        toastr.success("Konut Favorilere Eklendi");
                         updateFavoriteButton(button, true);
                     } else if (response.status == 'removed') {
-                        toastr.warning("Konut Favorilerden Kaldırıldı");
                         updateFavoriteButton(button, false);
                     } else if (response.status == 'notLogin') {
                         window.location.href =

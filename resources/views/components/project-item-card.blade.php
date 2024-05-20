@@ -125,7 +125,14 @@
 
 
 
-                                    @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
+                                    @if (
+                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                        !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]' ||
+                                            ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                            (isset($sumCartOrderQt[$keyIndex]) &&
+                                                $sold &&
+                                                $sold->status != '2' &&
+                                                $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
                                         <span class="btn addCollection mobileAddCollection" data-type='project'
                                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                             <i class="fa fa-bookmark-o"></i>
@@ -216,7 +223,7 @@
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                     <del
-                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                        style="color: #ea2a28!important;font-weight: 700;font-size: 11px;">
 
                                                         {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                         ₺
@@ -396,8 +403,8 @@
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                         @if (Auth::user())
-                                            <button class="first-btn payment-plan-button" data-toggle="modal"
-                                                data-target="#exampleModal{{ $keyIndex }}">
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                                 Başvuru Yap
                                             </button>
                                         @else
@@ -483,13 +490,13 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
+        aria-labelledby="approveProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-body">
                     {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                        id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
+                        id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
                         için
                         Başvuru Yap</h3>
                     <hr> --}}

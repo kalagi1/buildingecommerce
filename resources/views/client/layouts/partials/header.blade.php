@@ -280,7 +280,7 @@
 
         .circleIcon {
             font-size: 5px !important;
-            color: #e54242 !important;
+            color: #ea2a28!important;
             padding-right: 5px
         }
 
@@ -400,18 +400,18 @@
 
                         </div>
                         <div class="center position-relative searchInput">
-                            <form action="{{ route('search.index') }}" method="GET" id="search-form">
+                            <form action="{{ route('search.index') }}" method="GET" id="search-form2">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
-                                        onclick="return validateForm()"></button>
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon2"
+                                        onclick="return validateForm2()"></button>
                                 </div>
                             </form>
 
                             <script>
-                                function validateForm() {
-                                    var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
+                                function validateForm2() {
+                                    var searchTerm = document.getElementById("search-form2").elements["searchTerm"].value;
                                     if (searchTerm.trim() === "") {
                                         return false; // Form post edilmez
                                     }

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\Chat;
 use App\Models\City;
+use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\SharerPrice;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
 use App\Models\UserPlan;
@@ -127,12 +129,50 @@ class AuthController extends Controller
                     }
 
                     $accessToken = auth()->user()->createToken('authToken')->accessToken;
+                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+                        return $rolePermission->permissions->pluck('key');
+                    })->unique()->toArray();
+
+
+                    $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "0")->get();
+
+                    $balanceStatus0 = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "0")
+                        ->sum('balance');
+
+                    $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "1")->get();
+
+                    $balanceStatus1 = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "1")
+                        ->sum('balance');
+
+
+                    $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "2")->get();
+
+                    $balanceStatus2 = SharerPrice::where("user_id", $user->id)
+                        ->where("status", "2")
+                        ->sum('balance');
+
+                    $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id", "desc")->limit(6)->get();
+                    $totalStatus1Count = $balanceStatus1Lists->count();
+                    $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+
 
                     return response()->json([
                         "status" => 200,
                         'success' => true,
                         'id' => $user->id,
                         'name' => $user->name,
+                        "bank_name" => $user->bank_name,
+                        "iban" => $user->iban,
+                        "longitude" => $user->longitude,
+                        "latitude" => $user->latitude,
+                        "account_type" => $user->account_type,
+                        "corporate_type" => $user->corporate_type,
+                        'has_club' => $user->has_club,
                         'profile_image' => $user->profile_image,
                         'banner_hex_code' => $user->banner_hex_code,
                         "phone_verification_status" => $user->phone_verification_status,
@@ -144,8 +184,14 @@ class AuthController extends Controller
                         'mobile_phone' => $user->mobile_phone,
                         'access_token' => $accessToken,
                         "rolePermissions" => $user->role->rolePermissions,
+                        "permissions" => $permissions,
                         "works" => $user->works,
-                        'token_type' => 'Bearer'
+                        'token_type' => 'Bearer',
+                        "balanceStatus1Lists" => $balanceStatus1Lists,
+                        "balanceStatus0" => $balanceStatus0,
+                        "balanceStatus2" => $balanceStatus2,
+                        "successPercentage" => $successPercentage,
+                        "collections" => $collections
                     ]);
                 } else {
                     return json_encode([
@@ -406,9 +452,9 @@ class AuthController extends Controller
             ? $this->sendResetLinkResponse($request, $response)
             : $this->sendResetLinkFailedResponse($request, $response);
 
-            return response()->json([
-                'success' => true
-            ]);
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
@@ -480,7 +526,8 @@ class AuthController extends Controller
         return Password::broker();
     }
 
-    public function clientPasswordUpdate(Request $request){
+    public function clientPasswordUpdate(Request $request)
+    {
         $user = User::where("id", auth()->user()->id)->first();
 
         $request->validate([
@@ -505,8 +552,9 @@ class AuthController extends Controller
             'success' => "Şifre başarıyla güncellendi",
             'data'    => $user
         ]);
-}
-    public function clientProfileUpdate(Request $request){
+    }
+    public function clientProfileUpdate(Request $request)
+    {
         $request->validate([
             "name" => "required",
             "iban" => function ($attribute, $value, $fail) use ($request) {
@@ -558,13 +606,12 @@ class AuthController extends Controller
         $data['latitude'] = $latitude;
         $data['website'] = $website;
 
-        
+
         $user->update($data);
 
         return response()->json([
             'success' => true,
             'data'    => $data
         ]);
-        
-    }//End
+    } //End
 }

@@ -18,23 +18,18 @@
     <!--    Favicons-->
     <!-- ===============================================-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                                            <!-- Canonical URL için bölüm -->
-                                                                            @if(isset($canonicalUrl))
-                                                                                <link rel="canonical" href="{{ $canonicalUrl }}" />
-                                                                            @endif
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ URL::to('/') }}/favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ URL::to('/') }}/favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ URL::to('/') }}/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon"
-        href="{{ URL::to('/') }}/favicon.png">
+    <!-- Canonical URL için bölüm -->
+    @if (isset($canonicalUrl))
+        <link rel="canonical" href="{{ $canonicalUrl }}" />
+    @endif
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <meta name="msapplication-TileImage"
-        content="{{ URL::to('/') }}/favicon.png">
+    <meta name="msapplication-TileImage" content="{{ URL::to('/') }}/favicon.png">
     <meta name="theme-color" content="#ffffff">
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.js"></script>
@@ -131,118 +126,143 @@
                             <hr class="navbar-vertical-line" />
 
                             @foreach ($groupedMenu as $menuItem)
-                            @if ($menuItem['visible'])
-                                @php
-                                    $hasVisibleMenus = true;
-                                    $applicationCount = null;
-                                    $pendingHousingTypes = null;
-                                    $pendingProjects = null;
-                                    $orderCount = null;
-                                    $neighborCount = null;
-                                    $reservationsCount = null;
-                                    $commentCount = null;
-                                    $sharerCount = null;
+                                @if ($menuItem['visible'])
+                                    @php
+                                        $hasVisibleMenus = true;
+                                        $applicationCount = null;
+                                        $pendingHousingTypes = null;
+                                        $pendingProjects = null;
+                                        $orderCount = null;
+                                        $neighborCount = null;
+                                        $reservationsCount = null;
+                                        $commentCount = null;
+                                        $sharerCount = null;
 
-                                    if ($menuItem['key'] == 'EmlakClubApplications') {
-                                        $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
-                                    } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
-                                        $neighborCount = \App\Models\NeighborView::where("status", "0")->count() ?: null;
-                                    } elseif ($menuItem['key'] == 'Housings') {
-                                        $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
-                                            ->where('status', 2)
-                                            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-                                            ->select(
-                                                'housings.id',
-                                                'housings.title AS housing_title',
-                                                'housings.status AS status',
-                                                'housings.address',
-                                                'housings.created_at',
-                                                'housing_types.title as housing_type',
-                                                'housing_types.slug',
-                                                'housings.deleted_at',
-                                                'housings.city_id',
-                                                'housings.county_id',
-                                                'housings.neighborhood_id',
-                                                'housing_types.form_json'
-                                            )
-                                            ->orderByDesc('housings.updated_at')
-                                            ->count() ?: null;
-                                    } elseif ($menuItem['key'] == "Projects") {
-                                        $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
-                                    } elseif ($menuItem['key'] == "GetOrders") {
-                                        $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
-                                    }elseif ($menuItem['key'] == "GetReservations") {
-                                        $reservationsCount = \App\Models\Reservation::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
-                                    }elseif ($menuItem['key'] == "GetHousingComments") {
-                                        $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
+                                        if ($menuItem['key'] == 'EmlakClubApplications') {
+                                            $applicationCount =
+                                                \App\Models\User::where('has_club', '2')->count() ?: null;
+                                        } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                                            $neighborCount =
+                                                \App\Models\NeighborView::where('status', '0')->count() ?: null;
+                                        } elseif ($menuItem['key'] == 'Housings') {
+                                            $pendingHousingTypes =
+                                                \App\Models\Housing::with('city', 'county', 'neighborhood')
+                                                    ->where('status', 2)
+                                                    ->leftJoin(
+                                                        'housing_types',
+                                                        'housing_types.id',
+                                                        '=',
+                                                        'housings.housing_type_id',
+                                                    )
+                                                    ->select(
+                                                        'housings.id',
+                                                        'housings.title AS housing_title',
+                                                        'housings.status AS status',
+                                                        'housings.address',
+                                                        'housings.created_at',
+                                                        'housing_types.title as housing_type',
+                                                        'housing_types.slug',
+                                                        'housings.deleted_at',
+                                                        'housings.city_id',
+                                                        'housings.county_id',
+                                                        'housings.neighborhood_id',
+                                                        'housing_types.form_json',
+                                                    )
+                                                    ->orderByDesc('housings.updated_at')
+                                                    ->count() ?:
+                                                null;
+                                        } elseif ($menuItem['key'] == 'Projects') {
+                                            $pendingProjects = \App\Models\Project::where('status', 2)
+                                                ->orderByDesc('updated_at')
+                                                ->get();
+                                        } elseif ($menuItem['key'] == 'GetOrders') {
+                                            $orderCount = \App\Models\CartOrder::with('user', 'share', 'price')
+                                                ->orderByDesc('created_at')
+                                                ->where('status', '0')
+                                                ->get();
+                                        } elseif ($menuItem['key'] == 'GetReservations') {
+                                            $reservationsCount = \App\Models\Reservation::with('user')
+                                                ->orderByDesc('created_at')
+                                                ->where('status', '0')
+                                                ->get();
+                                        } elseif ($menuItem['key'] == 'GetHousingComments') {
+                                            $commentCount = \App\Models\HousingComment::with('user')
+                                                ->orderByDesc('created_at')
+                                                ->where('status', '0')
+                                                ->get();
+                                        } elseif ($menuItem['key'] == 'awaitingCalled') {
+                                            $commentCount = \App\Models\User::where('type', '2')
+                                                ->where('corporate_account_status', 0)
+                                                ->where('is_called', '0')
+                                                ->get();
+                                        } elseif ($menuItem['key'] == 'IsShareHousings') {
+                                            $sharerCount = \App\Models\Housing::with('owner')
+                                                ->where('is_share', 1)
+                                                ->orderByDesc('created_at')
+                                                ->where('status', '2')
+                                                ->get();
+                                        }
 
-                                    }elseif ($menuItem['key'] == "awaitingCalled") {
-                                        $commentCount = \App\Models\User::where("type","2")->where('corporate_account_status',0)->where("is_called","0")->get();
+                                    @endphp
 
-                                    }
-                                    elseif ($menuItem['key'] == "IsShareHousings") {
-                                        $sharerCount = \App\Models\Housing::with('owner')->where( 'is_share', 1 )->orderByDesc( 'created_at' )->where("status","2")->get();
+                                    <div class="nav-item-wrapper">
+                                        <a class="nav-link dropdown-indicator label-1 {{ request()->is($menuItem['activePath']) ? 'active' : '' }}"
+                                            href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
+                                            role="button"
+                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-icon">
+                                                    <i class="fa fa-{{ $menuItem['icon'] }}"></i>
+                                                </span>
+                                                <span class="nav-link-text">
+                                                    {{ $menuItem['text'] }}
+                                                    {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                    {{ $neighborCount != null ? "($neighborCount)" : null }}
 
-                                    };
-                                    
-                                    
-                                @endphp
-                        
-                                <div class="nav-item-wrapper">
-                                    <a class="nav-link dropdown-indicator label-1 {{ request()->is($menuItem['activePath']) ? 'active' : '' }}"
-                                        href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
-                                        role="button"
-                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-icon">
-                                                <i class="fa fa-{{ $menuItem['icon'] }}"></i>
-                                            </span>
-                                            <span class="nav-link-text">
-                                                {{ $menuItem['text'] }}
-                                                {{ $applicationCount != null ? "($applicationCount)" : null }}
-                                                {{ $neighborCount != null ? "($neighborCount)" : null }}
+                                                    {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                                    {{ $pendingProjects != null && $pendingProjects->count() != 0 ? '(' . $pendingProjects->count() . ')' : null }}
+                                                    {{ $orderCount != null ? '(' . $orderCount->count() . ')' : null }}
+                                                    {{ $reservationsCount != null ? '(' . $reservationsCount->count() . ')' : null }}
+                                                    {{ $commentCount != null ? '(' . $commentCount->count() . ')' : null }}
+                                                    {{ $sharerCount != null ? '(' . $sharerCount->count() . ')' : null }}
 
-                                                {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
-                                                {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
-                                                {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
-                                                {{ $reservationsCount != null ? "(". $reservationsCount->count() .")" : null }}   
-                                                {{ $commentCount != null ? "(". $commentCount->count() .")" : null }}     
-                                                {{ $sharerCount != null ? "(". $sharerCount->count() .")" : null }}   
-                                            </span>
-                        
-                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                                <div class="dropdown-indicator-icon" style="margin-left: 1px">
-                                                    <span class="fas fa-caret-right"></span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </a>
-                        
-                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                        <div class="parent-wrapper label-1">
-                                            <ul class="nav collapse parent {{ request()->is($menuItem['activePath']) ? 'show' : '' }}"
-                                                data-bs-parent="#navbarVerticalCollapse"
-                                                id="nv-{{ $menuItem['key'] }}">
-                                                @foreach ($menuItem['subMenu'] as $subMenuItem)
-                                                    @if ($subMenuItem['visible'])
-                                                        <li class="nav-item">
-                                                            <a class="nav-link {{ request()->is($subMenuItem['activePath']) ? 'active' : '' }}"
-                                                                href="{{ route($subMenuItem['url']) }}"
-                                                                data-bs-toggle="" aria-expanded="false">
-                                                                <div class="d-flex align-items-center">
-                                                                    <span class="nav-link-text">{{ $subMenuItem['text'] }}</span>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                        @endforeach
-                        
+
+                                                </span>
+                                             
+                                                @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                    <div class="dropdown-indicator-icon" style="margin-left: 1px">
+                                                        <span class="fas fa-caret-right"></span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </a>
+
+                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                            <div class="parent-wrapper label-1">
+                                                <ul class="nav collapse parent {{ request()->is($menuItem['activePath']) ? 'show' : '' }}"
+                                                    data-bs-parent="#navbarVerticalCollapse"
+                                                    id="nv-{{ $menuItem['key'] }}">
+                                                    @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                        @if ($subMenuItem['visible'])
+                                                            <li class="nav-item">
+                                                                <a class="nav-link {{ request()->is($subMenuItem['activePath']) ? 'active' : '' }}"
+                                                                    href="{{ route($subMenuItem['url']) }}"
+                                                                    data-bs-toggle="" aria-expanded="false">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <span
+                                                                            class="nav-link-text">{{ $subMenuItem['text'] }}</span>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endif
+                            @endforeach
+
                             @if (!$hasVisibleMenus)
                                 <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
                                 <script>
@@ -423,9 +443,7 @@
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
-                                <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/favicon.png"
-                                    alt="" />
+                                <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png" alt="" />
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -434,8 +452,7 @@
                                 <div class="card-body p-0">
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
-                                            <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/favicon.png"
+                                            <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -880,8 +897,7 @@
                                 <div class="card-body p-0">
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
-                                            <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/favicon.png"
+                                            <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -1000,11 +1016,13 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customers</div>
                                                 </a></li>
@@ -1013,7 +1031,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
@@ -1022,7 +1041,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -1160,8 +1180,7 @@
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Todo
                                                 list</div>
                                         </a></li>
-                                    <li><a class="dropdown-item"
-                                            href="apps/project-management/project-details.html">
+                                    <li><a class="dropdown-item" href="apps/project-management/project-details.html">
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Project
                                                 details</div>
                                         </a></li>
@@ -1944,8 +1963,8 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/favicon.png"
-                                                            alt="" /></div>
+                                                            src="{{ URL::to('/') }}/favicon.png" alt="" />
+                                                    </div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
                                                         <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
@@ -2169,9 +2188,7 @@
                         href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
-                            <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/favicon.png"
-                                alt="" />
+                            <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png" alt="" />
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -2180,8 +2197,7 @@
                             <div class="card-body p-0">
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
-                                        <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/favicon.png"
+                                        <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -2292,7 +2308,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
@@ -2306,7 +2323,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
@@ -2315,7 +2333,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -3244,8 +3263,8 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/favicon.png"
-                                                            alt="" /></div>
+                                                            src="{{ URL::to('/') }}/favicon.png" alt="" />
+                                                    </div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
                                                         <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
@@ -3475,8 +3494,7 @@
                             <div class="card-body p-0">
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
-                                        <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/favicon.png"
+                                        <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -3595,7 +3613,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
@@ -3609,7 +3628,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
@@ -3618,7 +3638,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -4770,9 +4791,7 @@
                         href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
-                            <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/favicon.png"
-                                alt="" />
+                            <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png" alt="" />
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -4781,8 +4800,7 @@
                             <div class="card-body p-0">
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
-                                        <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/favicon.png"
+                                        <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -4895,7 +4913,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
@@ -4909,7 +4928,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
@@ -4918,7 +4938,8 @@
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
+                                            <li><a class="dropdown-item"
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -6078,8 +6099,7 @@
                             <div class="card-body p-0">
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
-                                        <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/favicon.png"
+                                        <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -6719,8 +6739,7 @@
                                 href="#!" role="button" data-bs-toggle="dropdown"
                                 data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <div class="avatar avatar-l ">
-                                    <img class="rounded-circle "
-                                        src="{{ URL::to('/') }}/favicon.png"
+                                    <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                         alt="" />
                                 </div>
                             </a>
@@ -6730,8 +6749,7 @@
                                     <div class="card-body p-0">
                                         <div class="text-center pt-4 pb-3">
                                             <div class="avatar avatar-xl ">
-                                                <img class="rounded-circle "
-                                                    src="{{ URL::to('/') }}/favicon.png"
+                                                <img class="rounded-circle " src="{{ URL::to('/') }}/favicon.png"
                                                     alt="" />
                                             </div>
                                             <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -7983,7 +8001,7 @@
                         },
                         success: function(response) {
                             window.location.href =
-                            notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
+                                notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
 
 
                         }
@@ -7993,40 +8011,39 @@
 
 
             document.addEventListener("DOMContentLoaded", function() {
-    // Bildirim kartlarını bul
-    var notificationCards = document.querySelectorAll(".notification-card");
+                // Bildirim kartlarını bul
+                var notificationCards = document.querySelectorAll(".notification-card");
 
-    // Her kart için tıklama etkinleyici ekleyin
-    notificationCards.forEach(function(card) {
-        card.addEventListener("click", function() {
-            var notificationId = card.getAttribute("data-id");
-            var notificationLink = $(this).data('link');
-              
-            console.log(notificationId);
-            
-            // AJAX ile bildirimi işaretle
-            fetch('/mark-notification-as-read/' + notificationId, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                }
-            })
-            .then(function(response) {
-             
-                    if (notificationLink) {
-                    window.location.href = notificationLink;
-                }
-                    card.classList.remove("unread");
-                    card.classList.add("read");
-                
-            })
-            .catch(function(error) {
-                console.error('Bir hata oluştu:', error);
+                // Her kart için tıklama etkinleyici ekleyin
+                notificationCards.forEach(function(card) {
+                    card.addEventListener("click", function() {
+                        var notificationId = card.getAttribute("data-id");
+                        var notificationLink = $(this).data('link');
+
+                        console.log(notificationId);
+
+                        // AJAX ile bildirimi işaretle
+                        fetch('/mark-notification-as-read/' + notificationId, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                }
+                            })
+                            .then(function(response) {
+
+                                if (notificationLink) {
+                                    window.location.href = notificationLink;
+                                }
+                                card.classList.remove("unread");
+                                card.classList.add("read");
+
+                            })
+                            .catch(function(error) {
+                                console.error('Bir hata oluştu:', error);
+                            });
+                    });
+                });
             });
-        });
-    });
-});
-            
         </script>
 
 

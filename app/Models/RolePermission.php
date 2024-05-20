@@ -11,7 +11,7 @@ class RolePermission extends Model
 
     public function permissions()
     {
-        return $this->hasMany(Permission::class, "id", "permission_id");
+        return $this->hasMany(Permission::class, "id", "permission_id")->where("description","!=","Modülün menüde etkin olması için bu seçeneği işaretlemeniz gerekmektedir.");
     }
 
     public function roles()
