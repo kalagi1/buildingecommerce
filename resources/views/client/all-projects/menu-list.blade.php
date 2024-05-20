@@ -806,6 +806,8 @@
         var countySlug = @json($countySlug ?? null);
         var neighborhoodSlug = @json($neighborhoodSlug ?? null);
         var citySlug = @json($citySlug ?? null);
+   
+
         $(document).ready(function() {
     var cityID = {{ $cityID ?? 'null' }};
     var countyID = {{ $countyID ?? 'null' }};
@@ -838,8 +840,8 @@
         var pathnameParts = currentUrl.pathname.split('/');
         var categoryIndex = pathnameParts.indexOf('kategori');
 
-        // Dinamik parçaları kontrol et
-        var newPathParts = pathnameParts.slice(0, categoryIndex + 2); // kategori ve emlak-ilanlari kısımlarını tut
+        // Dinamik kısımları temizle
+        var newPathParts = pathnameParts.slice(0, categoryIndex + 2); // 'kategori' ve 'emlak-ilanlari' kısımlarını tut
         var seenTypes = {
             city: false,
             county: false,
@@ -847,29 +849,32 @@
         };
 
         for (var i = categoryIndex + 2; i < pathnameParts.length; i++) {
-            if (!seenTypes.city && pathnameParts[i] === 'city') {
-                seenTypes.city = true;
-                continue;
+            if (pathnameParts[i] !== '') {
+                if (type === 'city' && seenTypes.city) continue;
+                if (type === 'county' && seenTypes.county) continue;
+                if (type === 'neighborhood' && seenTypes.neighborhood) continue;
+
+                if (!seenTypes.city && type !== 'city') {
+                    seenTypes.city = true;
+                    newPathParts.push(pathnameParts[i]);
+                } else if (!seenTypes.county && type !== 'county') {
+                    seenTypes.county = true;
+                    newPathParts.push(pathnameParts[i]);
+                } else if (!seenTypes.neighborhood && type !== 'neighborhood') {
+                    seenTypes.neighborhood = true;
+                    newPathParts.push(pathnameParts[i]);
+                }
             }
-            if (!seenTypes.county && pathnameParts[i] === 'county') {
-                seenTypes.county = true;
-                continue;
-            }
-            if (!seenTypes.neighborhood && pathnameParts[i] === 'neighborhood') {
-                seenTypes.neighborhood = true;
-                continue;
-            }
-            newPathParts.push(pathnameParts[i]);
         }
 
         if (type === 'city') {
             newPathParts.push(slug);
         } else if (type === 'county') {
-            if (seenTypes.city) {
+            if (seenTypes.city || newPathParts.length > categoryIndex + 2) {
                 newPathParts.push(slug);
             }
         } else if (type === 'neighborhood') {
-            if (seenTypes.city && seenTypes.county) {
+            if ((seenTypes.city && seenTypes.county) || newPathParts.length > categoryIndex + 3) {
                 newPathParts.push(slug);
             }
         }
@@ -988,8 +993,6 @@
 
     selectCityByID(cityID);
 });
-
-
 
 
         window.addEventListener('scroll', function() {
