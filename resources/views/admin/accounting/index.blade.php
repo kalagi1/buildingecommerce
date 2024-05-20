@@ -96,14 +96,8 @@
                                             </td>
                                             <td>
                                                 @if (isset($item->earn))
-                                                    <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') : null }} ₺</span>
-                                                    @if($reservation->money_trusted)
-                                                        <div class="d-flex" style="align-items: center;">
-                                                            1.000 ₺'si param güvende ödemesidir
-                                                        </div>
-                                                    @endif
-                                                @else
-                                                    -
+                                                <span class="text-success">Kazanç:  {{ number_format((float)$item->earn , 0, ',', '.') ?? null }} ₺</span>
+                                              
                                                 @endif
                                             </td>
                                             <td>
@@ -118,17 +112,13 @@
                                                     <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
                                             </td>
-                                            <td>{{ number_format(($reservation->total_price / 2) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') }}  ₺<br>
+                                            <td>{{ number_format(($reservation->down_payment), 0, ',', '.') }}  ₺<br>
                                                 @if($reservation->money_trusted)
                                                     <div class="d-flex" style="align-items: center;">
-                                                        1.000 ₺'si param güvende ödemesidir
+                                                        {{$reservation->money_is_safe}} ₺'si param güvende ödemesidir
                                                     </div>
                                                 @endif
                                             </td>
-                                        </tr>
-                                    @else
-                                        <tr>
-                                            <td colspan="9">Veri bulunamadı</td>
                                         </tr>
                                     @endif
                                 @else

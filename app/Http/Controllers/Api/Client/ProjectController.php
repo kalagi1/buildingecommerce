@@ -13,37 +13,70 @@ use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
+use App\Models\ProjectOffers;
 use App\Models\ProjectSituation;
 use App\Models\TempOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
+    public function give_offer(Request $request)
+    {
+
+        $data = [
+            'user_id'           => Auth::check() ? auth()->id() : 4,
+            'store_id'          => $request->projectUserId,
+            'project_id'        => $request->projectId,
+            'room_id'           => $request->roomId,
+            'email'             => $request->email,
+            'name'             => $request->name,
+            'phone'             => $request->phone,
+            'city_id'             => $request->city_id,
+            'county_id'             => $request->county_id,
+            'title'             => $request->title,
+            'offer_description' => $request->offer_description,
+            'approval_status'   => 0,
+            'response_status'   => 0,
+            'sales_status'      => 0,
+            'offer_response'    => 0,
+            'created_at'        => now()
+        ];
+
+        ProjectOffers::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Başvurunuz başarıyla alındı !'
+        ]);
+    }
     public function getFeaturedProjects()
     {
         $featuredProjects = Project::select('projects.*')
-        ->with("city", "county",'user',"neighbourhood")
-        ->with( 'brand', 'roomInfo','listItemValues', 'housingType')
-        ->orderBy("created_at", "desc")
-        ->where('projects.status', 1)
-        ->get();
+            ->with("city", "county", 'user', "neighbourhood")
+            ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
+            ->orderBy("created_at", "desc")
+            ->where('projects.status', 1)
+            ->get();
         return response()->json($featuredProjects);
     }
 
-    public function getMyProject($projectId){
-        $project = Project::where('id', $projectId)->with("neighbourhood", "housingType", "county", "city", 'images','situations')->first();
-       
+    public function getMyProject($projectId)
+    {
+        $project = Project::where('id', $projectId)->with("neighbourhood", "housingType", "county", "city", 'images', 'situations')->first();
+
 
         return json_encode([
             "project" => $project,
         ]);
     }
 
-    public function show($projectID){
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "blocks", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
+    public function show($projectID)
+    {
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "blocks", "neighbourhood", "housingType", "county", "city", 'listItemValues', 'user.brands', 'user.housings', 'images')->first();
         if (!$project) {
             return Response::json([
                 'error' => "Proje yayından kaldırılmıştır"
@@ -105,8 +138,8 @@ class ProjectController extends Controller
                 ->all();
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-            
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','>',0)->where('room_order','<=',10)->get();
+
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '>', 0)->where('room_order', '<=', 10)->get();
             $projectHousingsList = [];
             $projectHousings->map(function ($item) use (&$projectHousingsList) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;
@@ -114,7 +147,6 @@ class ProjectController extends Controller
 
 
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
-            
         } else {
             return redirect('/')
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
@@ -131,8 +163,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getRooms($projectId,Request $request){
-        $projectHousings = ProjectHousing::where('project_id', $projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+    public function getRooms($projectId, Request $request)
+    {
+        $projectHousings = ProjectHousing::where('project_id', $projectId)->where('room_order', '>', $request->input('start'))->where('room_order', '<=', $request->input('end'))->get();
         $projectHousingsList = [];
         $projectHousings->map(function ($item) use (&$projectHousingsList) {
             $projectHousingsList[$item->room_order][$item->name] = $item->value;
@@ -142,7 +175,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getFullProjects(Request $request){
+    public function getFullProjects(Request $request)
+    {
         $request->validate([
             "start" => "required",
             "end" => "required"
@@ -152,11 +186,11 @@ class ProjectController extends Controller
 
         $projects = Project::query();
 
-        if($request->input('start')){
+        if ($request->input('start')) {
             $projects = $projects->skip($request->input('start'));
         }
 
-        if($request->input('end')){
+        if ($request->input('end')) {
             $projects = $projects->take($request->input('end') - $request->input('start'));
         }
 
@@ -168,7 +202,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getMyProjects(Request $request){
+    public function getMyProjects(Request $request)
+    {
         $userId = auth()->guard('api')->user()->id;
 
         $fullProjectsCount = Project::where('user_id', $userId)->where('status', $request->input('status'))->count();
@@ -190,7 +225,7 @@ class ProjectController extends Controller
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
 
-        
+
         return json_encode([
             "data" => $projects,
             "total_projects_count" => $fullProjectsCount
@@ -223,15 +258,17 @@ class ProjectController extends Controller
         });
     }
 
-    public function deleteProjectGalleryImage($id){
-        ProjectImage::where('id',$id)->delete();
+    public function deleteProjectGalleryImage($id)
+    {
+        ProjectImage::where('id', $id)->delete();
 
         return json_encode([
             "status" => true
         ]);
     }
 
-    public function updateProject(){
+    public function updateProject()
+    {
         $tempOrder = TempOrder::where('item_type', 3)->where('user_id', auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
 

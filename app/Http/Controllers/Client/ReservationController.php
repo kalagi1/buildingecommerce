@@ -25,20 +25,18 @@ class ReservationController extends Controller
     public function reservation(Housing $housing)
     {
         $reservation = session()->get('reservation_data');
-            if (!$reservation) {
-                return redirect()->back()->with('error', 'Rezervasyon verisi bulunamadı, lütfen tekrar rezervasyon yapınız.');
-            }
-       
-        $bankAccounts = BankAccount::all();
+        if (!$reservation) {
+            return redirect()->back()->with('error', 'Rezervasyon verisi bulunamadı, lütfen tekrar rezervasyon yapınız.');
+        }
 
-        
+        $bankAccounts = BankAccount::all();
 
         $housingId = $housing->id;
 
         $housing = null;
-      
+
         if (isset($reservation) && !empty($reservation)) {
-                $housing = Housing::with('images')
+            $housing = Housing::with('images')
                 ->select(
                     'housings.id',
                     'housings.slug',
@@ -62,7 +60,7 @@ class ReservationController extends Controller
                     'districts.ilce_title AS county_title',
                     'neighborhoods.mahalle_title AS neighborhood_title',
                     DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
-                    )
+                )
                 ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                 ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
                 ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
@@ -70,38 +68,36 @@ class ReservationController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
-                ->where("housings.id",  $housingId)
+                ->where('housings.id',  $housingId)
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->first();
 
-                $saleType = $housing->step2_slug;
-                
+            $saleType = $housing->step2_slug;
         }
 
         $housing_type_data = json_decode($housing['housing_type_data'], true);
         $image = $housing_type_data['image'];
 
-      
-
         $check_in_date = Carbon::parse($reservation['check_in_date']);
         $check_out_date = Carbon::parse($reservation['check_out_date']);
+        $hasCounter = $reservation['hasCounter'];
 
-        
+
         // Tarih aralığı farkını hesapla
-        $diffDate = $check_out_date->diffInDays($check_in_date); 
-        $payPrice = $reservation['total_price'] / 2;
-       
-        return view('payment.reservation.index', compact('payPrice','diffDate','image','reservation', 'bankAccounts', 'housing'));
+        $diffDate = $check_out_date->diffInDays($check_in_date);
 
+        $payPrice = $reservation['total_price'] / 2;
+
+        return view('payment.reservation.index', compact('payPrice', "hasCounter", 'diffDate', 'image', 'reservation', 'bankAccounts', 'housing'));
     }
 
-    public function reservation3DPayment(Request $request){
+    public function reservation3DPayment(Request $request)
+    {
         $housing = Housing::where('id', $request->id)->first();
-        if($housing){
+        if ($housing) {
 
             $transaction = Str::uuid();
-
 
             $reservation = new Reservation;
             $reservation->user_id = auth()->user()->id;
@@ -113,10 +109,10 @@ class ReservationController extends Controller
             $reservation->status = 0;
             if ($request->input('money_trusted') == true) {
                 $reservation->money_trusted = 1;
-                
             }
             //bu değerleri almalısın
             $reservation->total_price = $request->input('total_price');
+            $reservation->down_payment = $request->input('down_payment');
             $reservation->price = $request->input('price');
             $reservation->money_is_safe = $request->input('money_is_safe');
             //
@@ -130,42 +126,41 @@ class ReservationController extends Controller
             $reservation->transaction = $transaction;
             $reservation->save();
 
-
-            // total_price değerine eğer money_is_safe var ise dahil ederek yollaman gerekiyor 
+            // total_price değerine eğer money_is_safe var ise dahil ederek yollaman gerekiyor
             //çünkü param güvende seçilmiştir.
 
-            // $reservation->full_name = $request->input('fullName');
-            // $reservation->email = $request->input('email');
-            // $reservation->tc = $request->input('tc');
-            // $reservation->phone = $request->input('phone');
-            // $reservation->address = $request->input('address');
-            // $reservation->notes = $request->input('notes');
+            // $reservation->full_name = $request->input( 'fullName' );
+            // $reservation->email = $request->input( 'email' );
+            // $reservation->tc = $request->input( 'tc' );
+            // $reservation->phone = $request->input( 'phone' );
+            // $reservation->address = $request->input( 'address' );
+            // $reservation->notes = $request->input( 'notes' );
             // $reservation->transaction = $transaction;
             // $reservation->save();
 
-            $requestData = $request->all();   
-          
+            $requestData = $request->all();
+
             $clientId = '190100000';
             $storeKey = '123456';
-           
-            $amountToBePaid = ($reservation->total_price / 2) + $reservation->money_is_safe; 
 
-            $amount = $amountToBePaid ;
+            $amountToBePaid = $reservation->down_payment;
+
+            $amount = $amountToBePaid;
             $expDateMonth = $requestData['month'];
             $expDateYear = $requestData['year'];
             $okUrl = url('/reservation/resultpaymentsuccess');
             $failUrl = url('/reservation/resultpaymentfail');
             $callbackUrl = url('/reservation/resultpaymentsuccess');
-            // $url = url('/resultpayment');
+            // $url = url( '/resultpayment' );
             $transactionType = 'Auth';
             $rnd = '5';
             $storetype = '3d_pay_hosting';
             $hashAlgorithm = 'ver3';
             $currency = '949';
             $lang = 'tr';
-    
+
             $creditCardNumbers = implode('', $requestData['creditcard']);
-    
+
             $data = [
                 'amount' => $amount,
                 'callbackurl' =>  $callbackUrl,
@@ -184,16 +179,19 @@ class ReservationController extends Controller
                 'storetype' => $storetype,
                 'taksit'  => '',
             ];
-    
+
             $order = [
                 'amount', 'callbackurl', 'clientid', 'currency', 'Ecom_Payment_Card_ExpDate_Month', 'Ecom_Payment_Card_ExpDate_Year', 'failurl', 'hashAlgorithm',
                 'islemtipi', 'lang', 'oid', 'okurl', 'pan', 'rnd', 'storetype', 'taksit'
             ];
-    
-            $sortedValues = array_map(function ($key) use ($data) {
-                return $data[$key];
-            }, $order);
-    
+
+            $sortedValues = array_map(
+                function ($key) use ($data) {
+                    return $data[$key];
+                },
+                $order
+            );
+
             $hashString = implode('|', $sortedValues) . '|';
             $hashString .= str_replace('|', '\\|', str_replace('\\', '\\\\', $storeKey));
             $calculatedHashValue = hash('sha512', $hashString);
@@ -202,52 +200,50 @@ class ReservationController extends Controller
 
             return view('payment.pay', $data);
         }
-        
-        $error = "Rezervasyon bulunamadı. Tekrar Rezarvasyon Yapınız";
+
+        $error = 'Rezervasyon bulunamadı. Tekrar Rezarvasyon Yapınız';
         return view('payment.reservation.index', compact('error'));
-
     }
-
 
     public function resultPaymentSuccess(Request $request)
     {
         $data = $request->all();
-    
+
         $reservation = Reservation::where('transaction', $data['ReturnOid'])->first();
-    
+
         if ($reservation) {
             $user = $reservation->user;
-    
+
             if ($user) {
                 Auth::login($user);
                 $reservationId = $reservation->id;
-    
+
                 $reservation->status = '1';
                 $reservation->payment_result = $data;
                 $reservation->save();
-    
+
                 $lastClick = Click::where('user_id', auth()->user()->id)
                     ->where('created_at', '>=', now()->subDays(24))
                     ->latest('created_at')
                     ->first();
-    
-                $earnMoney = intval($reservation->total_price) / 2;
-    
+
+                $earnMoney = $reservation->down_payment;
+
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
-                    $rates = Rate::where("housing_id", $reservation->housing_id)->get();
+                    $rates = Rate::where('housing_id', $reservation->housing_id)->get();
                     $housing = Housing::where('id', $reservation->housing_id)->first();
-    
+
                     // SharerPrice'i bul
                     $sharerPrice = SharerPrice::where('reservation_id', $reservation->id)->first();
-    
+
                     if ($sharerPrice) {
                         // SharerPrice varsa, güncelle
                         $sharerPrice->status = '1';
                         $sharerPrice->save();
                     } else {
                         $sales_rate_club = null; // Başlangıçta boş veya null değer
-    
+
                         foreach ($rates as $rate) {
                             if ($collection->user->corporate_type == $rate->institution->name) {
                                 // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
@@ -258,22 +254,22 @@ class ReservationController extends Controller
                                 $share_percent_balance = 1.0 - $share_percent_earn;
                             }
                         }
-    
+
                         // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
                         if ($sales_rate_club === null && count($rates) > 0) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
-    
-                        $estateclubrate = $earnMoney * $sales_rate_club;
-                        $remaining = $earnMoney - $estateclubrate;
-    
+
+                        $estateclubrate = ($earnMoney * $share_percent_balance) * $sales_rate_club;
+                        $remaining = $earnMoney * $share_percent_earn;
+
                         // Yeni SharerPrice oluştur
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
                             'user_id' => $collection->user_id,
                             'status' => '1',
                             'balance' => $estateclubrate,
-                            'earn' => $earnMoney * $share_percent_balance,
+                            'earn' => ($earnMoney * $share_percent_balance) - $estateclubrate,
                             'earn2' => $remaining,
                             'is_reservation' => 1,
                             'reservation_id' => $reservation->id,
@@ -282,14 +278,14 @@ class ReservationController extends Controller
                 } else {
                     $housing = Housing::where('id', $reservation->housing_id)->first();
                     $rates = Rate::where("housing_id", $reservation->housing_id)->get();
-    
+
                     foreach ($rates as $key => $rate) {
                         if ($housing->user->corporate_type == $rate->institution->name) {
                             $share_percent_earn =  $rate->default_deposit_rate;
                             $share_percent_balance = 1.0 - $share_percent_earn;
                         }
                     }
-    
+
                     $cartPrice = CartPrice::where('reservation_id', $reservation->id)->first();
 
                     if ($cartPrice) {
@@ -308,13 +304,13 @@ class ReservationController extends Controller
                         ]);
                     }
                 }
-                return redirect()->route('reservation.pay.success',compact('reservation'));
+                return redirect()->route('reservation.pay.success', compact('reservation'));
             }
         }
-    
+
         return redirect()->route('client.login');
     }
-    
+
 
     public function resultPaymentFail(Request $request)
     {
@@ -340,14 +336,28 @@ class ReservationController extends Controller
         // Kullanıcı veya sipariş bulunamazsa, giriş sayfasına yönlendirin veya başka bir işlem yapın
         return redirect()->route('client.login');
     }
-
     public function addsessions(Request $request)
     {
+        $lastClick = Click::where('user_id', auth()->user()->id)
+            ->where('created_at', '>=', now()->subDays(1))
+            ->latest('created_at')
+            ->first();
 
-       
-        // Doğrulama
+        $hasCounter = false;
+
+        if ($lastClick) {
+            $collection = Collection::where('id', $lastClick->collection_id)->first();
+            if ($collection) {
+                foreach ($collection->links as $link) {
+                    if ($link->user_id != Auth::user()->id) {
+                        $hasCounter = true;
+                    }
+                }
+            }
+        }
+
         $validator = Validator::make($request->all(), [
-            'housing_id' => 'required|exists:housings,id',
+            'housing_id' => 'required|exists:housings,id', // Fixed the space issue here
             'check_in_date' => 'required|date',
             'check_out_date' => 'required|date|after_or_equal:check_in_date',
             'person_count' => 'required|integer|min:1',
@@ -356,15 +366,12 @@ class ReservationController extends Controller
             'total_price' => 'required|numeric|min:0',
             'money_is_safe' => 'nullable|numeric|min:0',
             'key' => 'required',
-            
         ]);
-    
-        // Doğrulama başarısız ise hata mesajı döndür
+
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'message' => 'Geçersiz istek.', 'errors' => $validator->errors()]);
+            return response()->json(['success' => false, 'message' => 'Invalid request.', 'errors' => $validator->errors()]);
         }
-    
-        // Tüm rezervasyon verilerini bir dizi içinde toplama
+
         $reservationData = [
             'housing_id' => $request->input('housing_id'),
             'check_in_date' => $request->input('check_in_date'),
@@ -373,25 +380,24 @@ class ReservationController extends Controller
             'owner_id' => $request->input('owner_id'),
             'price' => $request->input('price'),
             'total_price' => $request->input('total_price'),
+            'down_payment' => $request->input('down_payment'),
             'money_is_safe' => $request->input('money_is_safe'),
             'key' => $request->input('key'),
-            'money_trusted' => $request->input('money_trusted')
+            'money_trusted' => $request->input('money_trusted'),
+            'hasCounter' => $hasCounter
         ];
-    
-        // Rezervasyon verilerini session'a kaydetme
+
         session()->put('reservation_data', $reservationData);
 
-        return response()->json(['success' => true, 'message' => 'Rezervasyon başarıyla kaydedildi.']);
-    
-        // Devam eden işlemler...
+        return response()->json(['success' => true, 'message' => 'Reservation successfully saved.']);
     }
-    
+
+
     public function paySuccess(Request $request, reservation $reservation)
     {
 
         return view('payment.reservation.pay-success', compact('reservation'));
     }
-
 
     public function store(Request $request)
     {
@@ -404,7 +410,7 @@ class ReservationController extends Controller
             'owner_id' => 'required',
             'price' => 'required|numeric|min:0',
             'key' => 'required',
-            
+
             'fullName' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'tc' => 'required|numeric',
@@ -416,11 +422,10 @@ class ReservationController extends Controller
             return response()->json(['success' => false, 'message' => 'Geçersiz istek.', 'errors' => $validator->errors()]);
         }
 
-      
-
         $existingReservation = Reservation::where('housing_id', $request->input('housing_id'))
-            ->where("status", "!=", "3")
+            ->where('status', '!=', '3')
             ->where(
+
                 function ($query) use ($request) {
                     $query->whereBetween('check_in_date', [$request->input('check_in_date'), $request->input('check_out_date')])
                         ->orWhereBetween('check_out_date', [$request->input('check_in_date'), $request->input('check_out_date')]);
@@ -436,6 +441,7 @@ class ReservationController extends Controller
             ->where('created_at', '>=', now()->subDays(24))
             ->latest('created_at')
             ->first();
+
         $shareOpen = isset(
             json_decode(Housing::find($request->input('housing_id') ?? 0)->housing_type_data ?? '[]')->{'share-open1'}
         ) ? json_decode(Housing::find($request->input('housing_id') ?? 0)->housing_type_data ?? '[]')->{'share-open1'}
@@ -454,12 +460,13 @@ class ReservationController extends Controller
         }
         //bu değerleri almalısın
         $reservation->total_price = $request->input('total_price');
+        $reservation->down_payment = $request->input('down_payment');
+
         $reservation->price = $request->input('price');
 
         if ($request->input('money_trusted') == false) {
             $reservation->money_is_safe = 0;
-        }else
-        {
+        } else {
             $reservation->money_is_safe = $request->input('money_is_safe');
         }
 
@@ -472,14 +479,14 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = intval($request->input('price')) / 2;
+        $earnMoney = intval($request->input('down_payment'));
+
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
-            $rates = Rate::where("housing_id", $request->input('housing_id'))->get();
+            $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
-
-            $sales_rate_club = null; // Başlangıçta boş veya null değer
+            $sales_rate_club = null;
 
             foreach ($rates as $rate) {
                 if ($collection->user->corporate_type == $rate->institution->name) {
@@ -497,22 +504,22 @@ class ReservationController extends Controller
                 $sales_rate_club = $rates->last()->sales_rate_club;
             }
 
-            $estateclubrate = $earnMoney * $sales_rate_club;
-            $remaining = $earnMoney - $estateclubrate;
+            $estateclubrate = ($earnMoney * $share_percent_balance) * $sales_rate_club;
+            $remaining = $earnMoney * $share_percent_earn;
 
             SharerPrice::create([
                 'collection_id' => $lastClick->collection_id,
                 'user_id' => $collection->user_id,
                 'status' => '0',
                 'balance' => $estateclubrate,
-                'earn' => $earnMoney * $share_percent_balance,
+                'earn' => ($earnMoney * $share_percent_balance) - $estateclubrate,
                 'earn2' => $remaining,
                 'is_reservation' => 1,
                 'reservation_id' => $reservation->id,
             ]);
         } else {
             $housing = Housing::where('id', $request->input('housing_id'))->first();
-            $rates = Rate::where("housing_id", $request->input('housing_id'))->get();
+            $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
 
             foreach ($rates as $key => $rate) {
                 if ($housing->user->corporate_type == $rate->institution->name) {
@@ -531,7 +538,7 @@ class ReservationController extends Controller
             ]);
         }
 
-        return response()->json(['success' => true, 'message' => 'Rezervasyon başarıyla kaydedildi.','reservation' => $reservation->id]);
+        return response()->json(['success' => true, 'message' => 'Rezervasyon başarıyla kaydedildi.', 'reservation' => $reservation->id]);
     }
 
     public function dekontFileUpload(Request $request)
@@ -548,7 +555,7 @@ class ReservationController extends Controller
             // Dosya adının veritabanına kaydedilmesi
             $reservation->update(['dekont' => $fileName]);
             $reservation->save();
-            return response()->json(['success' => 'Dosya başarıyla yüklendi.','reservation' => $reservation->id]);
+            return response()->json(['success' => 'Dosya başarıyla yüklendi.', 'reservation' => $reservation->id]);
         } else {
             return response()->json(['error' => 'reservation  bulunamadı.']);
         }

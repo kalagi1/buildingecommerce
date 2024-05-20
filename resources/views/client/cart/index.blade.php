@@ -145,7 +145,8 @@
                                             $deposit_rate =
                                                 optional(App\Models\Project::find($cart['item']['id']))->deposit_rate /
                                                 100;
-                                            $discount_percent =   optional(App\Models\Project::find($cart['item']['id']))->deposit_rate;
+                                            $discount_percent = optional(App\Models\Project::find($cart['item']['id']))
+                                                ->deposit_rate;
                                         }
                                     @endphp
                                     <tr>
@@ -209,7 +210,7 @@
 
                                                     $housingAmount = $itemPrice - $housingDiscountAmount;
                                                     $discountedPrice =
-                                                    $housingAmount - ($housingAmount * $discountRate) / 100;
+                                                        $housingAmount - ($housingAmount * $discountRate) / 100;
                                                 } else {
                                                     $project = App\Models\Project::find($cart['item']['id']);
                                                     $roomOrder = $cart['item']['housing'];
@@ -222,7 +223,8 @@
                                                         ->keyBy('name');
                                                     $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
                                                     $projectAmount = $itemPrice - $projectDiscountAmount;
-                                                    $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                                                    $discountedPrice =
+                                                        $projectAmount - ($projectAmount * $discountRate) / 100;
                                                 }
                                             } else {
                                                 $discountedPrice = $itemPrice;

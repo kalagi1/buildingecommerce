@@ -236,14 +236,13 @@ class HomeController extends Controller
 
         $query = Project::query()->where('projects.status', 1);
 
-        if ($request->input('city')) {
+        if ($request->input('city') &&  $request->input('city') != "#") {
             $query->where('city_id', $request->input('city'));
         }
 
-        if ($request->input('county')) {
+        if ($request->input('county') && $request->input('county') != "#") {
             $query->where('county_id', $request->input('county'));
         }
-
         if ($request->input('listing_date') == 24) {
             $query = $query->where('projects.created_at', '>=', now()->subDay());
         }
@@ -419,7 +418,7 @@ class HomeController extends Controller
             }
         }
 
-        if ($request->input('neighborhood')) {
+        if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
             $query->where('neighbourhood_id', $request->input('neighborhood'));
         }
 
@@ -590,7 +589,7 @@ class HomeController extends Controller
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
 
-                
+
                     if ($item1) {
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;
@@ -712,15 +711,15 @@ class HomeController extends Controller
             }
         }
 
-        if ($request->input('city')) {
+        if ($request->input('city') && $request->input('city') != "#") {
             $obj = $obj->where('housings.city_id', $request->input('city'));
         }
 
-        if ($request->input('county')) {
+        if ($request->input('county') && $request->input('county') != "#") {
             $obj = $obj->where('housings.county_id', $request->input('county'));
         }
 
-        if ($request->input('neighborhood')) {
+        if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
         }
 

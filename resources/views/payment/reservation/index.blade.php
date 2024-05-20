@@ -38,6 +38,19 @@
         }
     @endphp
     @php
+        $itemPrice = $payPrice + $reservation['money_is_safe'];
+        $housingDiscountAmount = 0;
+
+        if ($hasCounter) {
+            $housingData = json_decode($housing->housing_type_data);
+            $discountRate = $housingData->discount_rate[0] ?? 0;
+
+            $housingAmount = $itemPrice - $housingDiscountAmount;
+            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+        } else {
+            $discountedPrice = $itemPrice;
+            $discountRate = 0;
+        }
 
         $deposit_rate = 0.04;
         $discount_percent = 4;
@@ -63,7 +76,7 @@
                         <a
                             href="{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                         </a>
-                        <img alt="my-properties-3" src="{{ asset('storage/profile_images/' . $image) }}" class="img-fluid">
+                        <img alt="my-properties-3" src="{{ url('housing_images/' . $image) }}" class="img-fluid">
                         </a>
                     </div>
                     <div class="box-1">
@@ -160,8 +173,9 @@
                             </a>
 
                         </div>
+
                         <div class="moneys fs-30 fw-7 lh-45 text-color-3">
-                            {{ number_format($reservation['total_price'], 0, ',', '.') }}
+                            {{ number_format($discountedPrice, 0, ',', '.') }}
                             TL</div>
 
                         <div class="show-mobile">
@@ -363,7 +377,7 @@
                                             </div>
                                         </div>
 
-{{-- 
+                                        {{-- 
 
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
@@ -467,6 +481,23 @@
                                                     <li>Param Güvende<strong class="pull-right">
                                                             {{ number_format($reservation['money_is_safe'], 0, ',', '.') }}
                                                             TL</strong></li>
+
+
+                                                    @if (isset($discountRate) && $discountRate != '0')
+                                                        <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
+                                                                class="pull-right">
+                                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="css-i6dzq1">
+                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                                </svg>
+                                                                <span style="margin-left: 2px">{{ $discountRate }}
+                                                                    % </span></strong></li>
+                                                    @endif
+
                                                 </ul>
                                             @endif
                                         </div>
@@ -482,10 +513,9 @@
 
 
 
-
                                         <div id="other-amount">
                                             <div class="text-success">Şimdi Ödenecek Tutar : <strong
-                                                    class="button-price-inner pull-right text-success">{{ number_format($payPrice + $reservation['money_is_safe'], 0, ',', '.') }}
+                                                    class="button-price-inner pull-right text-success">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                     TL</strong></div>
                                         </div>
                                         {{-- @endif --}}
@@ -636,6 +666,8 @@
                                                         value="{{ $reservation['money_trusted'] }}" id="money_trusted">
                                                     <input type="hidden" name="total_price"
                                                         value="{{ $reservation['total_price'] }}" id="total_price">
+                                                    <input type="hidden" name="down_payment"
+                                                        value="{{ $discountedPrice }}" id="down_payment">
                                                     <input type="hidden" name="price"
                                                         value="{{ $reservation['price'] }}" id="price">
                                                     <input type="hidden" name="money_is_safe"
@@ -1141,6 +1173,7 @@
                         person_count: "{{ $reservation['person_count'] }}",
                         owner_id: "{{ $reservation['owner_id'] }}",
                         total_price: "{{ $reservation['total_price'] }}",
+                        down_payment: "{{ $discountedPrice }}",
                         money_is_safe: "{{ $reservation['money_is_safe'] }}",
                         housing_id: "{{ $reservation['housing_id'] }}",
 
@@ -1154,7 +1187,7 @@
                         } else {
                             var formData = new FormData();
                             formData.append('file', $('#fileInput')[0].files[0]);
-                           
+
                             // Cart order ID'yi ikinci AJAX isteğine ekleyelim
                             formData.append('reservation', reservationId);
                             formData.append('_token', '{{ csrf_token() }}');
@@ -1165,16 +1198,18 @@
                                 data: formData,
                                 processData: false,
                                 contentType: false,
-                                
+
                                 success: function(response) {
-                                  
+
                                     toastr.success("Dosya başarıyla yüklendi.");
                                     var reservationId = response.reservation;
 
                                     console.log("dekont" + reservationId)
-                                    var redirectUrl = "{{ route('reservation.pay.success', ['reservation' => ':reservationId']) }}";
-                                     window.location.href = redirectUrl.replace(':reservationId', reservationId);
-                                  
+                                    var redirectUrl =
+                                        "{{ route('reservation.pay.success', ['reservation' => ':reservationId']) }}";
+                                    window.location.href = redirectUrl.replace(
+                                        ':reservationId', reservationId);
+
                                 },
                                 error: function(error) {
                                     toastr.error(
@@ -1183,9 +1218,9 @@
                                         .responseText);
                                 }
 
-                            });                       
-                              // Başarılı yükleme durumunda, başka bir sayfaya yönlendirme
-                            
+                            });
+                            // Başarılı yükleme durumunda, başka bir sayfaya yönlendirme
+
                         }
                     },
                     error: function(error) {
@@ -1197,9 +1232,9 @@
                             "hidden"); // Visible olarak ayarla
                     }
                 });
-                
+
             });
-            
+
             //  $('#completePaymentButton').prop('disabled', false);
             $('.bank-account').on('click', function() {
                 // Tüm banka görsellerini seçim olmadı olarak ayarla
