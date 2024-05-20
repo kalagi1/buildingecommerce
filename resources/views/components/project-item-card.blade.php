@@ -403,8 +403,8 @@
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                         @if (Auth::user())
-                                            <button class="first-btn payment-plan-button" data-toggle="modal"
-                                                data-target="#approveProjectModal{{ $keyIndex }}">
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                                 Başvuru Yap
                                             </button>
                                         @else

@@ -373,8 +373,8 @@
                             $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' &&
                             !$sold)
                         @if (Auth::user())
-                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-toggle="modal"
-                                data-target="#approveProjectModal{{ $keyIndex }}"
+                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
+                                data-bs-target="#approveProjectModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
                                 Başvuru Yap
                             </button>
