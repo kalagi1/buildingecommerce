@@ -845,8 +845,8 @@
                 $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
                 var citySlug = res.citySlug;
-                var currentUrlParts = window.location.href.split('/');
-                var newUrl = currentUrlParts.slice(0, 3).join('/') + '/' + citySlug;
+                var currentUrl = new URL(window.location.href);
+                var newUrl = currentUrl.origin + '/' + citySlug;
 
                 updateURL(newUrl);
 
@@ -884,8 +884,8 @@
             success: function(res) {
                 $('#neighborhood').empty();
                 var countySlug = res.countySlug;
-                var currentUrlParts = window.location.href.split('/');
-                var newUrl = currentUrlParts.slice(0, 4).join('/') + '/' + countySlug;
+                var currentUrl = new URL(window.location.href);
+                var newUrl = currentUrl.origin + '/' + countySlug;
 
                 updateURL(newUrl);
 
@@ -924,9 +924,8 @@
             url: "{{ url('get-neighborhood') }}/" + $(this).val(),
             success: function(res) {
                 var neighborhoodSlug = res.neighborhoodSlug;
-                var currentUrlParts = window.location.href.split('/');
-                var newUrl = currentUrlParts.slice(0, 5).join('/') + '/' + neighborhoodSlug;
-
+                var currentUrl = new URL(window.location.href);
+                var newUrl = currentUrl.origin + '/' + neighborhoodSlug;
                 updateURL(newUrl);
 
                 $(".hiddenNeighborhoodName").removeClass("d-none").addClass("d-flex");
