@@ -887,7 +887,7 @@
                     success: function(res) {
                         $('#neighborhood').empty();
                         var countySlug = res.countySlug;
-                        var currentUrl = window.location.href.split('/').slice(0, 4).join('/');
+                        var currentUrl = window.location.href.split('/');;
                         var newUrl = currentUrl + '/' + countySlug;
 
                         updateURL(newUrl);
