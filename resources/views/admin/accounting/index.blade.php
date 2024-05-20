@@ -99,7 +99,7 @@
                                                     <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') : null }} ₺</span>
                                                     @if($reservation->money_trusted)
                                                         <div class="d-flex" style="align-items: center;">
-                                                            1.000 ₺'si param güvende ödemesidir
+                                                            {{$rezervation->money_is_safe}} ₺'si param güvende ödemesidir
                                                         </div>
                                                     @endif
                                                 @else
@@ -121,7 +121,7 @@
                                             <td>{{ number_format(($reservation->total_price / 2) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') }}  ₺<br>
                                                 @if($reservation->money_trusted)
                                                     <div class="d-flex" style="align-items: center;">
-                                                        1.000 ₺'si param güvende ödemesidir
+                                                        {{$rezervation->money_is_safe}} ₺'si param güvende ödemesidir
                                                     </div>
                                                 @endif
                                             </td>
