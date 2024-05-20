@@ -483,7 +483,6 @@ class ReservationController extends Controller
 
         $reservation->save();
         $earnMoney = (intval($request->input('total_price')) + intval($reservation->money_is_safe)) / 2;
-        $hasCounter = false;
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
@@ -491,14 +490,7 @@ class ReservationController extends Controller
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
             $sales_rate_club = null;
-            // Başlangıçta boş veya null değer
-            if (isset($collection)) {
-                foreach ($collection->links as $link) {
-                    if (($link->user_id != Auth::user()->id)) {
-                        $hasCounter = true;
-                    }
-                }
-            }
+           
             foreach ($rates as $rate) {
                 if ($collection->user->corporate_type == $rate->institution->name) {
                     // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
