@@ -472,7 +472,7 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = intval($request->input('price')) / 2;
+        $earnMoney = intval($request->input('total_price')) / 2;
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
             $rates = Rate::where("housing_id", $request->input('housing_id'))->get();
