@@ -374,7 +374,7 @@ class CartController extends Controller {
                     SharerPrice::create( [
                         'user_id' => $coupon->user_id,
                         'cart_id' => $order->id,
-                        'status' => '1',
+                        'status' => '0',
                         'balance' => $estateclubrate,
                         'earn' => $sharedAmount_balance,
                         'earn2' => $remaining,
@@ -438,7 +438,7 @@ class CartController extends Controller {
                             'collection_id' => $lastClick->collection_id,
                             'user_id' => $collection->user_id,
                             'cart_id' => $order->id,
-                            'status' => '1',
+                            'status' => '0',
                             'balance' => $estateclubrate,
                             'earn' => $sharedAmount_balance,
                             'earn2' => $remaining,
