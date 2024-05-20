@@ -142,7 +142,7 @@ class ReservationController extends Controller
             $clientId = '190100000';
             $storeKey = '123456';
 
-            $amountToBePaid = $reservation->total_price;
+            $amountToBePaid = ($reservation->total_price / 2) + $reservation->money_is_safe;
 
             $amount = $amountToBePaid;
             $expDateMonth = $requestData['month'];
