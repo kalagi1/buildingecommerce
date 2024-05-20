@@ -866,6 +866,9 @@
                     success: function(res) {
                         $('#county').empty();
                         $('#neighborhood').empty();
+
+                        $("#county").val("#");
+                        $("#neighborhood").val("#");
                         $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
@@ -885,6 +888,8 @@
                             'href', newUrl);
 
                         $('#county').append(`<option value="#">İlçe</option>`);
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+
                         res.counties.forEach((e) => {
                             $('#county').append(
                                 `<option value="${e.ilce_key}">${e.ilce_title}</option>`

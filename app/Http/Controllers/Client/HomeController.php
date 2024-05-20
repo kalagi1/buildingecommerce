@@ -712,15 +712,15 @@ class HomeController extends Controller
             }
         }
 
-        if ($request->input('city')) {
+        if ($request->input('city') && $request->input('city') != "#") {
             $obj = $obj->where('housings.city_id', $request->input('city'));
         }
 
-        if ($request->input('county')) {
+        if ($request->input('county') && $request->input('county') != "#") {
             $obj = $obj->where('housings.county_id', $request->input('county'));
         }
 
-        if ($request->input('neighborhood')) {
+        if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
         }
 
