@@ -230,9 +230,10 @@ class ReservationController extends Controller
                     ->where('created_at', '>=', now()->subDays(24))
                     ->latest('created_at')
                     ->first();
-    
-                $earnMoney = intval($reservation->total_price) / 2;
-    
+
+                    $earnMoney = (intval($reservation->total_price) + intval( $reservation->money_is_safe)) / 2;
+
+        
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $rates = Rate::where("housing_id", $reservation->housing_id)->get();
@@ -472,7 +473,7 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = intval($request->input('total_price')) / 2;
+        $earnMoney = (intval($request->input('total_price')) + intval( $reservation->money_is_safe)) / 2;
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
             $rates = Rate::where("housing_id", $request->input('housing_id'))->get();
