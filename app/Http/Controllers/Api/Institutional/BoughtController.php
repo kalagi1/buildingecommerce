@@ -20,8 +20,10 @@ class BoughtController extends Controller
         ]);
     }
 
-    public function solds(){
+    public function solds()
+    {
         $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
+        return $user;
         $userProjectIds = $user->projects->pluck('id')->toArray();
 
         // Projects için sorgu
