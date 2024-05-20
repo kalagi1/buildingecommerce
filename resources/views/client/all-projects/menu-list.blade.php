@@ -840,43 +840,20 @@
         var pathnameParts = currentUrl.pathname.split('/');
         var categoryIndex = pathnameParts.indexOf('kategori');
 
-        // Dinamik kısımları temizle
+        // Yeni URL için parçaları oluştur
         var newPathParts = pathnameParts.slice(0, categoryIndex + 2); // 'kategori' ve 'emlak-ilanlari' kısımlarını tut
-        var seenTypes = {
-            city: false,
-            county: false,
-            neighborhood: false
-        };
 
-        for (var i = categoryIndex + 2; i < pathnameParts.length; i++) {
-            if (pathnameParts[i] !== '') {
-                if (type === 'city' && seenTypes.city) continue;
-                if (type === 'county' && seenTypes.county) continue;
-                if (type === 'neighborhood' && seenTypes.neighborhood) continue;
-
-                if (!seenTypes.city && type !== 'city') {
-                    seenTypes.city = true;
-                    newPathParts.push(pathnameParts[i]);
-                } else if (!seenTypes.county && type !== 'county') {
-                    seenTypes.county = true;
-                    newPathParts.push(pathnameParts[i]);
-                } else if (!seenTypes.neighborhood && type !== 'neighborhood') {
-                    seenTypes.neighborhood = true;
+        if (type === 'city') {
+            // İl değişiminde il, ilçe ve mahalle bilgilerini tamamen temizle
+            newPathParts.push(slug);
+        } else {
+            // İlçe veya mahalle eklenmesi durumunda mevcut il bilgisi varsa ekle
+            for (var i = categoryIndex + 2; i < pathnameParts.length; i++) {
+                if (pathnameParts[i] !== '' && !['city', 'county', 'neighborhood'].includes(pathnameParts[i])) {
                     newPathParts.push(pathnameParts[i]);
                 }
             }
-        }
-
-        if (type === 'city') {
             newPathParts.push(slug);
-        } else if (type === 'county') {
-            if (seenTypes.city || newPathParts.length > categoryIndex + 2) {
-                newPathParts.push(slug);
-            }
-        } else if (type === 'neighborhood') {
-            if ((seenTypes.city && seenTypes.county) || newPathParts.length > categoryIndex + 3) {
-                newPathParts.push(slug);
-            }
         }
 
         return currentUrl.origin + newPathParts.join('/');
