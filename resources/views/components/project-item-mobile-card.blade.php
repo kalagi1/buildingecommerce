@@ -373,8 +373,8 @@
                             $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' &&
                             !$sold)
                         @if (Auth::user())
-                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-toggle="modal"
-                                data-target="#applyModal{{ $keyIndex }}"
+                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
+                                data-bs-target="#approveProjectModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
                                 Başvuru Yap
                             </button>
@@ -452,13 +452,13 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="applyModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-    aria-labelledby="applyModalLabel" aria-hidden="true">
+<div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
+    aria-labelledby="approveProjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                    id="applyModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
+                    id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Başvuru Yap</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">

@@ -403,8 +403,8 @@
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                         @if (Auth::user())
-                                            <button class="first-btn payment-plan-button" data-toggle="modal"
-                                                data-target="#exampleModal{{ $keyIndex }}">
+                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
                                                 Başvuru Yap
                                             </button>
                                         @else
@@ -490,13 +490,13 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
+        aria-labelledby="approveProjectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-body">
                     {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                        id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
+                        id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
                         için
                         Başvuru Yap</h3>
                     <hr> --}}
