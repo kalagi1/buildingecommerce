@@ -308,6 +308,8 @@ class CartController extends Controller
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
+
+        return $o;
         if (json_decode($o->cart)->type == 'housing') {
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
@@ -449,7 +451,6 @@ class CartController extends Controller
                     }
                 } else {
 
-                    return "a";
                     $newAmount = $amountWithoutDiscount;
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
