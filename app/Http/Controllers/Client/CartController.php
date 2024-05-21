@@ -44,7 +44,7 @@ class CartController extends Controller
     {
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-
+return $cartItem;
 
         if (!$cartItem) {
 
@@ -309,7 +309,6 @@ class CartController extends Controller
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
 
-        return $o;
         if (json_decode($o->cart)->type == 'housing') {
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
