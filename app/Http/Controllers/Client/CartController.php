@@ -256,7 +256,7 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-            return $cart . " assds";
+            return $cart['type'];
 
             $deposit_rate = 0.04;
             if ($cart['type'] == 'housing') {
