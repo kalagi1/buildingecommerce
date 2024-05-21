@@ -285,6 +285,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
     Route::get('/accounting', [InfoController::class, 'accounting'])->name('accounting');
     Route::get('/expense', [InfoController::class, 'expense'])->name('expense');
+    Route::get('/accounting/filter', [InfoController::class, 'filterByDate'])->name('filterByDate');
     Route::post('/update-payment-status', [InfoController::class, 'updatePaymentStatus'])->name('updatePaymentStatus');
 
     Route::get('/accounting/refund', [InfoController::class, 'accountingForRefund'])->name('accountingForRefund');

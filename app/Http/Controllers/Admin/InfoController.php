@@ -55,55 +55,112 @@ class InfoController extends Controller
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
-    
+
+       
         return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+    }
+
+
+    public function filterByDate(Request $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $payment_status =  $request->input('payment_status');
+
+        $cartPrices = CartPrice::with("cart.user")->where("status", "1")
+            ->whereBetween('created_at', [Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()])
+            ->get()
+            ->map(function ($item) {
+                $item->source = 'cartPrices';
+                return $item;
+            });
+
+        $sharerPrices = SharerPrice::with("cart.user", "user")->where("status", "1")
+            ->whereBetween('created_at', [Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()])
+            ->get()
+            ->map(function ($item) {
+                $item->source = 'sharerPrices';
+                return $item;
+            });;
+
+            
+        $mergedArray = $cartPrices->concat($sharerPrices);
+        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+
+        
+
+        return view('admin.accounting.expense', ['mergedArray' => $mergedArray]);
     }
 
     
 
     public function expense()
     {
-        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
-        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
+        $cartPrices = CartPrice::with("cart.user")
+            ->where("status", "1")
+            ->get()
+            ->map(function ($item) {
+                $item->source = 'cartPrices';
+                return $item;
+            });
+
+        $sharerPrices = SharerPrice::with("cart.user", "user")
+            ->where("status", "1")
+            ->get()
+            ->map(function ($item) {
+                $item->source = 'sharerPrices';
+                return $item;
+            });
+
         $mergedArray = $cartPrices->concat($sharerPrices);
         $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+
         $totalEarn = $mergedArray->sum(function ($item) {
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
 
        
-    
-       
-        return view('admin.accounting.expense', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+
+        return view('admin.accounting.expense', [
+            'mergedArray' => $mergedArray,
+            'totalEarn' => $totalEarn
+        ]);
     }
+
 
     public function updatePaymentStatus(Request $request)
     {
-        // Gelen verileri doğrulayın
-        $request->validate([
-            'id' => 'required|integer',
-            'type' => 'required|string|in:payment_balance,payment_earn2',
-            'payment_status' => 'required|boolean',
-        ]);
-
-        // İlgili kaydı bulun ve güncelleyin
-        $sharerPrice = SharerPrice::find($request->id);
-        if (!$sharerPrice) {
-            return response()->json(['message' => 'Kayıt bulunamadı'], 404);
+        $id = $request->input('id');
+        $source = $request->input('source');
+        $type = $request->input('type');
+        $paymentStatus = $request->input('payment_status');
+    
+        if ($source === 'cartPrices') {
+            $item = CartPrice::find($id);
+            if ($item) {
+                if ($type === 'payment_earn2') {
+                    $item->payment_earn2 = $paymentStatus;
+                }
+                $item->save();
+                return response()->json(['success' => true]);
+            }
+        } elseif ($source === 'sharerPrices') {
+            $item = SharerPrice::find($id);
+            if ($item) {
+                if ($type === 'payment_balance') {
+                    $item->payment_balance = $paymentStatus;
+                } else {
+                    $item->payment_earn2 = $paymentStatus;
+                }
+                $item->save();
+                return response()->json(['success' => true]);
+            }
         }
-
-        // Hangi alanın güncelleneceğini kontrol edin
-        if ($request->type == 'payment_balance') {
-            $sharerPrice->payment_balance = $request->payment_status;
-        } elseif ($request->type == 'payment_earn2') {
-            $sharerPrice->payment_earn2 = $request->payment_status;
-        }
-
-        $sharerPrice->save();
-
-        return response()->json(['message' => 'Ödeme durumu güncellendi'], 200);
+    
+        return response()->json(['success' => false, 'message' => 'Kayıt bulunamadı veya geçersiz kaynak.']);
     }
+    
 
     public function accountingForRefund()
     {

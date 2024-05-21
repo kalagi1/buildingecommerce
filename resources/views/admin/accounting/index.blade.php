@@ -21,7 +21,7 @@
                                                 <span class="text-success"> {{ number_format($totalEarn, 0, ',', '.') }}
                                                     ₺</span>
                                             @else
-                                                0 
+                                                0
                                             @endif
                                         </span>
                                     </p>
@@ -31,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div
                     class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                     <div class="table-responsive scrollbar mx-n1 px-1">
@@ -63,156 +64,90 @@
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $key => $item)
-                                {{-- {{dd($item->cart->refund)}} --}}
-                                @if(isset($item['is_reservation']) && $item['is_reservation'] == 1)
-                                    @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
-                                    @if($reservation)
-                                        @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
+                                    {{-- {{dd($item->cart->refund)}} --}}
+                                    @if (isset($item['is_reservation']) && $item['is_reservation'] == 1)
+                                        @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
+                                        @if ($reservation)
+                                            @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
 
-                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: #e54242;" @endif>
+                                            <tr @if (isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: #e54242;" @endif>
 
 
-                                            <td>{{ $reservation->key ?? null }}</td>
-                                            <td>{{ optional(\Carbon\Carbon::parse($reservation->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
-                                            <td>
-                                                <span>İsim: {{ optional($reservation->user)->name ?? null }}</span><br>
-                                                <span>{{ optional($reservation->user)->email ?? null }}</span>
-                                            </td>
-                                            <td>
-                                                <strong>İlan No:</strong>
-                                                <strong>{{ $reservation->id + 2000000 ?? null }}</strong><br>
-                                                {{ $housing->title ?? null }}
-                                            </td>
-                                            {{-- <td>-</td>
-                                            <td>-</td> --}}
-                                            {{-- <td>
-                                                @if (isset($item->balance))
-                                                    <strong>{{ optional($item->user)->name ?? null }}</strong><br>
-                                                    <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
-                                                    <span><strong>Telefon: </strong>{{ optional($item->user)->phone ?? null }}</span><br>
-                                                    <span><strong>IBAN: </strong>{{ optional($item->user)->iban ?? null }}</span><br>
-                                                    <span class="text-success">Kazanç:  {{ number_format((float)$item->balance , 0, ',', '.') ?? null }} ₺</span>
-                                                @else
-                                                    -
-                                                @endif
-                                            </td> --}}
-                                            <td>
-                                                @if (isset($item->earn))
-                                                <span class="text-success">Kazanç:  {{ number_format((float)$item->earn , 0, ',', '.') ?? null }} ₺</span>
-                                              
-                                                @endif
-                                            </td>
-                                            {{-- <td>
-                                                <strong>{{ $reservation->owner->name ?? null }}</strong><br>
-                                                {{ $reservation->owner->email ?? null }}
-                                                @if ($reservation->owner->phone)
-                                                    <br>
-                                                @endif
-                                                {{ $reservation->owner->phone ?? null }}
-                                                <br> 
-                                                 @if (isset($item->earn2))   
-                                                <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ number_format(($reservation->down_payment), 0, ',', '.') }}  ₺<br>
-                                                @if($reservation->money_trusted)
-                                                    <div class="d-flex" style="align-items: center;">
-                                                        {{$reservation->money_is_safe}} ₺'si param güvende ödemesidir
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td class="order_details"> 
-                                                <a href="{{ route('admin.reservation.detail', ['reservation_id' => $reservation->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
-                                            </td>
-                                        </tr>
-                                       
-                                    @endif
-                                  
-                                    
-                                @else
-                                    @if(isset($item->cart) && isset($item->cart->cart))
-                                        @php($o = json_decode($item->cart->cart))
-                                        @php($project = isset($o->type) && $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
-                                        @php($housing = isset($o->type) && $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
-                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) class="table-danger" @endif>
-                                            <td>{{ $item->cart->key ?? null }}</td>
-                                            <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
-                                            <td>
-                                                <span>İsim: {{ optional($item->cart->user)->name ?? null }}</span><br>
-                                                <span>{{ optional($item->cart->user)->email ?? null }}</span>
-                                            </td>
-                                            <td>
-                                                <strong>İlan No:</strong>
-                                                @if ($o->type == 'project')
-                                                    <strong>{{ $o->item->id + 1000000 + json_decode($item->cart->cart)->item->housing }}</strong>
-                                                @else
-                                                    <strong>{{ json_decode($item->cart->cart)->item->id + 2000000 }}</strong>
-                                                @endif <br>
-                                                @if ($o->type == 'project')
-                                                    <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                        {{ json_decode($item->cart->cart)->item->housing }}
-                                                        {{ "No'lu" }}
-                                                        {{ $project->step1_slug }}
-                                                    </span>
-                                                @else
-                                                    {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
-                                                @endif
-                                            </td>
-                                            {{-- <td>{{isset($item->cart->coupon) ? "Evet" : "Hayır"}}</td>
-                                            <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺) @endif @else - @endif</td> --}}
-                                            {{-- <td>
-                                                @if (isset($item->balance))
-                                                    <strong>{{ optional($item->user)->name ?? null }}</strong><br>
-                                                    <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
-                                                    <span><strong>Telefon: </strong>{{ optional($item->user)->phone ?? null }}</span><br>
-                                                    <span><strong>IBAN: </strong>{{ optional($item->user)->iban ?? null }}</span><br>
-                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->balance  , 0, ',', '.') ?? null }} ₺</span>
-                                                @else
-                                                    -
-                                                @endif
-                                            </td> --}}
-                                            <td>
-                                                @if (isset($item->earn))
-                                                    <span class="text-success">Kazanç: {{number_format((float)$item->earn, 2, ',', '.') ?? null }} ₺</span>
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                            {{-- <td>
-                                                @if ($o->type == 'project')
-                                                    <strong>{{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? null }}</strong>
-                                                    <br>
-                                                    {{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? null }}
-                                                    @if (optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
-                                                        <br>
+                                                <td>{{ $reservation->key ?? null }}</td>
+                                                <td>{{ optional(\Carbon\Carbon::parse($reservation->created_at))->format('d.m.Y H:i:s') ?? null }}
+                                                </td>
+                                                <td>
+                                                    <span>İsim: {{ optional($reservation->user)->name ?? null }}</span><br>
+                                                    <span>{{ optional($reservation->user)->email ?? null }}</span>
+                                                </td>
+                                                <td>
+                                                    <strong>İlan No:</strong>
+                                                    <strong>{{ $reservation->id + 2000000 ?? null }}</strong><br>
+                                                    {{ $housing->title ?? null }}
+                                                </td>
+
+                                                <td>
+                                                    @if (isset($item->earn))
+                                                        <span class="text-success">Kazanç:
+                                                            {{ number_format((float) $item->earn, 0, ',', '.') ?? null }}
+                                                            ₺</span>
                                                     @endif
-                                                    {{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone ?? null }}
-                                                @else
-                                                    <strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? null }}</strong>
-                                                    <br>
-                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? null }}
-                                                    @if (optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
-                                                        <br>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @else
+                                        @if (isset($item->cart) && isset($item->cart->cart))
+                                            @php($o = json_decode($item->cart->cart))
+                                            @php($project = isset($o->type) && $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+                                            @php($housing = isset($o->type) && $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
+                                            <tr @if (isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) class="table-danger" @endif>
+                                                <td>{{ $item->cart->key ?? null }}</td>
+                                                <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? null }}
+                                                </td>
+                                                <td>
+                                                    <span>İsim: {{ optional($item->cart->user)->name ?? null }}</span><br>
+                                                    <span>{{ optional($item->cart->user)->email ?? null }}</span>
+                                                </td>
+                                                <td>
+                                                    <strong>İlan No:</strong>
+                                                    @if ($o->type == 'project')
+                                                        <strong>{{ $o->item->id + 1000000 + json_decode($item->cart->cart)->item->housing }}</strong>
+                                                    @else
+                                                        <strong>{{ json_decode($item->cart->cart)->item->id + 2000000 }}</strong>
+                                                    @endif <br>
+                                                    @if ($o->type == 'project')
+                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                            {{ json_decode($item->cart->cart)->item->housing }}
+                                                            {{ "No'lu" }}
+                                                            {{ $project->step1_slug }}
+                                                        </span>
+                                                    @else
+                                                        {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
                                                     @endif
-                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone ?? null }}
-                                                @endif
-                                                <br>
-                                                @if (isset($item->earn2))
-                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
-                                                @endif
-                                            </td> --}}
-                                            <td> {{ $item->cart->amount ?? null }} ₺</td>
+                                                </td>
 
-                                            <td>
-                                                <a href="{{ route('admin.order.detail', ['order_id' => $item->cart->id]) }}"
-                                                    class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
-                                                    Detayı</a>
-                                            </td>
-                                        </tr>
+                                                <td>
+                                                    @if (isset($item->earn))
+                                                        <span class="text-success">Kazanç:
+                                                            {{ number_format((float) $item->earn, 2, ',', '.') ?? null }}
+                                                            ₺</span>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+
+                                                <td> {{ $item->cart->amount ?? null }} ₺</td>
+
+                                                <td>
+                                                    <a href="{{ route('admin.order.detail', ['order_id' => $item->cart->id]) }}"
+                                                        class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
+                                                        Detayı</a>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endif
-                                @endif
-                            @endforeach
-                            
+                                @endforeach
+
                             </tbody>
 
                         </table>
