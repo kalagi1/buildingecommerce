@@ -387,7 +387,7 @@ class CartController extends Controller
                 }
             } else {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
-                return $housing;
+                return $lastClick ? $lastClick : "yok";
                 $user = User::where('id', $housing->user_id)->first();
                 if (isset($lastClick)) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
