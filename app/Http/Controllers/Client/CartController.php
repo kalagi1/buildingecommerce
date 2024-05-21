@@ -387,10 +387,9 @@ class CartController extends Controller
                 }
             } else {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
+                return $lastClick ? $lastClick : "yok";
                 $user = User::where('id', $housing->user_id)->first();
                 if (isset($lastClick)) {
-                    return $lastClick;
-
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
@@ -440,8 +439,6 @@ class CartController extends Controller
                         }
                         $estateclubrate = $sharedAmount_earn * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
-
-                     
 
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
