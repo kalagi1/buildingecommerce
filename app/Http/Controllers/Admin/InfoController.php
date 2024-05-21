@@ -59,58 +59,103 @@ class InfoController extends Controller
         return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
     }
 
-  
-    public function accountingForRefund()
-{
-    // Şu anki zamanı al
-    $now = Carbon::now();
     
-    // CartOrderRefund'ları al, with('cartOrder') metodu ile ilişkili cartOrder verilerini de al
-    $refunds = CartOrderRefund::with('cartOrder')
-    ->whereIn('status', [1,3])
-    ->orderBy('created_at', 'desc')
-    ->get();
 
-    $data = [];
-    foreach ($refunds as $refund) {
-        // İlişkili CartOrder'ı al
-        $order = $refund->cartOrder;
+    public function expense()
+    {
+        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
+        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
+        $mergedArray = $cartPrices->concat($sharerPrices);
+        $mergedArray = $mergedArray->sortByDesc('cart.created_at');
+        $totalEarn = $mergedArray->sum(function ($item) {
+            $cleanedEarn = str_replace(['.', ','], '', $item->earn);
+            return floatval($cleanedEarn);
+        });
 
-        // CartOrder'ın oluşturulma tarihini al
-        $createdAt = Carbon::parse($order->created_at);
-        
-        // Oluşturulma tarihi ile şu anki tarih arasındaki farkı gün cinsinden hesapla
-        $differenceInDays = $createdAt->diffInDays($now);
-        
-        // Eğer oluşturulma tarihi 14 günü geçmemişse
-        if ($differenceInDays <= 14) {
        
-            $amount = $order->amount;
+    
+       
+        return view('admin.accounting.expense', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+    }
 
-            // Virgülle ayrılmış formattaki sayıda virgülü noktaya dönüştür
-            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
-            //Emlak sepettenin
-            $refundAmount = $amountFloat * 0.10;
-            //Alıcının
-            $recipientAmount = $amountFloat * 0.90;
-   
-        } else {
+    public function updatePaymentStatus(Request $request)
+    {
+        // Gelen verileri doğrulayın
+        $request->validate([
+            'id' => 'required|integer',
+            'type' => 'required|string|in:payment_balance,payment_earn2',
+            'payment_status' => 'required|boolean',
+        ]);
 
-            $amount = $order->amount;
-            $refundAmount =  $amount;
-            $recipientAmount = (float)"0";
-
+        // İlgili kaydı bulun ve güncelleyin
+        $sharerPrice = SharerPrice::find($request->id);
+        if (!$sharerPrice) {
+            return response()->json(['message' => 'Kayıt bulunamadı'], 404);
         }
 
-        $data[] = [
-            'refund' => $refund,
-            'order' => $order,
-            'refundAmount' => $refundAmount,
-            'recipientAmount' => $recipientAmount
-        ];
+        // Hangi alanın güncelleneceğini kontrol edin
+        if ($request->type == 'payment_balance') {
+            $sharerPrice->payment_balance = $request->payment_status;
+        } elseif ($request->type == 'payment_earn2') {
+            $sharerPrice->payment_earn2 = $request->payment_status;
+        }
+
+        $sharerPrice->save();
+
+        return response()->json(['message' => 'Ödeme durumu güncellendi'], 200);
     }
-    return view('admin.accounting.refund', compact('data'));
-}
+
+    public function accountingForRefund()
+    {
+        // Şu anki zamanı al
+        $now = Carbon::now();
+        
+        // CartOrderRefund'ları al, with('cartOrder') metodu ile ilişkili cartOrder verilerini de al
+        $refunds = CartOrderRefund::with('cartOrder')
+        ->whereIn('status', [1,3])
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $data = [];
+        foreach ($refunds as $refund) {
+            // İlişkili CartOrder'ı al
+            $order = $refund->cartOrder;
+
+            // CartOrder'ın oluşturulma tarihini al
+            $createdAt = Carbon::parse($order->created_at);
+            
+            // Oluşturulma tarihi ile şu anki tarih arasındaki farkı gün cinsinden hesapla
+            $differenceInDays = $createdAt->diffInDays($now);
+            
+            // Eğer oluşturulma tarihi 14 günü geçmemişse
+            if ($differenceInDays <= 14) {
+        
+                $amount = $order->amount;
+
+                // Virgülle ayrılmış formattaki sayıda virgülü noktaya dönüştür
+                $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
+                //Emlak sepettenin
+                $refundAmount = $amountFloat * 0.10;
+                //Alıcının
+                $recipientAmount = $amountFloat * 0.90;
+    
+            } else {
+
+                $amount = $order->amount;
+                $refundAmount =  $amount;
+                $recipientAmount = (float)"0";
+
+            }
+
+            $data[] = [
+                'refund' => $refund,
+                'order' => $order,
+                'refundAmount' => $refundAmount,
+                'recipientAmount' => $recipientAmount
+            ];
+        }
+        return view('admin.accounting.refund', compact('data'));
+    }
 
     
     

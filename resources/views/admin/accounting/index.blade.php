@@ -38,25 +38,27 @@
                             <thead>
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_no">Sipariş Kodu</th>
+                                        data-sort="order_no">İlan Kodu</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_image">Sipariş Tarihi</th>
+                                        data-sort="order_image">Oluşturulma Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_image">Müşteri Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_project">İlan :</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                    {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                     data-sort="order_amount">Kuponlu alışveriş:</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                    data-sort="order_amount">Kupon Detayı:</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_amount">Emlak Kulüp Üyesi & Hakediş :</th>
+                                    data-sort="order_amount">Kupon Detayı:</th> --}}
+                                    {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_amount">Emlak Kulüp Üyesi & Hakediş :</th> --}}
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_date">Emlak Sepette Hakediş :</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_status">Kurumsal Üye Hakediş :</th>
+                                    {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_status">Kurumsal Üye Hakediş :</th> --}}
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_user">Ödenen Kapora Bedeli</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_user">Detay</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
@@ -81,9 +83,9 @@
                                                 <strong>{{ $reservation->id + 2000000 ?? null }}</strong><br>
                                                 {{ $housing->title ?? null }}
                                             </td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>
+                                            {{-- <td>-</td>
+                                            <td>-</td> --}}
+                                            {{-- <td>
                                                 @if (isset($item->balance))
                                                     <strong>{{ optional($item->user)->name ?? null }}</strong><br>
                                                     <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
@@ -93,7 +95,7 @@
                                                 @else
                                                     -
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 @if (isset($item->earn))
                                                     <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) , 0, ',', '.') : null }} ₺</span>
@@ -106,18 +108,18 @@
                                                     -
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <strong>{{ $reservation->owner->name ?? null }}</strong><br>
                                                 {{ $reservation->owner->email ?? null }}
                                                 @if ($reservation->owner->phone)
                                                     <br>
                                                 @endif
                                                 {{ $reservation->owner->phone ?? null }}
-                                                <br>
-                                                @if (isset($item->earn2))
-                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
+                                                <br> 
+                                                 @if (isset($item->earn2))   
+                                                <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>{{ number_format(($reservation->total_price / 2), 0, ',', '.') }}  ₺<br>
                                                 @if($reservation->money_trusted)
                                                     <div class="d-flex" style="align-items: center;">
@@ -125,8 +127,14 @@
                                                     </div>
                                                 @endif
                                             </td>
+                                            <td class="order_details"> 
+                                                <a href="{{ route('admin.reservation.detail', ['reservation_id' => $reservation->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                            </td>
                                         </tr>
+                                       
                                     @endif
+                                  
+                                    
                                 @else
                                     @if(isset($item->cart) && isset($item->cart->cart))
                                         @php($o = json_decode($item->cart->cart))
@@ -156,9 +164,9 @@
                                                     {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
                                             </td>
-                                            <td>{{isset($item->cart->coupon) ? "Evet" : "Hayır"}}</td>
-                                            <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺) @endif @else - @endif</td>
-                                            <td>
+                                            {{-- <td>{{isset($item->cart->coupon) ? "Evet" : "Hayır"}}</td>
+                                            <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺) @endif @else - @endif</td> --}}
+                                            {{-- <td>
                                                 @if (isset($item->balance))
                                                     <strong>{{ optional($item->user)->name ?? null }}</strong><br>
                                                     <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
@@ -168,7 +176,7 @@
                                                 @else
                                                     -
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 @if (isset($item->earn))
                                                     <span class="text-success">Kazanç: {{number_format((float)$item->earn, 2, ',', '.') ?? null }} ₺</span>
@@ -176,7 +184,7 @@
                                                     -
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if ($o->type == 'project')
                                                     <strong>{{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? null }}</strong>
                                                     <br>
@@ -198,8 +206,14 @@
                                                 @if (isset($item->earn2))
                                                     <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td> {{ $item->cart->amount ?? null }} ₺</td>
+
+                                            <td>
+                                                <a href="{{ route('admin.order.detail', ['order_id' => $item->cart->id]) }}"
+                                                    class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
+                                                    Detayı</a>
+                                            </td>
                                         </tr>
                                     @endif
                                 @endif
