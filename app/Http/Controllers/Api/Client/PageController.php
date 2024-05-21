@@ -7,6 +7,8 @@ use App\Models\CartOrder;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Collection;
+use App\Models\Housing;
+use App\Models\Project;
 use App\Models\ShareLink;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +26,19 @@ class PageController extends Controller
     public function orderDetail($id)
     {
         $order = CartOrder::with("user","store")->where('id', $id)->first();
+        $orderCart = json_decode($order->cart, true);
+        $housing =null;
+        $project =null;
+
+        if ($orderCart['type'] == 'housing') {
+            $housing = Housing::where('id', $orderCart['item']['id'])->first();
+        } else {
+            $project = Project::where('id', $orderCart['item']['id'])->first();
+        }
         return response()->json([
-            "order" => $order
+            "order" => $order,
+            "housing" => $housing,
+            "project" => $project
         ]);
     }
     
