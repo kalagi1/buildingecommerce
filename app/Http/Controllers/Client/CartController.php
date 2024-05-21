@@ -447,44 +447,9 @@ class CartController extends Controller
                             'earn2' => $remaining,
                         ]);
                     }
-                } elseif (!isset($lastClick)) {
-                    $newAmount = $amountWithoutDiscount;
-                    $rates = Rate::where('housing_id', $cart['item']['id'])->get();
-
-                    foreach ($rates as $key => $rate) {
-                        if ($user->corporate_type == $rate->institution->name) {
-                            $share_percent_earn =  $rate->default_deposit_rate;
-                            $share_percent_balance = 1.0 - $share_percent_earn;
-                        }
-                    }
-
-                    $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-
-                    $cart = json_decode($cartItem->cart, true);
-                    if ($cart['type'] == 'housing') {
-                        $housing = Housing::where('id', $cart['item']['id'])->first();
-                        $saleType = $housing->step2_slug;
-                    } else {
-                        $project = Project::where('id', $cart['item']['id'])->first();
-                        $saleType = $project->step2_slug;
-                    }
-
-                    if ($saleType == 'kiralik') {
-                        $sharedAmount_balance = $newAmount * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * $share_percent_earn;
-                    } else {
-                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
-                    }
-
-                    CartPrice::create([
-                        'user_id' => $order->user_id,
-                        'cart_id' => $order->id,
-                        'status' => '0',
-                        'earn' => $sharedAmount_balance,
-                        'earn2' => $sharedAmount_earn,
-                    ]);
                 } else {
+
+                    return "a";
                     $newAmount = $amountWithoutDiscount;
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
