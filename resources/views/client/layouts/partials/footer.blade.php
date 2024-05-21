@@ -46,8 +46,8 @@
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"
-                                target="_blank"></i></a>
+                    <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}" aria-hidden="true"
+                                ></i></a>
                     </li>
                 @endforeach
             </ul>
