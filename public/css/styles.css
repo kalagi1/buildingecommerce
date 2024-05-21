@@ -10893,8 +10893,8 @@ a.int_btn,
     bottom: 0;
     right: 0;
     padding: 0 !important;
-    height: 200px;
-    width: 35%;
+    height: 40px;
+    width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 25px 30px;
@@ -30393,7 +30393,7 @@ a {
     height: 70px;
     position: absolute;
     left: 0;
-    top: 35%;
+    top: 0;
     z-index: 9;
     background-color: white;
 }
