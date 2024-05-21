@@ -26,7 +26,7 @@ class PageController extends Controller
 
     public function invoiceDetail($order)
     {
-        return $order;
+        return "a";
         $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;
