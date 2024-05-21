@@ -60,7 +60,7 @@ class PageController extends Controller
         }
     
         // Retrieve the invoice with its related data
-        $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.bank")->first();
+        $invoice = Invoice::where("order_id", $order->id)->with("order.user","order.store", "order.bank")->first();
     
         // Check if the invoice exists
         if (!$invoice) {
