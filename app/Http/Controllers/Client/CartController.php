@@ -390,7 +390,6 @@ class CartController extends Controller
                 $user = User::where('id', $housing->user_id)->first();
                 if (isset($lastClick)) {
 
-                    return $discountRate;
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
@@ -440,6 +439,16 @@ class CartController extends Controller
                         }
                         $estateclubrate = $sharedAmount_earn * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
+
+                        return [
+                            'collection_id' => $lastClick->collection_id,
+                            'user_id' => $collection->user_id,
+                            'cart_id' => $order->id,
+                            'status' => '0',
+                            'balance' => $estateclubrate,
+                            'earn' => $sharedAmount_balance,
+                            'earn2' => $remaining,
+                        ];
 
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
