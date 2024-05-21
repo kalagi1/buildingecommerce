@@ -26,27 +26,56 @@ class PageController extends Controller
 
     public function invoiceDetail($order)
     {
-        return "a";
+        // Retrieve the order
         $order = CartOrder::where("id", $order)->first();
-        $cart = json_decode($order->cart);
-        $project = null;
-
-        if ($cart->type == "project") {
-            $project = Project::where("id", $cart->item->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
-        } else {
-            $project = Housing::where("id", $cart->item->id)->with("user")->first();
+    
+        // Check if the order exists
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
         }
-
+    
+        // Decode the cart JSON
+        $cart = json_decode($order->cart);
+    
+        // Check if cart is decoded properly
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['error' => 'Invalid cart JSON'], 400);
+        }
+    
+        $project = null;
+    
+        // Check if cart type and item properties exist
+        if (isset($cart->type) && isset($cart->item) && isset($cart->item->id)) {
+            if ($cart->type == "project") {
+                // Retrieve the project with its related data
+                $project = Project::where("id", $cart->item->id)
+                    ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
+                    ->first();
+            } else {
+                // Retrieve the housing with its related user data
+                $project = Housing::where("id", $cart->item->id)->with("user")->first();
+            }
+        } else {
+            return response()->json(['error' => 'Invalid cart structure'], 400);
+        }
+    
+        // Retrieve the invoice with its related data
         $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.bank")->first();
+    
+        // Check if the invoice exists
+        if (!$invoice) {
+            return response()->json(['error' => 'Invoice not found'], 404);
+        }
+    
         $data = [
             'invoice' => $invoice,
             'project' => $project,
         ];
-
-
+    
+        // Return the data as JSON
         return response()->json($data);
     }
-
+    
 
     public function orderDetail($id)
     {
