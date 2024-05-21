@@ -256,8 +256,6 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-            return $cart['type'];
-
             $deposit_rate = 0.04;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
@@ -311,6 +309,9 @@ class CartController extends Controller
         $productDetails = json_decode($o->cart)->item;
 
         if (json_decode($o->cart)->type == 'housing') {
+
+            return json_decode($o->cart)->type;
+            
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
             $county = Housing::find($productDetails->id ?? 0)->county->title;
