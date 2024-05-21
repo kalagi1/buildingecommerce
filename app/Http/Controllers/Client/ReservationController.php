@@ -112,6 +112,7 @@ class ReservationController extends Controller
             }
             //bu değerleri almalısın
             $reservation->total_price = $request->input('total_price');
+            $reservation->down_payment = $request->input('down_payment');
             $reservation->price = $request->input('price');
             $reservation->money_is_safe = $request->input('money_is_safe');
             //
@@ -142,7 +143,7 @@ class ReservationController extends Controller
             $clientId = '190100000';
             $storeKey = '123456';
 
-            $amountToBePaid = ($reservation->total_price / 2) + $reservation->money_is_safe;
+            $amountToBePaid = $reservation->down_payment;
 
             $amount = $amountToBePaid;
             $expDateMonth = $requestData['month'];
@@ -226,7 +227,7 @@ class ReservationController extends Controller
                     ->latest('created_at')
                     ->first();
 
-                $earnMoney = (intval($reservation->total_price) + intval($reservation->money_is_safe)) / 2;
+                $earnMoney = $reservation->down_payment;
 
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
@@ -268,7 +269,7 @@ class ReservationController extends Controller
                             'user_id' => $collection->user_id,
                             'status' => '1',
                             'balance' => $estateclubrate,
-                            'earn' => $earnMoney * $share_percent_balance,
+                            'earn' => ($earnMoney * $share_percent_balance) - $estateclubrate,
                             'earn2' => $remaining,
                             'is_reservation' => 1,
                             'reservation_id' => $reservation->id,
@@ -379,6 +380,7 @@ class ReservationController extends Controller
             'owner_id' => $request->input('owner_id'),
             'price' => $request->input('price'),
             'total_price' => $request->input('total_price'),
+            'down_payment' => $request->input('down_payment'),
             'money_is_safe' => $request->input('money_is_safe'),
             'key' => $request->input('key'),
             'money_trusted' => $request->input('money_trusted'),
@@ -458,6 +460,8 @@ class ReservationController extends Controller
         }
         //bu değerleri almalısın
         $reservation->total_price = $request->input('total_price');
+        $reservation->down_payment = $request->input('down_payment');
+
         $reservation->price = $request->input('price');
 
         if ($request->input('money_trusted') == false) {
@@ -475,7 +479,7 @@ class ReservationController extends Controller
         $reservation->notes = $request->input('notes');
 
         $reservation->save();
-        $earnMoney = (intval($request->input('total_price')) + intval($reservation->money_is_safe)) / 2;
+        $earnMoney = intval($request->input('down_payment'));
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
@@ -508,7 +512,7 @@ class ReservationController extends Controller
                 'user_id' => $collection->user_id,
                 'status' => '0',
                 'balance' => $estateclubrate,
-                'earn' => $earnMoney * $share_percent_balance,
+                'earn' => ($earnMoney * $share_percent_balance) - $estateclubrate,
                 'earn2' => $remaining,
                 'is_reservation' => 1,
                 'reservation_id' => $reservation->id,

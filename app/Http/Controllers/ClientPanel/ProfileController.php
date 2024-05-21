@@ -20,21 +20,19 @@ use App\Models\reservationRefund;
 
 class ProfileController extends Controller
 {
-    public function getReservations() {
+    public function getReservations()
+    {
         $housingReservations = Reservation::with("user", "housing")
-        ->where("user_id",auth()->user()->id)
-        ->get();
+            ->where("user_id", auth()->user()->id)
+            ->get();
 
         return view('client.client-panel.profile.reservations', compact('housingReservations'));
     }
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
-        ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
-            return view('institutional.orders.get', compact('cartOrders'));
-
-    
-        
+            ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
+        return view('institutional.orders.get', compact('cartOrders'));
     }
 
     public function orderDetail($id)
@@ -121,13 +119,12 @@ class ProfileController extends Controller
         }
     }
 
-  
+
     public function cartOrderDetail(CartOrder $order)
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
-        
-        return view('institutional.orders.get', compact('cartOrders'));
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id", $order->id)->with("invoice")->orderBy("id", "desc")->get();
 
+        return view('institutional.orders.get', compact('cartOrders'));
     }
 
 
@@ -190,7 +187,8 @@ class ProfileController extends Controller
 
     public function upgradeProfile(Request $request, $id)
     {
-        $request->validate(['id' => $id],
+        $request->validate(
+            ['id' => $id],
             [
                 'id' =>
                 [
@@ -213,13 +211,14 @@ class ProfileController extends Controller
         }
 
         $data =
-            ['subscription_plan_id' => $plan->id,
-            'housing_limit' => $before->housing_limit + $plan->housing_limit,
-            'user_id' => auth()->user()->id,
-            'subscription_plan_id' => $id,
-            'project_limit' => 0,
-            'user_limit' => 0,
-        ];
+            [
+                'subscription_plan_id' => $plan->id,
+                'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                'user_id' => auth()->user()->id,
+                'subscription_plan_id' => $id,
+                'project_limit' => 0,
+                'user_limit' => 0,
+            ];
 
         DB::beginTransaction();
         UpgradeLog::create(
@@ -248,7 +247,7 @@ class ProfileController extends Controller
     }
 
 
-    public function refund(Request $request) 
+    public function refund(Request $request)
     {
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
@@ -256,13 +255,13 @@ class ProfileController extends Controller
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'cart_order_id' =>'required',
+            'cart_order_id' => 'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-        
+
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = CartOrderRefund::where('cart_order_id', $validatedData['cart_order_id'])->first();
 
@@ -300,24 +299,24 @@ class ProfileController extends Controller
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
 
-    
 
-    public function reservationRefund(Request $request) 
+
+    public function reservationRefund(Request $request)
     {
-        
+
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'reservation_id' =>'required',
+            'reservation_id' => 'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-        
+
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = reservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
 
@@ -354,5 +353,4 @@ class ProfileController extends Controller
         // İade talebi başarıyla kaydedildi mesajını döndür
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Models\Collection;
@@ -17,6 +18,15 @@ class PageController extends Controller
         $collections = Collection::where("user_id", Auth::user()->id)->get();
 
         return response()->json( [ 'collections' => $collections ] );
+    }
+
+  
+    public function orderDetail($id)
+    {
+        $order = CartOrder::with("user","store")->where('id', $id)->first();
+        return response()->json([
+            "order" => $order
+        ]);
     }
     
     public function index($slug)
@@ -195,4 +205,16 @@ class PageController extends Controller
         return response(['message' => 'success']);
     }
     
+
+    public function removeItemOnCollection(Request $request){
+        if($request->input('item_type') == 1){
+            ShareLink::where('user_id',auth()->guard("api")->user()->id)->where('item_type',$request->input('item_type'))->where('room_order',$request->input('room_order'))->where('item_id',$request->input('item_id'))->where('collection_id',$request->input('collection_id'))->delete();
+        }else{
+            ShareLink::where('user_id',auth()->guard("api")->user()->id)->where('item_type',$request->input('item_type'))->where('item_id',$request->input('item_id'))->where('collection_id',$request->input('collection_id'))->delete();
+        }
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
 }

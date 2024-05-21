@@ -98,14 +98,8 @@
                                             </td> --}}
                                             <td>
                                                 @if (isset($item->earn))
-                                                    <span class="text-success">Kazanç: {{ $item->earn ? number_format(str_replace('.','',$item->earn) , 0, ',', '.') : null }} ₺</span>
-                                                    @if($reservation->money_trusted)
-                                                        <div class="d-flex" style="align-items: center;">
-                                                            {{$reservation->money_is_safe}} ₺'si param güvende ödemesidir
-                                                        </div>
-                                                    @endif
-                                                @else
-                                                    -
+                                                <span class="text-success">Kazanç:  {{ number_format((float)$item->earn , 0, ',', '.') ?? null }} ₺</span>
+                                              
                                                 @endif
                                             </td>
                                             {{-- <td>
@@ -119,8 +113,8 @@
                                                  @if (isset($item->earn2))   
                                                 <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
-                                            </td> --}}
-                                            <td>{{ number_format(($reservation->total_price / 2), 0, ',', '.') }}  ₺<br>
+                                            </td>
+                                            <td>{{ number_format(($reservation->down_payment), 0, ',', '.') }}  ₺<br>
                                                 @if($reservation->money_trusted)
                                                     <div class="d-flex" style="align-items: center;">
                                                         {{$reservation->money_is_safe}} ₺'si param güvende ödemesidir

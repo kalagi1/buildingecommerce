@@ -10893,8 +10893,8 @@ a.int_btn,
     bottom: 0;
     right: 0;
     padding: 0 !important;
-    height: 200px;
-    width: 35%;
+    height: 40px;
+    width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 25px 30px;
@@ -30392,8 +30392,8 @@ a {
     width: 100px !important;
     height: 70px;
     position: absolute;
-    left: 0;
-    top: 35%;
+    left: 35%;
+    top: 0;
     z-index: 9;
     background-color: white;
 }
@@ -30677,4 +30677,30 @@ a {
 
 .newButtonStyle__text {
     font-weight: bold;
+}
+
+.ql-align-center{
+	text-align:center;
+}
+
+.descriptionProject h2 {
+    font-size: 1.5em !important;
+	margin:0;
+	padding :0 ;
+}
+
+.descriptionProject p {
+	margin:0;
+	padding : 0;
+	counter-set: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+
+.descriptionProject h1 {
+    font-size: 2em !important;
+	margin:0;
+	padding :0 ;
+}
+
+.descriptionProject h3 {
+    font-size: 1.17em !important;
 }

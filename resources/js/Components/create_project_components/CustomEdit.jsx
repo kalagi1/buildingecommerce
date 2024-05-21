@@ -111,7 +111,13 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
         <div>
             <Modal
                 open={open}
-                onClose={() => {setOpen(false);}}
+                onClose={() => {
+                    setOpen(false);
+                    setTextData("");
+                    setSelectData("");
+                    setCheckboxValues([]);
+                    setSelectedType([]);
+                }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

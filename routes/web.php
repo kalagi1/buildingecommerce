@@ -1133,6 +1133,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/get_invoice_data/{cartId}', [ApiProjectController::class, "getInvoiceData"]);
     Route::get('get_housing_type/{housing_type_id}',[ApiProjectController::class,"getHousingTypeData"]);
     Route::post('/save_housing_checkboxes', [ApiProjectController::class, "saveHousingCheckboxes"]);
+    Route::post('/save_sale/{projectId}', [ApiProjectController::class, "saveSale"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
