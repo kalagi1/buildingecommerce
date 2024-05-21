@@ -310,8 +310,7 @@ class CartController extends Controller
 
         if (json_decode($o->cart)->type == 'housing') {
 
-            return json_decode($o->cart)->type;
-            
+
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
             $county = Housing::find($productDetails->id ?? 0)->county->title;
@@ -388,6 +387,7 @@ class CartController extends Controller
                 }
             } else {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
+                return $housing;
                 $user = User::where('id', $housing->user_id)->first();
                 if (isset($lastClick)) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
