@@ -22,6 +22,7 @@ use App\Http\Controllers\PayController;
 
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Institutional\BoughtController;
+use App\Http\Controllers\Api\Institutional\CartController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
@@ -173,6 +174,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('give_offer', [ProjectController::class, 'give_offer'])->name('give_offer');
         Route::get('/order_detail/{order_id}', [ClientPageController::class, 'orderDetail'])->name('order.detail');
         Route::get('/invoice/{order}', [ClientPageController::class, "invoiceDetail"])->name('invoice.show');
+        Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
