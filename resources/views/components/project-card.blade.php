@@ -32,7 +32,7 @@
                 </span>
                 @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
                     <span class="project_estate_club_rate">
-                        <span class="club_rate">%{{ $project->club_rate }} KAZAN!</span>
+                        <span class="club_rate">%{{ $project->club_rate }} KOMİSYON!</span>
                     </span>
                 @endif
 
