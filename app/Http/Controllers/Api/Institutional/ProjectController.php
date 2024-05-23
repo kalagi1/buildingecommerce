@@ -14,6 +14,7 @@ use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
+use App\Models\Installment;
 use App\Models\Institution;
 use App\Models\Invoice;
 use App\Models\Neighborhood;
@@ -1389,6 +1390,32 @@ class ProjectController extends Controller
 
         return json_encode([
             "status" => true
+        ]);
+    }
+
+    public function saveInstallments(Request $request,$projectId,$roomOrder){
+        Installment::where('project_id',$projectId)->where('room_order',$roomOrder)->delete();
+        foreach($request->input('installments') as $installment){
+            Installment::create([
+                "price" => str_replace('.','',$installment['price']),
+                "date" => $installment['date'],
+                "is_payment" => $installment['is_payment'],
+                "project_id" => $projectId,
+                "room_order" => $roomOrder
+            ]);
+        }
+
+        return json_encode([
+            "status" => true
+        ]);
+        
+    }
+
+    public function getInstallments($projectId,$roomOrder){
+        $installments = Installment::where('project_id',$projectId)->where('room_order',$roomOrder)->get();
+
+        return json_encode([
+            "data" => $installments
         ]);
     }
 }

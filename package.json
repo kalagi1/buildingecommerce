@@ -7,6 +7,7 @@
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
+        "@types/sortablejs": "^1.15.8",
         "axios": "^1.6.7",
         "bootstrap": "^5.2.3",
         "laravel-mix": "^6.0.49",
@@ -38,6 +39,7 @@
         "react-toastify": "^10.0.4",
         "socket.io": "^4.7.2",
         "socket.io-client": "^4.7.2",
+        "sortablejs": "^1.15.2",
         "sweetalert2": "^11.10.6"
     }
 }

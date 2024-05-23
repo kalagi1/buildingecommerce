@@ -24,7 +24,7 @@ import PayDecTable from './create_project_components/PayDecTable';
 import ImageChange from './create_project_components/ImageChange';
 import EditIcon from '@mui/icons-material/Edit';
 import UserIcon from '@mui/icons-material/Person';
-
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const HousingList = ({ projectId }) => {
 
@@ -61,6 +61,10 @@ const HousingList = ({ projectId }) => {
     const [project, setProject] = useState({
         blocks: []
     });
+    const [selectedData,setSelectedData] = useState({});
+    const [selectedId,setSelectedId] = useState(null);
+
+    const [paymentModalOpen,setPaymentModalOpen] = useState(false);
 
     const getLastBlockCount = () => {
         var blockItemCount = 0;
@@ -80,16 +84,6 @@ const HousingList = ({ projectId }) => {
             return getLastBlockCount() + ((pagination.pageIndex)  * pagination.pageSize);
         } else {
             return ((pagination.pageIndex) * pagination.pageSize)
-        }
-    }
-    
-
-    const findOrderQt = (roomOrder) => {
-        var haveSumCartQts = sumCartQts.find((cartQts) => { return cartQts.housing_id == roomOrder ; });
-        if (haveSumCartQts && haveSumCartQts != undefined) {
-            return haveSumCartQts.qt_total >= 0
-        } else {
-            return 0;
         }
     }
 
@@ -228,7 +222,6 @@ const HousingList = ({ projectId }) => {
             })
         }
 
-        console.log(payDecItems);
 
         setPayDecData(payDecItems);
     }
@@ -266,7 +259,28 @@ const HousingList = ({ projectId }) => {
         setSelectedRoomsTemp(tempSelected);
     }
 
-    console.log(selectedRoomsTemp);
+    const salesCount = () => {
+        var saleCount = 0;
+        var saleCloseCount = 0;
+        solds.map((sold) => {
+            if(sold.status == 0 || sold.status == 1){
+                saleCount++;
+            }
+        })
+
+        data.map((dat) => {
+            if(dat['off_sale[]'] != "[]"){
+                saleCloseCount++;
+            }
+        });
+
+        return {
+            saleCount : saleCount,
+            saleCloseCount: saleCloseCount,
+            saleOpenCount : project.room_count - saleCloseCount - saleCount
+        }
+    }
+
 
     const columns = useMemo(
         () => [
@@ -368,7 +382,6 @@ const HousingList = ({ projectId }) => {
                             },
                         }),
                         Cell: ({ renderedCellValue, row }) => {
-                            console.log(row.id)
                             var soldx = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
                                 if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.id && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
@@ -708,6 +721,12 @@ const HousingList = ({ projectId }) => {
                             },
                         }),
                         Cell: ({ renderedCellValue, row }) => {
+                            var soldx = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                    return sold
+                                }
+                            })
                             return (
                                 <Box
                                     sx={{
@@ -717,7 +736,7 @@ const HousingList = ({ projectId }) => {
                                     }}
                                 >
                                     {
-                                        findOrderQt(getLastCount() + row.index + 1) == 0 ?
+                                        !soldx ?
                                             renderedCellValue == '[]' ?
                                                 <button className="badge badge-phoenix badge-phoenix-success value-text">
                                                     Satışa Açık
@@ -909,8 +928,6 @@ const HousingList = ({ projectId }) => {
 
     const changeSelectedItems = (selectedFunc) => {
         var items = selectedFunc();
-        console.log(selectedFunc);
-        console.log(items , typeof items);
 
         if(typeof items == "object"){
             if(Object.keys(items).length == 0){
@@ -934,7 +951,6 @@ const HousingList = ({ projectId }) => {
                         items4[item] = true;
                     }
                 });
-                console.log(items4);
                 setSelectedRoomsTemp(items4);
             }
             
@@ -982,6 +998,12 @@ const HousingList = ({ projectId }) => {
         })
         setSelectedSaleData(saleData);
         setSelectedRoomOrder(id);
+    }
+
+    const paymentModalFunc = (id) => {
+        setPaymentModalOpen(true);
+        setSelectedId(id);
+        setSelectedData(data[id - 1]);
     }
 
     const table = useMaterialReactTable({
@@ -1051,7 +1073,6 @@ const HousingList = ({ projectId }) => {
                 }
             })
             if(soldx){
-                console.log(data.cell.column)
                 if(data.cell.column.id === 'advert_title[]'){
                     return({
                         //conditionally style pinned columns
@@ -1098,13 +1119,13 @@ const HousingList = ({ projectId }) => {
         enableFilterMatchHighlighting : false,
         muiTableContainerProps: { sx: { maxHeight: 'calc(100vh - 330px)' } },
         renderRowActionMenuItems: ({ closeMenu,row }) => {
-            console.log(solds);
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
                 if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
+
 
             if(soldx){
                 return [
@@ -1121,6 +1142,18 @@ const HousingList = ({ projectId }) => {
                             <UserIcon />
                         </ListItemIcon>
                         Satış Bilgilerini Düzenle
+                    </MenuItem>,
+                    <MenuItem
+                        key={0}
+                        onClick={() => {
+                            paymentModalFunc(row.id);
+                        }}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <ReceiptIcon />
+                        </ListItemIcon>
+                        Ödeme Planını Düzenle
                     </MenuItem>
                 ]
             }else{
@@ -1298,7 +1331,40 @@ const HousingList = ({ projectId }) => {
                 : ''
             }
             
-            <button className='all_selected_button' onClick={() => {allSelected()}}> <span className='buyUserRequest__text'>{allSelectedCheckbox ? 'Seçimi Kaldır' : 'Projedeki Tüm Konutları Seç'}</span> </button>
+            {
+                loading ? 
+                    ''
+                : 
+                    <div style={{display:'flex',justifyContent:'space-between',marginBottom:'10px',alignItems:'center'}} className='px-3'>
+                        <button className='all_selected_button' onClick={() => {allSelected()}}> <span className='buyUserRequest__text'>{allSelectedCheckbox ? 'Seçimi Kaldır' : 'Projedeki Tüm Konutları Seç'}</span> </button>
+                        <div style={{width:'60%'}}>
+                            <div style={{display:'flex',justifyContent:'space-around'}}>
+                                <div className='info-color'>
+                                    <div className='color-area' style={{background:'#22bb33'}}></div>
+                                    <span>Satışa Açık</span>
+                                </div>
+                                <div className='info-color'>
+                                    <div className='color-area' style={{background:'#f0ad4e'}}></div>
+                                    <span>Satışa Kapalı</span>
+                                </div>
+                                <div className='info-color'>
+                                    <div className='color-area' style={{background:'#bb2124'}}></div>
+                                    <span>Satıldı</span>
+                                </div>
+                            </div>
+                            <div className="progress-areax">
+                                <div className="sales-open" style={{width:((salesCount()['saleOpenCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleOpenCount']}  </div>
+                                {
+                                    salesCount()['saleCloseCount'] > 0 ?
+                                        <div className="sales-closed" style={{width:((salesCount()['saleCloseCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleCloseCount']}  </div>
+                                    : ''
+                                }
+                                <div className="sale" style={{width:((salesCount()['saleCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleCount']} </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+            
 
             <CustomEdit reloadData={reloadData} selectedRoomsTemp={selectedRoomsTemp} open={customEditOpen} setOpen={setCustomEditOpen} project={project}/>
             <MaterialReactTable table={table} />
@@ -1308,6 +1374,7 @@ const HousingList = ({ projectId }) => {
             <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
             <SaleModal reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}/>   
+            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen}/>   
         </>
     );
 };
@@ -1321,6 +1388,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomEdit from './create_project_components/CustomEdit';
 import SaleModal from './create_project_components/SaleModal';
+import PaymentModal from './create_project_components/PaymentModal';
 
 const ExampleWithLocalizationProvider = ({ projectId }) => (
     //App.tsx or AppProviders file
