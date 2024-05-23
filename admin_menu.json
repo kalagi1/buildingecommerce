@@ -91,6 +91,15 @@
     },
     {
         "id": "home",
+        "label": "Muhasebe",
+        "icon": "dollar-sign",
+        "text": "Gider Tablosu",
+        "key": "ViewAccounting",
+        "url": "admin.expense",
+        "activePath": "qR9zLp2xS6y/secured/expense"
+    },
+    {
+        "id": "home",
         "label": "MAİL & SMS",
         "icon": "envelope",
         "text": "Çoklu Mail Gönderimi",
