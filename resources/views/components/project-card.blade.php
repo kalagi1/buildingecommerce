@@ -31,7 +31,7 @@
                     <span class="country">{{ $project->city->title }}/{{ $project->county->ilce_title }}</span>
                 </span>
                 <span class="project_estate_club_rate">
-                    <span class="club_rate">{{ $project->estate_club }}</span>
+                    <span class="club_rate">{{ $project->club_rate }}</span>
                 </span>
                 <div class="listing-img-content"
                     style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">

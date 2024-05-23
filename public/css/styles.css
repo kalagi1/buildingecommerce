@@ -30388,6 +30388,20 @@ a {
     justify-content: center;
 }
 
+.project_estate_club_rate{
+        width: 100px !important;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 10%;
+    z-index: 9;
+    background-color: white;
+}
+
+.project_estate_club_rate .club_rate {
+color:black;
+}
+
 .project_brand_profile_image {
     width: 100px !important;
     height: 70px;
