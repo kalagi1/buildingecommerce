@@ -582,13 +582,14 @@ class CartController extends Controller
                         $saleType = $project->step2_slug;
                     }
 
-                    return  $share_percent;
 
                     if ($saleType == 'kiralik') {
                         $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
                     } else {
                         $sharedAmount_balance = $request->input("payableAmount") * $deposit_rate * $share_percent;
                     }
+
+                    return $sharedAmount_balance;
 
                     if ($collection->user_id != Auth::user()->id) {
                         SharerPrice::create([
