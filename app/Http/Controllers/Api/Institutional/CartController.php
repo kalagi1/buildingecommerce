@@ -213,10 +213,8 @@ class CartController extends Controller
 
                 if ($type == "housing") {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($housing->id) + 2000000)  . " numaralı emlak ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
-                }else{
+                } else {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($project->id) + 1000000 + intval($id))  . " numaralı proje ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
                 }
 
 
@@ -233,7 +231,7 @@ class CartController extends Controller
         }
     }
 
-    
+
     public function index(Request $request)
     {
         $bankAccounts = BankAccount::all();
@@ -269,9 +267,8 @@ class CartController extends Controller
         return response()->json([
             'pageInfo' => $pageInfo,
             'cart' => $cart,
-             'bankAccounts' => $bankAccounts, 
-             'saleType' => $saleType
-        ])
-
+            'bankAccounts' => $bankAccounts,
+            'saleType' => $saleType
+        ]);
     }
 }
