@@ -24,14 +24,16 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
     }
 
     useEffect(() => {
-        axios.get(baseUrl+'get_installments/'+projectId+'/'+selectedId).then((res) =>{
-            if(res.data.data){
-                setInstallments(res.data.data);
-                setStartDate(res.data.data[0].date);
-                setStartDateConfirm(true)
-            }
-           
-        })
+        if(selectedId && projectId){
+            axios.get(baseUrl+'get_installments/'+projectId+'/'+selectedId).then((res) =>{
+                if(res.data.data){
+                    setInstallments(res.data.data);
+                    setStartDate(res.data.data[0].date);
+                    setStartDateConfirm(true)
+                }
+               
+            })
+        }
     },[projectId,selectedId])
 
     const save = () => {
