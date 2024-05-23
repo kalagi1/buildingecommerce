@@ -16,7 +16,7 @@ class BrandController extends Controller
     {
         $institutional = User::where("id", $userID)->with('projects.housings', "banners", 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
 
-        return json_encode([
+        return response()->json([
             "data" => $institutional
         ]);
     }
