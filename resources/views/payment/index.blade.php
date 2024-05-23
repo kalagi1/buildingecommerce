@@ -1291,7 +1291,7 @@
                         reference_code: $('#reference_code').val(),
                         is_reference: $("#is_reference").val(),
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null,
-                        payableAmountInput: payableAmount
+                        payableAmount: payableAmount
                     },
                     success: function(response) {
                         console.log(response);
