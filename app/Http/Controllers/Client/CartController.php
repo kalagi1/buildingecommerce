@@ -81,7 +81,7 @@ class CartController extends Controller
         $order->bank_id = $request->input('banka_id');
         $amountWithoutDiscount =  $cartItem->amount;
         $haveDiscount = false;
-
+return $amountWithoutDiscount;
         if ($request->input('have_discount')) {
             $coupon = Coupon::where(
 
