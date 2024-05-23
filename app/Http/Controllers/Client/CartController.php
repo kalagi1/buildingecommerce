@@ -44,7 +44,6 @@ class CartController extends Controller
     {
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-return $cartItem;
 
         if (!$cartItem) {
 
@@ -307,7 +306,7 @@ return $cartItem;
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
-
+return json_decode($o->cart)->type;
         if (json_decode($o->cart)->type == 'housing') {
 
 
