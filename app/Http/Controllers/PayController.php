@@ -975,6 +975,7 @@ class PayController extends Controller
             } else {
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
+                    return $collection;
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
 
                     if ($collection->user->type != "1") {

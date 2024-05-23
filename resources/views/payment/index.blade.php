@@ -1293,44 +1293,45 @@
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null,
                     },
                     success: function(response) {
-                        if (response.success == "fail") {
-                            toastr.error('Bu ürün zaten satın alınmış.');
+                        console.log(response);
+                        // if (response.success == "fail") {
+                        //     toastr.error('Bu ürün zaten satın alınmış.');
 
-                        } else {
-                            toastr.success('Siparişiniz başarıyla oluşturuldu.');
-                            var cartOrderId = response.cart_order;
+                        // } else {
+                        //     toastr.success('Siparişiniz başarıyla oluşturuldu.');
+                        //     var cartOrderId = response.cart_order;
 
-                            // Dosya yükleme AJAX isteği
-                            var formData = new FormData();
-                            formData.append('file', $('#fileInput')[0].files[0]);
+                        //     // Dosya yükleme AJAX isteği
+                        //     var formData = new FormData();
+                        //     formData.append('file', $('#fileInput')[0].files[0]);
 
-                            // Cart order ID'yi ikinci AJAX isteğine ekleyelim
-                            formData.append('cart_order', response.cart_order);
-                            formData.append('_token', '{{ csrf_token() }}');
+                        //     // Cart order ID'yi ikinci AJAX isteğine ekleyelim
+                        //     formData.append('cart_order', response.cart_order);
+                        //     formData.append('_token', '{{ csrf_token() }}');
 
-                            $.ajax({
-                                url: "{{ route('dekont.file.upload') }}",
-                                type: "POST",
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function(response) {
-                                    console.log(response)
-                                    toastr.success("Dosya başarıyla yüklendi.");
-                                },
-                                error: function(error) {
-                                    toastr.error(
-                                        "Dosya yüklenirken bir hata oluştu.");
-                                    console.error("Hata oluştu: " + error
-                                        .responseText);
-                                }
-                            });
+                        //     $.ajax({
+                        //         url: "{{ route('dekont.file.upload') }}",
+                        //         type: "POST",
+                        //         data: formData,
+                        //         processData: false,
+                        //         contentType: false,
+                        //         success: function(response) {
+                        //             console.log(response)
+                        //             toastr.success("Dosya başarıyla yüklendi.");
+                        //         },
+                        //         error: function(error) {
+                        //             toastr.error(
+                        //                 "Dosya yüklenirken bir hata oluştu.");
+                        //             console.error("Hata oluştu: " + error
+                        //                 .responseText);
+                        //         }
+                        //     });
 
-                            var redirectUrl =
-                                "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
-                            window.location.href = redirectUrl.replace(':cartOrderId',
-                                cartOrderId);
-                        }
+                        //     var redirectUrl =
+                        //         "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
+                        //     window.location.href = redirectUrl.replace(':cartOrderId',
+                        //         cartOrderId);
+                        // }
                     },
                     error: function(error) {
                         console.log(error);
