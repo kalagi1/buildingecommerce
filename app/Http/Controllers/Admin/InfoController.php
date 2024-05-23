@@ -75,7 +75,7 @@ class InfoController extends Controller
         $endDate = $request->input('end_date');
         $payment_status =  $request->input('payment_status');
 
-        $cartPrices = CartPrice::with("cart.user",'cart.store')->where("status", "1")
+        $cartPrices = CartPrice::with("cart.user",'cart.store','reservation', 'reservation.user','reservation.owner')->where("status", "1")
             ->whereBetween('created_at', [Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()])
             ->get()
             ->map(function ($item) {
@@ -83,7 +83,7 @@ class InfoController extends Controller
                 return $item;
             });
 
-        $sharerPrices = SharerPrice::with("cart.user",'cart.store', "user")->where("status", "1")
+        $sharerPrices = SharerPrice::with("cart.user",'cart.store', "user", 'reservation', 'reservation.user','reservation.owner')->where("status", "1")
             ->whereBetween('created_at', [Carbon::parse($startDate)->startOfDay(), Carbon::parse($endDate)->endOfDay()])
             ->get()
             ->map(function ($item) {
@@ -104,15 +104,15 @@ class InfoController extends Controller
 
     public function expense()
     {
-        $cartPrices = CartPrice::with("cart.user",'cart.store')
-            ->where("status", ["1"])
+        $cartPrices = CartPrice::with("cart.user",'cart.store','reservation' , 'reservation.user','reservation.owner')
+            ->where("status", "1")
             ->get()
             ->map(function ($item) {
                 $item->source = 'cartPrices';
                 return $item;
             });
 
-        $sharerPrices = SharerPrice::with("cart.user",'cart.store', "user")
+        $sharerPrices = SharerPrice::with("cart.user",'cart.store', "user" ,'reservation' , 'reservation.user','reservation.owner')
             ->where("status", "1")
             ->get()
             ->map(function ($item) {
@@ -127,7 +127,7 @@ class InfoController extends Controller
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
-
+        
         return view('admin.accounting.expense', [
             'mergedArray' => $mergedArray,
             'totalEarn' => $totalEarn
@@ -142,35 +142,45 @@ class InfoController extends Controller
 
         if (isset($request->mergedArray)){
             $parsedData = json_decode($request->mergedArray, true);
+
             ExpenseExport::truncate();
             foreach ($parsedData as $item){
                 
-                $cartContent = json_decode($item['cart']['cart'], true);
+               
                 $advertNo = '';
-                if($cartContent['type'] == 'housing' ){
-                    $advertNo = $cartContent['item']['id'] + 2000000;
+                if($item['reservation'])
+                {
+                    $advertNo = $item['reservation']['housing_id'] + 2000000;
 
-                }else{
-                    $advertNo = $cartContent['item']['id'] + 1000000;
+                }else
+                {
+                    $cartContent = json_decode($item['cart']['cart'], true);
+                    if($cartContent['type'] == 'housing' ){
+                        $advertNo = $cartContent['item']['id'] + 2000000;
+
+                    }else{
+                        $advertNo = $cartContent['item']['id'] + 1000000;
+                    }
+                 
+
                 }
-                
                     if($item['source'] && $item['source'] == 'cartPrices'){
                         if($item['earn2'] && $item['earn2'] != 0)
                         {
                             ExpenseExport::create([
-                                'name' => $item['cart']['store']['name'] ?? null,
-                                'email' => $item['cart']['store']['email'] ?? null,
-                                'phone' => $item['cart']['store']['phone'] ?? null,
-                                'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                                'iban' => $item['cart']['store']['iban'] ?? null,
+                                'name' => $item['cart']['store']['name'] ?? $item['reservation']['owner']['name'],
+                                'email' => $item['cart']['store']['email'] ?? $item['reservation']['owner']['email'],
+                                'phone' => $item['cart']['store']['phone'] ?? $item['reservation']['owner']['phone'] ,
+                                'bank_name' => $item['cart']['store']['bank_name'] ?? $item['reservation']['owner']['bank_name'] ,
+                                'iban' => $item['cart']['store']['iban'] ?? $item['reservation']['owner']['iban'] ,
                                 'account_type' => 'Kurumsal',
                                 'amount' => $item['earn2']  ?? null,
                                 'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
                                 'advert_no' => $advertNo ?? null,
-                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                                'advert_date' => isset($item['cart']['created_at']) ? date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])) :  date('Y-m-d H:i:s', strtotime($item['reservation']['created_at'])),
                             ]);
                         }
-                        }
+                    }
                     
                     else
                     {
@@ -186,7 +196,8 @@ class InfoController extends Controller
                                 'amount' => $item['balance']  ?? null,
                                 'pay_status' => $item['payment_balance'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
                                 'advert_no' => $advertNo ?? null,
-                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                                'advert_date' => isset($item['cart']['created_at']) ? date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])) : date('Y-m-d H:i:s', strtotime($item['reservation']['created_at'])),
+
                             ]);
 
                         }
@@ -194,16 +205,16 @@ class InfoController extends Controller
                         {
 
                             ExpenseExport::create([
-                                'name' => $item['cart']['store']['name'] ?? null,
-                                'email' => $item['cart']['store']['email'] ?? null,
-                                'phone' => $item['cart']['store']['phone'] ?? null,
-                                'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                                'iban' => $item['cart']['store']['iban'] ?? null,
+                                'name' => $item['cart']['store']['name'] ?? $item['reservation']['owner']['name'],
+                                'email' => $item['cart']['store']['email'] ?? $item['reservation']['owner']['email'],
+                                'phone' => $item['cart']['store']['phone'] ?? $item['reservation']['owner']['phone'] ,
+                                'bank_name' => $item['cart']['store']['bank_name'] ?? $item['reservation']['owner']['bank_name'] ,
+                                'iban' => $item['cart']['store']['iban'] ?? $item['reservation']['owner']['iban'] ,
                                 'account_type' => 'Kurumsal',
-                                'amount' => $item['earn2'] ?? null,
+                                'amount' => $item['earn2']  ?? null,
                                 'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
                                 'advert_no' => $advertNo ?? null,
-                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                                'advert_date' => isset($item['cart']['created_at']) ? date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])) :  date('Y-m-d H:i:s', strtotime($item['reservation']['created_at'])),
                             ]);
                         }
                         
