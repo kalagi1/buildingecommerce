@@ -10,7 +10,7 @@ class CheckPermission
     {
         if (!auth()->check()) {
             // Kullanıcı giriş yapmamışsa yönlendirilebilir veya hata mesajı döndürülebilir
-            return redirect('/login');
+            return redirect('/giris-yap');
         }
 
         // Kullanıcının belirtilen izne sahip olup olmadığını kontrol edin

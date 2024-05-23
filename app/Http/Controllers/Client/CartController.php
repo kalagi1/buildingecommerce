@@ -99,11 +99,11 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-            $deposit_rate = 0.04;
+            $deposit_rate = 0.02;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
-                $deposit_rate = 0.04;
+                $deposit_rate = 0.02;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
@@ -256,12 +256,11 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-
-            $deposit_rate = 0.04;
+            $deposit_rate = 0.02;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
-                $deposit_rate = 0.04;
+                $deposit_rate = 0.02;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
@@ -308,7 +307,10 @@ class CartController extends Controller
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
+
         if (json_decode($o->cart)->type == 'housing') {
+
+
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
             $county = Housing::find($productDetails->id ?? 0)->county->title;
@@ -385,8 +387,9 @@ class CartController extends Controller
                 }
             } else {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
+                return $lastClick ? $lastClick : "yok";
                 $user = User::where('id', $housing->user_id)->first();
-                if ($lastClick) {
+                if (isset($lastClick)) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
@@ -447,44 +450,8 @@ class CartController extends Controller
                             'earn2' => $remaining,
                         ]);
                     }
-                } elseif (!$lastClick) {
-                    $newAmount = $amountWithoutDiscount;
-                    $rates = Rate::where('housing_id', $cart['item']['id'])->get();
-
-                    foreach ($rates as $key => $rate) {
-                        if ($user->corporate_type == $rate->institution->name) {
-                            $share_percent_earn =  $rate->default_deposit_rate;
-                            $share_percent_balance = 1.0 - $share_percent_earn;
-                        }
-                    }
-
-                    $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-
-                    $cart = json_decode($cartItem->cart, true);
-                    if ($cart['type'] == 'housing') {
-                        $housing = Housing::where('id', $cart['item']['id'])->first();
-                        $saleType = $housing->step2_slug;
-                    } else {
-                        $project = Project::where('id', $cart['item']['id'])->first();
-                        $saleType = $project->step2_slug;
-                    }
-
-                    if ($saleType == 'kiralik') {
-                        $sharedAmount_balance = $newAmount * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * $share_percent_earn;
-                    } else {
-                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
-                    }
-
-                    CartPrice::create([
-                        'user_id' => $order->user_id,
-                        'cart_id' => $order->id,
-                        'status' => '0',
-                        'earn' => $sharedAmount_balance,
-                        'earn2' => $sharedAmount_earn,
-                    ]);
                 } else {
+
                     $newAmount = $amountWithoutDiscount;
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
