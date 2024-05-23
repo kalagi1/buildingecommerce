@@ -26,7 +26,7 @@
                                         $price = null;
                                         $share_sale = null;
                                         $number_of_share = null;
-                                        $deposit_rate = 0.04;
+                                        $deposit_rate = 0.02;
 
                                         if (
                                             $item['item_type'] == 2 &&
@@ -41,7 +41,7 @@
 
                                             $price = $defaultPrice - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
-                                            $deposit_rate = 0.04;
+                                            $deposit_rate = 0.02;
                                         } elseif ($item['item_type'] == 1) {
                                             $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
                                             $share_sale = $item['project_values']['share_sale[]'] ?? null;
