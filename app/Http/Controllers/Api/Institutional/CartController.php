@@ -21,7 +21,7 @@ class CartController extends Controller
     public function add(Request $request)
     {
         try {
-            $lastClick = Click::where('user_id', auth()->user()->id)
+            $lastClick = Click::where('user_id', auth()->guard("api")->user()->id)
                 ->where('created_at', '>=', now()->subDays(24))
                 ->latest('created_at')
                 ->first();
@@ -41,14 +41,14 @@ class CartController extends Controller
             $cart = [];
             $hasCounter = false;
 
-            $cartList = CartItem::where('user_id', Auth::user()->id)->latest()->first();
+            $cartList = CartItem::where('user_id', Auth::guard("api")->user()->id)->latest()->first();
             if ($cartList) {
-                $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first()->delete();
+                $cartItem = CartItem::where('user_id', Auth::guard("api")->user()->id)->latest()->first()->delete();
             }
 
             http_response_code(500);
             if ($cartItem && (($type == 'housing' && isset($cart['item']['id']) &&  $cart['item']['id'] == $id) || ($type == 'project' && isset($cart['item']['housing']) && $cart['item']['housing'] == $id))) {
-                CartItem::where('user_id', Auth::user()->id)->latest()->delete();
+                CartItem::where('user_id', Auth::guard("api")->user()->id)->latest()->delete();
                 $request->session()->forget('cart');
             } else {
                 if ($type == 'project') {
@@ -61,13 +61,13 @@ class CartController extends Controller
                         ->where('room_order', $id)
                         ->get()
                         ->keyBy('key');
-                    $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $project->id)->where('user_id', Auth::user()->id)->where('status', 1)->get();
+                    $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $project->id)->where('user_id', Auth::guard("api")->user()->id)->where('status', 1)->get();
                     if ($lastClick) {
                         $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
 
                         if (isset($collection)) {
                             foreach ($collection->links as $link) {
-                                if (($link->user_id != Auth::user()->id)) {
+                                if (($link->user_id != Auth::guard("api")->user()->id)) {
                                     $hasCounter = true;
                                 }
                             }
@@ -166,7 +166,7 @@ class CartController extends Controller
                         $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
                         if (isset($collection)) {
                             foreach ($collection->links as $link) {
-                                if (($link->item_type == 2 && $link->item_id == $id && $link->user_id != Auth::user()->id)) {
+                                if (($link->item_type == 2 && $link->item_id == $id && $link->user_id != Auth::guard("api")->user()->id)) {
                                     $hasCounter = true;
                                 }
                             }
@@ -207,7 +207,7 @@ class CartController extends Controller
                 $cartJson = json_encode($cart);
                 CartItem::create([
                     'cart'     => $cartJson,
-                    'user_id'  => Auth::id()
+                    'user_id'  => Auth::guard("api")->id()
                 ]);
 
                 $userPhoneNumber = $type == 'housing' ?  $housing->user->mobile_phone : $project->user->mobile_phone;
