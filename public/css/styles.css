@@ -30388,6 +30388,36 @@ a {
     justify-content: center;
 }
 
+.project_estate_club_rate{
+    right: -1px;
+    top: 113px;
+    width: 100px;
+    height: 30px;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    background-color: #fff;
+    position: absolute;
+}
+
+.project_estate_club_rate .club_rate {
+    font-size: 12px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-left: 4px;
+    font-weight: 700;
+    width: 100%;
+    color: #ea2a28;
+    display: block;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
 .project_brand_profile_image {
     width: 100px !important;
     height: 70px;

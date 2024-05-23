@@ -45,7 +45,6 @@ class CartController extends Controller
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
-
         if (!$cartItem) {
 
             return response()->json(['success' => 'fail']);
@@ -307,7 +306,6 @@ class CartController extends Controller
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
-
         if (json_decode($o->cart)->type == 'housing') {
 
 
@@ -373,7 +371,9 @@ class CartController extends Controller
                     if ($sales_rate_club === null && count($rates) > 0) {
                         $sales_rate_club = $rates->last()->sales_rate_club;
                     }
+
                     $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+
                     $remaining = $sharedAmount_earn - $estateclubrate;
 
                     SharerPrice::create([
@@ -500,6 +500,7 @@ class CartController extends Controller
             $code = $project->id + $productDetails->housing + 1000000;
             $store = $project->user->name;
             $storeID = $project->user->id;
+            $estateProjectRate = $project->club_rate / 100;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
@@ -510,7 +511,16 @@ class CartController extends Controller
                 } else {
                     $newAmount = $amountWithoutDiscount - $coupon->amount;
                 }
-                $share_percent = 0.5;
+                if ($coupon->user->type != '1') {
+                    if ($coupon->user->corporate_type == "Emlak Ofisi") {
+
+                        $share_percent = $estateProjectRate;
+                    } else {
+                        $share_percent = 0.5;
+                    }
+                } else {
+                    $share_percent = 0.25;
+                }
 
                 $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
@@ -553,7 +563,11 @@ class CartController extends Controller
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     if ($collection->user->type != '1') {
-                        $share_percent = 0.5;
+                        if ($collection->user->corporate_type == "Emlak Ofisi") {
+                            $share_percent = $estateProjectRate;
+                        } else {
+                            $share_percent = 0.5;
+                        }
                     } else {
                         $share_percent = 0.25;
                     }
@@ -568,11 +582,14 @@ class CartController extends Controller
                         $saleType = $project->step2_slug;
                     }
 
-                    if ($saleType == 'kiralik') {
+                    if ($collection->user->corporate_type == "Emlak Ofisi") {
                         $sharedAmount_balance = $newAmount * $share_percent;
                     } else {
-                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent;
+                        $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
                     }
+
+
+
 
                     if ($collection->user_id != Auth::user()->id) {
                         SharerPrice::create([
@@ -581,7 +598,7 @@ class CartController extends Controller
                             'cart_id' => $order->id,
                             'status' => '0',
                             'balance' => $sharedAmount_balance,
-                            'earn' => $newAmount - $sharedAmount_balance,
+                            'earn' => $request->input("payableAmount") - $sharedAmount_balance,
                             'earn2' => 0,
 
                         ]);
@@ -1156,10 +1173,8 @@ class CartController extends Controller
 
                 if ($type == "housing") {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($housing->id) + 2000000)  . " numaralı emlak ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
-                }else{
+                } else {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($project->id) + 1000000 + intval($id))  . " numaralı proje ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
                 }
 
 

@@ -34,6 +34,18 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      */
 
+    public function clubRateUpdate(Request $request, Project $project)
+    {
+        $request->validate([
+            'club_rate' => 'required|numeric|min:0',
+        ]);
+
+        $project->club_rate = $request->input('club_rate');
+        $project->save();
+
+        return redirect()->back()->with('success', 'Emlakçı oranı başarıyla güncellendi.');
+    }
+
     public function update(Request $request, Project $project)
     {
         $request->validate([
@@ -577,22 +589,24 @@ class ProjectController extends Controller
         return redirect()->back()->with('error', 'Silme işlemi yapılırken hata!');
     } //End
 
-    public function soldInvoiceDetail($id){
+    public function soldInvoiceDetail($id)
+    {
         $order = CartOrder::where('cart->item->id', $id)->latest()->first();
 
         $project = Housing::where("id", $id)->with("user")->first();
-        $invoice = Invoice::where('order_id',$order->id)->first();
+        $invoice = Invoice::where('order_id', $order->id)->first();
 
         $data = [
             'invoice' => $invoice,
             'project' => $project,
         ];
 
-        return view('admin.invoice.index',compact('data'));
-    }//End
+        return view('admin.invoice.index', compact('data'));
+    } //End
 
-    public function soldOrderDetail($id){
+    public function soldOrderDetail($id)
+    {
         $order = CartOrder::where('cart->item->id', $id)->latest()->first();
         return view('admin.orders.detail', compact('order'));
-    }//End
+    } //End
 }

@@ -9,6 +9,7 @@
                     <th>Toplam İlan Sayısı</th>
                     <th>Emlak Tipi</th>
                     <th>Kapora Oranı</th>
+                    <th>Emlak Kulüp Emlakçı Oranı</th>
                     <th>İlanları Düzenle</th>
                     <th>Yayın Durumu</th>
                     <th>İşlemler</th>
@@ -29,20 +30,39 @@
                         <td>{{ $project['project']->user->name }} </td>
                         <td>{{ $project['project']->room_count }}</td>
                         <td>{{ $project['project']->housingType->title }}</td>
-                        <td >
+                        <td>
                             <form method="POST" action="{{ route('admin.projects.update', $project['project']->id) }}">
                                 @csrf
                                 @method('PUT')
-                                    <div class="form-group mb-0">
-                                        <input type="number" class="form-control w-70" id="deposit_rate" name="deposit_rate"
-                                            value="{{ $project['project']->deposit_rate }}">
-                                    </div>
-    
-                                    <button type="submit" class="update-button" style="color:red;font-weight:700;background:transparent;border:none;background-color:White">Güncelle</button>
-                                   
+                                <div class="form-group mb-0">
+                                    <input type="number" class="form-control w-70" id="deposit_rate" name="deposit_rate"
+                                        value="{{ $project['project']->deposit_rate }}">
+                                </div>
+
+                                <button type="submit" class="update-button"
+                                    style="color:red;font-weight:700;background:transparent;border:none;background-color:White">Güncelle</button>
 
 
-                    
+
+
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST"
+                                action="{{ route('admin.projects.club-rate-update', $project['project']->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group mb-0">
+                                    <input type="number" class="form-control w-70" id="club_rate" name="club_rate"
+                                        value="{{ $project['project']->club_rate }}">
+                                </div>
+
+                                <button type="submit" class="update-button"
+                                    style="color:red;font-weight:700;background:transparent;border:none;background-color:White">Güncelle</button>
+
+
+
+
                             </form>
                         </td>
 
