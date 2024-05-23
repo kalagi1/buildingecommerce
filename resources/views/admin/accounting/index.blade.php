@@ -93,6 +93,20 @@
                                                             ₺</span>
                                                     @endif
                                                 </td>
+
+                                                <td>{{ number_format($reservation->down_payment, 2, ',', '.') }} ₺<br>
+                                                    @if ($reservation->money_trusted)
+                                                        <div class="d-flex" style="align-items: center;">
+                                                            {{ $reservation->money_is_safe }} ₺'si param güvende ödemesidir
+                                                        </div>
+                                                    @endif
+                                                </td>
+
+                                                <td class="order_details">
+                                                    <a href="{{ route('admin.reservation.detail', ['reservation_id' => $reservation->id]) }}"
+                                                        class="badge badge-phoenix badge-phoenix-success">Rezervasyon
+                                                        Detayı</a>
+                                                </td>
                                             </tr>
                                         @endif
                                     @else
@@ -135,6 +149,8 @@
                                                         -
                                                     @endif
                                                 </td>
+
+                                               
 
                                                 <td> {{ $item->cart->amount ?? null }} ₺</td>
 

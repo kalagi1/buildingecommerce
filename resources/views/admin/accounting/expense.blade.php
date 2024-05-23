@@ -186,24 +186,18 @@
                                                             {{ number_format((float) $item->earn2, 2, ',', '.') ?? null }}
                                                             ₺</span>
                                                         <br>
-                                                </td>
-                                                <td>{{ number_format($reservation->down_payment, 2, ',', '.') }} ₺<br>
-                                                    @if ($reservation->money_trusted)
-                                                        <div class="d-flex" style="align-items: center;">
-                                                            {{ $reservation->money_is_safe }} ₺'si param güvende ödemesidir
-                                                        </div>
-                                                    @endif
-                                                </td>
 
-                                                <select class="form-select payment-status" data-id="{{ $item->id }}"
-                                                    data-source="{{ $item->source }}" data-type="payment_earn2">
-                                                    <option value="1"
-                                                        {{ $item->payment_earn2 == true ? 'selected' : '' }}>Ödeme Yapıldı
-                                                    </option>
-                                                    <option value="0"
-                                                        {{ $item->payment_earn2 == false ? 'selected' : '' }}>Ödeme
-                                                        Yapılmadı</option>
-                                                </select>
+                                                        <select class="form-select payment-status" data-id="{{ $item->id }}"
+                                                            data-source="{{ $item->source }}" data-type="payment_earn2">
+                                                            <option value="1"
+                                                                {{ $item->payment_earn2 == true ? 'selected' : '' }}>Ödeme Yapıldı
+                                                            </option>
+                                                            <option value="0"
+                                                                {{ $item->payment_earn2 == false ? 'selected' : '' }}>Ödeme
+                                                                Yapılmadı</option>
+                                                        </select>
+                                                </td>
+                                                 
                                             @else
                                                 -
                                         @endif
