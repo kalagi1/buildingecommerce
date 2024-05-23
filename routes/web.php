@@ -450,6 +450,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::middleware(['checkPermission:UpdateProject'])->group(function () {
         Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+        Route::put('/projects/club-rate/{project}', [ProjectController::class, 'clubRateUpdate'])->name('projects.club-rate-update');
+
     });
 
     Route::middleware(['checkPermission:GetProjects'])->group(function () {
