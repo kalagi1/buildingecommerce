@@ -553,7 +553,6 @@ class CartController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    return $newAmount;
                     if ($collection->user->type != '1') {
                         $share_percent = 0.5;
                     } else {
