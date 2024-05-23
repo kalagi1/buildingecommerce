@@ -157,25 +157,28 @@ class InfoController extends Controller
             }else{
                 $advertNo = $cartContent['item']['id'] + 1000000;
             }
-
+            
                 if($item['source'] && $item['source'] == 'cartPrices'){
-
-                    ExpenseExport::create([
-                                        'name' => $item['cart']['store']['name'] ?? null,
-                                        'email' => $item['cart']['store']['email'] ?? null,
-                                        'phone' => $item['cart']['store']['phone'] ?? null,
-                                        'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                                        'iban' => $item['cart']['store']['iban'] ?? null,
-                                        'account_type' => 'Kurumsal',
-                                        'amount' => $item['earn2']  ?? null,
-                                        'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
-                                        'advert_no' => $advertNo ?? null,
-                                        'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
-                                    ]);
-                }
+                    if($item['earn2'] && $item['earn2'] != 0)
+                    {
+                        ExpenseExport::create([
+                            'name' => $item['cart']['store']['name'] ?? null,
+                            'email' => $item['cart']['store']['email'] ?? null,
+                            'phone' => $item['cart']['store']['phone'] ?? null,
+                            'bank_name' => $item['cart']['store']['bank_name'] ?? null,
+                            'iban' => $item['cart']['store']['iban'] ?? null,
+                            'account_type' => 'Kurumsal',
+                            'amount' => $item['earn2']  ?? null,
+                            'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
+                            'advert_no' => $advertNo ?? null,
+                            'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                        ]);
+                    }
+                    }
+                  
                 else
                 {
-                    if($item['balance'] && $item['user'])
+                    if($item['balance'] && $item['user'] && $item['balance'] != 0 )
                     {
                         ExpenseExport::create([
                             'name' => $item['user']['name'] ?? null,
@@ -191,7 +194,7 @@ class InfoController extends Controller
                         ]);
 
                     }
-                    if($item['earn2'])
+                    if($item['earn2'] && $item['earn2'] != 0)
                     {
 
                         ExpenseExport::create([
