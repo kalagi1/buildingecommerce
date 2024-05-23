@@ -43,7 +43,6 @@ class CartController extends Controller
     public function payCart(Request $request)
     {
 
-        return $request->all();
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
         if (!$cartItem) {
@@ -80,7 +79,7 @@ class CartController extends Controller
 
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input('banka_id');
-        $amountWithoutDiscount =  $request->input("payableAmountInput");
+        $amountWithoutDiscount =  $request->input("payableAmount");
         $haveDiscount = false;
         return $amountWithoutDiscount;
 
