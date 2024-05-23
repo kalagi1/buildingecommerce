@@ -111,7 +111,7 @@
                                         $housingDiscountAmount = 0;
                                         $projectDiscountAmount = 0;
                                         $deposit_rate = 0.02;
-                                        $discount_percent = 4;
+                                        $discount_percent = 2;
 
                                         if ($cart['type'] == 'housing') {
                                             $housingOffer = App\Models\Offer::where('type', 'housing')
@@ -120,7 +120,7 @@
                                                 ->where('end_date', '>=', now())
                                                 ->first();
                                             $deposit_rate = 0.02;
-                                            $discount_percent = 4;
+                                            $discount_percent = 2;
 
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
                                         } else {

@@ -12,10 +12,10 @@
     @php
         
         $deposit_rate = 0.02;
-        $discount_percent = 4;
+        $discount_percent = 2;
             if ($cart['type'] == 'housing') {
                 $deposit_rate = 0.02;
-                $discount_percent = 4;
+                $discount_percent = 2;
 
             } else {
                 $deposit_rate = $project->deposit_rate / 100;
