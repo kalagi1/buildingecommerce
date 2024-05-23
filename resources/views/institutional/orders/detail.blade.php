@@ -18,12 +18,12 @@
         ];
         $orderCart = json_decode($order->cart, true);
 
-        $deposit_rate = 0.04;
+        $deposit_rate = 0.02;
         $discount_percent = 4;
         if ($orderCart['type'] == 'housing') {
             $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
             $saleType = $housing->step2_slug;
-            $deposit_rate = 0.04;
+            $deposit_rate = 0.02;
             $discount_percent = 4;
         } else {
             $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();

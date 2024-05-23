@@ -110,7 +110,7 @@
                                     @php
                                         $housingDiscountAmount = 0;
                                         $projectDiscountAmount = 0;
-                                        $deposit_rate = 0.04;
+                                        $deposit_rate = 0.02;
                                         $discount_percent = 4;
 
                                         if ($cart['type'] == 'housing') {
@@ -119,7 +119,7 @@
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
-                                            $deposit_rate = 0.04;
+                                            $deposit_rate = 0.02;
                                             $discount_percent = 4;
 
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;

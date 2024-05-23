@@ -99,11 +99,11 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-            $deposit_rate = 0.04;
+            $deposit_rate = 0.02;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
-                $deposit_rate = 0.04;
+                $deposit_rate = 0.02;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
@@ -256,11 +256,11 @@ class CartController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
-            $deposit_rate = 0.04;
+            $deposit_rate = 0.02;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
-                $deposit_rate = 0.04;
+                $deposit_rate = 0.02;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;

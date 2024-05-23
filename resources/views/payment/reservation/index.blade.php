@@ -52,7 +52,7 @@
             $discountRate = 0;
         }
 
-        $deposit_rate = 0.04;
+        $deposit_rate = 0.02;
         $discount_percent = 4;
     @endphp
     <section class="payment-method notfound">
