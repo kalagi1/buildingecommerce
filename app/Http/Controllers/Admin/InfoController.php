@@ -143,8 +143,8 @@ class InfoController extends Controller
       
 
 
-        // $startDate =$request->input('start_date');
-        // $endDate =$request->input('end_date');
+        $startDate =$request->input('start_date');
+        $endDate =$request->input('end_date');
 
         $parsedData = json_decode($request->mergedArray, true);
         foreach ($parsedData as $item){
@@ -157,25 +157,28 @@ class InfoController extends Controller
             }else{
                 $advertNo = $cartContent['item']['id'] + 1000000;
             }
-
+            
                 if($item['source'] && $item['source'] == 'cartPrices'){
-
-                    ExpenseExport::create([
-                                        'name' => $item['cart']['store']['name'] ?? null,
-                                        'email' => $item['cart']['store']['email'] ?? null,
-                                        'phone' => $item['cart']['store']['phone'] ?? null,
-                                        'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                                        'iban' => $item['cart']['store']['iban'] ?? null,
-                                        'account_type' => 'Kurumsal',
-                                        'amount' => $item['earn2']  ?? null,
-                                        'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
-                                        'advert_no' => $advertNo ?? null,
-                                        'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
-                                    ]);
-                }
+                    if($item['earn2'] && $item['earn2'] != 0)
+                    {
+                        ExpenseExport::create([
+                            'name' => $item['cart']['store']['name'] ?? null,
+                            'email' => $item['cart']['store']['email'] ?? null,
+                            'phone' => $item['cart']['store']['phone'] ?? null,
+                            'bank_name' => $item['cart']['store']['bank_name'] ?? null,
+                            'iban' => $item['cart']['store']['iban'] ?? null,
+                            'account_type' => 'Kurumsal',
+                            'amount' => $item['earn2']  ?? null,
+                            'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
+                            'advert_no' => $advertNo ?? null,
+                            'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                        ]);
+                    }
+                    }
+                  
                 else
                 {
-                    if($item['balance'] && $item['user'])
+                    if($item['balance'] && $item['user'] && $item['balance'] != 0 )
                     {
                         ExpenseExport::create([
                             'name' => $item['user']['name'] ?? null,
@@ -191,7 +194,7 @@ class InfoController extends Controller
                         ]);
 
                     }
-                    if($item['earn2'])
+                    if($item['earn2'] && $item['earn2'] != 0)
                     {
 
                         ExpenseExport::create([
@@ -213,15 +216,16 @@ class InfoController extends Controller
 
         } 
 
-        // if ($startDate && $endDate) {
-        //     // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
-        //     return Excel::download(new ExpensesExport($startDate, $endDate), 'expenses.xlsx');
-        // } else {
-        //     // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
-        //     return Excel::download(new ExpensesExport(), 'expenses.xlsx');
-        // }
+        if ($startDate && $endDate) {
+            // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
+            $fileName = $startDate . ' - ' . $endDate . ' - ' . 'GiderTablosu.xlsx';
+        } else {
+            // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
+            $fileName = 'TümGiderTablosu.xlsx';
+        }
+         
+        return Excel::download(new ExpensesExport(), $fileName);
 
-        return Excel::download(new ExpensesExport(), 'expenses.xlsx');
     }
 
 
