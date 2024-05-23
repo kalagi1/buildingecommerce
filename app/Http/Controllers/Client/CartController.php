@@ -306,7 +306,6 @@ class CartController extends Controller
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
-return json_decode($o->cart)->type;
         if (json_decode($o->cart)->type == 'housing') {
 
 
@@ -493,6 +492,7 @@ return json_decode($o->cart)->type;
             }
         } else {
             $project = Project::where('id', $productDetails->id)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+            return $project;
             $city = $project->city->title;
             $county = $project->county->ilce_title;
             $neighborhood = $project->neighbourhood ? $project->neighbourhood->mahalle_title : null;
