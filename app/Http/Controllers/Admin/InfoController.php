@@ -143,8 +143,8 @@ class InfoController extends Controller
       
 
 
-        // $startDate =$request->input('start_date');
-        // $endDate =$request->input('end_date');
+        $startDate =$request->input('start_date');
+        $endDate =$request->input('end_date');
 
         $parsedData = json_decode($request->mergedArray, true);
         foreach ($parsedData as $item){
@@ -213,15 +213,16 @@ class InfoController extends Controller
 
         } 
 
-        // if ($startDate && $endDate) {
-        //     // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
-        //     return Excel::download(new ExpensesExport($startDate, $endDate), 'expenses.xlsx');
-        // } else {
-        //     // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
-        //     return Excel::download(new ExpensesExport(), 'expenses.xlsx');
-        // }
+        if ($startDate && $endDate) {
+            // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
+            $fileName = $startDate . ' - ' . $endDate . ' - ' . 'GiderTablosu.xlsx';
+        } else {
+            // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
+            $fileName = 'TümGiderTablosu.xlsx';
+        }
+         
+        return Excel::download(new ExpensesExport(), $fileName);
 
-        return Excel::download(new ExpensesExport(), 'expenses.xlsx');
     }
 
 
