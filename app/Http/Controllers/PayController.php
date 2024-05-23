@@ -924,6 +924,7 @@ class PayController extends Controller
             $store = $project->user->name;
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
+            return $project;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
@@ -975,7 +976,6 @@ class PayController extends Controller
             } else {
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
-                    return $collection;
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
 
                     if ($collection->user->type != "1") {
@@ -1050,7 +1050,6 @@ class PayController extends Controller
         $order->update([
             'store_id' => $storeID,
         ]);
-        // dd( $order);
         return  $order;
     }
 }
