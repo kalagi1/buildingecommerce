@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AddCanonicalTag
 {
@@ -20,15 +21,15 @@ class AddCanonicalTag
     {
         // İlgili sayfanın URL'sini alın
         $canonicalUrl = $request->url();
-
+    
         // İçerik olarak döndürülecek yanıtı alın
         $response = $next($request);
-
-        // Eğer yanıt bir yönlendirme ise, doğrudan geri döndürün
-        if ($response instanceof RedirectResponse) {
+    
+        // Eğer yanıt bir yönlendirme veya dosya indirme (BinaryFileResponse) ise, doğrudan geri döndürün
+        if ($response instanceof RedirectResponse || $response instanceof BinaryFileResponse) {
             return $response;
         }
-
+    
         // Eğer canonical etiketi yoksa, ekleyin
         if (!str_contains($response->getContent(), '<link rel="canonical"')) {
             $response->setContent(
@@ -39,7 +40,7 @@ class AddCanonicalTag
                 )
             );
         }
-
+    
         return $response;
     }
 }
