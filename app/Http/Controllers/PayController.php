@@ -56,7 +56,7 @@ class PayController extends Controller
 
     public function index()
     {
-        
+
         if (Auth::check()) {
 
             $userId = Auth::user()->id;
@@ -140,7 +140,7 @@ class PayController extends Controller
 
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
- 
+
 
     public function initiate3DPayment(Request $request)
     {
@@ -923,6 +923,7 @@ class PayController extends Controller
             $code = $project->id + $productDetails->housing + 1000000;
             $store = $project->user->name;
             $storeID = $project->user->id;
+            $estateProjectRate = $project->club_rate / 100;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
@@ -975,9 +976,13 @@ class PayController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                   
+
                     if ($collection->user->type != "1") {
-                        $share_percent = 0.5;
+                        if ($collection->user->corporate_type == "Emlak Ofisi") {
+                            $share_percent = $estateProjectRate;
+                        } else {
+                            $share_percent = 0.5;
+                        }
                     } else {
                         $share_percent = 0.25;
                     }
