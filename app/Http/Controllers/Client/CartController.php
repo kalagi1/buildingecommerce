@@ -79,7 +79,7 @@ class CartController extends Controller
 
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input('banka_id');
-        $amountWithoutDiscount =  $request->input("payableAmount");
+        $amountWithoutDiscount =  $cartJson['item']['amount'] - $cartJson['item']['discount_amount'];
         $haveDiscount = false;
 
         if ($request->input('have_discount')) {
@@ -584,9 +584,9 @@ class CartController extends Controller
                     }
 
                     if ($saleType == 'kiralik') {
-                        $sharedAmount_balance = $newAmount * $share_percent;
+                        $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
                     } else {
-                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent;
+                        $sharedAmount_balance = $request->input("payableAmount") * $deposit_rate * $share_percent;
                     }
 
                     if ($collection->user_id != Auth::user()->id) {
@@ -596,7 +596,7 @@ class CartController extends Controller
                             'cart_id' => $order->id,
                             'status' => '0',
                             'balance' => $sharedAmount_balance,
-                            'earn' => $newAmount - $sharedAmount_balance,
+                            'earn' => $request->input("payableAmount") - $sharedAmount_balance,
                             'earn2' => 0,
 
                         ]);
