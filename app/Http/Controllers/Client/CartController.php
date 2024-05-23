@@ -79,8 +79,7 @@ class CartController extends Controller
 
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input('banka_id');
-        return $cartJson['item'];
-        $amountWithoutDiscount =  $cartJson['item']['amount'] - $cartJson['item']['discount_amount'];
+        $amountWithoutDiscount =  $cartItem->amount;
         $haveDiscount = false;
 
         if ($request->input('have_discount')) {
