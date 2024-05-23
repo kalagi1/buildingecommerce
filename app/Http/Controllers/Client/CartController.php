@@ -585,7 +585,6 @@ class CartController extends Controller
                         $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
                 
 
-                    return $sharedAmount_balance;
 
                     if ($collection->user_id != Auth::user()->id) {
                         SharerPrice::create([
