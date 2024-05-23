@@ -33,52 +33,56 @@
                 </div>
 
 
+                <div>
+                    <form action="{{ route('admin.filterByDate') }}" method="GET">
+                        <div class="col-md-6">
+                            <div class="row">
 
-                <form action="{{ route('admin.filterByDate') }}" method="GET">
-                    <div class="col-md-6">
-                        <div class="row">
+                                <div class="col-md-2">
+                                    <label for="start-date">Başlangıç Tarihi:</label>
+                                    <input type="date" class="form-control" id="start-date" name="start_date" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="end-date">Bitiş Tarihi:</label>
+                                    <input type="date" class="form-control" id="end-date" name="end_date" required>
+                                </div>
 
-                            <div class="col-md-2">
-                                <label for="start-date">Başlangıç Tarihi:</label>
-                                <input type="date" class="form-control" id="start-date" name="start_date">
+                                <div class="col-md-1 mt-4">
+                                    <button type="submit" class="btn btn-primary">Filtrele</button>
+
+                                </div>
+
+                                <div class="col-md-2 mt-4">
+                                    <a href="{{ route('admin.expense') }}" class="btn btn-secondary">Tümünü Göster</a>
+
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <label for="end-date">Bitiş Tarihi:</label>
-                                <input type="date" class="form-control" id="end-date" name="end_date">
-                            </div>
 
-                            <div class="col-md-1 mt-4">
-                                <button type="submit" class="btn btn-primary">Filtrele</button>
 
-                            </div>
-
-                            <div class="col-md-2 mt-4">
-                                <a href="{{ route('admin.expense') }}" class="btn btn-secondary">Tümünü Göster</a>
-
-                            </div>
                         </div>
 
+                    </form>
 
-                    </div>
-
-                </form>
-
-                {{-- <select class="form-select payment-filter" data-type="payment_earn2">
-                        <option value="">Hepsi</option>
-                        <option value="1">Ödeme Yapıldı</option>
-                        <option value="0">Ödeme Yapılmadı</option>
-                    </select> --}}
-
-
-                <div class="col-auto ml-auto">
-                    <button class="btn btn-link text-body me-4 px-0"><svg class="svg-inline--fa fa-file-export fs-9 me-2"
-                            aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-export" role="img"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                            <path fill="currentColor"
-                                d="M192 312C192 298.8 202.8 288 216 288H384V160H256c-17.67 0-32-14.33-32-32L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48v-128H216C202.8 336 192 325.3 192 312zM256 0v128h128L256 0zM568.1 295l-80-80c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94L494.1 288H384v48h110.1l-39.03 39.03C450.3 379.7 448 385.8 448 392s2.344 12.28 7.031 16.97c9.375 9.375 24.56 9.375 33.94 0l80-80C578.3 319.6 578.3 304.4 568.1 295z">
-                            </path>
-                        </svg>Çıktı Al</button>
                 </div>
+                <div class="col-auto ml-auto">
+                    <form action="{{ route('admin.expenseExcel') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                        <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                        <input type="hidden" name="mergedArray" value="{{ json_encode($mergedArray) }}">
+                        <button type="submit" class="btn btn-link text-body me-4 px-0">
+                            <svg class="svg-inline--fa fa-file-export fs-9 me-2" aria-hidden="true" focusable="false"
+                                data-prefix="fas" data-icon="file-export" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512" data-fa-i2svg="">
+                                <path fill="currentColor"
+                                    d="M192 312C192 298.8 202.8 288 216 288H384V160H256c-17.67 0-32-14.33-32-32L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48v-128H216C202.8 336 192 325.3 192 312zM256 0v128h128L256 0zM568.1 295l-80-80c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94L494.1 288H384v48h110.1l-39.03 39.03C450.3 379.7 448 385.8 448 392s2.344 12.28 7.031 16.97c9.375 9.375 24.56 9.375 33.94 0l80-80C578.3 319.6 578.3 304.4 568.1 295z">
+                                </path>
+                            </svg>Çıktı Al
+                        </button>
+                    </form>
+                </div>
+
+
                 <!-- Diğer filtreleme seçenekleri buraya eklenebilir -->
 
 
@@ -149,7 +153,7 @@
                                                         @endif
 
                                                         <span class="text-success">Kazanç:
-                                                            {{ number_format((float) $item->balance, 0, ',', '.') ?? null }}
+                                                            {{ number_format((float) $item->balance, 2, ',', '.') ?? null }}
                                                             ₺</span>
                                                         <br>
 
@@ -191,11 +195,11 @@
                                                         @endif
 
                                                         <span class="text-success">Kazanç:
-                                                            {{ number_format((float) $item->earn2, 0, ',', '.') ?? null }}
+                                                            {{ number_format((float) $item->earn2, 2, ',', '.') ?? null }}
                                                             ₺</span>
                                                         <br>
                                                 </td>
-                                                <td>{{ number_format($reservation->down_payment, 0, ',', '.') }} ₺<br>
+                                                <td>{{ number_format($reservation->down_payment, 2, ',', '.') }} ₺<br>
                                                     @if ($reservation->money_trusted)
                                                         <div class="d-flex" style="align-items: center;">
                                                             {{ $reservation->money_is_safe }} ₺'si param güvende ödemesidir
@@ -274,7 +278,7 @@
                                                     @endif
 
                                                     <span class="text-success">Kazanç:
-                                                        {{ number_format((float) $item->balance, 0, ',', '.') ?? null }}
+                                                        {{ number_format((float) $item->balance, 2, ',', '.') ?? null }}
                                                         ₺</span>
                                                     <br>
                                                     <select class="form-select payment-status"
@@ -336,7 +340,7 @@
                                                             </strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->bank_name ?? null }}</span><br>
                                                         @endif
                                                         <span class="text-success">Kazanç:
-                                                            {{ number_format((float) $item->earn2, 0, ',', '.') ?? null }}
+                                                            {{ number_format((float) $item->earn2, 2, ',', '.') ?? null }}
                                                             ₺</span>
                                                         <br>
                                                         <select class="form-select payment-status"
@@ -416,6 +420,7 @@
                         toastr.success('Ödeme durumu güncellendi');
                         // Ödeme durumu güncellendikten sonra select kutusunun rengini güncelle
                         updateSelectColor($(this));
+                        location.reload();
                     }.bind(this),
                     error: function(xhr, status, error) {
                         toastr.error('Bir hata oluştu');
