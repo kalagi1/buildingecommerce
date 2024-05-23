@@ -564,7 +564,6 @@ class CartController extends Controller
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     if ($collection->user->type != '1') {
                         if ($collection->user->corporate_type == "Emlak Ofisi") {
-
                             $share_percent = $estateProjectRate;
                         } else {
                             $share_percent = 0.5;
@@ -583,7 +582,7 @@ class CartController extends Controller
                         $saleType = $project->step2_slug;
                     }
 
-                    return  $request->input("payableAmount");
+                    return  $share_percent;
 
                     if ($saleType == 'kiralik') {
                         $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
