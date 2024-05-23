@@ -373,7 +373,9 @@ class CartController extends Controller
                     if ($sales_rate_club === null && count($rates) > 0) {
                         $sales_rate_club = $rates->last()->sales_rate_club;
                     }
+
                     $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+
                     $remaining = $sharedAmount_earn - $estateclubrate;
 
                     SharerPrice::create([
@@ -500,6 +502,7 @@ class CartController extends Controller
             $code = $project->id + $productDetails->housing + 1000000;
             $store = $project->user->name;
             $storeID = $project->user->id;
+            $estateProjectRate = $project->club_rate / 100;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
@@ -553,7 +556,11 @@ class CartController extends Controller
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     if ($collection->user->type != '1') {
-                        $share_percent = 0.5;
+                        if ($collection->user->account_type == "Emlak Ofisi") {
+                            $share_percent = $estateProjectRate;
+                        } else {
+                            $share_percent = 0.5;
+                        }
                     } else {
                         $share_percent = 0.25;
                     }
@@ -1156,10 +1163,8 @@ class CartController extends Controller
 
                 if ($type == "housing") {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($housing->id) + 2000000)  . " numaralı emlak ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
-                }else{
+                } else {
                     $message = "Sayın mağaza yetkilisi, #" . (intval($project->id) + 1000000 + intval($id))  . " numaralı proje ilanınız bir üyemiz tarafından sepete eklendi. İyi günler dileriz.";
-
                 }
 
 
