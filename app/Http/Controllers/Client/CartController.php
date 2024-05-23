@@ -583,6 +583,8 @@ class CartController extends Controller
                         $saleType = $project->step2_slug;
                     }
 
+                    return  $request->input("payableAmount");
+
                     if ($saleType == 'kiralik') {
                         $sharedAmount_balance = $request->input("payableAmount") * $share_percent;
                     } else {
