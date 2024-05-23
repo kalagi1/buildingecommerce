@@ -978,11 +978,7 @@ class PayController extends Controller
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
 
                     if ($collection->user->type != "1") {
-                        if ($collection->user->corporate_type == "Emlak Ofisi") {
-                            $share_percent = $estateProjectRate;
-                        } else {
-                            $share_percent = 0.5;
-                        }
+                        $share_percent = 0.5;
                     } else {
                         $share_percent = 0.25;
                     }
