@@ -243,12 +243,11 @@
                                                     : $projectDiscountAmount);
 
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                                            $share_sale = is_string($cart['item']['isShare'] ) ? json_decode($cart['item']['isShare'] ) ?? null : $cart['item']['isShare'] ; 
+                                            $share_sale = isset($cart['item']['isShare']) && is_string($cart['item']['isShare']) ? json_decode($cart['item']['isShare']) : null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
-                                            <span style="width:100%;text-align:center">
 
 
 
