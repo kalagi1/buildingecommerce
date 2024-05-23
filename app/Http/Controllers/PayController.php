@@ -934,7 +934,16 @@ class PayController extends Controller
                 } else {
                     $newAmount = $amountWithoutDiscount - $coupon->amount;
                 }
-                $share_percent = 0.5;
+                if ($coupon->user->type != "1") {
+                    if ($coupon->user->corporate_type == "Emlak Ofisi") {
+
+                        $share_percent = $estateProjectRate;
+                    } else {
+                        $share_percent = 0.5;
+                    }
+                } else {
+                    $share_percent = 0.25;
+                }
 
                 $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
