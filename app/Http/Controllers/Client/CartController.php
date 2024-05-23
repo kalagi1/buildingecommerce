@@ -501,7 +501,6 @@ class CartController extends Controller
             $store = $project->user->name;
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
-            return $haveDiscount;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
@@ -551,6 +550,7 @@ class CartController extends Controller
                     ]);
                 }
             } else {
+                return $lastClick;
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
