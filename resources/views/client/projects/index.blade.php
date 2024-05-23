@@ -93,7 +93,16 @@
                                 </div>
                             </div>
                             @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                          <span style="color: green;font-weight:700">%{{ $project->club_rate }} KAZAN!</span>
+                          <span style="    color: green;
+                          font-weight: 700;
+                          font-size: 16px;
+                          text-align: center;
+                          /* width: 35%; */
+                          flex: 0 0 33.333333%;
+                          max-width: 33.333333%;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;">SATIŞTAN %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
                         @endif
                         </div>
                     </div>
