@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\CartItem;
 use App\Models\CartOrder;
 use App\Models\Click;
