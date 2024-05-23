@@ -492,7 +492,6 @@ class CartController extends Controller
             }
         } else {
             $project = Project::where('id', $productDetails->id)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
-            return $project;
             $city = $project->city->title;
             $county = $project->county->ilce_title;
             $neighborhood = $project->neighbourhood ? $project->neighbourhood->mahalle_title : null;
@@ -502,6 +501,7 @@ class CartController extends Controller
             $store = $project->user->name;
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
+            return $estateProjectRate;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
