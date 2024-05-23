@@ -105,7 +105,7 @@ class InfoController extends Controller
     public function expense()
     {
         $cartPrices = CartPrice::with("cart.user",'cart.store')
-            ->where("status", "1")
+            ->where("status", ["1"])
             ->get()
             ->map(function ($item) {
                 $item->source = 'cartPrices';
@@ -128,8 +128,6 @@ class InfoController extends Controller
             return floatval($cleanedEarn);
         });
 
-       
-
         return view('admin.accounting.expense', [
             'mergedArray' => $mergedArray,
             'totalEarn' => $totalEarn
@@ -138,94 +136,96 @@ class InfoController extends Controller
 
 
     public function expenseExcel(Request $request)
-    {
-        ExpenseExport::truncate();
-      
-
-
+    { 
         $startDate =$request->input('start_date');
         $endDate =$request->input('end_date');
 
-        $parsedData = json_decode($request->mergedArray, true);
-        foreach ($parsedData as $item){
-            
-            $cartContent = json_decode($item['cart']['cart'], true);
-            $advertNo = '';
-            if($cartContent['type'] == 'housing' ){
-                $advertNo = $cartContent['item']['id'] + 2000000;
+        if (isset($request->mergedArray)){
+            $parsedData = json_decode($request->mergedArray, true);
+            ExpenseExport::truncate();
+            foreach ($parsedData as $item){
+                
+                $cartContent = json_decode($item['cart']['cart'], true);
+                $advertNo = '';
+                if($cartContent['type'] == 'housing' ){
+                    $advertNo = $cartContent['item']['id'] + 2000000;
 
-            }else{
-                $advertNo = $cartContent['item']['id'] + 1000000;
-            }
-            
-                if($item['source'] && $item['source'] == 'cartPrices'){
-                    if($item['earn2'] && $item['earn2'] != 0)
-                    {
-                        ExpenseExport::create([
-                            'name' => $item['cart']['store']['name'] ?? null,
-                            'email' => $item['cart']['store']['email'] ?? null,
-                            'phone' => $item['cart']['store']['phone'] ?? null,
-                            'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                            'iban' => $item['cart']['store']['iban'] ?? null,
-                            'account_type' => 'Kurumsal',
-                            'amount' => $item['earn2']  ?? null,
-                            'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
-                            'advert_no' => $advertNo ?? null,
-                            'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
-                        ]);
-                    }
-                    }
-                  
-                else
-                {
-                    if($item['balance'] && $item['user'] && $item['balance'] != 0 )
-                    {
-                        ExpenseExport::create([
-                            'name' => $item['user']['name'] ?? null,
-                            'email' => $item['user']['email'] ?? null,
-                            'phone' => $item['user']['phone'] ?? null,
-                            'bank_name' => $item['user']['bank_name'] ?? null,
-                            'iban' => $item['user']['iban'] ?? null,
-                            'account_type' => 'Emlak Kulüp',
-                            'amount' => $item['balance']  ?? null,
-                            'pay_status' => $item['payment_balance'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
-                            'advert_no' => $advertNo ?? null,
-                            'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
-                        ]);
-
-                    }
-                    if($item['earn2'] && $item['earn2'] != 0)
-                    {
-
-                        ExpenseExport::create([
-                            'name' => $item['cart']['store']['name'] ?? null,
-                            'email' => $item['cart']['store']['email'] ?? null,
-                            'phone' => $item['cart']['store']['phone'] ?? null,
-                            'bank_name' => $item['cart']['store']['bank_name'] ?? null,
-                            'iban' => $item['cart']['store']['iban'] ?? null,
-                            'account_type' => 'Kurumsal',
-                            'amount' => $item['earn2'] ?? null,
-                            'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
-                            'advert_no' => $advertNo ?? null,
-                            'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
-                        ]);
-                    }
-                    
-
+                }else{
+                    $advertNo = $cartContent['item']['id'] + 1000000;
                 }
+                
+                    if($item['source'] && $item['source'] == 'cartPrices'){
+                        if($item['earn2'] && $item['earn2'] != 0)
+                        {
+                            ExpenseExport::create([
+                                'name' => $item['cart']['store']['name'] ?? null,
+                                'email' => $item['cart']['store']['email'] ?? null,
+                                'phone' => $item['cart']['store']['phone'] ?? null,
+                                'bank_name' => $item['cart']['store']['bank_name'] ?? null,
+                                'iban' => $item['cart']['store']['iban'] ?? null,
+                                'account_type' => 'Kurumsal',
+                                'amount' => $item['earn2']  ?? null,
+                                'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
+                                'advert_no' => $advertNo ?? null,
+                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                            ]);
+                        }
+                        }
+                    
+                    else
+                    {
+                        if($item['balance'] && $item['user'] && $item['balance'] != 0 )
+                        {
+                            ExpenseExport::create([
+                                'name' => $item['user']['name'] ?? null,
+                                'email' => $item['user']['email'] ?? null,
+                                'phone' => $item['user']['phone'] ?? null,
+                                'bank_name' => $item['user']['bank_name'] ?? null,
+                                'iban' => $item['user']['iban'] ?? null,
+                                'account_type' => 'Emlak Kulüp',
+                                'amount' => $item['balance']  ?? null,
+                                'pay_status' => $item['payment_balance'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
+                                'advert_no' => $advertNo ?? null,
+                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                            ]);
 
-        } 
+                        }
+                        if($item['earn2'] && $item['earn2'] != 0)
+                        {
 
-        if ($startDate && $endDate) {
-            // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
-            $fileName = $startDate . ' - ' . $endDate . ' - ' . 'GiderTablosu.xlsx';
-        } else {
-            // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
-            $fileName = 'TümGiderTablosu.xlsx';
+                            ExpenseExport::create([
+                                'name' => $item['cart']['store']['name'] ?? null,
+                                'email' => $item['cart']['store']['email'] ?? null,
+                                'phone' => $item['cart']['store']['phone'] ?? null,
+                                'bank_name' => $item['cart']['store']['bank_name'] ?? null,
+                                'iban' => $item['cart']['store']['iban'] ?? null,
+                                'account_type' => 'Kurumsal',
+                                'amount' => $item['earn2'] ?? null,
+                                'pay_status' => $item['payment_earn2'] == 1 ? 'Ödeme Yapıldı' : 'Ödeme Yapılmadı',
+                                'advert_no' => $advertNo ?? null,
+                                'advert_date' => date('Y-m-d H:i:s', strtotime($item['cart']['created_at'])),
+                            ]);
+                        }
+                        
+
+                    }   
+
+            } 
+
+            if ($startDate && $endDate) {
+                // Başlangıç ve bitiş tarihleri belirtilmişse, filtrelenmiş verileri kullanarak indirme yap
+                $fileName = $startDate . ' - ' . $endDate . ' - ' . 'GiderTablosu.xlsx';
+            } else {
+                // Başlangıç ve bitiş tarihleri belirtilmemişse, tüm verileri kullanarak indirme yap
+                $fileName = 'TümGiderTablosu.xlsx';
+            }
+    
+            return Excel::download(new ExpensesExport(), $fileName);
+
         }
-         
-        return Excel::download(new ExpensesExport(), $fileName);
 
+            return redirect()->back()->with('error', 'Sipariş bulunamadı');
+        
     }
 
 
