@@ -44,7 +44,7 @@ class CartController extends Controller
     {
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-
+return $cartItem;
 
         if (!$cartItem) {
 

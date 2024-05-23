@@ -924,7 +924,6 @@ class PayController extends Controller
             $store = $project->user->name;
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
-            return $project;
 
             $room = $productDetails->housing;
             $shareOpen = isset(getHouse($project, 'share-open[]', $productDetails->housing)->value) ? getHouse($project, 'share-open[]', $productDetails->housing)->value : null;
