@@ -232,4 +232,46 @@ class CartController extends Controller
             return response(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
+
+    
+    public function index(Request $request)
+    {
+        $bankAccounts = BankAccount::all();
+        $cart = false;
+        $user_id = Auth::id();
+        $cartItem = CartItem::where('user_id', $user_id)->latest()->first();
+        if ($cartItem) {
+            $cart = json_decode($cartItem->cart, true);
+        }
+
+        $saleType = null;
+        if (isset($cart) && !empty($cart)) {
+            if ($cart['type'] == 'housing') {
+                $housing = Housing::where('id', $cart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+            } else {
+                $project = Project::where('id', $cart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+            }
+        }
+
+        $pageInfo = [
+            'meta_title' => 'Sepetim',
+            'meta_keywords' => 'Sepetim',
+            'meta_description' => 'Emlak Sepette Sepetim, en yeni ve en uygun konutları keşfedin. 
+                Geniş seçenekler, kolay ödeme seçenekleri ve profesyonel hizmetlerle konut sahibi olun!',
+            'meta_author' => 'Emlak Sepette',
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return response()->json([
+            'pageInfo' => $pageInfo,
+            'cart' => $cart,
+             'bankAccounts' => $bankAccounts, 
+             'saleType' => $saleType
+        ])
+
+    }
 }
