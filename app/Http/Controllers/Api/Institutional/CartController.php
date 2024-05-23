@@ -202,7 +202,6 @@ class CartController extends Controller
                     'hasCounter' => $hasCounter
                 ];
 
-                $request->session()->put('cart', $cart);
 
                 $cartJson = json_encode($cart);
                 CartItem::create([
