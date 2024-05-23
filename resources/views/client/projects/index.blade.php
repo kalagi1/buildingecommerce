@@ -92,6 +92,9 @@
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
+                            @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                          <span style="color: green;font-weight:700">%{{ $project->club_rate }} KAZAN!</span>
+                        @endif
                         </div>
                     </div>
                 </div>

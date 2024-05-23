@@ -30,9 +30,12 @@
                         alt="">
                     <span class="country">{{ $project->city->title }}/{{ $project->county->ilce_title }}</span>
                 </span>
-                <span class="project_estate_club_rate">
-                    <span class="club_rate">%{{ $project->club_rate }} KAZAN!</span>
-                </span>
+                @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                    <span class="project_estate_club_rate">
+                        <span class="club_rate">%{{ $project->club_rate }} KAZAN!</span>
+                    </span>
+                @endif
+
                 <div class="listing-img-content"
                     style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">
                     <span class="badge badge-phoenix text-left">{{ $project->project_title }}</span>
