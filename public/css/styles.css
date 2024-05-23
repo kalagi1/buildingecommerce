@@ -30408,7 +30408,14 @@ a {
     letter-spacing: normal;
     margin-left: 4px;
     font-weight: 700;
-    color: #ffbe00;
+    width: 100%;
+    color: #ea2a28;
+    display: block;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
 }
 
 .project_brand_profile_image {
