@@ -46,7 +46,7 @@ class ProjectController extends Controller
         $userProjects = Project::where('user_id', Auth::id())->pluck('id')->toArray();
 
         // Bu projelere ait ApplyNow kayıtlarını alın.
-        $applyNowRecords = ApplyNow::whereIn('project_id', $userProjects)->get();
+        $applyNowRecords = ApplyNow::with("project")->whereIn('project_id', $userProjects)->get();
 
         // Kayıtları bir view'e gönderin.
         return view('institutional.applyNowRecords.index', compact('applyNowRecords'));
