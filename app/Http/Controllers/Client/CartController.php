@@ -307,6 +307,7 @@ class CartController extends Controller
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
         if (json_decode($o->cart)->type == 'housing') {
+            return json_decode($o->cart)->type;
 
 
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
