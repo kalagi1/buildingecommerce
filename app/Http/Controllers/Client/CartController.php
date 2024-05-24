@@ -751,7 +751,6 @@ class CartController extends Controller
         }
 
         session()->forget('cart');
-        //cart_items tablosundan kullanıcıya ait sepet verisini sil
         $cartItem = DB::table('cart_items')->where('user_id', Auth::id())->first();
         if ($cartItem) {
             DB::table('cart_items')->where('id', $cartItem->id)->delete();

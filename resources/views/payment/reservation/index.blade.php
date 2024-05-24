@@ -1180,7 +1180,6 @@
                     },
                     success: function(response) {
                         var reservationId = response.reservation;
-                        console.log("reservationId" + reservationId);
                         if (response.success == "fail") {
                             toastr.error('bu tarihler arasında rezervasyon yapılmıştır.');
 
