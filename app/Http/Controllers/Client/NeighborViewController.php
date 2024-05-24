@@ -278,7 +278,7 @@ class NeighborViewController extends Controller
                     Mail::to($neighbor->user->email)->send(new CustomMail($emailSubject, $content));
                 }
             }
-            return redirect()->route('neighbors.index');
+            return redirect()->route('institutional.neighbors.index');
         }
 
         return redirect()->route('client.login');
@@ -301,7 +301,7 @@ class NeighborViewController extends Controller
                 Auth::login($user);
                 $neighbor->delete();
                 // Kullanıcıyı oturum açtıktan sonra hata mesajı ile birlikte ödeme sayfasına yönlendirin
-                return redirect()->route('neighbors.index')->with('error', 'Satın alma işleminde bir hata oluştu. Tekrar deneyiniz.');
+                return redirect()->route('institutional.neighbors.index')->with('error', 'Satın alma işleminde bir hata oluştu. Tekrar deneyiniz.');
             }
         }
 
