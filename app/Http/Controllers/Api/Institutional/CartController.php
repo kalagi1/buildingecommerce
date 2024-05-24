@@ -335,12 +335,13 @@ class CartController extends Controller
             ->get();
 
 
-            return response()->json([
-                'refundedReservations' => $refundedReservations,
-                'housingReservations' => $housingReservations,
-                'cancelReservations' => $cancelReservations,
-                'expiredReservations' => $expiredReservations,
-                'confirmReservations' => $confirmReservations,
-                'cancelRequestReservations' => $cancelRequestReservations,
-            ]);    }
+        return response()->json([
+            'refundedReservations' => $refundedReservations,
+            'housingReservations' => $housingReservations,
+            'cancelReservations' => $cancelReservations,
+            'expiredReservations' => $expiredReservations,
+            'confirmReservations' => $confirmReservations,
+            'cancelRequestReservations' => $cancelRequestReservations,
+        ]);
+    }
 }
