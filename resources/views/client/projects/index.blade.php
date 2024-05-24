@@ -463,8 +463,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
-                                    <tr style="border-top: none !important">
-                                        <td style="border-top: none !important">
+                                    <tr >
+                                        <td >
                                             <span class="det" style="color: #EA2B2E !important;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
