@@ -974,14 +974,14 @@ class ProjectController extends Controller
         if ($postData['property_owner_phone'] && $postData['property_owner'] && $user) {
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
-            $userPhoneNumber = $postData['property_owner_phone'];
-            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi ". $user->name ." tarafından Emlak Sepeti Yönetimine iletilmiştir.";
+            $property_owner_phone = $postData['property_owner_phone'];
+            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . $user->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
 
             // SmsService sınıfını kullanarak SMS gönderme işlemi
             $smsService = new SmsService();
             $source_addr = 'Emlkspette'; // Kaynak adresi değiştirin, gerektiğinde.
 
-            $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+            $smsService->sendSms($source_addr, $message, $property_owner_phone);
         }
 
 
