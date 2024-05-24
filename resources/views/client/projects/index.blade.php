@@ -1747,10 +1747,12 @@
     <style>
         .fixed-button {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 70px;
+            left: 20px;
             z-index: 1000;
-            display: none
+            display: none;
+            background-color: #ea2a28 !important;
+            border-color: #ea2a28 !important;
         }
 
         .error-message {
@@ -1765,7 +1767,7 @@
 
         @media (max-width: 768px) {
             .fixed-button {
-                display: block
+                display: block !important
             }
         }
     </style>
