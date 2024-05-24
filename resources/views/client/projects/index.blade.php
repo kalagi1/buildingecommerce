@@ -1082,7 +1082,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="applyNowModalLabel">Başvuru Formu</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close applyNowModalClose" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -1161,10 +1161,10 @@
                                 duration: 5000,
                                 gravity: 'bottom',
                                 position: 'center',
-                                backgroundColor: '#ff4d4d',
+                                backgroundColor: 'green',
                                 stopOnFocus: true,
                             }).showToast();
-                            $('#applyNowModal').modal('hide');
+                            $('.applyNowModalClose').click();
                         },
                         error: function(xhr) {
                             alert('Başvurunuz gönderilirken bir hata oluştu.');
