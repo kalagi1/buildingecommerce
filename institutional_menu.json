@@ -168,7 +168,7 @@
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Rezervasyon Geçimişim",
-        "key": "Reservations",
+        "key": "MyReservations",
         "url": "#nv-shopping",
         "activePath": [
             "/hesabim/kiraladiklarim",
