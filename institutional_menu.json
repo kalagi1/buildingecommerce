@@ -47,7 +47,7 @@
         "id": "GetSwapApplications",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Takas Başvurularım",
+        "text": "Takas Talepleri",
         "key": "GetSwapApplications",
         "url": "institutional.react.swap.applications",
         "activePath": "/hesabim/takas-basvurularim"
