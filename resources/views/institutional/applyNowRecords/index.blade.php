@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h3 class="mt-2 mb-4">Başvurularım</h3>
+        <h3 class="mt-2 mb-4">Hemen Başvur Kayıtları !</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm fs--1 mb-0">
@@ -25,7 +25,7 @@
                                 <td>{{ $record->email }}</td>
                                 <td>{{ $record->phone }}</td>
                                 <td>{{ $record->title }}</td>
-                                <td>{{ $record->project->name }}</td>
+                                <td>{{ $record->project->title }}</td>
                                 <td>{{ $record->created_at }}</td>
                             </tr>
                         @endforeach
