@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ApplyNow extends Model
 {
     protected $guarded = [];
-    
+
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Project::class,  "id",'project_id');
     }
 
     use HasFactory;
