@@ -801,6 +801,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/takas-basvurularim', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
+    Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
 
     Route::get('gelen-konut-basvurulari', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('basvurularim', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
