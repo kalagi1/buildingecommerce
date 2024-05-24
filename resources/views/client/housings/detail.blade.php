@@ -527,18 +527,19 @@
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            {{-- <div class="mobileHour mobileHourDiv">
-                                <div class="homes-content details-2">
-                                    <ul class="homes-list reservation-list clearfix">
-                                        <li>
-                                            <span>Giriş: {{ getData($housing, 'start_time') }}</span>
-                                        </li>
-                                        <li>
-                                            <span>Çıkış: {{ getData($housing, 'end_time') }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> --}}
+                        <div class="mobileHour mobileHourDiv">
+                            <div class="homes-content details-2">
+                                <ul class="homes-list reservation-list clearfix">
+                                    <li>
+                                        <span>Giriş: {{ getData($housing, 'start_time') ?? 'Belirtilmedi' }}</span>
+                                    </li>
+                                    <li>
+                                        <span>Çıkış: {{ getData($housing, 'end_time') ?? 'Belirtilmedi' }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
                         @else
                             {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
                         style="background-color: green "></div> --}}
