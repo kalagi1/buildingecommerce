@@ -1082,7 +1082,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="applyNowModalLabel">Başvuru Formu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -1109,10 +1109,8 @@
                             <label for="title">Başlık</label>
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
-                        <div class="form-group">
-                            <label for="project_id">Proje ID</label>
-                            <input type="number" class="form-control" id="project_id" name="project_id" required>
-                        </div>
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+
                         <button type="submit" class="btn btn-primary">Gönder</button>
                     </form>
                 </div>
