@@ -1745,6 +1745,14 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none
+        }
+
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1753,6 +1761,12 @@
         .success-message {
             color: green;
             font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .fixed-button {
+                display: block
+            }
         }
     </style>
 @endsection
