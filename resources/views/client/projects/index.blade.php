@@ -463,8 +463,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
-                                    <tr >
-                                        <td >
+                                    <tr>
+                                        <td>
                                             <span class="det" style="color: #EA2B2E !important;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
@@ -522,15 +522,13 @@
                                     <tr>
                                         <td>
                                             <span class="autoWidthTr">Proje Durumu:</span>
-                                            <span class="det"
-                                                style="color: black;">{{ $status->name }}</span>
+                                            <span class="det" style="color: black;">{{ $status->name }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong class="autoWidthTr">Mağaza:</strong>
-                                            <span class="det"
-                                                style="color: black;">{!! $project->user->name !!}</span>
+                                            <span class="det" style="color: black;">{!! $project->user->name !!}</span>
                                         </td>
                                     </tr>
 
@@ -538,8 +536,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <strong class="autoWidthTr"><span>E-Posta:</span></strong>
-                                            <span class="det"
-                                                style="color: black;">{!! $project->user->email !!}</span>
+                                            <span class="det" style="color: black;">{!! $project->user->email !!}</span>
                                         </td>
                                     </tr>
 
@@ -553,8 +550,7 @@
                                                         {!! 'İl-İlçe:' !!}
                                                     @endif
                                                 </span></strong>
-                                            <span class="det"
-                                                style="color: black;font-size:10px !important">
+                                            <span class="det" style="color: black;font-size:10px !important">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
                                                     {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -625,8 +621,7 @@
                                                     {{ ucfirst($project->step1_slug) }}
                                                     Sayısı:
                                                 </span></strong>
-                                            <span class="det"
-                                                style="color: black;">{{ $project->room_count }}</span>
+                                            <span class="det" style="color: black;">{{ $project->room_count }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -653,8 +648,7 @@
                                                     @endif
                                                     Sayısı:
                                                 </span></strong>
-                                            <span class="det"
-                                                style="color: black;">{{ $project->cartOrders }}</span>
+                                            <span class="det" style="color: black;">{{ $project->cartOrders }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1079,6 +1073,51 @@
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-primary fixed-button" data-bs-toggle="modal" data-bs-target="#applyNowModal">
+        Hemen Başvur
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="applyNowModal" tabindex="-1" aria-labelledby="applyNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyNowModalLabel">Başvuru Formu</h5>
+                    <button type="button" class="close applyNowModalClose" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="applyNowForm">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">Ad</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Soyad</label>
+                            <input type="text" class="form-control" id="surname" name="surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-posta</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon</label>
+                            <input type="text" class="form-control" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Başlık</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -1091,6 +1130,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         function openLightbox(index) {
             const slideNumber = index.toString();
@@ -1106,7 +1147,32 @@
 
     <script>
         $(document).ready(function() {
+            $(document).ready(function() {
+                $('#applyNowForm').on('submit', function(event) {
+                    event.preventDefault();
 
+                    $.ajax({
+                        url: '{{ route('apply_now.store') }}', // Burada doğru route'u eklediğinizden emin olun
+                        method: 'POST',
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            Toastify({
+                                text: "Başvurunuz başarıyla gönderildi!",
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $('.applyNowModalClose').click();
+                        },
+                        error: function(xhr) {
+                            alert('Başvurunuz gönderilirken bir hata oluştu.');
+                        }
+                    });
+
+                });
+            });
             $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
@@ -1677,6 +1743,16 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
+        .fixed-button {
+            position: fixed;
+            bottom: 70px;
+            left: 20px;
+            z-index: 1000;
+            display: none;
+            background-color: #ea2a28 !important;
+            border-color: #ea2a28 !important;
+        }
+
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1685,6 +1761,12 @@
         .success-message {
             color: green;
             font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .fixed-button {
+                display: block !important
+            }
         }
     </style>
 @endsection

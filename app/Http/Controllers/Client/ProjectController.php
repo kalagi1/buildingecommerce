@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\ApplyNow;
 use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\Brand;
@@ -39,6 +40,17 @@ use function PHPSTORM_META\type;
 
 class ProjectController extends Controller
 {
+    public function applyNowRecords()
+    {
+        // Giriş yapan kullanıcının projelerini alın.
+        $userProjects = Project::where('user_id', Auth::id())->pluck('id')->toArray();
+
+        // Bu projelere ait ApplyNow kayıtlarını alın.
+        $applyNowRecords = ApplyNow::with("project")->whereIn('project_id', $userProjects)->get();
+
+        // Kayıtları bir view'e gönderin.
+        return view('institutional.applyNowRecords.index', compact('applyNowRecords'));
+    }
     public function index($slug, $id, Request $request)
     {
 

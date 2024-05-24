@@ -42,6 +42,14 @@
         "key": "GetHousings",
         "url": "institutional.housing.list",
         "activePath": "/hesabim/konutlar"
+    }, {
+        "id": "GetReceivedOffers",
+        "label": "Başvurular",
+        "icon": "users",
+        "text": "HEMEN BAŞVUR KAYITLARI! ",
+        "key": "GetReceivedOffers",
+        "url": "institutional.apply_now_records",
+        "activePath": "/hesabim/hemen-basvur-kayitlari"
     },
     {
         "id": "GetSwapApplications",
@@ -52,6 +60,7 @@
         "url": "institutional.react.swap.applications",
         "activePath": "/hesabim/takas-basvurularim"
     },
+
     {
         "id": "GetReceivedOffers",
         "label": "Başvurular",
