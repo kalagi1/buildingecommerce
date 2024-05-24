@@ -56,7 +56,7 @@
         "id": "GetReceivedOffers",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Gelen Konut Başvuruları",
+        "text": "Projelerime Gelen Başvurular",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
         "activePath": "/hesabim/gelen-konut-basvurulari"
@@ -65,7 +65,7 @@
         "id": "GetGivenOffers",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Proje Başvurularım",
+        "text": "Projelere Yaptığım Başvurular",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
         "activePath": "/hesabim/basvurularim"
