@@ -176,6 +176,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/order_detail/{order_id}', [ClientPageController::class, 'orderDetail'])->name('order.detail');
         Route::get('/invoice/{order}', [ClientPageController::class, "invoiceDetail"])->name('invoice.show');
         Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+        Route::get('/kiraladiklarim', [CartController::class, 'getMyReservations'])->name('myreservations');
 
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
