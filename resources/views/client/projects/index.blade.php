@@ -93,7 +93,8 @@
                                 </div>
                             </div>
                             @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                          <span style="    color: green;
+                                <span
+                                    style="    color: green;
                           font-weight: 700;
                           font-size: 16px;
                           text-align: center;
@@ -102,8 +103,9 @@
                           max-width: 33.333333%;
                           display: flex;
                           justify-content: center;
-                          align-items: center;">SATIŞTAN %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
-                        @endif
+                          align-items: center;">SATIŞTAN
+                                    %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -319,7 +321,7 @@
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                     </td>
                                                 </tr>
-                                                {{-- @if($shareSaleCheck)
+                                                {{-- @if ($shareSaleCheck)
                                                     <tr>
                                                         <td colspan="2">
                                                             <strong class="autoWidthTr">
@@ -567,6 +569,46 @@
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: #274abb;">
                                                         {{ $project->id + 1000000 }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Ada:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->island ? $project->island : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Parsel:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -1436,7 +1478,7 @@
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
-                5); // Bir sonraki beşli kümeye git
+                    5); // Bir sonraki beşli kümeye git
             } else {
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
