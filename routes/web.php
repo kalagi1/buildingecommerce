@@ -85,6 +85,7 @@ use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectContro
 use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
+use App\Http\Controllers\Client\ApplyNowController;
 use App\Http\Controllers\Client\FormController;
 use App\Http\Controllers\Client\SitemapController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
@@ -793,6 +794,7 @@ Route::get('/load-more-rooms-block/{projectId}/{blockIndex}/{page}', [Institutio
 Route::get('/load-more-rooms-block-mobile/{projectId}/{blockIndex}/{page}', [InstitutionalProjectController::class, "loadMoreRoomsBlockMobile"])->name('load.more.rooms.block.mobile');
 Route::get('/load-more-housings', [InstitutionalProjectController::class, "loadMoreHousings"])->name('load-more-housings');
 Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class, "loadMoreMobileHousings"])->name('load-more-mobile-housings');
+Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now.store');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
