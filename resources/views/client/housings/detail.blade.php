@@ -526,8 +526,8 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget">
-                        @if ($housing->step2_slug == 'gunluk-kiralik' && getData($housing, 'start_time'))
-                            <div class="mobileHour mobileHourDiv">
+                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                            {{-- <div class="mobileHour mobileHourDiv">
                                 <div class="homes-content details-2">
                                     <ul class="homes-list reservation-list clearfix">
                                         <li>
@@ -538,7 +538,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> --}}
                         @else
                             {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
                         style="background-color: green "></div> --}}
