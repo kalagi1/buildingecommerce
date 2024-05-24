@@ -317,7 +317,6 @@ class CartController extends Controller
             $store = Housing::find($productDetails->id ?? 0)->user->name;
             $storeID = Housing::find($productDetails->id ?? 0)->user->id;
             $room = null;
-            return $haveDiscount;
 
             if ($haveDiscount) {
                 if ($coupon->discount_type == 1) {
@@ -388,6 +387,7 @@ class CartController extends Controller
                 }
             } else {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
+                return $housing;
                 $user = User::where('id', $housing->user_id)->first();
                 if (isset($lastClick)) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
