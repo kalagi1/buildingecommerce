@@ -526,7 +526,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget">
-                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                        @if ($housing->step2_slug == 'gunluk-kiralik' && isset( getData($housing, 'start_time')))
                             <div class="mobileHour mobileHourDiv">
                                 <div class="homes-content details-2">
                                     <ul class="homes-list reservation-list clearfix">
