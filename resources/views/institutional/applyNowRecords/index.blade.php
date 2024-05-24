@@ -25,7 +25,7 @@
                                 <td>{{ $record->email }}</td>
                                 <td>{{ $record->phone }}</td>
                                 <td>{{ $record->title }}</td>
-                                <td>{{ $record->project->title }}</td>
+                                <td>{{ $record->project->project_title }}</td>
                                 <td>{{ $record->created_at }}</td>
                             </tr>
                         @endforeach
