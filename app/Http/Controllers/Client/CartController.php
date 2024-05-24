@@ -307,7 +307,6 @@ class CartController extends Controller
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
         if (json_decode($o->cart)->type == 'housing') {
-            return json_decode($o->cart)->type;
 
 
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
@@ -318,6 +317,7 @@ class CartController extends Controller
             $store = Housing::find($productDetails->id ?? 0)->user->name;
             $storeID = Housing::find($productDetails->id ?? 0)->user->id;
             $room = null;
+            return $haveDiscount;
 
             if ($haveDiscount) {
                 if ($coupon->discount_type == 1) {
