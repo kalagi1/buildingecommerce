@@ -31,6 +31,6 @@ class ReservationRefund extends Model
     // CartOrder modeli ile ilişkiyi tanımlayın
     public function reservation()
     {
-        return $this->belongsTo(reservation::class);
+        return $this->belongsTo(Reservation::class);
     }
 }
