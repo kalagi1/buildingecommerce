@@ -563,7 +563,7 @@ class HomeController extends Controller {
             $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $refund->cartOrder->amount));
             // Refund nesnesine return_amount olarak kaydetme
             $refund->return_amount = $amountFloat - $refundAmount ;
-            
+           
             $refund->save();
     
             $this->updateSharerPrice($refund, $refundAmount);
@@ -642,7 +642,7 @@ class HomeController extends Controller {
         if ($refund->status == 3) {
              
             $refundAmount = $this->calculateReservationRefundAmount($refund);
-            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $refund->cartOrder->amount));
+            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $refund->reservation->amount));
 
             $refund->return_amount = $amountFloat - $refundAmount;
             $refund->save();
