@@ -320,7 +320,7 @@ class ProfileController extends Controller
         $userId = auth()->id();
         
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
-        $existingRefund = reservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
+        $existingRefund = ReservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
 
         if ($existingRefund) {
             // İade talebi zaten var, güncelle
@@ -338,7 +338,7 @@ class ProfileController extends Controller
             ]);
         } else {
             // İade talebi yok, yeni kayıt oluştur
-            $refund = new reservationRefund([
+            $refund = new ReservationRefund([
                 'terms'         => $validatedData['terms'],
                 'name'          => $validatedData['name'],
                 'phone'         => $validatedData['phone'],
