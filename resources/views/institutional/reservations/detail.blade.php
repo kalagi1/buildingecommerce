@@ -859,14 +859,16 @@
                 url: "{{ route('institutional.reservation.order.refund') }}",
                 data: formData,
                 success: function(response) {
-                    // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
+                    Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
                     toastr.success('İade talebi başarıyla gönderildi.');
                     console.log("Form başarıyla gönderildi.");
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Hata durumunda burada bir işlem yapabilirsiniz
-                    toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-                    toastr.error(error);
+                    console.log(error);
+                    // toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+                    // toastr.error(error);
                 }
             });
         }
