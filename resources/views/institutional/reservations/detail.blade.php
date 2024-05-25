@@ -719,7 +719,7 @@
                                                                                 Kısa Süre İçerisinde Tarafınıza
                                                                                 İletilecektir</p>
 
-                                                                            <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}"
+                                                                            <a 
                                                                                 class="btn btn-primary px-6"
                                                                                 onclick="submitForms()">İade Talebi
                                                                                 Oluştur</a>
