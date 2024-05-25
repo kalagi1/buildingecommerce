@@ -542,113 +542,164 @@ class HomeController extends Controller {
         $smsService->sendSms( $source_addr, $message, $userPhoneNumber );
     }
 
-    public function updateStatus( Request $request, $refundId ) {
-        $refund = CartOrderRefund::find( $refundId );
-        $userId = $refund->user_id;
-        $now = Carbon::now();
-
-        if ( !$refund ) {
-            return redirect()->back()->with( 'error', 'İlgili iade talebi bulunamadı.' );
+    public function updateStatus(Request $request, $refundId) {
+        $refund = CartOrderRefund::find($refundId);
+    
+        if (!$refund) {
+            return redirect()->back()->with('error', 'İlgili iade talebi bulunamadı.');
         }
-
-        $validatedData = $request->validate( [
+    
+        $validatedData = $request->validate([
             'status' => 'required|in:1,2,3',
-        ] );
-
-        $refund->status = $validatedData[ 'status' ];
+        ]);
+    
+        $refund->status = $validatedData['status'];
         $refund->save();
-
-        if ( $refund->status == 1 ) {
-            if ( $refund->cartOrder->status != 2 ) {
-                $refund->cartOrder->status = '2';
-                // Sipariş durumunu 2 olarak güncelle
-                $refund->cartOrder->save();
-            }
-        }
-
-        if ( $refund->status == 3 ) {
-            $createdAt = Carbon::parse( $refund->cartorder->created_at );
-            $differenceInDays = $createdAt->diffInDays( $now );
-            $amount = $refund->cartorder->amount;
-
-            if ( $differenceInDays <= 14 ) {
-                $amountFloat = ( float ) str_replace( ',', '.', str_replace( '.', '', $amount ) );
-                $refundAmount = $amountFloat * 0.10;
-            } else {
-                $refundAmount = $amount;
-            }
+    
+        $this->updateCartOrderStatus($refund);
+        
+        if ($refund->status == 3) {
+            $refundAmount = $this->calculateRefundAmount($refund);
+            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $refund->cartOrder->amount));
+            // Refund nesnesine return_amount olarak kaydetme
+            $refund->return_amount = $amountFloat - $refundAmount ;
             
-            // SharerPrice tablosundaki ilgili kayıtları güncelle
-            SharerPrice::where('cart_id', $refund->cartOrder->id)->update(['status' => '2']);
-            // CartPrice tablosundaki ilgili kayıtları al ve güncelle
-            $cartPrices = CartPrice::where( [
-                [ 'user_id', $refund->user_id ],
-                [ 'cart_id', $refund->cartOrder->id ],
-                [ 'status', 1 ],
-            ] )->get();
-            foreach ( $cartPrices as $cartPrice ) {
-                $cartPrice->earn = $refundAmount;
-                $cartPrice->earn2 = '0';
-                $cartPrice->save();
-            }
+            $refund->save();
+    
+            $this->updateSharerPrice($refund, $refundAmount);
+            $this->updateCartPrice($refund, $refundAmount);
         }
+    
+        return redirect()->back()->with('success', 'İade durumu başarıyla güncellendi.');
+    }
+    
+    private function updateCartOrderStatus($refund) {
+        if ($refund->status == 1 && $refund->cartOrder->status != 2) {
+            $refund->cartOrder->status = '2';
+            $refund->cartOrder->save();
+        }
+    }
+    
+    private function calculateRefundAmount($refund) {
+        $now = Carbon::now();
+        $createdAt = Carbon::parse($refund->cartOrder->created_at);
+        $differenceInDays = $createdAt->diffInDays($now);
+        $amount = $refund->cartOrder->amount;
+    
+        $amountFloat = (float)str_replace(',', '.', str_replace('.', '', $amount));
+    
+        if ($differenceInDays <= 14) {
+            return $amountFloat * 0.10;
+        } else {
+            return $amountFloat;
+        }
+    }
+    
+    private function updateSharerPrice($refund, $refundAmount) {
+        $sharerPrice = SharerPrice::where('cart_id', $refund->cartOrder->id)->first();
+        if ($sharerPrice) {
+            $sharerPrice->status = '2';
+            $sharerPrice->earn = $refundAmount;
+            $sharerPrice->earn2 = '0';
+            $sharerPrice->balance = '0';
+            $sharerPrice->save();
+        }
+    }
+    
+    private function updateCartPrice($refund, $refundAmount) {
+        $cartPrice = CartPrice::where([
+            ['user_id', $refund->user_id],
+            ['cart_id', $refund->cartOrder->id],
+        ])->first();
+    
+        if ($cartPrice) {
+            $cartPrice->earn = $refundAmount;
+            $cartPrice->earn2 = '0';
+            $cartPrice->status = '2';
+            $cartPrice->save();
+        }
+    }
+    
 
-        return redirect()->back()->with( 'success', 'İade durumu başarıyla güncellendi.' );
+    public function reservationUpdateStatus(Request $request, $refundId) {
+        $refund = ReservationRefund::find($refundId);
+    
+        if (!$refund) {
+            return redirect()->back()->with('error', 'İlgili iade talebi bulunamadı.');
+        }
+    
+        $validatedData = $request->validate([
+            'status' => 'required|in:1,2,3',
+        ]);
+    
+        $refund->status = $validatedData['status'];
+        $refund->save();
+    
+        if ($refund->status == 1) {
+            $this->updateReservationStatus($refund);
+        }
+    
+        if ($refund->status == 3) {
+             
+            $refundAmount = $this->calculateReservationRefundAmount($refund);
+            $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $refund->cartOrder->amount));
+
+            $refund->return_amount = $amountFloat - $refundAmount;
+            $refund->save();
+    
+            $this->updateReservationSharerPrice($refund, $refundAmount);
+            $this->updateReservationCartPrices($refund, $refundAmount);
+        }
+    
+        return redirect()->back()->with('success', 'İade durumu başarıyla güncellendi.');
+    }
+    
+    private function updateReservationStatus($refund) {
+        if ($refund->reservation->status != 2) {
+            $refund->reservation->status = '2';
+            $refund->reservation->save();
+        }
+    }
+    
+    private function calculateReservationRefundAmount($refund) {
+        $now = Carbon::now();
+        $createdAt = Carbon::parse($refund->reservation->created_at);
+        $differenceInDays = $createdAt->diffInDays($now);
+        $amount = $refund->reservation->amount;
+    
+        $amountFloat = (float)str_replace(',', '.', str_replace('.', '', $amount));
+    
+        if ($differenceInDays <= 14) {
+            return $amountFloat * 0.10;
+        } else {
+            return $amountFloat;
+        }
+    }
+    
+    private function updateReservationSharerPrice($refund, $refundAmount) {
+        $sharerPrice = SharerPrice::where('cart_id', $refund->reservation->id)->first();
+        if ($sharerPrice) {
+            $sharerPrice->status = '2';
+            $sharerPrice->earn = $refundAmount;
+            $sharerPrice->earn2 = '0';
+            $sharerPrice->balance = '0';
+            $sharerPrice->save();
+        }
+    }
+    
+    private function updateReservationCartPrices($refund, $refundAmount) {
+        $cartPrices = CartPrice::where([
+            ['user_id', $refund->user_id],
+            ['cart_id', $refund->reservation->id],
+            ['status', 1],
+        ])->get();
+    
+        foreach ($cartPrices as $cartPrice) {
+            $cartPrice->earn = $refundAmount;
+            $cartPrice->earn2 = '0';
+            $cartPrice->status = '2';
+            $cartPrice->save();
+        }
     }
 
-    public function  reservationUpdateStatus( Request $request, $refundId ) {
-        $refund = reservationRefund::find( $refundId );
-        $userId = $refund->user_id;
-        $now = Carbon::now();
-
-        if ( !$refund ) {
-            return redirect()->back()->with( 'error', 'İlgili iade talebi bulunamadı.' );
-        }
-
-        $validatedData = $request->validate( [
-            'status' => 'required|in:1,2,3',
-        ] );
-
-        $refund->status = $validatedData[ 'status' ];
-        $refund->save();
-
-        if ( $refund->status == 1 ) {
-            if ( $refund->reservation->status != 2 ) {
-                $refund->reservation->status = '2';
-                // Sipariş durumunu 2 olarak güncelle
-                $refund->reservation->save();
-            }
-        }
-
-        if ( $refund->status == 3 ) {
-            $createdAt = Carbon::parse( $refund->reservation->created_at );
-            $differenceInDays = $createdAt->diffInDays( $now );
-            $amount = $refund->reservation->amount;
-
-            if ( $differenceInDays <= 14 ) {
-                $amountFloat = ( float ) str_replace( ',', '.', str_replace( '.', '', $amount ) );
-                $refundAmount = $amountFloat * 0.10;
-            } else {
-                $refundAmount = $amount;
-            }
-            
-            // SharerPrice tablosundaki ilgili kayıtları güncelle
-            SharerPrice::where('cart_id', $refund->reservation->id)->update(['status' => '2']);
-            // CartPrice tablosundaki ilgili kayıtları al ve güncelle
-            $cartPrices = CartPrice::where( [
-                [ 'user_id', $refund->user_id ],
-                [ 'cart_id', $refund->reservation->id ],
-                [ 'status', 1 ],
-            ] )->get();
-            foreach ( $cartPrices as $cartPrice ) {
-                $cartPrice->earn = $refundAmount;
-                $cartPrice->earn2 = '0';
-                $cartPrice->save();
-            }
-        }
-
-        return redirect()->back()->with( 'success', 'İade durumu başarıyla güncellendi.' );
-    }
-
-   
 }

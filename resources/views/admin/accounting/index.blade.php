@@ -70,7 +70,7 @@
                                         @if ($reservation)
                                             @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
 
-                                            <tr @if (isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: #e54242;" @endif>
+                                            <tr @if (isset($reservation->refund) && in_array($reservation->refund->status, [1, 3])) style="background-color: #e54242;" @endif>
 
 
                                                 <td>{{ $reservation->key ?? null }}</td>

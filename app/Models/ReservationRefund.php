@@ -19,6 +19,7 @@ class ReservationRefund extends Model
         'status',
         'return_iban',
         'return_bank',
+        'return_amount',
         
     ];
     // User modeli ile ilişkiyi tanımlayın
