@@ -719,10 +719,7 @@
                                                                                 Kısa Süre İçerisinde Tarafınıza
                                                                                 İletilecektir</p>
 
-                                                                            <a 
-                                                                                class="btn btn-primary px-6"
-                                                                                onclick="submitForms()">İade Talebi
-                                                                                Oluştur</a>
+                                                                                <a class="btn btn-primary px-6" onclick="submitForms()">İade Talebi Oluştur</a>
 
                                                                         </div>
                                                                     </div>
@@ -830,56 +827,56 @@
             });
         });
     </script>
-    <script>
-        // CSRF tokenını al
-        var csrfToken = "{{ csrf_token() }}";
 
-        // Form verilerini topla ve gönder
-        function submitForms() {
-            var form1 = $("#wizardValidationForm1");
-            var form2 = $("#wizardValidationForm2");
-            var form3 = $("#wizardValidationForm3");
+   <script>
+    // CSRF tokenını al
+    var csrfToken = "{{ csrf_token() }}";
 
-            var formData = {
-                "_token": csrfToken,
-                "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-                "name": form2.find("input[name='name']").val(),
-                "phone": form2.find("input[name='phone']").val(),
-                "email": form2.find("input[name='email']").val(),
-                "return_bank": form2.find("input[name='return_bank']").val(),
-                "return_iban": form2.find("input[name='return_iban']").val(),
-                "content": form3.find("textarea[name='content']").val(),
-                "reservation_id": "{{ $order->id }}"
-            };
+    // Form verilerini topla ve gönder
+    function submitForms() {
+        var form1 = $("#wizardValidationForm1");
+        var form2 = $("#wizardValidationForm2");
+        var form3 = $("#wizardValidationForm3");
 
-            console.log(formData);
-            // AJAX isteğiyle sunucuya form verilerini gönder
-            $.ajax({
-                type: "POST",
-                url: "{{ route('institutional.reservation.order.refund') }}",
-                data: formData,
-                success: function(response) {
-                    Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
-                    toastr.success('İade talebi başarıyla gönderildi.');
-                    console.log("Form başarıyla gönderildi.");
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // Hata durumunda burada bir işlem yapabilirsiniz
-                    console.log(error);
-                    // toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-                    // toastr.error(error);
-                }
-            });
-        }
+        var formData = {
+            "_token": csrfToken,
+            "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+            "name": form2.find("input[name='name']").val(),
+            "phone": form2.find("input[name='phone']").val(),
+            "email": form2.find("input[name='email']").val(),
+            "return_bank": form2.find("input[name='return_bank']").val(),
+            "return_iban": form2.find("input[name='return_iban']").val(),
+            "content": form3.find("textarea[name='content']").val(),
+            "reservation_id": "{{ $order->id }}"
+        };
 
-        function number_format(number, decimals, dec_point, thousands_sep) {
-            number = number.toFixed(decimals);
-            var parts = number.toString().split(dec_point);
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
-            return parts.join(dec_point);
-        }
-    </script>
+        console.log(formData);
+        // AJAX isteğiyle sunucuya form verilerini gönder
+        $.ajax({
+            type: "POST",
+            url: "{{ route('institutional.reservation.order.refund') }}",
+            data: formData,
+            success: function(response) {
+                // Sunucudan başarılı bir yanıt alındığında yönlendirme yap
+                toastr.success('İade talebi başarıyla gönderildi.');
+                console.log("Form başarıyla gönderildi.");
+                location.href = "{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}";
+            },
+            error: function(xhr, status, error) {
+                // Hata durumunda burada bir işlem yapabilirsiniz
+                console.log(error);
+                toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+            }
+        });
+    }
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        number = number.toFixed(decimals);
+        var parts = number.toString().split(dec_point);
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+        return parts.join(dec_point);
+    }
+</script>
 
 <script>
     function formatIBAN(input) {

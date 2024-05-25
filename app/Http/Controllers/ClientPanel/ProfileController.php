@@ -305,10 +305,7 @@ class ProfileController extends Controller
     
 
     public function reservationRefund(Request $request) 
-    {
-
-        return $request->all();
-        
+    {   
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
