@@ -142,16 +142,12 @@ class PageController extends Controller
         {
             $earningAmount = 0;
             $deposit_rate = 0.02;
-
+        
             if ($item['item_type'] == 2) {
-                $rates = Rate::where(
-                    'housing_id',
-                    $item['housing']['id'],
-                )->get();
-                
+                $rates = Rate::where('housing_id', $item['housing']['id'])->get();
                 $sales_rate_club = null;
                 $share_percent_earn = null;
-
+        
                 foreach ($rates as $rate) {
                     if (auth()->user()->corporate_type == $rate->institution->name) {
                         $sales_rate_club = $rate->sales_rate_club;
@@ -160,11 +156,11 @@ class PageController extends Controller
                         $share_percent_earn = $rate->default_deposit_rate;
                     }
                 }
-
+        
                 if ($sales_rate_club === null && count($rates) > 0) {
                     $sales_rate_club = $rates[count($rates) - 1]->sales_rate_club;
                 }
-
+        
                 $total = $item['discountedPrice'] * 0.04 * $share_percent_earn;
                 $earningAmount = $total * $sales_rate_club;
             } elseif ($item['item_type'] == 1) {
@@ -173,9 +169,10 @@ class PageController extends Controller
                 $discountedPrice = $item['discountedPrice'] ?? $item['project_values']['daily_rent[]'];
                 $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
             }
-
+        
             return $earningAmount;
         }
+        
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
