@@ -130,24 +130,71 @@ class PageController extends Controller
         }
     } //End
 
+
+
+ 
+
+
     public function clientCollections()
     {
-
+        function calculateEarning($item)
+        {
+            $earningAmount = 0;
+            $deposit_rate = 0.02;
+        
+            if ($item['item_type'] == 2) {
+                $rates = $item['housing']['rates'];
+                $sales_rate_club = null;
+                $share_percent_earn = null;
+        
+                foreach ($rates as $rate) {
+                    if (auth()->user()->corporate_type == $rate->institution->name) {
+                        $sales_rate_club = $rate->sales_rate_club;
+                    }
+                    if ($item['housing']['user']['corporate_type'] == $rate->institution->name) {
+                        $share_percent_earn = $rate->default_deposit_rate;
+                    }
+                }
+        
+                if ($sales_rate_club === null && count($rates) > 0) {
+                    $sales_rate_club = $rates[count($rates) - 1]->sales_rate_club;
+                }
+        
+                $total = $item['discountedPrice'] * 0.04 * $share_percent_earn;
+                $earningAmount = $total * $sales_rate_club;
+            } elseif ($item['item_type'] == 1) {
+                $deposit_rate = $item['project']->deposit_rate / 100;
+                $sharePercent = 0.5;
+                $discountedPrice = $item['discountedPrice'] ?? $item['project_values']['daily_rent[]'];
+                $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+            }
+        
+            return $earningAmount;
+        }
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         $itemsArray = [];
         foreach ($items as $item) {
-            $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
-            $item['housing'] = $item->housing;
-            $item['project'] = $item->project;
-
+            
+            $itemData = [
+                'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
+                'housing' => $item->housing,
+                'project' => $item->project,
+            ];
+    
+            // Kazanç miktarını hesapla
+            $earningAmount = calculateEarning($itemData);
+            $itemData['earningAmount'] = $earningAmount;
+    
+            array_push($itemsArray, $itemData);
         }
-
+        
         return response()->json([
             'success' => 'Koleksiyonlar başarıyla listelendi',
             'sharer' => $sharer,
             'items' => $items,
+            'itemsArray' => $itemsArray,
             'collections' => $collections
         ]);
     } //End
