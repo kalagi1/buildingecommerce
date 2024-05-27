@@ -194,11 +194,15 @@
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
                                                             $sharePercent = 0.5;
-                                                            $discountedPrice = (isset($discountedPrice)
+                                                            $discountedPrice =
+                                                                isset($discountRate) &&
+                                                                $discountRate != 0 &&
+                                                                isset($discountedPrice)
                                                                     ? $discountedPrice
-                                                                    : isset($item['project_values']['price[]']))
-                                                                ? $item['project_values']['price[]']
-                                                                : $item['project_values']['daily_rent[]'];
+                                                                    : (isset($item['project_values']['price[]'])
+                                                                        ? $item['project_values']['price[]']
+                                                                        : $item['project_values']['daily_rent[]']);
+
                                                             $earningAmount =
                                                                 $discountedPrice * $deposit_rate * $sharePercent;
                                                         @endphp
