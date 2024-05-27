@@ -10,6 +10,7 @@ use App\Models\Collection;
 use App\Models\Housing;
 use App\Models\Invoice;
 use App\Models\Project;
+use App\Models\Rate;
 use App\Models\ShareLink;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -143,7 +144,11 @@ class PageController extends Controller
             $deposit_rate = 0.02;
 
             if ($item['item_type'] == 2) {
-                $rates = $item['housing']['rates'];
+                $rates = Rate::where(
+                    'housing_id',
+                    $item['housing']['id'],
+                )->get();
+                
                 $sales_rate_club = null;
                 $share_percent_earn = null;
 
