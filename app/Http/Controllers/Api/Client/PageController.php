@@ -133,9 +133,8 @@ class PageController extends Controller
 
     public function clientCollections()
 {
-    return "a";
     // Kullanıcıyı bul
-    $sharer = User::findOrFail(auth()->user()->id);
+    $sharer = User::findOrFail(auth()->guard("api")->user()->id);
 
     // Kullanıcının paylaştığı öğeleri al
     $items = ShareLink::where('user_id', $sharer->id)->get();
