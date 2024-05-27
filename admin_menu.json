@@ -117,17 +117,6 @@
         "activePath": "qR9zLp2xS6y/secured/multiple-sms/create"
     },
     
-
-    {
-        "id": "home",
-        "label": "Muhasebe",
-        "icon": "dollar-sign",
-        "text": "İade Tablosu",
-        "key": "ViewRefund",
-        "url": "admin.accountingForRefund",
-        "activePath": "qR9zLp2xS6y/secured/accounting/refund"
-    },
-
     {
         "id": "housing",
         "label": "Sat Kirala",
