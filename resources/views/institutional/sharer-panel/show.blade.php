@@ -194,7 +194,7 @@
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
                                                             $estateProjectRate = $item['project']['club_rate'] / 100;
-                                                            if ($coupon->user->type != '1') {
+                                                            if (Auth::user()->type != '1') {
                                                                 if (Auth::user()->corporate_type == 'Emlak Ofisi') {
                                                                     $sharePercent = $estateProjectRate;
                                                                 } else {
@@ -214,7 +214,6 @@
 
                                                             $earningAmount =
                                                                 $discountedPrice * $deposit_rate * $sharePercent;
-                                                                echo $earningAmount;
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -455,7 +454,7 @@
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
                                                               $estateProjectRate = $item['project']['club_rate'] / 100;
-                                                            if ($coupon->user->type != '1') {
+                                                            if (Auth::user()->type != '1') {
                                                                 if (Auth::user()->corporate_type == 'Emlak Ofisi') {
                                                                     $sharePercent = $estateProjectRate;
                                                                 } else {
