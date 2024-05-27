@@ -142,6 +142,7 @@ class PageController extends Controller
         {
             $earningAmount = 0;
             $deposit_rate = 0.02;
+            return $item;
         
             if ($item['item_type'] == 2) {
                 $rates = Rate::where('housing_id', $item['housing']['id'])->get();
@@ -180,13 +181,15 @@ class PageController extends Controller
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         foreach ($items as $item) {
 
-            $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
-            $item['housing'] = $item->housing;
-            $item['project'] = $item->project;
+            // $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
+            // $item['housing'] = $item->housing;
+            // $item['project'] = $item->project;
 
             $earningAmount = calculateEarning($item);
             $item['earningAmount'] = $earningAmount;
         }
+
+        return $items;
 
         return response()->json([
             'success' => 'Koleksiyonlar başarıyla listelendi',
