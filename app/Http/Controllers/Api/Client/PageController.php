@@ -142,54 +142,85 @@ class PageController extends Controller
         {
             $earningAmount = 0;
             $deposit_rate = 0.02;
-            return $item;
-        
+
             if ($item['item_type'] == 2) {
+                $discountRate = json_decode($item['housing']['housing_type_data'])
+                    ->discount_rate[0];
+
+                $defaultPrice =
+                    json_decode($item['housing']['housing_type_data'])->price[0] ??
+                    json_decode($item['housing']['housing_type_data'])->daily_rent[0];
+
+                $price = $defaultPrice - $item['discount_amount'];
+                $discountedPrice = $price - ($price * $discountRate) / 100;
+                $deposit_rate = 0.02;
+
                 $rates = Rate::where('housing_id', $item['housing']['id'])->get();
-                $sales_rate_club = null;
                 $share_percent_earn = null;
-        
-                foreach ($rates as $rate) {
-                    if (auth()->guard("api")->user()->corporate_type == $rate->institution->name) {
+                $sales_rate_club = null;
+
+                foreach ($rates as $key => $rate) {
+                    if (
+                        Auth::user()->corporate_type ==
+                        $rate->institution->name
+                    ) {
                         $sales_rate_club = $rate->sales_rate_club;
                     }
-                    if ($item['housing']['user']['corporate_type'] == $rate->institution->name) {
+                    if (
+                        $item['housing']['user']['corporate_type'] ==
+                        $rate->institution->name
+                    ) {
                         $share_percent_earn = $rate->default_deposit_rate;
+                        $share_percent_balance = 1.0 - $share_percent_earn;
                     }
                 }
-        
+
                 if ($sales_rate_club === null && count($rates) > 0) {
-                    $sales_rate_club = $rates[count($rates) - 1]->sales_rate_club;
+                    $sales_rate_club = $rates->last()->sales_rate_club;
                 }
-        
-                $discountedPrice = floatval($item['discountedPrice']); // Convert to float if it's a string
+
                 $total = $discountedPrice * 0.04 * $share_percent_earn;
+
                 $earningAmount = $total * $sales_rate_club;
             } elseif ($item['item_type'] == 1) {
+                $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
+                $share_sale = $item['project_values']['share_sale[]'] ?? null;
+                $number_of_share = $item['project_values']['number_of_shares[]'] ?? null;
+                $price = $item['project_values']['price[]'] - $item['discount_amount'];
+                $discountedPrice = $price - ($price * $discountRate) / 100;
                 $deposit_rate = $item['project']->deposit_rate / 100;
+
                 $sharePercent = 0.5;
-                $discountedPrice = floatval($item['discountedPrice'] ?? $item['project_values']['daily_rent[]']); // Convert to float if it's a string
-                $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+                $discountedPrice =
+                    isset($discountRate) &&
+                    $discountRate != 0 &&
+                    isset($discountedPrice)
+                    ? $discountedPrice
+                    : (isset($item['project_values']['price[]'])
+                        ? $item['project_values']['price[]']
+                        : $item['project_values']['daily_rent[]']);
+
+                $earningAmount =
+                    $discountedPrice * $deposit_rate * $sharePercent;
             }
-        
+
             return $earningAmount;
         }
-        
-        
+
+
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         foreach ($items as $item) {
 
-            // $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
-            // $item['housing'] = $item->housing;
-            // $item['project'] = $item->project;
+            $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
+            $item['housing'] = $item->housing;
+            $item['project'] = $item->project;
 
             $earningAmount = calculateEarning($item);
             $item['earningAmount'] = $earningAmount;
         }
 
-        return $items;
 
         return response()->json([
             'success' => 'Koleksiyonlar başarıyla listelendi',
