@@ -189,8 +189,7 @@
                                                         @endphp
                                                         <strong>
 
-                                                                {{ number_format(ceil($earningAmount), 0, ',', '.') }} ₺
- ₺
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
@@ -215,13 +214,13 @@
 
                                                             $earningAmount =
                                                                 $discountedPrice * $deposit_rate * $sharePercent;
+                                                                echo $earningAmount;
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                    {{ number_format(ceil($earningAmount), 0, ',', '.') }} ₺
-
+                                                                {{ number_format($earningAmount, 0, ',', '.') }}
                                                             @endif ₺
                                                         </strong>
                                                     @endif
@@ -451,8 +450,7 @@
                                                         @endphp
                                                         <strong>
 
-                                                                {{ number_format(ceil($earningAmount), 0, ',', '.') }} ₺
- ₺
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
@@ -478,8 +476,7 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                    {{ number_format(ceil($earningAmount), 0, ',', '.') }} ₺
-
+                                                                {{ number_format($earningAmount, 0, ',', '.') }}
                                                             @endif ₺
                                                         </strong>
                                                     @endif
