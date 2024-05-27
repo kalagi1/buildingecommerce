@@ -189,6 +189,12 @@
                                                         @endphp
                                                         <strong>
 sdsdsd
+@if (strpos($earningAmount, '.') !== false)
+{{ number_format($earningAmount, 0, ',', '.') }} ₺
+@else
+{{ $earningAmount }} ₺
+@endif
+
                                                             {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
