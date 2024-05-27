@@ -28,22 +28,22 @@ class PageController extends Controller
     {
         // Retrieve the order
         $order = CartOrder::where("id", $order)->first();
-    
+
         // Check if the order exists
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
-    
+
         // Decode the cart JSON
         $cart = json_decode($order->cart);
-    
+
         // Check if cart is decoded properly
         if (json_last_error() !== JSON_ERROR_NONE) {
             return response()->json(['error' => 'Invalid cart JSON'], 400);
         }
-    
+
         $project = null;
-    
+
         // Check if cart type and item properties exist
         if (isset($cart->type) && isset($cart->item) && isset($cart->item->id)) {
             if ($cart->type == "project") {
@@ -58,24 +58,24 @@ class PageController extends Controller
         } else {
             return response()->json(['error' => 'Invalid cart structure'], 400);
         }
-    
+
         // Retrieve the invoice with its related data
-        $invoice = Invoice::where("order_id", $order->id)->with("order.user","order.store", "order.bank")->first();
-    
+        $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.store", "order.bank")->first();
+
         // Check if the invoice exists
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found'], 404);
         }
-    
+
         $data = [
             'invoice' => $invoice,
             'project' => $project,
         ];
-    
+
         // Return the data as JSON
         return response()->json($data);
     }
-    
+
 
     public function orderDetail($id)
     {
@@ -132,7 +132,7 @@ class PageController extends Controller
 
 
 
- 
+
 
 
     public function clientCollections()
@@ -141,12 +141,12 @@ class PageController extends Controller
         {
             $earningAmount = 0;
             $deposit_rate = 0.02;
-        
+
             if ($item['item_type'] == 2) {
                 $rates = $item['housing']['rates'];
                 $sales_rate_club = null;
                 $share_percent_earn = null;
-        
+
                 foreach ($rates as $rate) {
                     if (auth()->user()->corporate_type == $rate->institution->name) {
                         $sales_rate_club = $rate->sales_rate_club;
@@ -155,11 +155,11 @@ class PageController extends Controller
                         $share_percent_earn = $rate->default_deposit_rate;
                     }
                 }
-        
+
                 if ($sales_rate_club === null && count($rates) > 0) {
                     $sales_rate_club = $rates[count($rates) - 1]->sales_rate_club;
                 }
-        
+
                 $total = $item['discountedPrice'] * 0.04 * $share_percent_earn;
                 $earningAmount = $total * $sales_rate_club;
             } elseif ($item['item_type'] == 1) {
@@ -168,33 +168,26 @@ class PageController extends Controller
                 $discountedPrice = $item['discountedPrice'] ?? $item['project_values']['daily_rent[]'];
                 $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
             }
-        
+
             return $earningAmount;
         }
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
-        $itemsArray = [];
         foreach ($items as $item) {
-            
-            $itemData = [
-                'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
-                'housing' => $item->housing,
-                'project' => $item->project,
-            ];
-    
-            // Kazanç miktarını hesapla
-            $earningAmount = calculateEarning($itemData);
-            $itemData['earningAmount'] = $earningAmount;
-    
-            array_push($itemsArray, $itemData);
+
+            $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
+            $item['housing'] = $item->housing;
+            $item['project'] = $item->project;
+
+            $earningAmount = calculateEarning($item);
+            $item['earningAmount'] = $earningAmount;
         }
-        
+
         return response()->json([
             'success' => 'Koleksiyonlar başarıyla listelendi',
             'sharer' => $sharer,
             'items' => $items,
-            'itemsArray' => $itemsArray,
             'collections' => $collections
         ]);
     } //End
