@@ -147,7 +147,6 @@ class PageController extends Controller
                 $rates = Rate::where('housing_id', $item['housing']['id'])->get();
                 $sales_rate_club = null;
                 $share_percent_earn = null;
-                return $rates;
         
                 foreach ($rates as $rate) {
                     if (auth()->guard("api")->user()->corporate_type == $rate->institution->name) {
@@ -162,17 +161,19 @@ class PageController extends Controller
                     $sales_rate_club = $rates[count($rates) - 1]->sales_rate_club;
                 }
         
-                $total = $item['discountedPrice'] * 0.04 * $share_percent_earn;
+                $discountedPrice = floatval($item['discountedPrice']); // Convert to float if it's a string
+                $total = $discountedPrice * 0.04 * $share_percent_earn;
                 $earningAmount = $total * $sales_rate_club;
             } elseif ($item['item_type'] == 1) {
                 $deposit_rate = $item['project']->deposit_rate / 100;
                 $sharePercent = 0.5;
-                $discountedPrice = $item['discountedPrice'] ?? $item['project_values']['daily_rent[]'];
+                $discountedPrice = floatval($item['discountedPrice'] ?? $item['project_values']['daily_rent[]']); // Convert to float if it's a string
                 $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
             }
         
             return $earningAmount;
         }
+        
         
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
