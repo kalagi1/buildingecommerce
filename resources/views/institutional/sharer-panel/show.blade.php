@@ -223,7 +223,11 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                            @if (strpos($earningAmount, '.') == false)
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} 
+                                                            @else
+                                                            {{ $earningAmount }} 
+                                                            @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif
@@ -453,7 +457,11 @@
                                                         @endphp
                                                         <strong>
 
+                                                            @if (strpos($earningAmount, '.') == false)
                                                             {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                            @else
+                                                            {{ $earningAmount }} ₺
+                                                            @endif
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
@@ -479,7 +487,11 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                            @if (strpos($earningAmount, '.') == false)
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} 
+                                                            @else
+                                                            {{ $earningAmount }} 
+                                                            @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif
