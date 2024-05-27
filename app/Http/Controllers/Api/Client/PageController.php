@@ -133,6 +133,7 @@ class PageController extends Controller
 
     public function clientCollections()
 {
+    return "a";
     // Kullanıcıyı bul
     $sharer = User::findOrFail(auth()->user()->id);
 
