@@ -140,6 +140,8 @@ class PageController extends Controller
         foreach ($items as $item) {
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
             $item['housing'] = $item->housing;
+            $item['project'] = $item->project;
+
         }
 
         return response()->json([
