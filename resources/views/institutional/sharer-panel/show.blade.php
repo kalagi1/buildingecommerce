@@ -188,9 +188,13 @@
                                                             $earningAmount = $total * $sales_rate_club;
                                                         @endphp
                                                         <strong>
-                                                            {{$earningAmount}}
+                                                            
 
+                                                            @if (strpos($earningAmount, '.') !== false)
                                                             {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                        @else
+                                                            {{ $earningAmount }} ₺
+                                                        @endif
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
@@ -220,9 +224,12 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                            {{$earningAmount}}
-
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                            
+                                                            @if (strpos($earningAmount, '.') !== false)
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} 
+                                                        @else
+                                                            {{ $earningAmount }} 
+                                                        @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif
@@ -451,9 +458,12 @@
                                                             $earningAmount = $total * $sales_rate_club;
                                                         @endphp
                                                         <strong>
-                                                            {{$earningAmount}}
-
+                                                            
+                                                            @if (strpos($earningAmount, '.') !== false)
                                                             {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                        @else
+                                                            {{ $earningAmount }} ₺
+                                                        @endif
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
@@ -479,8 +489,11 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                            {{$earningAmount}}
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                            @if (strpos($earningAmount, '.') !== false)
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} 
+                                                        @else
+                                                            {{ $earningAmount }} 
+                                                        @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif
