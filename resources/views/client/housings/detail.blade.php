@@ -2349,11 +2349,11 @@
                         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
                         console.log(diffDays)
 
-                        if (diffDays < 7) {
+                        if (diffDays <= 1) {
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Uyarı!',
-                                text: 'Minimum 7 gün tarih aralığı olmalı!',
+                                text: 'Minimum 2 gün tarih aralığı olmalı!',
                             });
                             $(".showPrice").addClass("d-none");
                             document.getElementById('date-checkin').value = '';
@@ -2747,11 +2747,11 @@
                             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
                             console.log(diffDays)
-                            if (diffDays < 7) {
+                            if (diffDays <= 1 ) {
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Uyarı!',
-                                    text: 'Minimum 7 gün tarih aralığı olmalı!',
+                                    text: 'Minimum 2 gün tarih aralığı olmalı!',
                                 });
                                 $(".showPrice").addClass("d-none");
                                 document.getElementById('date-checkin').value = '';
