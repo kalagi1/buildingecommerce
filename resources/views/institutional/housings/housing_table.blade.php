@@ -14,7 +14,6 @@
             <th>Düzenle</th>
             <th>{{ isset($tableId) && $tableId === 'bulk-select-body-soldHousingTypes' ? 'Sipariş Durumu' : 'Resimler' }}
             </th>
-            <th colspan="2">İşlemler</th>
 
         </tr>
     </thead>
