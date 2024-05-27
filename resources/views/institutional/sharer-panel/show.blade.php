@@ -188,15 +188,12 @@
                                                             $earningAmount = $total * $sales_rate_club;
                                                         @endphp
                                                         <strong>
-sdsdsd
-{{strpos($earningAmount, '.') ? true : false}}
-@if (strpos($earningAmount, '.') !== false)
+@if (strpos($earningAmount, '.') == false)
 {{ number_format($earningAmount, 0, ',', '.') }} ₺
 @else
 {{ $earningAmount }} ₺
 @endif
 
-                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
