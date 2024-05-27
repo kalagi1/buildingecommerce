@@ -147,6 +147,7 @@ class PageController extends Controller
                 $rates = Rate::where('housing_id', $item['housing']['id'])->get();
                 $sales_rate_club = null;
                 $share_percent_earn = null;
+                return $rates;
         
                 foreach ($rates as $rate) {
                     if (auth()->guard("api")->user()->corporate_type == $rate->institution->name) {
@@ -182,8 +183,8 @@ class PageController extends Controller
             $item['housing'] = $item->housing;
             $item['project'] = $item->project;
 
-            // $earningAmount = calculateEarning($item);
-            // $item['earningAmount'] = $earningAmount;
+            $earningAmount = calculateEarning($item);
+            $item['earningAmount'] = $earningAmount;
         }
 
         return response()->json([
