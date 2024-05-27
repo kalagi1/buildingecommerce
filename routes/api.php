@@ -182,7 +182,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
     });
 
-
+    Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
+    Route::get('/notifications', [AuthController::class, 'getAllNotifications']);
+    
     //telefon doğrulama
     Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
