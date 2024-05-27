@@ -149,7 +149,7 @@ class PageController extends Controller
                 $share_percent_earn = null;
         
                 foreach ($rates as $rate) {
-                    if (auth()->user()->corporate_type == $rate->institution->name) {
+                    if (auth()->guard("api")->user()->corporate_type == $rate->institution->name) {
                         $sales_rate_club = $rate->sales_rate_club;
                     }
                     if ($item['housing']['user']['corporate_type'] == $rate->institution->name) {
@@ -182,8 +182,8 @@ class PageController extends Controller
             $item['housing'] = $item->housing;
             $item['project'] = $item->project;
 
-            // $earningAmount = calculateEarning($item);
-            // $item['earningAmount'] = $earningAmount;
+            $earningAmount = calculateEarning($item);
+            $item['earningAmount'] = $earningAmount;
         }
 
         return response()->json([
