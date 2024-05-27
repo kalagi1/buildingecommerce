@@ -187,15 +187,14 @@
 
                                                             $earningAmount = $total * $sales_rate_club;
                                                         @endphp
-                                                        <strong>
-
-
-                                                            @if (strpos($earningAmount, '.') !== false)
-                                                                {{ number_format($earningAmount, 0, ',', '.') }} ₺
-                                                            @else
-                                                                {{ $earningAmount }} ₺
-                                                            @endif
-                                                        </strong>
+                      <strong>
+                        @if (strpos($earningAmount, '.') !== false)
+                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                        @else
+                            {{ $earningAmount }} ₺
+                        @endif
+                    </strong>
+                    
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
                                                             $estateProjectRate = $item['project']['club_rate'] / 100;
@@ -224,13 +223,7 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                            sdsdsdsdsd
-                                                            {{strpos($earningAmount, '.')}}
-                                                                @if (strpos($earningAmount, '.') !== false)
-                                                                    {{ number_format($earningAmount, 0, ',', '.') }}
-                                                                @else
-                                                                    {{ $earningAmount }}
-                                                                @endif
+                                                                {{ number_format($earningAmount, 0, ',', '.') }}
                                                             @endif ₺
                                                         </strong>
                                                     @endif
@@ -460,15 +453,11 @@
                                                         @endphp
                                                         <strong>
 
-                                                            @if (strpos($earningAmount, '.') !== false)
-                                                                {{ number_format($earningAmount, 0, ',', '.') }} ₺
-                                                            @else
-                                                                {{ $earningAmount }} ₺
-                                                            @endif
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
-                                                            $estateProjectRate = $item['project']['club_rate'] / 100;
+                                                              $estateProjectRate = $item['project']['club_rate'] / 100;
                                                             if (Auth::user()->type != '1') {
                                                                 if (Auth::user()->corporate_type == 'Emlak Ofisi') {
                                                                     $sharePercent = $estateProjectRate;
@@ -490,11 +479,7 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                @if (strpos($earningAmount, '.') !== false)
-                                                                    {{ number_format($earningAmount, 0, ',', '.') }}
-                                                                @else
-                                                                    {{ $earningAmount }}
-                                                                @endif
+                                                                {{ number_format($earningAmount, 0, ',', '.') }}
                                                             @endif ₺
                                                         </strong>
                                                     @endif
