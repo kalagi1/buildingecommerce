@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 use App\Models\Collection;
 use App\Models\Housing;
 use App\Models\Invoice;
+use App\Models\Offer;
 use App\Models\Project;
 use App\Models\Rate;
 use App\Models\ShareLink;
+use App\Models\SharerPrice;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -219,6 +221,59 @@ class PageController extends Controller
 
             $earningAmount = calculateEarning($item);
             $item['earningAmount'] = $earningAmount;
+
+            if ($item->item_type == 2) {
+                $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
+                    ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
+                    ->latest()->first();
+
+                $action = $cartStatus ? (
+                    ($cartStatus->status == 0) ? 'payment_await' : (
+                        ($cartStatus->status == 1) ? 'sold' : (
+                            ($cartStatus->status == 2) ? 'tryBuy' : ''
+                        )
+                    )
+                ) : 'noCart';
+                $item['action'] = $action;
+
+                $sharePrice = 0;
+                if ($cartStatus) {
+                    $sharePrice = SharerPrice::where("cart_id", $cartStatus->id)->where("user_id", Auth::user()->id)->first();
+                }
+                $item['sharePrice'] = $sharePrice;
+
+                $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
+                $housingTypeData = json_decode($item->housing->housing_type_data, true);
+                $offSale = isset($housingTypeData['off_sale1']);
+            }
+
+            if ($item->item_type == 1) {
+
+                $userProjectIds = $sharer->projects->pluck('id');
+                $discount_amount = Offer::where('type', 'project')->where('project_id', $item->project->id)
+                    ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+
+
+                $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
+                    ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                    ->latest()->first();
+
+                $sharePrice = 0;
+                if ($status) {
+                    $sharePrice = SharerPrice::where("cart_id", $status->id)->where("user_id", Auth::user()->id)->first();
+                }
+                $item['sharePrice'] = $sharePrice;
+
+                $action = $status ? (
+                    ($status->status == "0") ? 'payment_await' : (
+                        ($status->status == "1") ? 'sold' : (
+                            ($status->status == "2") ? 'tryBuy' : ''
+                        )
+                    )
+                ) : 'noCart';
+                $item['action'] = $action;
+
+            }
         }
 
 
