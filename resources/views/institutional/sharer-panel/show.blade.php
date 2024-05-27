@@ -224,6 +224,7 @@
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
+                                                            sdsdsdsdsd
                                                             {{strpos($earningAmount, '.')}}
                                                                 @if (strpos($earningAmount, '.') !== false)
                                                                     {{ number_format($earningAmount, 0, ',', '.') }}
