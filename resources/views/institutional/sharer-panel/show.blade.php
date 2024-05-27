@@ -193,7 +193,16 @@
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
-                                                            $sharePercent = 0.5;
+                                                            $estateProjectRate = $item['project']['club_rate'] / 100;
+                                                            if ($coupon->user->type != '1') {
+                                                                if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                    $sharePercent = $estateProjectRate;
+                                                                } else {
+                                                                    $sharePercent = 0.5;
+                                                                }
+                                                            } else {
+                                                                $sharePercent = 0.25;
+                                                            }
                                                             $discountedPrice =
                                                                 isset($discountRate) &&
                                                                 $discountRate != 0 &&
@@ -444,7 +453,16 @@
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
-                                                            $sharePercent = 0.5;
+                                                              $estateProjectRate = $item['project']['club_rate'] / 100;
+                                                            if ($coupon->user->type != '1') {
+                                                                if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                    $sharePercent = $estateProjectRate;
+                                                                } else {
+                                                                    $sharePercent = 0.5;
+                                                                }
+                                                            } else {
+                                                                $sharePercent = 0.25;
+                                                            }
                                                             $discountedPrice = (isset($discountedPrice)
                                                                     ? $discountedPrice
                                                                     : isset($item['project_values']['price[]']))
