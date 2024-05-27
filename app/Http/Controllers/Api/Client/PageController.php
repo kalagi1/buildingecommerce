@@ -182,8 +182,8 @@ class PageController extends Controller
             $item['housing'] = $item->housing;
             $item['project'] = $item->project;
 
-            $earningAmount = calculateEarning($item);
-            $item['earningAmount'] = $earningAmount;
+            // $earningAmount = calculateEarning($item);
+            // $item['earningAmount'] = $earningAmount;
         }
 
         return response()->json([
