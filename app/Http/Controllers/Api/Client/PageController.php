@@ -306,7 +306,7 @@ class PageController extends Controller
         return response()->json([
             'success' => "Koleksiyon başarıyla silindi."
         ]);
-    } //End
+    }
 
     public function store(Request $request)
     {
