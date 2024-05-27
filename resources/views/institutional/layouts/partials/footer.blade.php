@@ -99,7 +99,7 @@
 
 
 <!-- dev -->
-<script src="{{URL::to('/')}}/build/assets/app-c0454e37.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-cf2d8a5a.js"></script>
 
 <!-- local -->
     {{-- @vite('resources/js/app.jsx') --}}
