@@ -189,6 +189,7 @@
                                                         @endphp
                                                         <strong>
 sdsdsd
+{{strpos($earningAmount, '.') }}
 @if (strpos($earningAmount, '.') !== false)
 {{ number_format($earningAmount, 0, ',', '.') }} ₺
 @else
