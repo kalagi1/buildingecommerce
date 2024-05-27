@@ -132,67 +132,63 @@ class PageController extends Controller
     } //End
 
     public function clientCollections()
-    {
-        // Kullanıcıyı bul
-        $sharer = User::where('id', auth()->user()->id)->first();
-    
-        // Kullanıcının paylaştığı öğeleri al
-        $items = ShareLink::where('user_id', auth()->user()->id)->get();
-    
-        // Kullanıcının koleksiyonlarını al
-        $collections = Collection::with('links', "clicks")
-            ->where('user_id', auth()->user()->id)
-            ->orderBy("id", "desc")
-            ->get();
-            $deposit_rate = 0.02;
-        // Her öğe için gerekli verileri hazırla ve kazanç durumunu hesapla
-        foreach ($items as $item) {
-            // Öğenin tipine göre işlem yap
-            if ($item->item_type == 2) {
-                $rates = Rate::where('housing_id', $item->housing->id)->get();
-    
-                $share_percent_earn = null;
-                $sales_rate_club = null;
-                $deposit_rate = 0.02;
+{
+    // Kullanıcıyı bul
+    $sharer = User::findOrFail(auth()->user()->id);
 
-                foreach ($rates as $key => $rate) {
-                    if (Auth::user()->corporate_type == $rate->institution->name) {
-                        $sales_rate_club = $rate->sales_rate_club;
-                    }
-                    if ($item->housing->user->corporate_type == $rate->institution->name) {
-                        $share_percent_earn = $rate->default_deposit_rate;
-                        $share_percent_balance = 1.0 - $share_percent_earn;
-                    }
+    // Kullanıcının paylaştığı öğeleri al
+    $items = ShareLink::where('user_id', $sharer->id)->get();
+
+    // Kullanıcının koleksiyonlarını al
+    $collections = Collection::with('links', 'clicks')
+        ->where('user_id', $sharer->id)
+        ->orderBy('id', 'desc')
+        ->get();
+
+    // Her öğe için kazanç miktarını hesapla ve verilere ekle
+    foreach ($items as $item) {
+        $earningAmount = 0;
+
+        if ($item->item_type == 2) {
+            $rates = Rate::where('housing_id', $item->housing->id)->get();
+            $share_percent_earn = null;
+            $sales_rate_club = null;
+
+            foreach ($rates as $rate) {
+                if (Auth::user()->corporate_type == $rate->institution->name) {
+                    $sales_rate_club = $rate->sales_rate_club;
                 }
-    
-                if ($sales_rate_club === null && count($rates) > 0) {
-                    $sales_rate_club = $rates->last()->sales_rate_club;
+                if ($item->housing->user->corporate_type == $rate->institution->name) {
+                    $share_percent_earn = $rate->default_deposit_rate;
                 }
-    
-                $discountedPrice = 0; // Burada discountedPrice'i uygun bir şekilde elde etmeniz gerekiyor
-                $total = $discountedPrice * 0.04 * $share_percent_earn;
-                $earningAmount = $total * $sales_rate_club;
-            } elseif ($item->item_type == 1) {
-                $deposit_rate = $item['project']->deposit_rate / 100;
-                $sharePercent = 0.5;
-                $discountedPrice = isset($discountRate) && $discountRate != 0 && isset($discountedPrice) ? $discountedPrice : (isset($item->project_values['price[]']) ? $item->project_values['price[]'] : $item->project_values['daily_rent[]']);
-                $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
-            } else {
-                $earningAmount = 0; // Diğer durumlar için varsayılan kazanç miktarı
             }
-    
-            // Her öğenin kazanç bilgisini diziye ekle
-            $item['earningAmount'] = number_format($earningAmount, 0, ',', '.') . ' ₺';
+
+            $sales_rate_club = $sales_rate_club ?? ($rates->isNotEmpty() ? $rates->last()->sales_rate_club : null);
+
+            $discountedPrice = 0; // Burada discountedPrice uygun bir şekilde elde edilmeli
+            $total = $discountedPrice * 0.04 * $share_percent_earn;
+            $earningAmount = $total * $sales_rate_club;
+        } elseif ($item->item_type == 1) {
+            $sharePercent = 0.5;
+            $discountedPrice = isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                ? $discountedPrice
+                : (isset($item->project_values['price[]']) ? $item->project_values['price[]'] : $item->project_values['daily_rent[]']);
+            $earningAmount = $discountedPrice * $sharePercent;
         }
-    
-        // JSON olarak yanıt döndür
-        return response()->json([
-            'success' => 'Koleksiyonlar başarıyla listelendi',
-            'sharer' => $sharer,
-            'items' => $items,
-            'collections' => $collections
-        ]);
+
+        // Her öğenin kazanç miktarını formatlayarak ekleyelim
+        $item['earningAmount'] = number_format($earningAmount, 0, ',', '.') . ' ₺';
     }
+
+    // JSON olarak yanıt döndür
+    return response()->json([
+        'success' => 'Koleksiyonlar başarıyla listelendi',
+        'sharer' => $sharer,
+        'items' => $items,
+        'collections' => $collections,
+    ]);
+}
+
     public function editCollection($id, Request $request)
     {
         $collection = Collection::findOrFail($id);
