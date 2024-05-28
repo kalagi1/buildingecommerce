@@ -23,45 +23,39 @@ class PageController extends Controller
 {
     public function removeFromCollection(Request $request)
     {
-        // Retrieve input values
+
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
-    
-        try {
-            // Handle removal for project type
-            if ($itemType == 'project') {
-                $link = ShareLink::where('item_id', $projectId)
-                                  ->where('item_type', 1)
-                                  ->where("room_order", $itemId)
-                                  ->first();
-            }
-            // Handle removal for housing type
-            elseif ($itemType == 'housing') {
-                $link = ShareLink::where('item_id', $itemId)
-                                  ->where('item_type', 2)
-                                  ->first();
-            }
-            // Invalid item type
-            else {
-                return response()->json(['success' => false, 'message' => 'Invalid item type.'], 400);
-            }
-    
-            // If the link is found, delete it
-            if ($link) {
-                $link->delete();
-                return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
-            }
-            // If the link is not found
-            else {
-                return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
-            }
-        } catch (\Exception $e) {
-            // Log the exception message
-            return response()->json(['success' => false, 'message' => 'Error removing item from the collection.'], 500);
+
+        $link = null;
+
+        // Handle removal for project type
+        if ($itemType == 'project') {
+            $link = ShareLink::where('item_id', $projectId)
+                             ->where('item_type', 1)
+                             ->where('room_order', $itemId)
+                             ->first();
+        }
+        // Handle removal for housing type
+        elseif ($itemType == 'housing') {
+            $link = ShareLink::where('item_id', $itemId)
+                             ->where('item_type', 2)
+                             ->first();
+        }
+
+        // If the link is found, delete it
+        if ($link) {
+            $link->delete();
+            return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+        }
+        // If the link is not found
+        else {
+            return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
         }
     }
-    
+
+
     public function getCollections()
     {
         $collections = Collection::where("user_id", Auth::user()->id)->get();
