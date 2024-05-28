@@ -101,9 +101,8 @@ class SharerController extends Controller
         ]);
     }
 
-    public function showClientLinks($slug, $userid, $id, Request $request)
+    public function showClientLinks( $userid, $id, Request $request)
     {
-        return "a";
         $users = User::all();
         $collection = Collection::where("id", $id)->first();
 
@@ -350,7 +349,6 @@ class SharerController extends Controller
                 "cities" => $cities,
                 "mergedItems" => $mergedItems,
                 "collections" => $collections,
-                "slug" => $slug,
                 "projects" => $projects,
                 "itemsArray" => $itemsArray,
                 "collection" => $collection,
