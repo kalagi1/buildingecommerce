@@ -29,19 +29,14 @@ class PageController extends Controller
 
         $link = null;
 
-        // Handle removal for project type
-        if ($itemType == 'project') {
-            $link = ShareLink::where('item_id', $projectId)
-                ->where('item_type', 1)
-                ->where('room_order', $itemId)
-                ->first();
-        }
-        // Handle removal for housing type
-        elseif ($itemType == 'housing') {
-            $link = ShareLink::where('item_id', $itemId)
-                ->where('item_type', 2)
-                ->first();
-        }
+        // Determine the item type and handle removal accordingly
+        $link = ShareLink::where('item_id', $projectId)
+            ->where('item_type', $itemType === 'project' ? 1 : 2)
+            ->when($itemType === 'project', function ($query) use ($itemId) {
+                return $query->where('room_order', $itemId);
+            })
+            ->first();
+
 
         // If the link is found, delete it
         if ($link) {
