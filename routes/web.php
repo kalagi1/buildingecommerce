@@ -91,6 +91,8 @@ use App\Http\Controllers\Client\SitemapController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
 use App\Http\Controllers\SupportController;
 
+use App\Http\Controllers\Admin\ReasonManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -718,6 +720,14 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name('email-templates.store');
     });
 
+    Route::middleware(['checkPermission:CreateReasonTemplate'])->group(function () {
+        Route::get('/reason-templates', [ReasonManagementController::class, 'index'])->name('reason.templates.index');
+        Route::get('/reason-templates/create', [ReasonManagementController::class, 'create'])->name('reason.templates.create');
+        Route::post('/reason-templates', [ReasonManagementController::class, 'store'])->name('reason.templates.store');
+        Route::get('/reason-templates/{defaultMessage}/edit', [ReasonManagementController::class, 'edit'])->name('reason.templates.edit');
+        Route::put('/reason-templates/{defaultMessage}', [ReasonManagementController::class, 'update'])->name('reason.templates.update');
+        Route::delete('/reason-templates/{defaultMessage}', [ReasonManagementController::class, 'destroy'])->name('reason.templates.destroy');
+    });
     Route::middleware(['checkPermission:GetEmailTemplateById'])->group(function () {
         Route::get('/email-templates/{email_template}/edit', [EmailTemplateController::class, 'edit'])->name('email-templates.edit');
     });
