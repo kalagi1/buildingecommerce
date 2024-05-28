@@ -29,7 +29,6 @@ class PageController extends Controller
 
         $link = null;
 
-        // Determine the item type and handle removal accordingly
         $link = ShareLink::where('item_id', $projectId)
             ->where('item_type', $itemType === 'project' ? 1 : 2)
             ->when($itemType === 'project', function ($query) use ($itemId) {
@@ -38,13 +37,10 @@ class PageController extends Controller
             ->first();
 
 
-        // If the link is found, delete it
         if ($link) {
             $link->delete();
             return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
-        }
-        // If the link is not found
-        else {
+        }  else {
             return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
         }
     }
