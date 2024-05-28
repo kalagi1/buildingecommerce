@@ -23,36 +23,35 @@ class PageController extends Controller
 {
     public function removeFromCollection(Request $request)
     {
-        return $request->all();
-        // $itemType = $request->input('itemType');
-        // $itemId = $request->input('itemId');
-        // $projectId = $request->input('projectId');
+        $itemType = $request->input('itemType');
+        $itemId = $request->input('itemId');
+        $projectId = $request->input('projectId');
 
-        // $link = null;
+        $link = null;
 
-        // // Handle removal for project type
-        // if ($itemType == 'project') {
-        //     $link = ShareLink::where('item_id', $projectId)
-        //         ->where('item_type', 1)
-        //         ->where('room_order', $itemId)
-        //         ->first();
-        // }
-        // // Handle removal for housing type
-        // elseif ($itemType == 'housing') {
-        //     $link = ShareLink::where('item_id', $itemId)
-        //         ->where('item_type', 2)
-        //         ->first();
-        // }
+        // Handle removal for project type
+        if ($itemType == 'project') {
+            $link = ShareLink::where('item_id', $projectId)
+                ->where('item_type', 1)
+                ->where('room_order', $itemId)
+                ->first();
+        }
+        // Handle removal for housing type
+        elseif ($itemType == 'housing') {
+            $link = ShareLink::where('item_id', $itemId)
+                ->where('item_type', 2)
+                ->first();
+        }
 
-        // // If the link is found, delete it
-        // if ($link) {
-        //     $link->delete();
-        //     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
-        // }
-        // // If the link is not found
-        // else {
-        //     return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
-        // }
+        // If the link is found, delete it
+        if ($link) {
+            $link->delete();
+            return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+        }
+        // If the link is not found
+        else {
+            return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
+        }
     }
 
 
