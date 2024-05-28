@@ -58,7 +58,6 @@ class PageController extends Controller
             }
         } catch (\Exception $e) {
             // Log the exception message
-            \Log::error('Error removing item from collection: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Error removing item from the collection.'], 500);
         }
     }
