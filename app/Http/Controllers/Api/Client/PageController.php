@@ -38,8 +38,12 @@ class PageController extends Controller
 
 
         if ($link) {
-            return $link;
-            $link->delete();
+            ShareLink::where('item_id', $projectId)
+            ->where('item_type', $itemType === 'project' ? 1 : 2)
+            ->when($itemType === 'project', function ($query) use ($itemId) {
+                return $query->where('room_order', $itemId);
+            })
+            ->delete();
             return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
         }  else {
             return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
