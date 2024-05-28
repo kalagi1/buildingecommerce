@@ -23,7 +23,7 @@ class PageController extends Controller
 {
     public function removeFromCollection(Request $request)
     {
-return $request->all();
+        return $request->all();
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
@@ -33,15 +33,15 @@ return $request->all();
         // Handle removal for project type
         if ($itemType == 'project') {
             $link = ShareLink::where('item_id', $projectId)
-                             ->where('item_type', 1)
-                             ->where('room_order', $itemId)
-                             ->first();
+                ->where('item_type', 1)
+                ->where('room_order', $itemId)
+                ->first();
         }
         // Handle removal for housing type
         elseif ($itemType == 'housing') {
             $link = ShareLink::where('item_id', $itemId)
-                             ->where('item_type', 2)
-                             ->first();
+                ->where('item_type', 2)
+                ->first();
         }
 
         // If the link is found, delete it
