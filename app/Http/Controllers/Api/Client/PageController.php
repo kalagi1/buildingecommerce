@@ -38,6 +38,7 @@ class PageController extends Controller
 
 
         if ($link) {
+            return $link;
             $link->delete();
             return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
         }  else {
