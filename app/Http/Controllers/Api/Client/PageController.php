@@ -23,7 +23,6 @@ class PageController extends Controller
 {
     public function removeFromCollection(Request $request)
     {
-        return  $request->all();
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
