@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Services\SmsService;
+use App\Models\DocumentNotification;
 
 class HousingController extends Controller
 {
@@ -202,14 +203,48 @@ class HousingController extends Controller
 
     public function setStatus($housingId, Request $request)
     {
+
+        $housing = Housing::where('id', $housingId)->with('user')->firstOrFail();
         $reason = '';
         $isRejected = 0;
         $code = $housingId + 2000000;
+
         if ($request->input('status') == 3) {
             $isRejected = 1;
             $reason = $request->input('reason');
+
+
+            $notificationText = 'Üzgünüz, Emlak #' . $housingId . ' "' . $reason . '" sebebinden dolayı reddedildi.';
+            $notificationLink = route('institutional.housing.edit', ['id' => $housing->id,]);
+
+            DocumentNotification::create([
+                'user_id' => auth()->user()->id,
+                'text' => $notificationText,
+                'item_id' => $housingId,
+                'link' => $notificationLink,
+                'owner_id' => $housing->user->id,
+                'is_visible' => true,
+            ]);
+
+            ShareLink::where('item_type', "1")->where('item_id', $housing->id)->delete();
+
         } else if ($request->input('status') == 1) {
             $reason =  '#' . $code . "No'lu emlak ilanınız başarıyla yayınlandı.";
+
+            $notificationText = 'Emlak #' . $code . ' şu anda yayında! Tebrikler! Daha fazla detay için [Emlak Detay Sayfası]
+            (' . route('housing.show', [
+                'housingSlug' => $housing->slug . "-" . $housing->step2_slug , 'housingID' => $housing->id + 2000000
+            ]) . ').';
+
+            DocumentNotification::create([
+                'user_id' => auth()->user()->id,
+                'text' => $notificationText,
+                'item_id' => $housing->id,
+                'link' => null,
+                'owner_id' => $housing->user->id,
+                'is_visible' => true,
+            ]);
+
         } else {
             $reason = '#' . $code . "No'lu emlak ilanınız pasife alındı.";
         }
