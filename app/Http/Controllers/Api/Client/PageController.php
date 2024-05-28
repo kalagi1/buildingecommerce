@@ -17,9 +17,43 @@ use App\Models\SharerPrice;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
+    public function removeFromCollection(Request $request)
+    {
+
+        $itemType = $request->input('itemType');
+        $itemId = $request->input('itemId');
+        $projectId = $request->input('projectId');
+
+        try {
+            if ($itemType == 'project') {
+                $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
+
+                if ($link) {
+                    $link->delete();
+                    return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
+                }
+            } elseif ($itemType == 'housing') {
+                $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
+
+                if ($link) {
+                    $link->delete();
+                    return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
+                }
+            } else {
+                return response()->json(['success' => false, 'message' => 'Invalid item type.'], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error removing item from the collection.'], 500);
+        }
+    }
     public function getCollections()
     {
         $collections = Collection::where("user_id", Auth::user()->id)->get();
@@ -272,7 +306,6 @@ class PageController extends Controller
                     )
                 ) : 'noCart';
                 $item['action'] = $action;
-
             }
         }
 
