@@ -833,7 +833,7 @@ class ProjectController extends Controller
 
 
 
-                if (!empty($optName)) {
+                if (!empty($optName) && !$newHousingType) {
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 1)
@@ -860,7 +860,36 @@ class ProjectController extends Controller
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
                     }
+                }else if(!empty($optName) && $newHousingType){
+
+                    if ($optName == "Satılık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_sale", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Günlük Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_daily_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
                 }
+
+
                 foreach ($filtersDb as $data) {
                     $filterItem = [
                         "label" => $data['filter_label'],
@@ -912,7 +941,9 @@ class ProjectController extends Controller
             // }
 
 
+
             if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
+
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
                 $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
@@ -951,13 +982,12 @@ class ProjectController extends Controller
                             ->toArray();
                     } elseif ($newHousingType && !$housingTypeSlugName) {
                         $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+
                     } else {
                         $filtersDb = Filter::where('item_type', 2)
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
-
-
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -966,7 +996,7 @@ class ProjectController extends Controller
 
 
 
-                if (!empty($optName)) {
+                if (!empty($optName) && !$newHousingType) {
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
@@ -993,7 +1023,35 @@ class ProjectController extends Controller
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
                     }
+                }else if((!empty($optName) && $newHousingType)){
+
+                    if ($optName == "Satılık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_sale", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Günlük Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                        ->where('housing_type_id', $newHousingType->id)
+                        ->get()
+                            ->where("is_daily_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
                 }
+
                 foreach ($filtersDb as $data) {
                     $filterItem = [
                         "label" => $data['filter_label'],
