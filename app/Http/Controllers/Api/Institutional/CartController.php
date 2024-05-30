@@ -245,6 +245,9 @@ class CartController extends Controller
         }
         $housing = null;
         $project = null;
+        $housingOffer = null;
+        $projectOffer = null;
+
 
 
         $saleType = null;
@@ -252,9 +255,30 @@ class CartController extends Controller
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
+                $housingOffer =Offer::where('type', 'housing')
+                                                ->where('housing_id', $cart['item']['id'])
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->first();
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
+                $projectOffer = Offer::where('type', 'project')
+                ->where('project_id', $cart['item']['id'])
+                ->where(function ($query) use ($cart) {
+                    $query
+                        ->orWhereJsonContains(
+                            'project_housings',
+                            $cart['item']['housing'],
+                        )
+                        ->orWhereJsonContains(
+                            'project_housings',
+                            (string) $cart['item']['housing'],
+                        ); // Handle as string as JSON might store values as strings
+                })
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->first();
             }
         }
 
@@ -275,7 +299,9 @@ class CartController extends Controller
             'bankAccounts' => $bankAccounts,
             'saleType' => $saleType,
             "project" => $project,
-            "housing" => $housing
+            "housing" => $housing,
+            "projectOffer" => $projectOffer,
+            "housingOffer" => $housingOffer
         ]);
     }
 
