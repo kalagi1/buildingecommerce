@@ -243,6 +243,9 @@ class CartController extends Controller
         if ($cartItem) {
             $cart = json_decode($cartItem->cart, true);
         }
+        $housing = null;
+        $project = null;
+
 
         $saleType = null;
         if (isset($cart) && !empty($cart)) {
@@ -270,7 +273,9 @@ class CartController extends Controller
             'pageInfo' => $pageInfo,
             'cart' => $cart,
             'bankAccounts' => $bankAccounts,
-            'saleType' => $saleType
+            'saleType' => $saleType,
+            "project" => $project,
+            "housing" => $housing
         ]);
     }
 
