@@ -1247,102 +1247,89 @@
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
         $('body').on('click', '.CartBtn', function(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            var button = event.target;
-            var productId = $(this).data("id");
-            var isShare = $(this).data("share");
-            var numbershare = $(this).data("number-share");
-            var project = null;
+    var button = event.target;
+    var productId = $(this).data("id");
+    var isShare = $(this).data("share");
+    var numbershare = $(this).data("number-share");
+    var project = null;
 
-            if ($(this).data("type") == "project") {
-                project = $(this).data("project");
-            }
+    if ($(this).data("type") == "project") {
+        project = $(this).data("project");
+    }
 
+    var cart = {
+        id: productId,
+        isShare: isShare,
+        numbershare: parseInt(numbershare, 10),
+        qt: 1,
+        type: $(this).data("type"),
+        project: project,
+        _token: "{{ csrf_token() }}",
+        clear_cart: "no"
+    };
 
-            var cart = {
-                id: productId,
-                isShare: isShare,
-                numbershare: parseInt(numbershare, 10), // Parse numbershare to an integer
-                qt: 1,
-                type: $(this).data("type"),
-                project: project,
-                _token: "{{ csrf_token() }}",
-                clear_cart: "no"
-            };
-
-
-
-            if (isProductInCart(productId, project)) {
-                Swal.fire({
-                    title: "Ürünü sepetten kaldırmak istiyor musunuz?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: "Evet, Kaldır",
-                    cancelButtonText: 'Hayır',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('add.to.cart') }}",
-                            data: JSON.stringify(cart),
-                            contentType: "application/json;charset=UTF-8",
-                            success: function(response) {
-
-                                toastr.error("Ürün Sepetten Kaldırılıyor.");
-                                button.classList.remove("bg-success");
-                                location.reload();
-
-                            },
-                            error: function(error) {
-                                window.location.href = "/giris-yap";
-
-                                console.error(error);
-                            }
-                        });
+    if (isProductInCart(productId, project)) {
+        Swal.fire({
+            title: "Ürünü sepetten kaldırmak istiyor musunuz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: "Evet, Kaldır",
+            cancelButtonText: 'Hayır',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('add.to.cart') }}",
+                    data: JSON.stringify(cart),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function(response) {
+                        toastr.error("Ürün Sepetten Kaldırılıyor.");
+                        button.classList.remove("bg-success");
+                        location.reload();
+                    },
+                    error: function(error) {
+                        window.location.href = "/giris-yap";
                     }
                 });
-            } else {
-                Swal.fire({
-                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                        'Mevcut sepeti temizlemek istiyor musunuz?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
-                    cancelButtonText: 'Hayır',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('add.to.cart') }}",
-                            data: JSON.stringify(cart),
-                            contentType: "application/json;charset=UTF-8",
-                            success: function(response) {
-
-
-                                toastr.success("Ürün Sepete Eklendi");
-                                if (!button.classList.contains("mobile")) {
-                                    button.textContent = "Sepete Eklendi";
-                                }
-                                button.classList.add("bg-success");
-                                window.location.href = "/sepetim";
-
-
-                            },
-                            error: function(error) {
-
-                                window.location.href = "/giris-yap";
-
-                                console.error(error);
-
-                            }
-                        });
-                    }
-                });
-
             }
-
         });
+    } else {
+        Swal.fire({
+            title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' : 'Mevcut sepeti temizlemek istiyor musunuz?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
+            cancelButtonText: 'Hayır',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('add.to.cart') }}",
+                    data: JSON.stringify(cart),
+                    contentType: "application/json;charset=UTF-8",
+                    success: function(response) {
+                        toastr.success("Ürün Sepete Eklendi");
+                        if (!button.classList.contains("mobile")) {
+                            button.textContent = "Sepete Eklendi";
+                        }
+                        button.classList.add("bg-success");
+                        window.location.href = "/sepetim";
+                    },
+                    error: function(error) {
+                        if (error.status === 401) {
+                            window.location.href = "/giris-yap";
+                        } else {
+                            console.error(error);
+                        }
+                    }
+                });
+            }
+        });
+    }
+});
+
 
         $('body').on('click', '.disabledShareButton', function(event) {
             event.preventDefault();

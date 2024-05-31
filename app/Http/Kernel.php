@@ -81,5 +81,7 @@ class Kernel extends HttpKernel
         'checkCorporateAccount' => \App\Http\Middleware\CheckCorporateAccount::class,
         'checkHasClubAccount' => \App\Http\Middleware\CheckHasClubAccount::class,
         'checkAccountStatus' => \App\Http\Middleware\CheckAccountStatus::class,
+        'transferCartAfterLogin' => \App\Http\Middleware\TransferCartAfterLogin::class,
+
     ];
 }
