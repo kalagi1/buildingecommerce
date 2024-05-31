@@ -282,17 +282,12 @@ class LoginController extends Controller
 
     public function logout()
     {
-        // Log out the user
         Auth::logout();
         
-        // Forget the cart session
         session()->forget('cart');
     
-        // Manually expire the "remember me" cookie
         $cookie = Cookie::forget(Auth::getRecallerName());
-        return $cookie;
     
-        // Redirect to login page with the expired cookie
         return redirect('/giris-yap')->withCookie($cookie);
     }
     
