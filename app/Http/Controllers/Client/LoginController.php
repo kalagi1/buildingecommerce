@@ -152,7 +152,7 @@ class LoginController extends Controller
                 session()->flash('error', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.');
                 return redirect()->route('client.login');
             } elseif ($user->status == 1) {
-                if (Auth::attempt($credentials, $request->filled('remember'))) {
+                if (Auth::attempt($credentials)) {
                     $user = Auth::user();
                     $updateUser = User::where('id', Auth::user()->id)->first();
 
@@ -283,14 +283,14 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        
+
         session()->forget('cart');
-    
+
         $cookie = Cookie::forget(Auth::getRecallerName());
-    
+
         return redirect('/giris-yap')->withCookie($cookie);
     }
-    
+
 
     public function googleLogin()
     {
