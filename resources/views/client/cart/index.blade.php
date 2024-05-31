@@ -260,7 +260,7 @@ if (isset($cart['item']['isShare'])) {
 
 
 
-                                                @if (isset($share_sale) && count($share_sale) > 0 || isset($share_sale) && $share_sale != "[]")
+                                                @if (isset($share_sale) &&  $share_sale != "[]")
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
