@@ -188,25 +188,50 @@
                                                             $earningAmount = $total * $sales_rate_club;
                                                         @endphp
                                                         <strong>
+                                                            @if (strpos($earningAmount, '.') == false)
+                                                                {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                            @else
+                                                                {{ $earningAmount }} ₺
+                                                            @endif
 
-                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
-                                                            $sharePercent = 0.5;
-                                                            $discountedPrice = (isset($discountedPrice)
+                                                            $estateProjectRate = $item['project']['club_rate'] / 100;
+                                                            if (Auth::user()->type != '1') {
+                                                                if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                    $sharePercent = $estateProjectRate;
+                                                                } else {
+                                                                    $sharePercent = 0.5;
+                                                                }
+                                                            } else {
+                                                                $sharePercent = 0.25;
+                                                            }
+                                                            $discountedPrice =
+                                                                isset($discountRate) &&
+                                                                $discountRate != 0 &&
+                                                                isset($discountedPrice)
                                                                     ? $discountedPrice
-                                                                    : isset($item['project_values']['price[]']))
-                                                                ? $item['project_values']['price[]']
-                                                                : $item['project_values']['daily_rent[]'];
-                                                            $earningAmount =
-                                                                $discountedPrice * $deposit_rate * $sharePercent;
+                                                                    : (isset($item['project_values']['price[]'])
+                                                                        ? $item['project_values']['price[]']
+                                                                        : $item['project_values']['daily_rent[]']);
+                                                                        if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                $earningAmount =
+                                                                    $discountedPrice * $sharePercent;
+                                                            } else {
+                                                                $earningAmount =
+                                                                    $discountedPrice * $deposit_rate * $sharePercent;
+                                                            }
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                                @if (strpos($earningAmount, '.') == false)
+                                                                    {{ number_format($earningAmount, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ $earningAmount }}
+                                                                @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif
@@ -436,24 +461,48 @@
                                                         @endphp
                                                         <strong>
 
-                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                            @if (strpos($earningAmount, '.') == false)
+                                                                {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                            @else
+                                                                {{ $earningAmount }} ₺
+                                                            @endif
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
-                                                            $sharePercent = 0.5;
+                                                            $estateProjectRate = $item['project']['club_rate'] / 100;
+                                                            if (Auth::user()->type != '1') {
+                                                                if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                    $sharePercent = $estateProjectRate;
+                                                                } else {
+                                                                    $sharePercent = 0.5;
+                                                                }
+                                                            } else {
+                                                                $sharePercent = 0.25;
+                                                            }
                                                             $discountedPrice = (isset($discountedPrice)
                                                                     ? $discountedPrice
                                                                     : isset($item['project_values']['price[]']))
                                                                 ? $item['project_values']['price[]']
                                                                 : $item['project_values']['daily_rent[]'];
-                                                            $earningAmount =
-                                                                $discountedPrice * $deposit_rate * $sharePercent;
+
+                                                            if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                $earningAmount =
+                                                                    $discountedPrice * $sharePercent;
+                                                            } else {
+                                                                $earningAmount =
+                                                                    $discountedPrice * $deposit_rate * $sharePercent;
+                                                            }
+
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
-                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                                @if (strpos($earningAmount, '.') == false)
+                                                                    {{ number_format($earningAmount, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ $earningAmount }}
+                                                                @endif
                                                             @endif ₺
                                                         </strong>
                                                     @endif

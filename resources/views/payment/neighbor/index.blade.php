@@ -1112,7 +1112,7 @@
                             'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.'
                         );
                         location.reload();
-                        window.location.replace("{{ route('neighbors.index') }}");
+                        window.location.replace("{{ route('institutional.neighbors.index') }}");
 
                     },
                     error: function(error) {

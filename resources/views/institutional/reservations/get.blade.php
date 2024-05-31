@@ -43,7 +43,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" id="expiredTab" data-toggle="tab" href="#refundedReservations">İade Talepleri ({{$refundedReservations->count()}})</a>
+                            <a class="nav-link" id="expiredTab" data-toggle="tab" href="#refundedReservations">İade Edilen Rezervasyonlar ({{$refundedReservations->count()}})</a>
                         </li>
 
                     </ul>

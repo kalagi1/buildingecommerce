@@ -42,21 +42,30 @@
         "key": "GetHousings",
         "url": "institutional.housing.list",
         "activePath": "/hesabim/konutlar"
+    }, {
+        "id": "GetReceivedOffers",
+        "label": "Başvurular",
+        "icon": "users",
+        "text": "HEMEN BAŞVUR KAYITLARI! ",
+        "key": "GetReceivedOffers",
+        "url": "institutional.apply_now_records",
+        "activePath": "/hesabim/hemen-basvur-kayitlari"
     },
     {
         "id": "GetSwapApplications",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Takas Başvurularım",
+        "text": "Takas Talepleri",
         "key": "GetSwapApplications",
         "url": "institutional.react.swap.applications",
         "activePath": "/hesabim/takas-basvurularim"
     },
+
     {
         "id": "GetReceivedOffers",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Gelen Konut Başvuruları",
+        "text": "Projelerime Gelen Başvurular",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
         "activePath": "/hesabim/gelen-konut-basvurulari"
@@ -65,7 +74,7 @@
         "id": "GetGivenOffers",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Proje Başvurularım",
+        "text": "Projelere Yaptığım Başvurular",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
         "activePath": "/hesabim/basvurularim"
@@ -168,7 +177,7 @@
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Rezervasyon Geçimişim",
-        "key": "Reservations",
+        "key": "MyReservations",
         "url": "#nv-shopping",
         "activePath": [
             "/hesabim/kiraladiklarim",

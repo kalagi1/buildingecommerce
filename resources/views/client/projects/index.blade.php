@@ -92,6 +92,20 @@
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
+                            @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                <span
+                                    style="    color: green;
+                          font-weight: 700;
+                          font-size: 16px;
+                          text-align: center;
+                          /* width: 35%; */
+                          flex: 0 0 33.333333%;
+                          max-width: 33.333333%;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;">SATIŞTAN
+                                    %{{ $project->club_rate }} KOMİSYON KAZAN!</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -307,7 +321,7 @@
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                     </td>
                                                 </tr>
-                                                {{-- @if($shareSaleCheck)
+                                                {{-- @if ($shareSaleCheck)
                                                     <tr>
                                                         <td colspan="2">
                                                             <strong class="autoWidthTr">
@@ -449,37 +463,9 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
-
-
-                                    <tr>
-                                        <td colspan="2">
-                                            <strong><span class="mr-1">Proje Adı:</span></strong>
-                                            <span class="det"
-                                                style="color: black;">{{ $project->project_title }}</span>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td>
-                                            <span class="mr-1">Proje Durumu:</span>
-                                            <span class="det" style="color: black;">{{ $status->name }}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="mr-1">Mağaza:</span>
-                                            <span class="det" style="color: black;">{!! $project->user->name !!}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <strong><span class="mr-1">
-                                                    @if ($project->neighbourhood)
-                                                        {!! 'İl-İlçe-Mahalle:' !!}
-                                                    @else
-                                                        {!! 'İl-İlçe:' !!}
-                                                    @endif
-                                                </span></strong>
-                                            <span class="det" style="color: black;">
+                                            <span class="det" style="color: #EA2B2E !important;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
                                                     {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -489,50 +475,192 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span class="mr-1">Telefon:</span>
-                                            <span class="det" style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                            <span class="autoWidthTr">İlan No:</span>
+                                            <span class="det" style="color: #274abb !important;">
+                                                {{ $project->id + 1000000 }}
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <span class="autoWidthTr">İlan Tarihi:</span>
+                                            <span class="det" style="color: #274abb !important;">
+                                                {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Kimden:</span>
+                                            <span class="det" style="color: #274abb !important;">
+                                                {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    @if ($project->user->phone)
+                                        <tr>
+                                            <td>
+                                                <span class="autoWidthTr">İş:</span>
+                                                <span class="det">
+                                                    <a style="text-decoration: none;color:#274abb;"
+                                                        href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if ($project->user->mobile_phone)
+                                        <tr>
+                                            <td>
+                                                <span class="autoWidthTr">Cep :</span>
+                                                <span class="det">
+                                                    <a style="text-decoration: none;color:#274abb;"
+                                                        href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Proje Durumu:</span>
+                                            <span class="det" style="color: black;">{{ $status->name }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong class="autoWidthTr">Mağaza:</strong>
+                                            <span class="det" style="color: black;">{!! $project->user->name !!}</span>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">E-Posta:</span></strong>
+                                            <strong class="autoWidthTr"><span>E-Posta:</span></strong>
                                             <span class="det" style="color: black;">{!! $project->user->email !!}</span>
                                         </td>
                                     </tr>
+
+
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">{{ ucfirst($project->step1_slug) }}
-                                                    Tipi:</span></strong>
-                                            <span class="det"
-                                                style="color: black;">{{ $project->housingtype->title }}</span>
+                                            <strong class="autoWidthTr"><span>
+                                                    @if ($project->neighbourhood)
+                                                        {!! 'İl-İlçe-Mahalle:' !!}
+                                                    @else
+                                                        {!! 'İl-İlçe:' !!}
+                                                    @endif
+                                                </span></strong>
+                                            <span class="det" style="color: black;font-size:10px !important">
+                                                {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
+                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                @endif
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Yapımcı Firma:</span>
+                                            <span class="det"
+                                                style="color: black;">{{ $project->create_company ? $project->create_company : 'Belirtilmedi' }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Ada:</span>
+                                            <span class="det"
+                                                style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Parsel:</span>
+                                            <span class="det"
+                                                style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                            <span class="det" style="color: black;">
+                                                {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                            <span class="det" style="color: black;">
+                                                {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                            <span class="det"
+                                                style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
+                                        </td>
+                                    </tr>
+                                    {{-- @if ($shareSaleCheck)
+                                        <tr>
+                                            <td colspan="2">
+                                                <strong class="autoWidthTr">
+                                                    <span>Toplam
+                                                        Hisse Sayısı:
+                                                    </span>
+                                                </strong>
+                                                <span class="det" style="color: black;">{{ $project->numberOfSharesCount }}</span>
+                                            </td>
+                                        </tr>
+                                    @endif --}}
+                                    <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">Toplam {{ ucfirst($project->step1_slug) }}
-                                                    Sayısı:</span></strong>
+                                            <strong class="autoWidthTr"><span>Toplam
+                                                    {{ ucfirst($project->step1_slug) }}
+                                                    Sayısı:
+                                                </span></strong>
                                             <span class="det" style="color: black;">{{ $project->room_count }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">Satışa Açık {{ ucfirst($project->step1_slug) }}
-                                                    Sayısı:</span></strong>
+                                            <strong class="autoWidthTr"><span>Satışa Açık
+                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                        Hisse
+                                                    @else
+                                                        {{ ucfirst($project->step1_slug) }}
+                                                    @endif
+                                                    Sayısı:
+                                                </span></strong>
                                             <span class="det"
                                                 style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">Satılan {{ ucfirst($project->step1_slug) }}
-                                                    Sayısı:</span></strong>
+                                            <strong class="autoWidthTr"><span>Satılan
+                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                        Hisse
+                                                    @else
+                                                        {{ ucfirst($project->step1_slug) }}
+                                                    @endif
+                                                    Sayısı:
+                                                </span></strong>
                                             <span class="det" style="color: black;">{{ $project->cartOrders }}</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">Satışa Kapalı {{ ucfirst($project->step1_slug) }}
-                                                    Sayısı:</span></strong>
+                                            <strong class="autoWidthTr"><span>Satışa Kapalı
+                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                        Hisse
+                                                    @else
+                                                        {{ ucfirst($project->step1_slug) }}
+                                                    @endif
+                                                    Sayısı:
+                                                </span></strong>
                                             <span class="det"
                                                 style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
                                         </td>
@@ -555,6 +683,46 @@
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: #274abb;">
                                                         {{ $project->id + 1000000 }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Ada:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->island ? $project->island : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Parsel:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -905,6 +1073,51 @@
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-primary fixed-button" data-bs-toggle="modal" data-bs-target="#applyNowModal">
+        Hemen Başvur
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="applyNowModal" tabindex="-1" aria-labelledby="applyNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applyNowModalLabel">Başvuru Formu</h5>
+                    <button type="button" class="close applyNowModalClose" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="applyNowForm">
+                        @csrf
+                        <div class="form-group">
+                            <label for="name">Ad</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Soyad</label>
+                            <input type="text" class="form-control" id="surname" name="surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-posta</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon</label>
+                            <input type="text" class="form-control" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Başlık</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -917,6 +1130,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         function openLightbox(index) {
             const slideNumber = index.toString();
@@ -932,7 +1147,32 @@
 
     <script>
         $(document).ready(function() {
+            $(document).ready(function() {
+                $('#applyNowForm').on('submit', function(event) {
+                    event.preventDefault();
 
+                    $.ajax({
+                        url: '{{ route('apply_now.store') }}', // Burada doğru route'u eklediğinizden emin olun
+                        method: 'POST',
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            Toastify({
+                                text: "Başvurunuz başarıyla gönderildi!",
+                                duration: 5000,
+                                gravity: 'bottom',
+                                position: 'center',
+                                backgroundColor: 'green',
+                                stopOnFocus: true,
+                            }).showToast();
+                            $('.applyNowModalClose').click();
+                        },
+                        error: function(xhr) {
+                            alert('Başvurunuz gönderilirken bir hata oluştu.');
+                        }
+                    });
+
+                });
+            });
             $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
@@ -1424,7 +1664,7 @@
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
-                5); // Bir sonraki beşli kümeye git
+                    5); // Bir sonraki beşli kümeye git
             } else {
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
             }
@@ -1503,6 +1743,16 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
+        .fixed-button {
+            position: fixed;
+            bottom: 70px;
+            left: 20px;
+            z-index: 1000;
+            display: none;
+            background-color: #ea2a28 !important;
+            border-color: #ea2a28 !important;
+        }
+
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1511,6 +1761,12 @@
         .success-message {
             color: green;
             font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .fixed-button {
+                display: block !important
+            }
         }
     </style>
 @endsection

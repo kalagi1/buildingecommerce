@@ -614,4 +614,28 @@ class AuthController extends Controller
             'data'    => $data
         ]);
     } //End
+
+
+    function getAllNotifications()
+    {
+        // Tüm bildirimleri al
+        $notifications = DocumentNotification::all();
+
+        // Bildirimleri JSON formatında döndür
+        return response()->json($notifications);
+    }
+
+    public function getUserNotifications()
+    {
+
+        $userId = auth()->guard("api")->user()->id;
+
+        // Kullanıcıya ait bildirimleri al
+        $notifications = DocumentNotification::where('user_id', $userId)->get();
+    
+        // Bildirimleri JSON formatında döndür
+        return response()->json($notifications);
+            
+
+    }
 }

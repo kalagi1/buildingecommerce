@@ -50,7 +50,7 @@
                     href="{{ URL::to('/') }}/housing_documents/{{ $project->document }}" download>Proje Belgesini İndir</a>
             </div>
         </div>
-        
+
         <div class="row g-5">
             <div class="col-12 col-xl-8">
                 <div class="mb-6">
@@ -102,12 +102,12 @@
                                         <tr>
                                             <td colspan="2">
                                                 <strong class="autoWidthTr"><span>
-                                                    {!! 'İl-İlçe' !!}
-                                                    @if ($project->neighbourhood)
-                                                        {!! '-Mahalle: ' !!}
-                                                    @else
-                                                        {!! ': ' !!}
-                                                    @endif
+                                                        {!! 'İl-İlçe' !!}
+                                                        @if ($project->neighbourhood)
+                                                            {!! '-Mahalle: ' !!}
+                                                        @else
+                                                            {!! ': ' !!}
+                                                        @endif
                                                     </span></strong>
                                                 <span class="det" style="color: black;">
                                                     {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
@@ -427,7 +427,7 @@
         $('.owl-carousel').owlCarousel({
             loop: true,
             nav: false,
-            dots : true,
+            dots: true,
             margin: 10,
             responsive: {
                 0: {
@@ -467,27 +467,56 @@
         })
         var defaultMessagesItems = @json($defaultMessages);
 
+
+
         function defaultMessages() {
             var messages =
-                "<div class='mb-2'><label style='text-align:left;width:100%;'>Örnek Mesajlardan Seç</label><select class='form-control change-default-text'><option value=''>Seç</option>";
+                "<div class='mb-2'><label style='text-align:left;width:100%;'>Örnek Mesajlardan Seç</label><select class='form-control change-default-text' id='messageSelect' onchange='updateTextArea()'><option value=''>Seç</option>";
             for (var i = 0; i < defaultMessagesItems.length; i++) {
-                messages += '<option value="' + defaultMessagesItems[i].content + '">' + defaultMessagesItems[i].title +
-                    '-' + defaultMessagesItems[i].content + '</option>'
+                messages += '<option value="' + defaultMessagesItems[i].id + '">' + defaultMessagesItems[i].title +
+                    '</option>';
             }
             messages += "</select></div>";
+            messages += "<div id='messageContentContainer'></div>"; // Bu div içine contenti göstereceğiz
 
             return messages;
         }
+
+        function updateTextArea() {
+            var selectElement = document.getElementById("messageSelect");
+            var selectedIndex = selectElement.selectedIndex;
+            var selectedId = selectElement.options[selectedIndex].value;
+
+            // Seçilen başlığın id'sini alıp bu id ile eşleşen veriyi bul
+            var selectedItem = defaultMessagesItems.find(item => item.id == selectedId);
+
+            // Eğer seçilen bir öğe bulunduysa, içeriği göster
+            if (selectedItem) {
+                var selectedContent = selectedItem.content;
+                var messageContentContainer = document.getElementById("messageContentContainer");
+                messageContentContainer.innerHTML =
+                    "<div class='form-control reason' style='height: 150px; overflow-y: auto;'>" + selectedContent +
+                    "</div>";
+            } else {
+                // Eğer seçilen bir öğe bulunamadıysa, content alanını temizle
+                document.getElementById("messageContentContainer").innerHTML = "";
+            }
+        }
+
+
+
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $('.reject').click(function(e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Projeyi reddetmek istediğine emin misin ?',
                 showCancelButton: true,
+                showCancelButton: true,
                 confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-                html: defaultMessages() +
-                    "<div><input class='form-control reason' placeholder='Neden reddediyorsun'></div>",
+                cancelButtonText: 'İptal',
+                showDenyButton: true,
+                denyButtonText: 'Yeni Şablon Oluştur',
+                html: defaultMessages(),
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -521,7 +550,20 @@
                             console.error('İstek sırasında bir hata oluştu.');
                             console.error('Hata detayı:', error);
                         }
+                        
                     });
+                }
+                else if (result.isDenied) {
+                    // Kullanıcı "Şablon Oluştur" butonuna tıkladı
+                    // Mevcut URL'yi al
+                    var currentUrl = window.location.href;
+
+                    // Yeni URL'yi oluştur ve parametre olarak mevcut URL'yi yolla
+                    var newUrl = '{{ route('admin.reason.templates.create') }}' + '?redirectUrl=' +
+                        encodeURIComponent(currentUrl);
+
+                    // Yeni URL'ye yönlendir
+                    window.location.href = newUrl;
                 }
             })
 

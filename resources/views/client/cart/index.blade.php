@@ -189,7 +189,9 @@
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
-                                                        @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                                        @if (
+                                                            (isset($share_sale) && is_string($share_sale) && !empty($share_sale)) ||
+                                                                (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0))
                                                             <br><br>
                                                             <span style="color:#EA2B2E"
                                                                 class="mt-3">{{ $cart['item']['qt'] }} adet hisse
@@ -243,42 +245,49 @@
                                                     : $projectDiscountAmount);
 
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                                            $share_sale = $cart['item']['isShare'] ?? null;
-                                            $number_of_share = $cart['item']['numbershare'] ?? null;
+                                            $share_sale = null;
+
+                                            if (isset($cart['item']['isShare'])) {
+                                                if (is_string($cart['item']['isShare'])) {
+                                                    $share_sale = json_decode($cart['item']['isShare'], true); // decode JSON string to array
+                                                } elseif (is_array($cart['item']['isShare'])) {
+                                                    $share_sale = $cart['item']['isShare']; // it's already an array
+    }
+}
+$number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
-                                            <span style="width:100%;text-align:center">
 
 
+                                            @if (
+                                                (isset($share_sale) && is_string($share_sale) && !empty($share_sale)) ||
+                                                    (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0))
+                                                <div
+                                                    class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
+                                                    <button
+                                                        class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
+                                                    <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
+                                                    <button
+                                                        class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
+                                                </div>
+                                            @endif
 
 
-                                                @if (isset($share_sale) && count($share_sale) > 0)
-                                                    <div
-                                                        class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
-                                                        <button
-                                                            class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
-                                                        <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
-                                                        <button
-                                                            class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
-                                                    </div>
-                                                @endif
-
-
-                                                @if ($discountRate != 0)
-                                                    <span>
-                                                        <del
-                                                            style="color:#EA2B2E">{{ number_format($cart['item']['amount'], 0, ',', '.') }}₺</del>
-                                                    </span>
-                                                @endif
-
-                                                <span class="discounted-price-x" id="itemPrice"
-                                                    data-original-price="{{ $cart['item']['defaultPrice'] }}"
-                                                    data-installment-price="{{ $cart['item']['installmentPrice'] }}"
-                                                    style="color: green; font-size:14px !important">
-                                                    {{ $displayedPrice }}
-                                                    ₺
+                                            @if ($discountRate != 0)
+                                                <span>
+                                                    <del
+                                                        style="color:#EA2B2E">{{ number_format($cart['item']['amount'], 0, ',', '.') }}₺</del>
                                                 </span>
+                                            @endif
+
+                                            <span class="discounted-price-x" id="itemPrice"
+                                                data-original-price="{{ $cart['item']['defaultPrice'] }}"
+                                                data-installment-price="{{ $cart['item']['installmentPrice'] }}"
+                                                style="color: green; font-size:14px !important">
+                                                {{ $displayedPrice }}
+                                                ₺
+                                            </span>
                                             </span>
                                         </td>
                                     </tr>

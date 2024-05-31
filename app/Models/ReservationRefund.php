@@ -19,6 +19,7 @@ class ReservationRefund extends Model
         'status',
         'return_iban',
         'return_bank',
+        'return_amount',
         
     ];
     // User modeli ile ilişkiyi tanımlayın
@@ -30,6 +31,6 @@ class ReservationRefund extends Model
     // CartOrder modeli ile ilişkiyi tanımlayın
     public function reservation()
     {
-        return $this->belongsTo(reservation::class);
+        return $this->belongsTo(Reservation::class);
     }
 }

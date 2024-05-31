@@ -13,6 +13,7 @@ use App\Models\NeighborView;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\Reservation;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -242,15 +243,42 @@ class CartController extends Controller
         if ($cartItem) {
             $cart = json_decode($cartItem->cart, true);
         }
+        $housing = null;
+        $project = null;
+        $housingOffer = null;
+        $projectOffer = null;
+
+
 
         $saleType = null;
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
+                $housingOffer =Offer::where('type', 'housing')
+                                                ->where('housing_id', $cart['item']['id'])
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->first();
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
+                $projectOffer = Offer::where('type', 'project')
+                ->where('project_id', $cart['item']['id'])
+                ->where(function ($query) use ($cart) {
+                    $query
+                        ->orWhereJsonContains(
+                            'project_housings',
+                            $cart['item']['housing'],
+                        )
+                        ->orWhereJsonContains(
+                            'project_housings',
+                            (string) $cart['item']['housing'],
+                        ); // Handle as string as JSON might store values as strings
+                })
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->first();
             }
         }
 
@@ -269,7 +297,82 @@ class CartController extends Controller
             'pageInfo' => $pageInfo,
             'cart' => $cart,
             'bankAccounts' => $bankAccounts,
-            'saleType' => $saleType
+            'saleType' => $saleType,
+            "project" => $project,
+            "housing" => $housing,
+            "projectOffer" => $projectOffer,
+            "housingOffer" => $housingOffer
+        ]);
+    }
+
+
+    public function getMyReservations()
+    {
+        $user = Auth::user();
+        $housingReservations = Reservation::with("user", "housing", "owner")
+
+            ->where('status', '!=', 3)
+            ->get();
+
+
+        $housingReservations = Reservation::select('reservations.*')
+            ->with('user', 'housing', 'owner')
+            ->where('status', '=', 1)
+            ->where("user_id", $user->id)
+            ->leftJoin('cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id')
+            ->whereNull('cancel_requests.id')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $confirmReservations = Reservation::select('reservations.*')
+            ->with('user', 'housing', 'owner')
+            ->where('status', '!=', 3)
+            ->where('status', '!=', 1)
+            ->where("user_id", $user->id)
+            ->where('check_in_date', '>=', date('Y-m-d'))
+            ->where('status', '!=', 3)
+            ->leftJoin('cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id')
+            ->whereNull('cancel_requests.id')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $expiredReservations = Reservation::select('reservations.*')
+            ->with('user', 'housing', 'owner')
+            ->where('check_in_date', '<=', date('Y-m-d'))
+            ->where('status', '!=', 3)
+            ->where("user_id", $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $cancelReservations = Reservation::select('reservations.*')
+            ->with('user', 'housing', 'owner')
+            ->where('status', '=', 3)
+            ->where("user_id", $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $cancelRequestReservations = Reservation::select('reservations.*')
+            ->with('user', 'housing', 'owner')->leftJoin('cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id')
+            ->where("user_id", $user->id)
+            ->where('status', '!=', 3)->whereNotNull('cancel_requests.id')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+        $refundedReservations = Reservation::whereHas('refund')
+            ->with('user', 'housing', 'owner', 'refund')
+            ->where('owner_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+        return response()->json([
+            'refundedReservations' => $refundedReservations,
+            'housingReservations' => $housingReservations,
+            'cancelReservations' => $cancelReservations,
+            'expiredReservations' => $expiredReservations,
+            'confirmReservations' => $confirmReservations,
+            'cancelRequestReservations' => $cancelRequestReservations,
         ]);
     }
 }

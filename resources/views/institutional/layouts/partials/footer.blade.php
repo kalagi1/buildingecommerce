@@ -96,7 +96,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" defer></script>
 <script src="https://formbuilder.online/assets/js/form-builder.min.js" defer></script>
 <script type="text/javascript" src="https://formbuilder.online/assets/js/form-render.min.js" defer></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+<script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 <script src="{{URL::to('/')}}/build/assets/app-1843d22e.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" defer></script>

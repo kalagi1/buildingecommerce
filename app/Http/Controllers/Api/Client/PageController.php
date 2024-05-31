@@ -9,14 +9,48 @@ use Illuminate\Http\Request;
 use App\Models\Collection;
 use App\Models\Housing;
 use App\Models\Invoice;
+use App\Models\Offer;
 use App\Models\Project;
+use App\Models\Rate;
 use App\Models\ShareLink;
+use App\Models\SharerPrice;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
+    public function removeFromCollection(Request $request)
+    {
+        $itemType = $request->input('itemType');
+        $itemId = $request->input('itemId');
+        $projectId = $request->input('projectId');
+
+        $link = null;
+
+        $link = ShareLink::where('item_id', $projectId)
+            ->where('item_type', $itemType === 'project' ? 1 : 2)
+            ->when($itemType === 'project', function ($query) use ($itemId) {
+                return $query->where('room_order', $itemId);
+            })
+            ->first();
+
+
+        if ($link) {
+            ShareLink::where('item_id', $projectId)
+            ->where('item_type', $itemType === 'project' ? 1 : 2)
+            ->when($itemType === 'project', function ($query) use ($itemId) {
+                return $query->where('room_order', $itemId);
+            })
+            ->delete();
+            return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+        }  else {
+            return response()->json(['success' => false, 'message' => 'Link not found in the collection.'], 404);
+        }
+    }
+
+
     public function getCollections()
     {
         $collections = Collection::where("user_id", Auth::user()->id)->get();
@@ -28,22 +62,22 @@ class PageController extends Controller
     {
         // Retrieve the order
         $order = CartOrder::where("id", $order)->first();
-    
+
         // Check if the order exists
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
-    
+
         // Decode the cart JSON
         $cart = json_decode($order->cart);
-    
+
         // Check if cart is decoded properly
         if (json_last_error() !== JSON_ERROR_NONE) {
             return response()->json(['error' => 'Invalid cart JSON'], 400);
         }
-    
+
         $project = null;
-    
+
         // Check if cart type and item properties exist
         if (isset($cart->type) && isset($cart->item) && isset($cart->item->id)) {
             if ($cart->type == "project") {
@@ -58,24 +92,24 @@ class PageController extends Controller
         } else {
             return response()->json(['error' => 'Invalid cart structure'], 400);
         }
-    
+
         // Retrieve the invoice with its related data
-        $invoice = Invoice::where("order_id", $order->id)->with("order.user","order.store", "order.bank")->first();
-    
+        $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.store", "order.bank")->first();
+
         // Check if the invoice exists
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found'], 404);
         }
-    
+
         $data = [
             'invoice' => $invoice,
             'project' => $project,
         ];
-    
+
         // Return the data as JSON
         return response()->json($data);
     }
-    
+
 
     public function orderDetail($id)
     {
@@ -130,17 +164,148 @@ class PageController extends Controller
         }
     } //End
 
+
+
+
+
+
     public function clientCollections()
     {
+        function calculateEarning($item)
+        {
+            $earningAmount = 0;
+            $deposit_rate = 0.02;
+
+            if ($item['item_type'] == 2) {
+                $discountRate = json_decode($item['housing']['housing_type_data'])
+                    ->discount_rate[0];
+
+                $defaultPrice =
+                    json_decode($item['housing']['housing_type_data'])->price[0] ??
+                    json_decode($item['housing']['housing_type_data'])->daily_rent[0];
+
+                $price = $defaultPrice - $item['discount_amount'];
+                $discountedPrice = $price - ($price * $discountRate) / 100;
+                $deposit_rate = 0.02;
+
+                $rates = Rate::where('housing_id', $item['housing']['id'])->get();
+                $share_percent_earn = null;
+                $sales_rate_club = null;
+
+                foreach ($rates as $key => $rate) {
+                    if (
+                        Auth::user()->corporate_type ==
+                        $rate->institution->name
+                    ) {
+                        $sales_rate_club = $rate->sales_rate_club;
+                    }
+                    if (
+                        $item['housing']['user']['corporate_type'] ==
+                        $rate->institution->name
+                    ) {
+                        $share_percent_earn = $rate->default_deposit_rate;
+                        $share_percent_balance = 1.0 - $share_percent_earn;
+                    }
+                }
+
+                if ($sales_rate_club === null && count($rates) > 0) {
+                    $sales_rate_club = $rates->last()->sales_rate_club;
+                }
+
+                $total = $discountedPrice * 0.04 * $share_percent_earn;
+
+                $earningAmount = $total * $sales_rate_club;
+            } elseif ($item['item_type'] == 1) {
+                $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
+                $share_sale = $item['project_values']['share_sale[]'] ?? null;
+                $number_of_share = $item['project_values']['number_of_shares[]'] ?? null;
+                $price = $item['project_values']['price[]'] - $item['discount_amount'];
+                $discountedPrice = $price - ($price * $discountRate) / 100;
+                $deposit_rate = $item['project']->deposit_rate / 100;
+
+                $sharePercent = 0.5;
+                $discountedPrice =
+                    isset($discountRate) &&
+                    $discountRate != 0 &&
+                    isset($discountedPrice)
+                    ? $discountedPrice
+                    : (isset($item['project_values']['price[]'])
+                        ? $item['project_values']['price[]']
+                        : $item['project_values']['daily_rent[]']);
+
+                $earningAmount =
+                    $discountedPrice * $deposit_rate * $sharePercent;
+            }
+
+            return $earningAmount;
+        }
+
 
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
         $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
-        $itemsArray = [];
         foreach ($items as $item) {
+
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
             $item['housing'] = $item->housing;
+            $item['project'] = $item->project;
+
+            $earningAmount = calculateEarning($item);
+            $item['earningAmount'] = $earningAmount;
+
+            if ($item->item_type == 2) {
+                $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
+                    ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
+                    ->latest()->first();
+
+                $action = $cartStatus ? (
+                    ($cartStatus->status == 0) ? 'payment_await' : (
+                        ($cartStatus->status == 1) ? 'sold' : (
+                            ($cartStatus->status == 2) ? 'tryBuy' : ''
+                        )
+                    )
+                ) : 'noCart';
+                $item['action'] = $action;
+
+                $sharePrice = 0;
+                if ($cartStatus) {
+                    $sharePrice = SharerPrice::where("cart_id", $cartStatus->id)->where("user_id", Auth::user()->id)->first();
+                }
+                $item['sharePrice'] = $sharePrice;
+
+                $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
+                $housingTypeData = json_decode($item->housing->housing_type_data, true);
+                $offSale = isset($housingTypeData['off_sale1']);
+            }
+
+            if ($item->item_type == 1) {
+
+                $userProjectIds = $sharer->projects->pluck('id');
+                $discount_amount = Offer::where('type', 'project')->where('project_id', $item->project->id)
+                    ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+
+
+                $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
+                    ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                    ->latest()->first();
+
+                $sharePrice = 0;
+                if ($status) {
+                    $sharePrice = SharerPrice::where("cart_id", $status->id)->where("user_id", Auth::user()->id)->first();
+                }
+                $item['sharePrice'] = $sharePrice;
+
+                $action = $status ? (
+                    ($status->status == "0") ? 'payment_await' : (
+                        ($status->status == "1") ? 'sold' : (
+                            ($status->status == "2") ? 'tryBuy' : ''
+                        )
+                    )
+                ) : 'noCart';
+                $item['action'] = $action;
+            }
         }
+
 
         return response()->json([
             'success' => 'Koleksiyonlar başarıyla listelendi',
@@ -171,7 +336,7 @@ class PageController extends Controller
         return response()->json([
             'success' => "Koleksiyon başarıyla silindi."
         ]);
-    } //End
+    }
 
     public function store(Request $request)
     {

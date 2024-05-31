@@ -262,92 +262,92 @@ console.log(housingType);
                     var deleteCell = document.createElement("td");
                     deleteCell.className = "align-middle";
 
-                    var passiveButton = document.createElement("button");
-                    passiveButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-                    passiveButton.textContent = "Pasife Al";
-                    passiveButton.addEventListener("click", function() {
-                        // Kullanıcıdan onay al
-                        var confirmDelete = confirm("Bu ilanı pasife almak istediğinizden emin misiniz?");
-                        if (confirmDelete) {
-                            var csrfToken = "{{ csrf_token() }}";
-                            // Laravel route ismi
-                            var routeName =
-                                "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
-                            // API Endpoint'i oluştur
-                            var apiUrl = routeName.replace(':id', housingType.id);
+                    // var passiveButton = document.createElement("button");
+                    // passiveButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                    // passiveButton.textContent = "Pasife Al";
+                    // passiveButton.addEventListener("click", function() {
+                    //     // Kullanıcıdan onay al
+                    //     var confirmDelete = confirm("Bu ilanı pasife almak istediğinizden emin misiniz?");
+                    //     if (confirmDelete) {
+                    //         var csrfToken = "{{ csrf_token() }}";
+                    //         // Laravel route ismi
+                    //         var routeName =
+                    //             "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
+                    //         // API Endpoint'i oluştur
+                    //         var apiUrl = routeName.replace(':id', housingType.id);
 
-                            fetch(apiUrl, {
-                                    method: "POST", // Silme işlemi için DELETE metodu
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                                    },
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error("Network response was not ok");
-                                    }
-                                    location.reload();
-                                })
-                                .then(data => {
-                                    // Silme işlemi başarılı
-                                    toastr.success("İlan başarıyla pasife alındı.");
-                                    location.reload();
-                                })
-                                .catch(error => {
-                                    console.error("There was a problem with the fetch operation:",
-                                        error);
-                                    // Silme işlemi başarısız
-                                    toastr.error("İlan pasife alınırken bir hata oluştu.");
-                                });
-                        }
-                    });
+                    //         fetch(apiUrl, {
+                    //                 method: "POST", // Silme işlemi için DELETE metodu
+                    //                 headers: {
+                    //                     "Content-Type": "application/json",
+                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                    //                 },
+                    //             })
+                    //             .then(response => {
+                    //                 if (!response.ok) {
+                    //                     throw new Error("Network response was not ok");
+                    //                 }
+                    //                 location.reload();
+                    //             })
+                    //             .then(data => {
+                    //                 // Silme işlemi başarılı
+                    //                 toastr.success("İlan başarıyla pasife alındı.");
+                    //                 location.reload();
+                    //             })
+                    //             .catch(error => {
+                    //                 console.error("There was a problem with the fetch operation:",
+                    //                     error);
+                    //                 // Silme işlemi başarısız
+                    //                 toastr.error("İlan pasife alınırken bir hata oluştu.");
+                    //             });
+                    //     }
+                    // });
 
-                    var activeButton = document.createElement("button");
-                    activeButton.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    activeButton.textContent = "Aktife Al";
-                    activeButton.addEventListener("click", function() {
-                        // Kullanıcıdan onay al
-                        var confirmDelete = confirm("Bu ilanı aktife almak istediğinizden emin misiniz?");
-                        if (confirmDelete) {
-                            var csrfToken = "{{ csrf_token() }}";
-                            // Laravel route ismi
-                            var routeName = "{{ route('institutional.housings.active', ['id' => ':id']) }}";
-                            // API Endpoint'i oluştur
-                            var apiUrl = routeName.replace(':id', housingType.id);
+                    // var activeButton = document.createElement("button");
+                    // activeButton.className = "badge badge-phoenix badge-phoenix-success btn-sm";
+                    // activeButton.textContent = "Aktife Al";
+                    // activeButton.addEventListener("click", function() {
+                    //     // Kullanıcıdan onay al
+                    //     var confirmDelete = confirm("Bu ilanı aktife almak istediğinizden emin misiniz?");
+                    //     if (confirmDelete) {
+                    //         var csrfToken = "{{ csrf_token() }}";
+                    //         // Laravel route ismi
+                    //         var routeName = "{{ route('institutional.housings.active', ['id' => ':id']) }}";
+                    //         // API Endpoint'i oluştur
+                    //         var apiUrl = routeName.replace(':id', housingType.id);
 
-                            fetch(apiUrl, {
-                                    method: "POST", // Silme işlemi için DELETE metodu
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                                    },
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error("Network response was not ok");
-                                    }
-                                    location.reload();
-                                })
-                                .then(data => {
-                                    // Silme işlemi başarılı
-                                    toastr.success("İlan başarıyla aktife alındı.");
-                                    location.reload();
-                                })
-                                .catch(error => {
-                                    console.error("There was a problem with the fetch operation:",
-                                        error);
-                                    // Silme işlemi başarısız
-                                    toastr.error("İlan aktife alınırken bir hata oluştu.");
-                                });
-                        }
-                    });
+                    //         fetch(apiUrl, {
+                    //                 method: "POST", // Silme işlemi için DELETE metodu
+                    //                 headers: {
+                    //                     "Content-Type": "application/json",
+                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                    //                 },
+                    //             })
+                    //             .then(response => {
+                    //                 if (!response.ok) {
+                    //                     throw new Error("Network response was not ok");
+                    //                 }
+                    //                 location.reload();
+                    //             })
+                    //             .then(data => {
+                    //                 // Silme işlemi başarılı
+                    //                 toastr.success("İlan başarıyla aktife alındı.");
+                    //                 location.reload();
+                    //             })
+                    //             .catch(error => {
+                    //                 console.error("There was a problem with the fetch operation:",
+                    //                     error);
+                    //                 // Silme işlemi başarısız
+                    //                 toastr.error("İlan aktife alınırken bir hata oluştu.");
+                    //             });
+                    //     }
+                    // });
 
-                    if (housingType.status == 1) {
-                        deleteCell.appendChild(passiveButton);
-                    } else if (housingType.status == 0) {
-                        deleteCell.appendChild(activeButton);
-                    }
+                    // if (housingType.status == 1) {
+                    //     deleteCell.appendChild(passiveButton);
+                    // } else if (housingType.status == 0) {
+                    //     deleteCell.appendChild(activeButton);
+                    // }
 
                 }
 
