@@ -214,7 +214,6 @@ class LoginController extends Controller
                     } elseif ($user->type != '3') {
 
                         $cart =  $request->session()->get('cart', []);
-                        return $cart;
                         $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                         if ( $cartList ) {
                             CartItem::where( 'user_id', $user->id )->latest()->first()->delete();

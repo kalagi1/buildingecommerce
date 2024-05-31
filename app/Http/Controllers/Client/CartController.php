@@ -1030,7 +1030,6 @@ class CartController extends Controller {
 
                 return response( [ 'message' => 'success' ] );
             } else {
-                // If user is not logged in, store cart data in session
                 $cartItem = $this->prepareCartItem( $request );
                 if ( !$cartItem ) {
                     return response( [ 'message' => 'fail' ] );
@@ -1043,6 +1042,7 @@ class CartController extends Controller {
                 ];
 
                 $request->session()->put( 'cart', $cart );
+                return $cart;
 
 
                 return response( [ 'message' => 'session' ] );
