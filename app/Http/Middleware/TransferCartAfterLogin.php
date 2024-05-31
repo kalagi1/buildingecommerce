@@ -16,6 +16,7 @@ class TransferCartAfterLogin
 
         if (Auth::check() && $request->session()->has('cart')) {
             $cart = $request->session()->get('cart');
+            dd($cart);
             CartItem::create([
                 'cart' => json_encode($cart),
                 'user_id' => Auth::id()
