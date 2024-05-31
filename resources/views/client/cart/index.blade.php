@@ -243,7 +243,7 @@
                                                     : $projectDiscountAmount);
 
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                                            $share_sale = isset($cart['item']['isShare']) && is_string($cart['item']['isShare']) ? json_decode($cart['item']['isShare']) : null;
+                                            $share_sale = isset($cart['item']['isShare']) ? $cart['item']['isShare'] : null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
