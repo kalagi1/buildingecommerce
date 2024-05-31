@@ -999,8 +999,6 @@ class ProjectController extends Controller
 
 
                 if (!empty($optName) && !$newHousingType) {
-                    return "dsd";
-
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
