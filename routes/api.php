@@ -184,6 +184,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
     }); 
     Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
+    Route::post('/update-cart', [ApiCartController::class, 'update'])->name('cart.update');
 
     Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
     Route::get('/notifications', [AuthController::class, 'getAllNotifications']);

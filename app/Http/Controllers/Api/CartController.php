@@ -104,5 +104,34 @@ class CartController extends Controller
             return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
         }
     }
+    public function update( Request $request ) {
+        try {
+            $cartSession = $request->session()->get( 'cart', [] );
+            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
 
+            if ( $cartItem ) {
+                $cart = json_decode( $cartItem->cart, true );
+                $selectedPaymentOption = $request->input( 'paymentOption' );
+                $updatedPrice = $request->input( 'updatedPrice' );
+
+                if ( isset( $updatedPrice ) ) {
+                    $cartSession[ 'item' ][ 'amount' ] = $updatedPrice;
+                    $cartSession[ 'item' ][ 'payment-plan' ] = $selectedPaymentOption;
+                    $cart[ 'item' ][ 'amount' ] = $updatedPrice;
+                    $cart[ 'item' ][ 'payment-plan' ] = $selectedPaymentOption;
+                    $cartItem->cart = json_encode( $cart );
+                    $cartItem->save();
+                }
+
+                $request->session()->put( 'cart', $cart );
+
+                return response( [ 'message' => 'success' ] );
+            }
+
+            return response( [ 'message' => 'fail' ] );
+        } catch ( \Exception $e ) {
+            // Handle exceptions if any
+            return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
+        }
+    }
 }
