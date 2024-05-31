@@ -258,9 +258,8 @@
                                         <td>
 
 
-{{isset($share_sale) ? print_r($share_sale) : "yok" }}
 
-                                            @if (isset($share_sale) && $share_sale != '[]')
+                                            @if (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale != '[]' || isset($share_sale) && is_array($cart['item']['isShare']) &&  count($share_sale) >0)
                                         
                                                 <div
                                                     class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
