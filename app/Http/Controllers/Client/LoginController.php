@@ -290,6 +290,7 @@ class LoginController extends Controller
     
         // Manually expire the "remember me" cookie
         $cookie = Cookie::forget(Auth::getRecallerName());
+        return $cookie;
     
         // Redirect to login page with the expired cookie
         return redirect('/giris-yap')->withCookie($cookie);
