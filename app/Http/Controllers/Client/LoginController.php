@@ -218,6 +218,9 @@ class LoginController extends Controller {
                         //     return redirect()->to($request->input('backurl'));
                         // }
 
+                        return $request->session()->get( 'cart', [] );
+
+
                         return redirect()->intended( route( 'index' ) );
                     }
 

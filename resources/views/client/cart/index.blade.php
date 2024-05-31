@@ -190,9 +190,8 @@
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
                                                         @if (
-                                                            (isset($share_sale) && is_string($share_sale) &&  !empty($share_sale)) ||
-                                                            (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0)
-                                                        )
+                                                            (isset($share_sale) && is_string($share_sale) && !empty($share_sale)) ||
+                                                                (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0))
                                                             <br><br>
                                                             <span style="color:#EA2B2E"
                                                                 class="mt-3">{{ $cart['item']['qt'] }} adet hisse
@@ -261,16 +260,18 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         <td>
 
 
-@if (
-    (isset($share_sale) && is_string($share_sale) &&  !empty($share_sale)) ||
-    (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0)
-)
-    <div class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
-        <button class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
-        <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
-        <button class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
-    </div>
-@endif
+                                            @if (
+                                                (isset($share_sale) && is_string($share_sale) && !empty($share_sale)) ||
+                                                    (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0))
+                                                <div
+                                                    class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
+                                                    <button
+                                                        class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
+                                                    <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
+                                                    <button
+                                                        class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
+                                                </div>
+                                            @endif
 
 
                                             @if ($discountRate != 0)
