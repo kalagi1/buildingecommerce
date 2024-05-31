@@ -261,6 +261,7 @@
 {{isset($share_sale) && $share_sale }}
 
                                             @if (isset($share_sale) && $share_sale != '[]')
+                                            asadd
                                                 <div
                                                     class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                     <button
