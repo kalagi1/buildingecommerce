@@ -147,7 +147,6 @@ class LoginController extends Controller {
             }elseif ($user->is_blocked == 1) {
                 session()->flash( 'error', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.' );
                     return redirect()->route('client.login');
-                
             } elseif ( $user->status == 1 ) {
                 if ( Auth::attempt( $credentials , $request->filled('remember')) ) {
                     $user = Auth::user();
@@ -224,14 +223,11 @@ class LoginController extends Controller {
 
                 } else {
                     session()->flash( 'warning', 'Giriş Başarısız. Lütfen bilgilerinizi kontrol ediniz.' );
-
                     return redirect()->route( 'client.login' );
                 }
-
             }
         } else {
             session()->flash( 'warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.' );
-
             return redirect()->route( 'client.login' );
         }
 
