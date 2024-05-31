@@ -831,7 +831,7 @@ class ProjectController extends Controller
                     }
                 }
 
-return $newHousingType;
+dd($newHousingType);
 
                 if (!empty($optName) && !$newHousingType) {
                     return $optName;
