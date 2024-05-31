@@ -1287,7 +1287,7 @@
                     success: function(response) {
                         toastr.error("Ürün Sepetten Kaldırılıyor.");
                         button.classList.remove("bg-success");
-                        location.reload();
+                        // location.reload();
                     },
                     error: function(error) {
                         // window.location.href = "/giris-yap";
@@ -1315,7 +1315,7 @@
                             button.textContent = "Sepete Eklendi";
                         }
                         button.classList.add("bg-success");
-                        window.location.href = "/sepetim";
+                        // window.location.href = "/sepetim";
                     },
                     error: function(error) {
                         if (error.status === 401) {
