@@ -1044,9 +1044,8 @@ class CartController extends Controller {
 
                 $request->session()->put( 'cart', $cart );
 
-                return $cart;
 
-                return response( [ 'message' => 'success' ] );
+                return response( [ 'message' => 'session' ] );
             }
         } catch ( \Exception $e ) {
             return response( [ 'message' => $e->getMessage() ] );
