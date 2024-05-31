@@ -580,6 +580,7 @@ class ProjectController extends Controller
                     }
                 } else {
                     // City check
+                    return $paramValue;
                     if (!$cityID) {
                         $cityValue = City::whereRaw('LOWER(REPLACE(title, " ", "-")) = ?', [$paramValue])->first();
                         if ($cityValue) {
@@ -614,10 +615,6 @@ class ProjectController extends Controller
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
                     
-                    if ($housingType) {
-                        return $housingType;
-                        # code...
-                    }
 
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
@@ -642,7 +639,6 @@ class ProjectController extends Controller
                 }
             }
         }
-        return $housingType;
 
 
         if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
