@@ -259,8 +259,8 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
 
 @if (
-    (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale !== "[]" && !empty($cart['item']['isShare'])) ||
-    (isset($share_sale) && is_array($cart['item']['isShare']) && count($share_sale) > 0)
+    (isset($share_sale) && is_string($share_sale) &&  !empty($share_sale)) ||
+    (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0)
 )
     <div class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
         <button class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
