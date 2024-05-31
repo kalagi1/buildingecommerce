@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
 use App\Models\UserPlan;
 use App\Models\Chat;
 use App\Models\RoleChanges;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -281,11 +282,19 @@ class LoginController extends Controller
 
     public function logout()
     {
+        // Log out the user
         Auth::logout();
+        
+        // Forget the cart session
         session()->forget('cart');
-
-        return redirect('/giris-yap');
+    
+        // Manually expire the "remember me" cookie
+        $cookie = Cookie::forget(Auth::getRecallerName());
+    
+        // Redirect to login page with the expired cookie
+        return redirect('/giris-yap')->withCookie($cookie);
     }
+    
 
     public function googleLogin()
     {
