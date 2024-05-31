@@ -243,7 +243,15 @@
                                                     : $projectDiscountAmount);
 
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                                            $share_sale = isset($cart['item']['isShare']) && is_string($cart['item']['isShare']) ? json_decode($cart['item']['isShare']) : null;
+                                            $share_sale = null;
+
+if (isset($cart['item']['isShare'])) {
+    if (is_string($cart['item']['isShare'])) {
+        $share_sale = json_decode($cart['item']['isShare'], true); // decode JSON string to array
+    } elseif (is_array($cart['item']['isShare'])) {
+        $share_sale = $cart['item']['isShare']; // it's already an array
+    }
+}
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
