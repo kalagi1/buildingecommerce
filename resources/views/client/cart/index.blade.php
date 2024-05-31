@@ -257,20 +257,17 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
                                         <td>
 
-{{isset($share_sale) && is_array($cart['item']['isShare']) ? dd($share_sale) : null}}
 
-                                            @if (
-                                                (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale != "[]") ||
-                                                    (isset($share_sale) && is_array($cart['item']['isShare']) && count($share_sale) > 0))
-                                                <div
-                                                    class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
-                                                    <button
-                                                        class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
-                                                    <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
-                                                    <button
-                                                        class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
-                                                </div>
-                                            @endif
+@if (
+    (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale !== "[]" && !empty($cart['item']['isShare'])) ||
+    (isset($share_sale) && is_array($cart['item']['isShare']) && count($share_sale) > 0)
+)
+    <div class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
+        <button class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
+        <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
+        <button class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
+    </div>
+@endif
 
 
                                             @if ($discountRate != 0)
