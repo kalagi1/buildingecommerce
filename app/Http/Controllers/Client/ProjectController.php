@@ -996,9 +996,9 @@ class ProjectController extends Controller
                 }
 
 
-                return $optName;
 
                 if (!empty($optName) && !$newHousingType) {
+                    return "dsd";
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
