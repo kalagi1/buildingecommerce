@@ -780,7 +780,7 @@ class ProjectController extends Controller
         });
 
         $menu = Menu::getMenuItems();
-        $newHousingType = HousingType::where('slug', $housingTypeSlug)->first();
+        $newHousingType = HousingType::where('id', $housingType)->first();
         return $newHousingType;
         if ($projects) {
             if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
