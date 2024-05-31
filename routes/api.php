@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CartController as ApiCartController;
 use App\Http\Controllers\Api\Client\AddressController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\BrandController;
@@ -182,6 +183,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
     }); 
+    Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
 
     Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
     Route::get('/notifications', [AuthController::class, 'getAllNotifications']);
