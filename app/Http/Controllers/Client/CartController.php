@@ -1042,8 +1042,6 @@ class CartController extends Controller {
                 ];
 
                 $request->session()->put( 'cart', $cart );
-                return $cart;
-
 
                 return response( [ 'message' => 'session' ] );
             }
