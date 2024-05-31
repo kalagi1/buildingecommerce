@@ -6,6 +6,7 @@ use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -36,11 +37,20 @@ class LoginController extends Controller
         return redirect()->back()->withInput()->withErrors(['email' => 'Giriş başarısız. Lütfen tekrar deneyin.']);
     }
 
+    
     public function logout()
     {
+        // Log out the user
         Auth::logout();
+        
+        // Forget the cart session
         session()->forget('cart');
-
-        return redirect('/qR9zLp2xS6y/secured/login');
+    
+        // Manually expire the "remember me" cookie
+        $cookie = Cookie::forget(Auth::getRecallerName());
+    
+        // Redirect to login page with the expired cookie
+        return redirect('/qR9zLp2xS6y/secured/login')->withCookie($cookie);
     }
+    
 }
