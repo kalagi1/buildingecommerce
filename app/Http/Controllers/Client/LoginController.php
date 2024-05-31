@@ -213,14 +213,8 @@ class LoginController extends Controller
                         return redirect()->intended('/qR9zLp2xS6y/secured/admin');
                     } elseif ($user->type != '3') {
 
-                        // if ($request->has('backurl')) {
-                        //     $backurl = $request->query('backurl');
-                        //     $cart = $request->session()->get('cart');
-                        //     dd($cart);
-                        //     return redirect()->to($request->input('backurl'));
-                        // }
-
                         $cart =  $request->session()->get('cart', []);
+                        return $cart;
                         $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                         if ( $cartList ) {
                             CartItem::where( 'user_id', $user->id )->latest()->first()->delete();
