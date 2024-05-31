@@ -834,11 +834,9 @@ class ProjectController extends Controller
                     }
                 }
 
-                return $optName . $newHousingType;
 
 
                 if (!empty($optName) && empty($newHousingType)) {
-                    return "adsd";
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 1)
@@ -1000,6 +998,7 @@ class ProjectController extends Controller
                 }
 
 
+                return $optName . $newHousingType;
 
                 if (!empty($optName) && !$newHousingType) {
                     return "dsd";
