@@ -188,6 +188,25 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                         }
                                                     </div>
                                                 )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
                                             }else if(data.type == "select"){
                                                 return(
                                                     <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
@@ -328,6 +347,25 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                         }
                                                     </div>
                                                 )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
                                             }else if(data.type == "select"){
                                                 return(
                                                     <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
@@ -418,6 +456,25 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                             : 
                                                                 <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         }
+                                                    </div>
+                                                )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                     </div>
                                                 )
                                             }else if(data.type == "select"){
@@ -512,6 +569,25 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                         }
                                                     </div>
                                                 )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
                                             }else if(data.type == "select"){
                                                 return(
                                                     <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
@@ -604,6 +680,47 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                         }
                                                     </div>
                                                 )
+                                            }else if(data.type == "date"){
+                                                if(data.subtype == "time"){
+                                                    return(
+                                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                            <label className='font-bold' htmlFor="">
+                                                                <div className="d-flex">
+                                                                    {data.label} 
+                                                                    {
+                                                                        data.description != undefined ? 
+                                                                            <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                <div><i className='fa fa-circle-info'></i></div>
+                                                                            </Tooltip>
+                                                                        : ""
+                                                                    }
+                                                                    {data.required ? <span className='required-span'>*</span> : ""}
+                                                                </div>
+                                                            </label>
+                                                            <input id={data?.name.replace('[]','')} type='time' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        </div>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                            <label className='font-bold' htmlFor="">
+                                                                <div className="d-flex">
+                                                                    {data.label} 
+                                                                    {
+                                                                        data.description != undefined ? 
+                                                                            <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                <div><i className='fa fa-circle-info'></i></div>
+                                                                            </Tooltip>
+                                                                        : ""
+                                                                    }
+                                                                    {data.required ? <span className='required-span'>*</span> : ""}
+                                                                </div>
+                                                            </label>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        </div>
+                                                    )
+                                                }
+                                                
                                             }else if(data.type == "select"){
                                                 return(
                                                     <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>

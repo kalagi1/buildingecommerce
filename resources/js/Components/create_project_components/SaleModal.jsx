@@ -4,7 +4,8 @@ import { baseUrl, dotNumberFormat } from '../../define/variables';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder}) {
+function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCount}) {
+    console.log(datat);
     const [loading,setLoading] = useState(false);
     const [data, setData] = React.useState({
         name: 'Abdurrahman İslamoğlu',
@@ -27,7 +28,9 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder}) {
     });
 
     useEffect(() => {
-        setData(datat)
+        if(datat?.name){
+            setData(datat)
+        }
     },[datat])
     
     const handleInputChange = (e) => {
@@ -73,7 +76,7 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder}) {
         setLoading(true);
         axios.post(baseUrl+'save_sale/'+projectId,{
             ...data,
-            room_order : roomOrder
+            room_order : getLastCount() + roomOrder
         }).then((res) => {
             if(res.data.status){
                 setLoading(false);

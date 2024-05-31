@@ -1133,6 +1133,9 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/save_sale/{projectId}', [ApiProjectController::class, "saveSale"]);
     Route::post('/save_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "saveInstallments"]);
     Route::get('/get_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "getInstallments"]);
+    Route::post('/preview', [ApiProjectController::class, "getPreview"]);
+    Route::get('/get_project_housings_list/{projectId}', [ApiProjectController::class, "getHousingsByProjectId"]);
+    Route::get('/get_sale_closes/{project_id}',[ApiProjectController::class,"getSaleCloses"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

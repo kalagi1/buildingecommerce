@@ -35,7 +35,8 @@ const HousingList = ({ projectId }) => {
         pageIndex: 0,
         pageSize: 20, //customize the default page size
     });
-
+    const [blockx,setBlocksx] = useState([]);
+    const [totalProjectsBlocksx,setTotalProjectsBlockx] = useState(0);
     const [totalProjectsCount, setTotalProjectsCount] = useState(0);
     const [page, setPage] = useState(0);
     const [selectedRooms, setSelectedRooms] = useState([]);
@@ -65,6 +66,7 @@ const HousingList = ({ projectId }) => {
     const [selectedId,setSelectedId] = useState(null);
 
     const [paymentModalOpen,setPaymentModalOpen] = useState(false);
+    const [saleCloses,setSaleCloses] = useState([]);
 
     const getLastBlockCount = () => {
         var blockItemCount = 0;
@@ -106,17 +108,32 @@ const HousingList = ({ projectId }) => {
             setLoading(false);
             setData(dizi);
             setProject(res.data.project)
+            setBlocksx(res.data.project.blocks);
             if (res.data.project.have_blocks) {
+                var totalxCount = 0;
+                for(var i = 0; i < res.data.project.blocks.length; i++){
+                    totalxCount += res.data.project.blocks[i].housing_count;
+                }
+                setTotalProjectsBlockx(totalxCount);
                 setTotalProjectsCount(res.data.project.blocks[selectedBlock].housing_count);
             } else {
                 setTotalProjectsCount(res.data.project.room_count);
+                setTotalProjectsBlockx(res.data.project.room_count);
             }
             var result2 = Object.keys(res.data.sumCartOrderQt).map((key) => res.data.sumCartOrderQt[key])
             setSumCartQts(result2);
             setHaveBlocks(res.data.project.have_blocks)
             setSolds(res.data.solds)
         })
+
+        console.log(totalProjectsBlocksx);
+
+        axios.get(baseUrl+'get_sale_closes/'+projectId).then((res) => {
+            setSaleCloses(res.data.sale_closes);
+        })
     }
+
+    console.log(data);
 
     const savePayDecSelectedHousing = () => {
         axios.post(baseUrl + 'save_pay_dec', {
@@ -241,10 +258,10 @@ const HousingList = ({ projectId }) => {
             tempSelected = {};
         }else{
             var tempSelected = {};
-            for (var i = 0; i < totalProjectsCount; i++) {
+            for (var i = 0; i < totalProjectsBlocksx; i++) {
                 var soldx = solds.find((sold) => {
                     var soldJson = JSON.parse(sold.cart);
-                    if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + i + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                    if(soldJson.item.id == projectId && soldJson.item.housing ==  i + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                         return sold
                     }
                 })
@@ -268,11 +285,17 @@ const HousingList = ({ projectId }) => {
             }
         })
 
-        data.map((dat) => {
-            if(dat['off_sale[]'] != "[]"){
+        for(var i = 0; i < saleCloses.length; i++){
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == saleCloses[i].room_order && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                    return sold
+                }
+            })
+            if(!soldx){
                 saleCloseCount++;
             }
-        });
+        }
 
         return {
             saleCount : saleCount,
@@ -308,10 +331,11 @@ const HousingList = ({ projectId }) => {
                         },
                         Cell: ({ renderedCellValue, row }) => {
                             return (
-                                getLastCount() + row.index + 1
+                                (getLastCount() + row.index + 1) - getLastBlockCount()
                             )
                         },
                     },
+                    
                     {
                         accessorFn: (row) => `${row['image[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'image[]', //id is still required when using accessorFn instead of accessorKey
@@ -323,10 +347,11 @@ const HousingList = ({ projectId }) => {
                         enableEditing: false,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
-                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project"){
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project"){
                                     return sold
                                 }
                             });
@@ -366,6 +391,7 @@ const HousingList = ({ projectId }) => {
                         enableEditing: true,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -384,7 +410,7 @@ const HousingList = ({ projectId }) => {
                         Cell: ({ renderedCellValue, row }) => {
                             var soldx = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
-                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.id && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                                     return sold
                                 }
                             })
@@ -423,7 +449,7 @@ const HousingList = ({ projectId }) => {
                                             gap: '1rem',
                                         }}
                                     >
-                                        <span>{renderedCellValue}</span>
+                                        <span>{renderedCellValue.substr(0, 20)}...</span>
                                     </Box>
                                 )
                             }
@@ -441,6 +467,7 @@ const HousingList = ({ projectId }) => {
                         enableEditing: true,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -479,7 +506,7 @@ const HousingList = ({ projectId }) => {
                         enableEditing: true,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
-                        size : 10,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -525,10 +552,11 @@ const HousingList = ({ projectId }) => {
                         enableEditing: false,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         Cell: ({ renderedCellValue, row }) => {
                             var soldTemp = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
-                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                                     return sold
                                 }
                             });
@@ -570,6 +598,7 @@ const HousingList = ({ projectId }) => {
                         enableEditing: true,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -609,6 +638,7 @@ const HousingList = ({ projectId }) => {
                         enableColumnPinning: false,
                         visibleInShowHideMenu: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -653,6 +683,7 @@ const HousingList = ({ projectId }) => {
                         enableEditing: true,
                         enableColumnPinning: false,
                         enableColumnOrdering : false,
+                        size : 75,
                         muiEditTextFieldProps: ({ cell, column, table }) => ({
                             select: false,
                             onChange: (event, s) => {
@@ -681,7 +712,473 @@ const HousingList = ({ projectId }) => {
                                 </Box>
                             )
                         },
-                    }, {
+                    }, 
+                    {
+                        id: 'squaremeters[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'M² Net',
+                        size: 10,
+                        accessorKey : "squaremeters[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "squaremeters",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue + ' M²'
+                                )
+                            }
+                        },
+                    },
+                    {
+                        id: 'm2gross[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'M² Brüt',
+                        size: 10,
+                        accessorKey : "m2gross[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "m2gross",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            console.log(renderedCellValue);
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue + ' M²'
+                                )
+                            }
+                            
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['room_count[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'room_count[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Oda Sayısı',
+                        size: 10,
+                        accessorKey : "room_count[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                label: "1+0",
+                                value: "1+0",
+                                select: true
+                            },
+                            {
+                                label: "1+1",
+                                value: "1+1",
+                                select: true
+                            },
+                            {
+                                label: "1.5+1",
+                                value: "1.5+1",
+                                select: true
+                            },
+                            {
+                                label: "2+0",
+                                value: "2+0",
+                                select: true
+                            },
+                            {
+                                label: "2+1",
+                                value: "2+1",
+                                select: true
+                            },
+                            {
+                                label: "2.5+1",
+                                value: "2.5+1",
+                                select: true
+                            },
+                            {
+                                label: "3+0",
+                                value: "3+0",
+                                select: true
+                            },
+                            {
+                                label: "3+1",
+                                value: "3+1",
+                                select: true
+                            },
+                            {
+                                label: "3.5+1",
+                                value: "3.5+1",
+                                select: true
+                            },
+                            {
+                                label: "4+0",
+                                value: "4+0",
+                                select: true
+                            },
+                            {
+                                label: "4+1",
+                                value: "4+1",
+                                select: true
+                            },
+                            {
+                                label: "4.5+1",
+                                value: "4.5+1",
+                                select: true
+                            },
+                            {
+                                label: "4+2",
+                                value: "4+2",
+                                select: true
+                            },
+                            {
+                                label: "4+3",
+                                value: "4+3",
+                                select: true
+                            },
+                            {
+                                label: "4+4",
+                                value: "4+4",
+                                select: true
+                            },
+                            {
+                                label: "5+1",
+                                value: "5+1",
+                                select: true
+                            },
+                            {
+                                label: "5.5+1",
+                                value: "5.5+1",
+                                select: true
+                            },
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "room_count",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue
+                                )
+                            }
+                        },
+                    },
+                    {
+                        id: 'floor_location[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Bulunduğu Kat',
+                        size: 10,
+                        accessorKey : "floor_location[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                "label": "Giriş Altı Kat 1",
+                                "value": "Giriş Altı Kat 1",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 2",
+                                "value": "Giriş Altı Kat 2",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 3",
+                                "value": "Giriş Altı Kat 3",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 4",
+                                "value": "Giriş Altı Kat 4",
+                                "select": false
+                            },
+                            {
+                                "label": "Bodrum Kat",
+                                "value": "Bodrum Kat",
+                                "select": false
+                            },
+                            {
+                                "label": "Zemin Kat",
+                                "value": "Zemin Kat",
+                                "select": true
+                            },
+                            {
+                                "label": "Bahçe Katı",
+                                "value": "Bahçe Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Katı",
+                                "value": "Giriş Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "Yüksek Giriş",
+                                "value": "Yüksek Giriş",
+                                "select": false
+                            },
+                            {
+                                "label": "Müstakil",
+                                "value": "Müstakil",
+                                "select": false
+                            },
+                            {
+                                "label": "Villa Tipi",
+                                "value": "Villa Tipi",
+                                "select": false
+                            },
+                            {
+                                "label": "Çatı Katı",
+                                "value": "Çatı Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "0",
+                                "value": "0",
+                                "select": false
+                            },
+                            {
+                                "label": "1",
+                                "value": "1",
+                                "select": false
+                            },
+                            {
+                                "label": "2",
+                                "value": "2",
+                                "select": false
+                            },
+                            {
+                                "label": "3",
+                                "value": "3",
+                                "select": false
+                            },
+                            {
+                                "label": "4",
+                                "value": "4",
+                                "select": false
+                            },
+                            {
+                                "label": "5",
+                                "value": "5",
+                                "select": false
+                            },
+                            {
+                                "label": "6",
+                                "value": "6",
+                                "select": false
+                            },
+                            {
+                                "label": "7",
+                                "value": "7",
+                                "select": false
+                            },
+                            {
+                                "label": "8",
+                                "value": "8",
+                                "select": false
+                            },
+                            {
+                                "label": "9",
+                                "value": "9",
+                                "select": false
+                            },
+                            {
+                                "label": "10",
+                                "value": "10",
+                                "select": false
+                            },
+                            {
+                                "label": "11",
+                                "value": "11",
+                                "select": false
+                            },
+                            {
+                                "label": "12",
+                                "value": "12",
+                                "select": false
+                            },
+                            {
+                                "label": "13",
+                                "value": "13",
+                                "select": false
+                            },
+                            {
+                                "label": "14",
+                                "value": "14",
+                                "select": false
+                            },
+                            {
+                                "label": "15",
+                                "value": "15",
+                                "select": false
+                            },
+                            {
+                                "label": "16",
+                                "value": "16",
+                                "select": false
+                            },
+                            {
+                                "label": "17",
+                                "value": "17",
+                                "select": false
+                            },
+                            {
+                                "label": "18",
+                                "value": "18",
+                                "select": false
+                            },
+                            {
+                                "label": "19",
+                                "value": "19",
+                                "select": false
+                            },
+                            {
+                                "label": "20",
+                                "value": "20",
+                                "select": false
+                            },
+                            {
+                                "label": "21",
+                                "value": "21",
+                                "select": false
+                            },
+                            {
+                                "label": "22",
+                                "value": "22",
+                                "select": false
+                            },
+                            {
+                                "label": "23",
+                                "value": "23",
+                                "select": false
+                            },
+                            {
+                                "label": "24",
+                                "value": "24",
+                                "select": false
+                            },
+                            {
+                                "label": "25",
+                                "value": "25",
+                                "select": false
+                            },
+                            {
+                                "label": "26",
+                                "value": "26",
+                                "select": false
+                            },
+                            {
+                                "label": "27",
+                                "value": "27",
+                                "select": false
+                            },
+                            {
+                                "label": "28",
+                                "value": "28",
+                                "select": false
+                            },
+                            {
+                                "label": "29",
+                                "value": "29",
+                                "select": false
+                            },
+                            {
+                                "label": "30 ve üzeri",
+                                "value": "30 ve üzeri",
+                                "select": false
+                            }
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "floor_location",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue
+                                )
+                            }
+                        },
+                    },
+                    {
                         accessorFn: (row) => `${row['off_sale[]']}`, //accessorFn used to join multiple data into a single cell
                         id: 'off_sale[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'Satış Durumu',
@@ -711,7 +1208,7 @@ const HousingList = ({ projectId }) => {
                             onChange: (event, s) => {
                                 const value2 = event.target.value;
                                 axios.post(baseUrl + 'save_housing', {
-                                    rooms: [cell.row.index + 1],
+                                    rooms: [getLastCount() + cell.row.index + 1],
                                     column_name: "off_sale",
                                     value: value2,
                                     is_dot: false,
@@ -723,7 +1220,7 @@ const HousingList = ({ projectId }) => {
                         Cell: ({ renderedCellValue, row }) => {
                             var soldx = solds.find((sold) => {
                                 var soldJson = JSON.parse(sold.cart);
-                                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                                     return sold
                                 }
                             })
@@ -974,16 +1471,19 @@ const HousingList = ({ projectId }) => {
     }
 
     const saleModalFunc = (id) => {
+        id = id - getLastCount();
+        console.log(id,data[id - 1]);
+        setSelectedRoomOrder(id);
         var saleData = {};
         setSaleModalOpen(true)
         solds.map((sold) => {
             var cart = JSON.parse(sold.cart);
-            if(cart.item.id == projectId && cart.item.housing == id){
+            if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
                 var payDecs = [];
-                for(var i = 0; i < data[id - 1]['pay-dec-count'+id];i++){
+                for(var i = 0; i < data[id - 1]['pay-dec-count'+(getLastCount() + id)];i++){
                     payDecs.push({});
-                    payDecs[i]['price'] = data[id - 1]['pay_desc_price'+id+""+i];
-                    payDecs[i]['date'] = data[id - 1]['pay_desc_date'+id+""+i];
+                    payDecs[i]['price'] = data[id - 1]['pay_desc_price'+(getLastCount() + id)+""+i];
+                    payDecs[i]['date'] = data[id - 1]['pay_desc_date'+(getLastCount() + id)+""+i];
                 }
                 saleData['name'] = sold.full_name;
                 saleData['email'] = sold.email;
@@ -996,8 +1496,8 @@ const HousingList = ({ projectId }) => {
                 saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
             }
         })
+        console.log(saleData);
         setSelectedSaleData(saleData);
-        setSelectedRoomOrder(id);
     }
 
     const paymentModalFunc = (id) => {
@@ -1020,7 +1520,7 @@ const HousingList = ({ projectId }) => {
         enableRowSelection: (row) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
@@ -1036,7 +1536,7 @@ const HousingList = ({ projectId }) => {
         enableEditing: (row) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
@@ -1076,7 +1576,7 @@ const HousingList = ({ projectId }) => {
                 if(data.cell.column.id === 'advert_title[]'){
                     return({
                         //conditionally style pinned columns
-                        colSpan : 11,
+                        colSpan : 15,
                         sx: {
                           backgroundColor: "#28a745",
                           color : '#fff'
@@ -1099,6 +1599,15 @@ const HousingList = ({ projectId }) => {
                     
                 }
                 
+            }else{
+                if(data.row.original['off_sale[]'] != "[]"){
+                    return({
+                        sx: {
+                          backgroundColor: "#f0ad4e",
+                          color : '#000'
+                        },
+                    })
+                }
             }
         },
         muiPaginationProps: {
@@ -1121,18 +1630,18 @@ const HousingList = ({ projectId }) => {
         renderRowActionMenuItems: ({ closeMenu,row }) => {
             var soldx = solds.find((sold) => {
                 var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
                     return sold
                 }
             })
-
+            
 
             if(soldx){
                 return [
                     <MenuItem
                         key={0}
                         onClick={() => {
-                            saleModalFunc(row.id)
+                            saleModalFunc(getLastCount() + row.index + 1)
                             // View profile logic...
                             closeMenu();
                         }}
@@ -1146,7 +1655,7 @@ const HousingList = ({ projectId }) => {
                     <MenuItem
                         key={0}
                         onClick={() => {
-                            paymentModalFunc(row.id);
+                            paymentModalFunc(getLastCount() + row.index + 1);
                         }}
                         sx={{ m: 0 }}
                     >
@@ -1162,6 +1671,7 @@ const HousingList = ({ projectId }) => {
                         key={0}
                         onClick={() => {
                             // View profile logic...
+                            window.location.href = frontEndUrl+'hesabim/projects/'+projectId+'/housings/edit/'+(row.index + 1)
                             closeMenu();
                         }}
                         sx={{ m: 0 }}
@@ -1317,12 +1827,23 @@ const HousingList = ({ projectId }) => {
             {
                 Object.keys(selectedRoomsTemp).length > 0 ? 
                     <div className="card px-3 mb-2 pb-2">
-                        <h4>Seçilen İlanlar</h4>
+                        <h4>Seçilen Konutlar</h4>
                         <div>
                             {
-                                Object.keys(selectedRoomsTemp).map((selectedRoom) => {
+                                Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
+                                    var lastItemsCountx = 0;
+                                    var x = 0;
+                                    var blockName = "";
+                                    var selectedBlockIndex = 0;
+                                    for(var t = 0; t < blockx.length; t++ ){
+                                        x += blockx[t].housing_count;
+                                        if(selectedRoom > x){
+                                            lastItemsCountx += blockx[t].housing_count;
+                                            selectedBlockIndex = t + 1;
+                                        }
+                                    }
                                     return(
-                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{parseInt(selectedRoom)} <i className='fa fa-times'></i></span>
+                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ blockx[selectedBlockIndex].block_name +" "+ ( parseInt(selectedRoom) - lastItemsCountx)} <i className='fa fa-times'></i></span>
                                     )
                                 })
                             }
@@ -1373,8 +1894,8 @@ const HousingList = ({ projectId }) => {
             <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
             <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
-            <SaleModal reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}/>   
-            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen}/>   
+            <SaleModal getLastCount={getLastCount} reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}/>   
+            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen}/>   
         </>
     );
 };

@@ -5,11 +5,12 @@ import { ReactSortable } from 'react-sortablejs';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
+function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,projectId}) {
     const [loading,setLoading] = useState(false);
     const [installments,setInstallments] = useState([]);
     const [startDate,setStartDate] = useState("");
     const [startDateConfirm,setStartDateConfirm] = useState(false);
+    const [saveLoading,setSaveLoading] = useState(false);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -37,16 +38,19 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
     },[projectId,selectedId])
 
     const save = () => {
+        setSaveLoading(true);
         axios.post(baseUrl+'save_installments/'+projectId+'/'+selectedId,{
             installments : installments
         }).then((res) => {
             setOpen(false);
             setInstallments([]);
             toast.success("Başarıyla taksitleri güncellediniz");
+            setSelectedId(null)
+            setSaveLoading(false);
         })
     }
 
-    var installmentCount = selectedData['installments[]'] ? parseInt(selectedData['installments[]']) : 0;
+    var installmentCount = selectedData && selectedData['installments[]'] ? parseInt(selectedData['installments[]']) : 0;
 
     const installmentsCreate = () => {
         var installmentsTemp = [];
@@ -57,11 +61,17 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
             let month = String(date.getMonth() + 1).padStart(2, '0');
             let day = String(date.getDate()).padStart(2, '0');
             let formattedDate = `${year}-${month}-${day}`;
-            installmentsTemp.push({
-                price : getInstallmentMonthPrice().toFixed(0),
-                date : formattedDate,
-                is_payment : false
-            });
+            if(!installments[i]){
+                installmentsTemp.push({
+                    price : getInstallmentMonthPrice().toFixed(0),
+                    date : formattedDate,
+                    is_payment : false,
+                    paymentType : "Nakit"
+                });
+            }else{
+                installmentsTemp.push(installments[i]);
+            }
+            
         }
 
         setInstallments(installmentsTemp);
@@ -116,13 +126,29 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
         setInstallments(newInstallments)
     }
 
+    const setPaymentMethod = (id,paymentType) => {
+        var newInstallments = installments.map((installment,key) => {
+            if(id == key){
+                return {
+                    ...installment,
+                    paymentType : paymentType
+                }
+            }else{
+                return installment
+            }
+        })
+        console.log(newInstallments,id,paymentType);
+        setInstallments(newInstallments)
+    }
+
+    console.log(installments)
+
     const setPaymentPrice = (id,price) => {
         var newInstallments = installments.map((installment,key) => {
             if(id == key){
                 return {
                     ...installment,
                     price : price,
-                    is_payment : false
                 }
             }else{
                 return installment
@@ -145,7 +171,7 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
     return(
         <Modal
             open={open}
-            onClose={() => {setOpen(false)}}
+            onClose={() => {setOpen(false);setSelectedId(null)}}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -157,7 +183,7 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
                     <button onClick={save} className='all_selected_button' > 
                         <i className='fa fa-lock mx-2'></i> 
                         <span>Kaydet</span> 
-                        <div className={loading ? "" : 'd-none'}>
+                        <div className={saveLoading ? "" : 'd-none'}>
                             <i className={'fa fa-spinner loading-icon ml-2'}></i>
                         </div>
                     </button>
@@ -190,13 +216,22 @@ function PaymentModal({open,setOpen,solds,selectedData,selectedId,projectId}) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-5">
+                                                    <div className="col-md-4">
                                                         <label htmlFor="">Fiyat</label>
                                                         <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value)}} value={dotNumberFormat(installment.price)} className='form-control' />
                                                     </div>
-                                                    <div className="col-md-5">
+                                                    <div className="col-md-3">
                                                         <label htmlFor="">Tarih</label>
                                                         <input type="date" onChange={(e) => {setPaymentDate(i,e.target.value)}} value={installment.date} className='form-control' />
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label htmlFor="">Ödeme Yöntemi</label>
+                                                        <select value={installment.paymentType} onChange={(e) => {console.log(e.target.value); setPaymentMethod(i,e.target.value)}} name="" className='form-control' id="">
+                                                            <option value="Nakit">Nakit</option>
+                                                            <option value="Çek">Çek</option>
+                                                            <option value="Kredi Kartı">Kredi Kartı</option>
+                                                            <option value="Diğer">Diğer</option>
+                                                        </select>
                                                     </div>
                                                     <div className="col-md-1">
                                                         <div className="d-flex">
