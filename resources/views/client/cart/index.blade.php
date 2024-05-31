@@ -243,7 +243,7 @@
                                                     : $projectDiscountAmount);
 
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                                            $share_sale = isset($cart['item']['isShare']) ? $cart['item']['isShare'] : null;
+                                            $share_sale = isset($cart['item']['isShare']) && is_string($cart['item']['isShare']) ? json_decode($cart['item']['isShare']) : null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
@@ -252,7 +252,7 @@
 
 
 
-                                                @if (isset($share_sale) && count($share_sale) > 0)
+                                                @if (isset($share_sale) && count($share_sale) > 0 || isset($share_sale) && $share_sale != "[]")
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button

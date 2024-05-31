@@ -105,10 +105,8 @@ use App\Http\Controllers\Admin\ReasonManagementController;
  */
 
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
-Route::group(['middleware' => ['transferCartAfterLogin']], function () {
+Route::get('/', [HomeController::class, "index"])->name('index');
 
-    Route::get('/', [HomeController::class, "index"])->name('index');
-});
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
