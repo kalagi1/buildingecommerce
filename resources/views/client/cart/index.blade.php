@@ -258,7 +258,7 @@
                                         <td>
 
 
-{{isset($share_sale) && $share_sale }}
+{{isset($share_sale) ? $share_sale : "yok" }}
 
                                             @if (isset($share_sale) && $share_sale != '[]')
                                             asadd
