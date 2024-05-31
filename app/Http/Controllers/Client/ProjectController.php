@@ -834,9 +834,8 @@ class ProjectController extends Controller
                     }
                 }
 
-                return $newHousingType;
 
-                if (!empty($optName) && !isset($newHousingType)) {
+                if (!empty($optName) && empty($newHousingType)) {
                     return "adsd";
 
                     if ($optName == "Satılık") {
@@ -864,7 +863,7 @@ class ProjectController extends Controller
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
                     }
-                }else if(!empty($optName) && isset($newHousingType)){
+                }else if(!empty($optName) && !empty($newHousingType)){
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
