@@ -478,6 +478,7 @@ class ProjectController extends Controller
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
         $parameters = [$slug, $type, $optional, $title, $check, $city, $county, $hood];
+        return $parameters;
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
