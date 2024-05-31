@@ -189,7 +189,10 @@
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
-                                                        @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                                        @if (
+                                                            (isset($share_sale) && is_string($share_sale) &&  !empty($share_sale)) ||
+                                                            (isset($share_sale) && is_array($share_sale) && count($share_sale) > 0)
+                                                        )
                                                             <br><br>
                                                             <span style="color:#EA2B2E"
                                                                 class="mt-3">{{ $cart['item']['qt'] }} adet hisse
