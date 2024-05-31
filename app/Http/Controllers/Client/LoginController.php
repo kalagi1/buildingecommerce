@@ -224,6 +224,8 @@ class LoginController extends Controller
                                 'cart'     => $cartJson,
                                 'user_id'  => $user->id
                             ]);
+                session()->forget('cart');
+
                             return redirect()->intended(route('cart'));
                         } else {
                             return redirect()->intended(route('index'));
