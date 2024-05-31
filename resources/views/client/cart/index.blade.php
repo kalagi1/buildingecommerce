@@ -250,17 +250,18 @@
                                                     $share_sale = json_decode($cart['item']['isShare'], true); // decode JSON string to array
                                                 } elseif (is_array($cart['item']['isShare'])) {
                                                     $share_sale = $cart['item']['isShare']; // it's already an array
-        }
     }
-    $number_of_share = $cart['item']['numbershare'] ?? null;
+}
+$number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
 
+{{isset($share_sale) && is_string($cart['item']['isShare']) ? dd($share_sale) : null}}
 
-
-                                            @if (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale != '[]' || isset($share_sale) && is_array($cart['item']['isShare']) &&  count($share_sale) >0)
-                                        
+                                            @if (
+                                                (isset($share_sale) && is_string($cart['item']['isShare']) && $share_sale != '[]') ||
+                                                    (isset($share_sale) && is_array($cart['item']['isShare']) && count($share_sale) > 0))
                                                 <div
                                                     class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                     <button
