@@ -221,7 +221,10 @@ class LoginController extends Controller
                         // }
 
                         $cart =  $request->session()->get('cart', []);
-
+                        $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
+                        if ( $cartList ) {
+                            CartItem::where( 'user_id', $user->id )->latest()->first()->delete();
+                        }
                         if (isset($cart)) {
                             $cartJson = json_encode($cart);
                             CartItem::create([
