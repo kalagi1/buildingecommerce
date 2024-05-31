@@ -779,7 +779,6 @@ class ProjectController extends Controller
             }
         });
 
-        return $housingTypeSlug;
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug', $housingTypeSlug)->first();
         if ($projects) {
