@@ -20,6 +20,7 @@ class CartOrderRefund extends Model
         'status',
         'return_iban',
         'return_bank',
+        'return_amount',
         
     ];
 

@@ -214,97 +214,97 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Genel Bilgiler</h4>
-                                @if($housing->owner)
-                                <table class="table">
-                                    <tbody class="trTableFlex">
-                                        <tr>
-                                            <td>
-                                                <span> İlan No :</span>
-                                                <span class="det" style="color:#274abb;">
-                                                    <a href="{{ route('housing.show', [
-                                                        'housingSlug' => $housing->slug,
-                                                        'housingID' => $housing->id + 2000000,
-                                                    ]) }}"
-                                                        target="_blank">
-                                                        {{ $housing->id + 2000000 }}</a>
-
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                {{-- Başlık kısmı --}}
-                                                {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':') !!}
-                                                <span class="det">
-                                                    {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
-                                                    {{ optional($housing->city)->title ?? '' }}
-                                                    @if (optional($housing->city)->title && optional($housing->county)->title)
-                                                        {!! ' / ' !!}
-                                                    @endif
-                                                    {{ optional($housing->county)->title ?? '' }}
-                                                    @if (optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
-                                                        {!! ' / ' !!}
-                                                    @endif
-                                                    {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
-                                                </span>
-                                            </td>
-                                        </tr>
-
-
-                                        @if ($housing->owner->phone)
+                                @if ($housing->owner)
+                                    <table class="table">
+                                        <tbody class="trTableFlex">
                                             <tr>
                                                 <td>
-                                                    İş :
-                                                    <span class="det">
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->owner->phone !!}">{!! $housing->owner->phone !!}</a>
+                                                    <span> İlan No :</span>
+                                                    <span class="det" style="color:#274abb;">
+                                                        <a href="{{ route('housing.show', [
+                                                            'housingSlug' => $housing->slug,
+                                                            'housingID' => $housing->id + 2000000,
+                                                        ]) }}"
+                                                            target="_blank">
+                                                            {{ $housing->id + 2000000 }}</a>
+
                                                     </span>
                                                 </td>
                                             </tr>
-                                        @endif
-                                        @if ($housing->owner->mobile_phone)
                                             <tr>
                                                 <td>
-                                                    Cep :
+                                                    {{-- Başlık kısmı --}}
+                                                    {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':') !!}
                                                     <span class="det">
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->owner->mobile_phone !!}">{!! $housing->owner->mobile_phone !!}</a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        @endif
-
-                                        <tr>
-                                            <td>
-                                                Proje Tipi :
-                                                <span class="det">
-                                                    @if ($housing->step1_slug)
-                                                        @if ($housing->step2_slug)
-                                                            @if ($housing->step2_slug == 'kiralik')
-                                                                Kiralık
-                                                            @elseif ($housing->step2_slug == 'satilik')
-                                                                Satılık
-                                                            @else
-                                                                Günlük Kiralık
-                                                            @endif
+                                                        {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
+                                                        {{ optional($housing->city)->title ?? '' }}
+                                                        @if (optional($housing->city)->title && optional($housing->county)->title)
+                                                            {!! ' / ' !!}
                                                         @endif
-                                                        {{ $parent->title }}
-                                                    @endif
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                E-Posta :
-                                                <span class="det">
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $housing->owner->email !!}">{!! $housing->owner->email !!}</a>
-                                                </span>
+                                                        {{ optional($housing->county)->title ?? '' }}
+                                                        @if (optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
+                                                            {!! ' / ' !!}
+                                                        @endif
+                                                        {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                                            @if ($housing->owner->phone)
+                                                <tr>
+                                                    <td>
+                                                        İş :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->owner->phone !!}">{!! $housing->owner->phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($housing->owner->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        Cep :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->owner->mobile_phone !!}">{!! $housing->owner->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+                                            <tr>
+                                                <td>
+                                                    Proje Tipi :
+                                                    <span class="det">
+                                                        @if ($housing->step1_slug)
+                                                            @if ($housing->step2_slug)
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($housing->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
+                                                            @endif
+                                                            {{ $parent->title }}
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    E-Posta :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $housing->owner->email !!}">{!! $housing->owner->email !!}</a>
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 @else
                                     <table class="table">
                                         <tbody class="trTableFlex">
@@ -414,35 +414,38 @@
                                 <div class="tab-pane fade show @if ($i == 0) active @endif"
                                     id="TabContent{{ $i }}" role="tabpanel">
                                     @if (is_array($housingTypeData) || is_object($housingTypeData))
-                                    @foreach ($housingTypeData as $key => $housingType)
-                                        @if (is_object($housingType) && isset($housingType->type))
-                                            @if ($housingType->type != 'file' && isset($housingType->name))
-                                                @if ($housingType->type == 'checkbox-group')
-                                                    @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) && is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
-                                                        @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
-                                                            <div class="view-form-json mt-4">
-                                                                <label for="">{{ $housingType->label }}</label>
-                                                                @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
-                                                                    <p class="mb-1">
-                                                                        {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
-                                                                    </p>
-                                                                @endforeach
-                                                            </div>
+                                        @foreach ($housingTypeData as $key => $housingType)
+                                            @if (is_object($housingType) && isset($housingType->type))
+                                                @if ($housingType->type != 'file' && isset($housingType->name))
+                                                    @if ($housingType->type == 'checkbox-group')
+                                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) &&
+                                                                is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
+                                                            @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
+                                                                <div class="view-form-json mt-4">
+                                                                    <label
+                                                                        for="">{{ $housingType->label }}</label>
+                                                                    @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
+                                                                        <p class="mb-1">
+                                                                            {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
+                                                                        </p>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
                                                         @endif
+                                                    @else
+                                                        <div class="view-form-json">
+                                                            @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) &&
+                                                                    is_array($housingData->{str_replace('[]', '', $housingType->name)}))
+                                                                <label for="">{!! $housingType->label !!}</label>
+                                                                <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
+                                                            @endif
+                                                        </div>
                                                     @endif
-                                                @else
-                                                    <div class="view-form-json">
-                                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) && is_array($housingData->{str_replace('[]', '', $housingType->name)}))
-                                                            <label for="">{!! $housingType->label !!}</label>
-                                                            <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
-                                                        @endif
-                                                    </div>
                                                 @endif
                                             @endif
-                                        @endif
-                                    @endforeach
-                                @endif
-                                
+                                        @endforeach
+                                    @endif
+
                                 </div>
                             @endfor
                         </div>
@@ -503,19 +506,44 @@
             })
         })
         var defaultMessagesItems = @json($defaultMessages);
-        console.log(defaultMessagesItems[0].title);
+
+
+
 
         function defaultMessages() {
             var messages =
-                "<div class='mb-2'><label style='text-align:left;width:100%;'>Örnek Mesajlardan Seç</label><select class='form-control change-default-text'><option value=''>Seç</option>";
+                "<div class='mb-2'><label style='text-align:left;width:100%;'>Örnek Mesajlardan Seç</label><select class='form-control change-default-text' id='messageSelect' onchange='updateTextArea()'><option value=''>Seç</option>";
             for (var i = 0; i < defaultMessagesItems.length; i++) {
-                messages += '<option value="' + defaultMessagesItems[i].content + '">' + defaultMessagesItems[i].title +
-                    '-' + defaultMessagesItems[i].content + '</option>'
+                messages += '<option value="' + defaultMessagesItems[i].id + '">' + defaultMessagesItems[i].title +
+                    '</option>';
             }
             messages += "</select></div>";
+            messages += "<div id='messageContentContainer'></div>"; // Bu div içine contenti göstereceğiz
 
             return messages;
         }
+
+        function updateTextArea() {
+            var selectElement = document.getElementById("messageSelect");
+            var selectedIndex = selectElement.selectedIndex;
+            var selectedId = selectElement.options[selectedIndex].value;
+
+            // Seçilen başlığın id'sini alıp bu id ile eşleşen veriyi bul
+            var selectedItem = defaultMessagesItems.find(item => item.id == selectedId);
+
+            // Eğer seçilen bir öğe bulunduysa, içeriği göster
+            if (selectedItem) {
+                var selectedContent = selectedItem.content;
+                var messageContentContainer = document.getElementById("messageContentContainer");
+                messageContentContainer.innerHTML =
+                    "<div class='form-control reason' style='height: 150px; overflow-y: auto;'>" + selectedContent +
+                    "</div>";
+            } else {
+                // Eğer seçilen bir öğe bulunamadıysa, content alanını temizle
+                document.getElementById("messageContentContainer").innerHTML = "";
+            }
+        }
+
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $('.reject').click(function(e) {
             e.preventDefault();
@@ -523,9 +551,13 @@
                 title: 'Emlağı reddetmek istediğine emin misin ?',
                 showCancelButton: true,
                 confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-                html: defaultMessages() +
-                    "<div><input class='form-control reason' placeholder='Neden reddediyorsun'></div>",
+                cancelButtonText: 'İptal',
+                showDenyButton: true,
+                denyButtonText: 'Yeni Şablon Oluştur',
+                html: defaultMessages(),
+
+
+
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -559,6 +591,17 @@
                             console.error('Hata detayı:', error);
                         }
                     });
+                } else if (result.isDenied) {
+                    // Kullanıcı "Şablon Oluştur" butonuna tıkladı
+                    // Mevcut URL'yi al
+                    var currentUrl = window.location.href;
+
+                    // Yeni URL'yi oluştur ve parametre olarak mevcut URL'yi yolla
+                    var newUrl = '{{ route('admin.reason.templates.create') }}' + '?redirectUrl=' +
+                        encodeURIComponent(currentUrl);
+
+                    // Yeni URL'ye yönlendir
+                    window.location.href = newUrl;
                 }
             })
 

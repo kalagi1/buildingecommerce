@@ -26,7 +26,7 @@ class CollectionController extends Controller {
                 $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
     
                 if ($link) {
-                    $link->delete();
+                    ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->delete();
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
@@ -35,7 +35,7 @@ class CollectionController extends Controller {
                 $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
     
                 if ($link) {
-                    $link->delete();
+                    ShareLink::where('item_id', $itemId)->where('item_type', 2)->delete();
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);

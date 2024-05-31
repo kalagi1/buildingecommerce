@@ -91,6 +91,8 @@ use App\Http\Controllers\Client\SitemapController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
 use App\Http\Controllers\SupportController;
 
+use App\Http\Controllers\Admin\ReasonManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -103,8 +105,8 @@ use App\Http\Controllers\SupportController;
  */
 
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
-
 Route::get('/', [HomeController::class, "index"])->name('index');
+
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
@@ -170,7 +172,7 @@ Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
 Route::post('/reservation/dekot/file/upload', [ReservationController::class, 'dekontfileUpload'])->name('reservation.dekont.file.upload');
 Route::get('/reservation/pay/success/{reservation}', [ReservationController::class, 'paySuccess'])->name('reservation.pay.success');
 Route::post('/reservation/sessions', [ReservationController::class, "addsessions"])->name('reservation.sessions');
-Route::get('/reservation/checkout/{housing}',[ReservationController::class,'reservation'])->name('payment.reservation.index');
+Route::get('/reservation/checkout/{housing}', [ReservationController::class, 'reservation'])->name('payment.reservation.index');
 Route::post('/reservation/3d-payment', [ReservationController::class, 'reservation3DPayment'])->name('reservation.3d.pay');
 Route::post('/reservation/resultpaymentsuccess', [ReservationController::class, 'resultPaymentSuccess'])->name('reservation.result.payment');
 Route::post('/reservation/resultpaymentfail', [ReservationController::class, 'resultPaymentFail'])->name('reservation.result.payment');
@@ -457,7 +459,6 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::middleware(['checkPermission:UpdateProject'])->group(function () {
         Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
         Route::put('/projects/club-rate/{project}', [ProjectController::class, 'clubRateUpdate'])->name('projects.club-rate-update');
-
     });
 
     Route::middleware(['checkPermission:GetProjects'])->group(function () {
@@ -718,6 +719,14 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name('email-templates.store');
     });
 
+    Route::middleware(['checkPermission:CreateReasonTemplate'])->group(function () {
+        Route::get('/reason-templates', [ReasonManagementController::class, 'index'])->name('reason.templates.index');
+        Route::get('/reason-templates/create', [ReasonManagementController::class, 'create'])->name('reason.templates.create');
+        Route::post('/reason-templates', [ReasonManagementController::class, 'store'])->name('reason.templates.store');
+        Route::get('/reason-templates/{defaultMessage}/edit', [ReasonManagementController::class, 'edit'])->name('reason.templates.edit');
+        Route::put('/reason-templates/{defaultMessage}', [ReasonManagementController::class, 'update'])->name('reason.templates.update');
+        Route::delete('/reason-templates/{defaultMessage}', [ReasonManagementController::class, 'destroy'])->name('reason.templates.destroy');
+    });
     Route::middleware(['checkPermission:GetEmailTemplateById'])->group(function () {
         Route::get('/email-templates/{email_template}/edit', [EmailTemplateController::class, 'edit'])->name('email-templates.edit');
     });
@@ -1088,7 +1097,6 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
-      
     });
     Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
@@ -1138,7 +1146,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/save_template', [ApiProjectController::class, "saveTemplate"]);
     Route::get('/last_data', [ApiProjectController::class, "getLastData"]);
     Route::get('/get_invoice_data/{cartId}', [ApiProjectController::class, "getInvoiceData"]);
-    Route::get('get_housing_type/{housing_type_id}',[ApiProjectController::class,"getHousingTypeData"]);
+    Route::get('get_housing_type/{housing_type_id}', [ApiProjectController::class, "getHousingTypeData"]);
     Route::post('/save_housing_checkboxes', [ApiProjectController::class, "saveHousingCheckboxes"]);
     Route::post('/save_sale/{projectId}', [ApiProjectController::class, "saveSale"]);
     Route::post('/save_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "saveInstallments"]);

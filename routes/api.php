@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CartController as ApiCartController;
 use App\Http\Controllers\Api\Client\AddressController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\BrandController;
@@ -116,6 +117,7 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 
 
 
+Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
@@ -180,9 +182,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
         Route::get('/swap_applications/{form}', [InstitutionalFormController::class, 'showSwapApplication'])->name('react.show.swap.applications');
-    });
+    }); 
+    Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
 
-
+    Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
+    Route::get('/notifications', [AuthController::class, 'getAllNotifications']);
+    
     //telefon doğrulama
     Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
@@ -197,6 +202,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
     Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
+    Route::post('/remove-from-collection', [ClientPageController::class, 'removeFromCollection'])->name('remove.from.collection');
 
     Route::post('/add/collection', [ClientPageController::class, 'store']);
 

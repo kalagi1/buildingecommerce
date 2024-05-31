@@ -117,17 +117,6 @@
         "activePath": "qR9zLp2xS6y/secured/multiple-sms/create"
     },
     
-
-    {
-        "id": "home",
-        "label": "Muhasebe",
-        "icon": "dollar-sign",
-        "text": "İade Tablosu",
-        "key": "ViewRefund",
-        "url": "admin.accountingForRefund",
-        "activePath": "qR9zLp2xS6y/secured/accounting/refund"
-    },
-
     {
         "id": "housing",
         "label": "Sat Kirala",
@@ -561,5 +550,28 @@
                 "activePath": "qR9zLp2xS6y/secured/email-templates"
             }
         ]
+    },
+    {
+        "id": "reason_templates",
+        "label": "Sebep Şablonları",
+        "icon": "reply",
+        "text": "Sebep Şablonları",
+        "key": "ReasonTemplates",
+        "url": "#nv-Reason-templates",
+        "activePath": "qR9zLp2xS6y/secured/reason-templates",
+        "subMenu": [{
+                "text": "Yeni Ekle",
+                "key": "CreateReasonTemplate",
+                "url": "admin.reason.templates.create",
+                "activePath": "qR9zLp2xS6y/secured/reason-templates/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetReasonTemplates",
+                "url": "admin.reason.templates.index",
+                "activePath": "qR9zLp2xS6y/secured/reason-templates"
+            }
+        ]
     }
+    
 ]
