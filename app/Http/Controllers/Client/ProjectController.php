@@ -612,8 +612,11 @@ class ProjectController extends Controller
                     // Housing status, type and parent type checks
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
-                    $housingType = HousingType::where('slug', $paramValue)->first();
-                    return $housingTypeParent . "sadsd";
+
+                    if (!empty($housingTypeSlugName)) {
+                        $housingType = HousingType::where('slug', $paramValue)->first();
+
+                    }
 
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
