@@ -776,6 +776,7 @@ class ProjectController extends Controller
             }
         });
 
+        return $housingTypeSlug;
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug', $housingTypeSlug)->first();
         if ($projects) {
@@ -1022,7 +1023,6 @@ class ProjectController extends Controller
                             ->toArray();
                     }
                 }else if(!empty($optName) && $newHousingType){
-                    return $newHousingType;
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
