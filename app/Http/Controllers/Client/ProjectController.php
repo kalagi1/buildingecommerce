@@ -478,7 +478,6 @@ class ProjectController extends Controller
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
         $parameters = [$slug, $type, $optional, $title, $check, $city, $county, $hood];
-        return $parameters;
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -614,6 +613,11 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
+                    
+                    if ($housingType) {
+                        return $housingType;
+                        # code...
+                    }
 
                     if ($item1) {
                         $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
