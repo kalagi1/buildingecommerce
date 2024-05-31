@@ -214,17 +214,17 @@ class LoginController extends Controller
                     } elseif ($user->type != '3') {
 
                         $cart =  $request->session()->get('cart', []);
-                        $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
-                        if ( $cartList ) {
-                            CartItem::where( 'user_id', $user->id )->latest()->first()->delete();
+                        $cartList = CartItem::where('user_id', $user->id)->latest()->first();
+                        if ($cartList) {
+                            CartItem::where('user_id', $user->id)->latest()->first()->delete();
                         }
-                        if (isset($cart)) {
+                        if (isset($cart) && !empty($cart)) {
                             $cartJson = json_encode($cart);
                             CartItem::create([
                                 'cart'     => $cartJson,
                                 'user_id'  => $user->id
                             ]);
-                session()->forget('cart');
+                            session()->forget('cart');
 
                             return redirect()->intended(route('cart'));
                         } else {
