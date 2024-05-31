@@ -14,7 +14,7 @@ class CartController extends Controller
     public function updateQt( Request $request ) {
         try {
             $cart = [];
-            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+            $cartItem = CartItem::where( 'user_id', auth()->guard('api')->user()->id )->latest()->first();
             if ( isset( $cartItem ) ) {
                 $cart = json_decode( $cartItem->cart, true );
             } else {
@@ -107,7 +107,7 @@ class CartController extends Controller
     public function update( Request $request ) {
         try {
             $cartSession = $request->session()->get( 'cart', [] );
-            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+            $cartItem = CartItem::where( 'user_id', auth()->guard('api')->user()->id)->latest()->first();
 
             if ( $cartItem ) {
                 $cart = json_decode( $cartItem->cart, true );
