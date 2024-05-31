@@ -248,37 +248,35 @@ class CartController extends Controller
         $housingOffer = null;
         $projectOffer = null;
 
-
-
         $saleType = null;
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
-                $housing = Housing::where('id', $cart['item']['id'])->first();
+                $housing = Housing::with("user")->where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
-                $housingOffer =Offer::where('type', 'housing')
-                                                ->where('housing_id', $cart['item']['id'])
-                                                ->where('start_date', '<=', now())
-                                                ->where('end_date', '>=', now())
-                                                ->first();
+                $housingOffer = Offer::where('type', 'housing')
+                    ->where('housing_id', $cart['item']['id'])
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now())
+                    ->first();
             } else {
-                $project = Project::where('id', $cart['item']['id'])->first();
+                $project = Project::with("user")->where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
                 $projectOffer = Offer::where('type', 'project')
-                ->where('project_id', $cart['item']['id'])
-                ->where(function ($query) use ($cart) {
-                    $query
-                        ->orWhereJsonContains(
-                            'project_housings',
-                            $cart['item']['housing'],
-                        )
-                        ->orWhereJsonContains(
-                            'project_housings',
-                            (string) $cart['item']['housing'],
-                        ); // Handle as string as JSON might store values as strings
-                })
-                ->where('start_date', '<=', now())
-                ->where('end_date', '>=', now())
-                ->first();
+                    ->where('project_id', $cart['item']['id'])
+                    ->where(function ($query) use ($cart) {
+                        $query
+                            ->orWhereJsonContains(
+                                'project_housings',
+                                $cart['item']['housing'],
+                            )
+                            ->orWhereJsonContains(
+                                'project_housings',
+                                (string) $cart['item']['housing'],
+                            ); 
+                    })
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now())
+                    ->first();
             }
         }
 
@@ -301,7 +299,8 @@ class CartController extends Controller
             "project" => $project,
             "housing" => $housing,
             "projectOffer" => $projectOffer,
-            "housingOffer" => $housingOffer
+            "housingOffer" => $housingOffer,
+            "store" => $housing ? $housing->user : $project->user
         ]);
     }
 
