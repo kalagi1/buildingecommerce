@@ -1290,7 +1290,7 @@
                         location.reload();
                     },
                     error: function(error) {
-                        window.location.href = "/giris-yap";
+                        // window.location.href = "/giris-yap";
                     }
                 });
             }
@@ -1319,7 +1319,7 @@
                     },
                     error: function(error) {
                         if (error.status === 401) {
-                            window.location.href = "/giris-yap";
+                            // window.location.href = "/giris-yap";
                         } else {
                             console.error(error);
                         }
