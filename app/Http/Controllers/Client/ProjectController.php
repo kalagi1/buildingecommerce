@@ -614,7 +614,6 @@ class ProjectController extends Controller
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
 
                     if (!empty($housingTypeSlugName)) {
-                        return $paramValue;
                         $housingType = HousingType::where('slug', $paramValue)->first();
 
                     }
@@ -997,6 +996,7 @@ class ProjectController extends Controller
                 }
 
 
+                return $optName;
 
                 if (!empty($optName) && !$newHousingType) {
 
