@@ -490,7 +490,6 @@ class ProjectController extends Controller
 
         $housingType = [];
         $housingTypeName = [];
-        $housingTypeSlug = [];
 
         $opt = null;
         $checkTitle = null;
@@ -638,6 +637,7 @@ class ProjectController extends Controller
                 }
             }
         }
+        return $housingType;
 
 
         if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
