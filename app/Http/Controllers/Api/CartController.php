@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-
     public function updateQt(Request $request)
     {
         try {
+            $user = Auth::guard('api')->user();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
+
             $cart = [];
-            $cartItem = CartItem::where('user_id', auth()->guard('api')->user()->id)->latest()->first();
+            $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
             if (isset($cartItem)) {
                 $cart = json_decode($cartItem->cart, true);
             } else {
@@ -23,16 +27,12 @@ class CartController extends Controller
             }
 
             if (!$cart) {
-                return response(['message' => 'fail']);
+                return response()->json(['message' => 'fail']);
             }
 
             $change = $request->input('change');
-
-            // Retrieve 'housing' and 'id' from $cart[ 'item' ]
             $housingId = $cart['item']['housing'] ?? null;
             $itemId = $cart['item']['id'] ?? null;
-
-            // Retrieve qt and numbershare from $cart[ 'item' ]
             $qt = $cart['item']['qt'] ?? 0;
             $numbershare = $cart['item']['numbershare'] ?? 0;
 
@@ -42,7 +42,6 @@ class CartController extends Controller
                 $defaultPrice = $cart['item']['defaultPrice'] ?? 0;
             }
 
-            // Retrieve sumCartOrderQt for the given 'housing' and 'id'
             $sumCartOrderQt = DB::table('cart_orders')
                 ->select(
                     DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
@@ -54,21 +53,18 @@ class CartController extends Controller
                 ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
                 ->get()
                 ->groupBy('housing_id')
-                ->mapWithKeys(
-
-                    function ($group) {
-                        return [
-                            $group->first()->housing_id => [
-                                'housing_id' => $group->first()->housing_id,
-                                'qt_total' => $group->sum('qt'),
-                            ],
-                        ];
-                    }
-                )
+                ->mapWithKeys(function ($group) {
+                    return [
+                        $group->first()->housing_id => [
+                            'housing_id' => $group->first()->housing_id,
+                            'qt_total' => $group->sum('qt'),
+                        ],
+                    ];
+                })
                 ->all();
 
-            $pesinat =  $cart['item']['qt'] > 1 ? ($cart['item']['pesinat'] / $cart['item']['qt']) : $cart['item']['pesinat'];
-            $aylik = $cart['item']['qt'] > 1 ?  ($cart['item']['aylik'] / $cart['item']['qt']) : $cart['item']['aylik'];
+            $pesinat = $cart['item']['qt'] > 1 ? ($cart['item']['pesinat'] / $cart['item']['qt']) : $cart['item']['pesinat'];
+            $aylik = $cart['item']['qt'] > 1 ? ($cart['item']['aylik'] / $cart['item']['qt']) : $cart['item']['aylik'];
 
             if ($change == 'artir') {
                 $remainingQt = $numbershare - ($sumCartOrderQt[$housingId]['qt_total'] ?? 0);
@@ -79,7 +75,7 @@ class CartController extends Controller
                     $cart['item']['pesinat'] += $pesinat;
                     $cart['item']['aylik'] += $aylik;
                 } else {
-                    return response(['message' => 'success', 'quantity' => $qt, 'response' => 'Maximum ' . $qt . ' adeti kadar sipariş oluşturabilirsiniz.']);
+                    return response()->json(['message' => 'success', 'quantity' => $qt, 'response' => 'Maximum ' . $qt . ' adeti kadar sipariş oluşturabilirsiniz.']);
                 }
             } elseif ($change == 'azalt') {
                 if ($qt != 1) {
@@ -88,7 +84,7 @@ class CartController extends Controller
                     $cart['item']['pesinat'] -= $pesinat;
                     $cart['item']['aylik'] -= $aylik;
                 } else {
-                    return response(['message' => 'success', 'quantity' => $qt, 'response' => $qt . ' adetten daha az sipariş oluşturamazsınız.']);
+                    return response()->json(['message' => 'success', 'quantity' => $qt, 'response' => $qt . ' adetten daha az sipariş oluşturamazsınız.']);
                 }
             }
 
@@ -99,17 +95,22 @@ class CartController extends Controller
                 $request->session()->put('cart', $cart);
             }
 
-            return response(['message' => 'success', 'quantity' => $cart['item']['qt']]);
+            return response()->json(['message' => 'success', 'quantity' => $cart['item']['qt']]);
         } catch (\Exception $e) {
-            // Handle exceptions if any
-            return response(['message' => 'error', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
+
     public function update(Request $request)
     {
         try {
+            $user = Auth::guard('api')->user();
+            if (!$user) {
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
+
             $cartSession = $request->session()->get('cart', []);
-            $cartItem = CartItem::where('user_id', auth()->guard('api')->user()->id)->latest()->first();
+            $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
 
             if ($cartItem) {
                 $cart = json_decode($cartItem->cart, true);
@@ -127,13 +128,12 @@ class CartController extends Controller
 
                 $request->session()->put('cart', $cart);
 
-                return response(['message' => 'success']);
+                return response()->json(['message' => 'success']);
             }
 
-            return response(['message' => 'fail']);
+            return response()->json(['message' => 'fail']);
         } catch (\Exception $e) {
-            // Handle exceptions if any
-            return response(['message' => 'error', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
 }
