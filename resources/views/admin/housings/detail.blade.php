@@ -729,8 +729,10 @@
  
     <script>
         $(document).ready(function() {
+            var totalImages = $(".images.owl-carousel .item").length;
+    
             $(".images.owl-carousel").owlCarousel({
-                items: 5,
+                items: 1,
                 loop: true,
                 nav: true,
                 navText: ["<div class='nav-button owl-prev'>‹</div>",
@@ -747,10 +749,19 @@
                     1000: {
                         items: 5
                     }
-                }
+                },
+                onInitialized: updateCounter,
+                onTranslated: updateCounter
             });
+    
+            function updateCounter(event) {
+                var currentIndex = event.item.index;
+                var text = (currentIndex + 1) + "/" + totalImages;
+                $(".image-counter").text(text);
+            }
         });
     </script>
+    
      
 @endsection
 
