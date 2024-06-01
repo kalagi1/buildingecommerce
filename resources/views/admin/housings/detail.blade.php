@@ -724,18 +724,26 @@
 
  
 <script>
-    $(document).ready(function() {
-        $(".images.owl-carousel").owlCarousel({
-            items: 1, // Her seferinde gösterilecek öğe sayısı
-            loop: true, // Sonsuz döngü
-            nav: true, // Navigasyon okları
-            navText: ["<div class='nav-button owl-prev'>‹</div>",
-                "<div class='nav-button owl-next'>›</div>"
-            ],
-            URLhashListener: true,
-            startPosition: 'URLHash'
-        });
+   $(document).ready(function() {
+    $(".images.owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        nav: true,
+        navText: ["<div class='nav-button owl-prev'>‹</div>",
+            "<div class='nav-button owl-next'>›</div>"
+        ],
+        responsive: {
+            0: {
+                items: 1,
+                autoHeight: true // Resimlerin yüksekliğini otomatik olarak ayarlar
+            },
+            600: {
+                items: 1
+            }
+        }
     });
+});
+
 </script>
 @endsection
 
@@ -834,16 +842,10 @@
         }
     </style>
 
-<style>
-    .owl-carousel .item img {
-        max-width: 100%; /* Resimlerin maksimum genişliği */
-        height: auto; /* Yüksekliği otomatik olarak ayarla */
-    }
-
+    <style>
     .images.owl-carousel {
-        max-width: 100%; /* Carousel container'ının maksimum genişliği */
-        width: 100%; /* Carousel container'ının genişliği */
-        margin: 0 auto; /* Ortala */
-    }
-</style>
+        max-width: 500px; /* İstenilen maksimum genişlik */
+        max-height: 300px; /* İstenilen maksimum yükseklik */
+    } </style>
+
 @endsection
