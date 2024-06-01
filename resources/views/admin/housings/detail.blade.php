@@ -771,38 +771,14 @@
 
 
     <style>
-        .owl-prev,
-        .owl-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 30px;
-            height: 30px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .owl-prev {
-            left: 10px;
-        }
-
-        .owl-next {
-            right: 10px;
-        }
-
-        .owl-prev:hover,
-        .owl-next:hover {
-            background: rgba(0, 0, 0, 0.8);
+                
+                .owl-carousel .item img {
+            max-width: 100px; /* Maksimum genişlik 100 piksel */
+            max-height: 100px; /* Maksimum yükseklik 100 piksel */
         }
     </style>
 
-
+    
 
     <style>
         .form-group {
