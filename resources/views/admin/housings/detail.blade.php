@@ -722,20 +722,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
- 
 <script>
-    $(document).ready(function() {
-        $(".images.owl-carousel").owlCarousel({
-            items: 1, // Her seferinde gösterilecek öğe sayısı
-            loop: true, // Sonsuz döngü
-            nav: true, // Navigasyon okları
-            navText: ["<div class='nav-button owl-prev'>‹</div>",
-                "<div class='nav-button owl-next'>›</div>"
-            ],
-            URLhashListener: true,
-            startPosition: 'URLHash'
-        });
+   $(document).ready(function() {
+    $(".owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        nav: true,
+        navText: ["<div class='nav-button owl-prev'>‹</div>",
+            "<div class='nav-button owl-next'>›</div>"
+        ],
+        responsive: {
+            0: {
+                items: 1,
+                autoHeight: true // Resimlerin yüksekliğini otomatik olarak ayarlar
+            },
+            600: {
+                items: 1
+            }
+        }
     });
+
+    $(".images.owl-carousel").on("dblclick", ".item img", function() {
+            clickCount++;
+            if (clickCount === 2) {
+                var imageURL = $(this).attr("src");
+                window.open(imageURL, "_blank");
+                clickCount = 0;
+            }
+        });
+
+});
+
+
 </script>
 @endsection
 
