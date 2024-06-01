@@ -94,11 +94,10 @@
                         </div>
                     @endforeach
                 @endif
-
+            
                 @if (isset($housingData->image))
                     <div class="item">
-                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
-                            alt="slider-listing">
+                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
                     </div>
                 @endif
             </div>
@@ -309,7 +308,7 @@
                 </div>
             </div>
         </div>
-        
+
         <h4 class="mb-3">Daire Bilgileri</h4>
         <div class="rendered-area card p-5">
             <div class="table-responsive">
@@ -723,18 +722,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
-    <script>
-        $(document).ready(function() {
-            $(".owl-carousel").owlCarousel({
-                items: 1, // Her seferinde gösterilecek öğe sayısı
-                loop: true, // Sonsuz döngü
-                nav: true, // Navigasyon okları
-                navText: ["<div class='nav-button owl-prev'>‹</div>",
-                    "<div class='nav-button owl-next'>›</div>"
-                ]
-            });
+ 
+<script>
+    $(document).ready(function() {
+        $(".images.owl-carousel").owlCarousel({
+            items: 1, // Her seferinde gösterilecek öğe sayısı
+            loop: true, // Sonsuz döngü
+            nav: true, // Navigasyon okları
+            navText: ["<div class='nav-button owl-prev'>‹</div>",
+                "<div class='nav-button owl-next'>›</div>"
+            ],
+            URLhashListener: true,
+            startPosition: 'URLHash'
         });
-    </script>
+    });
+</script>
 @endsection
 
 @section('css')
@@ -831,4 +833,17 @@
             /* İstediğiniz boşluğu ayarlayabilirsiniz */
         }
     </style>
+
+<style>
+    .owl-carousel .item img {
+        max-width: 100%; /* Resimlerin maksimum genişliği */
+        height: auto; /* Yüksekliği otomatik olarak ayarla */
+    }
+
+    .images.owl-carousel {
+        max-width: 100%; /* Carousel container'ının maksimum genişliği */
+        width: 100%; /* Carousel container'ının genişliği */
+        margin: 0 auto; /* Ortala */
+    }
+</style>
 @endsection
