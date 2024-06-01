@@ -157,23 +157,23 @@
                 @else
                     @if ($housing->status == 1)
                         <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            project_id="{{ $housing->id }}" class="btn btn-danger set_status">Pasife Al</a>
+                            project_id="{{ $housing->id }}" class="btn btn-danger  set_status" data-status="Pasife almak" >Pasife Al</a>
                         <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
+                           class="btn btn-danger reject" data-status="Reddetmek" >Reddet</a>
                     @elseif($housing->status == 2)
                         <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-success set_status">Onayla</a>
+                            class="btn btn-success set_status" data-status="Onaylamak">Onayla</a>
                         <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
+                            class="btn btn-danger reject" data-status="Reddetmek">Reddet</a>
                     @elseif($housing->status == 3)
                         <span class="btn btn-info show-reason">Sebebini Gör</span>
-                        <a href="#" class="btn btn-success confirm_rejected_after">Önceden Reddedilmiş Bir Proje
+                        <a href="#" class="btn btn-success confirm_rejected_after" data-status="Onaylamak">Önceden Reddedilmiş Bir Proje
                             Onaya
                             Al</a>
-                        <a href="#" class="btn btn-danger reject">Tekrar Reddet</a>
+                        <a href="#" class="btn btn-danger reject" data-status="Tekrar Reddetmek">Tekrar Reddet</a>
                     @else
                         <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-success set_status">Aktife Al</a>
+                            class="btn btn-success set_status" data-status="Aktife Almak">Aktife Al</a>
                     @endif
                 @endif
 
@@ -486,25 +486,46 @@
             }
         })
 
-        $('.set_status').click(function(e) {
-            e.preventDefault();
-            var projectId = $(this).attr('project_id');
-            Swal.fire({
-                @if ($housing->status)
-                    title: 'Pasife almak istediğine emin misin?',
-                @else
-                    title: 'Aktife almak istediğine emin misin?',
-                @endif
-                showCancelButton: true,
-                confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('admin.housings.set.status.get', $housing->id) }}"
-                }
+        // $('.set_status').click(function(e) {
+        //     e.preventDefault();
+        //     var projectId = $(this).attr('project_id');
+        //     Swal.fire({
+        //         @if ($housing->status)
+        //             title: 'Pasife almak istediğine emin misin?',
+        //         @else
+        //             title: 'Aktife almak istediğine emin misin?',
+        //         @endif
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Evet',
+        //         denyButtonText: `İptal`,
+        //     }).then((result) => {
+        //         /* Read more about isConfirmed, isDenied below */
+        //         if (result.isConfirmed) {
+        //             window.location.href = "{{ route('admin.housings.set.status.get', $housing->id) }}"
+        //         }
+        //     })
+        // })
+
+
+            $(document).ready(function() {
+                $('.set_status').click(function(e) {
+                    e.preventDefault();
+                    var projectId = $(this).attr('project_id');
+                    var statusAction = $(this).data('status');
+
+                    Swal.fire({
+                        title: statusAction + ' istediğine emin misin?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Evet',
+                        denyButtonText: 'İptal',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('admin.housings.set.status.get', $housing->id) }}"
+                        }
+                    });
+                });
             })
-        })
+
         var defaultMessagesItems = @json($defaultMessages);
 
 
