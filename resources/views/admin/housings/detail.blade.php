@@ -803,10 +803,10 @@
 
 
         .owl-carousel .item img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Resmi orantılı olarak sığdır */
-}
+        max-width: 50%;
+        max-height: 50%;
+        object-fit: contain; /* Resmi orantılı olarak sığdır */
+    }
         
     </style>
 
