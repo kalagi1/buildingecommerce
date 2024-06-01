@@ -106,6 +106,7 @@
                 @endif
             </div>
 
+            <div class="image-counter"></div>
 
         </div>
 
@@ -727,40 +728,42 @@
 
 
  
-    <script>
-        $(document).ready(function() {
-            var totalImages = $(".images.owl-carousel .item").length;
     
-            $(".images.owl-carousel").owlCarousel({
-                items: 1,
-                loop: true,
-                nav: true,
-                navText: ["<div class='nav-button owl-prev'>‹</div>",
-                    "<div class='nav-button owl-next'>›</div>"
-                ],
-                autoHeight: true,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    600: {
-                        items: 3
-                    },
-                    1000: {
-                        items: 5
-                    }
+<script>
+    $(document).ready(function() {
+        var totalImages = $(".images.owl-carousel .item").length;
+
+        $(".images.owl-carousel").owlCarousel({
+            items: 1,
+            loop: true,
+            nav: true,
+            navText: ["<div class='nav-button owl-prev'>‹</div>",
+                "<div class='nav-button owl-next'>›</div>"
+            ],
+            autoHeight: true,
+            responsive: {
+                0: {
+                    items: 1
                 },
-                onInitialized: updateCounter,
-                onTranslated: updateCounter
-            });
-    
-            function updateCounter(event) {
-                var currentIndex = event.item.index;
-                var text = (currentIndex + 1) + "/" + totalImages;
-                $(".image-counter").text(text);
-            }
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            },
+            onInitialized: updateCounter,
+            onTranslated: updateCounter
         });
-    </script>
+
+        function updateCounter(event) {
+            var currentIndex = event.item.index;
+            var text = (currentIndex + 1) + "/" + totalImages;
+            $(".image-counter").text(text);
+        }
+    });
+</script>
+
     
      
 @endsection
@@ -868,5 +871,21 @@
         }
     </style>
 
-    
+<style>
+    .owl-carousel .item img {
+        width: 100%;
+        height: auto;
+    }
+
+    .image-counter {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
 @endsection
