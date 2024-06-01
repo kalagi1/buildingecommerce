@@ -94,10 +94,11 @@
                         </div>
                     @endforeach
                 @endif
-            
+
                 @if (isset($housingData->image))
                     <div class="item">
-                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
+                            alt="slider-listing">
                     </div>
                 @endif
             </div>
@@ -317,59 +318,63 @@
                         <tr>
                             @foreach ($housingTypeData as $key => $housingType)
                                 @if ($loop->iteration % 5 == 1)
-                                    </tr><tr>
-                                @endif
-                                @if (isset($housingType->type) && isset($housingType->name))
-                                    @if ($housingType->type == 'checkbox-group')
-                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) && is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
-                                            @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
-                                                <td>
-                                                    <div class="card mb-3">
-                                                        <div class="card-body">
-                                                            <div class="form-group">
-                                                                <div class="form-label">{{ $housingType->label }}</div>
-                                                                @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" checked disabled>
-                                                                        <label class="form-check-label">
-                                                                            {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endif
-                                        @endif
-                                    @else
-                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) && is_array($housingData->{str_replace('[]', '', $housingType->name)}))
-                                            <td>
-                                                <div class="card mb-3">
-                                                    <div class="card-body">
-                                                        <div class="form-group">
-                                                            <div class="form-label">{{ $housingType->label }}</div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" checked disabled>
-                                                                <label class="form-check-label">
-                                                                    {!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        @endif
-                                    @endif
-                                @endif
-                            @endforeach
                         </tr>
+                        <tr>
+                    @endif
+                    @if (isset($housingType->type) && isset($housingType->name))
+                        @if ($housingType->type == 'checkbox-group')
+                            @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) &&
+                                    is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
+                                @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
+                                    <td>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="form-label">{{ $housingType->label }}</div>
+                                                    @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" checked
+                                                                disabled>
+                                                            <label class="form-check-label">
+                                                                {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                @endif
+                            @endif
+                        @else
+                            @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) &&
+                                    is_array($housingData->{str_replace('[]', '', $housingType->name)}))
+                                <td>
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-label">{{ $housingType->label }}</div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                                    <label class="form-check-label">
+                                                        {!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            @endif
+                        @endif
+                    @endif
+                    @endforeach
+                    </tr>
                     @endfor
                 </table>
             </div>
         </div>
-        
-        
+
+
 
 
 
@@ -722,30 +727,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
- 
+
     <script>
         $(document).ready(function() {
-         $(".images.owl-carousel").owlCarousel({
-             items: 1,
-             loop: true,
-             nav: true,
-             navText: ["<div class='nav-button owl-prev'>‹</div>",
-                 "<div class='nav-button owl-next'>›</div>"
-             ],
-             autoHeight: true, // Resimlerin yüksekliğini otomatik olarak ayarlar
-             responsive: {
-                 0: {
-                     items: 1
-                 },
-                 600: {
-                     items: 1
-                 }
-             }
-         });
-     });
-     
-     </script>
-     
+            $(".images.owl-carousel").owlCarousel({
+                items: 1,
+                loop: true,
+                nav: true,
+                navText: ["<div class='nav-button owl-prev'>‹</div>",
+                    "<div class='nav-button owl-next'>›</div>"
+                ],
+                autoHeight: true, // Resimlerin yüksekliğini otomatik olarak ayarlar
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 1
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('css')
@@ -771,14 +774,14 @@
 
 
     <style>
-                
-                .owl-carousel .item img {
-            max-width: 100px; /* Maksimum genişlik 100 piksel */
-            max-height: 100px; /* Maksimum yükseklik 100 piksel */
+        .owl-carousel .item img {
+            max-width: 100%;
+            max-height: 100%;
+            /* Maksimum yükseklik 100 piksel */
         }
     </style>
 
-    
+
 
     <style>
         .form-group {
@@ -818,6 +821,4 @@
             /* İstediğiniz boşluğu ayarlayabilirsiniz */
         }
     </style>
-
-    
 @endsection
