@@ -1031,6 +1031,7 @@
                             aria-labelledby="situation-tab">
                             <div class="situation-images-project">
                                 <div class="row w-100 m-auto">
+                                    {{dd($project->situations)}}
                                     @if ($project->situations && count($project->situations) > 0)
                                         @foreach ($project->situations as $situation)
                                             <div class="col-md-4 mb-2">
