@@ -185,7 +185,7 @@
 
                                             <tr>
                                                 <td>
-                                                    Proje Tipi :
+                                                    Emlak Tipi :
                                                     <span class="det">
                                                         @if ($housing->step1_slug)
                                                             @if ($housing->step2_slug)
@@ -728,26 +728,29 @@
 
  
     <script>
-       $(document).ready(function() {
-    $(".images.owl-carousel").owlCarousel({
-        items: 2, // Aynı anda 2 resim göstermek için
-        loop: true,
-        nav: true,
-        navText: ["<div class='nav-button owl-prev'>‹</div>",
-            "<div class='nav-button owl-next'>›</div>"
-        ],
-        autoHeight: true, // Resimlerin yüksekliğini otomatik olarak ayarlar
-        responsive: {
-            0: {
-                items: 1 // Küçük ekranlarda tek resim göster
-            },
-            600: {
-                items: 2 // Daha büyük ekranlarda 2 resim göster
-            }
-        }
-    });
-});
-     </script>
+        $(document).ready(function() {
+            $(".images.owl-carousel").owlCarousel({
+                items: 5,
+                loop: true,
+                nav: true,
+                navText: ["<div class='nav-button owl-prev'>‹</div>",
+                    "<div class='nav-button owl-next'>›</div>"
+                ],
+                autoHeight: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            });
+        });
+    </script>
      
 @endsection
 
@@ -806,8 +809,8 @@
 
 
         .owl-carousel .item img {
-        max-width: 50%;
-        max-height: 50%;
+        max-width: 100%;
+        max-height: 100%;
         object-fit: contain; /* Resmi orantılı olarak sığdır */
     }
         
