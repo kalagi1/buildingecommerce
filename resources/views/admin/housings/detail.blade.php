@@ -90,14 +90,18 @@
                 @if (isset($housingData->images) && is_array($housingData->images))
                     @foreach ($housingData->images as $key => $image)
                         <div class="item">
-                            <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
+                            <a href="{{ asset('housing_images/' . $image) }}" target="_blank">
+                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
+                            </a>
                         </div>
                     @endforeach
                 @endif
             
                 @if (isset($housingData->image))
                     <div class="item">
-                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                        <a href="{{ asset('housing_images/' . $housingData->image) }}" target="_blank">
+                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                        </a>
                     </div>
                 @endif
             </div>
@@ -724,26 +728,25 @@
 
  
     <script>
-        $(document).ready(function() {
-         $(".images.owl-carousel").owlCarousel({
-             items: 1,
-             loop: true,
-             nav: true,
-             navText: ["<div class='nav-button owl-prev'>‹</div>",
-                 "<div class='nav-button owl-next'>›</div>"
-             ],
-             autoHeight: true, // Resimlerin yüksekliğini otomatik olarak ayarlar
-             responsive: {
-                 0: {
-                     items: 1
-                 },
-                 600: {
-                     items: 1
-                 }
-             }
-         });
-     });
-     
+       $(document).ready(function() {
+    $(".images.owl-carousel").owlCarousel({
+        items: 2, // Aynı anda 2 resim göstermek için
+        loop: true,
+        nav: true,
+        navText: ["<div class='nav-button owl-prev'>‹</div>",
+            "<div class='nav-button owl-next'>›</div>"
+        ],
+        autoHeight: true, // Resimlerin yüksekliğini otomatik olarak ayarlar
+        responsive: {
+            0: {
+                items: 1 // Küçük ekranlarda tek resim göster
+            },
+            600: {
+                items: 2 // Daha büyük ekranlarda 2 resim göster
+            }
+        }
+    });
+});
      </script>
      
 @endsection
