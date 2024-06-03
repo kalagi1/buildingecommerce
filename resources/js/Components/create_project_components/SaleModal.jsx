@@ -123,6 +123,24 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
         })
     }
 
+    const setPayDecStatus = (index,value) => {
+        var newData = data.pay_decs.map((payDec,i) => {
+            if(i == index){
+                return {
+                    ...payDec,
+                    status : value
+                }
+            }else{
+                return payDec
+            }
+        })
+
+        setData({
+            ...data,
+            pay_decs : newData
+        })
+    }
+
     return(
         <Modal
             open={open}
@@ -173,6 +191,16 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
                             <label htmlFor="">Komşumu Gör</label>
                             
                             <FormControlLabel control={<Switch onChange={() => {setData({...data,show_neighbour : !data.show_neighbour})}} checked={data.show_neighbour} />} label="Açık" />
+                        </FormControl>
+                         <FormControl fullWidth margin="normal">
+                            <label htmlFor="">Kapora Ödendi</label>
+                            
+                            <FormControlLabel control={<Switch onChange={() => {setData({...data,down_payment : !data.down_payment})}} checked={data.down_payment} />} label="Evet" />
+                        </FormControl>
+                         <FormControl fullWidth margin="normal">
+                            <label htmlFor="">Peşinat Ödendi</label>
+                            
+                            <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
                         </FormControl>
                     </Grid>
                     <Grid item xs={6} md={6}>
@@ -284,6 +312,19 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
                                                             <div className="flex-10">
                                                                 <label htmlFor="">Ara Ödeme Tarihi</label>
                                                                 <input type="date" className="form-control" onChange={(e) => {setPayDecDate(i,e.target.value)}} value={payDec.date} />
+                                                            </div>
+                                                            <div style={{flex:'2'}}>
+                                                                {
+                                                                    payDec.status ? 
+                                                                        <div onClick={() => {setPayDecStatus(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                            <i className='fa fa-times'></i>
+                                                                        </div>
+                                                                    : 
+                                                                        <div onClick={() => {setPayDecStatus(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                            <i className='fa fa-check'></i>
+                                                                        </div>
+                                                                }
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

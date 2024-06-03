@@ -1476,29 +1476,41 @@ const HousingList = ({ projectId }) => {
         setSelectedRoomOrder(id);
         var saleData = {};
         setSaleModalOpen(true)
-        solds.map((sold) => {
-            var cart = JSON.parse(sold.cart);
-            if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
-                var payDecs = [];
-                for(var i = 0; i < data[id - 1]['pay-dec-count'+(getLastCount() + id)];i++){
-                    payDecs.push({});
-                    payDecs[i]['price'] = data[id - 1]['pay_desc_price'+(getLastCount() + id)+""+i];
-                    payDecs[i]['date'] = data[id - 1]['pay_desc_date'+(getLastCount() + id)+""+i];
+
+        axios.get(baseUrl+'get_sale/'+projectId+'/'+(getLastCount() + id)).then((res) => {
+            var payDecx = JSON.parse(res.data.data.pay_decs);
+            solds.map((sold) => {
+                var cart = JSON.parse(sold.cart);
+                if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
+                    var payDecs = [];
+                    for(var i = 0; i < data[id - 1]['pay-dec-count'+(getLastCount() + id)];i++){
+                        payDecs.push({});
+                        payDecs[i]['price'] = data[id - 1]['pay_desc_price'+(getLastCount() + id)+""+i];
+                        payDecs[i]['date'] = data[id - 1]['pay_desc_date'+(getLastCount() + id)+""+i];
+                        if(payDecx.includes(i+1)){
+                            payDecs[i]['status'] = true;
+                        }else{
+                            payDecs[i]['status'] = false;
+                        }
+                    }
+                    saleData['name'] = sold.full_name;
+                    saleData['email'] = sold.email;
+                    saleData['phone'] = sold.phone;
+                    saleData['sale_type'] = sold.is_swap == 0 ? 1 : 2,
+                    saleData['price'] = data[id - 1]['price[]'],
+                    saleData['advance'] = data[id - 1]['advance[]'],
+                    saleData['installments'] = data[id - 1]['installments[]']
+                    saleData['pay_decs'] = payDecs
+                    saleData['down_payment'] = res.data.data.down_payment
+                    saleData['advance_payment'] = res.data.data.advance
+                    saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
                 }
-                saleData['name'] = sold.full_name;
-                saleData['email'] = sold.email;
-                saleData['phone'] = sold.phone;
-                saleData['sale_type'] = sold.is_swap == 0 ? 1 : 2,
-                saleData['price'] = data[id - 1]['price[]'],
-                saleData['advance'] = data[id - 1]['advance[]'],
-                saleData['installments'] = data[id - 1]['installments[]']
-                saleData['pay_decs'] = payDecs
-                saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
-            }
+            })
+            setSelectedSaleData(saleData);
         })
-        console.log(saleData);
-        setSelectedSaleData(saleData);
     }
+
+    console.log(selectedSaleData);
 
     const paymentModalFunc = (id) => {
         setPaymentModalOpen(true);
@@ -1663,6 +1675,21 @@ const HousingList = ({ projectId }) => {
                             <ReceiptIcon />
                         </ListItemIcon>
                         Ödeme Planını Düzenle
+                    </MenuItem>,
+                    <MenuItem
+                        key={0}
+                        onClick={() => {
+                            var anchor = document.createElement('a');
+                            anchor.href = frontEndUrl+'render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1);
+                            anchor.target="_blank";
+                            anchor.click();
+                        }}
+                        sx={{ m: 0 }}
+                    >
+                        <ListItemIcon>
+                            <ReceiptIcon />
+                        </ListItemIcon>
+                        Çıktı Al
                     </MenuItem>
                 ]
             }else{
@@ -1830,22 +1857,29 @@ const HousingList = ({ projectId }) => {
                         <h4>Seçilen Konutlar</h4>
                         <div>
                             {
-                                Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
-                                    var lastItemsCountx = 0;
-                                    var x = 0;
-                                    var blockName = "";
-                                    var selectedBlockIndex = 0;
-                                    for(var t = 0; t < blockx.length; t++ ){
-                                        x += blockx[t].housing_count;
-                                        if(selectedRoom > x){
-                                            lastItemsCountx += blockx[t].housing_count;
-                                            selectedBlockIndex = t + 1;
+                                haveBlocks ? 
+                                    Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
+                                        var lastItemsCountx = 0;
+                                        var x = 0;
+                                        var blockName = "";
+                                        var selectedBlockIndex = 0;
+                                        for(var t = 0; t < blockx.length; t++ ){
+                                            x += blockx[t].housing_count;
+                                            if(selectedRoom > x){
+                                                lastItemsCountx += blockx[t].housing_count;
+                                                selectedBlockIndex = t + 1;
+                                            }
                                         }
-                                    }
-                                    return(
-                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ blockx[selectedBlockIndex].block_name +" "+ ( parseInt(selectedRoom) - lastItemsCountx)} <i className='fa fa-times'></i></span>
-                                    )
-                                })
+                                        return(
+                                            <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ blockx[selectedBlockIndex].block_name +" "+ ( parseInt(selectedRoom) - lastItemsCountx)} <i className='fa fa-times'></i></span>
+                                        )
+                                    })
+                                : 
+                                    Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
+                                        return(
+                                            <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ ( parseInt(selectedRoom) )} <i className='fa fa-times'></i></span>
+                                        )
+                                    })
                             }
                         </div>
                     </div>
