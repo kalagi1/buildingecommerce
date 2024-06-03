@@ -17,7 +17,7 @@
                             <img src="https://www.zillowstatic.com/bedrock/app/uploads/sites/5/2024/04/homepage-spot-agent-lg-1.webp"
                                 style="border-radius: 50px; width:160px; height:160px" alt="">
                             <h4 style="margin-top: 20px; font-weight: 700;font-size:15px;color:black !important">Kirala</h4>
-                            <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                            <p> Arsa, konut, işyeri, turistik tesis, devremülk tüm
                                 gayrimenkullerinizin satış veya kiralamasını
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
@@ -34,7 +34,7 @@
                             <img src="https://www.zillowstatic.com/bedrock/app/uploads/sites/5/2024/04/homepage-spot-sell-lg-1.webp"
                                 style="border-radius: 50px; width:160px; height:160px" alt="">
                             <h4 style="margin-top: 20px; font-weight: 700;font-size:15px;color:black !important">Sat</h4>
-                            <p>Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                            <p> Arsa, konut, işyeri, turistik tesis, devremülk tüm
                                 gayrimenkullerinizin satış veya kiralamasını
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
@@ -85,7 +85,7 @@
                         gayrimenkullerinizin satış veya kiralamasını
                         emlaksepette.com sizin yerinize yapsın
                         zamanınız size kalsın.
-                        Formu doldur bilgilerini gir kolay sat kirala!Arsa, konut, işyeri, turistik tesis, devremülk tüm
+                        Formu doldur bilgilerini gir kolay sat kirala! Arsa, konut, işyeri, turistik tesis, devremülk tüm
                         gayrimenkullerinizin satış veya kiralamasını
                         emlaksepette.com sizin yerinize yapsın
                         zamanınız size kalsın.
@@ -104,14 +104,17 @@
                         <h2 style="font-size: 15px">Sat Kirala Nedir ?</h2>
                     </div>
                     <ul style="list-style: none; margin: 0; padding: 0; margin-top: 20px;">
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
-                            bidding wars</li>
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
-                            bidding wars</li>
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
-                            bidding wars</li>
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> Potential for
-                            bidding wars</li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> 
+                            Gayrimenkullerinizin güvenli ve hızlı bir şekilde satılmasını sağlamak için <strong>Emlaksepette.com</strong>, güvenilir bir çözüm sunuyor. Siz satışın keyfini çıkarırken, profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz.
+                        </li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
+                            KİRALA
+                            Gayrimenkullerinizin hızlıca kiralanması için <strong>Emlaksepette.com</strong> yanınızda! Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz. Detaylı bilgi ve hızlı satış için <strong>Emlaksepette.com</strong>'u tercih edin. 
+                        </li>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
+                            Gayrimenkullerinizin hem hızlıca kiralanması hem de güvenli bir şekilde satılması için <strong>Emlaksepette.com</strong> yanınızda! Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz. Kiralama veya satış işlemlerinizde hızlı sonuçlar elde etmek için Emlaksepette.com yanınızda!
+                        </li>
+                        
 
                     </ul>
                 </div>
