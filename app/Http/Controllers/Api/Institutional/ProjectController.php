@@ -1403,8 +1403,8 @@ class ProjectController extends Controller
         PaymentSetting::create([
             "project_id" => $projectId,
             "room_order" => $request->input('room_order'),
-            "down_payment" => $request->input('down_payment'),
-            "advance" => $request->input('advance_payment'),
+            "down_payment" => $request->input('down_payment') ?? false,
+            "advance" => $request->input('advance_payment') ?? false,
             "pay_decs" => json_encode($payDecArr),
         ]);
 
