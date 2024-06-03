@@ -1395,7 +1395,7 @@ class ProjectController extends Controller
         $payDecArr = [];
 
         for($i = 0; $i < count($request->input('pay_decs')); $i++){
-            if($request->input('pay_decs')[$i]['status']){
+            if(isset($request->input('pay_decs')[$i]['status']) && $request->input('pay_decs')[$i]['status']){
                 array_push($payDecArr,$i+1);
             }
         }
