@@ -522,7 +522,6 @@ class ProjectController extends Controller
                 ->select(
                     'housings.id',
                     'housings.slug',
-
                     'housings.title AS housing_title',
                     'housings.created_at',
                     'housings.step1_slug',
@@ -794,6 +793,7 @@ class ProjectController extends Controller
                         $filtersDb = Filter::where('item_type', 1)
                             ->get()
                             ->where("is_sale", 1)
+                            // ->where('order_by' ,'asc')
                             ->whereIn('filter_name', $uniqueHousingTypeNames)
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -803,7 +803,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
-
+                          // ->where('order_by' ,'asc')
 
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -815,6 +815,7 @@ class ProjectController extends Controller
                         $filtersDb = Filter::where('item_type', 1)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->whereIn('filter_name', $uniqueHousingTypeNames)
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -826,8 +827,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
-
-
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -843,6 +843,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -851,6 +852,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_rent", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -859,6 +861,26 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                    else if ($optName == "Devren Satılık") {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_sale_status", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Devren Kiralık") {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_rent_status", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -870,6 +892,7 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -878,6 +901,7 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_rent", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -886,6 +910,26 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_daily_rent", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                    else if ($optName == "Devren Satılık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_sale_status", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Devren Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                          // ->where('order_by' ,'asc')
+                            ->where("transfer_for_rent_status", 1)
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -958,6 +1002,7 @@ class ProjectController extends Controller
                         $filtersDb = Filter::where('item_type', 2)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->whereIn('filter_name', $uniqueHousingTypeNames)
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -967,7 +1012,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
-
+                          // ->where('order_by' ,'asc')
 
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -979,6 +1024,7 @@ class ProjectController extends Controller
                         $filtersDb = Filter::where('item_type', 2)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->whereIn('filter_name', $uniqueHousingTypeNames)
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
@@ -991,6 +1037,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1004,6 +1051,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1012,6 +1060,7 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_rent", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1020,6 +1069,26 @@ class ProjectController extends Controller
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                    else if ($optName == "Devren Satılık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_sale_status", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Devren Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_rent_status", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1031,6 +1100,7 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_sale", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1039,6 +1109,7 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_rent", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
@@ -1047,6 +1118,26 @@ class ProjectController extends Controller
                         ->where('housing_type_id', $newHousingType->id)
                         ->get()
                             ->where("is_daily_rent", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                    else if ($optName == "Devren Satılık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_sale_status", 1)
+                          // ->where('order_by' ,'asc')
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Devren Kiralık") {
+                        $filtersDb = Filter::where('item_type', 2)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("transfer_for_rent_status", 1)
+                          // ->where('order_by' ,'asc')
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
