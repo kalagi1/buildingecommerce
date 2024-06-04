@@ -1503,6 +1503,7 @@ const HousingList = ({ projectId }) => {
                     saleData['pay_decs'] = payDecs
                     saleData['down_payment'] = res.data.data.down_payment
                     saleData['advance_payment'] = res.data.data.advance
+                    saleData['down_payment_price'] = res.data.data.down_payment_price
                     saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
                 }
             })

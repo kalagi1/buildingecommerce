@@ -6,7 +6,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,projectId}) {
-    const [loading,setLoading] = useState(false);
     const [installments,setInstallments] = useState([]);
     const [startDate,setStartDate] = useState("");
     const [startDateConfirm,setStartDateConfirm] = useState(false);
@@ -143,34 +142,39 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
 
     console.log(installments)
 
-    const setPaymentPrice = (id,price) => {
-        var newInstallments = installments.map((installment,key) => {
-            if(id == key){
-                return {
-                    ...installment,
-                    price : price,
+    const setPaymentPrice = (id,price,type) => {
+        if(type == "price"){
+            var newInstallments = installments.map((installment,key) => {
+                if(id == key){
+                    return {
+                        ...installment,
+                        price : price,
+                    }
+                }else{
+                    return installment
                 }
-            }else{
-                return installment
-            }
-        })
-
-        setInstallments(newInstallments)
+            })
+    
+            setInstallments(newInstallments)
+        }else{
+            var newInstallments = installments.map((installment,key) => {
+                if(id == key){
+                    return {
+                        ...installment,
+                        description : price,
+                    }
+                }else{
+                    return installment
+                }
+            })
+    
+            setInstallments(newInstallments)
+        }
+        
     }
 
-    const setPaymentDescription = (id,description) => {
-        var newInstallments = installments.map((installment,key) => {
-            if(id == key){
-                return {
-                    ...installment,
-                    description : description,
-                }
-            }else{
-                return installment
-            }
-        })
-
-        setInstallments(newInstallments)
+    const setPaymentDescriptionx = (id,description) => {
+        console.log(id,description)
     }
 
     const deleteInstallment = (id) => {
@@ -233,7 +237,7 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                                                     </div>
                                                     <div className="col-md-2">
                                                         <label htmlFor="">Fiyat</label>
-                                                        <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value)}} value={dotNumberFormat(installment.price)} className='form-control' />
+                                                        <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'price')}} value={dotNumberFormat(installment.price)} className='form-control' />
                                                     </div>
                                                     <div className="col-md-2">
                                                         <label htmlFor="">Tarih</label>
@@ -250,7 +254,7 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="">Açıklama</label>
-                                                        <input type="text" value={installment.description} onChange={(e) => {setPaymentDescription(i,e.target.value)}} className='form-control' />
+                                                        <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'desc')}} value={installment.description} className='form-control' />
                                                     </div>
                                                     <div className="col-md-1">
                                                         <div className="d-flex">

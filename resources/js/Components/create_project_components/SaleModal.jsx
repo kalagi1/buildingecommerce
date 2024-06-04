@@ -197,6 +197,14 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
                             
                             <FormControlLabel control={<Switch onChange={() => {setData({...data,down_payment : !data.down_payment})}} checked={data.down_payment} />} label="Evet" />
                         </FormControl>
+                        <TextField
+                            fullWidth
+                            label="Kapora Bedeli"
+                            name="down_payment_price"
+                            value={dotNumberFormat(data.down_payment_price)}
+                            onChange={handleInputChange}
+                            margin="normal"
+                        />
                          <FormControl fullWidth margin="normal">
                             <label htmlFor="">Peşinat Ödendi</label>
                             

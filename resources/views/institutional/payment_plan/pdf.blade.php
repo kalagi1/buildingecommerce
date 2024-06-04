@@ -177,11 +177,22 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td style="text-align: left">Kapora</td>
+                                <td style="text-align: left"></td>
+                                <td style="text-align: left">{{number_format($paymentSetting->down_payment_price, 0, '', '.')}}₺</td>
+                                
+                                @if($paymentSetting->down_payment)
+                                    <td style="text-align: left"><span style="background: green;padding: 3px 10px;color: #fff;">Alındı</span></td>
+                                @else 
+                                    <td style="text-align: left"><span style="background: red;padding: 3px 10px;color: #fff;">Alınmadı</span></td>
+                                @endif
+                            </tr>
+                            <tr>
                                 <td style="text-align: left">Peşinat</td>
                                 <td style="text-align: left"></td>
-                                <td style="text-align: left">{{number_format($advance->value, 0, '', '.')}}₺</td>
+                                <td style="text-align: left">{{number_format($advance->value - $paymentSetting->down_payment_price, 0, '', '.')}}₺</td>
                                 
-                                @if(1)
+                                @if($paymentSetting->advance)
                                     <td style="text-align: left"><span style="background: green;padding: 3px 10px;color: #fff;">Alındı</span></td>
                                 @else 
                                     <td style="text-align: left"><span style="background: red;padding: 3px 10px;color: #fff;">Alınmadı</span></td>

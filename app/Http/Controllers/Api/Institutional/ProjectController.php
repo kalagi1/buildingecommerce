@@ -1405,6 +1405,7 @@ class ProjectController extends Controller
             "room_order" => $request->input('room_order'),
             "down_payment" => $request->input('down_payment') ?? false,
             "advance" => $request->input('advance_payment') ?? false,
+            "down_payment_price" => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
             "pay_decs" => json_encode($payDecArr),
         ]);
 
@@ -1597,6 +1598,7 @@ class ProjectController extends Controller
             }
             $remainingPayment = $installmentPrice->value - $paidPrice;
         }else{
+            $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
             $paidPrice += $roomPrice->value;
             $remainingPayment = 0;
             $payDecs = [];
@@ -1604,7 +1606,7 @@ class ProjectController extends Controller
             $paidPayDecs = [];
         }
 
-        $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs'));
+        $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs','paymentSetting'));
         return $pdf->download($project->project_title.' '.$roomOrder.' Nolu Konut Ödeme Detayı.pdf');
     }
 }
