@@ -115,7 +115,8 @@ Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])
 
 Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->name('password.email');
 
-
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientPageController::class, "allMenuProjects"])
+    ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
