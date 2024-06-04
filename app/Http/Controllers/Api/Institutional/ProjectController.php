@@ -945,7 +945,7 @@ class ProjectController extends Controller
                 Rate::create([
                     'institution_id' => $institution->id,
                     'housing_id' => $project->id,
-                    'default_deposit_rate' => 0.90,
+                    'default_deposit_rate' => 0.80,
                     'sales_rate_club' => 0.25,
                 ]);
             }
