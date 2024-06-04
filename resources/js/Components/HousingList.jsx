@@ -1680,7 +1680,8 @@ const HousingList = ({ projectId }) => {
                         key={0}
                         onClick={() => {
                             var anchor = document.createElement('a');
-                            anchor.href = frontEndUrl+'render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1);
+                            console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
+                            anchor.href = frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1);
                             anchor.target="_blank";
                             anchor.click();
                         }}

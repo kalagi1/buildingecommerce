@@ -1458,7 +1458,8 @@ class ProjectController extends Controller
                 "price" => $installment['price'] ? str_replace('.','',$installment['price']) : "0",
                 "date" => $installment['date'] ?? date('Y-m-d'),
                 "paymentType" => $installment['paymentType'] ?? "",
-                "is_payment" => $installment['is_payment'],
+                "description" => $installment['description'] ?? "",
+                "is_payment" => $installment['is_payment'] ?? false,
                 "project_id" => $projectId,
                 "room_order" => $roomOrder
             ]);
@@ -1576,8 +1577,6 @@ class ProjectController extends Controller
             }
         }
 
-        
-
         if($cartOrder->is_swap){
             $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
 
@@ -1585,6 +1584,10 @@ class ProjectController extends Controller
                 $paidPrice += $advance->value;
             }
 
+            $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay-dec-count'.$roomOrder)->first();
+            $payDecs = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','LIKE','%pay_desc%')->get()->keyBy('name');
+            $paidPayDecs = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
+            $paidPayDecs = json_decode($paidPayDecs->pay_decs);
             $paymentSettingPayDecs = json_decode($paymentSetting->pay_decs);
 
             foreach($paymentSettingPayDecs as $payDec){
@@ -1596,9 +1599,12 @@ class ProjectController extends Controller
         }else{
             $paidPrice += $roomPrice->value;
             $remainingPayment = 0;
+            $payDecs = [];
+            $payDecCount = 0;
+            $paidPayDecs = [];
         }
 
-        $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment'));
+        $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs'));
         return $pdf->download($project->project_title.' '.$roomOrder.' Nolu Konut Ödeme Detayı.pdf');
     }
 }
