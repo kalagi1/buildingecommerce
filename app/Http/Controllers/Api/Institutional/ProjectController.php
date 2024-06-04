@@ -1583,6 +1583,10 @@ class ProjectController extends Controller
 
             if($paymentSetting->advance){
                 $paidPrice += $advance->value;
+            }else{
+                if($paymentSetting->down_payment){
+                    $paidPrice += $paymentSetting->down_payment_price;
+                }
             }
 
             $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay-dec-count'.$roomOrder)->first();
