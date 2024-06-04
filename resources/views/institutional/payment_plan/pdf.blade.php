@@ -163,7 +163,7 @@
             @if($cartOrder->is_swap)
                 <div class="title">
                     <svg class="svg-inline--fa fa-user" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"></path></svg><!-- <i class="fa fa-user"></i> Font Awesome fontawesome.com -->
-                    <h4>Genel Ödemeler ({{$payDecCount->value}})</h4>
+                    <h4>Genel Ödemeler ({{$payDecCount}})</h4>
                 </div>
                 <div style="display: flex;border: 1px solid #ebebeb !important;padding:2px 10px;">
                     <table style="width: 100%;padding: 0 20px">
@@ -198,7 +198,7 @@
                                     <td style="text-align: left"><span style="background: red;padding: 3px 10px;color: #fff;">Alınmadı</span></td>
                                 @endif
                             </tr>
-                            @for($i = 0; $i < $payDecCount->value; $i++)
+                            @for($i = 0; $i < $payDecCount; $i++)
                                 <tr>
                                     <td style="text-align: left">{{$i + 1}}. Ara Ödeme</td>
                                     <td style="text-align: left">{{date('d.m.Y',strtotime($payDecs['pay_desc_date'.$roomOrder.$i]->value))}}</td>

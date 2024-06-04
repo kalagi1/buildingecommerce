@@ -1586,6 +1586,12 @@ class ProjectController extends Controller
             }
 
             $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay-dec-count'.$roomOrder)->first();
+
+            if($payDecCount){
+                $payDecCount = $payDecCount->value;
+            }else{
+                $payDecCount = 0;
+            }
             $payDecs = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','LIKE','%pay_desc%')->get()->keyBy('name');
             $paidPayDecs = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
             $paidPayDecs = json_decode($paidPayDecs->pay_decs);
