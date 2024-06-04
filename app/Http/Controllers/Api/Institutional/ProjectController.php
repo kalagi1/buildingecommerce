@@ -971,7 +971,7 @@ class ProjectController extends Controller
             }
         }
 
-        if ($postData['property_owner_phone'] && $postData['property_owner'] && $user) {
+        if (isset($postData['property_owner_phone']) && $postData['property_owner_phone'] && $postData['property_owner'] && $user) {
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
             $property_owner_phone = $postData['property_owner_phone'];
