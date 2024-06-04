@@ -688,10 +688,14 @@ class ProjectController extends Controller
                 if ($opt) {
                     $query->where('step2_slug', $opt);
                 }
+                
+                if ($slug != "tum-projeler") {
+                    $query->whereHas('housingStatus', function ($query) use ($slug) {
+                        $query->where('housing_status_id', $slug);
+                    });
+                }
 
-                $query->whereHas('housingStatus', function ($query) use ($slug) {
-                    $query->where('housing_status_id', $slug);
-                });
+              
                 $secondhandHousings = $query->get();
             }
         } else {
@@ -718,6 +722,12 @@ class ProjectController extends Controller
                 $query->where('housing_type_id', $newHousingType);
             }
 
+            if ($slug != "tum-projeler") {
+                $query->whereHas('housingStatus', function ($query) use ($slug) {
+                    $query->where('housing_status_id', $slug);
+                });
+            }
+            
             if ($opt) {
                 $query->where('step2_slug', $opt);
             }

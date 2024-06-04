@@ -673,7 +673,7 @@ class HomeController extends Controller
             $obj->where('step2_slug', $opt);
         }
 
-        if ($slug) {
+        if ($slug && $slug != "tum-projeler") {
             $obj->whereHas('housingStatus', function ($query) use ($slug) {
                 $query->where('housing_status_id', $slug);
             });
