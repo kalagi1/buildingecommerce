@@ -98,7 +98,7 @@ class EstateClubController extends Controller
 
             // SMS gönderme işlemi
             $smsService = new SmsService();
-            $source_addr = 'Emlkspette';
+            $source_addr = 'smsDeneme';
 
             $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 
@@ -129,7 +129,7 @@ class EstateClubController extends Controller
 
             // SMS gönderme işlemi
             $smsService = new SmsService();
-            $source_addr = 'Emlkspette';
+            $source_addr = 'smsDeneme';
 
             $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 

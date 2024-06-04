@@ -191,7 +191,7 @@ class ProjectController extends Controller
                 $userPhoneNumber =  $project->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'Emlkspette';
+                $source_addr = 'smsDeneme';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
@@ -243,7 +243,7 @@ class ProjectController extends Controller
                 $userPhoneNumber =  $project->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'Emlkspette';
+                $source_addr = 'smsDeneme';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
@@ -266,7 +266,7 @@ class ProjectController extends Controller
                 $userPhoneNumber =  $project->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'Emlkspette';
+                $source_addr = 'smsDeneme';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
