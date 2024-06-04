@@ -689,7 +689,7 @@ class ProjectController extends Controller
                     $query->where('step2_slug', $opt);
                 }
                 
-                if ($slug != "tum-projeler") {
+                if ($slug != "1") {
                     $query->whereHas('housingStatus', function ($query) use ($slug) {
                         $query->where('housing_status_id', $slug);
                     });
@@ -722,7 +722,7 @@ class ProjectController extends Controller
                 $query->where('housing_type_id', $newHousingType);
             }
 
-            if ($slug != "tum-projeler") {
+            if ($slug != "1") {
                 $query->whereHas('housingStatus', function ($query) use ($slug) {
                     $query->where('housing_status_id', $slug);
                 });
