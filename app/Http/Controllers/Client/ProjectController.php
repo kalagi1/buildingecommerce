@@ -665,9 +665,13 @@ class ProjectController extends Controller
                     $query->where('housing_type_id', $housingType);
                 }
 
-                $query->whereHas('housingTypes', function ($query) use ($slug) {
-                    $query->where('housing_type_id', $slug);
-                });
+                if ($slug && $slug != "1") {
+                    $query->whereHas('housingTypes', function ($query) use ($slug) {
+                        $query->where('housing_type_id', $slug);
+                    });
+                }
+
+              
 
                 $anotherProjects = $query->get();
                 $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
@@ -689,11 +693,9 @@ class ProjectController extends Controller
                     $query->where('step2_slug', $opt);
                 }
                 
-                if ($slug != "1") {
                     $query->whereHas('housingStatus', function ($query) use ($slug) {
                         $query->where('housing_status_id', $slug);
                     });
-                }
 
               
                 $secondhandHousings = $query->get();
@@ -722,11 +724,10 @@ class ProjectController extends Controller
                 $query->where('housing_type_id', $newHousingType);
             }
 
-            if ($slug != "1") {
+           
                 $query->whereHas('housingStatus', function ($query) use ($slug) {
                     $query->where('housing_status_id', $slug);
                 });
-            }
             
             if ($opt) {
                 $query->where('step2_slug', $opt);

@@ -287,7 +287,7 @@ class HomeController extends Controller
             });
         }
 
-        if ($slug) {
+        if ($slug && $slug != "1") {
             $query->whereHas('housingTypes', function ($query) use ($slug) {
                 $query->where('housing_type_id', $slug);
             });
@@ -673,7 +673,7 @@ class HomeController extends Controller
             $obj->where('step2_slug', $opt);
         }
 
-        if ($slug && $slug != "1") {
+        if ($slug) {
             $obj->whereHas('housingStatus', function ($query) use ($slug) {
                 $query->where('housing_status_id', $slug);
             });
