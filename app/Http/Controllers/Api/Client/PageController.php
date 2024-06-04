@@ -53,7 +53,7 @@ class PageController extends Controller
 
     public function getCollections()
     {
-        $collections = Collection::where("user_id", Auth::user()->id)->get();
+        $collections = Collection::where("user_id", Auth::guard("api")->user()->id)->get();
 
         return response()->json(['collections' => $collections]);
     }
