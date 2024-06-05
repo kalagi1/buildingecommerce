@@ -683,7 +683,6 @@ class PageController extends Controller
             }
             
             $projects = $query->get();
-            return $projects;
             
             } else {
                 $query = Housing::with('images', "city", "county");
@@ -1179,7 +1178,7 @@ class PageController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-
+return $projects;
         return response()->json([
             'pageInfo' => $pageInfo,
             'neighborhoodTitle' => $neighborhoodTitle,
