@@ -934,23 +934,17 @@ class ProjectController extends Controller
         $institutions = Institution::all();
 
         foreach ($institutions as $key => $institution) {
-            if ($institution->name != "Diğer") {
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $project->id,
-                    'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.50,
-                ]);
-            } else {
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $project->id,
-                    'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.25,
-                ]);
-            }
+            $defaultDepositRate = 0.90;
+            $institutionalRateClub = 0.50;
+            $clientRateClub = 0.25;
+            $clientDepositRate = 0.80;
+            Rate::create([
+                'institution_id' => $institution->id,
+                'housing_id' => $project->id,
+                'default_deposit_rate' => auth()->check() && auth()->user()->type == 1 ? $clientDepositRate : $defaultDepositRate ,
+                'sales_rate_club' => $institution->name != "Diğer" ? $institutionalRateClub : $clientRateClub,
+            ]);
         }
-
 
         if ($project && auth()->user()->type == 1) {
             $user = auth()->user();
