@@ -459,6 +459,7 @@ class PageController extends Controller
 
     public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null, $county = null, $hood = null)
     {
+        return $request->all();
         $term = $request->input('term');
         $deneme = null;
 
