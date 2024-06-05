@@ -661,7 +661,7 @@ class PageController extends Controller
         if ($slug) {
             if ($is_project) {
 
-                $query = Project::query()->with("city", "county", 'user', "neighbourhood",'brand', 'roomInfo', 'listItemValues', 'housingType')->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
+                $query = Project::query()->with("city", "county", 'user', "neighbourhood",'brand', 'roomInfo', 'listItemValues', 'housingType')->where('status', 1)->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
