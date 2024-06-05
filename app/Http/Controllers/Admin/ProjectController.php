@@ -27,12 +27,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
+use App\Services\SmsService;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
 
     public function clubRateUpdate(Request $request, Project $project)
     {
@@ -102,7 +106,6 @@ class ProjectController extends Controller
             'projectStatuses'
         ));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -182,6 +185,18 @@ class ProjectController extends Controller
             ]);
 
             ShareLink::where('item_type', "1")->where('item_id', $project->id)->delete();
+
+            if($project && $project->user && $project->user->mobil_phone){
+
+                $userPhoneNumber =  $project->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
+            }
+
         } else if ($request->input('status') == 1) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
@@ -222,6 +237,18 @@ class ProjectController extends Controller
                     ]);
                 }
             }
+
+            if($project && $project->user && $project->user->mobil_phone){
+
+                $userPhoneNumber =  $project->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
+            }
+
         } else {
             $notificationText = 'Proje #' . $projectId . ' pasife alındı. Proje detaylarını güncellemek için [Buraya Tıklayınız](' . route('institutional.project.edit.v2', ['projectSlug' => $project->slug,  'project_id' => $project->id]) . ').';
 
@@ -233,6 +260,17 @@ class ProjectController extends Controller
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ]);
+
+            if($project && $project->user && $project->user->mobil_phone){
+
+                $userPhoneNumber =  $project->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
+            }
         }
 
         $project = Project::where('id', $projectId)->firstOrFail();

@@ -73,142 +73,51 @@
                         </div>
                     </div>
                 </div>
-                @if (isset($housing->owner))
-                    @if ($housing->status == 1)
-                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Emlak Ofisi Değiştir
-                        </a>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form
-                                            action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
-                                            <select name="user_id" id="selectUser" class="form-select"
-                                                aria-label="Select user">
-                                                @foreach ($nearestUsers as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }} -
-                                                        {{ $user->city ? $user->city->title : 'Unknown' }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini
-                                                Değiştir</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
-                            class="btn btn-danger set_status">Pasife Al</a>
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
-                    @elseif($housing->status == 2)
-                        {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-success set_status">Emlakçıya Atma</a> --}}
-                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Emlak Ofisi Atama
-                        </a>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form
-                                            action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
-                                            <select name="user_id" id="selectUser" class="form-select"
-                                                aria-label="Select user">
-                                                @foreach ($nearestUsers as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }} -
-                                                        {{ $user->city ? $user->city->title : 'Unknown' }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
-                                                Aktif
-                                                Et</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
-                    @endif
-                @else
-                    @if ($housing->status == 1)
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            project_id="{{ $housing->id }}" class="btn btn-danger set_status">Pasife Al</a>
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
-                    @elseif($housing->status == 2)
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-success set_status">Onayla</a>
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-danger reject">Reddet</a>
-                    @elseif($housing->status == 3)
-                        <span class="btn btn-info show-reason">Sebebini Gör</span>
-                        <a href="#" class="btn btn-success confirm_rejected_after">Önceden Reddedilmiş Bir Proje
-                            Onaya
-                            Al</a>
-                        <a href="#" class="btn btn-danger reject">Tekrar Reddet</a>
-                    @else
-                        <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                            class="btn btn-success set_status">Aktife Al</a>
-                    @endif
-                @endif
-
 
                 <a class="btn btn-primary mb-2 mb-sm-0 download_document"
                     href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter
                     Sözleşmesini İndir</a>
                 <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}"
-                    download>Yetki Belgesi İndir</a>
+                    href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki
+                    Belgesi İndir</a>
             </div>
         </div>
+
+        <div class="col-12 col-xl-12 mb-12 mt-12">
+
+            <h4 class="mb-3">Emlak Görselleri</h4>
+            <div class="images owl-carousel mb-4">
+                @if (isset($housingData->images) && is_array($housingData->images))
+                    @foreach ($housingData->images as $key => $image)
+                        <div class="item">
+                            <a href="{{ asset('housing_images/' . $image) }}" target="_blank">
+                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
+                            </a>
+                        </div>
+                    @endforeach
+                @endif
+            
+                @if (isset($housingData->image))
+                    <div class="item">
+                        <a href="{{ asset('housing_images/' . $housingData->image) }}" target="_blank">
+                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+
+        </div>
+
         <div class="row g-5">
-            <div class="col-12 col-xl-8">
+            <div class="col-6 col-xl-8">
                 <div class="mb-6">
-                    <div class="card p-3 scrollbar to-do-list-body" style="height: 500px; overflow-y:scroll">
+                    <div class="card p-3 scrollbar to-do-list-body" style="height: 400px; overflow-y:scroll">
                         {!! $housing->description !!}
                     </div>
                 </div>
-                <h4 class="mb-3">Emlak Kapak Fotoğrafı</h4>
-                <div>
-                    <img style="width:150px;" class="mb-5" src="{{ asset('housing_images/' . $housingData->image) }}"
-                        alt="">
-                </div>
-                <h4 class="mb-3">Emlak Görselleri</h4>
-                <div class="images owl-carousel mb-4">
-                    @foreach ($housingData->images as $key => $image)
-                        <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
-                            alt="slider-listing">
-                    @endforeach
-                </div>
-
-
             </div>
-            <div class="col-12 col-xl-4">
+            <div class="col-6 col-xl-4">
                 <div class="row g-2">
                     <div class="col-12 col-xl-12">
                         <div class="card mb-3">
@@ -276,7 +185,7 @@
 
                                             <tr>
                                                 <td>
-                                                    Proje Tipi :
+                                                    Emlak Tipi :
                                                     <span class="det">
                                                         @if ($housing->step1_slug)
                                                             @if ($housing->step2_slug)
@@ -403,57 +312,177 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="rendered-area card p-5">
-                <h4 class="mb-3">Daire Bilgileri</h4>
-                <div class="row g-0 border-top border-bottom border-300">
 
-                    <div class="col-sm-12">
-                        <div class="tab-content py-3  h-100">
-                            @for ($i = 0; $i < 1; $i++)
-                                <div class="tab-pane fade show @if ($i == 0) active @endif"
-                                    id="TabContent{{ $i }}" role="tabpanel">
-                                    @if (is_array($housingTypeData) || is_object($housingTypeData))
-                                        @foreach ($housingTypeData as $key => $housingType)
-                                            @if (is_object($housingType) && isset($housingType->type))
-                                                @if ($housingType->type != 'file' && isset($housingType->name))
-                                                    @if ($housingType->type == 'checkbox-group')
-                                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) &&
-                                                                is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
-                                                            @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
-                                                                <div class="view-form-json mt-4">
-                                                                    <label
-                                                                        for="">{{ $housingType->label }}</label>
-                                                                    @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
-                                                                        <p class="mb-1">
+        <h4 class="mb-3">Daire Bilgileri</h4>
+        <div class="rendered-area card p-5">
+            <div class="table-responsive">
+                <table class="table">
+                    @for ($i = 0; $i < 1; $i++)
+                        <tr>
+                            @foreach ($housingTypeData as $key => $housingType)
+                                @if ($loop->iteration % 5 == 1)
+                                    </tr><tr>
+                                @endif
+                                @if (isset($housingType->type) && isset($housingType->name))
+                                    @if ($housingType->type == 'checkbox-group')
+                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) && is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
+                                            @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
+                                                <td>
+                                                    <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                                <div class="form-label">{{ $housingType->label }}</div>
+                                                                @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                                                        <label class="form-check-label">
                                                                             {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
-                                                                        </p>
-                                                                    @endforeach
-                                                                </div>
-                                                            @endif
-                                                        @endif
-                                                    @else
-                                                        <div class="view-form-json">
-                                                            @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) &&
-                                                                    is_array($housingData->{str_replace('[]', '', $housingType->name)}))
-                                                                <label for="">{!! $housingType->label !!}</label>
-                                                                <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
-                                                            @endif
+                                                                        </label>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
                                                         </div>
-                                                    @endif
-                                                @endif
+                                                    </div>
+                                                </td>
                                             @endif
-                                        @endforeach
+                                        @endif
+                                    @else
+                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) && is_array($housingData->{str_replace('[]', '', $housingType->name)}))
+                                            <td>
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="form-label">{{ $housingType->label }}</div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" checked disabled>
+                                                                <label class="form-check-label">
+                                                                    {!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @endif
                                     @endif
-
-                                </div>
-                            @endfor
-                        </div>
-                    </div>
-                </div>
+                                @endif
+                            @endforeach
+                        </tr>
+                    @endfor
+                </table>
             </div>
         </div>
+        
+        
 
+
+
+        <div class="mt-5">
+            @if (isset($housing->owner))
+                @if ($housing->status == 1)
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Değiştir
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select"
+                                            aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini
+                                            Değiştir</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
+                        class="btn btn-danger set_status">Pasife Al</a>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                        class="btn btn-danger reject">Reddet</a>
+                @elseif($housing->status == 2)
+                    {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                class="btn btn-success set_status">Emlakçıya Atma</a> --}}
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Atama
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select"
+                                            aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
+                                            Aktif
+                                            Et</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                        class="btn btn-danger reject">Reddet</a>
+                @endif
+            @else
+                @if ($housing->status == 1)
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
+                        class="btn btn-danger  set_status" data-status="Pasife almak">Pasife Al</a>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" class="btn btn-danger reject"
+                        data-status="Reddetmek">Reddet</a>
+                @elseif($housing->status == 2)
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" class="btn btn-success set_status"
+                        data-status="Onaylamak">Onayla</a>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" class="btn btn-danger reject"
+                        data-status="Reddetmek">Reddet</a>
+                @elseif($housing->status == 3)
+                    <span class="btn btn-info show-reason">Sebebini Gör</span>
+                    <a href="#" class="btn btn-success confirm_rejected_after" data-status="Onaylamak">Önceden
+                        Reddedilmiş Bir Proje
+                        Onaya
+                        Al</a>
+                    <a href="#" class="btn btn-danger reject" data-status="Tekrar Reddetmek">Tekrar Reddet</a>
+                @else
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" class="btn btn-success set_status"
+                        data-status="Aktife Almak">Aktife Al</a>
+                @endif
+            @endif
+        </div>
     </div>
 @endsection
 
@@ -486,25 +515,47 @@
             }
         })
 
-        $('.set_status').click(function(e) {
-            e.preventDefault();
-            var projectId = $(this).attr('project_id');
-            Swal.fire({
-                @if ($housing->status)
-                    title: 'Pasife almak istediğine emin misin?',
-                @else
-                    title: 'Aktife almak istediğine emin misin?',
-                @endif
-                showCancelButton: true,
-                confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('admin.housings.set.status.get', $housing->id) }}"
-                }
-            })
+        // $('.set_status').click(function(e) {
+        //     e.preventDefault();
+        //     var projectId = $(this).attr('project_id');
+        //     Swal.fire({
+        //         @if ($housing->status)
+        //             title: 'Pasife almak istediğine emin misin?',
+        //         @else
+        //             title: 'Aktife almak istediğine emin misin?',
+        //         @endif
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Evet',
+        //         denyButtonText: `İptal`,
+        //     }).then((result) => {
+        //         /* Read more about isConfirmed, isDenied below */
+        //         if (result.isConfirmed) {
+        //             window.location.href = "{{ route('admin.housings.set.status.get', $housing->id) }}"
+        //         }
+        //     })
+        // })
+
+
+        $(document).ready(function() {
+            $('.set_status').click(function(e) {
+                e.preventDefault();
+                var projectId = $(this).attr('project_id');
+                var statusAction = $(this).data('status');
+
+                Swal.fire({
+                    title: statusAction + ' istediğine emin misin?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet',
+                    denyButtonText: 'İptal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href =
+                            "{{ route('admin.housings.set.status.get', $housing->id) }}"
+                    }
+                });
+            });
         })
+
         var defaultMessagesItems = @json($defaultMessages);
 
 
@@ -663,6 +714,44 @@
             })
         @endif
     </script>
+
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
+ 
+    <script>
+        $(document).ready(function() {
+            $(".images.owl-carousel").owlCarousel({
+                items: 5,
+                loop: true,
+                nav: true,
+                navText: ["<div class='nav-button owl-prev'>‹</div>",
+                    "<div class='nav-button owl-next'>›</div>"
+                ],
+                autoHeight: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            });
+        });
+    </script>
+     
 @endsection
 
 @section('css')
@@ -685,4 +774,88 @@
             justify-content: space-between
         }
     </style>
+
+
+    <style>
+        .owl-prev,
+        .owl-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .owl-prev {
+            left: 10px;
+        }
+
+        .owl-next {
+            right: 10px;
+        }
+
+        .owl-prev:hover,
+        .owl-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+
+        .owl-carousel .item img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Resmi orantılı olarak sığdır */
+    }
+        
+    </style>
+
+    
+
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group .form-label {
+            font-weight: bold;
+            color: black;
+            /* Başlıkların siyah renkte olması */
+            display: inline-block;
+            width: 150px;
+            /* Ayarlamak istediğiniz genişliği belirleyebilirsiniz */
+        }
+
+        .form-check-input[type="checkbox"] {
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        .form-check-label {
+            color: black;
+            /* Açıklamaların siyah renkte olması */
+            font-weight: normal;
+            margin-bottom: 0;
+            display: inline-block;
+        }
+
+        .form-label::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: black;
+            /* Alt çizginin siyah renkte olması */
+            margin-top: 5px;
+            /* İstediğiniz boşluğu ayarlayabilirsiniz */
+        }
+    </style>
+
+    
 @endsection

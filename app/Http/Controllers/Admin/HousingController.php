@@ -197,6 +197,8 @@ class HousingController extends Controller
         // $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
         // $institutions = Institution::all(); // Tüm kurumları al
         // $rates = Rate::where('housing_id', $housingId)->get(); // Konut için oranları al
+        
+
 
         return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers'));
     }
@@ -226,6 +228,17 @@ class HousingController extends Controller
                 'is_visible' => true,
             ]);
 
+            if($housing && $housing->user && $housing->user->mobil_phone){
+
+                $userPhoneNumber =  $housing->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
+            }
+
             ShareLink::where('item_type', "1")->where('item_id', $housing->id)->delete();
 
         } else if ($request->input('status') == 1) {
@@ -245,11 +258,33 @@ class HousingController extends Controller
                 'is_visible' => true,
             ]);
 
+            if($housing && $housing->user && $housing->user->mobil_phone){
+
+                $userPhoneNumber =  $housing->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
+            }
+
         } else {
             $reason = '#' . $code . "No'lu emlak ilanınız pasife alındı.";
+
+            if($housing && $housing->user && $housing->user->mobil_phone){
+
+                $userPhoneNumber =  $housing->user->mobil_phone;
+
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette';
+                // Kaynak adresi değiştirin, gerektiğinde.
+    
+                $smsService->sendSms($source_addr, $reason, $userPhoneNumber);
+            }
         }
-        $housing = Housing::where('id', $housingId)->firstOrFail();
-        $housingUpdate = Housing::where('id', $housingId)->update([
+            $housing = Housing::where('id', $housingId)->firstOrFail();
+            $housingUpdate = Housing::where('id', $housingId)->update([
             'status' => $request->input('status')
         ]);
 

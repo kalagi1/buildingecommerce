@@ -287,7 +287,7 @@ class HomeController extends Controller
             });
         }
 
-        if ($slug) {
+        if ($slug && $slug != "1") {
             $query->whereHas('housingTypes', function ($query) use ($slug) {
                 $query->where('housing_type_id', $slug);
             });
