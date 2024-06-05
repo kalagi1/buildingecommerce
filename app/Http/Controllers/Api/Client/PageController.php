@@ -459,7 +459,6 @@ class PageController extends Controller
 
     public function allMenuProjects(Request $request, $slug = null, $type = null, $optional = null, $title = null, $check = null, $city = null, $county = null, $hood = null)
     {
-        return $request->all();
         $term = $request->input('term');
         $deneme = null;
 
@@ -662,29 +661,61 @@ class PageController extends Controller
         if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
-                ->where('status', 1)
-                ->orderBy('created_at', 'desc');
-            
-            if ($housingTypeParentSlug) {
-                $query->where("step1_slug", $housingTypeParentSlug);
-            }
-            
-            if ($opt) {
-                $query->where("step2_slug", $opt);
-            }
-            
-            if ($housingType) {
-                $query->where('housing_type_id', $housingType);
-            }
-            
-            if ($slug && $slug != "1") {
-                $query->whereHas('housingTypes', function ($query) use ($slug) {
-                    $query->where('housing_type_id', $slug);
-                });
-            }
-            
-            $projects = $query->get();
-            
+                    ->where('status', 1)
+                    ->orderBy('created_at', 'desc');
+
+                if ($housingTypeParentSlug) {
+                    $query->where("step1_slug", $housingTypeParentSlug);
+                }
+
+                if ($opt) {
+                    $query->where("step2_slug", $opt);
+                }
+
+                if ($housingType) {
+                    $query->where('housing_type_id', $housingType);
+                }
+
+                if ($slug && $slug != "1") {
+                    $query->whereHas('housingTypes', function ($query) use ($slug) {
+                        $query->where('housing_type_id', $slug);
+                    });
+                }
+
+                if ($request->has('selectedCity')) {
+                    $query->where('city_id', $request->input('selectedCity'));
+                }
+
+                if ($request->has('selectedCounty')) {
+                    $query->where('county_id', $request->input('selectedCounty'));
+                }
+
+                if ($request->has('selectedNeighborhood')) {
+                    $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
+                }
+
+                if ($request->has('selectedListingDate') && $request->input('selectedListingDate')) {
+                    if ($request->input('selectedListingDate') == '24') {
+                        $query->where('created_at', '>=', now()->subDay());
+                    } else {
+                        $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                    }
+                }
+
+                if ($request->has('selectedRadio') && $request->input('selectedRadio')['corporate_type'] !== null) {
+                    $query->join('users', 'users.id', '=', 'projects.user_id')
+                        ->where('users.corporate_type', $request->input('selectedRadio')['corporate_type'])
+                        ->select('projects.*', 'users.corporate_type');
+                }
+
+                if ($request->input('selectedProjectStatus')) {
+                    $slug = $request->input('selectedProjectStatus');
+                    $query->whereHas('housingTypes', function ($query) use ($slug) {
+                        $query->where('housing_type_id', $slug);
+                    });
+                }
+
+                $projects = $query->get();
             } else {
                 $query = Housing::with('images', "city", "county");
 
