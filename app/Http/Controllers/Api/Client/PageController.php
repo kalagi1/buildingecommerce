@@ -1178,7 +1178,6 @@ class PageController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-return $projects;
         return response()->json([
             'pageInfo' => $pageInfo,
             'neighborhoodTitle' => $neighborhoodTitle,
