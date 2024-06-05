@@ -587,6 +587,12 @@ class UserController extends Controller
         return view('admin.awaiting-called.index', compact('users'));
     } //End
 
+    public function individualAwaitingCalled()
+    {
+        $users = User::where('type', 1)->where('corporate_account_status', 0)->orderby('updated_at', 'desc')->get();
+        return view('admin.individual-awaiting-called.index', compact('users'));
+    } //End
+
     public function mailVerification(Request $request)
     {
         $user  = User::find($request->id);

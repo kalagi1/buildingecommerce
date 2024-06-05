@@ -241,6 +241,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/searched', [UserController::class, 'searched'])->name('searched');
     Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
 
+
+    //bireysel
+    Route::get('/bireysel-onayi-bekleyenler', [UserController::class, 'individualAwaitingCalled'])->name('individual.awaiting.called.index');
     //Aranmayı Beklenenler
     Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
     Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
