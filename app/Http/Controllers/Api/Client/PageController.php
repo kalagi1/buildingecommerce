@@ -676,7 +676,7 @@ class PageController extends Controller
                     $query->where('housing_type_id', $housingType);
                 }
 
-                if ($slug && $slug != "1") {
+                if ($slug && $slug != "1" && !$request->input('selectedProjectStatus')) {
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
