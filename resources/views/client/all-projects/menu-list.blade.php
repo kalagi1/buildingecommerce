@@ -545,44 +545,7 @@
                                     @endif
 
 
-                                    <script>
-                                        function toggleFilter(element) {
-                                            var filterArea = element.nextElementSibling; // Filtre alanı div'i
-
-                                            if (filterArea.style.display === 'none') {
-                                                filterArea.style.display = 'block';
-                                            } else {
-                                                filterArea.style.display = 'none';
-                                            }
-                                        }
-                                    </script>
-                                    <script>
-                                        function toggleFilterDiv(element) {
-                                            var filterContent = $(element).parent().find('.mt-md-2');
-                                            var filterIcon = $(element).parent().find('#filter-icon');
-
-                                            if (filterContent.css('display') === 'none') {
-                                                filterContent.attr('style', 'display: flex !important');
-                                                filterIcon.attr('style', 'transform: rotate(180deg) !important');
-                                            } else {
-                                                filterContent.attr('style', 'display: none !important');
-                                                filterIcon.attr('style', 'transform: rotate(0deg) !important');
-                                            }
-                                        }
-
-                                        function toggleFilter(element) {
-                                            var filterContent = $(element).parent().find('.mt-md-2');
-                                            var filterIcon = $(element).find('#filter-icon');
-
-                                            if (filterContent.css('display') === 'none') {
-                                                filterContent.attr('style', 'display: block !important');
-                                                filterIcon.attr('style', 'transform: rotate(180deg) !important');
-                                            } else {
-                                                filterContent.attr('style', 'display: none !important');
-                                                filterIcon.attr('style', 'transform: rotate(0deg) !important');
-                                            }
-                                        }
-                                    </script>
+                                   
                                 @endforeach
 
 
@@ -1732,6 +1695,45 @@
             $('.bathroom-count-item').on('click', filterNow);
         });
     </script>
+
+<script>
+    function toggleFilter(element) {
+        var filterArea = element.nextElementSibling; // Filtre alanı div'i
+
+        if (filterArea.style.display === 'none') {
+            filterArea.style.display = 'block';
+        } else {
+            filterArea.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    function toggleFilterDiv(element) {
+        var filterContent = $(element).parent().find('.mt-md-2');
+        var filterIcon = $(element).parent().find('#filter-icon');
+
+        if (filterContent.css('display') === 'none') {
+            filterContent.attr('style', 'display: flex !important');
+            filterIcon.attr('style', 'transform: rotate(180deg) !important');
+        } else {
+            filterContent.attr('style', 'display: none !important');
+            filterIcon.attr('style', 'transform: rotate(0deg) !important');
+        }
+    }
+
+    function toggleFilter(element) {
+        var filterContent = $(element).parent().find('.mt-md-2');
+        var filterIcon = $(element).find('#filter-icon');
+
+        if (filterContent.css('display') === 'none') {
+            filterContent.attr('style', 'display: block !important');
+            filterIcon.attr('style', 'transform: rotate(180deg) !important');
+        } else {
+            filterContent.attr('style', 'display: none !important');
+            filterIcon.attr('style', 'transform: rotate(0deg) !important');
+        }
+    }
+</script>
 @endsection
 
 
