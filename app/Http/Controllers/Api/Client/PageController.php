@@ -660,31 +660,31 @@ class PageController extends Controller
 
         if ($slug) {
             if ($is_project) {
-
-                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')->where('status', 1)->orderBy('created_at', 'desc');
-
-                if ($housingTypeParentSlug) {
-                    $query->where("step1_slug", $housingTypeParentSlug);
-                }
-
-                if ($opt) {
-                    $query->where("step2_slug", $opt);
-                }
-
-                if ($housingType) {
-                    $query->where('housing_type_id', $housingType);
-                }
-
-                if ($slug && $slug != "1") {
-                    $query->whereHas('housingTypes', function ($query) use ($slug) {
-                        $query->where('housing_type_id', $slug);
-                    });
-                }
-
-
-
-                $projects = $query->get();
-                return $projects;
+                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                ->where('status', 1)
+                ->orderBy('created_at', 'desc');
+            
+            if ($housingTypeParentSlug) {
+                $query->where("step1_slug", $housingTypeParentSlug);
+            }
+            
+            if ($opt) {
+                $query->where("step2_slug", $opt);
+            }
+            
+            if ($housingType) {
+                $query->where('housing_type_id', $housingType);
+            }
+            
+            if ($slug && $slug != "1") {
+                $query->whereHas('housingTypes', function ($query) use ($slug) {
+                    $query->where('housing_type_id', $slug);
+                });
+            }
+            
+            $projects = $query->get();
+            return $projects;
+            
             } else {
                 $query = Housing::with('images', "city", "county");
 
