@@ -27,7 +27,7 @@ class ContractController extends Controller {
         }
 
         if ( isset( $storePhone ) ) {
-            $source_addr = 'smsDeneme';
+            $source_addr = 'Emlkspette';
             $message = $smsContent;
             $dest = $storePhone;
 

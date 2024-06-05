@@ -233,7 +233,7 @@ class HousingController extends Controller
                 $userPhoneNumber =  $housing->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'smsDeneme';
+                $source_addr = 'Emlkspette';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
@@ -263,7 +263,7 @@ class HousingController extends Controller
                 $userPhoneNumber =  $housing->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'smsDeneme';
+                $source_addr = 'Emlkspette';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
@@ -277,7 +277,7 @@ class HousingController extends Controller
                 $userPhoneNumber =  $housing->user->mobil_phone;
 
                 $smsService = new SmsService();
-                $source_addr = 'smsDeneme';
+                $source_addr = 'Emlkspette';
                 // Kaynak adresi değiştirin, gerektiğinde.
     
                 $smsService->sendSms($source_addr, $reason, $userPhoneNumber);
@@ -709,7 +709,7 @@ class HousingController extends Controller
 
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
-                $source_addr = 'smsDeneme';
+                $source_addr = 'Emlkspette';
                 // Kaynak adresi değiştirin, gerektiğinde.
 
                 $smsService->sendSms($source_addr, $message, $userPhoneNumber);

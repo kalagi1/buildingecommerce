@@ -416,7 +416,7 @@ class AuthController extends Controller
 
         // SMS gönderme işlemi
         $smsService = new SmsService();
-        $source_addr = 'smsDeneme';
+        $source_addr = 'Emlkspette';
 
         $smsService->sendSms($source_addr, $message, $userPhoneNumber);
     }
