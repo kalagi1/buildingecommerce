@@ -186,7 +186,7 @@ class PageController extends Controller
             $deposit_rate = 0.02;
 
             if ($item['item_type'] == 2) {
-                $discountRate = $item['housing']['housing_type_data']->discount_rate[0] ? json_decode($item['housing']['housing_type_data'])->discount_rate[0]: 1;
+                $discountRate = isset($item['housing']['housing_type_data']->discount_rate[0]) ? json_decode($item['housing']['housing_type_data'])->discount_rate[0]: 1;
 
                 $defaultPrice =
                     json_decode($item['housing']['housing_type_data'])->price[0] ??
