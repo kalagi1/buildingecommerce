@@ -661,7 +661,7 @@ class PageController extends Controller
         if ($slug) {
             if ($is_project) {
 
-                $query = Project::query()->with("city", "county", 'user', "neighbourhood",'brand', 'roomInfo', 'listItemValues', 'housingType')->where('status', 1)->orderBy('created_at', 'desc');
+                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')->where('status', 1)->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -684,7 +684,7 @@ class PageController extends Controller
 
 
                 $projects = $query->get();
-                    return $projects;
+                return $projects;
             } else {
                 $query = Housing::with('images', "city", "county");
 
