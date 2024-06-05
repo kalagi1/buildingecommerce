@@ -43667,7 +43667,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .progress-line ol li{
-    width: 33.33%;
+    width: 25%;
 }
 
 .progress-line.step1 ol:before{

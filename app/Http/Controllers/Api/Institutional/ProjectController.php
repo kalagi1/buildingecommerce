@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\CartOrder;
 use App\Models\City;
@@ -18,7 +19,10 @@ use App\Models\Installment;
 use App\Models\Institution;
 use App\Models\Invoice;
 use App\Models\Neighborhood;
+use App\Models\Offer;
+use App\Models\PaymentSetting;
 use App\Models\Project;
+use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
@@ -26,6 +30,7 @@ use App\Models\ProjectSituation;
 use App\Models\Rate;
 use App\Models\ShareLink;
 use App\Models\TempOrder;
+use App\Models\Town;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,6 +41,8 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Throwable;
 use App\Services\SmsService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\URL;
 
 class ProjectController extends Controller
 {
@@ -80,7 +87,7 @@ class ProjectController extends Controller
         $fullProjectsCount = Project::where('user_id', $userId)->where('status', $request->input('status'))->count();
 
         $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))->where('user_id', $userId)
-            ->with("housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
+            ->with("housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel','user')
             ->orderByDesc('created_at')
             ->where('status', $request->input('status'))
             ->take($request->input('take'))
@@ -1336,6 +1343,14 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function getSale($projectId,$roomOrder){
+        $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
+
+        return json_encode([
+            "data" => $paymentSetting
+        ]);
+    }
+
     public function saveSale(Request $request, $projectId)
     {
         CartOrder::whereRaw(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = " . $projectId))->whereRaw(DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = " . $request->input('room_order')))->update([
@@ -1346,9 +1361,16 @@ class ProjectController extends Controller
             "is_show_user" => $request->input('show_neighbour') ? "on" : null,
         ]);
 
-        ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'price[]')->update([
-            "value" => str_replace('.', '', $request->input('price'))
-        ]);
+        if($request->input('sale_type') == 1){
+            ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'price[]')->update([
+                "value" => str_replace('.', '', $request->input('price'))
+            ]);
+        }else{
+            ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'installments-price[]')->update([
+                "value" => str_replace('.', '', $request->input('price'))
+            ]);
+        }
+        
 
         ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'advance[]')->update([
             "value" => str_replace('.', '', $request->input('advance'))
@@ -1358,41 +1380,63 @@ class ProjectController extends Controller
             "value" => $request->input('installments')
         ]);
 
-        ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'pay-dec-count' . $request->input('room_order'))->update([
-            "value" => count($request->input('pay_decs'))
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
+            "value" => $request->input('pay_decs') ? count($request->input('pay_decs')) : 0
         ]);
+        
+        PaymentSetting::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->delete();
 
-        for ($i = 0; $i < count($request->input('pay_decs')); $i++) {
-            $checkPrice = ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'pay_desc_price' . $request->input('room_order') . $i)->first();
-            $checkDate = ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'pay_desc_date' . $request->input('room_order') . $i)->first();
-            if ($checkPrice) {
-                ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', "pay_desc_price" . $request->input('room_order') . $i)->update([
-                    "value" => $request->input('pay_decs')[$i]['price']
-                ]);
-            } else {
-                ProjectHousing::create([
-                    "project_id" => $projectId,
-                    "room_order" => $request->input('room_order'),
-                    "name" => "pay_desc_price" . $request->input('room_order') . $i,
-                    "value" => $request->input('pay_decs')[$i]['price'],
-                    "key" => "pay_desc_price" . $request->input('room_order') . $i
-                ]);
-            }
+        $payDecArr = [];
 
-            if ($checkDate) {
-                ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', "pay_desc_date" . $request->input('room_order') . $i)->update([
-                    "value" => $request->input('pay_decs')[$i]['date']
-                ]);
-            } else {
-                ProjectHousing::create([
-                    "project_id" => $projectId,
-                    "room_order" => $request->input('room_order'),
-                    "name" => "pay_desc_date" . $request->input('room_order') . $i,
-                    "value" => $request->input('pay_decs')[$i]['date'],
-                    "key" => "pay_desc_date" . $request->input('room_order') . $i
-                ]);
+        for($i = 0; $i < count($request->input('pay_decs')); $i++){
+            if(isset($request->input('pay_decs')[$i]['status']) && $request->input('pay_decs')[$i]['status']){
+                array_push($payDecArr,$i+1);
             }
         }
+
+        PaymentSetting::create([
+            "project_id" => $projectId,
+            "room_order" => $request->input('room_order'),
+            "down_payment" => $request->input('down_payment') ?? false,
+            "advance" => $request->input('advance_payment') ?? false,
+            "down_payment_price" => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
+            "pay_decs" => json_encode($payDecArr),
+        ]);
+
+        if($request->input('pay_decs')){
+            for($i = 0; $i < count($request->input('pay_decs')); $i++){
+                $checkPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_price'.$request->input('room_order').$i)->first();
+                $checkDate = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_date'.$request->input('room_order').$i)->first();
+                if($checkPrice){
+                    ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name',"pay_desc_price".$request->input('room_order').$i)->update([
+                        "value" => $request->input('pay_decs')[$i]['price']
+                    ]);
+                }else{
+                    ProjectHousing::create([
+                        "project_id" => $projectId,
+                        "room_order" => $request->input('room_order'),
+                        "name" => "pay_desc_price".$request->input('room_order').$i,
+                        "value" => $request->input('pay_decs')[$i]['price'],
+                        "key" => "pay_desc_price".$request->input('room_order').$i
+                    ]);
+                }
+    
+                if($checkDate){
+                    ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name',"pay_desc_date".$request->input('room_order').$i)->update([
+                        "value" => $request->input('pay_decs')[$i]['date']
+                    ]);
+                }else{
+                    ProjectHousing::create([
+                        "project_id" => $projectId,
+                        "room_order" => $request->input('room_order'),
+                        "name" => "pay_desc_date".$request->input('room_order').$i,
+                        "value" => $request->input('pay_decs')[$i]['date'],
+                        "key" => "pay_desc_date".$request->input('room_order').$i
+                    ]);
+                }
+            }
+        }
+        
 
 
 
@@ -1406,9 +1450,11 @@ class ProjectController extends Controller
         Installment::where('project_id', $projectId)->where('room_order', $roomOrder)->delete();
         foreach ($request->input('installments') as $installment) {
             Installment::create([
-                "price" => str_replace('.', '', $installment['price']),
-                "date" => $installment['date'],
-                "is_payment" => $installment['is_payment'],
+                "price" => $installment['price'] ? str_replace('.','',$installment['price']) : "0",
+                "date" => $installment['date'] ?? date('Y-m-d'),
+                "paymentType" => $installment['paymentType'] ?? "",
+                "description" => $installment['description'] ?? "",
+                "is_payment" => $installment['is_payment'] ?? false,
                 "project_id" => $projectId,
                 "room_order" => $roomOrder
             ]);
@@ -1426,5 +1472,145 @@ class ProjectController extends Controller
         return json_encode([
             "data" => $installments
         ]);
+    }
+
+    public function getPreview(Request $request){
+        $projectImages = [];
+
+        $mimeTypes = [];
+        for($i = 0; $i < count($request->file('project')['images']); $i++ ){
+            $fileContent = file_get_contents($request->file('project')['images'][$i]->getRealPath());
+            
+            // Base64'e dönüştür
+            $base64 = base64_encode($fileContent);
+
+            array_push($projectImages,$base64);
+            array_push($mimeTypes,$request->file('project')['images'][$i]->getMimeType());
+            
+        }
+
+        $fileContent = file_get_contents($request->file('project')['image']->getRealPath());
+            
+        // Base64'e dönüştür
+        $base64 = base64_encode($fileContent);
+        $coverImage = "data:".$request->file('project')['image']->getMimeType().';base64,'.$base64;
+
+        $project = json_decode(json_encode($request->input('project')));
+        $project->user->name = auth()->user()->name;
+        $project->user->email = auth()->user()->email;
+        $project->user->phone = auth()->user()->phone;
+        $project->user->mobile_phone = auth()->user()->mobile_phone;
+        $project->user->corporate_type = auth()->user()->activity.' Ofisi';
+        $status = json_decode(json_encode($request->input('status')));
+        $salesCloseProjectHousingCount = 0;
+        $projectHousingsList = $request->input('project_housing_list');
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+        $blocks = $request->input('blocks');
+
+        $html = view('client.preview.project', compact('project','status','salesCloseProjectHousingCount','projectHousingSetting','projectHousingsList','blocks','projectImages','mimeTypes','coverImage'))->render();
+        // HTML'yi geçici bir dosyaya kaydediyoruz
+        $tempHtmlPath = public_path('temp.html');
+        file_put_contents($tempHtmlPath, $html);
+        // Resim dosyasının yolunu belirliyoruz
+        $imagePath = public_path('screenshot.png');
+        $scriptPath = base_path('puppeteer/capture.js');
+        $htmlPath = public_path('temp.html');
+        $outputPath = public_path('screenshot.png');
+
+        
+        $output = shell_exec('node ' . escapeshellarg($scriptPath) . ' ' . escapeshellarg($htmlPath) . ' ' . escapeshellarg($outputPath));
+
+        return 'node ' . escapeshellarg($scriptPath) . ' ' . escapeshellarg($htmlPath) . ' ' . escapeshellarg($outputPath);
+
+        // Komutun ne olduğunu görmek için bu satırı ekleyebilirsiniz
+        // return 'node ' . escapeshellarg($scriptPath) . ' ' . escapeshellarg($htmlPath) . ' ' . escapeshellarg($outputPath);
+
+        $imageContent = file_get_contents($imagePath);
+
+        // Resmi tarayıcıda göstermek için geri döndürüyoruz
+        return response($imageContent)->header('Content-Type', 'image/png');
+    }
+
+    public function getHousingsByProjectId($projectId){
+        $projectHousings = ProjectHousing::where('project_id', $projectId)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
+        return $projectHousingsList;
+    }
+
+    public function getSaleCloses($projectId){
+        $saleCloses = ProjectHousing::select('room_order')->where('project_id',$projectId)->where('name','off_sale[]')->where('value','!=','[]')->get();
+
+        return json_encode([
+            "sale_closes" => $saleCloses
+        ]);
+    }
+
+    public function renderPdf($projectId,$roomOrder){
+        $cartOrderx = [];
+        $cartOrder = DB::table('cart_orders')
+        ->select('cart_orders.*')
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $projectId)
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $roomOrder)
+        ->first();
+
+        $project = Project::where('id',$projectId)->first();
+        $roomPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','price[]')->first();
+        $installmentPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','installments-price[]')->first();
+        $advance = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','advance[]')->first();
+        $installments = Installment::where('project_id',$projectId)->where('room_order',$roomOrder)->get();
+        $paidPrice = 0;
+
+        foreach($installments as $installment){
+            if($installment->is_payment){
+                $paidPrice += $installment->price;
+            }
+        }
+
+        if($cartOrder->is_swap){
+            $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
+
+            if($paymentSetting->advance){
+                $paidPrice += $advance->value;
+            }else{
+                if($paymentSetting->down_payment){
+                    $paidPrice += $paymentSetting->down_payment_price;
+                }
+            }
+
+            $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay-dec-count'.$roomOrder)->first();
+
+            if($payDecCount){
+                $payDecCount = $payDecCount->value;
+            }else{
+                $payDecCount = 0;
+            }
+            $payDecs = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','LIKE','%pay_desc%')->get()->keyBy('name');
+            $paidPayDecs = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
+            $paidPayDecs = json_decode($paidPayDecs->pay_decs);
+            $paymentSettingPayDecs = json_decode($paymentSetting->pay_decs);
+
+            foreach($paymentSettingPayDecs as $payDec){
+                $payDecPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay_desc_price'.$roomOrder.($payDec-1))->first();
+
+                $paidPrice +=  $payDecPrice->value;
+            }
+            $remainingPayment = $installmentPrice->value - $paidPrice;
+        }else{
+            $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
+            $paidPrice += $roomPrice->value;
+            $remainingPayment = 0;
+            $payDecs = [];
+            $payDecCount = 0;
+            $paidPayDecs = [];
+        }
+
+        $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs','paymentSetting'));
+        return $pdf->download($project->project_title.' '.$roomOrder.' Nolu Konut Ödeme Detayı.pdf');
     }
 }
