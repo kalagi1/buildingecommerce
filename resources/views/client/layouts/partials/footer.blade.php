@@ -1271,8 +1271,8 @@
 <script>
     $(document).ready(function() {
 
-        checkFavorites();
-        checkProjectFavorites();
+        // checkFavorites();
+        // checkProjectFavorites();
         var cart = @json(session('cart', []));
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
@@ -1425,101 +1425,101 @@
 
 
 
-        function checkProjectFavorites() {
-            // Favorileri sorgula ve uygun renk ve ikonları ayarla
-            var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
-            var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
+        // function checkProjectFavorites() {
+        //     // Favorileri sorgula ve uygun renk ve ikonları ayarla
+        //     var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
+        //     var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
 
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-project-housing-id");
-                var projectId = button.getAttribute("data-project-id");
+        //     favoriteButtons.forEach(function(button) {
+        //         var housingId = button.getAttribute("data-project-housing-id");
+        //         var projectId = button.getAttribute("data-project-id");
 
-                projectHousingPairs.push({
-                    projectId: projectId,
-                    housingId: housingId
-                });
-            });
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-            $.ajax({
-                url: "{{ route('get.project.housing.favorite.status') }}",
-                type: "POST",
-                data: {
-                    _token: csrfToken,
-                    projectHousingPairs: projectHousingPairs
-                },
-                success: function(response) {
-                    favoriteButtons.forEach(function(button) {
-                        var housingId = button.getAttribute(
-                            "data-project-housing-id");
-                        var projectId = button.getAttribute("data-project-id");
-                        var isFavorite = response[projectId][housingId];
-
-                        if (isFavorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    });
-                },
-            });
+        //         projectHousingPairs.push({
+        //             projectId: projectId,
+        //             housingId: housingId
+        //         });
+        //     });
+        //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
+        //     $.ajax({
+        //         url: "{{ route('get.project.housing.favorite.status') }}",
+        //         type: "POST",
+        //         data: {
+        //             _token: csrfToken,
+        //             projectHousingPairs: projectHousingPairs
+        //         },
+        //         success: function(response) {
+        //             favoriteButtons.forEach(function(button) {
+        //                 var housingId = button.getAttribute(
+        //                     "data-project-housing-id");
+        //                 var projectId = button.getAttribute("data-project-id");
+        //                 var isFavorite = response[projectId][housingId];
 
-        }
+        //                 if (isFavorite) {
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart-o");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "text-danger");
+        //                     button.classList.add("bg-white");
+        //                 } else {
+        //                     button.querySelector("i").classList.remove(
+        //                         "text-danger");
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart-o");
+        //                 }
+        //             });
+        //         },
+        //     });
 
 
-        function checkFavorites() {
-            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
 
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        if (response.is_favorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    },
-                    error: function(error) {
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                        console.error(error);
-                    }
-                });
-            });
-        }
+        // }
+
+
+        // function checkFavorites() {
+        //     var favoriteButtons = document.querySelectorAll(".toggle-favorite");
+        //     favoriteButtons.forEach(function(button) {
+        //         var housingId = button.getAttribute("data-housing-id");
+
+        //         $.ajax({
+        //             url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+        //                 .replace(':id', housingId),
+        //             type: "GET",
+        //             success: function(response) {
+        //                 if (response.is_favorite) {
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart-o");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "text-danger");
+        //                     button.classList.add("bg-white");
+        //                 } else {
+        //                     button.querySelector("i").classList.remove(
+        //                         "text-danger");
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart-o");
+        //                 }
+        //             },
+        //             error: function(error) {
+        //                 button.querySelector("i").classList.remove(
+        //                     "text-danger");
+        //                 button.querySelector("i").classList.remove(
+        //                     "fa-heart");
+        //                 button.querySelector("i").classList.add(
+        //                     "fa-heart-o");
+        //                 console.error(error);
+        //             }
+        //         });
+        //     });
+        // }
 
 
 
