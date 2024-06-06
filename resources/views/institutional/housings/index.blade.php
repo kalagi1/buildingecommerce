@@ -24,12 +24,6 @@
                     <a class="nav-link" id="soldHousingTypes-tab" data-bs-toggle="tab" href="#soldHousingTypes">Satılan
                         İlanlar</a>
                 </li>
-                @if ($user && $user->type != 1)
-                    <li class="nav-item">
-                        <a class="nav-link" id="isShareTypes-tab" data-bs-toggle="tab" href="#isShareTypes">Bana Atanan
-                            İlanlar</a>
-                    </li>
-                @endif
 
 
             </ul>
@@ -76,14 +70,6 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="isShareTypes">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_isShare_table', [
-                            'tableId' => 'bulk-select-body-isShareTypes',
-                            'housingTypes' => $isShareTypes,
-                        ])
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -99,7 +85,7 @@
         const pendingHousingTypes = @json($pendingHousingTypes);
         const disabledHousingTypes = @json($disabledHousingTypes);
         const soldHousingTypes = @json($soldHousingTypes);
-        const isShareTypes = @json($isShareTypes);
+        
         const user = @json($user);
     
         function createTable(tbody, housingTypes) {
@@ -129,22 +115,7 @@
     
                 const housingConsultant = user.type !== 1 ? createCell("housing_type", housingType.consultant?.name ?? "Yönetici Hesap") : null;
                 
-                if (tbody.id === 'bulk-select-body-isShareTypes' && user.type !== 1) {
-                    const housingOwner = createCell("housing_owner", "");
-                    if (housingType.owner && housingType.user.id == housingType.owner.id) {
-                        housingOwner.innerHTML = `
-                            <span>Emlak Ofisi: ${housingType.user.name}</span><br>
-                            ${housingType.user.mobile_phone ? `<span>Cep: ${housingType.user.mobile_phone}</span><br>` : ""}
-                            ${housingType.user.phone ? `<span>İş: ${housingType.user.phone}</span><br>` : ""}
-                        `;
-                    } else {
-                        housingOwner.innerHTML = `
-                            <span>${housingType.owner.name}</span><br>
-                            <span>Telefon: ${housingType.owner.mobile_phone}</span>
-                        `;
-                    }
-                    row.append(idCell, housingTitleCell, housingOwner, housingTypeCell, housingConsultant, statusCell, createdAtCell, viewLinkCell);
-                } else if (tbody.id === 'bulk-select-body-soldHousingTypes') {
+                if (tbody.id === 'bulk-select-body-soldHousingTypes') {
                     const exportLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="#">-</a>`);
                     const imageLinksCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-info btn-sm" href="#">-</a>`);
                     const invoiceLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="{{ URL::to('/') }}/sold/invoice_detail/${housingType.id}">Fatura Görüntüle</a>`);
@@ -167,7 +138,6 @@
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
         createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
         createTable(document.getElementById("bulk-select-body-soldHousingTypes"), soldHousingTypes);
-        createTable(document.getElementById("bulk-select-body-isShareTypes"), isShareTypes);
     
         // Handle tab switching
         const housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
