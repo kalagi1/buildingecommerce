@@ -73,6 +73,7 @@ class HomeController extends Controller
 
     public function index()
     {
+        dd("qwqw");
         $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
