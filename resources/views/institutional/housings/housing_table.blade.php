@@ -1,7 +1,7 @@
 <table class="table table-sm border-top border-200 fs--1 mb-0">
     <thead>
         <tr>
-            <th style="width: 50px">ID</th>
+            <th style="width: 100px">ID</th>
             <th>Başlık</th>
             
             <th>Emlak Tipi</th>
