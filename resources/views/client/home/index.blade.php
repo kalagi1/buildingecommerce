@@ -1,7 +1,6 @@
 @extends('client.layouts.master')
 
 @section('content')
-{{dd("sass")}}
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Master Girişim">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
