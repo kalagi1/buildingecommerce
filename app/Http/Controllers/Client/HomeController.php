@@ -74,7 +74,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        $secondhandHousings = Housing::with([
+        $housings = Housing::with([
             "images",
             "housing_type",
             "rates",
@@ -88,44 +88,12 @@ class HomeController extends Controller
             "neighborhood",
             "rejectedLog",
             "listItems",
-        ])
-        ->with(['owner', 'consultant']) // Tekil tablo bağlantılarını burada yaptık
-        ->select([
-            'housings.id',
-            'housings.slug',
-            'housings.title AS housing_title',
-            'housings.created_at',
-            'housings.step1_slug',
-            'housings.step2_slug',
-            'housing_types.title as housing_type_title',
-            'housings.housing_type_data',
-            'project_list_items.column1_name',
-            'project_list_items.column2_name',
-            'project_list_items.column3_name',
-            'project_list_items.column4_name',
-            'project_list_items.column1_additional',
-            'project_list_items.column2_additional',
-            'project_list_items.column3_additional',
-            'project_list_items.column4_additional',
-            'housings.address',
-            DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
-            'cities.title AS city_title',
-            'districts.ilce_title AS county_title',
-            'neighborhoods.mahalle_title AS neighborhood_title',
-            DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= NOW() AND end_date >= NOW() LIMIT 1) as discount_amount'),
-        ])
-        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-        ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-        ->where('housings.status', 1)
-        ->orderByDesc('housings.created_at')
-        ->limit(1)
-        ->get();
+            "owner",
+            "consultant",
+        ])->limit(1)->get();
         
-        return $secondhandHousings;
+        return $housings;
+        
         
         
         
