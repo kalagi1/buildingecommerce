@@ -94,349 +94,86 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        var activeHousingTypes = @json($activeHousingTypes);
-        var inactiveHousingTypes = @json($inactiveHousingTypes);
-        var pendingHousingTypes = @json($pendingHousingTypes);
-        var disabledHousingTypes = @json($disabledHousingTypes);
-        var soldHousingTypes = @json($soldHousingTypes);
-        var isShareTypes = @json($isShareTypes);
-        var user = @json($user);
-
+        const activeHousingTypes = @json($activeHousingTypes);
+        const inactiveHousingTypes = @json($inactiveHousingTypes);
+        const pendingHousingTypes = @json($pendingHousingTypes);
+        const disabledHousingTypes = @json($disabledHousingTypes);
+        const soldHousingTypes = @json($soldHousingTypes);
+        const isShareTypes = @json($isShareTypes);
+        const user = @json($user);
+    
         function createTable(tbody, housingTypes) {
-
-            housingTypes.forEach(function(housingType) {
-                var row = document.createElement("tr");
-                var idCell = document.createElement("td");
-                idCell.className = "align-middle id";
-                idCell.textContent = housingType.id + 2000000;
-
-
-                var housingTitleCell = document.createElement("td");
-                housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.housing_title
-
-                var housingOwner = document.createElement("td");
-                housingOwner.className = "align-middle housing_owner";
-
-                var housingTypeCell = document.createElement("td");
-                housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type;
-
-                if (user.type !== 1) {
-                    var housingConsultant = document.createElement("td");
-                    housingConsultant.className = "align-middle housing_type";
-                    housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name :
-                        "Yönetici Hesap";
-                }
-
-                var statusCell = document.createElement("td");
-                statusCell.className = "align-middle status";
-                statusCell.innerHTML = housingType.status == 1 ?
-                    '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
-                    housingType.status == 2 ?
-                    '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>' :
-                    housingType
-                    .status == 3 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
+            housingTypes.forEach(housingType => {
+                const row = document.createElement("tr");
+    
+                const createCell = (className, content) => {
+                    const cell = document.createElement("td");
+                    cell.className = `align-middle ${className}`;
+                    cell.innerHTML = content;
+                    return cell;
+                };
+    
+                const idCell = createCell("id", housingType.id + 2000000);
+                const housingTitleCell = createCell("housing_title", housingType.housing_title);
+                const housingTypeCell = createCell("housing_type", housingType.housing_type);
+                const statusContent = housingType.status == 1 ? 
+                    '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' : 
+                    housingType.status == 2 ? 
+                    '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>' : 
+                    housingType.status == 3 ? 
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' : 
                     '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
-
-                var createdAtCell = document.createElement("td");
-                createdAtCell.className = "align-middle created_at";
-                createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
-
-                var actionsCell = document.createElement("td");
-                actionsCell.className = "align-middle white-space-nowrap     pe-0";
-                var actionsDiv = document.createElement("div");
-                actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-
-                var viewLinkCell = document.createElement("td");
-                viewLinkCell.className = "align-middle";
-                var viewLink = document.createElement("button");
-                viewLink.className = "badge badge-phoenix badge-phoenix-warning btn-sm";
-                viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
-                viewLink.textContent = "Loglar";
-                viewLinkCell.appendChild(viewLink);
-
-
-                if (tbody.id === 'bulk-select-body-isShareTypes' && user.type != 1) {
-
+                const statusCell = createCell("status", statusContent);
+                const createdAtCell = createCell("created_at", new Date(housingType.created_at).toLocaleDateString());
+                const viewLinkCell = createCell("", `<button class="badge badge-phoenix badge-phoenix-warning btn-sm" href="{{ URL::to('/') }}/institutional/housings/${housingType.id}/logs">Loglar</button>`);
+    
+                const housingConsultant = user.type !== 1 ? createCell("housing_type", housingType.consultant?.name ?? "Yönetici Hesap") : null;
+                
+                if (tbody.id === 'bulk-select-body-isShareTypes' && user.type !== 1) {
+                    const housingOwner = createCell("housing_owner", "");
                     if (housingType.owner && housingType.user.id == housingType.owner.id) {
-                        var ownerInfo = document.createElement("span");
-                        ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
-                        housingOwner.appendChild(ownerInfo);
-
-                        var br = document.createElement("br");
-                        housingOwner.appendChild(br);
-
-                        if (housingType.user.mobile_phone != null) {
-                            var mobilephoneInfo = document.createElement("span");
-                            mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
-                            housingOwner.appendChild(mobilephoneInfo);
-                        }
-
-                        var br = document.createElement("br");
-                        housingOwner.appendChild(br);
-
-                        if (housingType.user.phone != null) {
-                            var phoneInfo = document.createElement("span");
-                            phoneInfo.textContent = "İş: " + housingType.user.phone;
-                            housingOwner.appendChild(phoneInfo);
-                        }
-
+                        housingOwner.innerHTML = `
+                            <span>Emlak Ofisi: ${housingType.user.name}</span><br>
+                            ${housingType.user.mobile_phone ? `<span>Cep: ${housingType.user.mobile_phone}</span><br>` : ""}
+                            ${housingType.user.phone ? `<span>İş: ${housingType.user.phone}</span><br>` : ""}
+                        `;
                     } else {
-                        var ownerInfo = document.createElement("span");
-                        ownerInfo.textContent = housingType.owner.name;
-                        housingOwner.appendChild(ownerInfo);
-
-                        var br = document.createElement("br");
-                        housingOwner.appendChild(br);
-
-                        var phoneInfo = document.createElement("span");
-                        phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
-                        housingOwner.appendChild(phoneInfo);
-
-
+                        housingOwner.innerHTML = `
+                            <span>${housingType.owner.name}</span><br>
+                            <span>Telefon: ${housingType.owner.mobile_phone}</span>
+                        `;
                     }
-
-
-                }
-
-
-                if (tbody.id == 'bulk-select-body-soldHousingTypes') {
-                    var exportLinkCell = document.createElement("td");
-                    exportLinkCell.className = "align-middle";
-                    var exportLink = document.createElement("a");
-                    exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    exportLink.href = "#";
-                    exportLink.textContent = "-";
-                    exportLinkCell.appendChild(exportLink);
-
-                    var imageLinksCell = document.createElement("td");
-                    imageLinksCell.className = "align-middle";
-                    var imageLinks = document.createElement("a");
-                    imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
-                    imageLinks.href = "#";
-                    imageLinks.textContent = "-";
-                    imageLinksCell.appendChild(imageLinks);
-
-                    var invoiceLinkCell = document.createElement("td");
-                    invoiceLinkCell.className = "align-middle";
-                    var invoiceLink = document.createElement("a");
-                    invoiceLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    invoiceLink.href = "{{ URL::to('/') }}/sold/invoice_detail/" + housingType.id;
-                    invoiceLink.textContent = "Fatura Görüntüle";
-                    invoiceLinkCell.appendChild(invoiceLink);
-
-                    var orderDetailCell = document.createElement("td");
-                    orderDetailCell.className = "align-middle";
-                    var orderDetailLink = document.createElement("a");
-                    orderDetailLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    orderDetailLink.href = "{{ URL::to('/') }}/sold/order_detail/" + housingType.id;
-                    orderDetailLink.textContent = "Sipariş Detay";
-                    orderDetailCell.appendChild(orderDetailLink);
-
-                    var statusCell = document.createElement("td");
-                    statusCell.className = "align-middle";
-                    var statusLink = document.createElement("span");
-                    statusLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-
-                    statusLink.textContent = "Onaylandı";
-                    statusCell.appendChild(statusLink);
-
+                    row.append(idCell, housingTitleCell, housingOwner, housingTypeCell, housingConsultant, statusCell, createdAtCell, viewLinkCell);
+                } else if (tbody.id === 'bulk-select-body-soldHousingTypes') {
+                    const exportLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="#">-</a>`);
+                    const imageLinksCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-info btn-sm" href="#">-</a>`);
+                    const invoiceLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="{{ URL::to('/') }}/sold/invoice_detail/${housingType.id}">Fatura Görüntüle</a>`);
+                    const orderDetailCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="{{ URL::to('/') }}/sold/order_detail/${housingType.id}">Sipariş Detay</a>`);
+                    const approvedStatusCell = createCell("", `<span class="badge badge-phoenix badge-phoenix-success btn-sm">Onaylandı</span>`);
+                    row.append(idCell, housingTitleCell, housingTypeCell, housingConsultant, statusCell, createdAtCell, viewLinkCell, exportLinkCell, imageLinksCell, approvedStatusCell, invoiceLinkCell, orderDetailCell);
                 } else {
-                    var exportLinkCell = document.createElement("td");
-                    exportLinkCell.className = "align-middle";
-                    var exportLink = document.createElement("a");
-                    exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    exportLink.href = "{{ URL::to('/') }}/hesabim/konut-duzenleme/" + housingType.id;
-                    exportLink.textContent = "Düzenle";
-                    exportLinkCell.appendChild(exportLink);
-
-                    var imageLinksCell = document.createElement("td");
-                    imageLinksCell.className = "align-middle";
-                    var imageLinks = document.createElement("a");
-                    imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
-                    imageLinks.href = "{{ URL::to('/') }}/hesabim/gorsel-duzenleme/" + housingType.id;
-                    imageLinks.textContent = "Resimler";
-                    imageLinksCell.appendChild(imageLinks);
-
-                    var deleteCell = document.createElement("td");
-                    deleteCell.className = "align-middle";
-
-                    // var passiveButton = document.createElement("button");
-                    // passiveButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-                    // passiveButton.textContent = "Pasife Al";
-                    // passiveButton.addEventListener("click", function() {
-                    //     // Kullanıcıdan onay al
-                    //     var confirmDelete = confirm("Bu ilanı pasife almak istediğinizden emin misiniz?");
-                    //     if (confirmDelete) {
-                    //         var csrfToken = "{{ csrf_token() }}";
-                    //         // Laravel route ismi
-                    //         var routeName =
-                    //             "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
-                    //         // API Endpoint'i oluştur
-                    //         var apiUrl = routeName.replace(':id', housingType.id);
-
-                    //         fetch(apiUrl, {
-                    //                 method: "POST", // Silme işlemi için DELETE metodu
-                    //                 headers: {
-                    //                     "Content-Type": "application/json",
-                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                    //                 },
-                    //             })
-                    //             .then(response => {
-                    //                 if (!response.ok) {
-                    //                     throw new Error("Network response was not ok");
-                    //                 }
-                    //                 location.reload();
-                    //             })
-                    //             .then(data => {
-                    //                 // Silme işlemi başarılı
-                    //                 toastr.success("İlan başarıyla pasife alındı.");
-                    //                 location.reload();
-                    //             })
-                    //             .catch(error => {
-                    //                 console.error("There was a problem with the fetch operation:",
-                    //                     error);
-                    //                 // Silme işlemi başarısız
-                    //                 toastr.error("İlan pasife alınırken bir hata oluştu.");
-                    //             });
-                    //     }
-                    // });
-
-                    // var activeButton = document.createElement("button");
-                    // activeButton.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    // activeButton.textContent = "Aktife Al";
-                    // activeButton.addEventListener("click", function() {
-                    //     // Kullanıcıdan onay al
-                    //     var confirmDelete = confirm("Bu ilanı aktife almak istediğinizden emin misiniz?");
-                    //     if (confirmDelete) {
-                    //         var csrfToken = "{{ csrf_token() }}";
-                    //         // Laravel route ismi
-                    //         var routeName = "{{ route('institutional.housings.active', ['id' => ':id']) }}";
-                    //         // API Endpoint'i oluştur
-                    //         var apiUrl = routeName.replace(':id', housingType.id);
-
-                    //         fetch(apiUrl, {
-                    //                 method: "POST", // Silme işlemi için DELETE metodu
-                    //                 headers: {
-                    //                     "Content-Type": "application/json",
-                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                    //                 },
-                    //             })
-                    //             .then(response => {
-                    //                 if (!response.ok) {
-                    //                     throw new Error("Network response was not ok");
-                    //                 }
-                    //                 location.reload();
-                    //             })
-                    //             .then(data => {
-                    //                 // Silme işlemi başarılı
-                    //                 toastr.success("İlan başarıyla aktife alındı.");
-                    //                 location.reload();
-                    //             })
-                    //             .catch(error => {
-                    //                 console.error("There was a problem with the fetch operation:",
-                    //                     error);
-                    //                 // Silme işlemi başarısız
-                    //                 toastr.error("İlan aktife alınırken bir hata oluştu.");
-                    //             });
-                    //     }
-                    // });
-
-                    // if (housingType.status == 1) {
-                    //     deleteCell.appendChild(passiveButton);
-                    // } else if (housingType.status == 0) {
-                    //     deleteCell.appendChild(activeButton);
-                    // }
-
+                    const exportLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="{{ URL::to('/') }}/hesabim/konut-duzenleme/${housingType.id}">Düzenle</a>`);
+                    const imageLinksCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-info btn-sm" href="{{ URL::to('/') }}/hesabim/gorsel-duzenleme/${housingType.id}">Resimler</a>`);
+                    const deleteCell = createCell("", "");
+                    row.append(idCell, housingTitleCell, housingTypeCell, housingConsultant, statusCell, createdAtCell, viewLinkCell, exportLinkCell, imageLinksCell, deleteCell);
                 }
-
-                if (tbody.id === 'bulk-select-body-soldHousingTypes') {
-                    row.appendChild(idCell);
-                    row.appendChild(housingTitleCell);
-                    row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
-                    row.appendChild(statusCell);
-                    row.appendChild(createdAtCell);
-                    row.appendChild(viewLinkCell);
-                    row.appendChild(exportLinkCell);
-                    row.appendChild(imageLinksCell);
-                    row.appendChild(statusCell);
-                    row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
-
-                } else if (tbody.id === 'bulk-select-body-isShareTypes') {
-
-                    row.appendChild(idCell);
-                    row.appendChild(housingTitleCell);
-                    row.appendChild(housingOwner);
-                    row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
-                    row.appendChild(statusCell);
-                    row.appendChild(createdAtCell);
-                    row.appendChild(viewLinkCell);
-                    row.appendChild(exportLinkCell);
-                    row.appendChild(imageLinksCell);
-                    row.appendChild(actionsCell);
-                    row.appendChild(deleteCell);
-
-                } else {
-
-
-                    row.appendChild(idCell);
-                    row.appendChild(housingTitleCell);
-                    row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
-                    row.appendChild(statusCell);
-                    row.appendChild(createdAtCell);
-                    row.appendChild(viewLinkCell);
-                    row.appendChild(exportLinkCell);
-                    row.appendChild(imageLinksCell);
-                    row.appendChild(actionsCell);
-                    row.appendChild(deleteCell);
-
-                }
-
-
-
-
-
-
-                // row.appendChild(idCell);
-                // row.appendChild(housingTitleCell);
-                // row.appendChild(housingOwner);
-                // row.appendChild(housingTypeCell);
-                // row.appendChild(statusCell);
-                // row.appendChild(createdAtCell);
-                // row.appendChild(viewLinkCell);
-                // row.appendChild(exportLinkCell);
-                // row.appendChild(imageLinksCell);
-                // row.appendChild(actionsCell);
-                // if (tbody.id === 'bulk-select-body-soldHousingTypes') {
-                // row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
-
-                // }else{
-                // row.appendChild(deleteCell);
-
-                // }
-
-
-
+                
                 tbody.appendChild(row);
             });
         }
-
+    
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
         createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
         createTable(document.getElementById("bulk-select-body-soldHousingTypes"), soldHousingTypes);
         createTable(document.getElementById("bulk-select-body-isShareTypes"), isShareTypes);
-
+    
         // Handle tab switching
-        var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
+        const housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
         housingTabs.show();
     </script>
+    
 
     <style>
         .nav-tabs .nav-link {
