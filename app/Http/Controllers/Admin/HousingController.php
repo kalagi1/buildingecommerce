@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\HousingCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
@@ -269,6 +270,9 @@ class HousingController extends Controller
                 $smsService->sendSms($source_addr, $notificationText, $userPhoneNumber);
             }
 
+            event(new HousingCreated($housing));
+
+
         } else {
             $reason = '#' . $code . "No'lu emlak ilanınız pasife alındı.";
 
@@ -297,6 +301,7 @@ class HousingController extends Controller
             'is_rejected' => $isRejected
         ]);
 
+        
         return json_encode([
             'status' => true
         ]);
