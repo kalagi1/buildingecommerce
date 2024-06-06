@@ -50,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             "client.layouts.partials.cart_icon",
             "client.client-panel*"
         ], function ($view) {
+            dd($view);
             $cachedData = Cache::remember('client_view_data', now()->addHours(1), function () {
                 return [
                     'fl' => FooterLink::all(),
@@ -66,7 +67,6 @@ class AppServiceProvider extends ServiceProvider
                 $cartItemCount = CartItem::where('user_id', Auth::id())->count();
                 $view->with(compact('sharerLinks', 'cartItemCount'));
             }
-            dd($cachedData);
     
             $view->with("menu", Menu::getMenuItems());
             $view->with($cachedData);
