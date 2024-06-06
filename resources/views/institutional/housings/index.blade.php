@@ -99,6 +99,7 @@
                     return cell;
                 };
     
+                console.log(user.type);
                 const idCell = createCell("id", housingType.id + 2000000);
                 const housingTitleCell = createCell("housing_title", housingType.housing_title);
                 const housingTypeCell = createCell("housing_type", housingType.housing_type);
