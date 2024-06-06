@@ -122,7 +122,7 @@
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
 
-                if (user.type != 1) {
+                if (user && user.type != 1) {
                     var housingConsultant = document.createElement("td");
                     housingConsultant.className = "align-middle housing_type";
                     housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name :
