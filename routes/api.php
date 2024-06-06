@@ -205,6 +205,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
     Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
+    Route::delete('/collections', [CollectionController::class, 'deleteCollections']);
+
     Route::post('/remove-from-collection', [ClientPageController::class, 'removeFromCollection'])->name('remove.from.collection');
 
     Route::post('/add/collection', [ClientPageController::class, 'store']);
