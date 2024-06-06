@@ -278,7 +278,7 @@ class HousingController extends Controller {
     public function index() {
         $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
         $user = User::where("id", auth()->user()->id)->first();
-    return $user;
+        
         // Define a common base query for reuse
         $baseQuery = Housing::with('city', 'county', 'neighborhood',"owner","user","consultant")
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
