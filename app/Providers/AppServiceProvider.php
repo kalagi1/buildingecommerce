@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function composeClientView()
     {
+        dd("dassds");
         View::composer([
             "client.layouts.partials.header",
             "client.layouts.partials.footer",
@@ -62,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
             });
 
             dd($cachedData);
-            
+
             if (Auth::check()) {
                 $sharerLinks = ShareLink::where("user_id", Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
