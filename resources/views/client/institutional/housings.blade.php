@@ -97,7 +97,7 @@
                                                     <span>Tümü</span>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li>'Emlak Ofisi','Banka','İnşaat Ofisi','Turizm Amaçlı Kiralama'
                                         @foreach ($counts as $slug => $count)
                                             <li class="nav-item-block {{ $filter === $slug ? 'active' : '' }}"
                                                 role="presentation">
@@ -105,11 +105,11 @@
                                                 <a href="{{ addQueryParamToUrl('filter', $slug) }}">
                                                     <div class="tab-title">
                                                         <span>
-                                                            @if ($slug == 'satilik')
+                                                            @if ($slug == 'satilik' && $store && $store->corporate_type != "Turizm Amaçlı Kiralama" || $store->type == "1")
                                                                 Satılık
-                                                            @elseif($slug == 'kiralik')
+                                                            @elseif($slug == 'kiralik' && $store && $store->corporate_type != "Turizm Amaçlı Kiralama" || $store->type == "1")
                                                                 Kiralık
-                                                            @elseif($slug == 'gunluk-kiralik')
+                                                            @elseif($slug == 'gunluk-kiralik' && $store && $store->corporate_type == "Turizm Amaçlı Kiralama" || $store->type != "1")
                                                                 Günlük Kiralık
                                                             @endif
                                                             ({{ $count }})
