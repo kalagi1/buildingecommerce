@@ -89,7 +89,7 @@ class HomeController extends Controller
             "rejectedLog",
             "listItems",
         ])
-        ->with(['owner', 'consultant']) // Tekil tablo bağlantılarını burada yaptık
+        ->with(['owner', 'consultant']) 
         ->select([
             'housings.id',
             'housings.slug',
@@ -121,9 +121,8 @@ class HomeController extends Controller
         ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
         ->where('housings.status', 1)
-        ->orderByDesc('housings.created_at')
-        ->limit(1)
-        ->get();
+       ->first();
+       return $secondhandHousings;
         
     
 
