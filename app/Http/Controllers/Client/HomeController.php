@@ -106,7 +106,7 @@ class HomeController extends Controller
             'project_list_items.column1_additional',
             'project_list_items.column2_additional',
             'project_list_items.column3_additional',
-            'project_list_items.column4_additional',
+            'p  roject_list_items.column4_additional',
             'housings.address',
             DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
             'cities.title AS city_title',
@@ -121,7 +121,9 @@ class HomeController extends Controller
         ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
         ->where('housings.status', 1)
-        ->first();
+        ->orderBy("asc")
+        ->limit(4)
+        ->get();
 
 
         $dashboardProjects = Project::select('projects.*')
