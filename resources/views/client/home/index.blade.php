@@ -92,7 +92,7 @@
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
                     @foreach ($sliders as $slider)
-                        <a href="{{$slider->url}}" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                        <a href="{{ $slider->url }}" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                                 style="background-image: url({{ url('storage/sliders/' . $slider->image) }});"></div>
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
@@ -105,10 +105,10 @@
         </div>
     </section>
 
-   
+
     <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
-           
+
             <div class="portfolio ">
                 <div class="section-title mb-3">
                     <h2>Mağaza Vitrini</h2>
@@ -152,7 +152,8 @@
                                                 @else
                                                     <img loading="lazy"
                                                         src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp"
+                                                        style="object-fit:contain;">
                                                 @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
@@ -171,7 +172,7 @@
 
 
     <section class="container justify-content-center mt-4">
-        
+
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
                 <div
@@ -240,8 +241,8 @@
 
                     <div class="ajax-load" style="display: none;">
                         <div class="spinner-border" role="status">
-                           
-                          </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -262,8 +263,8 @@
                             </div>
                             <div class="ajax-load" style="display: none;">
                                 <div class="spinner-border" role="status">
-                                   
-                                  </div>
+
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -277,7 +278,7 @@
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="recently popular-places bg-white homepage-5" style=" margin-bottom: 50px; ">
+    {{-- <section class="recently popular-places bg-white homepage-5" style=" margin-bottom: 50px; ">
         <div class="container recently-slider">
 
             <div class="portfolio right-slider">
@@ -298,7 +299,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
@@ -342,26 +343,34 @@
     @endif --}}
     @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
-    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-            <div class="modal-content">
-                <div class="modal-body modal12">
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="modal-bg">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-close"></i>
-                                    </button>
-                                    <div class="offer-content">
-                                        <img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}" class="img-fluid blur-up lazyloaded" alt="">
-                                        <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin kadar paylaş; paylaştıkça kazan!</h2>
-                                        <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
-                                           @else href="{{ route('client.login') }}" @endif style="font-size: 11px;display:flex;align-items:center;justify-content:center">
-                                           <button style="background-color: #ea2a28; color: white; padding: 10px; border: none; width:150px">
-                                               SEN DE KATIL !
-                                           </button>
-                                        </a>
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
+                style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+                <div class="modal-content">
+                    <div class="modal-body modal12">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="modal-bg">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                        <div class="offer-content">
+                                            <img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}"
+                                                class="img-fluid blur-up lazyloaded" alt="">
+                                            <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
+                                                kadar paylaş; paylaştıkça kazan!</h2>
+                                            <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
+                                           @else href="{{ route('client.login') }}" @endif
+                                                style="font-size: 11px;display:flex;align-items:center;justify-content:center">
+                                                <button
+                                                    style="background-color: #ea2a28; color: white; padding: 10px; border: none; width:150px">
+                                                    SEN DE KATIL !
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,55 +379,54 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Önce, çerezin zaten ayarlanıp ayarlanmadığını kontrol ediyoruz
-            var lastShownDate = getCookie("modalShownDate");
-    
-            // Eğer çerez yoksa veya bugün gösterilmediyse, modalı göster ve çerezi ayarla
-            if (!lastShownDate || lastShownDate !== getCurrentDate()) {
-                setTimeout(function() {
-                    $('#customModal').modal('show');
-                }, 5000);
-    
-                // Çerezi bugünün tarihi ile ayarla
-                setCookie("modalShownDate", getCurrentDate(), 1); // Çerez 1 gün boyunca geçerli olacak
-            }
-        });
-    
-        // Bir çerez ayarlamak için fonksiyon
-        function setCookie(name, value, days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Çerez 1 gün geçerli
-            var expires = "expires=" + date.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
-        }
-    
-        // Çerez değeri almak için fonksiyon
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i].trim();
-                if (c.indexOf(nameEQ) === 0) {
-                    return c.substring(nameEQ.length, c.length);
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Önce, çerezin zaten ayarlanıp ayarlanmadığını kontrol ediyoruz
+                var lastShownDate = getCookie("modalShownDate");
+
+                // Eğer çerez yoksa veya bugün gösterilmediyse, modalı göster ve çerezi ayarla
+                if (!lastShownDate || lastShownDate !== getCurrentDate()) {
+                    setTimeout(function() {
+                        $('#customModal').modal('show');
+                    }, 5000);
+
+                    // Çerezi bugünün tarihi ile ayarla
+                    setCookie("modalShownDate", getCurrentDate(), 1); // Çerez 1 gün boyunca geçerli olacak
                 }
+            });
+
+            // Bir çerez ayarlamak için fonksiyon
+            function setCookie(name, value, days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Çerez 1 gün geçerli
+                var expires = "expires=" + date.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
             }
-            return null;
-        }
-    
-        // Geçerli tarihi YYYY-MM-DD formatında almak için fonksiyon
-        function getCurrentDate() {
-            var date = new Date();
-            return date.toISOString().split('T')[0];
-        }
-    </script>
+
+            // Çerez değeri almak için fonksiyon
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(nameEQ) === 0) {
+                        return c.substring(nameEQ.length, c.length);
+                    }
+                }
+                return null;
+            }
+
+            // Geçerli tarihi YYYY-MM-DD formatında almak için fonksiyon
+            function getCurrentDate() {
+                var date = new Date();
+                return date.toISOString().split('T')[0];
+            }
+        </script>
     @endif
-    
+
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -428,7 +436,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        var page = 1; 
+        var page = 1;
         var isLoading = false;
         var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
@@ -436,24 +444,26 @@
         var maxPages = null;
         var housingCounts = @json($secondhandHousings);
         maxPages = Math.ceil(housingCounts.length / itemsPerPage);
+
         function centerAjaxLoadElements() {
-        var ajaxLoadElements = document.querySelectorAll('.ajax-load');
-        
-        ajaxLoadElements.forEach(function(element) {
-            element.style.display = 'flex';
-            element.style.justifyContent = 'center';
-            element.style.margin = '0 auto';
-        });
-    }
+            var ajaxLoadElements = document.querySelectorAll('.ajax-load');
+
+            ajaxLoadElements.forEach(function(element) {
+                element.style.display = 'flex';
+                element.style.justifyContent = 'center';
+                element.style.margin = '0 auto';
+            });
+        }
+
         function loadMoreHousings() {
-            if (isLoading || page >= maxPages) return; 
+            if (isLoading || page >= maxPages) return;
             isLoading = true;
             centerAjaxLoadElements();
             $('.ajax-load').show();
-    
-            page++; 
+
+            page++;
             var url = "{{ route('load-more-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -463,15 +473,15 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         function loadMoreMobileHousings() {
-            if (isLoading || page >= maxPages) return; 
+            if (isLoading || page >= maxPages) return;
             isLoading = true;
             $('.ajax-load').show();
-    
-            page++; 
+
+            page++;
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -481,7 +491,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         window.addEventListener('scroll', function() {
             if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
                 50 && !isLoading && window.innerWidth >= 768) {
@@ -494,7 +504,7 @@
             }
         });
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();
@@ -742,7 +752,6 @@
           ]
         }
         </script>
-        
 @endsection
 
 @section('styles')

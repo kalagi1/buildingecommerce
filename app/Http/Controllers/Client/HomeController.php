@@ -73,11 +73,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        $start = microtime(true);
-        $menu = Cache::rememberForever('menu', function () {
-            return Menu::getMenuItems();
-        });
-
         $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
@@ -112,22 +107,8 @@ class HomeController extends Controller
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at')
-            ->limit(20)
+            ->limit(4)
             ->get();
-
-
-
-        // $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
-        //     ->where('end_date', ">=", date("Y-m-d"))
-        //     ->where('item_type', 1)
-        //     ->where('housing_type_id', 0)
-        //     ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
-        //     ->where('doping_orders.status', 1)
-        //     ->whereHas('project', function ($query) {
-        //         $query->where('status', 1);
-        //     })
-        //     ->orderByDesc("stand_out_users.created_at")
-        //     ->get();
 
 
         $dashboardProjects = Project::select('projects.*')
@@ -135,44 +116,17 @@ class HomeController extends Controller
             ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
             ->orderBy("created_at", "desc")
             ->where('projects.status', 1)
+            ->limit(9)
             ->get();
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
         $sliders =  Slider::all();
-        $footerSlider = FooterSlider::all();
 
-        $finishProjects = Project::select('projects.*')
-            ->with("city", "county", 'user')
-            ->whereHas('housingStatus', function ($query) {
-                $query->where('housing_type_id', '2');
-            })->with('brand', 'roomInfo', 'listItemValues', 'housingType')
-            ->orderBy("created_at", "desc")
-            ->where('projects.status', 1)
-            ->get();
-
-
-        $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'), 'projects.*')
-            ->with("city", "county", 'user')
-            ->whereHas('housingStatus', function ($query) {
-                $query->where('housing_type_id', '3');
-            })->with('brand', 'roomInfo', 'housingType')
-            ->where('status', 1)
-            ->orderBy("created_at", "desc")
-            ->get();
-
-        if (auth()->user()) {
-            $sharerLinks = array_values(array_keys(ShareLink::where('user_id', auth()->user()->id)->where('item_type', 2)->get()->keyBy('item_id')->toArray()));
-        } else {
-            $sharerLinks = [];
-        }
-
-
-        $soilProjects = Project::with("city", "county", 'user')->whereHas('housingStatus', function ($query) {
-            $query->where('housing_type_id', '5');
-        })->with('brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
-        return view('client.home.index', compact('start', 'sharerLinks', 'menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+    
+       
+        return view('client.home.index', compact(  'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses',));
     }
 
     public function satKirala()
