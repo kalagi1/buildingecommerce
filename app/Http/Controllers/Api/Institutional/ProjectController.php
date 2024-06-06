@@ -901,10 +901,10 @@ class ProjectController extends Controller
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
 
         if ($ownerId != null) {
-            $postData['open_sharing1'] = "Evet";
+            $postData['open_sharing1'] = "[]";
         }
 
-        $isShare = auth()->user()->type == 1 ? true : false;
+        $isShare =  false;
 
         $consultant = auth()->user()->parent_id ? true : false;
 
@@ -944,11 +944,11 @@ class ProjectController extends Controller
             $defaultDepositRate = 0.90;
             $institutionalRateClub = 0.50;
             $clientRateClub = 0.25;
-            $clientDepositRate = 0.80;
+            $clientDepositRate = 0.70;
             Rate::create([
                 'institution_id' => $institution->id,
                 'housing_id' => $project->id,
-                'default_deposit_rate' => auth()->check() && auth()->user()->type == 1 ? $clientDepositRate : $defaultDepositRate ,
+                'default_deposit_rate' => $institution->name != "Diğer" ? $defaultDepositRate : $clientDepositRate,
                 'sales_rate_club' => $institution->name != "Diğer" ? $institutionalRateClub : $clientRateClub,
             ]);
         }
@@ -962,7 +962,7 @@ class ProjectController extends Controller
 
                 // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
                 $userPhoneNumber = $user->mobile_phone;
-                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız Yetkili Emlak Ofisine Atanması için EmlakSepette Yönetimine  İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
+                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız incelenmesi için EmlakSepette Yönetimine İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
 
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
