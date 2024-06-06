@@ -73,6 +73,9 @@ class HomeController extends Controller
 
     public function index()
     {
+
+        $housings = Housing::with("images")->limit(1)->get();
+        return $housings;
         $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
