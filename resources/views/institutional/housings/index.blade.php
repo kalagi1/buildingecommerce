@@ -99,7 +99,6 @@
                     return cell;
                 };
     
-                console.log(user.type);
                 const idCell = createCell("id", housingType.id + 2000000);
                 const housingTitleCell = createCell("housing_title", housingType.housing_title);
                 const housingTypeCell = createCell("housing_type", housingType.housing_type);
@@ -114,7 +113,7 @@
                 const createdAtCell = createCell("created_at", new Date(housingType.created_at).toLocaleDateString());
                 const viewLinkCell = createCell("", `<button class="badge badge-phoenix badge-phoenix-warning btn-sm" href="{{ URL::to('/') }}/institutional/housings/${housingType.id}/logs">Loglar</button>`);
     
-                const housingConsultant = user.type !== 1 ? createCell("housing_type", housingType.consultant?.name ?? "Yönetici Hesap") : null;
+                const housingConsultant = user.owner_id !== null ? createCell("housing_type", housingType.consultant?.name ?? "Yönetici Hesap") : null;
                 
                 if (tbody.id === 'bulk-select-body-soldHousingTypes') {
                     const exportLinkCell = createCell("", `<a class="badge badge-phoenix badge-phoenix-success btn-sm" href="#">-</a>`);
