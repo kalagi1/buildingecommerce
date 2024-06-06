@@ -89,41 +89,41 @@ class HomeController extends Controller
             "rejectedLog",
             "listItems",
         ])
-        ->with(['owner', 'consultant']) // Tekil tablo bağlantılarını burada yaptık
-        ->select([
-            'housings.id',
-            'housings.slug',
-            'housings.title AS housing_title',
-            'housings.created_at',
-            'housings.step1_slug',
-            'housings.step2_slug',
-            'housing_types.title as housing_type_title',
-            'housings.housing_type_data',
-            'project_list_items.column1_name',
-            'project_list_items.column2_name',
-            'project_list_items.column3_name',
-            'project_list_items.column4_name',
-            'project_list_items.column1_additional',
-            'project_list_items.column2_additional',
-            'project_list_items.column3_additional',
-            'project_list_items.column4_additional',
-            'housings.address',
-            DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
-            'cities.title AS city_title',
-            'districts.ilce_title AS county_title',
-            'neighborhoods.mahalle_title AS neighborhood_title',
-            DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= NOW() AND end_date >= NOW() LIMIT 1) as discount_amount'),
-        ])
-        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-        ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-        ->where('housings.status', 1)
-        ->orderBy("id", "asc")
-        ->limit(4)
-        ->get();
+            ->with(['owner', 'consultant']) // Tekil tablo bağlantılarını burada yaptık
+            ->select([
+                'housings.id',
+                'housings.slug',
+                'housings.title AS housing_title',
+                'housings.created_at',
+                'housings.step1_slug',
+                'housings.step2_slug',
+                'housing_types.title as housing_type_title',
+                'housings.housing_type_data',
+                'project_list_items.column1_name',
+                'project_list_items.column2_name',
+                'project_list_items.column3_name',
+                'project_list_items.column4_name',
+                'project_list_items.column1_additional',
+                'project_list_items.column2_additional',
+                'project_list_items.column3_additional',
+                'project_list_items.column4_additional',
+                'housings.address',
+                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
+                'cities.title AS city_title',
+                'districts.ilce_title AS county_title',
+                'neighborhoods.mahalle_title AS neighborhood_title',
+                DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= NOW() AND end_date >= NOW() LIMIT 1) as discount_amount'),
+            ])
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+            ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+            ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+            ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+            ->where('housings.status', 1)
+            ->orderBy("id", "desc")
+            ->limit(4)
+            ->get();
 
 
         $dashboardProjects = Project::select('projects.*')
@@ -131,16 +131,16 @@ class HomeController extends Controller
             ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
             ->orderBy("created_at", "desc")
             ->where('projects.status', 1)
-           ->first();
+            ->first();
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
         $sliders =  Slider::all();
 
-    
-       
-        return view('client.home.index', compact(  'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses',));
+
+
+        return view('client.home.index', compact('sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses',));
     }
 
     public function satKirala()
