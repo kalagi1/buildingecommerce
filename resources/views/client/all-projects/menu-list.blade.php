@@ -993,7 +993,7 @@
         }
 
 
-        function str) {
+        function toTitleCase(str) {
             return str.replace(/\w\S*/g, function(txt) {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
@@ -1279,18 +1279,18 @@
                                                                 <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                             </a>
                                                         </p>
-                                                        <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+                                                    <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
     ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column1} ${res.column1_additional ? res.column1_additional : ""}</span>
+                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
                          </li>` : ''}
     ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column2} ${res.column2_additional ? res.column2_additional : ""}</span>
+                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
                          </li>` : ''}
     ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column3} ${res.column3_additional ? res.column3_additional : ""}</span>
+                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
                          </li>` : ''}
 </ul>
 
@@ -1384,15 +1384,15 @@
                                             <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
     ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column1} ${res.column1_additional ? res.column1_additional : ""}</span>
+                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
                          </li>` : ''}
     ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column2} ${res.column2_additional ? res.column2_additional : ""}</span>
+                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
                          </li>` : ''}
     ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column3} ${res.column3_additional ? res.column3_additional : ""}</span>
+                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
                          </li>` : ''}
     <li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
         <i class='fa fa-circle circleIcon mr-1'></i>
@@ -1545,15 +1545,15 @@
     style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
     ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column1} ${res.column1_additional ? res.column1_additional : ""}</span>
+                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
                          </li>` : ''}
     ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column2} ${res.column2_additional ? res.column2_additional : ""}</span>
+                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
                          </li>` : ''}
     ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                             <i class='fa fa-circle circleIcon mr-1'></i>
-                            <span>${res.column3} ${res.column3_additional ? res.column3_additional : ""}</span>
+                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
                          </li>` : ''}
 </ul>
 
