@@ -129,6 +129,8 @@ class HomeController extends Controller
         });
     
 
+        return $secondhandHousings;
+
 
         $dashboardProjects = Project::select('projects.*')
             ->with("city", "county", 'user')
