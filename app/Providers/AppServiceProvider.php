@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        dd("a");
         $this->composeAdminView();
         $this->composeClientView();
         $this->composeInstitutionalView();
