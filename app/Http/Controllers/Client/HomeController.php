@@ -89,7 +89,7 @@ class HomeController extends Controller
             "rejectedLog",
             "listItems",
         ])
-        ->with(['owner', 'consultant']) 
+        ->with(['owner', 'consultant']) // Tekil tablo bağlantılarını burada yaptık
         ->select([
             'housings.id',
             'housings.slug',
@@ -121,16 +121,22 @@ class HomeController extends Controller
         ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
         ->where('housings.status', 1)
-       ->first();
+        ->first();
 
-        $dashboardProjects = [];
+
+        $dashboardProjects = Project::select('projects.*')
+            ->with("city", "county", 'user')
+            ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
+            ->orderBy("created_at", "desc")
+            ->where('projects.status', 1)
+           ->first();
+
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
         $sliders =  Slider::all();
 
-        dd($secondhandHousings, $dashboardProjects, $dashboardStatuses, $brands, $sliders);
-
+    
        
         return view('client.home.index', compact(  'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses',));
     }
