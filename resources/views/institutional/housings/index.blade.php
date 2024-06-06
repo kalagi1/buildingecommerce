@@ -108,10 +108,6 @@ console.log(housingType);
                 housingTypeCell.textContent = housingType.housing_type;
 
                 
-                var housingConsultant = document.createElement("td");
-                housingConsultant.className = "align-middle housing_type";
-                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : "Yönetici";
-
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
                 statusCell.innerHTML = housingType.status == 1 ?
@@ -296,7 +292,6 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
@@ -310,7 +305,6 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
