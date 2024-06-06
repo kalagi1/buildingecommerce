@@ -73,7 +73,6 @@ class HomeController extends Controller
 
     public function index()
     {
-        dd("qwqw");
         $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
@@ -110,6 +109,8 @@ class HomeController extends Controller
             ->orderByDesc('housings.created_at')
             ->limit(4)
             ->get();
+
+            dd($secondhandHousings);
 
 
         $dashboardProjects = Project::select('projects.*')
