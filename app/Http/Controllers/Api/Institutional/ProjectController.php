@@ -901,9 +901,9 @@ class ProjectController extends Controller
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
 
         if ($ownerId != null) {
-            $postData['open_sharing1'] = "[]";
+            unset($postData['open_sharing1']);
         }
-
+        
         $isShare =  false;
 
         $consultant = auth()->user()->parent_id ? true : false;
