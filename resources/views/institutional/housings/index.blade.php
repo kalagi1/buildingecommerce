@@ -384,47 +384,6 @@ console.log(housingType);
 
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
-                    if (user.type == 1) {
-                        if (housingType.owner && housingType.user.id != housingType.owner.id) {
-                            var ownerInfo = document.createElement("a");
-                            ownerInfo.setAttribute("href", "{{ url('/magaza/') }}" + "/" + housingType.user.name.toLowerCase()
-                                    .replace(/ /g, '-') + "/" + housingType.user.id);
-                            ownerInfo.textContent = housingType.user.name;
-                            housingOwner.appendChild(ownerInfo);
-
-                            var br = document.createElement("br");
-                            housingOwner.appendChild(br);
-
-                            if (housingType.user.mobile_phone != null) {
-                                var mobilephoneInfo = document.createElement("span");
-                                mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
-                                housingOwner.appendChild(mobilephoneInfo);
-                            }
-
-                            var br = document.createElement("br");
-                            housingOwner.appendChild(br);
-
-                            if (housingType.user.phone != null) {
-                                var phoneInfo = document.createElement("span");
-                                phoneInfo.textContent = "İş: " + housingType.user.phone;
-                                housingOwner.appendChild(phoneInfo);
-                            }
-
-                            
-
-
-                        } else {
-                            var ownerInfo = document.createElement("span");
-                            ownerInfo.textContent = "Henüz Atanmadı";
-                            housingOwner.appendChild(ownerInfo);
-
-
-                        }
-
-                        row.appendChild(housingOwner);
-
-                    }
-
                     row.appendChild(housingTypeCell);
                     row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
