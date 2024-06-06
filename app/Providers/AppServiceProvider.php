@@ -44,7 +44,6 @@ class AppServiceProvider extends ServiceProvider
 
     private function composeClientView()
     {
-        dd("dassds");
         View::composer([
             "client.layouts.partials.header",
             "client.layouts.partials.footer",
@@ -61,22 +60,20 @@ class AppServiceProvider extends ServiceProvider
                     'adBanners' => AdBanner::where("is_visible", "1")->get(),
                 ];
             });
-
-            dd($cachedData);
-
+    
             if (Auth::check()) {
-                $sharerLinks = ShareLink::where("user_id", Auth::user()->id)->get();
-                $view->with("sharerLinks", $sharerLinks);
-                $cartItemCount = CartItem::where('user_id', Auth::user()->id)->count();
-                $view->with("cartItemCount", $cartItemCount);
+                $sharerLinks = ShareLink::where("user_id", Auth::id())->get();
+                $cartItemCount = CartItem::where('user_id', Auth::id())->count();
+                $view->with(compact('sharerLinks', 'cartItemCount'));
             }
-
-            $menu = Menu::getMenuItems();
-            $view->with("menu", $menu);
+            dd($cachedData);
+    
+            $view->with("menu", Menu::getMenuItems());
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
     }
+    
 
     private function composeInstitutionalView()
     {
