@@ -22,7 +22,7 @@
         <div class="container">
             <div class="seller-profile">
                 <div class="seller-info-container"
-                    @if ($institutional && $institutional->type != '1') style="grid-template-columns: repeat(2, 2fr);" @endif>
+                    @if ($institutional && $institutional->type != '1') style="grid-template-columns: repeat(2, 2fr) !important;" @endif>
 
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
