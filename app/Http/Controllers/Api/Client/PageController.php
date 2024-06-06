@@ -346,6 +346,27 @@ class PageController extends Controller
         ]);
     }
 
+    public function deleteCollections(Request $request)
+    {
+        // Gelen istekte ID'leri bir dizi olarak al
+        $ids = $request->input('ids');
+
+        // ID'lerin boş olmadığından emin ol
+        if (empty($ids)) {
+            return response()->json([
+                'error' => 'Silmek için hiçbir koleksiyon ID\'si gönderilmedi.'
+            ], 400);
+        }
+
+        // ID'lere sahip koleksiyonları bulun ve silin
+        Collection::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'success' => 'Koleksiyonlar başarıyla silindi.'
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         $cart = $request->input("cart");
