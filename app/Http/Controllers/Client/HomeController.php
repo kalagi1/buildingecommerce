@@ -169,13 +169,7 @@ class HomeController extends Controller
         //     dd($secondhandHousings);
 
 
-        $dashboardProjects = Project::select('projects.*')
-            ->with("city", "county", 'user')
-            ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
-            ->orderBy("created_at", "desc")
-            ->where('projects.status', 1)
-            ->limit(9)
-            ->get();
+        $dashboardProjects = [];
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
