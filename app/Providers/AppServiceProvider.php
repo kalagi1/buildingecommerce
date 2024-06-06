@@ -71,7 +71,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
-        dd("asasas");
     }
     
 
