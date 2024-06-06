@@ -106,7 +106,6 @@
 
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
-console.log(housingType);
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
@@ -123,10 +122,11 @@ console.log(housingType);
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
 
-                
+
                 var housingConsultant = document.createElement("td");
                 housingConsultant.className = "align-middle housing_type";
-                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name : "Yönetici";
+                housingConsultant.textContent = housingType.consultant != null ? housingType.consultant.name :
+                    "Yönetici";
 
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
