@@ -370,6 +370,7 @@ console.log(housingType);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingOwner);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
