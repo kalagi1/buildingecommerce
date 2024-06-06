@@ -31,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        dd("a");
         $this->composeAdminView();
         $this->composeClientView();
         $this->composeInstitutionalView();
@@ -94,6 +93,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function composeView($view, $jsonFileName)
     {
+        
         if (Auth::check()) {
             $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
 
