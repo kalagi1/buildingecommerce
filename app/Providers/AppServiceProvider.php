@@ -50,7 +50,6 @@ class AppServiceProvider extends ServiceProvider
             "client.layouts.partials.cart_icon",
             "client.client-panel*"
         ], function ($view) {
-            dd($view);
             $cachedData = Cache::remember('client_view_data', now()->addHours(1), function () {
                 return [
                     'fl' => FooterLink::all(),
@@ -72,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
+        dd("asasas");
     }
     
 
