@@ -1057,23 +1057,53 @@
                     $('.pp-col').empty();
                     $('#pages').empty();
 
-                    last_page = response.data.last_page;
+                    var current_page = response.data.current_page;
+                    var last_page = response.data.last_page;
 
+                    // İlk ve Önceki sayfa butonları
                     $('#pages').append(`
                         <a class="btn btn-primary prev-page">Önceki</a>
                     `);
 
-                    for (var i = 1; i <= response.data.last_page; ++i) {
+                    // İlk sayfa her zaman gösterilir
+                    $('#pages').append(`
+                        <a class="btn btn-outline-primary filter-page" data-page="1" ${current_page == 1 ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>1</a>
+                    `);
+
+                    // Mevcut sayfanın etrafındaki 5 sayfayı hesapla
+                    var start = Math.max(2, current_page - 2);
+                    var end = Math.min(last_page - 1, current_page + 2);
+
+                    // Aradaki sayfalar için üç nokta ekle
+                    if (start > 2) {
+                        $('#pages').append('<span>...</span>');
+                    }
+
+                    for (var i = start; i <= end; ++i) {
                         $('#pages').append(`
-                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.data.current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
                         `);
                     }
 
+                    // Aradaki sayfalar için üç nokta ekle
+                    if (end < last_page - 1) {
+                        $('#pages').append('<span>...</span>');
+                    }
+
+                    // Son sayfa her zaman gösterilir
+                    if (last_page > 1) {
+                        $('#pages').append(`
+                            <a class="btn btn-outline-primary filter-page" data-page="${last_page}" ${current_page == last_page ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${last_page}</a>
+                        `);
+                    }
+
+                    // Sonraki sayfa butonu
                     $('#pages').append(`
                         <a class="btn btn-primary next-page">Sonraki</a>
                     `);
 
-                    if (current_page == '1')
+                    // Önceki ve Sonraki butonlarını güncelle
+                    if (current_page == 1)
                         $('.prev-page').addClass('d-none');
                     else
                         $('.prev-page').removeClass('d-none');
@@ -1082,6 +1112,7 @@
                         $('.next-page').addClass('d-none');
                     else
                         $('.next-page').removeClass('d-none');
+
 
                     if (response.data.data.length > 0) {
 
@@ -1251,11 +1282,21 @@
                                                                 <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
                                                             </a>
                                                         </p>
-                                                        <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
-                                                            ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-                                                            ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-                                                            ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-                                                        </ul>
+                                                        <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+    ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                     </li>` : ''}
+</ul>
+
                                                         <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:20px !important">
                                                             <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
@@ -1343,12 +1384,25 @@
                                                                     
                                             </p>
                                             <!-- homes List -->
-                                            <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between;align-items: center;width: 100%;">
-                                                                        ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-                                                                        ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-                                                                        ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-                                                                        <li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span> ${tarih}</span></li>
-                                                                                                                                </ul>
+                                            <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                     </li>` : ''}
+    <li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+        <i class='fa fa-circle circleIcon mr-1'></i>
+        <span>${tarih}</span>
+    </li>
+</ul>
+
                                                                                                                                 </div>
 
                                                                                                                                 <div class="col-md-4">
@@ -1491,12 +1545,21 @@
                                                 <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <ul class="d-flex align-items-center h-100"
-                                                style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                                                    
-                                                                ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-                                                                ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-                                                                ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-                                                    </ul>
+    style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
+    ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                     </li>` : ''}
+    ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                        <i class='fa fa-circle circleIcon mr-1'></i>
+                        <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                     </li>` : ''}
+</ul>
+
                                                     <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} </span>
                                                     </div>
                                             </div> <hr> `);
