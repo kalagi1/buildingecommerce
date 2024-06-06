@@ -107,7 +107,7 @@ class HomeController extends Controller
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at')
-            ->limit(4)
+            ->limit(1)
             ->get();
 
             dd($secondhandHousings);
