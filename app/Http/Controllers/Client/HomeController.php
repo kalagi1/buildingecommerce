@@ -122,13 +122,8 @@ class HomeController extends Controller
         ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
         ->where('housings.status', 1)
        ->first();
-       return $secondhandHousings;
-        
-    
-
 
         $dashboardProjects = [];
-
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
