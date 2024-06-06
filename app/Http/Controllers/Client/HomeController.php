@@ -121,7 +121,7 @@ class HomeController extends Controller
         ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
         ->where('housings.status', 1)
-        ->orderBy("asc")
+        ->orderBy("id", "asc")
         ->limit(4)
         ->get();
 
