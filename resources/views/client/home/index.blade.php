@@ -92,7 +92,7 @@
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
                     @foreach ($sliders as $slider)
-                        <a href="{{$slider->url}}" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                        <a href="{{ $slider->url }}" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                                 style="background-image: url({{ url('storage/sliders/' . $slider->image) }});"></div>
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
@@ -105,17 +105,17 @@
         </div>
     </section>
 
-   
+
     <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
-           
+
             <div class="portfolio ">
                 <div class="section-title mb-3">
                     <h2>Mağaza Vitrini</h2>
                 </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://test.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -152,7 +152,8 @@
                                                 @else
                                                     <img loading="lazy"
                                                         src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp"
+                                                        style="object-fit:contain;">
                                                 @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
@@ -171,7 +172,7 @@
 
 
     <section class="container justify-content-center mt-4">
-        
+
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
                 <div
@@ -187,14 +188,14 @@
     </section>
 
 
-    @if ($dashboardProjects->isNotEmpty())
+    {{-- @if ($dashboardProjects->isNotEmpty())
         <section class="popular-places home18 mb-3 mt-5">
             <div class="container">
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://test.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -210,7 +211,7 @@
         </section>
     @else
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
-    @endif
+    @endif --}}
 
 
     @if ($housings->isNotEmpty())
@@ -279,7 +280,7 @@
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="recently popular-places bg-white homepage-5" style=" margin-bottom: 50px; ">
+    {{-- <section class="recently popular-places bg-white homepage-5" style=" margin-bottom: 50px; ">
         <div class="container recently-slider">
 
             <div class="portfolio right-slider">
@@ -300,7 +301,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
@@ -438,24 +439,26 @@
         var maxPages = null;
         var housingCounts = @json($housings);
         maxPages = Math.ceil(housingCounts.length / itemsPerPage);
+
         function centerAjaxLoadElements() {
-        var ajaxLoadElements = document.querySelectorAll('.ajax-load');
-        
-        ajaxLoadElements.forEach(function(element) {
-            element.style.display = 'flex';
-            element.style.justifyContent = 'center';
-            element.style.margin = '0 auto';
-        });
-    }
+            var ajaxLoadElements = document.querySelectorAll('.ajax-load');
+
+            ajaxLoadElements.forEach(function(element) {
+                element.style.display = 'flex';
+                element.style.justifyContent = 'center';
+                element.style.margin = '0 auto';
+            });
+        }
+
         function loadMoreHousings() {
-            if (isLoading || page >= maxPages) return; 
+            if (isLoading || page >= maxPages) return;
             isLoading = true;
             centerAjaxLoadElements();
             $('.ajax-load').show();
-    
-            page++; 
+
+            page++;
             var url = "{{ route('load-more-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -465,15 +468,15 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         function loadMoreMobileHousings() {
-            if (isLoading || page >= maxPages) return; 
+            if (isLoading || page >= maxPages) return;
             isLoading = true;
             $('.ajax-load').show();
 
             page++; 
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -483,7 +486,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         window.addEventListener('scroll', function() {
             if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
                 50 && !isLoading && window.innerWidth >= 768) {

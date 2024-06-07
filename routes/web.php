@@ -106,7 +106,6 @@ use App\Http\Controllers\Admin\ReasonManagementController;
 
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
-
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
@@ -241,6 +240,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/searched', [UserController::class, 'searched'])->name('searched');
     Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
 
+
+    //bireysel
+    Route::get('/bireysel-onayi-bekleyenler', [UserController::class, 'individualAwaitingCalled'])->name('individual.awaiting.called.index');
     //Aranmayı Beklenenler
     Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
     Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
@@ -1151,6 +1153,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/save_sale/{projectId}', [ApiProjectController::class, "saveSale"]);
     Route::post('/save_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "saveInstallments"]);
     Route::get('/get_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "getInstallments"]);
+    Route::post('/preview', [ApiProjectController::class, "getPreview"]);
+    Route::get('/get_project_housings_list/{projectId}', [ApiProjectController::class, "getHousingsByProjectId"]);
+    Route::get('/get_sale_closes/{project_id}',[ApiProjectController::class,"getSaleCloses"]);
+    Route::get('/render_pdf/{project_id}/{room_order}',[ApiProjectController::class,"renderPdf"]);
+    Route::get('/get_sale/{project_id}/{room_order}',[ApiProjectController::class,"getSale"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

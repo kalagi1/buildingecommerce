@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormCo
 use App\Http\Controllers\Api\Institutional\SharerController;
 use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
+use App\Http\Controllers\Institutional\ProjectController as ControllersInstitutionalProjectController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 
 /*
@@ -204,6 +205,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
     Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
+    Route::delete('/collections', [ClientPageController::class, 'deleteCollections']);
+
     Route::post('/remove-from-collection', [ClientPageController::class, 'removeFromCollection'])->name('remove.from.collection');
 
     Route::post('/add/collection', [ClientPageController::class, 'store']);
@@ -213,3 +216,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
     Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
 });
+
+Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);

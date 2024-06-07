@@ -1271,8 +1271,8 @@
 <script>
     $(document).ready(function() {
 
-        checkFavorites();
-        checkProjectFavorites();
+        // checkFavorites();
+        // checkProjectFavorites();
         var cart = @json(session('cart', []));
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
@@ -1425,60 +1425,60 @@
 
 
 
-        function checkProjectFavorites() {
-            // Favorileri sorgula ve uygun renk ve ikonları ayarla
-            var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
-            var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
+        // function checkProjectFavorites() {
+        //     // Favorileri sorgula ve uygun renk ve ikonları ayarla
+        //     var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
+        //     var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
 
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-project-housing-id");
-                var projectId = button.getAttribute("data-project-id");
+        //     favoriteButtons.forEach(function(button) {
+        //         var housingId = button.getAttribute("data-project-housing-id");
+        //         var projectId = button.getAttribute("data-project-id");
 
-                projectHousingPairs.push({
-                    projectId: projectId,
-                    housingId: housingId
-                });
-            });
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-            $.ajax({
-                url: "{{ route('get.project.housing.favorite.status') }}",
-                type: "POST",
-                data: {
-                    _token: csrfToken,
-                    projectHousingPairs: projectHousingPairs
-                },
-                success: function(response) {
-                    favoriteButtons.forEach(function(button) {
-                        var housingId = button.getAttribute(
-                            "data-project-housing-id");
-                        var projectId = button.getAttribute("data-project-id");
-                        var isFavorite = response[projectId][housingId];
-
-                        if (isFavorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    });
-                },
-            });
+        //         projectHousingPairs.push({
+        //             projectId: projectId,
+        //             housingId: housingId
+        //         });
+        //     });
+        //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
+        //     $.ajax({
+        //         url: "{{ route('get.project.housing.favorite.status') }}",
+        //         type: "POST",
+        //         data: {
+        //             _token: csrfToken,
+        //             projectHousingPairs: projectHousingPairs
+        //         },
+        //         success: function(response) {
+        //             favoriteButtons.forEach(function(button) {
+        //                 var housingId = button.getAttribute(
+        //                     "data-project-housing-id");
+        //                 var projectId = button.getAttribute("data-project-id");
+        //                 var isFavorite = response[projectId][housingId];
 
-        }
+        //                 if (isFavorite) {
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart-o");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "text-danger");
+        //                     button.classList.add("bg-white");
+        //                 } else {
+        //                     button.querySelector("i").classList.remove(
+        //                         "text-danger");
+        //                     button.querySelector("i").classList.remove(
+        //                         "fa-heart");
+        //                     button.querySelector("i").classList.add(
+        //                         "fa-heart-o");
+        //                 }
+        //             });
+        //         },
+        //     });
+
+
+
+        // }
 
 
        
@@ -1575,7 +1575,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1769,7 +1769,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
