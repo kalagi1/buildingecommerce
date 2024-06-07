@@ -136,7 +136,7 @@
                                                         Günlük Kiralık
                                                     @endif
                                                 @endif
-                                                {{ $parent->title }}
+                                                {{ isset($parent->title) ? $parent->title : null }}
                                             </span>
 
                                         @endif
@@ -1481,8 +1481,8 @@
                                                                         Günlük Kiralık
                                                                     @endif
                                                                 @endif
-                                                                {{ $parent->title }}
-                                                            @endif
+                                                                {{ isset($parent->title) ? $parent->title : null }}
+                                                                @endif
                                                         </span>
                                                     </td>
                                                 </tr>
