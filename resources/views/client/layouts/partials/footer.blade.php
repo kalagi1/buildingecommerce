@@ -1481,46 +1481,7 @@
         }
 
 
-        function checkFavorites() {
-            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
-
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        if (response.is_favorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    },
-                    error: function(error) {
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                        console.error(error);
-                    }
-                });
-            });
-        }
-
+       
 
 
         function toggleProjectFavorite(event) {

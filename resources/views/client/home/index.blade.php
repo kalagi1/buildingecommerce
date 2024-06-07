@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
         integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @php
+ @php
         if (!function_exists('convertMonthToTurkishCharacter')) {
             function convertMonthToTurkishCharacter($date)
             {
@@ -213,66 +213,68 @@
     @endif
 
 
-    @if ($secondhandHousings->isNotEmpty())
-        <section class="featured portfolio rec-pro disc bg-white">
-            <div class="container">
-                <div class="featured-heads mb-3">
-                    <div class="section-title">
-                        <h2>Emlak İlanları</h2>
-                    </div>
-                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                            class="w-100">
-                            Tümünü Gör
-                        </button>
-                    </a>
+    @if ($housings->isNotEmpty())
+    <section class="featured portfolio rec-pro disc bg-white">
+        <div class="container">
+            <div class="featured-heads mb-3">
+                <div class="section-title">
+                    <h2>Emlak İlanları</h2>
+                </div>
+                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
+                        class="w-100">
+                        Tümünü Gör
+                    </button>
+                </a>
+            </div>
+
+            <div class="mobile-show">
+                <div id="housingMobileRow">
+                    @forelse ($housings->take(4) as $housing)
+                        @php($sold = $housing->sold)
+                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                        @endif
+                    @endforeach
                 </div>
 
-                <div class="mobile-show">
-                    <div id="housingMobileRow">
-                        @forelse ($secondhandHousings->take(4) as $housing)
-                            @php($sold = $housing->sold)
-                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                            @endif
-                        @endforeach
-                    </div>
-
-                    <div class="ajax-load" style="display: none;">
-                        <div class="spinner-border" role="status">
+                <div class="ajax-load" style="display: none;">
+                    <div class="spinner-border" role="status">
                            
                           </div>
-                    </div>
                 </div>
+            </div>
 
-                <div class="mobile-hidden" style="margin-top: 20px">
-                    <section class="properties-right list featured portfolio blog pb-5 bg-white">
-                        <div class="container" id="housingContainer">
-                            <div class="row" id="housingRow">
-                                @forelse ($secondhandHousings->take(4) as $housing)
-                                    @php($sold = $housing->sold)
-                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                        <div class="col-md-3">
-                                            <x-housing-card :housing="$housing" :sold="$sold" />
-                                        </div>
-                                    @endif
-                                @empty
-                                    <p>Henüz İlan Yayınlanmadı</p>
-                                @endforelse
-                            </div>
-                            <div class="ajax-load" style="display: none;">
+            <div class="mobile-hidden" style="margin-top: 20px">
+                <section class="properties-right list featured portfolio blog pb-5 bg-white">
+                    <div class="container" id="housingContainer">
+                        <div class="row" id="housingRow">
+                            @forelse ($housings->take(4) as $housing)
+                                @php($sold = $housing->sold)
+                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                    <div class="col-md-3">
+                                        <x-housing-card :housing="$housing" :sold="$sold" />
+                                    </div>
+                                @endif
+                            @empty
+                                <p>Henüz İlan Yayınlanmadı</p>
+                            @endforelse
+                        </div>
+                        <div class="ajax-load" style="display: none;">
                                 <div class="spinner-border" role="status">
                                    
-                                  </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-
+                    </div>
+                </section>
             </div>
+        </div>
+    </section>
+</div>
+
+    
+</div>
         </section>
-    @endif
+@endif
+
 
 
 
@@ -374,7 +376,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <script>
+  <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Önce, çerezin zaten ayarlanıp ayarlanmadığını kontrol ediyoruz
             var lastShownDate = getCookie("modalShownDate");
@@ -417,11 +419,11 @@
             return date.toISOString().split('T')[0];
         }
     </script>
-    @endif
-    
+  @endif
+ 
 @endsection
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Include Toastify CSS and JS -->
@@ -429,12 +431,12 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         var page = 1; 
-        var isLoading = false;
-        var housingRow = $('#housingRow');
+    var isLoading = false;
+    var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
         var itemsPerPage = 4;
         var maxPages = null;
-        var housingCounts = @json($secondhandHousings);
+        var housingCounts = @json($housings);
         maxPages = Math.ceil(housingCounts.length / itemsPerPage);
         function centerAjaxLoadElements() {
         var ajaxLoadElements = document.querySelectorAll('.ajax-load');
@@ -468,7 +470,7 @@
             if (isLoading || page >= maxPages) return; 
             isLoading = true;
             $('.ajax-load').show();
-    
+
             page++; 
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
     
@@ -495,254 +497,8 @@
         });
     </script>
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetchChatHistory();
-        });
 
-        function fetchChatHistory() {
-            $.ajax({
-                url: 'chat/history',
-                method: 'GET',
-                success: function(response) {
-
-                    renderChatHistory(response);
-                },
-                error: function(error) {
-                    console.error('Sohbet geçmişi alınamadı:', error);
-                }
-            });
-
-        }
-
-        function renderChatHistory(chatHistory) {
-            const chatboxMessages = document.querySelector('.chatbox-messages');
-
-            chatHistory.forEach(entry => {
-                const messageElement = document.createElement('div');
-                const messageType = entry.receiver_id == 4 ? 'user' : 'admin';
-
-                messageElement.className = messageType == 'admin' ? 'msg left-msg' : 'msg right-msg';
-                messageElement.innerHTML = `
-            <div class="msg-bubble">
-                <div class="msg-text">
-                    ${entry.content}
-                </div>
-            </div>
-        `;
-                chatboxMessages.appendChild(messageElement);
-            });
-        }
-
-
-        var isFirstMessage = true;
-
-        function sendMessage() {
-            var userMessage = document.getElementById('userMessage').value;
-            var chatboxMessages = document.querySelector('.chatbox-messages');
-
-            // Kullanıcının mesajını ekle
-            var userMessageElement = document.createElement('div');
-            userMessageElement.className = 'msg right-msg';
-            userMessageElement.innerHTML = `
-            <div class="msg-bubble">
-                <div class="msg-text">
-                    ${userMessage}
-                </div>
-            </div>
-        `;
-            chatboxMessages.appendChild(userMessageElement);
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('messages.store') }}",
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'content': userMessage,
-                },
-                success: function(response) {
-                    // Başarıyla mesaj gönderildiğinde yapılacak işlemler
-                    console.log(response.message);
-                    chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
-                },
-                error: function(error) {
-                    toastr.error('Bir hata oluştu. Lütfen tekrar deneyin.');
-
-                }
-            });
-
-
-            // Kullanıcının girdiği mesaj alanını temizle
-            document.getElementById('userMessage').value = '';
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-
-        $(".chatbox-open").click(() => {
-            $(".chatbox-popup, .chatbox-close").fadeIn();
-        });
-
-        $(".chatbox-close").click(() => {
-            $(".chatbox-popup, .chatbox-close").fadeOut();
-        });
-
-        $(".chatbox-maximize").click(() => {
-            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeOut();
-            $(".chatbox-panel").fadeIn();
-            $(".chatbox-panel").css({
-                display: "flex"
-            });
-        });
-
-        $(".chatbox-minimize").click(() => {
-            $(".chatbox-panel").fadeOut();
-            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeIn();
-        });
-
-        $(".chatbox-panel-close").click(() => {
-            $(".chatbox-panel").fadeOut();
-            $(".chatbox-open").fadeIn();
-        });
-        $('.finish-projects-web').slick({
-            infinite: false,
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            dots: false,
-            arrows: true,
-            adaptiveHeight: true,
-            responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                }
-            ]
-        })
-
-        $('.continue-projects-web').slick({
-            infinite: false,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            dots: false,
-            arrows: true,
-            adaptiveHeight: true,
-            responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 993,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                }
-            ]
-        })
-
-        $('.secondhand-housings-web').slick({
-            infinite: false,
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            dots: false,
-            arrows: true,
-            adaptiveHeight: true,
-            rows: 2,
-            responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 993,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                },
-                {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                }
-            ]
-        });
-    </script>
-    <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "Corporation",
-          "name": "Emlak Sepette",
-          "alternateName": "Emlaksepette",
-          "url": "https://emlaksepette.com/",
-          "logo": "https://emlaksepette.com/images/emlaksepettelogo.png",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "444 3 284",
-            "contactType": "customer service",
-            "contactOption": ["HearingImpairedSupported","TollFree"],
-            "areaServed": "TR",
-            "availableLanguage": "Turkish"
-          },
-          "sameAs": [
-            "https://www.instagram.com/emlaksepette/",
-            "https://www.facebook.com/emlaksepette"
-          ]
-        }
-        </script>
-        
+   
 @endsection
 
 @section('styles')
