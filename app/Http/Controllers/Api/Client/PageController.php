@@ -703,6 +703,8 @@ class PageController extends Controller
                     });
                 }
 
+                return $request->has('selectedCity');
+
 
                 if ($request->has('selectedCity') != null) {
                     $query->where('city_id', $request->input('selectedCity'));
