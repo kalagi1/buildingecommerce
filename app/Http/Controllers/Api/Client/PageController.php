@@ -725,8 +725,15 @@ class PageController extends Controller
 
 
                 if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
+                    $key = $request->input('selectedRadio')['corporate_type'];
+                    if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
+                        $key = "Turizm Amaçlı Kiralama";
+                    } else if ($request->input('selectedRadio')['corporate_type'] == "construction_office") {
+                        $key = "İnşaat Ofisi";
+                    }
+
                     $query->join('users', 'users.id', '=', 'projects.user_id')
-                        ->where('users.corporate_type', $request->input('selectedRadio')['corporate_type'])
+                        ->where('users.corporate_type', $key)
                         ->select('projects.*', 'users.corporate_type');
                 }
 
