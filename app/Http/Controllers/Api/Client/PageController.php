@@ -715,7 +715,7 @@ class PageController extends Controller
                     $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
                 }
             
-                if ($request->has('selectedListingDate') && $request->input('selectedListingDate')) {
+                if ($request->has('selectedListingDate') && $request->input('selectedListingDate') && $request->input('selectedListingDate') != null) {
                     if ($request->input('selectedListingDate') == '24') {
                         $query->where('created_at', '>=', now()->subDay());
                     } else {
@@ -729,7 +729,7 @@ class PageController extends Controller
                         ->select('projects.*', 'users.corporate_type');
                 }
             
-                if ($request->input('selectedProjectStatus')) {
+                if (!empty($request->input('selectedProjectStatus'))) {
                     $slug = $request->input('selectedProjectStatus');
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
