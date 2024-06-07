@@ -682,19 +682,19 @@ class PageController extends Controller
         if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
-                    ->where('status', 1)
-                    ->orderBy('created_at', 'desc');
+                    ->where('projects.status', 1)  // Specify the table name for the 'status' column
+                    ->orderBy('projects.created_at', 'desc');  // Specify the table name for the 'created_at' column
             
                 if ($housingTypeParentSlug) {
-                    $query->where("step1_slug", $housingTypeParentSlug);
+                    $query->where("projects.step1_slug", $housingTypeParentSlug);  // Specify the table name for 'step1_slug'
                 }
             
                 if ($opt) {
-                    $query->where("step2_slug", $opt);
+                    $query->where("projects.step2_slug", $opt);  // Specify the table name for 'step2_slug'
                 }
             
                 if ($housingType) {
-                    $query->where('housing_type_id', $housingType);
+                    $query->where('projects.housing_type_id', $housingType);  // Specify the table name for 'housing_type_id'
                 }
             
                 if ($slug && $slug != "1" && !$request->input('selectedProjectStatus')) {
@@ -704,22 +704,22 @@ class PageController extends Controller
                 }
             
                 if (!empty($request->has('selectedCity'))) {
-                    $query->where('city_id', $request->input('selectedCity'));
+                    $query->where('projects.city_id', $request->input('selectedCity'));  // Specify the table name for 'city_id'
                 }
             
                 if (!empty($request->has('selectedCounty'))) {
-                    $query->where('county_id', $request->input('selectedCounty'));
+                    $query->where('projects.county_id', $request->input('selectedCounty'));  // Specify the table name for 'county_id'
                 }
             
                 if (!empty($request->has('selectedNeighborhood'))) {
-                    $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
+                    $query->where('projects.neighbourhood_id', $request->input('selectedNeighborhood'));  // Specify the table name for 'neighbourhood_id'
                 }
             
                 if ($request->has('selectedListingDate') && $request->input('selectedListingDate') && $request->input('selectedListingDate') != null) {
                     if ($request->input('selectedListingDate') == '24') {
-                        $query->where('created_at', '>=', now()->subDay());
+                        $query->where('projects.created_at', '>=', now()->subDay());  // Specify the table name for 'created_at'
                     } else {
-                        $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                        $query->where('projects.created_at', '>=', now()->subDays($request->input('selectedListingDate')));  // Specify the table name for 'created_at'
                     }
                 }
             
@@ -738,7 +738,7 @@ class PageController extends Controller
             
                 $projects = $query->get();
             }
-            else {
+             else {
                 $query = Housing::with('images', "city", "county");
 
                 if ($housingTypeParentSlug) {
