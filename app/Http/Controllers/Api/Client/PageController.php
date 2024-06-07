@@ -1235,7 +1235,6 @@ class PageController extends Controller
         $pageInfo = json_decode($pageInfo);
 
         return response()->json([
-            'pageInfo' => $pageInfo,
             'neighborhoodTitle' => $neighborhoodTitle,
             'neighborhoodSlug' => $neighborhoodSlug,
             'countySlug' => $countySlug,
@@ -1247,7 +1246,6 @@ class PageController extends Controller
             'countyID' => $countyID,
             'filters' => $filters,
             'slugItem' => $slugItem,
-            'items' => $items,
             'nslug' => $nslug,
             'checkTitle' => $checkTitle,
             'menu' => $menu,
