@@ -9,6 +9,19 @@ class Collection extends Model
 {
     protected $fillable = ['name', 'user_id'];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($collection) {
+            if ($collection->links()->count() == 0) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
