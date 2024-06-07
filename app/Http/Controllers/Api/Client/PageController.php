@@ -737,6 +737,7 @@ class PageController extends Controller
                 }
             
                 $projects = $query->get();
+                return  $projects;
             }
              else {
                 $query = Housing::with('images', "city", "county");
