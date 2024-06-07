@@ -375,7 +375,7 @@ class HomeController extends Controller
             $query->where('housing_type_id', $housingType);
             $housingTypeData = HousingType::where('id', $housingType)->first();
             $tempFilter = 0;
-
+        
             $formData = json_decode($housingTypeData->form_json);
             if (isset($formData)) {
                 foreach ($formData as $key => $data) {
@@ -387,47 +387,56 @@ class HomeController extends Controller
                     }
                 }
             }
-
-            $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $housingType)->get()->keyBy('filter_name')->toArray();
+        
+            // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
+            $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
+        
+            $filtersDb = Filter::where('item_type', 1)
+                ->where('housing_type_id', $housingType)
+                ->get()
+                ->keyBy('filter_name');
+        
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
                 foreach ($formData as $key => $data) {
                     if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
-                        if ($data->type == "select" || $data->type == "checkbox-group") {
-                            $inputName = str_replace('[]', '', $data->name);
-                            if ($request->input($inputName)) {
-                                $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                    $query->where([
-                                        ['name', $data->name],
-                                    ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
-                                }, '>=', 1);
-                            }
-                        } else if ($data->type == 'text') {
-                            if ($filtersDb[str_replace('[]', '', $data->name)]['text_style'] == 'min-max') {
-                                $inputName = str_replace('[]', '', $data->name);
-                                if ($request->input($inputName . '-min')) {
-                                    $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                        $query->where([
-                                            ['name', $data->name],
-                                        ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
-                                    }, '>=', 1);
-                                }
-
-                                if ($request->input($inputName . '-max')) {
-                                    $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                        $query->where([
-                                            ['name', $data->name],
-                                        ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
-                                    }, '>=', 1);
-                                }
-                            } else {
+                        if (isset($combinedFilters[$data->name])) {
+                            if ($data->type == "select" || $data->type == "checkbox-group") {
                                 $inputName = str_replace('[]', '', $data->name);
                                 if ($request->input($inputName)) {
                                     $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
                                         $query->where([
                                             ['name', $data->name],
-                                        ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
+                                        ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
                                     }, '>=', 1);
+                                }
+                            } elseif ($data->type == 'text') {
+                                if ($filtersDb[str_replace('[]', '', $data->name)]['text_style'] == 'min-max') {
+                                    $inputName = str_replace('[]', '', $data->name);
+                                    if ($request->input($inputName . '-min')) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
+        
+                                    if ($request->input($inputName . '-max')) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
+                                } else {
+                                    $inputName = str_replace('[]', '', $data->name);
+                                    if ($request->input($inputName)) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
                                 }
                             }
                         }
@@ -435,6 +444,7 @@ class HomeController extends Controller
                 }
             }
         }
+        
 
         if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
             $query->where('neighbourhood_id', $request->input('neighborhood'));
