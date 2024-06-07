@@ -188,7 +188,7 @@
     </section>
 
 
-    {{-- @if ($dashboardProjects->isNotEmpty())
+    @if ($dashboardProjects->isNotEmpty())
         <section class="popular-places home18 mb-3 mt-5">
             <div class="container">
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
@@ -211,7 +211,7 @@
         </section>
     @else
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
-    @endif --}}
+    @endif
 
 
     @if ($housings->isNotEmpty())
