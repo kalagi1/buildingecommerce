@@ -684,39 +684,38 @@ class PageController extends Controller
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
                     ->where('status', 1)
                     ->orderBy('created_at', 'desc');
-            
+
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
-            
+
                 if ($opt) {
                     $query->where("step2_slug", $opt);
                 }
-            
+
                 if ($housingType) {
                     $query->where('housing_type_id', $housingType);
                 }
-            
-                if ($slug && $slug != "1" && !empty($request->input('selectedProjectStatus'))) {
+
+                if ($slug && $slug != "1" && $request->input('selectedProjectStatus') == null) {
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
                 }
 
-                return $request->all();
-            
-                if (!empty($request->has('selectedCity'))) {
+
+                if ($request->has('selectedCity') != null) {
                     $query->where('city_id', $request->input('selectedCity'));
                 }
-            
-                if (!empty($request->has('selectedCounty'))) {
+
+                if ($request->has('selectedCounty') != null) {
                     $query->where('county_id', $request->input('selectedCounty'));
                 }
-            
-                if (!empty($request->has('selectedNeighborhood'))) {
+
+                if ($request->has('selectedNeighborhood') != null) {
                     $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
                 }
-            
+
                 if ($request->has('selectedListingDate') && $request->input('selectedListingDate') && $request->input('selectedListingDate') != null) {
                     if ($request->input('selectedListingDate') == '24') {
                         $query->where('created_at', '>=', now()->subDay());
@@ -724,23 +723,25 @@ class PageController extends Controller
                         $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                     }
                 }
-            
+
                 if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
                     $query->join('users', 'users.id', '=', 'projects.user_id')
                         ->where('users.corporate_type', $request->input('selectedRadio')['corporate_type'])
                         ->select('projects.*', 'users.corporate_type');
                 }
-            
-                if (!empty($request->input('selectedProjectStatus'))) {
+
+                if ($request->input('selectedProjectStatus') != null) {
                     $slug = $request->input('selectedProjectStatus');
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
                 }
-            
+
+                return $query::sql();
+
                 $projects = $query->get();
                 return $projects;
-            }  else {
+            } else {
                 $query = Housing::with('images', "city", "county");
 
                 if ($housingTypeParentSlug) {
