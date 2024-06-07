@@ -702,6 +702,8 @@ class PageController extends Controller
                         $query->where('housing_type_id', $slug);
                     });
                 }
+
+                return $request->all();
             
                 if (!empty($request->has('selectedCity'))) {
                     $query->where('city_id', $request->input('selectedCity'));
