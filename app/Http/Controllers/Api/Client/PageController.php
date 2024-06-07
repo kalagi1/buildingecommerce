@@ -703,18 +703,17 @@ class PageController extends Controller
                     });
                 }
 
-                return $request->has('selectedCity');
 
 
-                if ($request->has('selectedCity') != null) {
+                if ($request->input('selectedCity') != null) {
                     $query->where('city_id', $request->input('selectedCity'));
                 }
 
-                if ($request->has('selectedCounty') != null) {
+                if ($request->input('selectedCounty') != null) {
                     $query->where('county_id', $request->input('selectedCounty'));
                 }
 
-                if ($request->has('selectedNeighborhood') != null) {
+                if ($request->input('selectedNeighborhood') != null) {
                     $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
                 }
 
