@@ -703,8 +703,6 @@ class PageController extends Controller
                     });
                 }
 
-
-
                 if ($request->input('selectedCity') != null) {
                     $query->where('city_id', $request->input('selectedCity'));
                 }
@@ -724,6 +722,8 @@ class PageController extends Controller
                         $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                     }
                 }
+
+                return  $request->input('selectedRadio')['corporate_type'];
 
                 if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
                     $query->join('users', 'users.id', '=', 'projects.user_id')
