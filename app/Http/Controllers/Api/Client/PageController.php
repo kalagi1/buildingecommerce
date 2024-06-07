@@ -682,7 +682,6 @@ class PageController extends Controller
         if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
-                    ->where('status', 1)
                     ->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
