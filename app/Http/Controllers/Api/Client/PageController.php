@@ -725,7 +725,6 @@ class PageController extends Controller
 
 
                 if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
-                    return $request->input('selectedRadio')['corporate_type'];
                     $query->join('users', 'users.id', '=', 'projects.user_id')
                         ->where('users.corporate_type', $request->input('selectedRadio')['corporate_type'])
                         ->select('projects.*', 'users.corporate_type');
@@ -740,6 +739,7 @@ class PageController extends Controller
                 }
 
                 $projects = $query->get();
+                return $projects;
             } else {
                 $query = Housing::with('images', "city", "county");
 
