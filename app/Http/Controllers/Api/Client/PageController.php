@@ -697,7 +697,7 @@ class PageController extends Controller
                     $query->where('housing_type_id', $housingType);
                 }
 
-                if ($slug && $slug != "1" && $request->input('selectedProjectStatus') == null) {
+                if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
@@ -731,7 +731,9 @@ class PageController extends Controller
                 }
 
                 if ($request->input('selectedProjectStatus') != null) {
+
                     $slug = $request->input('selectedProjectStatus');
+                   return $slug;
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
