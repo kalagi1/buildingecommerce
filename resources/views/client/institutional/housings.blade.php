@@ -72,10 +72,11 @@
                                     'kiralik' => 0,
                                     'gunluk-kiralik' => 0,
                                 ];
+
+                                $corporateType = $store && $store->corporate_type;
+                                $storeType = $store && $store->type;
                             @endphp
-                            @php
-                                $filter = request('filter', 'tumu');
-                            @endphp
+
                             @foreach ($secondhandHousings as $housing)
                                 @php $sold = $housing->sold @endphp
                                 @if (
@@ -87,6 +88,7 @@
                                     @endphp
                                 @endif
                             @endforeach
+
 
                             <div class="col-md-12">
                                 <div class="tabbed-content button-tabs mb-3">
@@ -105,11 +107,11 @@
                                                 <a href="{{ addQueryParamToUrl('filter', $slug) }}">
                                                     <div class="tab-title">
                                                         <span>
-                                                            @if ($slug == 'satilik')
+                                                            @if (($slug == 'satilik' && $store && $store->corporate_type != 'Turizm Amaçlı Kiralama') || $store->type == '1')
                                                                 Satılık
-                                                            @elseif($slug == 'kiralik')
+                                                            @elseif(($slug == 'kiralik' && $store && $store->corporate_type != 'Turizm Amaçlı Kiralama') || $store->type == '1')
                                                                 Kiralık
-                                                            @elseif($slug == 'gunluk-kiralik')
+                                                            @elseif(($slug == 'gunluk-kiralik' && $store && $store->corporate_type == 'Turizm Amaçlı Kiralama') || $store->type != '1')
                                                                 Günlük Kiralık
                                                             @endif
                                                             ({{ $count }})

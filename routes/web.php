@@ -106,7 +106,6 @@ use App\Http\Controllers\Admin\ReasonManagementController;
 
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
-
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
@@ -241,6 +240,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/searched', [UserController::class, 'searched'])->name('searched');
     Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
 
+
+    //bireysel
+    Route::get('/bireysel-onayi-bekleyenler', [UserController::class, 'individualAwaitingCalled'])->name('individual.awaiting.called.index');
     //Aranmayı Beklenenler
     Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
     Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');

@@ -136,7 +136,7 @@
                                                         Günlük Kiralık
                                                     @endif
                                                 @endif
-                                                {{ $parent->title }}
+                                                {{ isset($parent->title) ? $parent->title : null }}
                                             </span>
 
                                         @endif
@@ -1413,7 +1413,7 @@
                                                     <td>
                                                         <span> Kimden :</span>
                                                         <span class="det text-wrap" style="color:#274abb;">
-                                                            {{ $housing->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
+                                                            {{ $housing->user->type != "1" ? $housing->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type : "Bireysel Kullanıcı"}}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -1481,8 +1481,8 @@
                                                                         Günlük Kiralık
                                                                     @endif
                                                                 @endif
-                                                                {{ $parent->title }}
-                                                            @endif
+                                                                {{ isset($parent->title) ? $parent->title : null }}
+                                                                @endif
                                                         </span>
                                                     </td>
                                                 </tr>

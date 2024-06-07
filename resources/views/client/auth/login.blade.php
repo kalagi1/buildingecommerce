@@ -95,7 +95,6 @@
 
 
                                         <div class="forgot-password d-flex justify-content-between">
-                                            <a href="{{ route('institutional.login') }}"><span>Kurumsal Giriş</span></a>
                                             <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
                                         </div>
 

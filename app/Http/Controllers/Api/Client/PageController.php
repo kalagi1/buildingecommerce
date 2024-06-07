@@ -346,6 +346,27 @@ class PageController extends Controller
         ]);
     }
 
+    public function deleteCollections(Request $request)
+    {
+        // Gelen istekte ID'leri bir dizi olarak al
+        $ids = $request->input('ids');
+
+        // ID'lerin boş olmadığından emin ol
+        if (empty($ids)) {
+            return response()->json([
+                'error' => 'Silmek için hiçbir koleksiyon ID\'si gönderilmedi.'
+            ], 400);
+        }
+
+        // ID'lere sahip koleksiyonları bulun ve silin
+        Collection::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'success' => 'Koleksiyonlar başarıyla silindi.'
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         $cart = $request->input("cart");
@@ -660,10 +681,9 @@ class PageController extends Controller
 
         if ($slug) {
             if ($is_project) {
-                $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
-                $firstProjects = Project::with("city", "county", 'user', "neighbourhood",'brand', 'roomInfo', 'listItemValues', 'housingType')->whereIn('id', $oncelikliProjeler)->get();
-
-                $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
+                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                    ->where("projects.status", 1)
+                    ->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -677,19 +697,55 @@ class PageController extends Controller
                     $query->where('housing_type_id', $housingType);
                 }
 
-                if ($slug && $slug != "1") {
+                if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
                     $query->whereHas('housingTypes', function ($query) use ($slug) {
                         $query->where('housing_type_id', $slug);
                     });
                 }
 
+                if ($request->input('selectedCity') != null) {
+                    $query->where('city_id', $request->input('selectedCity'));
+                }
+
+                if ($request->input('selectedCounty') != null) {
+                    $query->where('county_id', $request->input('selectedCounty'));
+                }
+
+                if ($request->input('selectedNeighborhood') != null) {
+                    $query->where('neighbourhood_id', $request->input('selectedNeighborhood'));
+                }
+
+                if ($request->has('selectedListingDate') && $request->input('selectedListingDate') && $request->input('selectedListingDate') != null) {
+                    if ($request->input('selectedListingDate') == '24') {
+                        $query->where('created_at', '>=', now()->subDay());
+                    } else {
+                        $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                    }
+                }
 
 
-                $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
-                    ->orderBy('id', 'asc')
-                    ->get()
-                    ->concat($anotherProjects);
+                if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
+                    $key = $request->input('selectedRadio')['corporate_type'];
+                    if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
+                        $key = "Turizm Amaçlı Kiralama";
+                    } else if ($request->input('selectedRadio')['corporate_type'] == "construction_office") {
+                        $key = "İnşaat Ofisi";
+                    }
+
+                    $query->join('users', 'users.id', '=', 'projects.user_id')
+                        ->where('users.corporate_type', $key)
+                        ->select('projects.*', 'users.corporate_type');
+                }
+
+                if ($request->input('selectedProjectStatus') != null) {
+
+                    $slug = $request->input('selectedProjectStatus');
+                    $query->whereHas('housingTypes', function ($query) use ($slug) {
+                        $query->where('housing_type_id', $slug);
+                    });
+                }
+
+                $projects = $query->get();
             } else {
                 $query = Housing::with('images', "city", "county");
 
@@ -1184,9 +1240,7 @@ class PageController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-
         return response()->json([
-            'pageInfo' => $pageInfo,
             'neighborhoodTitle' => $neighborhoodTitle,
             'neighborhoodSlug' => $neighborhoodSlug,
             'countySlug' => $countySlug,
@@ -1198,7 +1252,6 @@ class PageController extends Controller
             'countyID' => $countyID,
             'filters' => $filters,
             'slugItem' => $slugItem,
-            'items' => $items,
             'nslug' => $nslug,
             'checkTitle' => $checkTitle,
             'menu' => $menu,
