@@ -737,8 +737,8 @@ class PageController extends Controller
                     });
                 }
 
-                return $query::sql();
-
+                $sql = $query->toSql();
+                return $sql;
                 $projects = $query->get();
                 return $projects;
             } else {
