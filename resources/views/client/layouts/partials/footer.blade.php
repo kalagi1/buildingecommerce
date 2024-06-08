@@ -329,7 +329,7 @@
         Swal.fire({
             position: "center",
             icon: "warning",
-            title: errorMessage,
+            text: errorMessage,
             showClass: {
                 popup: `
       animate__animated
@@ -356,7 +356,7 @@
         Swal.fire({
             position: "center",
             icon: "success",
-            title: successMessage,
+            text: successMessage,
             showClass: {
                 popup: `
       animate__animated
