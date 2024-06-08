@@ -327,9 +327,10 @@
         Toastify({
             text: errorMessage,
             duration: 5000,
+            gravity: 'bottom',
+            position: 'center',
             backgroundColor: '#ff4d4d',
             stopOnFocus: true,
-            className: 'toastify-center',
         }).showToast();
     }
 
@@ -339,7 +340,8 @@
         Toastify({
             text: successMessage,
             duration: 5000,
-            className: 'toastify-center',
+            gravity: 'bottom',
+            position: 'center',
             backgroundColor: 'green',
             stopOnFocus: true,
         }).showToast();
@@ -1573,7 +1575,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1767,7 +1769,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
