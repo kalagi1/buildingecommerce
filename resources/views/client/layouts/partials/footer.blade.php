@@ -320,6 +320,8 @@
 <script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     var errorMessage = "{{ session('error') }}";
 
