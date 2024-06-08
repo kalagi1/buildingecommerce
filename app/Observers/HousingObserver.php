@@ -23,7 +23,7 @@ class HousingObserver
         // Check if the status is being set to 0
         if ($housing->status == 0) {
             // Remove entries from the collections table where housing_id matches the current housing's id
-            // DB::table('collections')->where('housing_id', $housing->id)->delete();
+            DB::table('share_links')->where('item_id', $housing->id)->where("item_type", "2")->delete();
         }
     }
 

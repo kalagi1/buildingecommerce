@@ -181,77 +181,64 @@
 <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
     <div class="d-flex justify-content-between align-items-center" style="height: 100%;padding: 10px">
         <ul class="d-flex align-items-center h-100"
-            style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-
-
-            @if (
-                $housing->listItems->column1_name &&
-                    json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
-                <li class="d-flex align-items-center itemCircleFont">
-
-                    <i class="fa fa-circle circleIcon mr-1"></i>
-                    <span>
-                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
-
-                        @if (isset($housing->listItems->column1_name))
-                            {{ $housing->listItems->column1_additional }}
-                        @endif
-                    </span>
-                </li>
-            @endif
-
-            @if (
-                $housing->listItems->column2_name &&
-                    json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] != 'Belirtilmemiş')
-                <li class="d-flex align-items-center itemCircleFont">
-
-                    <i class="fa fa-circle circleIcon mr-1"></i>
-                    <span>
-                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
-
-
-                        @if (isset($housing->listItems->column2_name))
-                            {{ $housing->listItems->column2_additional }}
-                        @endif
-                    </span>
-                </li>
-            @endif
-
-            @if (
-                $housing->listItems->column3_name &&
-                    json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] != 'Belirtilmemiş')
-                <li class="d-flex align-items-center itemCircleFont">
-
-                    <i class="fa fa-circle circleIcon mr-1"></i>
-                    <span>
-                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
-
-                        @if (isset($housing->listItems->column3_name))
-                            {{ $housing->listItems->column3_additional }}
-                        @endif
-                    </span>
-                </li>
-            @endif
-
-            @if (
-                $housing->listItems->column4_name &&
-                    json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] != 'Belirtilmemiş')
-                <li class="d-flex align-items-center itemCircleFont">
-
-                    <i class="fa fa-circle circleIcon mr-1"></i>
-                    <span>
-                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] ?? null }}
-
-                        @if (isset($housing->listItems->column4_name))
-                            {{ $housing->listItems->column4_additional }}
-                        @endif
-                    </span>
-                </li>
-            @endif
-
-
-
-        </ul>
+        style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
+        @if (isset($housing->listItems->column1_name) &&
+             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0]) &&
+             json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1"></i>
+                <span>
+                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
+                    @if (isset($housing->listItems->column1_additional))
+                        {{ $housing->listItems->column1_additional }}
+                    @endif
+                </span>
+            </li>
+        @endif
+    
+        @if (isset($housing->listItems->column2_name) &&
+             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0]) &&
+             json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] != 'Belirtilmemiş')
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1"></i>
+                <span>
+                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
+                    @if (isset($housing->listItems->column2_additional))
+                        {{ $housing->listItems->column2_additional }}
+                    @endif
+                </span>
+            </li>
+        @endif
+    
+        @if (isset($housing->listItems->column3_name) &&
+             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0]) &&
+             json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] != 'Belirtilmemiş')
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1"></i>
+                <span>
+                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
+                    @if (isset($housing->listItems->column3_additional))
+                        {{ $housing->listItems->column3_additional }}
+                    @endif
+                </span>
+            </li>
+        @endif
+    
+        @if (isset($housing->listItems->column4_name) &&
+             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0]) &&
+             json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] != 'Belirtilmemiş')
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1"></i>
+                <span>
+                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] ?? null }}
+                    @if (isset($housing->listItems->column4_additional))
+                        {{ $housing->listItems->column4_additional }}
+                    @endif
+                </span>
+            </li>
+        @endif
+    </ul>
+    
         <span style="font-size: 9px !important"> {{ $housing->city ? $housing->city->title : null }}
             {{ '/' }}
             {{ $housing->district ? $housing->district->ilce_title : null }}
