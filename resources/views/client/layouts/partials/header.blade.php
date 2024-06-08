@@ -77,6 +77,13 @@
         gtag('config', 'G-FVHQEVC6S0');
     </script>
     <style>
+          .toastify-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999; 
+    }
         .notification-card.unread {
             background-color: #eff2f6;
         }

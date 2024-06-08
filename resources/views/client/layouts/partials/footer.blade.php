@@ -327,9 +327,9 @@
         Toastify({
             text: errorMessage,
             duration: 5000,
-            position: 'center',
             backgroundColor: '#ff4d4d',
             stopOnFocus: true,
+            className: 'toastify-center',
         }).showToast();
     }
 
@@ -339,8 +339,7 @@
         Toastify({
             text: successMessage,
             duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
+            className: 'toastify-center',
             backgroundColor: 'green',
             stopOnFocus: true,
         }).showToast();
