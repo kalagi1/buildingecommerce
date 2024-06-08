@@ -327,7 +327,6 @@
         Toastify({
             text: errorMessage,
             duration: 5000,
-            gravity: 'bottom',
             position: 'center',
             backgroundColor: '#ff4d4d',
             stopOnFocus: true,
