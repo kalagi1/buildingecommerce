@@ -7,25 +7,7 @@ import { toast } from 'react-toastify';
 function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCount}) {
     console.log(datat);
     const [loading,setLoading] = useState(false);
-    const [data, setData] = React.useState({
-        name: 'Abdurrahman İslamoğlu',
-        price : '1000000',
-        advance : '400000',
-        installments : 36,
-        email : 'islamoglu.abd@gmail.com',
-        phone : '(551) 108 36 52',
-        sale_type : 2,
-        pay_decs : [
-            {
-                price : '200000',
-                date : '2024-05-26'
-            },
-            {
-                price : '200000',
-                date : '2024-09-26'
-            },
-        ]
-    });
+    const [data, setData] = React.useState({});
 
     useEffect(() => {
         if(datat?.name){

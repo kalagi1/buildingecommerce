@@ -1472,14 +1472,19 @@ const HousingList = ({ projectId }) => {
 
     const saleModalFunc = (id) => {
         id = id - getLastCount();
-        console.log(id,data[id - 1]);
         setSelectedRoomOrder(id);
         var saleData = {};
         setSaleModalOpen(true)
 
         axios.get(baseUrl+'get_sale/'+projectId+'/'+(getLastCount() + id)).then((res) => {
-            var payDecx = JSON.parse(res.data.data.pay_decs);
+            if(res.data.data && res.data.data.pay_decs){
+                var payDecx = JSON.parse(res.data.data.pay_decs);
+            }else{
+                var payDecx = [];
+            }
+            console.log(data[id - 1])
             solds.map((sold) => {
+                console.log(sold);
                 var cart = JSON.parse(sold.cart);
                 if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
                     var payDecs = [];
@@ -1497,13 +1502,14 @@ const HousingList = ({ projectId }) => {
                     saleData['email'] = sold.email;
                     saleData['phone'] = sold.phone;
                     saleData['sale_type'] = sold.is_swap == 0 ? 1 : 2,
-                    saleData['price'] = data[id - 1]['price[]'],
+                    saleData['price'] = sold.is_swap == 0 ? data[id - 1]['price[]'] : data[id - 1]['installments-price[]'],
+                    saleData['installment_price'] = data[id - 1]['installments-price[]'],
                     saleData['advance'] = data[id - 1]['advance[]'],
                     saleData['installments'] = data[id - 1]['installments[]']
                     saleData['pay_decs'] = payDecs
-                    saleData['down_payment'] = res.data.data.down_payment
-                    saleData['advance_payment'] = res.data.data.advance
-                    saleData['down_payment_price'] = res.data.data.down_payment_price
+                    saleData['down_payment'] = res.data.data?.down_payment
+                    saleData['advance_payment'] = res.data.data?.advance
+                    saleData['down_payment_price'] = res.data.data?.down_payment_price
                     saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
                 }
             })
