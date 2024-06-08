@@ -74,7 +74,7 @@
                             @endif
                         </span>
                     </li>
-                    @if ($housing->listItems['column2_name'])
+                    @if ($housing->listItems->column2_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ isset($housing->listItems->column2_name) ?? null }}
@@ -85,7 +85,7 @@
                         </li>
                     @endif
 
-                    @if ($housing->column3_name)
+                    @if ($housing->listItems->column3_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ isset($housing->listItems->column3_name) ?? null }}
@@ -96,7 +96,7 @@
                         </li>
                     @endif
 
-                    @if ($housing->column4_name)
+                    @if ($housing->listItems->column4_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ isset($housing->listItems->column4_name) ?? null }}
