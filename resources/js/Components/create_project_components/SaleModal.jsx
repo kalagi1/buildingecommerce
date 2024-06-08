@@ -187,11 +187,29 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
                             onChange={handleInputChange}
                             margin="normal"
                         />
+                        <TextField
+                            type='date'
+                            fullWidth
+                            label="Kapora Ödenme Tarihi"
+                            name="deposit_date"
+                            value={data.deposit_date}
+                            onChange={handleInputChange}
+                            margin="normal"
+                        />
                          <FormControl fullWidth margin="normal">
                             <label htmlFor="">Peşinat Ödendi</label>
                             
                             <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
                         </FormControl>
+                        <TextField
+                            fullWidth
+                            type='date'
+                            label="Peşinat Ödenme Tarihi"
+                            name="advance_date"
+                            value={data.advance_date}
+                            onChange={handleInputChange}
+                            margin="normal"
+                        />
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <FormControl fullWidth margin="normal">

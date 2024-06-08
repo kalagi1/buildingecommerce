@@ -28,12 +28,6 @@ class Housing extends Model
             ->logAll(); // Logs all attributes
     }
 
-
-    public function housing_type()
-    {
-        return $this->belongsTo(HousingType::class);
-    }
-
     public function rates()
     {
         return $this->hasMany(Rate::class);
@@ -42,11 +36,6 @@ class Housing extends Model
     public function images()
     {
         return $this->hasMany(HousingImages::class);
-    }
-
-    public function housingStatus()
-    {
-        return $this->hasMany(HousingStatusConnection::class, 'housing_id', 'id');
     }
 
     public function reservations()
@@ -69,29 +58,14 @@ class Housing extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function city()
-    {
-        return $this->hasOne(City::class, 'id', 'city_id');
-    }
-
     public function county()
     {
         return $this->hasOne(County::class, 'key_x', 'county_id');
     }
 
-    public function neighborhood()
-    {
-        return $this->hasOne(Neighborhood::class, 'mahalle_id', 'neighborhood_id');
-    }
-
     public function rejectedLog()
     {
         return $this->hasOne(Log::class, 'item_id', 'id')->where('item_type', 2)->where('is_rejected', 1)->orderByDesc('created_at');
-    }
-
-    public function listItems()
-    {
-        return $this->hasOne(ProjectListItem::class, 'housing_type_id', 'housing_type_id');
     }
 
     public function owner()
@@ -103,4 +77,35 @@ class Housing extends Model
     {
         return $this->belongsTo(User::class, 'consultant_id');
     }
+
+    public function housing_type()
+    {
+        return $this->belongsTo(HousingType::class);
+    }
+
+    public function listItems()
+    {
+        return $this->hasOne(ProjectListItem::class, 'housing_type_id', 'housing_type_id');
+    }
+
+    public function housingStatus()
+    {
+        return $this->hasMany(HousingStatusConnection::class, 'housing_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
+    }
+
+    public function neighborhood()
+    {
+        return $this->hasOne(Neighborhood::class, 'mahalle_id', 'neighborhood_id');
+    }
+
+    public function district()
+    {
+        return $this->hasOne(District::class, 'ilce_key', 'county_id');
+    }
+
 }

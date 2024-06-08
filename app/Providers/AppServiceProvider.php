@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -28,15 +27,12 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-
     public function boot()
     {
         $this->composeAdminView();
         $this->composeClientView();
         $this->composeInstitutionalView();
-        Validator::extend('iban', function ($attribute, $value, $parameters, $validator) {
-            return strpos($value, 'TR') === 0;
-        });
+        $this->extendValidator();
     }
 
     private function composeAdminView()
@@ -48,41 +44,35 @@ class AppServiceProvider extends ServiceProvider
 
     private function composeClientView()
     {
-        $cacheKey = 'client_view_data';
-
-        $cachedData = Cache::get($cacheKey);
-
-        if (!$cachedData) {
-            $cachedData = [
-                'fl' => FooterLink::all(),
-                'widgetGroups' => FooterLink::select('widget')->distinct()->get(),
-                'socialMediaIcons' => SocialMediaIcon::all(),
-                'headerLinks' => Page::where('location', 'header')->get(),
-                'footerLinks' => FooterLink::all(),
-                'adBanners' => AdBanner::where("is_visible", "1")->get(),
-            ];
-
-            Cache::put($cacheKey, $cachedData, now()->addHours(1));
-        }
-
         View::composer([
-            "client.layouts.partials.header", "client.layouts.partials.footer",
-            "client.layouts.partials.cart_icon", "client.client-panel*"
-        ], function ($view) use ($cachedData) {
+            "client.layouts.partials.header",
+            "client.layouts.partials.footer",
+            "client.layouts.partials.cart_icon",
+            "client.client-panel*"
+        ], function ($view) {
+            $cachedData = Cache::remember('client_view_data', now()->addHours(1), function () {
+                return [
+                    'fl' => FooterLink::all(),
+                    'widgetGroups' => FooterLink::select('widget')->distinct()->get(),
+                    'socialMediaIcons' => SocialMediaIcon::all(),
+                    'headerLinks' => Page::where('location', 'header')->get(),
+                    'footerLinks' => FooterLink::all(),
+                    'adBanners' => AdBanner::where("is_visible", "1")->get(),
+                ];
+            });
+    
             if (Auth::check()) {
-                $sharerLinks = ShareLink::where("user_id", Auth::user()->id)->get();
-                $view->with("sharerLinks", $sharerLinks);
-                // $cartItemCount = request()->session()->get('cart');
-                $cartItemCount = CartItem::where('user_id', Auth::user()->id)->first();
-                $view->with("cartItemCount", $cartItemCount);
+                $sharerLinks = ShareLink::where("user_id", Auth::id())->get();
+                $cartItemCount = CartItem::where('user_id', Auth::id())->count();
+                $view->with(compact('sharerLinks', 'cartItemCount'));
             }
-            $menu = Menu::getMenuItems();
-            $view->with("menu", $menu);
+    
+            $view->with("menu", Menu::getMenuItems());
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
     }
-
+    
 
     private function composeInstitutionalView()
     {
@@ -97,35 +87,7 @@ class AppServiceProvider extends ServiceProvider
             $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
 
             if ($user) {
-                $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-                    return $rolePermission->permissions->pluck('key');
-                })->unique()->toArray();
-
-
-                if ($user->type != "1" || $user->type != "3") {
-
-                    if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
-                        $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetReceivedOffers",  "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
-                    }
-
-                    if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
-                        $permissions = array_diff($permissions, [
-                            "Offers",
-                            "CreateOffer",
-                            "Offers",
-                            "DeleteOffer",
-                            "GetOfferById",
-                            "UpdateOffer",
-                            "GetOffers"
-                        ]);
-                    }
-
-                    if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                        $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
-                    }
-                }
-
-
+                $permissions = $this->getUserPermissions($user);
 
                 $jsonFilePath = base_path($jsonFileName);
 
@@ -133,15 +95,7 @@ class AppServiceProvider extends ServiceProvider
                     $menuJson = File::get($jsonFilePath);
                     $menuData = json_decode($menuJson, true);
 
-                    foreach ($menuData as &$menuItem) {
-                        $this->setMenuVisibility($menuItem, $permissions);
-
-                        if (isset($menuItem['subMenu'])) {
-                            foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                $this->setMenuVisibility($subMenuItem, $permissions);
-                            }
-                        }
-                    }
+                    $this->filterMenuPermissions($menuData, $permissions);
 
                     $view->with('menuData', $menuData);
                 }
@@ -154,17 +108,64 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
+    private function getUserPermissions($user)
+    {
+        $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+            return $rolePermission->permissions->pluck('key');
+        })->unique()->toArray();
+
+        if ($user->type != "1" || $user->type != "3") {
+            if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
+                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetReceivedOffers",  "GetProjects", "DeleteProject", "UpdateProject", 'GetProjectById']);
+            }
+
+            if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
+                $permissions = array_diff($permissions, [
+                    "Offers",
+                    "CreateOffer",
+                    "Offers",
+                    "DeleteOffer",
+                    "GetOfferById",
+                    "UpdateOffer",
+                    "GetOffers"
+                ]);
+            }
+
+            if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
+                $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+            }
+        }
+
+        return $permissions;
+    }
+
+    private function filterMenuPermissions(&$menuData, $permissions)
+    {
+        foreach ($menuData as &$menuItem) {
+            $this->setMenuVisibility($menuItem, $permissions);
+
+            if (isset($menuItem['subMenu'])) {
+                foreach ($menuItem['subMenu'] as &$subMenuItem) {
+                    $this->setMenuVisibility($subMenuItem, $permissions);
+                }
+            }
+        }
+    }
+
     private function setMenuVisibility(&$menuItem, $permissions)
     {
         if (isset($menuItem['subMenu'])) {
-            // Alt menü anahtarlarını pluck et ve kontrol et
             $subMenuKeys = collect($menuItem['subMenu'])->pluck('key');
-
-            // Alt menülerde izinlerle kesişen varsa, ana menüyü görünür yap
             $menuItem['visible'] = $subMenuKeys->intersect($permissions)->isNotEmpty();
         } else {
-            // Ana menüyü izinlerde olup olmadığını kontrol et
             $menuItem['visible'] = in_array($menuItem['key'], $permissions);
         }
+    }
+
+    private function extendValidator()
+    {
+        Validator::extend('iban', function ($attribute, $value, $parameters, $validator) {
+            return strpos($value, 'TR') === 0;
+        });
     }
 }

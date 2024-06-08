@@ -901,10 +901,10 @@ class ProjectController extends Controller
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
 
         if ($ownerId != null) {
-            $postData['open_sharing1'] = "Evet";
+            unset($postData['open_sharing1']);
         }
-
-        $isShare = auth()->user()->type == 1 ? true : false;
+        
+        $isShare =  false;
 
         $consultant = auth()->user()->parent_id ? true : false;
 
@@ -941,23 +941,17 @@ class ProjectController extends Controller
         $institutions = Institution::all();
 
         foreach ($institutions as $key => $institution) {
-            if ($institution->name != "Diğer") {
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $project->id,
-                    'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.50,
-                ]);
-            } else {
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $project->id,
-                    'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.25,
-                ]);
-            }
+            $defaultDepositRate = 0.90;
+            $institutionalRateClub = 0.50;
+            $clientRateClub = 0.25;
+            $clientDepositRate = 0.70;
+            Rate::create([
+                'institution_id' => $institution->id,
+                'housing_id' => $project->id,
+                'default_deposit_rate' => $institution->name != "Diğer" ? $defaultDepositRate : $clientDepositRate,
+                'sales_rate_club' => $institution->name != "Diğer" ? $institutionalRateClub : $clientRateClub,
+            ]);
         }
-
 
         if ($project && auth()->user()->type == 1) {
             $user = auth()->user();
@@ -968,7 +962,7 @@ class ProjectController extends Controller
 
                 // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
                 $userPhoneNumber = $user->mobile_phone;
-                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız Yetkili Emlak Ofisine Atanması için EmlakSepette Yönetimine  İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
+                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız incelenmesi için EmlakSepette Yönetimine İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
 
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
@@ -978,7 +972,7 @@ class ProjectController extends Controller
             }
         }
 
-        if ($postData['property_owner_phone'] && $postData['property_owner'] && $user) {
+        if (isset($postData['property_owner_phone']) && $postData['property_owner_phone'] && $postData['property_owner'] && $user) {
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
             $property_owner_phone = $postData['property_owner_phone'];
@@ -1385,10 +1379,23 @@ class ProjectController extends Controller
         ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'installments[]')->update([
             "value" => $request->input('installments')
         ]);
+        
+        $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->first();
 
-        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
-            "value" => $request->input('pay_decs') ? count($request->input('pay_decs')) : 0
-        ]);
+        if($payDecCount){
+            ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
+                "value" => $request->input('pay_decs') ? count($request->input('pay_decs')) : 0
+            ]);
+        }else{
+            ProjectHousing::create([
+                "project_id" => $projectId,
+                "room_order" => $request->input('room_order'),
+                "name" => 'pay-dec-count'.$request->input('room_order'),
+                "value" => count($request->input('pay_decs')),
+                "key" => 'pay-dec-count'.$request->input('room_order')
+            ]);
+        }
+        
         
         PaymentSetting::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->delete();
 
@@ -1407,6 +1414,8 @@ class ProjectController extends Controller
             "advance" => $request->input('advance_payment') ?? false,
             "down_payment_price" => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
             "pay_decs" => json_encode($payDecArr),
+            "advance_date" => $request->input('advance_date') ?? null,
+            "deposit_date" => $request->input('deposit_date') ?? null,
         ]);
 
         if($request->input('pay_decs')){
@@ -1458,6 +1467,7 @@ class ProjectController extends Controller
             Installment::create([
                 "price" => $installment['price'] ? str_replace('.','',$installment['price']) : "0",
                 "date" => $installment['date'] ?? date('Y-m-d'),
+                "payment_date" => $installment['payment_date'] ?? null,
                 "paymentType" => $installment['paymentType'] ?? "",
                 "description" => $installment['description'] ?? "",
                 "is_payment" => $installment['is_payment'] ?? false,

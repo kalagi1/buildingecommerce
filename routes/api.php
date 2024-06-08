@@ -116,7 +116,8 @@ Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])
 
 Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->name('password.email');
 
-
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientPageController::class, "allMenuProjects"])
+    ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
@@ -204,6 +205,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
     Route::put('/collection/{id}/edit', [ClientPageController::class, 'editCollection'])->name('collection.edit');
     Route::delete('/collection/{id}/delete', [ClientPageController::class, 'deleteCollection'])->name('collection.delete');
+    Route::delete('/collections', [ClientPageController::class, 'deleteCollections']);
+
     Route::post('/remove-from-collection', [ClientPageController::class, 'removeFromCollection'])->name('remove.from.collection');
 
     Route::post('/add/collection', [ClientPageController::class, 'store']);

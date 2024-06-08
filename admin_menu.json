@@ -53,6 +53,15 @@
         "activePath": "qR9zLp2xS6y/secured/kurumsal-onayi-bekleyenler"
     },
     {
+        "id": "awaitingCalled",
+        "label": "Destek Merkezi",
+        "icon": "eye",
+        "text": "Bireysel Onay Süreci",
+        "key": "individualAwaitingCalled",
+        "url": "admin.individual.awaiting.called.index",
+        "activePath": "qR9zLp2xS6y/secured/bireysel-onayi-bekleyenler"
+    },
+    {
         "id": "EmlakClubUsers",
         "label": "Emlak Kulüp",
         "icon": "users",

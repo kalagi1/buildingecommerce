@@ -92,7 +92,27 @@
                     </button>
                 </div>
             </div>
+            @if ($store->type == '1')
+            <div class="card-body">
+                <nav class="navbar" style="padding: 0 !important">
+                    <div class="navbar-items">
+                        <a class="navbar-item {{ Route::is('institutional.dashboard*') ? 'active' : '' }}"
+                            href="{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Anasayfa</a>
+                        <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
+                            href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
+                            Profili</a>
 
+                        <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
+                            href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
+                            İlanları</a>
+                        <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                            href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
+               
+                    </div>
+
+                </nav>
+            </div>
+            @endif
             @if ($store->type == '2')
             <div class="card-body">
                 <nav class="navbar" style="padding: 0 !important">

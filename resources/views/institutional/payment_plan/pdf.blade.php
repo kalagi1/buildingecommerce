@@ -59,7 +59,7 @@
 <body>
     <header>
         <div>
-            <img style="width: 100px;opacity: .65;float: left;" src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="">
+            <img style="width: 100px;opacity: .65;float: left;" src="https://test.emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="">
             <h5 style="float: left;">{{$project->project_title}} {{$roomOrder}} Nolu Konut</h5>
         </div>
     </header>
@@ -178,7 +178,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: left">Kapora</td>
-                                <td style="text-align: left"></td>
+                                <td style="text-align: left">{{ $paymentSetting->deposit_date ? date('d.m.Y',strtotime($paymentSetting->deposit_date)) : '' }}</td>
                                 <td style="text-align: left">{{number_format($paymentSetting->down_payment_price, 0, '', '.')}}₺</td>
                                 
                                 @if($paymentSetting->down_payment)
@@ -189,7 +189,7 @@
                             </tr>
                             <tr>
                                 <td style="text-align: left">Peşinat</td>
-                                <td style="text-align: left"></td>
+                                <td style="text-align: left">{{ $paymentSetting->advance_date ? date('d.m.Y',strtotime($paymentSetting->advance_date)) : '' }}</td>
                                 <td style="text-align: left">{{number_format($advance->value - $paymentSetting->down_payment_price, 0, '', '.')}}₺</td>
                                 
                                 @if($paymentSetting->advance)
@@ -226,6 +226,7 @@
                         <tr>
                             <th style="text-align: left">#</th>
                             <th style="text-align: left">Ödeme Tarihi</th>
+                            <th style="text-align: left">Ödenen Tarih</th>
                             <th style="text-align: left">Ödenen Tutar</th>
                             <th style="text-align: left">Ödeme Tipi</th>
                             <th style="text-align: left">Ödeme Açıklaması</th>
@@ -237,6 +238,7 @@
                         <tr>
                             <td>{{$key + 1}}</td>
                             <td style="text-align: left">{{date('d.m.Y',strtotime($installment->date))}}</td>
+                            <td style="text-align: left">{{$installment->payment_date ? date('d.m.Y',strtotime($installment->payment_date)) : 'Belirtilmedi'}}</td>
                             <td style="text-align: left">{{number_format($installment->price, 0, '', '.')}}₺</td>
                             <td style="text-align: left">{{$installment->paymentType}}</td>
                             <td style="text-align: left">{{$installment->description}}</td>

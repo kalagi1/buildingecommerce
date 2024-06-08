@@ -1,13 +1,13 @@
 <table class="table table-sm border-top border-200 fs--1 mb-0">
     <thead>
         <tr>
-            <th>ID</th>
+            <th style="width: 100px">ID</th>
             <th>Başlık</th>
-            @if (Auth::user()->type == 1)
-                <th>Atanan Emlak Ofisi</th>
-            @endif
+            
             <th>Emlak Tipi</th>
+            @if (Auth::user()->type != 1)
             <th>Danışman</th>
+            @endif
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>

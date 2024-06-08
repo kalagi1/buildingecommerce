@@ -23,6 +23,7 @@ use App\Models\UserPlan;
 use App\Models\Chat;
 use App\Models\RoleChanges;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session; 
 
 class LoginController extends Controller
 {
@@ -137,7 +138,14 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        Session::flush();
+
         $credentials = $request->only('email', 'password');
+        if(!Auth::attempt($credentials)){
+            session()->flash('warning', 'Giriş Başarısız. Lütfen bilgilerinizi kontrol ediniz.');
+            return redirect()->route('client.login');
+        }
+
         $user = User::where('email', $request->email)->first();
         if ($user) {
 
@@ -283,11 +291,9 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-
         session()->forget('cart');
-
         $cookie = Cookie::forget(Auth::getRecallerName());
-
+        Session::flush();
         return redirect('/giris-yap')->withCookie($cookie);
     }
 

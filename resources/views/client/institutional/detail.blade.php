@@ -18,12 +18,11 @@
     @endphp
 
     <x-store-card :store="$institutional" />
-
-
     <section class="portfolio bg-white homepage-5 ">
         <div class="container">
             <div class="seller-profile">
-                <div class="seller-info-container">
+                <div class="seller-info-container"
+                    @if ($institutional && $institutional->type == '1') style="grid-template-columns: repeat(2, 2fr) !important;" @endif>
 
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
@@ -45,34 +44,41 @@
                             </span>
                         </div>
                     </div>
-                    <div class="seller-info-container__wrapper">
-                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> @if (isset($institutional->latitude)) <button
-                                    onclick="getDirections()" class="btn btn-primary w-100 text-center"
-                                    style="    height: 30px !important;
+                    @if ($institutional && $institutional->type != '1')
+                        <div class="seller-info-container__wrapper">
+                            <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                    class="seller-info-container__wrapper__text-container__title">
+                                    @if (isset($institutional->latitude))
+                                        <button onclick="getDirections()" class="btn btn-primary w-100 text-center"
+                                            style="    height: 30px !important;
                                     width: 50% !important;
                                     margin: 3px auto;">
-                                    Yol Tarifi Al
-                                </button>
-                                
-                                @else Konum @endif</span><span class="seller-info-container__wrapper__text-container__value">
-                                {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
-                                {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
-                                {{ $institutional->neighborhood->mahalle_title }} </span>
+                                            Yol Tarifi Al
+                                        </button>
+                                    @else
+                                        Konum
+                                    @endif
+                                </span><span class="seller-info-container__wrapper__text-container__value">
+                                    {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
+                                    {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
+                                    {{ $institutional->neighborhood->mahalle_title }} </span>
+                            </div>
+
+
                         </div>
+                    @endif
+                    @if ($institutional && $institutional->type != '1')
+                        <div class="seller-info-container__wrapper">
+                            <a href="{{ $institutional->website }}" class="w-100 text-center" target="_blank">
+                                <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                        class="seller-info-container__wrapper__text-container__title"> <i
+                                            class="fa fa-globe"></i></span><span
+                                        class="seller-info-container__wrapper__text-container__value">
+                                        Websiteye Git</span></div>
+                            </a>
 
-
-                    </div>
-                    <div class="seller-info-container__wrapper">
-                        <a href="{{ $institutional->website }}" class="w-100 text-center" target="_blank">
-                            <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                    class="seller-info-container__wrapper__text-container__title"> <i
-                                        class="fa fa-globe"></i></span><span
-                                    class="seller-info-container__wrapper__text-container__value">
-                                    Websiteye Git</span></div>
-                        </a>
-
-                    </div>
+                        </div>
+                    @endif
                 </div>
 
                 @if (isset($institutional->latitude))

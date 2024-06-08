@@ -10,7 +10,7 @@
                         <div class="homes-tag button alt featured" style="width:90px !important">
                             No: {{ $housing->id + 2000000 }}
                         </div>
-                        
+
                         <div class="type-tag button alt featured">
                             @if ($housing->step2_slug == 'kiralik')
                                 Kiralık
@@ -20,8 +20,8 @@
                                 Satılık
                             @endif
                         </div>
-                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
-                        <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
+                        @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
+                            <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
                         @endif
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="button-effect-div">
-                    @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null || $sold == '2')
+                    @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                         <span
                             class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
                             data-type='housing' data-id="{{ $housing->id }}">
@@ -46,18 +46,19 @@
                 <span style="text-decoration: none">
 
                     <h4 style="height:30px">
-                        {{ mb_substr(mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8'), 0, 45, 'UTF-8') }}
-                        {{ mb_strlen($housing->housing_title, 'UTF-8') > 25 ? '...' : '' }}
+                        {{ mb_substr(mb_convert_case($housing->title, MB_CASE_TITLE, 'UTF-8'), 0, 45, 'UTF-8') }}
+                        {{ mb_strlen($housing->title, 'UTF-8') > 25 ? '...' : '' }}
                     </h4>
 
 
                     <p class="homes-address mb-3">
-
+                        
+                  
 
                         <i class="fa fa-map-marker"></i>
-                        <span> {{ $housing->city_title }}
+                        <span> {{ $housing->city->title }}
                             {{ '/' }}
-                            {{ $housing->county_title }}
+                            {{ $housing->county->title }}
                         </span>
 
                     </p>
@@ -67,18 +68,18 @@
                     <li class="sude-the-icons" style="width:auto !important">
                         <i class="fa fa-circle circleIcon mr-1"></i>
                         <span>
-                            {{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
-                            @if ($housing->column1_additional)
-                                {{ $housing->column1_additional }}
+                            {{ isset($housing->listItems->column1_name) ?? null }}
+                            @if (isset($housing->listItems->column1_name) )
+                                {{ $housing->listItems->column1_additional }}
                             @endif
                         </span>
                     </li>
-                    @if ($housing->column2_name)
+                    @if ($housing->listItems['column2_name'])
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
-                                @if ($housing->column2_additional)
-                                    {{ $housing->column2_additional }}
+                            <span>{{ isset($housing->listItems->column2_name)  ?? null }}
+                                @if (isset($housing->listItems->column2_name) )
+                                    {{$housing->listItems->column2_additional   }}
                                 @endif
                             </span>
                         </li>
@@ -87,9 +88,9 @@
                     @if ($housing->column3_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
-                                @if ($housing->column3_additional)
-                                    {{ $housing->column3_additional }}
+                            <span>{{ isset($housing->listItems->column3_name)  ?? null }}
+                                @if (isset($housing->listItems->column3_name))
+                                    {{ $housing->listItems->column3_additional  }}
                                 @endif
                             </span>
                         </li>
@@ -98,9 +99,9 @@
                     @if ($housing->column4_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
-                                @if ($housing->column4_additional)
-                                    {{ $housing->column4_additional }}
+                            <span>{{ isset($housing->listItems->column4_name) ?? null }}
+                                @if (isset($housing->listItems->column4_name))
+                                    {{ $housing->listItems->column4_additional   }}
                                 @endif
                             </span>
                         </li>
