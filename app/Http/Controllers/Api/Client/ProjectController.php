@@ -55,12 +55,20 @@ class ProjectController extends Controller
     }
     public function getFeaturedProjects()
     {
-        $featuredProjects = Project::select('projects.*')
-            ->with("city", "county", 'user', "neighbourhood")
-            ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
-            ->orderBy("created_at", "desc")
-            ->where('projects.status', 1)
-            ->get();
+
+        $featuredProjects = Project::with([
+            "city", 
+            "county", 
+            'user', 
+            'brand', 
+            'roomInfo', 
+            'listItemValues', 
+            'housingType'
+        ])
+        ->where('status', 1)
+        ->orderBy("created_at", "desc")
+        ->paginate(12);
+
         return response()->json($featuredProjects);
     }
 
