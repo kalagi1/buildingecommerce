@@ -184,8 +184,7 @@ class HomeController extends Controller
         })
         ->orderBy('created_at', 'desc')
         ->paginate(5);
-
-    //    return($housings);
+        return $housings;
     
         return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
         
