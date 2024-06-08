@@ -61,6 +61,7 @@ class ProjectController extends Controller
             "county", 
             'user', 
             'brand', 
+            'neighbourhood',
             'roomInfo', 
             'listItemValues', 
             'housingType'
