@@ -324,14 +324,14 @@
     var errorMessage = "{{ session('error') }}";
 
     if (errorMessage) {
-        Toastify({
-            text: errorMessage,
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
-            backgroundColor: '#ff4d4d',
-            stopOnFocus: true,
-        }).showToast();
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: errorMessage,
+            showConfirmButton: false,
+            timer: 1500
+        });
+
     }
 
     var successMessage = "{{ session('success') }}";
@@ -1481,7 +1481,7 @@
         // }
 
 
-       
+
 
 
         function toggleProjectFavorite(event) {
