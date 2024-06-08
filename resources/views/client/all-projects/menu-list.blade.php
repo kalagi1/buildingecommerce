@@ -318,21 +318,7 @@
                                 </div>
 
 
-                                @if ($projects)
-                                    {{-- <div class="trip-search mt-md-2">
-                                        <div class="widget-boxed-header mobile-title widget-boxed-header">
-                                            <span>Proje Durumu</span>
-                                        </div>
-                                        <div class="mt-md-2">
-                                            <select id="project_type" class="form-control bg-white filter-now">
-                                                <option value="#" selected disabled>Proje Durumu</option>
-                                                <option value="2">Tamamlanan Projeler</option>
-                                                <option value="3">Devam Eden Projeler</option>
-                                                <option value="5">Topraktan Projeler</option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
-                                @else
+                                @if (!$projects)
                                     <div id="room_count_field" class="room_count_field">
                                         <div class="trip-search mt-md-2">
                                             <div class="head widget-boxed-header mobile-title widget-boxed-header"
