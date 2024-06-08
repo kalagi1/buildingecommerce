@@ -184,8 +184,6 @@ class HomeController extends Controller
         })
         ->orderBy('created_at', 'desc')
         ->paginate(5);
-
-    //    return($housings);
     
         return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
         
@@ -677,6 +675,11 @@ class HomeController extends Controller
 
         if ($request->input("slug") == "al-sat-acil") {
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
+        }
+
+        
+        if ($request->input("slug") == "paylasimli-ilanlar") {
+            $obj = $obj->whereJsonContains('housing_type_data->open_sharing1', "Evet");
         }
 
         if ($housingTypeParentSlug) {
