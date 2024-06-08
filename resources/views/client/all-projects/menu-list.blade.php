@@ -319,7 +319,7 @@
 
 
                                 @if ($projects)
-                                    <div class="trip-search mt-md-2">
+                                    {{-- <div class="trip-search mt-md-2">
                                         <div class="widget-boxed-header mobile-title widget-boxed-header">
                                             <span>Proje Durumu</span>
                                         </div>
@@ -331,7 +331,7 @@
                                                 <option value="5">Topraktan Projeler</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @else
                                     <div id="room_count_field" class="room_count_field">
                                         <div class="trip-search mt-md-2">
