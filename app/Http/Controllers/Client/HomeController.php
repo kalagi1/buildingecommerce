@@ -677,6 +677,11 @@ class HomeController extends Controller
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
 
+        
+        if ($request->input("slug") == "paylasimli-ilanlar") {
+            $obj = $obj->whereJsonContains('housing_type_data->open_sharing1', "Evet");
+        }
+
         if ($housingTypeParentSlug) {
             $obj->where("step1_slug", $housingTypeParentSlug);
         }
