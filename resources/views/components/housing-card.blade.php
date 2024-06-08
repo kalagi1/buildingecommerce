@@ -52,56 +52,65 @@
 
 
                     <p class="homes-address mb-3">
-                        
-                  
+
+
 
                         <i class="fa fa-map-marker"></i>
-                        <span> {{ $housing->city->title }}
+                        <span> {{ $housing->city ? $housing->city->title : null }}
                             {{ '/' }}
-                            {{ $housing->county->title }}
+                            {{ $housing->district ? $housing->district->ilce_title : null }}
                         </span>
 
                     </p>
                 </span>
                 <!-- homes List -->
                 <ul class="homes-list clearfix pb-3" style="display: flex;justify-content:space-between">
+                    @if ($housing->listItems->column1_name && json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != "Belirtilmemiş")
+
                     <li class="sude-the-icons" style="width:auto !important">
                         <i class="fa fa-circle circleIcon mr-1"></i>
                         <span>
-                            {{ isset($housing->listItems->column1_name) ?? null }}
-                            @if (isset($housing->listItems->column1_name) )
+                            {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
+                            @if (isset($housing->listItems->column1_name))
                                 {{ $housing->listItems->column1_additional }}
                             @endif
                         </span>
                     </li>
-                    @if ($housing->listItems['column2_name'])
+                    @endif
+                    @if ($housing->listItems->column2_name && json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] != "Belirtilmemiş")
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ isset($housing->listItems->column2_name)  ?? null }}
-                                @if (isset($housing->listItems->column2_name) )
-                                    {{$housing->listItems->column2_additional   }}
+                            <span>
+                                {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
+
+                                @if (isset($housing->listItems->column2_name))
+                                    {{ $housing->listItems->column2_additional }}
                                 @endif
                             </span>
                         </li>
                     @endif
 
-                    @if ($housing->column3_name)
+                    @if ($housing->listItems->column3_name && json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] != "Belirtilmemiş")
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ isset($housing->listItems->column3_name)  ?? null }}
+                            <span>
+                                {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
+
                                 @if (isset($housing->listItems->column3_name))
-                                    {{ $housing->listItems->column3_additional  }}
+                                    {{ $housing->listItems->column3_additional }}
                                 @endif
                             </span>
                         </li>
                     @endif
 
-                    @if ($housing->column4_name)
+                    @if ($housing->listItems->column4_name && json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] != "Belirtilmemiş")
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ isset($housing->listItems->column4_name) ?? null }}
+                            <span>
+                                {{ json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] ?? null }}
+
                                 @if (isset($housing->listItems->column4_name))
-                                    {{ $housing->listItems->column4_additional   }}
+                                    {{ $housing->listItems->column4_additional }}
                                 @endif
                             </span>
                         </li>

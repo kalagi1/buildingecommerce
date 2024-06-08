@@ -474,6 +474,8 @@ class ProjectController extends Controller
 
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
+        } else   if ($slug == "paylasimli-ilanlar") {
+            $deneme = "paylasimli-ilanlar";
         }
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
@@ -511,7 +513,7 @@ class ProjectController extends Controller
         $neighborhoodID = null;
 
 
-        if ($deneme) {
+        if ($deneme && $deneme == "al-sat-acil") {
             $slug = "al-sat-acil";
             $slugItem = "al-sat-acil";
 
@@ -550,6 +552,52 @@ class ProjectController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
+                ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
+                ->where('project_list_items.item_type', 2)
+                ->orderByDesc('housings.created_at')
+                ->get();
+        }
+
+        if ($deneme && $deneme == "paylasimli-ilanlar") {
+            $slug = "paylasimli-ilanlar";
+            $slugItem = "paylasimli-ilanlar";
+
+            $slugName = "Paylaşımlı İlanlar";
+            $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
+
+            $secondhandHousings =  Housing::with('images')
+                ->select(
+                    'housings.id',
+                    'housings.slug',
+                    'housings.title AS housing_title',
+                    'housings.created_at',
+                    'housings.step1_slug',
+                    'housings.step2_slug',
+                    'housing_types.title as housing_type_title',
+                    'housings.housing_type_data',
+                    'project_list_items.column1_name as column1_name',
+                    'project_list_items.column2_name as column2_name',
+                    'project_list_items.column3_name as column3_name',
+                    'project_list_items.column4_name as column4_name',
+                    'project_list_items.column1_additional as column1_additional',
+                    'project_list_items.column2_additional as column2_additional',
+                    'project_list_items.column3_additional as column3_additional',
+                    'project_list_items.column4_additional as column4_additional',
+                    'housings.address',
+                    DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
+                    'cities.title AS city_title',
+                    'districts.ilce_title AS county_title',
+                    'neighborhoods.mahalle_title AS neighborhood_title',
+                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
+                )
+                ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+                ->where('housings.status', 1)
+                ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") = "Evet"')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->get();
@@ -674,19 +722,19 @@ class ProjectController extends Controller
                     $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)
                         ->with("parents.connections.housingType")
                         ->first();
-                
+
                     $parentConnections = $connections->parents->pluck('connections')->flatten();
-                
+
                     // Benzersiz housing_type_id değerlerini bul
                     $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
                     $filtersDb = Filter::where('item_type', 2)
                         ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                         ->get()
                         ->keyBy('filter_name');
-                
+
                     // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
                     $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
-                
+
                     foreach ($filtersDb as $data) {
                         if (isset($combinedFilters[$data['filter_name']])) {
                             if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
@@ -708,7 +756,7 @@ class ProjectController extends Controller
                                             ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
                                         }, '>=', 1);
                                     }
-                
+
                                     if ($request->input($inputName . '-max')) {
                                         $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
                                             $query->where([
@@ -730,7 +778,7 @@ class ProjectController extends Controller
                         }
                     }
                 }
-                
+
                 $anotherProjects = $query->get();
                 $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
                     ->orderBy('id', 'asc')
@@ -850,7 +898,7 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('id', $housingType)->first();
         if ($projects) {
-            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil"||  $slug == "paylasimli-ilanlar") {
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
                 $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
@@ -858,7 +906,7 @@ class ProjectController extends Controller
                 if ($housingTypeSlugName == "Müstakil Tatil") {
                     if ($newHousingType) {
                         $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
-                    } elseif ($slug == "al-sat-acil" && !$newHousingType) {
+                    } elseif ($slug == "al-sat-acil" && !$newHousingType || $slug == "paylasimli-ilanlar" && !$newHousingType) {
                         $filtersDb = Filter::where('item_type', 1)
                             ->get()
                             ->where("is_sale", 1)
@@ -867,7 +915,7 @@ class ProjectController extends Controller
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
-                    } else {
+                    }  else {
                         $filtersDb = Filter::where('item_type', 1)
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
@@ -880,7 +928,7 @@ class ProjectController extends Controller
                     }
                 } else {
 
-                    if ($slug == "al-sat-acil" && !$housingTypeSlugName) {
+                    if ($slug == "al-sat-acil" && !$housingTypeSlugName || $slug == "paylasimli-ilanlar" && !$housingTypeSlugName ) {
                         $filtersDb = Filter::where('item_type', 1)
                             ->get()
                             ->where("is_sale", 1)
@@ -1028,7 +1076,7 @@ class ProjectController extends Controller
 
 
 
-            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil" ||  $slug == "paylasimli-ilanlar") {
 
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
@@ -1037,7 +1085,7 @@ class ProjectController extends Controller
                 if ($housingTypeSlugName == "Müstakil Tatil") {
                     if ($newHousingType) {
                         $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
-                    } elseif ($slug == "al-sat-acil" && !$newHousingType) {
+                    } elseif ($slug == "al-sat-acil" && !$newHousingType && $slug == "paylasimli-ilanlar" && !$newHousingType) {
                         $filtersDb = Filter::where('item_type', 2)
                             ->get()
                             ->where("is_sale", 1)
@@ -1059,7 +1107,7 @@ class ProjectController extends Controller
                     }
                 } else {
 
-                    if ($slug == "al-sat-acil" && !$housingTypeSlugName) {
+                    if ($slug == "al-sat-acil" && !$housingTypeSlugName ||  $slug == "al-sat-acil" && !$housingTypeSlugName) {
                         $filtersDb = Filter::where('item_type', 2)
                             ->get()
                             ->where("is_sale", 1)

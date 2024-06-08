@@ -76,7 +76,9 @@
                                 $corporateType = $store && $store->corporate_type;
                                 $storeType = $store && $store->type;
                             @endphp
-
+      @php
+      $filter = request('filter', 'tumu');
+  @endphp
                             @foreach ($secondhandHousings as $housing)
                                 @php $sold = $housing->sold @endphp
                                 @if (
