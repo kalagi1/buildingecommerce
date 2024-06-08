@@ -52,13 +52,13 @@
 
 
                     <p class="homes-address mb-3">
-                        
-                  
+
+
 
                         <i class="fa fa-map-marker"></i>
-                        <span> {{ $housing->city->title }}
+                        <span> {{ $housing->city ? $housing->city->title : null }}
                             {{ '/' }}
-                            {{ $housing->county->title }}
+                            {{ $housing->district ? $housing->district->ilce_title : null }}
                         </span>
 
                     </p>
@@ -69,7 +69,7 @@
                         <i class="fa fa-circle circleIcon mr-1"></i>
                         <span>
                             {{ isset($housing->listItems->column1_name) ?? null }}
-                            @if (isset($housing->listItems->column1_name) )
+                            @if (isset($housing->listItems->column1_name))
                                 {{ $housing->listItems->column1_additional }}
                             @endif
                         </span>
@@ -77,9 +77,9 @@
                     @if ($housing->listItems['column2_name'])
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ isset($housing->listItems->column2_name)  ?? null }}
-                                @if (isset($housing->listItems->column2_name) )
-                                    {{$housing->listItems->column2_additional   }}
+                            <span>{{ isset($housing->listItems->column2_name) ?? null }}
+                                @if (isset($housing->listItems->column2_name))
+                                    {{ $housing->listItems->column2_additional }}
                                 @endif
                             </span>
                         </li>
@@ -88,9 +88,9 @@
                     @if ($housing->column3_name)
                         <li class="sude-the-icons" style="width:auto !important">
                             <i class="fa fa-circle circleIcon mr-1"></i>
-                            <span>{{ isset($housing->listItems->column3_name)  ?? null }}
+                            <span>{{ isset($housing->listItems->column3_name) ?? null }}
                                 @if (isset($housing->listItems->column3_name))
-                                    {{ $housing->listItems->column3_additional  }}
+                                    {{ $housing->listItems->column3_additional }}
                                 @endif
                             </span>
                         </li>
@@ -101,7 +101,7 @@
                             <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ isset($housing->listItems->column4_name) ?? null }}
                                 @if (isset($housing->listItems->column4_name))
-                                    {{ $housing->listItems->column4_additional   }}
+                                    {{ $housing->listItems->column4_additional }}
                                 @endif
                             </span>
                         </li>
