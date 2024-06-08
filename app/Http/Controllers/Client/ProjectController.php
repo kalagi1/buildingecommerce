@@ -597,7 +597,7 @@ class ProjectController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
-                ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") = "Evet"')
+                ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->get();
