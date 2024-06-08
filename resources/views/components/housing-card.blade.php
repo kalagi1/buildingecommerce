@@ -70,6 +70,7 @@
                         <span>
                             {{ isset($housing->listItems->column1_name) ?? null }}
                             @if (isset($housing->listItems->column1_name))
+                            {{ $housing->listItems->column1_name }}
                                 {{ $housing->listItems->column1_additional }}
                             @endif
                         </span>
