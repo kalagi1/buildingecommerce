@@ -343,7 +343,7 @@
       animate__fadeOutDown
       animate__faster
     `
-            }
+            },
             showConfirmButton: false,
             timer: 3000
         });
