@@ -345,7 +345,7 @@
     `
             },
             showConfirmButton: false,
-            timer: 3000
+            timer: 2000
         });
 
     }
@@ -353,14 +353,27 @@
     var successMessage = "{{ session('success') }}";
 
     if (successMessage) {
-        Toastify({
-            text: successMessage,
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
-            backgroundColor: 'green',
-            stopOnFocus: true,
-        }).showToast();
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: successMessage,
+            showClass: {
+                popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+            },
+            hideClass: {
+                popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+            },
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
 </script>
 
