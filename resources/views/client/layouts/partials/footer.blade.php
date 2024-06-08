@@ -327,11 +327,25 @@
 
     if (errorMessage) {
         Swal.fire({
-            position: "top-end",
-            icon: "error",
+            position: "center",
+            icon: "warning",
             title: errorMessage,
+            showClass: {
+                popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+            },
+            hideClass: {
+                popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+            }
             showConfirmButton: false,
-            timer: 1500
+            timer: 3000
         });
 
     }
