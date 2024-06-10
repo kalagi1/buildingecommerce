@@ -47612,7 +47612,7 @@ hr {
     padding: 4px 8px;
   }
 
-  .avatar{
+  .avatarx{
     background: #fff;
     border-radius: 100%;
     width: 150px;
@@ -47628,4 +47628,14 @@ hr {
 
   .border-calls{
     height: 100%;
+  }
+
+  div#toolbar span span {
+    background: whitesmoke;
+    margin: 0 3px;
+  }
+
+  div#toolbar span button {
+    background: whitesmoke;
+    margin: 0 3px;
   }

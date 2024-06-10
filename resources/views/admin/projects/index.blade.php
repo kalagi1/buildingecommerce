@@ -33,7 +33,23 @@
                         İlanlar</button>
                 </li>
             </ul>
-
+            <div class="filter px-3">
+                <form action="">
+                    <div class="row" style="align-items: flex-end;">
+                        <div class="col-md-2">
+                            <label for="">İlan Numarası</label>
+                            <input type="text" value="{{request('no')}}" name="no" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">İlan Başlığı</label>
+                            <input type="text" value="{{request('title')}}" name="title" class="form-control">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade @if (session()->has('success')) show  active @endif  " id="activeProjects"
                     role="tabpanel" aria-labelledby="activeProjects-tab">
