@@ -360,7 +360,7 @@
     <!-- End Google Tag Manager -->
 
     <!-- Meta Pixel Code -->
-    @if (App::environment('production'))
+   
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -377,7 +377,6 @@
         src="https://www.facebook.com/tr?id={{ env("FACEBOOK_PIXEL_ID") }}&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Meta Pixel Code -->
-@endif
 
 </head>
 
