@@ -834,6 +834,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('set_selected_data/{item_id}', [InstitutionalProjectController::class, 'setSelectedData'])->name('set.selected.data');
 
     Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
+    Route::post('/collections/delete', [SharerController::class, 'deleteCollectioJson'])->name('collection.delete.json');
+
     Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
 
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);

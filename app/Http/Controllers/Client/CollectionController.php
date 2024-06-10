@@ -20,33 +20,50 @@ class CollectionController extends Controller {
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
-    
+        $collection = Collection::where("id",$request->input('collection'))->first();
+        
         try {
+           
+    
             if ($itemType == 'project') {
+                // Proje tipindeki öğeyi koleksiyondan kaldır
                 $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
     
                 if ($link) {
                     ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->delete();
+                    
+                    if (count($collection->links) == 0) {
+                        return response()->json(['complete' => true, 'collection' => $collection]);
+                    }   
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
                 }
             } elseif ($itemType == 'housing') {
+                // Konut tipindeki öğeyi koleksiyondan kaldır
                 $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
     
                 if ($link) {
                     ShareLink::where('item_id', $itemId)->where('item_type', 2)->delete();
+                    if (count($collection->links) == 0) {
+                        return response()->json(['complete' => true, 'collection' => $collection]);
+                    }
+                    
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
                 }
+
+              
             } else {
                 return response()->json(['success' => false, 'message' => 'Invalid item type.']);
             }
+      
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Error removing item from the collection.']);
         }
     }
+    
     
 
     public function store( Request $request ) {
