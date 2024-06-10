@@ -360,6 +360,7 @@
     <!-- End Google Tag Manager -->
 
     <!-- Meta Pixel Code -->
+    @if (App::environment('production'))
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -369,15 +370,14 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '360888966811664');
+        fbq('init', '{{ env("FACEBOOK_PIXEL_ID") }}');
         fbq('track', 'PageView');
-        </script>
-        <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=360888966811664&ev=PageView&noscript=1"
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id={{ env("FACEBOOK_PIXEL_ID") }}&ev=PageView&noscript=1"
         /></noscript>
-        <!-- End Meta Pixel Code -->
-
-
+    <!-- End Meta Pixel Code -->
+@endif
 
 </head>
 
