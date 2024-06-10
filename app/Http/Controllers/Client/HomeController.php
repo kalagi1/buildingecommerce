@@ -468,15 +468,14 @@ class HomeController extends Controller
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                     ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                     ->orWhere('description', 'LIKE', "%{$term}%")
-                    ->orWhere('id', '=', (int)$term - 1000000);
-            })
-                ->where("status", 1)
-                ->orWhereHas('city', function ($queryf) use ($term) {
-                    $queryf->where('title', 'LIKE', "%{$term}%");
-                })
-                ->orWhereHas('county', function ($queryf) use ($term) {
-                    $queryf->where('ilce_title', 'LIKE', "%{$term}%");
-                });
+                    ->orWhere('id', '=', (int)$term - 1000000)
+                    ->orWhereHas('city', function ($queryf) use ($term) {
+                        $queryf->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($queryf) use ($term) {
+                        $queryf->where('ilce_title', 'LIKE', "%{$term}%");
+                    });
+            })->where("projects.status", 1);
         }
 
         $itemPerPage = 12;

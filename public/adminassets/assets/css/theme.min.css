@@ -47566,3 +47566,66 @@ hr {
     display: block;
     margin-left: 5px;
   }
+
+
+  .meet-card {
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .meet-card .meet-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .meet-card .left-top span,
+  .meet-card .right-top span {
+    background-color: red;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  
+  .meet-card .ratings-meet i {
+    color: red;
+  }
+  
+  .meet-card .meet-content {
+    font-size: 14px;
+  }
+  
+  .meet-card .positive-tag {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 8px;
+    padding: 4px 8px;
+  }
+
+  .avatar{
+    background: #fff;
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+  }
+
+  .border-calls{
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-bottom-left-radius: 10px;
+  }
+
+  .border-calls{
+    height: 100%;
+  }
