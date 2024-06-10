@@ -579,26 +579,12 @@
                     },
                     success: function(response) {
                         if (response.complete) {
-                            var collection = response.collection;
-                            console.log('Koleksiyon:', collection);
-        
-                            // Yeni AJAX isteği ile collection ID'yi /collections/{id}/delete rotasına gönder
-                            $.ajax({
-                                method: 'POST',
-                                url: {{ route('institutional.collection.delete.json')}},
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    collection:collection
-                                },
-                                success: function(deleteResponse) {
-                                    console.log('Koleksiyon silindi:', deleteResponse);
-                                    // Modalı göster veya başarılı işlem için başka bir işlem yap
-                                },
-                                error: function(deleteError) {
-                                    console.error('Silme hatası:', deleteError);
-                                }
-                            });
-        
+                           
+                            var redirectUrl = '/hesabim/koleksiyonlarim';
+
+                            // Yönlendirme yap
+                            window.location.href = redirectUrl;             
+
                         } else {
                             location.reload();
                         }
