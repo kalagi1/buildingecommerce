@@ -60,29 +60,19 @@ class HousingController extends Controller
     public function index()
     {
         // Define a common base query for reuse
-        $baseQuery = Housing::with('city', 'county', 'neighborhood', "owner", "user", "consultant")
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json',
-                'housings.is_share',
-                'housings.owner_id',
-                'housings.user_id',
-                'housings.deleted_at',
-                'housings.is_sold',
-                'housings.consultant_id',
-
-            )
-            ->orderByDesc('housings.updated_at');
+        $baseQuery = Housing::with([
+            'images',
+            'housing_type',
+            'listItems',
+            'city',
+            'district',
+            'neighborhood'
+        ])
+        ->where('status', 1)
+        ->whereHas('listItems', function($query) {
+            $query->where('item_type', 2);
+        })
+        ->orderBy('created_at', 'desc');
 
         // Active housings
         $activeHousingTypes = (clone $baseQuery)

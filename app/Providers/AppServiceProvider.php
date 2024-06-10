@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\AdBanner;
 use App\Models\CartItem;
 use App\Models\FooterLink;
+use App\Models\Housing;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Models\ShareLink;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
+use App\Observers\HousingObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
@@ -33,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
         $this->composeClientView();
         $this->composeInstitutionalView();
         $this->extendValidator();
+        Housing::observe(HousingObserver::class);
+
     }
 
     private function composeAdminView()
