@@ -85,12 +85,18 @@
                     </div>
                 </div>
                 <div class="mobile-hidden-flex">
-
-                    <button class="storeShareBtn"
-                        onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
-                        Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
-                    </button>
+                    @if ($store->type == 1)
+                        <button class="storeShareBtn" style="background-color: yellow; border: 2px solid yellow; color: white; padding: 10px;">
+                            Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px; color: white;"></i>
+                        </button>
+                    @else
+                        <button class="storeShareBtn"
+                            onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                            Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
+                        </button>
+                    @endif
                 </div>
+                
             </div>
             @if ($store->type == '1')
                 <div class="card-body">
