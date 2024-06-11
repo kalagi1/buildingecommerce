@@ -24609,6 +24609,18 @@ form label.error {
     position: relative;
 }
 
+.storeShareTypeBtn:before,
+.storeShareTypeBtn:after {
+  position: absolute;
+  content: "";
+  width: 150%;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: -1000;
+  background-repeat: no-repeat;
+}
+
 .storeShareTypeBtn:hover:before {
   top: -70%;
   background-image: radial-gradient(circle, #a89215 20%, transparent 20%),
