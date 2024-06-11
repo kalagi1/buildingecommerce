@@ -1347,9 +1347,11 @@
 
                                     <div class="row border-row">
                                         <div class="item col-lg-3 col-md-12 col-xs-12 landscapes sale pr-0 pl-0 pb-0">
+                                                                                    <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
+
                                             <div class="mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                 <div class="project-inner project-head">
-                                                     <a href="${res.housing_url}">
+                                                    
                                                     <div class="homes">
                                                                         <!-- homes img -->
                                                                         <div class="homes-img">
@@ -1372,8 +1374,8 @@
                                                             </div>
                                                         </div>
                                                 </div>
-                                                </a>
                                             </div>
+                                            </a>
                                         </div>
                                         <!-- homes content -->
                                         <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up" style="padding:10px 20px !important">
