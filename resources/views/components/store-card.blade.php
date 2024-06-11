@@ -86,8 +86,8 @@
                 </div>
                 <div class="mobile-hidden-flex">
                     @if ($store->type == 1)
-                        <button class="storeShareBtn" style="background-color: yellow; border: 2px solid yellow; color: white; padding: 10px;">
-                            Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px; color: white;"></i>
+                        <button class="storeShareBtn">
+                            Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px; color: yellow;"></i>
                         </button>
                     @else
                         <button class="storeShareBtn"
