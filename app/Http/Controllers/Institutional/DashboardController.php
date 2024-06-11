@@ -234,6 +234,16 @@ class DashboardController extends Controller
         return view('institutional.home.has-club-status');
     }
 
+    public function phoneUpdate(Request $request)
+    {
+
+        $user = auth()->user();
+        $user->mobile_phone = $request->input('new_mobile_phone');
+        $user->save();
+
+        return redirect()->back()->with('success', 'Telefon numaranız başarıyla güncellendi.');
+    }
+
     public function phoneVerification()
     {
         $user = Auth::user();

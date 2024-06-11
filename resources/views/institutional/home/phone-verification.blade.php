@@ -56,17 +56,41 @@
                             </div>
                         </div>
                     @else
-                    <div class="px-xxl-5">
-                        <div class="text-center mb-6">
-                            <p class="text-body-tertiary mb-5">Telefon doğrulama kodunu oluşturmak için lütfen aşağıdaki düğmeye tıklayın.</p>
-                    
-                            <form action="{{ route('institutional.phone.generateVerificationCode') }}" method="POST">
-                                @csrf
-                                <button class="btn btn-primary w-100 mb-5" type="submit">Doğrulama Kodu Oluştur</button>
-                            </form>
-                        </div>
-                    </div>
-                    
+                        @if(optional($user)->mobile_phone === null || optional($user)->mobile_phone === '')
+                            <div class="px-xxl-5">
+                                <div class="text-center mb-6">
+                                    <p class="text-body-tertiary mb-5"> Telefon numaranız sistemimizde kayıtlı değil. Lütfen öncelikle cep telefon numaranızı güncelleyiniz.</p>
+                            
+                                    <form action="{{ route('institutional.phone.update.generateVerificationCode') }}" method="POST">
+                                        @csrf
+                                        @method('PUT') <!-- Eğer update işlemi yapıyorsanız PUT methodunu kullanmalısınız -->
+                                        <div class="form-group">
+                                            <label for="new_mobile_phone">Yeni Telefon Numarası</label>
+                                            <input type="number" 
+                                                   class="form-control" 
+                                                   id="new_mobile_phone" 
+                                                   name="new_mobile_phone" 
+                                                   placeholder="5XXXXXXXXX" 
+                                                   required>
+                                        </div>
+                                        
+                                    
+                                        <button class="btn btn-primary w-100 mb-5" type="submit">Güncelle</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <div class="px-xxl-5">
+                                <div class="text-center mb-6">
+                                    <p class="text-body-tertiary mb-5">Telefon doğrulama kodunu oluşturmak için lütfen aşağıdaki düğmeye tıklayın.</p>
+                            
+                                    <form action="{{ route('institutional.phone.generateVerificationCode') }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-primary w-100 mb-5" type="submit">Doğrulama Kodu Oluştur</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endif
                     @endif
 
                 </div>
