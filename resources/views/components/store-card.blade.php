@@ -15,7 +15,7 @@
                                 ->implode('');
                         @endphp
 
-                        <div class="profile-initial">{{ $nameInitials }}</div>
+                        <div class="profile-initial" style="margin: inherit !important">{{ $nameInitials }}</div>
                     @else
                         <img loading="lazy" src="{{ asset('storage/profile_images/' . $store->profile_image) }}"
                             alt="{{ $store->name }}" class="img-responsive brand-logo" style="object-fit:contain;">
