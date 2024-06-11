@@ -296,7 +296,7 @@
                                     </div>
                                 @endif
 
-                                <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                                <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
                                     id="home" role="tabpanel" aria-labelledby="home-tab">
                                     {!! $housing->description !!}
                                 </div>
@@ -309,7 +309,7 @@
                                                 @if (is_array($val))
                                                     @if (count($val) > 1)
                                                         @if ($label != 'Galeri')
-                                                            <h5 @if ($label != 0) class="mt-5" @endif>
+                                                            <h5 >
                                                                 {{ $label }}</h5>
                                                             <ul class="homes-list clearfix checkSquareIcon">
                                                                 @foreach ($val as $item)
