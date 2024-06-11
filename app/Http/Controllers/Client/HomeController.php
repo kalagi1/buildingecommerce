@@ -492,6 +492,7 @@ class HomeController extends Controller
                 'url' => route('project.detail', ['slug' => $item->slug . "-" . $status->slug . "-" . $item->step2_slug . "-" . $item->housingtype->slug, "id" => $item->id + 1000000]),
                 'city' => $item->city,
                 'county' => $item->county,
+                'neighborhood' => $item->neighborhood,
                 'profile_user_image' => URL::to('/') . '/storage/profile_images/' . $item->user->profile_image,
                 "title" => $item->project_title,
                 'created_at' => $item->created_at,
