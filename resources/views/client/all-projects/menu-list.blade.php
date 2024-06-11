@@ -1128,12 +1128,12 @@
 
 
                         }else{
-                            $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + response.data.totalCount +
+                            $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + response.totalCount +
                                 '</span>');
                             $("#termResultCount").removeClass("d-none").addClass("d-block");
 
                             var searchResultsText = "Toplam " +
-                                '<span style="color: #EA2B2E; font-size: 13px;">' + response.data.totalCount +
+                                '<span style="color: #EA2B2E; font-size: 13px;">' + response.totalCount +
                                 '</span> ilan bulundu.</span>';
 
                             $("#searchResultsText").html(searchResultsText);
