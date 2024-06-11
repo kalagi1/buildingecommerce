@@ -498,7 +498,7 @@
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                                 <div class="listing-title-bar mobileMovePrice w-100 p-0">
-                                                    <h4>
+                                                    <h4 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                                         @if ($discountAmount)
                                                             <svg viewBox="0 0 24 24" width="24"
                                                                 height="24" stroke="currentColor"
@@ -552,8 +552,8 @@
                                                 @endif
                                             @else
                                             <div class="listing-title-bar mobileMovePrice w-100 p-0">
-                                                <h4>
-                                                    <div style="text-align: center">
+                                                <h4 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
+                                             
                                                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                             @php
                                                                 $price =
@@ -590,7 +590,6 @@
                                                                     Gece</span>
                                                             @endif
                                                         @endif
-                                                    </div>
                                                 </h4>
                                             </div>
                                             @endif
