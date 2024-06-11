@@ -1204,7 +1204,7 @@
 
                                     if (res.buysellurgent1) {
                                         featuredHtml +=
-                                            '<div class="type-tag button alt featured" style="width: 55px !important;background-color: #EA2B2E !important;" >ACİL</div>';
+                                            '<div class="type-tag button alt featured" style="width: 55px !important;background-color: black !important;" >ACİL</div>';
                                     }
                                 }
 
