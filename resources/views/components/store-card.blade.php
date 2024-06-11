@@ -104,7 +104,7 @@
                             Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px;"></i>
                         </button>
                     @else
-                        <button class="storeShareBtn"
+                        <button class="storeShareTypeBtn"
                             onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
                             Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
                         </button>
