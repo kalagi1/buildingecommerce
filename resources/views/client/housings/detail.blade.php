@@ -124,7 +124,7 @@
                                             ])
                                         @endif
 
-                                        @if ($housing->step1_slug)
+                                        {{-- @if ($housing->step1_slug)
 
                                             <span class="mrg-l-5 category-tag">
                                                 @if ($housing->step2_slug)
@@ -139,9 +139,9 @@
                                                 {{ isset($parent->title) ? $parent->title : null }}
                                             </span>
 
-                                        @endif
+                                        @endif --}}
                                     </h3>
-                                    <div class="mt-0">
+                                    {{-- <div class="mt-0">
                                         <a href="#listing-location" class="listing-address">
                                             <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
                                             {!! optional($housing->city)->title .
@@ -151,7 +151,7 @@
                                                 optional($housing->neighborhood)->mahalle_title ??
                                                 '' !!}
                                         </a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="mobile-action"></div>
                             </div>
