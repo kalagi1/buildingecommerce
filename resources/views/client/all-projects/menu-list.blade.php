@@ -1251,7 +1251,6 @@
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
-                                                         <a href="${res.housing_url}">
                                                         <div class="homes">
                                                             <!-- homes img -->
                                                             <div class="homes-img">
@@ -1262,7 +1261,6 @@
                                                                 <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
                                                             </div>
                                                         </div>
-                                                        </a>
                                                         <div class="button-effect-div">
                                                             ` + `
 <span class="${spanClass}" data-type="housing" data-id="${res.id}">
@@ -1351,6 +1349,7 @@
                                         <div class="item col-lg-3 col-md-12 col-xs-12 landscapes sale pr-0 pl-0 pb-0">
                                             <div class="mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                 <div class="project-inner project-head">
+                                                     <a href="${res.housing_url}">
                                                     <div class="homes">
                                                                         <!-- homes img -->
                                                                         <div class="homes-img">
@@ -1373,6 +1372,7 @@
                                                             </div>
                                                         </div>
                                                 </div>
+                                                </a>
                                             </div>
                                         </div>
                                         <!-- homes content -->
