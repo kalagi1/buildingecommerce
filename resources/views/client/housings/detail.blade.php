@@ -109,7 +109,7 @@
                                 $status = optional($sold)->status;
                             @endphp
                             <div class="detail-wrapper-body">
-                                <div class="listing-title-bar pb-3">
+                                <div class="listing-title-bar pb-3 pt-3">
                                     {{-- <strong style="color: black;font-size: 12px !important;">İlan No: <span
                                             style="color:#274abb;font-size: 12px !important;">{{ $housing->id + 2000000 }}</span>
                                     </strong> --}}
@@ -1340,7 +1340,11 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span> Mağaza :</span>
+                                                        <span> @if ( $housing->user->type == 1)
+                                                            Sahibinden
+                                                            @else
+                                                            Mağaza
+                                                        @endif  :</span>
                                                         <span class="det text-wrap" style="color:#274abb;">
                                                             {!! $housing->user->name !!}
                                                         </span>
