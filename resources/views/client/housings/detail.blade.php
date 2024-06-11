@@ -497,7 +497,7 @@
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                                <div class="listing-title-bar mobileMovePrice">
+                                                <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                     <h4>
                                                         @if ($discountAmount)
                                                             <svg viewBox="0 0 24 24" width="24"
@@ -551,7 +551,7 @@
                                                 </div>
                                                 @endif
                                             @else
-                                            <div class="listing-title-bar mobileMovePrice">
+                                            <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                 <h4>
                                                     <div style="text-align: center">
                                                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
