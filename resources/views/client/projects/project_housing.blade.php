@@ -141,14 +141,14 @@
                                                 'blockHousingOrder' => $blockHousingOrder,
                                             ])
                                         @endif
-                                        @if ($project->step1_slug)
+                                        {{-- @if ($project->step1_slug)
                                             <span class="mrg-l-5 category-tag">
                                                 {{ ucfirst($project->step2_slug) }}
                                                 {{ ucfirst($project->step1_slug) }}
                                             </span>
-                                        @endif
+                                        @endif --}}
                                     </h3>
-                                    <div class="mt-0">
+                                    {{-- <div class="mt-0">
                                         <a href="#listing-location" class="listing-address">
                                             <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
@@ -157,7 +157,7 @@
                                             @endif
 
                                         </a>
-                                    </div>
+                                    </div> --}}
 
 
                                 </div>
