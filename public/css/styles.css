@@ -24621,7 +24621,7 @@ form label.error {
   background-repeat: no-repeat;
 }
 
-.storeShareTypeBtn:before {
+.storeShareTypeBtn:hover:before {
   top: -70%;
   background-image: radial-gradient(circle, #a89215 20%, transparent 20%),
     radial-gradient(circle, transparent 20%, #13a5be 20%, transparent 30%),
@@ -24656,7 +24656,7 @@ form label.error {
   }
 }
 
-.storeShareTypeBtn::after {
+.storeShareTypeBtn:hover::after {
   bottom: -70%;
   background-image: radial-gradient(circle, #ff93db 20%, transparent 20%),
     radial-gradient(circle, #2ae8df 20%, transparent 20%),
