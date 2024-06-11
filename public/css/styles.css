@@ -24594,16 +24594,14 @@ form label.error {
 
 .storeShareTypeBtn{
     position: relative;
-    padding: 10px 22px;
+    padding: 10px 15px;
     border-radius: 6px;
     border: none;
     color: #fff;
     cursor: pointer;
     background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
     transition: all 0.2s ease;
-
-    width: 170px;
-    height: 30px;
+    margin-right: 20px;
 }
 
 .storeShareTypeBtn:before,
