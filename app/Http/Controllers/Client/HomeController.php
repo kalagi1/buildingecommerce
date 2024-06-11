@@ -949,7 +949,9 @@ class HomeController extends Controller
             $offSale = isset($housingTypeData['off_sale1']);
             $share = isset($housingTypeData['share-open1']);
             $open_share1 = isset($housingTypeData['open_sharing1']);
+            $buysellurgent1 = isset($housingTypeData['buysellurgent1']);
 
+            
 
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
@@ -972,6 +974,7 @@ class HomeController extends Controller
                 'offSale' => $offSale,
                 'share' => $share,
                 'sold' => $item->sold,
+                "buysellurgent1" => $buysellurgent1,
                 "column1_additional" => $item->column1_additional ?? null,
                 "column2_additional" => $item->column2_additional ?? null,
                 "column3_additional" => $item->column3_additional ?? null,
