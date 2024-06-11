@@ -376,7 +376,7 @@
                             <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-                                Başvuru Yap
+                                Teklif Ver
                             </button>
                         @else
                             <a href="{{ route('client.login') }}"
@@ -386,7 +386,7 @@
                             display: flex;
                             justify-content: center;background-color:black !important;border:1px solid black;color:white"
                                 class="first-btn payment-plan-mobile-btn mobileCBtn">
-                                Başvuru Yap
+                                Teklif Ver
                             </a>
                         @endif
                     @else
@@ -459,7 +459,7 @@
             <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
-                    Başvuru Yap</h3>
+                    Teklif Ver</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
