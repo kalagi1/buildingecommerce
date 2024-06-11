@@ -309,7 +309,8 @@
                                                 @if (is_array($val))
                                                     @if (count($val) > 1)
                                                         @if ($label != 'Galeri')
-                                                            <h5 class="mt-5">{{ $label }}</h5>
+                                                            <h5 @if ($label != 0) class="mt-5" @endif>
+                                                                {{ $label }}</h5>
                                                             <ul class="homes-list clearfix checkSquareIcon">
                                                                 @foreach ($val as $item)
                                                                     <li><i class="fa fa-check-square"
@@ -1350,7 +1351,7 @@
                                                     <td>
                                                         <span> Kimden :</span>
                                                         <span class="det text-wrap" style="color:#274abb;">
-                                                            {{ $housing->user->type != "1" ? $housing->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type : "Bireysel Kullanıcı"}}
+                                                            {{ $housing->user->type != '1' ? ($housing->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type) : 'Bireysel Kullanıcı' }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -1419,7 +1420,7 @@
                                                                     @endif
                                                                 @endif
                                                                 {{ isset($parent->title) ? $parent->title : null }}
-                                                                @endif
+                                                            @endif
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -2684,7 +2685,7 @@
                             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
                             console.log(diffDays)
-                            if (diffDays <= 1 ) {
+                            if (diffDays <= 1) {
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Uyarı!',
