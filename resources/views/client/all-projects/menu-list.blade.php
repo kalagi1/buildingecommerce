@@ -360,7 +360,14 @@
                                                         for="TurizmAmaçliKiralama">Turizm İşletmesinden
                                                     </label>
                                                 </div>
-
+                                                <div class="mb-2 d-flex align-items-center">
+                                                    <input class="filter-now form-control" type="radio"
+                                                        name="corporate_type" id="Sahibinden"
+                                                        value="Sahibinden">
+                                                    <label class="form-check-label w-100 ml-4"
+                                                        for="Sahibinden">Sahibinden
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
