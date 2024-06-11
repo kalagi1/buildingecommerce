@@ -494,7 +494,7 @@
 
 
                                     <div class="row buttonDetail" style="align-items: center">
-                                        <div class="col-md-6 col-6 mobile-action-move">
+                                        <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="single detail-wrapper mr-2">
@@ -606,9 +606,7 @@
 
                                         </div>
                                         <div
-                                            class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6
-                                            @else
-                                            col-md-12 col-12 @endif">
+                                            class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6 @else col-md-12 col-12 @endif p-0">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn "
                                                     style="background: #EA2B2E !important;width:100%;color:White">
