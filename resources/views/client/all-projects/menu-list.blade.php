@@ -1142,7 +1142,7 @@
                                                 <a href="${res.url}" class="listing-img-container">
                                                     <span class="project_brand_profile_image">
                                                         <img src="${res.profile_user_image}" alt="">
-                                                        <span class="country">${res.city.title} / ${res.county.ilce_title}</span>
+                                                        <span class="country">${res.city.title} / ${res.county.ilce_title} </span>
                                                     </span>
 
                                                     
@@ -1167,7 +1167,7 @@
                                                 <a href="${res.url}" class="listing-img-container">
                                                     <span class="project_brand_profile_image">
                                                             <img src="${res.profile_user_image}" alt="">
-                                                            <span class="country">${res.city.title} / ${res.county.ilce_title}</span>
+                                                            <span class="country">${res.city.title} / ${res.county.ilce_title} </span>
                                                         </span>
 
                                                     
@@ -1268,7 +1268,7 @@
                                                         </a>
                                                         <p class="homes-address mb-3">
                                                             <a href="${res.housing_url}">
-                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
+                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
                                                             </a>
                                                         </p>
                                                     <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
@@ -1369,7 +1369,7 @@
                                                                         <span>${res.title}</span>
                                                                     </a>
                                             <p class="homes-address mb-3">
-                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county}  </span>
+                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}   </span>
                                                                     
                                             </p>
                                             <!-- homes List -->
@@ -1549,7 +1549,7 @@
                                  </li>` : ''}
 </ul>
 
-                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} </span>
+                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
                                                     </div>
                                             </div> <hr> `);
                             @endif
