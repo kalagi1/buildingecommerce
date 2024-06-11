@@ -493,114 +493,106 @@
                                 <div class="schedule widget-boxed mt-33 mt-0">
 
 
-                                    <div class="row buttonDetail" style="align-items: center">
+                                    <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                                    <div class="single detail-wrapper mr-2">
-                                                        <div class="detail-wrapper-body">
-                                                            <div class="listing-title-bar mobileMovePrice">
-                                                                <h4>
-                                                                    @if ($discountAmount)
-                                                                        <svg viewBox="0 0 24 24" width="24"
-                                                                            height="24" stroke="currentColor"
-                                                                            stroke-width="2" fill="none"
-                                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                                            class="css-i6dzq1">
-                                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                            </polyline>
-                                                                            <polyline points="17 18 23 18 23 12">
-                                                                            </polyline>
-                                                                        </svg>
-                                                                    @endif
-                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                        @php
-                                                                            $price =
-                                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                                    ? json_decode(
-                                                                                        $housing->housing_type_data,
-                                                                                    )->daily_rent[0]
-                                                                                    : json_decode(
-                                                                                        $housing->housing_type_data,
-                                                                                    )->price[0];
-                                                                            $discountedPrice = $price - $discountAmount;
-                                                                        @endphp
-                                                                        @if ($discountAmount)
-                                                                            <svg viewBox="0 0 24 24" width="18"
-                                                                                height="18" stroke="#EA2B2E"
-                                                                                stroke-width="2" fill="#EA2B2E"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="css-i6dzq1">
-                                                                                <polyline
-                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                </polyline>
-                                                                                <polyline points="17 18 23 18 23 12">
-                                                                                </polyline>
-                                                                            </svg>
-                                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                                {{ number_format($price, 0, ',', '.') }}
-                                                                            </del>
-                                                                        @endif
-                                                                        {{ number_format($discountedPrice, 0, ',', '.') }}
-                                                                        ₺
-                                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                            <span style="font-size:12px; color:#EA2B2E">(1
-                                                                                Gece)</span>
-                                                                        @endif
-                                                                    @endif
-                                                                </h4>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="listing-title-bar mobileMovePrice">
+                                                    <h4>
+                                                        @if ($discountAmount)
+                                                            <svg viewBox="0 0 24 24" width="24"
+                                                                height="24" stroke="currentColor"
+                                                                stroke-width="2" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                </polyline>
+                                                                <polyline points="17 18 23 18 23 12">
+                                                                </polyline>
+                                                            </svg>
+                                                        @endif
+                                                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                            @php
+                                                                $price =
+                                                                    $housing->step2_slug == 'gunluk-kiralik'
+                                                                        ? json_decode(
+                                                                            $housing->housing_type_data,
+                                                                        )->daily_rent[0]
+                                                                        : json_decode(
+                                                                            $housing->housing_type_data,
+                                                                        )->price[0];
+                                                                $discountedPrice = $price - $discountAmount;
+                                                            @endphp
+                                                            @if ($discountAmount)
+                                                                <svg viewBox="0 0 24 24" width="18"
+                                                                    height="18" stroke="#EA2B2E"
+                                                                    stroke-width="2" fill="#EA2B2E"
+                                                                    stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                    class="css-i6dzq1">
+                                                                    <polyline
+                                                                        points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12">
+                                                                    </polyline>
+                                                                </svg>
+                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                    {{ number_format($price, 0, ',', '.') }}
+                                                                </del>
+                                                            @endif
+                                                            {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                            ₺
+                                                            @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                <span style="font-size:12px; color:#EA2B2E">(1
+                                                                    Gece)</span>
+                                                            @endif
+                                                        @endif
+                                                    </h4>
+                                                </div>
                                                 @endif
                                             @else
-                                                <div class="single detail-wrapper mr-2">
-                                                    <div class="detail-wrapper-body">
-                                                        <div class="listing-title-bar mobileMovePrice">
-                                                            <h4>
-                                                                <div style="text-align: center">
-                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                        @php
-                                                                            $price =
-                                                                                $housing->step2_slug == 'gunluk-kiralik'
-                                                                                    ? json_decode(
-                                                                                        $housing->housing_type_data,
-                                                                                    )->daily_rent[0]
-                                                                                    : json_decode(
-                                                                                        $housing->housing_type_data,
-                                                                                    )->price[0];
-                                                                            $discountedPrice = $price - $discountAmount;
-                                                                        @endphp
-                                                                        @if ($discountAmount)
-                                                                            <svg viewBox="0 0 24 24" width="18"
-                                                                                height="18" stroke="#EA2B2E"
-                                                                                stroke-width="2" fill="#EA2B2E"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="css-i6dzq1">
-                                                                                <polyline
-                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                </polyline>
-                                                                                <polyline points="17 18 23 18 23 12">
-                                                                                </polyline>
-                                                                            </svg>
-                                                                            <del style="font-size:11px; color:#EA2B2E">
-                                                                                {{ number_format($price, 0, ',', '.') }}
-                                                                            </del>
-                                                                        @endif
-                                                                        {{ number_format($discountedPrice, 0, ',', '.') }}
-                                                                        ₺
-                                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                            <span style="font-size:11px; color:#EA2B2E">1
-                                                                                Gece</span>
-                                                                        @endif
-                                                                    @endif
-                                                                </div>
-                                                            </h4>
-                                                        </div>
+                                            <div class="listing-title-bar mobileMovePrice">
+                                                <h4>
+                                                    <div style="text-align: center">
+                                                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                            @php
+                                                                $price =
+                                                                    $housing->step2_slug == 'gunluk-kiralik'
+                                                                        ? json_decode(
+                                                                            $housing->housing_type_data,
+                                                                        )->daily_rent[0]
+                                                                        : json_decode(
+                                                                            $housing->housing_type_data,
+                                                                        )->price[0];
+                                                                $discountedPrice = $price - $discountAmount;
+                                                            @endphp
+                                                            @if ($discountAmount)
+                                                                <svg viewBox="0 0 24 24" width="18"
+                                                                    height="18" stroke="#EA2B2E"
+                                                                    stroke-width="2" fill="#EA2B2E"
+                                                                    stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                    class="css-i6dzq1">
+                                                                    <polyline
+                                                                        points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12">
+                                                                    </polyline>
+                                                                </svg>
+                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                    {{ number_format($price, 0, ',', '.') }}
+                                                                </del>
+                                                            @endif
+                                                            {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                            ₺
+                                                            @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                <span style="font-size:11px; color:#EA2B2E">1
+                                                                    Gece</span>
+                                                            @endif
+                                                        @endif
                                                     </div>
-                                                </div>
+                                                </h4>
+                                            </div>
                                             @endif
 
 
