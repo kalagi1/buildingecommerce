@@ -96,15 +96,16 @@
                                             <div class="col">
                                                 <div class="form-check-inline" style="margin-top:12px;">
                                                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                                    <label class="form-check-label" for="remember">Beni Hatırla</label>
+                                                    <label class="form-check-label" for="remember"  style="margin-top:2px;">Beni Hatırla</label>
                                                 </div>
                                             </div>
 
                                             <div class="col">
-                                                <div class="forgot-password d-flex justify-content-between">
+                                                <div class="forgot-password d-flex justify-content-end">
                                                     <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
                                                 </div>
                                             </div>
+                                        
                                         </div>
 
                                                                                 
