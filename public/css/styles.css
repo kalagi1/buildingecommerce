@@ -17694,10 +17694,14 @@ section.headings-2 {
     color: #76716f;
 }
 
+.listing-title-bar{
+    margin-left:10px
+}
+
 .inner-pages .headings-2 .listing-title-bar h3 {
     font-size: 16px;
     font-weight: 600;
-    line-height: 34px;
+    line-height: 20px;
     color: #222;
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
