@@ -106,6 +106,9 @@ use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmControll
 |
  */
 
+
+ Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
@@ -224,8 +227,6 @@ Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->na
 Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 // Route::post('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
 // Route::post('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
-Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 Route::get('sifre-sifirla', [ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');
@@ -858,6 +859,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
+    Route::put('phone-verification/phone/update', [DashboardController::class, 'phoneUpdate'])
+        ->name('phone.update.generateVerificationCode');
 
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
