@@ -1255,8 +1255,9 @@
 
                                 $('.pp-row').append(`
                                     <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
-                                        <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
                                             <div class="landscapes">
+                                                                                                                                    <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
+
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
                                                         <div class="homes">
@@ -1292,19 +1293,19 @@
                                                             </a>
                                                         </p>
                                                     <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
-    ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
-                                         </li>` : ''}
-    ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
-                                         </li>` : ''}
-    ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
-                                         </li>` : ''}
-</ul>
+                                                        ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                                                                                            </li>` : ''}
+                                                        ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                                                                                            </li>` : ''}
+                                                        ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
+                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                                                                                            </li>` : ''}
+                                                    </ul>
 
                                                         <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:20px !important">
                                                             <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
@@ -1345,8 +1346,8 @@
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                </a>
                                             </div>
-                                        </a>
                                     </div>
                                 `);
 
