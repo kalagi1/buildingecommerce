@@ -450,6 +450,26 @@ class SharerController extends Controller
         return redirect()->back();
     }
 
+    public function deleteCollectioJson(Request $request)
+    {
+        $collection = $request->input('collection');
+    
+        // `id` değerini al
+        $collectionId = $collection['id'];
+    
+        // Diğer işlemler...
+        // Örneğin, Collection modelini kullanarak veritabanında silme işlemi yapabilirsiniz
+        $collection = Collection::find($collectionId);
+        
+        if ($collection) {
+            $collection->delete();
+            return response()->json(['success' => true, 'message' => 'Collection deleted successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Collection not found']);
+        }
+    }
+
+  
     public function editCollection($id, Request $request)
     {
         $collection = Collection::findOrFail($id);

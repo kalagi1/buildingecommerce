@@ -146,6 +146,8 @@ class LoginController extends Controller
             return redirect()->route('client.login');
         }
 
+        $remember = $request->has('remember');
+
         $user = User::where('email', $request->email)->first();
         if ($user) {
 
@@ -160,7 +162,7 @@ class LoginController extends Controller
                 session()->flash('error', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.');
                 return redirect()->route('client.login');
             } elseif ($user->status == 1) {
-                if (Auth::attempt($credentials)) {
+                if (Auth::attempt($credentials,$remember)) {
                     $user = Auth::user();
                     $updateUser = User::where('id', Auth::user()->id)->first();
 
