@@ -1,4 +1,4 @@
-{{ $advertiseTitle ? $advertiseTitle : ' ' }}
+{{ $advertiseTitle ? $advertiseTitle : ' ' }} <br>
 
 @if ($blockName)
     {{ $blockName }} {{ ' ' }} {{ $blockHousingOrder }} {{ "No'lu" }} {{ $step1Slug }}
