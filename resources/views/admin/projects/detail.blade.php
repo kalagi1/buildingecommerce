@@ -64,11 +64,11 @@
                         src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                         alt="">
                 </div>
-                <h4 class="mb-3">Proje Görselleri</h4>
+                <h4 class="mb-3">Proje Görselleri ({{count($project->images)}})</h4>
                 <div class="images owl-carousel mb-4">
                     @foreach ($project->images as $key => $image)
-                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
-                            class="img-fluid" alt="slider-listing">
+                        <img loading="lazy" src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
+                            class="img-fluid lazyload" alt="slider-listing">
                     @endforeach
                 </div>
 
