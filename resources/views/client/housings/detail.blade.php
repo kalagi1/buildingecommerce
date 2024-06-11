@@ -311,7 +311,7 @@
                                                         @if ($label != 'Galeri')
                                                             <h5 >
                                                                 {{ $label }}</h5>
-                                                            <ul class="homes-list clearfix checkSquareIcon">
+                                                            <ul class="homes-list clearfix mb-3 checkSquareIcon">
                                                                 @foreach ($val as $item)
                                                                     <li><i class="fa fa-check-square"
                                                                             aria-hidden="true"></i><span>{{ $item }}</span>
