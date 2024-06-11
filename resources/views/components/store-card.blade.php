@@ -99,7 +99,8 @@
                 </div>
                 <div class="mobile-hidden-flex">
                     @if ($store->type == 1)
-                        <button class="storeShareTypeBtn">
+                        <button class="storeShareTypeBtn"
+                        onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
                             Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px;"></i>
                         </button>
                     @else
