@@ -5,8 +5,21 @@
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
                 <div class="brands-square w-100">
-                    <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
-                        class="brand-logo">
+                    @if ($store->profile_image == 'indir.png')
+                        @php
+                            $nameInitials = collect(preg_split('/\s+/', $store->name))
+                                ->map(function ($word) {
+                                    return mb_strtoupper(mb_substr($word, 0, 1));
+                                })
+                                ->take(1)
+                                ->implode('');
+                        @endphp
+
+                        <div class="profile-initial">{{ $nameInitials }}</div>
+                    @else
+                        <img loading="lazy" src="{{ asset('storage/profile_images/' . $store->profile_image) }}"
+                            alt="{{ $store->name }}" class="img-responsive brand-logo" style="object-fit:contain;">
+                    @endif
                     <div style="display: flex;margin-left:5px">
                         <p class="brand-name"><a
                                 href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}"
@@ -96,7 +109,7 @@
                         </button>
                     @endif
                 </div>
-                
+
             </div>
             @if ($store->type == '1')
                 <div class="card-body">
