@@ -70,24 +70,25 @@ class HomeController extends Controller
         }
     }
 
-    public function index(){
+    public function index()
+    {
 
         // $start = microtime(true);
         // $menu = Cache::rememberForever('menu', function () {
         //     return Menu::getMenuItems();
         // });
         $dashboardProjects = Project::with([
-            "city", 
-            "county", 
-            'user', 
-            'brand', 
-            'roomInfo', 
-            'listItemValues', 
+            "city",
+            "county",
+            'user',
+            'brand',
+            'roomInfo',
+            'listItemValues',
             'housingType'
         ])
-        ->where('status', 1)
-        ->orderBy("created_at", "desc")
-        ->paginate(12);
+            ->where('status', 1)
+            ->orderBy("created_at", "desc")
+            ->paginate(12);
 
         $soilProjects = Project::with("city", "county", 'user', 'brand', 'roomInfo', 'housingType')
             ->whereHas('housingStatus', function ($query) {
@@ -96,7 +97,7 @@ class HomeController extends Controller
             ->where('status', 1)
             ->orderBy("created_at", "desc")
             ->get();
-    
+
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
 
         $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
@@ -106,8 +107,8 @@ class HomeController extends Controller
         $footerSlider = FooterSlider::all();
 
         $finishProjects = Project::with([
-                "city", "county", 'user', 'brand', 'roomInfo', 'listItemValues', 'housingType'
-            ])
+            "city", "county", 'user', 'brand', 'roomInfo', 'listItemValues', 'housingType'
+        ])
             ->whereHas('housingStatus', function ($query) {
                 $query->where('housing_type_id', '2');
             })
@@ -178,15 +179,14 @@ class HomeController extends Controller
             'district',
             'neighborhood'
         ])
-        ->where('status', 1)
-        ->whereHas('listItems', function($query) {
-            $query->where('item_type', 2);
-        })
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
-    
+            ->where('status', 1)
+            ->whereHas('listItems', function ($query) {
+                $query->where('item_type', 2);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
         return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
-        
     }
 
 
@@ -373,7 +373,7 @@ class HomeController extends Controller
             $query->where('housing_type_id', $housingType);
             $housingTypeData = HousingType::where('id', $housingType)->first();
             $tempFilter = 0;
-        
+
             $formData = json_decode($housingTypeData->form_json);
             if (isset($formData)) {
                 foreach ($formData as $key => $data) {
@@ -385,15 +385,15 @@ class HomeController extends Controller
                     }
                 }
             }
-        
+
             // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
             $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
-        
+
             $filtersDb = Filter::where('item_type', 1)
                 ->where('housing_type_id', $housingType)
                 ->get()
                 ->keyBy('filter_name');
-        
+
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
                 foreach ($formData as $key => $data) {
@@ -418,7 +418,7 @@ class HomeController extends Controller
                                             ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
                                         }, '>=', 1);
                                     }
-        
+
                                     if ($request->input($inputName . '-max')) {
                                         $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
                                             $query->where([
@@ -442,7 +442,7 @@ class HomeController extends Controller
                 }
             }
         }
-        
+
 
         if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
             $query->where('neighbourhood_id', $request->input('neighborhood'));
@@ -678,7 +678,7 @@ class HomeController extends Controller
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
 
-        
+
         if ($request->input("slug") == "paylasimli-ilanlar") {
             $obj = $obj->whereJsonContains('housing_type_data->open_sharing1', "Evet");
         }
@@ -783,8 +783,13 @@ class HomeController extends Controller
 
         if ($request->has('corporateType') && $request->input('corporateType') !== null) {
 
-            $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
-                ->where('users.corporate_type', $request->input('corporateType'));
+            if ($request->input('corporateType') != "Sahibinden") {
+                $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                    ->where('users.corporate_type', $request->input('corporateType'));
+            } else {
+                $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                    ->where('users.type', 1);
+            }
         }
 
 
@@ -952,7 +957,7 @@ class HomeController extends Controller
             $open_share1 = isset($housingTypeData['open_sharing1']);
             $buysellurgent1 = isset($housingTypeData['buysellurgent1']);
 
-            
+
 
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
