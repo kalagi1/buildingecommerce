@@ -163,9 +163,9 @@
                                 href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
-                            <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
+                            {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
                                 href="{{ route('institutional.swap', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Takas
-                                Başvuru Formu</a>
+                                Başvuru Formu</a> --}}
                         </div>
 
                         {{-- <div class="search-form">
