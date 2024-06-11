@@ -29570,10 +29570,10 @@ font {
 }
 
 .type-tag {
-    background-color: rgba(74, 74, 76, 0.7) !important;
+    background-color: #ea2a28 !important;
     right: 10px;
     text-align: center;
-    width: auto !important;
+    width: 50px !important;
     margin-top: 10px;
     position: absolute;
 }
