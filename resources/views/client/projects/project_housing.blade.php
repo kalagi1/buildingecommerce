@@ -277,7 +277,7 @@
                                             $sold &&
                                             $sold->status != '2' &&
                                             $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share))
-                                    <div class="col-md-5 col-5 mobile-action-move p-0">
+                                    <div class="col-md-6 col-6 mobile-action-move p-0">
 
 
 
@@ -380,7 +380,7 @@
                                     }
 
                                 @endphp
-                                <div class="@if ($soldOut || !$offSale && !$sold ) col-md-7 col-7 @else col-md-12 col-12 @endif"
+                                <div class="@if ($soldOut || !$offSale && !$sold ) col-md-6 col-6 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
