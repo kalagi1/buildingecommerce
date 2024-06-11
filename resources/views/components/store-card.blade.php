@@ -4,7 +4,7 @@
     <div class="container">
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
-                <div class="brands-square w-100">
+                <div class="brands-square w-100 ml-4">
                     @if ($store->profile_image == 'indir.png')
                         @php
                             $nameInitials = collect(preg_split('/\s+/', $store->name))
