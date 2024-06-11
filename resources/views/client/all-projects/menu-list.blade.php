@@ -1251,6 +1251,7 @@
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
+                                                         <a href="${res.housing_url}">
                                                         <div class="homes">
                                                             <!-- homes img -->
                                                             <div class="homes-img">
@@ -1261,6 +1262,7 @@
                                                                 <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
                                                             </div>
                                                         </div>
+                                                        </a>
                                                         <div class="button-effect-div">
                                                             ` + `
 <span class="${spanClass}" data-type="housing" data-id="${res.id}">
@@ -1362,10 +1364,10 @@
                                                                     <div class="button-effect-div">
                                                                     
                                                                         ` + `
-<span class="${spanClass}" data-type="housing" data-id="${res.id}">
-    <i class="fa fa-bookmark-o"></i>
-</span>  ` +
-                                    ` 
+                                                                        <span class="${spanClass}" data-type="housing" data-id="${res.id}">
+                                                                            <i class="fa fa-bookmark-o"></i>
+                                                                        </span>  ` +
+                                                                             ` 
                                                             <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
                                                                 <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
                                                             </div>
