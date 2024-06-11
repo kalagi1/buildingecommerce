@@ -305,69 +305,6 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            <table class="table ">
-                                                <tbody class="trStyle">
-                                                    <tr>
-                                                        <td>
-                                                            <span class="mr-1">İlan No:</span>
-                                                            <span class="det" style="color: #274abb;">
-                                                                {{ $housing->id + 2000000 }}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-
-                                                    @foreach ($labels as $label => $val)
-                                                        @if (
-                                                            $label != 'Kapak Resmi' &&
-                                                                $label != 'Taksitli Satış' &&
-                                                                $label != 'Fiyat' &&
-                                                                $label != 'Seçenekler' &&
-                                                                $label != 'Acil Satılık' &&
-                                                                $label != 'İndirim Oranı %' &&
-                                                                $label != 'Yıldız Sayısı' &&
-                                                                $label != 'Yapının Durumu' &&
-                                                                $label != 'Peşinat' &&
-                                                                $label != 'İlan Başlığı' &&
-                                                                $label != 'Günlük Fiyat' &&
-                                                                $label != 'Peşin Fiyat' &&
-                                                                $label != 'Taksitli Toplam Fiyat' &&
-                                                                $label != 'Mülk Sahibinin Adı Soyadı' &&
-                                                                $label != 'Mülk Sahibinin Telefon Numarası' &&
-                                                                $label != 'Satış Yetkisi Başlangıç Tarihi' &&
-                                                                $label != 'Satış Yetkisi Bitiş Tarihi' &&
-                                                                $label != 'Paylaşıma Açık' &&
-                                                                $label != 'Giriş Saati' &&
-                                                                $label != 'Çıkış Saati' &&
-                                                                $label != 'Konaklayacak Maksimum Kişi Sayısı' &&
-                                                                isset($val[0]) &&
-                                                                $val[0] != 0 &&
-                                                                $val[0] != null &&
-                                                                !isset($val[1]))
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="mr-1">{{ $label }}:</span>
-                                                                    @if ($label == 'm² (Net)<br>')
-                                                                        <span class="det">{{ $val[0] }}
-                                                                            m2</span>
-                                                                    @elseif ($label == 'Özellikler')
-                                                                        <ul>
-                                                                            @foreach ($val as $ozellik)
-                                                                                <li>{{ $ozellik }}</li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                    @else
-                                                                        <span class="det">
-                                                                            {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
-                                                                        </span>
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
-
-                                                </tbody>
-                                            </table>
-
                                             @foreach ($labels as $label => $val)
                                                 @if (is_array($val))
                                                     @if (count($val) > 1)
