@@ -405,12 +405,12 @@
                                         @if (Auth::user())
                                             <button class="first-btn payment-plan-button" data-bs-toggle="modal"
                                                 data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                Başvuru Yap
+                                                Teklif Ver
                                             </button>
                                         @else
                                             <a href="{{ route('client.login') }}"
                                                 class="first-btn payment-plan-button">
-                                                Başvuru Yap
+                                                Teklif Ver
                                             </a>
                                         @endif
                                     @else
@@ -498,7 +498,7 @@
                     {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                         id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
                         için
-                        Başvuru Yap</h3>
+                        Teklif Ver</h3>
                     <hr> --}}
                     <form method="POST" action="{{ route('give_offer') }}">
                         @csrf
