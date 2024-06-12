@@ -468,15 +468,14 @@ class HomeController extends Controller
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                     ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                     ->orWhere('description', 'LIKE', "%{$term}%")
-                    ->orWhere('id', '=', (int)$term - 1000000);
-            })
-                ->where("status", 1)
-                ->orWhereHas('city', function ($queryf) use ($term) {
-                    $queryf->where('title', 'LIKE', "%{$term}%");
-                })
-                ->orWhereHas('county', function ($queryf) use ($term) {
-                    $queryf->where('ilce_title', 'LIKE', "%{$term}%");
-                });
+                    ->orWhere('id', '=', (int)$term - 1000000)
+                    ->orWhereHas('city', function ($queryf) use ($term) {
+                        $queryf->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($queryf) use ($term) {
+                        $queryf->where('ilce_title', 'LIKE', "%{$term}%");
+                    });
+            })->where("projects.status", 1);
         }
 
         $itemPerPage = 12;
@@ -1061,14 +1060,15 @@ class HomeController extends Controller
                             ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                             ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                             ->orWhere('description', 'LIKE', "%{$term}%")
-                            ->orWhere('id', '=', (int)$term - 1000000);
-                    })
-                    ->orWhereHas('city', function ($query) use ($term) {
-                        $query->where('title', 'LIKE', "%{$term}%");
-                    })
-                    ->orWhereHas('county', function ($query) use ($term) {
-                        $query->where('ilce_title', 'LIKE', "%{$term}%");
-                    })
+                            ->orWhere('id', '=', (int)$term - 1000000)
+                            ->orWhereHas('city', function ($query) use ($term) {
+                                $query->where('title', 'LIKE', "%{$term}%");
+                            })
+                            ->orWhereHas('county', function ($query) use ($term) {
+                                $query->where('ilce_title', 'LIKE', "%{$term}%");
+                            });
+                    })->where('projects.status',1)
+                    
                     ->get()
                     ->map(function ($item) {
                         return [
@@ -1355,6 +1355,7 @@ class HomeController extends Controller
                     })
                     ->orWhere('housings.id', '=', (int)$term - 2000000);
             })
+            ->where('status',1)
             ->orderByDesc('housings.created_at')
             ->groupBy('housings.step1_slug', 'housings.step2_slug')
             ->get();
@@ -1385,14 +1386,15 @@ class HomeController extends Controller
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                     ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                     ->orWhere('description', 'LIKE', "%{$term}%")
-                    ->orWhere('id', '=', (int)$term - 1000000);
-            })
-            ->orWhereHas('city', function ($query) use ($term) {
-                $query->where('title', 'LIKE', "%{$term}%");
-            })
-            ->orWhereHas('county', function ($query) use ($term) {
-                $query->where('ilce_title', 'LIKE', "%{$term}%");
-            });
+                    ->orWhere('id', '=', (int)$term - 1000000)
+                    ->orWhereHas('city', function ($query) use ($term) {
+                        $query->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($query) use ($term) {
+                        $query->where('ilce_title', 'LIKE', "%{$term}%");
+                    });
+            })->where('projects.status',1);
+            
         // Toplam proje sayısını al
         $projectTotalCount = $projectsQuery->count();
 

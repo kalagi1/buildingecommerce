@@ -92,6 +92,8 @@ use App\Http\Controllers\Institutional\FormController as InstitutionalFormContro
 use App\Http\Controllers\SupportController;
 
 use App\Http\Controllers\Admin\ReasonManagementController;
+use App\Http\Controllers\Api\Institutional\CrmController;
+use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -810,6 +812,7 @@ Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/takas-basvurularim', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
@@ -1163,6 +1166,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/get_sale_closes/{project_id}',[ApiProjectController::class,"getSaleCloses"]);
     Route::get('/render_pdf/{project_id}/{room_order}',[ApiProjectController::class,"renderPdf"]);
     Route::get('/get_sale/{project_id}/{room_order}',[ApiProjectController::class,"getSale"]);
+    Route::apiResource('customer', CrmController::class);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

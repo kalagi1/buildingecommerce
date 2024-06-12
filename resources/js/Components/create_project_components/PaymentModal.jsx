@@ -64,6 +64,7 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                 installmentsTemp.push({
                     price : getInstallmentMonthPrice().toFixed(0),
                     date : formattedDate,
+                    payment_date : '',
                     is_payment : false,
                     paymentType : "Nakit"
                 });
@@ -116,6 +117,21 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                 return {
                     ...installment,
                     date : date
+                }
+            }else{
+                return installment
+            }
+        })
+
+        setInstallments(newInstallments)
+    }
+
+    const setPaymentPaymentDate = (id,date) => {
+        var newInstallments = installments.map((installment,key) => {
+            if(id == key){
+                return {
+                    ...installment,
+                    payment_date : date
                 }
             }else{
                 return installment
@@ -244,6 +260,10 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                                                         <input type="date" onChange={(e) => {setPaymentDate(i,e.target.value)}} value={installment.date} className='form-control' />
                                                     </div>
                                                     <div className="col-md-2">
+                                                        <label htmlFor="">Ödeme Tarihi</label>
+                                                        <input type="date" onChange={(e) => {setPaymentPaymentDate(i,e.target.value)}} value={installment.payment_date} className='form-control' />
+                                                    </div>
+                                                    <div className="col-md-2">
                                                         <label htmlFor="">Ödeme Yöntemi</label>
                                                         <select value={installment.paymentType} onChange={(e) => {console.log(e.target.value); setPaymentMethod(i,e.target.value)}} name="" className='form-control' id="">
                                                             <option value="Nakit">Nakit</option>
@@ -252,7 +272,7 @@ function PaymentModal({setSelectedId,open,setOpen,solds,selectedData,selectedId,
                                                             <option value="Diğer">Diğer</option>
                                                         </select>
                                                     </div>
-                                                    <div className="col-md-4">
+                                                    <div className="col-md-2">
                                                         <label htmlFor="">Açıklama</label>
                                                         <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'desc')}} value={installment.description} className='form-control' />
                                                     </div>
