@@ -184,17 +184,7 @@
 
 @section('styles')
     <style>
-        @font-face {
-  font-family: 'Sigmar One';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/sigmarone/v18/co3DmWZ8kjZuErj9Ta3do6Tpow.ttf) format('truetype');
-}
-body {
-  background: #3da1d1;
-  color: #fff;
-  overflow: hidden;
-}
+  
 .congrats {
   position: absolute;
   top: 140px;
@@ -206,7 +196,7 @@ body {
   left: 0;
   right: 0;
 }
-h1 {
+.congrats h1 {
   transform-origin: 50% 50%;
   font-size: 50px;
   font-family: 'Sigmar One', cursive;
