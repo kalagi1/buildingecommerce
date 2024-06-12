@@ -73,7 +73,6 @@
                                 <td>
 
                                     @if (!$item->response_description)
-                                        Henüz yanıtlanmadı
                                         <span class="badge badge-warning">Henüz Yanıtlanmadı</span>
                                     @else
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
