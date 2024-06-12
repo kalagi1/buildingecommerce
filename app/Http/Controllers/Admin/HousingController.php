@@ -62,6 +62,8 @@ class HousingController extends Controller
         // Define a common base query for reuse
         $baseQuery = Housing::with([
             'images',
+            'user',
+            'owner',
             'housing_type',
             'listItems',
             'city',

@@ -84,7 +84,6 @@
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
 
-
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
