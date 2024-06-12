@@ -24,6 +24,12 @@ class Form extends Model
         return $this->belongsTo(City::class, 'arsa_il', 'id');
     }
 
+    
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+    
     public function acounty()
     {
         return $this->belongsTo(County::class, 'arsa_ilce', 'key_x');

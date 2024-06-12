@@ -376,7 +376,7 @@
                             <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-bs-toggle="modal"
                                 data-bs-target="#approveProjectModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
-                                Başvuru Yap
+                                Teklif Ver
                             </button>
                         @else
                             <a href="{{ route('client.login') }}"
@@ -386,7 +386,7 @@
                             display: flex;
                             justify-content: center;background-color:black !important;border:1px solid black;color:white"
                                 class="first-btn payment-plan-mobile-btn mobileCBtn">
-                                Başvuru Yap
+                                Teklif Ver
                             </a>
                         @endif
                     @else
@@ -459,7 +459,7 @@
             <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
                 {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
-                    Başvuru Yap</h3>
+                    Teklif Ver</h3>
                 <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
@@ -482,7 +482,6 @@
                                 <label for="surname" class="q-label">Telefon Numarası : </label>
                                 <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                     id="phone" name="phone">
-                                <span id="error_message" class="error-message"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -526,6 +525,14 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
+                                <input type="text" class="modal-input" placeholder="Fiyat" id="price"
+                                    name="price">
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -660,6 +667,23 @@
 
 
     <script>
+        document.getElementById('price').addEventListener('input', function(e) {
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            e.target.value = value;
+        });
+
         $('.bank-account').on('click', function() {
             // Tüm banka görsellerini seçim olmadı olarak ayarla
             $('.bank-account').removeClass('selected');
@@ -730,5 +754,7 @@
             return randomCode;
         }
     </script>
+
+
 
 @endif

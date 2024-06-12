@@ -62,13 +62,14 @@ class HousingController extends Controller
         // Define a common base query for reuse
         $baseQuery = Housing::with([
             'images',
+            'user',
+            'owner',
             'housing_type',
             'listItems',
             'city',
             'district',
             'neighborhood'
         ])
-        ->where('status', 1)
         ->whereHas('listItems', function($query) {
             $query->where('item_type', 2);
         })
@@ -80,6 +81,7 @@ class HousingController extends Controller
             ->whereNull('deleted_at')
             ->whereNull('is_sold')
             ->get();
+
 
         // Inactive housings
         $inactiveHousingTypes = (clone $baseQuery)
@@ -114,7 +116,8 @@ class HousingController extends Controller
         $deletedHousings = (clone $baseQuery)
             ->onlyTrashed()
             ->get();
-        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
+
+        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
     }
 
     /**
@@ -167,15 +170,16 @@ class HousingController extends Controller
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
         $housingCityId = (int) $housing->city_id;
 
-        // $ownerCityId = ( int ) $housing->owner->id;
-        $nearestUsers = User::with('city')
-            ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
+        $nearestUsers = User::with('city','district')
+            ->select('id', 'name', 'city_id', 'county_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
             ->where('type', '=', 2) // type 2 olanları al
             ->where('corporate_type', '=', 'Emlak Ofisi')
             ->whereNotNull('city_id') // city_id değeri null olmayanları al
+            ->whereNotNull('county_id') // city_id değeri null olmayanları al
             ->whereNull('parent_id') // parent_id değeri null olanları al
             ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
             ->get();
+
         $institutions = Institution::all(); // Tüm kurumları al
         $rates = Rate::where('housing_id', $housingId)->get();
 
@@ -464,6 +468,7 @@ class HousingController extends Controller
 
     public function isShareİndex()
     {
+        
 
         $activeHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner")
             ->where('status', 1)

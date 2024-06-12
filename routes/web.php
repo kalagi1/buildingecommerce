@@ -107,6 +107,9 @@ use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmControll
 |
  */
 
+
+ Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
@@ -225,8 +228,6 @@ Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->na
 Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 // Route::post('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
 // Route::post('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
-Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 Route::get('sifre-sifirla', [ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');
@@ -813,13 +814,13 @@ Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
-    Route::get('/takas-basvurularim', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+    Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
     Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
 
-    Route::get('gelen-konut-basvurulari', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
-    Route::get('basvurularim', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
+    Route::get('projelerime-gelen-basvurular', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
+    Route::get('projelere-yaptigim-basvurular', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
@@ -838,6 +839,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('set_selected_data/{item_id}', [InstitutionalProjectController::class, 'setSelectedData'])->name('set.selected.data');
 
     Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
+    Route::post('/collections/delete', [SharerController::class, 'deleteCollectioJson'])->name('collection.delete.json');
+
     Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
 
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
@@ -857,6 +860,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
+    Route::put('phone-verification/phone/update', [DashboardController::class, 'phoneUpdate'])
+        ->name('phone.update.generateVerificationCode');
 
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');

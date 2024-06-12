@@ -9,7 +9,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 400;
-    color: #666;
+    color: black;
     overflow-x: hidden !important;
 }
 
@@ -596,7 +596,6 @@ img {
 .brand-head .brands-square {
     display: flex;
     align-items: center;
-    margin-left: 20px;
 }
 
 .brand-head .brand-logo {
@@ -607,12 +606,11 @@ img {
 }
 
 .brand-head .brand-name {
-    margin-left: 10px !important;
-    margin-right: 0 !important;
+    margin-right: 10px !important;
     font-weight: 600;
     font-size: 11px;
     margin: 0;
-    padding: 0;
+    padding: 0px 5px;
     color: white;
 }
 
@@ -3149,7 +3147,6 @@ section.portfolio {
     text-align: center;
     width: 70px !important;
     margin-top: 10px;
-    background-color: #EA2B2E !important;
 }
 
 .portfolio .homes-price,
@@ -17695,10 +17692,14 @@ section.headings-2 {
     color: #76716f;
 }
 
+.listing-title-bar{
+    margin-left:10px
+}
+
 .inner-pages .headings-2 .listing-title-bar h3 {
     font-size: 16px;
     font-weight: 600;
-    line-height: 34px;
+    line-height: 20px;
     color: #222;
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
@@ -24547,6 +24548,10 @@ form label.error {
     width: 200px;
 }
 
+.modal-footer{
+    border-top: 0 !important;
+}
+
 .btn {
     height: 40px !important;
 }
@@ -24587,6 +24592,99 @@ form label.error {
     overflow: hidden;
     position: relative;
 }
+
+.storeShareTypeBtn {
+    position: relative;
+    width: 170px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    background-color: white;  
+    color:black;
+      transition: all 0.2s ease;
+    margin-right: 20px;
+}
+
+.storeShareTypeBtn:before,
+.storeShareTypeBtn:after {
+    position: absolute;
+    content: "";
+    width: 150%;
+    left: 50%;
+    height: 100%;
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+}
+
+.storeShareTypeBtn:hover:before {
+    top: -70%;
+    background-image: radial-gradient(circle, #a89215 20%, transparent 20%),
+        radial-gradient(circle, transparent 20%, #13a5be 20%, transparent 30%),
+        radial-gradient(circle, #a3b82d 20%, transparent 20%),
+        radial-gradient(circle, #590cbe 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, #bd1717 15%, transparent 20%),
+        radial-gradient(circle, #2a7ce8 20%, transparent 20%),
+        radial-gradient(circle, #30e82a 20%, transparent 20%),
+        radial-gradient(circle, #e92c75 20%, transparent 20%),
+        radial-gradient(circle, #914fe7 20%, transparent 20%);
+    background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+        10% 10%, 18% 18%;
+    background-position: 50% 120%;
+    animation: greentopBubbles 0.6s ease infinite;
+}
+
+@keyframes greentopBubbles {
+    0% {
+        background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+            40% 90%, 55% 90%, 70% 90%;
+    }
+
+    50% {
+        background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+            50% 50%, 65% 20%, 90% 30%;
+    }
+
+    100% {
+        background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+            50% 40%, 65% 10%, 90% 20%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+}
+
+.storeShareTypeBtn:hover:after {
+    bottom: -70%;
+    background-image: radial-gradient(circle, #ff93db 20%, transparent 20%),
+        radial-gradient(circle, #2ae8df 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, #71ffbd 15%, transparent 20%),
+        radial-gradient(circle, #2a9ce8 20%, transparent 20%),
+        radial-gradient(circle, #7814fc 20%, transparent 20%),
+        radial-gradient(circle, #73e4f8 20%, transparent 20%),
+        radial-gradient(circle, #f8d3a9 20%, transparent 20%);
+    background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+    background-position: 50% 0%;
+    animation: greenbottomBubbles 0.6s ease infinite;
+}
+
+@keyframes greenbottomBubbles {
+    0% {
+        background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+            70% -10%, 70% 0%;
+    }
+
+    50% {
+        background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+            105% 0%;
+    }
+
+    100% {
+        background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+            110% 10%;
+        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+}
+
 
 .see-my-neighbor .animation {
     border-radius: 100%;
@@ -29570,10 +29668,10 @@ font {
 }
 
 .type-tag {
-    background-color: rgba(74, 74, 76, 0.7) !important;
+    background-color: black !important;
     right: 10px;
     text-align: center;
-    width: auto !important;
+    width: 50px !important;
     margin-top: 10px;
     position: absolute;
 }

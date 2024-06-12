@@ -25,7 +25,7 @@
                         İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satınlan İlanlar</a>
+                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satılan İlanlar</a>
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
@@ -84,23 +84,26 @@
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
 
-
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
 
                 var housingTitleCell = document.createElement("td");
+
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.housing_title +
+                housingTitleCell.innerHTML =  housingType.title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
-                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
                         .mahalle_title : "") +
                     "</span>";
 
+
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type;
+                housingTypeCell.textContent = housingType.housing_type.title;
+
+
 
 
                 // Create a new table cell element
@@ -130,6 +133,12 @@
                     '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
                     '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
+                    if (housingType.owner_id) {
+                    const sharedListingTag = document.createElement('span');
+                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2 mb-2';
+                    sharedListingTag.textContent = 'Paylaşımlı İlan';
+                    statusCell.append(sharedListingTag);
+                }
 
                 var createdAtCell = document.createElement("td");
                 createdAtCell.className = "align-middle created_at";
