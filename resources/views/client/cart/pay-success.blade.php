@@ -183,8 +183,7 @@
 @section('styles')
     <style>
         .congrats {
-            position: absolute;
-            top: 140px;
+            position: relative;
             width: 550px;
             height: 100px;
             padding: 20px 10px;
@@ -196,11 +195,10 @@
 
         .congrats h1 {
             transform-origin: 50% 50%;
-            font-size: 50px;
-            font-family: 'Sigmar One', cursive;
+            font-size: 32px;
             cursor: pointer;
             z-index: 2;
-            position: absolute;
+            position: relative;
             top: 0;
             text-align: center;
             width: 100%;
