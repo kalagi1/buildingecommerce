@@ -1,20 +1,20 @@
 @extends('institutional.layouts.master')
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
 @section('content')
     <div class="content">
         <h3 class=" mt-2 mb-4">Projelere Yaptığım Başvurular</h3>
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white ">
+        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm  border-200 fs--1 mb-0">
                     <thead>
                         <tr>
-                            <th>
-                                No
-                            </th>
+                            <th>No</th>
                             <th>Profil</th>
                             <th>Teklif İstediğim Mağaza</th>
-                            <th style="width:200px">Proje </th>
-                            <th>Teklif Ettiğim Fiyat</th>
+                            <th style="width:200px">Proje</th>
+                            <th>Teklif Edilen Fiyat</th>
                             <th>İsim</th>
                             <th>Telefon</th>
                             <th>Meslek</th>
@@ -131,13 +131,10 @@
     </div>
 @endsection
 
-
 @section('scripts')
     <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
-
     <script>
         $(document).ready(function() {
-            // CKEDITOR oluşturma fonksiyonu
             function createEditor(itemId) {
                 var editorId = 'content_' + itemId; // CKEDITOR'ün benzersiz ID'si
                 CKEDITOR.replace(editorId, {
@@ -146,7 +143,6 @@
                 });
             }
 
-            // Sayfa yüklendiğinde tüm CKEDITOR'leri oluştur
             @foreach ($data as $item)
                 createEditor({{ $item->id }});
             @endforeach
@@ -157,4 +153,48 @@
             }
         });
     </script>
+
+    <script>
+        function updateResponseText(itemId) {
+            var toggle = document.getElementById('response_toggle' + itemId);
+            var label = document.querySelector('label[for=response_toggle' + itemId + ']');
+            if (toggle.checked) {
+                label.textContent = 'Olumlu Değerlendirildi';
+            } else {
+                label.textContent = 'Olumsuz Değerlendirildi';
+            }
+        }
+    </script>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+@endsection
+
+@section('css')
+    <style>
+        .custom-control-input:checked+.custom-control-label::before {
+            background-color: green !important;
+        }
+
+        .custom-control-input:not(:checked)+.custom-control-label::before {
+            background-color: red !important;
+        }
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+    </style>
 @endsection
