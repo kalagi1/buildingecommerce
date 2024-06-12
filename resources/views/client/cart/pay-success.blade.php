@@ -9,9 +9,7 @@
 
             <h3>Sipariş Bilgileri</h3>
 
-            <p style="font-size: 18px;">
-                
-                #{{ $cart_order->id }} numaralı siparişiniz başarıyla oluşturuldu.</p>
+            <p style="font-size: 18px;"> #{{ $cart_order->id }} numaralı siparişiniz başarıyla oluşturuldu.</p>
 
 
             <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri
