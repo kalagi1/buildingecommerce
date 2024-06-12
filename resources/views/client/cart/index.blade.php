@@ -360,6 +360,8 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                             
                                             @if ($cart['type'] == 'housing')
                                                 <li>Hizmet Bedeli :<strong class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }} TL</strong></li>
+                                                <p class="text-muted">Hizmet bedeli, kapora tutarının %10'u olarak hesaplanmıştır.</p>
+
                                             @endif
                                             
 
