@@ -269,6 +269,55 @@
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
 
+
+                                @php
+                                    $soldOut =
+                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
+                                        (isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sold &&
+                                            $sold->status != '2' &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
+
+                                    $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
+
+                                    $saleClosed =
+                                        $sold &&
+                                        $sold->status == '2' &&
+                                        $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
+
+                                    $soldAndNotStatus2 =
+                                        ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                        ($sold && $sold->status != '2' && empty($share_sale)) ||
+                                        (isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sold &&
+                                            $sold->status != '2' &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
+
+                                    $style = "style='background: #EA2B2E !important; width: 100%; color: White;'";
+                                    $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
+                                    $satildiStyle =
+                                        "style='background: #EA2B2E !important; color: White; width: 100%;'";
+
+                                    if (
+                                        ($sold &&
+                                            $sold->status == '0' &&
+                                            (empty($share_sale) || $share_sale == '[]')) ||
+                                        (isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$housingOrder]) &&
+                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
+                                    ) {
+                                        $btnStyle = $rezerveStyle;
+                                    } elseif ($sold && $sold->status == '1') {
+                                        $btnStyle = $satildiStyle;
+                                    } else {
+                                        $btnStyle = $satildiStyle;
+                                    }
+                                @endphp
+
+{{dd($sold)}}
+
                                 @if (
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
                                         !$sold ||
@@ -334,53 +383,7 @@
                                     </div>
                                 @endif
 
-                                @php
-                                    $soldOut =
-                                        ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status == '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share);
-                                 
-                                    $offSale = $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold;
-
-                                    $saleClosed =
-                                        $sold &&
-                                        $sold->status == '2' &&
-                                        $projectHousingsList[$housingOrder]['off_sale[]'] != '[]';
-
-                                    $soldAndNotStatus2 =
-                                        ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                        ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sold &&
-                                            $sold->status != '2' &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
-
-                                    $style = "style='background: #EA2B2E !important; width: 100%; color: White;'";
-                                    $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
-                                    $satildiStyle =
-                                        "style='background: #EA2B2E !important; color: White; width: 100%;'";
-
-                                    if (
-                                        ($sold &&
-                                            $sold->status == '0' &&
-                                            (empty($share_sale) || $share_sale == '[]')) ||
-                                        (isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$housingOrder]) &&
-                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)
-                                    ) {
-                                        $btnStyle = $rezerveStyle;
-                                    } elseif ($sold && $sold->status == '1') {
-                                        $btnStyle = $satildiStyle;
-                                    } else {
-                                        $btnStyle = $satildiStyle;
-                                    }
-
-                                @endphp
-                                <div class="@if ($soldOut || !$offSale && !$sold ) col-md-6 col-6 @else col-md-12 col-12 @endif"
+                                <div class="@if ($soldOut || (!$offSale && !$sold) || !$soldAndNotStatus2) col-md-6 col-6 @else col-md-12 col-12 @endif"
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
@@ -1060,7 +1063,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]' || $offSale || $saleClosed) ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || ((!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') || $offSale || $saleClosed) ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
