@@ -184,40 +184,42 @@
 
 @section('styles')
     <style>
-  
-.congrats {
-  position: absolute;
-  top: 140px;
-  width: 550px;
-  height: 100px;
-  padding: 20px 10px;
-  text-align: center;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-}
-.congrats h1 {
-  transform-origin: 50% 50%;
-  font-size: 50px;
-  font-family: 'Sigmar One', cursive;
-  cursor: pointer;
-  z-index: 2;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  width: 100%;
-}
-.blob {
-  height: 50px;
-  width: 50px;
-  color: #ffcc00;
-  position: absolute;
-  top: 45%;
-  left: 45%;
-  z-index: 1;
-  font-size: 30px;
-  display: none;
-}
+        .congrats {
+            position: absolute;
+            top: 140px;
+            width: 550px;
+            height: 100px;
+            padding: 20px 10px;
+            text-align: center;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+
+        .congrats h1 {
+            transform-origin: 50% 50%;
+            font-size: 50px;
+            font-family: 'Sigmar One', cursive;
+            cursor: pointer;
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .blob {
+            height: 50px;
+            width: 50px;
+            color: #ffcc00;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            z-index: 1;
+            font-size: 30px;
+            display: none;
+        }
+
         .custom-file-upload {
             border: 1px solid #ccc;
             display: inline-block;
