@@ -68,7 +68,6 @@ class HousingController extends Controller
             'district',
             'neighborhood'
         ])
-        ->where('status', 1)
         ->whereHas('listItems', function($query) {
             $query->where('item_type', 2);
         })
