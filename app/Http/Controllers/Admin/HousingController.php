@@ -115,7 +115,6 @@ class HousingController extends Controller
             ->onlyTrashed()
             ->get();
 
-            return $pendingHousingTypes;
         return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
     }
 
