@@ -116,11 +116,7 @@
             }
         });
     </script>
-
-    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js'></script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js'></script>
-    <script id="rendered-js">
+    <script >
         $(function() {
             var numberOfStars = 20;
 
