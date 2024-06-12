@@ -1486,7 +1486,7 @@ class ProjectController extends Controller
             ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
             ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
             ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.numbershare")'),"!=", null )
+            ->whereNotNull('cart->item->numbershare')
             ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
             ->get();
 
