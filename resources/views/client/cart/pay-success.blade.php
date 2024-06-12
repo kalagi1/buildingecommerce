@@ -75,72 +75,36 @@
                 });
             }
 
-            // function animateBlobs() {
-            //     var xSeed = _.random(350, 380);
-            //     var ySeed = _.random(120, 170);
-
-            //     $.each($('.blob'), function(i) {
-            //         var $blob = $(this);
-            //         var speed = _.random(1, 5);
-            //         var rotation = _.random(5, 100);
-            //         var scale = _.random(0.8, 1.5);
-            //         var x = _.random(-xSeed, xSeed);
-            //         var y = _.random(-ySeed, ySeed);
-
-            //         TweenMax.to($blob, speed, {
-            //             x: x,
-            //             y: y,
-            //             ease: Power1.easeOut,
-            //             opacity: 0,
-            //             rotation: rotation,
-            //             scale: scale,
-            //             onStartParams: [$blob],
-            //             onStart: function($element) {
-            //                 $element.css('display', 'block');
-            //             },
-            //             onCompleteParams: [$blob],
-            //             onComplete: function($element) {
-            //                 $element.css('display', 'none');
-            //             }
-            //         });
-            //     });
-            // }
-
             function animateBlobs() {
-    var numberOfConfetti = 100; // Daha fazla konfeti kullanabilirsiniz
+                var xSeed = _.random(350, 380);
+                var ySeed = _.random(120, 170);
 
-    for (var i = 0; i < numberOfConfetti; i++) {
-        var confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        document.querySelector('.congrats').appendChild(confetti);
+                $.each($('.blob'), function(i) {
+                    var $blob = $(this);
+                    var speed = _.random(1, 5);
+                    var rotation = _.random(5, 100);
+                    var scale = _.random(0.8, 1.5);
+                    var x = _.random(-xSeed, xSeed);
+                    var y = _.random(-ySeed, ySeed);
 
-        var speed = _.random(1, 5);
-        var rotation = _.random(0, 360); // Dönüş açısını daha rastgele hale getiriyoruz
-        var scale = _.random(0.5, 1.5); // Farklı boyutlar için aralığı değiştirebilirsiniz
-        var x = _.random(0, window.innerWidth); // Sayfa genişliği kadar bir x koordinatı belirliyoruz
-        var y = _.random(-window.innerHeight, 0); // Üst kısmından başlayacak şekilde bir y koordinatı belirliyoruz
-
-        TweenMax.to(confetti, speed, {
-            x: x,
-            y: y,
-            ease: Power1.easeOut,
-            opacity: 0,
-            rotation: rotation,
-            scale: scale,
-            onStartParams: [confetti],
-            onStart: function(elem) {
-                elem.style.display = 'block';
-            },
-            onCompleteParams: [confetti],
-            onComplete: function(elem) {
-                elem.style.display = 'none';
-                elem.parentNode.removeChild(elem);
+                    TweenMax.to($blob, speed, {
+                        x: x,
+                        y: y,
+                        ease: Power1.easeOut,
+                        opacity: 0,
+                        rotation: rotation,
+                        scale: scale,
+                        onStartParams: [$blob],
+                        onStart: function($element) {
+                            $element.css('display', 'block');
+                        },
+                        onCompleteParams: [$blob],
+                        onComplete: function($element) {
+                            $element.css('display', 'none');
+                        }
+                    });
+                });
             }
-        });
-    }
-}
-
-
         });
     </script>
 @endsection
@@ -160,19 +124,6 @@
             top: 140;
             right: 0;
         }
-        .confetti {
-    width: 20px;
-    height: 20px;
-    background-color: #ff0000; /* Kırmızı renk */
-    background-image: linear-gradient(to right, #ff0000, #0000ff); /* Kırmızıdan maviye gradient */
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    display: none;
-}
-
 
         .congrats h1 {
             transform-origin: 50% 50%;
