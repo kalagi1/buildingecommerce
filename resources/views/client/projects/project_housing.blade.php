@@ -418,7 +418,7 @@
                             </div>
                         </div>
                     </div>
-                    {{dd($projectHousingsList[$housingOrder]['off_sale[]'] . $sold)}}
+                    {{dd($projectHousingsList[$housingOrder]['off_sale[]'])}}
 
                     @if (($sold &&  $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] == '[]')
                         <div class="moveCollection">
