@@ -813,7 +813,7 @@ Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
-    Route::get('/takas-basvurularim', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+    Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
     Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
