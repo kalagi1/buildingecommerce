@@ -7,7 +7,6 @@
                 <h1>Siparişiniz Oluşturuldu !</h1>
             </div>
 
-            <div style="color: #27ae60; font-size: 26px; text-align: center;">ÖDEME BAŞARILI</div>
             <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş Numaranız: {{ $cart_order->id }}</p>
 
 
@@ -130,7 +129,7 @@
             cursor: pointer;
             z-index: 2;
             position: relative;
-            top: 0;
+            top: 140;
             text-align: center;
             width: 100%;
             color: #27ae60;
