@@ -450,7 +450,7 @@
                                             aria-label="Select user">
                                             @foreach ($nearestUsers as $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }} -
-                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                                    {{ $user->city ? $user->city->title : null }}</option>
                                             @endforeach
                                         </select>
                                         <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
