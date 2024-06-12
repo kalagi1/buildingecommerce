@@ -418,9 +418,9 @@
                             </div>
                         </div>
                     </div>
-                    {{dd($projectHousingsList[$housingOrder]['off_sale[]'])}}
+                    
 
-                    @if (($sold &&  $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] == '[]')
+                    @if (($sold &&  $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
                         <div class="moveCollection">
                             <div class="add-to-collections-wrapper addCollectionMobile addCollection" data-type='project'
                                 data-id="{{ $housingOrder }}" data-project="{{ $project->id }}">
