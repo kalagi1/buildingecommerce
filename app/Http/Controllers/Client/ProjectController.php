@@ -1453,28 +1453,7 @@ class ProjectController extends Controller
                 ->get()
                 ->keyBy("housing_id");
 
-            $sumCartOrderQt = DB::table('cart_orders')
-                ->select(
-                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
-                )
-                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-                ->get();
-
-
-            $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
-                ->mapWithKeys(function ($group) {
-                    return [
-                        $group->first()->housing_id => [
-                            'housing_id' => $group->first()->housing_id,
-                            'qt_total' => $group->sum('qt'),
-                        ]
-                    ];
-                })
-                ->all();
+         
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
             $selectedPage = $request->input('selected_page') ?? 0;
@@ -1498,7 +1477,30 @@ class ProjectController extends Controller
             $endIndex = $project->house_count + 20;
 
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
+            
+            $sumCartOrderQt = DB::table('cart_orders')
+            ->select(
+                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+            )
+            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.numbershare")'),"!=", null )
+            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+            ->get();
 
+
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+            ->mapWithKeys(function ($group) {
+                return [
+                    $group->first()->housing_id => [
+                        'housing_id' => $group->first()->housing_id,
+                        'qt_total' => $group->sum('qt'),
+                    ]
+                ];
+            })
+            ->all();
 
             // Meta bilgi değişkeni tanımlanıyor
             $pageInfo = [

@@ -316,7 +316,6 @@
                                     }
                                 @endphp
 
-{{dd($sumCartOrderQt[$housingOrder])}}
 
                                 @if (
                                     ($sold && $sold->status == '2' && $share_sale == '[]') ||
