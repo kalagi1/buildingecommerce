@@ -16,12 +16,6 @@
 
             <a href="{{ url('/') }}" class="btn btn-primary btn-lg">Anasayfaya Gİt</a>
 
-            <!-- İlerleme çubuğu -->
-            {{-- <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
-                    aria-valuemin="0" aria-valuemax="100" style="width: 100%;height:50px;">Anasayfaya
-                    Yönlendiriliyorsunuz...</div>
-            </div> --}}
 
         </div>
 
@@ -41,21 +35,16 @@
                 var numberOfStars = 20;
 
                 for (var i = 0; i < numberOfStars; i++) {
-                    // if (window.CP.shouldStopExecution(0)) break;
                     $('.congrats').append('<div class="blob fa fa-star ' + i + '"></div>');
                 }
-                window.CP.exitedLoop(0);
 
                 animateText();
-
                 animateBlobs();
             });
 
-            $('.congrats').click(function() {
+            $('.congrats').hover(function() {
                 reset();
-
                 animateText();
-
                 animateBlobs();
             });
 
@@ -82,11 +71,9 @@
                     rotation: 15,
                     ease: Back.easeOut.config(4)
                 });
-
             }
 
             function animateBlobs() {
-
                 var xSeed = _.random(350, 380);
                 var ySeed = _.random(120, 170);
 
@@ -114,70 +101,12 @@
                             $element.css('display', 'none');
                         }
                     });
-
-                });
-            }
-        });
-    </script>
-
-    <script>
-        $("#createOrder").click(function() {
-            // Sepete eklenecek verileri burada hazırlayabilirsiniz
-
-
-            // Ajax isteği gönderme
-            $.ajax({
-                url: "{{ route('client.create.order') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}"
-                }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                success: function(response) {
-                    // İşlem başarılı olduğunda buraya gelir
-                    toast.success(response)
-                    console.log("Ürün sepete eklendi: " + response);
-
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
-        });
-    </script>
-    <script>
-        // "Sil" düğmesine tıklanıldığında
-        $(".remove-from-cart").click(function() {
-            var productId = $(this).data('id');
-            var confirmation = confirm("Ürünü sepetten kaldırmak istiyor musunuz?");
-
-            if (confirmation) {
-                // Ürünü sepetten kaldırmak için Ajax isteği gönderme
-                $.ajax({
-                    url: "{{ route('client.remove.from.cart') }}", // Sepetten ürünü kaldırmak için uygun URL'yi belirtin
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-
-                        // İşlem başarılı olduğunda buraya gelir
-                        toastr.success("Ürün sepetten kaldırıldı");
-                        console.log("Ürün sepetten kaldırıldı: " + response);
-                        location.reload();
-
-                    },
-                    error: function(error) {
-                        // Hata durumunda buraya gelir
-                        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                        console.error("Hata oluştu: " + error);
-                    }
                 });
             }
         });
     </script>
 @endsection
+
 
 
 @section('styles')
