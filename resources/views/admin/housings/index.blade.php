@@ -83,7 +83,6 @@
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
-                console.log(housingType);
 
 
                 var idCell = document.createElement("td");
@@ -91,8 +90,14 @@
                 idCell.textContent = housingType.id + 2000000;
 
                 var housingTitleCell = document.createElement("td");
+                if (housingType.owner_id) {
+                    const sharedListingTag = document.createElement('span');
+                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2';
+                    sharedListingTag.textContent = 'Paylaşımlı İlan';
+                    housingTitleCell.append(sharedListingTag);
+                }
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.title +
+                housingTitleCell.innerHTML = "<br>" + housingType.title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
                     housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
@@ -104,12 +109,7 @@
                 housingTypeCell.textContent = housingType.housing_type.title;
 
 
-                if (housingType.owner_id) {
-                    const sharedListingTag = document.createElement('span');
-                    sharedListingTag.className = 'badge badge-info ml-2';
-                    sharedListingTag.textContent = 'Paylaşımlı İlan';
-                    housingTitleCell.append(sharedListingTag);
-                }
+
 
                 // Create a new table cell element
                 var housingConsultant = document.createElement("td");
