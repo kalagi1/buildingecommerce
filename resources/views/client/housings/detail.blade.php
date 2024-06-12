@@ -2948,6 +2948,33 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#price-update-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                var formAction = $(this).attr('action');
+    
+                $.ajax({
+                    type: 'POST',
+                    url: formAction,
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#current-price').text(response.new_price_formatted);
+                            alert('Fiyat başarıyla güncellendi.');
+                        } else {
+                            alert('Fiyat güncellenirken bir hata oluştu.');
+                        }
+                    },
+                    error: function() {
+                        alert('Sunucu hatası. Lütfen daha sonra tekrar deneyiniz.');
+                    }
+                });
+            });
+        });
+    </script>
+    
 @endsection
 
 @section('styles')

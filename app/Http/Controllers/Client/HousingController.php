@@ -12,6 +12,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -224,5 +225,28 @@ class HousingController extends Controller {
         $housingTypes = HousingType::get();
 
         return view( 'client.housings.list', compact( 'housings', 'menu', 'cities', 'housingTypes' ) );
+    }
+
+    public function updatePrice(Request $request, $id) {
+        $housing = Housing::findOrFail($id);
+    
+        if (Auth::check() && Auth::user()->id == $housing->user_id) {
+            $newPrice = $request->input('new_price');
+            $housingTypeData = json_decode($housing->housing_type_data, true);
+            if ($housing->step2_slug == 'gunluk-kiralik') {
+                $housingTypeData['daily_rent'][0] = $newPrice;
+            } else {
+                $housingTypeData['price'][0] = $newPrice;
+            }
+            $housing->housing_type_data = json_encode($housingTypeData);
+            $housing->save();
+    
+            return response()->json([
+                'success' => true,
+                'new_price_formatted' => number_format($newPrice, 0, ',', '.')
+            ]);
+        } else {
+            return response()->json(['success' => false], 403);
+        }
     }
 }
