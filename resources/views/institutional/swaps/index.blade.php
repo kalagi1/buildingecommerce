@@ -56,10 +56,6 @@
                 });
             }
 
-            @foreach ($data as $item)
-                createEditor({{ $item->id }});
-            @endforeach
-
             // CKEDITOR içeriğini almak için bir fonksiyon
             function getContent(itemId) {
                 return CKEDITOR.instances['content_' + itemId].getData();
