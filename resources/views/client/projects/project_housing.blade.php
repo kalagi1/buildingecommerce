@@ -418,9 +418,9 @@
                             </div>
                         </div>
                     </div>
-                    
 
-                    @if (($sold &&  $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
+
+                    @if (($sold && $sold->status == '2') || !$sold || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
                         <div class="moveCollection">
                             <div class="add-to-collections-wrapper addCollectionMobile addCollection" data-type='project'
                                 data-id="{{ $housingOrder }}" data-project="{{ $project->id }}">
@@ -591,7 +591,8 @@
                                                         <div id="emlakyse" style="display: none;"
                                                             class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
-                                                            <select class="modal-input" id="emlak_tipi" name="emlak_tipi">
+                                                            <select class="modal-input" id="emlak_tipi"
+                                                                name="emlak_tipi">
                                                                 <option value="">Seçiniz</option>
                                                                 <option value="konut">Konut</option>
                                                                 <option value="arsa">Arsa</option>
@@ -600,103 +601,125 @@
                                                         </div>
 
                                                         <div id="konutyse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
-                                                            <label class="form-label" for="konut_tipi">Konut Tipi:</label>
-                                                            <select class="modal-input" id="konut_tipi" name="konut_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="daire">Daire</option>
-                                                                <option value="villa">Villa</option>
-                                                                <option value="residance">Residance</option>
-                                                                <option value="prefabrik_ev">Prefabrik Ev</option>
-                                                                <option value="çiftlik_evi">Çiftlik Evi</option>
-                                                            </select>
+                                                            class="col-md-12 col-12">
 
-                                                            <label for="oda_sayisi">Oda Sayısı</label>
-                                                            <select class="form-select modal-input"
-                                                                aria-label="Default select example" id="oda_sayisi"
-                                                                name="oda_sayisi">
-                                                                <option selected>Seçiniz</option>
-                                                                <option value="1+0">1+0</option>
-                                                                <option value="1.5+1">1.5+1</option>
-                                                                <option value="2+0">2+0</option>
-                                                                <option value="2+1">2+1</option>
-                                                                <option value="2.5+1">2.5+1</option>
-                                                                <option value="3+0">3+0</option>
-                                                                <option value="3+1">3+1</option>
-                                                                <option value="3.5+1">3.5+1</option>
-                                                                <option value="3+2">3+2</option>
-                                                                <option value="3+3">3+3</option>
-                                                                <option value="4+0">4+0</option>
-                                                                <option value="4+1">4+1</option>
-                                                                <option value="4.5+1">4.5+1</option>
-                                                                <option value="4+2">4+2</option>
-                                                                <option value="4+3">4+3</option>
-                                                                <option value="4+4">4+4</option>
-                                                                <option value="5+1">5+1</option>
-                                                                <option value="5.5+1">5.5+1</option>
-                                                                <option value="5+2">5+2</option>
-                                                                <option value="5+3">5+3</option>
-                                                                <option value="5+4">5+4</option>
-                                                                <option value="6+1">6+1</option>
-                                                                <option value="6+2">6+2</option>
-                                                                <option value="6.5+1">6.5+1</option>
-                                                                <option value="6+3">6+3</option>
-                                                                <option value="6+4">6+4</option>
-                                                                <option value="7+1">7+1</option>
-                                                                <option value="7+2">7+2</option>
-                                                                <option value="7+3">7+3</option>
-                                                                <option value="8+1">8+1</option>
-                                                                <option value="8+2">8+2</option>
-                                                                <option value="8+3">8+3</option>
-                                                                <option value="8+4">8+4</option>
-                                                                <option value="9+1">9+1</option>
-                                                                <option value="9+2">9+2</option>
-                                                                <option value="9+3">9+3</option>
-                                                                <option value="9+4">9+4</option>
-                                                                <option value="9+5">9+5</option>
-                                                                <option value="9+6">9+6</option>
-                                                                <option value="10+1">10+1</option>
-                                                                <option value="10+2">10+2</option>
-                                                                <option value="11+1">11+1</option>
-                                                                <option value="12 ve üzeri">12 ve üzeri</option>
-                                                            </select>
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="konut_tipi">Konut
+                                                                    Tipi:</label>
+                                                                <select class="modal-input" id="konut_tipi"
+                                                                    name="konut_tipi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="daire">Daire</option>
+                                                                    <option value="villa">Villa</option>
+                                                                    <option value="residance">Residance</option>
+                                                                    <option value="prefabrik_ev">Prefabrik Ev</option>
+                                                                    <option value="çiftlik_evi">Çiftlik Evi</option>
+                                                                </select>
 
-                                                            <label class="form-label" for="konut_tipi">Konut Yaşı:</label>
-                                                            <select class="modal-input" id="konut_yasi" name="konut_yasi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                                <option value="5-10">5-10</option>
-                                                                <option value="11-15">11-15</option>
-                                                                <option value="16-20">16-20</option>
-                                                                <option value="20 ve Üzeri">20 ve Üzeri</option>
-                                                            </select>
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <label for="oda_sayisi">Oda Sayısı</label>
+                                                                <select class="form-select modal-input"
+                                                                    aria-label="Default select example" id="oda_sayisi"
+                                                                    name="oda_sayisi">
+                                                                    <option selected>Seçiniz</option>
+                                                                    <option value="1+0">1+0</option>
+                                                                    <option value="1.5+1">1.5+1</option>
+                                                                    <option value="2+0">2+0</option>
+                                                                    <option value="2+1">2+1</option>
+                                                                    <option value="2.5+1">2.5+1</option>
+                                                                    <option value="3+0">3+0</option>
+                                                                    <option value="3+1">3+1</option>
+                                                                    <option value="3.5+1">3.5+1</option>
+                                                                    <option value="3+2">3+2</option>
+                                                                    <option value="3+3">3+3</option>
+                                                                    <option value="4+0">4+0</option>
+                                                                    <option value="4+1">4+1</option>
+                                                                    <option value="4.5+1">4.5+1</option>
+                                                                    <option value="4+2">4+2</option>
+                                                                    <option value="4+3">4+3</option>
+                                                                    <option value="4+4">4+4</option>
+                                                                    <option value="5+1">5+1</option>
+                                                                    <option value="5.5+1">5.5+1</option>
+                                                                    <option value="5+2">5+2</option>
+                                                                    <option value="5+3">5+3</option>
+                                                                    <option value="5+4">5+4</option>
+                                                                    <option value="6+1">6+1</option>
+                                                                    <option value="6+2">6+2</option>
+                                                                    <option value="6.5+1">6.5+1</option>
+                                                                    <option value="6+3">6+3</option>
+                                                                    <option value="6+4">6+4</option>
+                                                                    <option value="7+1">7+1</option>
+                                                                    <option value="7+2">7+2</option>
+                                                                    <option value="7+3">7+3</option>
+                                                                    <option value="8+1">8+1</option>
+                                                                    <option value="8+2">8+2</option>
+                                                                    <option value="8+3">8+3</option>
+                                                                    <option value="8+4">8+4</option>
+                                                                    <option value="9+1">9+1</option>
+                                                                    <option value="9+2">9+2</option>
+                                                                    <option value="9+3">9+3</option>
+                                                                    <option value="9+4">9+4</option>
+                                                                    <option value="9+5">9+5</option>
+                                                                    <option value="9+6">9+6</option>
+                                                                    <option value="10+1">10+1</option>
+                                                                    <option value="10+2">10+2</option>
+                                                                    <option value="11+1">11+1</option>
+                                                                    <option value="12 ve üzeri">12 ve üzeri</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="konut_tipi">Konut
+                                                                    Yaşı:</label>
+                                                                <select class="modal-input" id="konut_yasi"
+                                                                    name="konut_yasi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5-10">5-10</option>
+                                                                    <option value="11-15">11-15</option>
+                                                                    <option value="16-20">16-20</option>
+                                                                    <option value="20 ve Üzeri">20 ve Üzeri</option>
+                                                                </select>
+                                                            </div>
 
                                                             <input class="modal-input" type="hidden" id="store_id"
                                                                 name="store_id" value="{{ $project->user->id }}">
 
-                                                            <label class="form-label" for="kullanim_durumu">Kullanım
-                                                                Durumu:</label>
-                                                            <select class="modal-input" id="kullanim_durumu"
-                                                                name="kullanim_durumu">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="kiracılı">Kiracılı</option>
-                                                                <option value="boş">Boş</option>
-                                                                <option value="mülk_sahibi">Mülk Sahibi</option>
-                                                            </select>
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="kullanim_durumu">Kullanım
+                                                                    Durumu:</label>
+                                                                <select class="modal-input" id="kullanim_durumu"
+                                                                    name="kullanim_durumu">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="kiracılı">Kiracılı</option>
+                                                                    <option value="boş">Boş</option>
+                                                                    <option value="mülk_sahibi">Mülk Sahibi</option>
+                                                                </select>
+                                                            </div>
 
-                                                            <label class="form-label"
-                                                                for="konut_satis_rakami">Düşündüğünüz Satış Rakamı:</label>
-                                                            <input class="modal-input" type="text"
-                                                                id="konut_satis_rakami" name="konut_satis_rakami"
-                                                                min="0">
+                                                            <div class="mb-2">
 
-                                                            <label class="form-label" for="tapu_belgesi">Tapu Belgesi
-                                                                Yükleyiniz:</label>
-                                                            <input class="modal-input" type="file" id="tapu_belgesi"
-                                                                name="tapu_belgesi" accept=".pdf,.doc,.docx">
+                                                                <label class="form-label"
+                                                                    for="konut_satis_rakami">Düşündüğünüz Satış
+                                                                    Rakamı:</label>
+                                                                <input class="modal-input" type="text"
+                                                                    id="konut_satis_rakami" name="konut_satis_rakami"
+                                                                    min="0">
+
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="tapu_belgesi">Tapu Belgesi
+                                                                    Yükleyiniz:</label>
+                                                                <input class="modal-input" type="file"
+                                                                    id="tapu_belgesi" name="tapu_belgesi"
+                                                                    accept=".pdf,.doc,.docx">
+                                                            </div>
                                                         </div>
 
                                                         <div id="arsayse" style="display: none;"
@@ -761,143 +784,174 @@
                                                         </div>
 
                                                         <div id="aracyse" style="display: none;"
-                                                            class="col-md-12 col-12 mb-2">
+                                                            class="col-md-12 col-12 ">
+                                                            <div class="mb-2">
 
-                                                            <label class="form-label" for="arac_model_yili">Araç Model
-                                                                Yılı:</label>
-                                                            <select class="modal-input" id="arac_model_yili"
-                                                                name="arac_model_yili">
-                                                                <option value="">Model Yılı Seçiniz</option>
-                                                                @for ($year = date('Y'); $year >= 2004; $year--)
-                                                                    <option value="{{ $year }}">
-                                                                        {{ $year }}</option>
-                                                                @endfor
-                                                            </select>
+                                                                <label class="form-label" for="arac_model_yili">Araç Model
+                                                                    Yılı:</label>
+                                                                <select class="modal-input" id="arac_model_yili"
+                                                                    name="arac_model_yili">
+                                                                    <option value="">Model Yılı Seçiniz</option>
+                                                                    @for ($year = date('Y'); $year >= 2004; $year--)
+                                                                        <option value="{{ $year }}">
+                                                                            {{ $year }}</option>
+                                                                    @endfor
+                                                                </select>
+
+                                                            </div>
 
 
-                                                            <label class="form-label" for="arac_markasi">Araç
-                                                                Markası:</label>
-                                                            <select class="modal-input" name="arac_markasi"
-                                                                id="arac_markasi">
-                                                                <option value="">Seçiniz...</option>
-                                                                <option value="Alfa Romeo">Alfa Romeo</option>
-                                                                <option value="Aston Martin">Aston Martin</option>
-                                                                <option value="Audi">Audi</option>
-                                                                <option value="Bentley">Bentley</option>
-                                                                <option value="BMW">BMW</option>
-                                                                <option value="Bugatti">Bugatti</option>
-                                                                <option value="Buick">Buick</option>
-                                                                <option value="Cadillac">Cadillac</option>
-                                                                <option value="Chery">Chery</option>
-                                                                <option value="Chevrolet">Chevrolet</option>
-                                                                <option value="Chrysler">Chrysler</option>
-                                                                <option value="Citroen">Citroen</option>
-                                                                <option value="Cupra">Cupra</option>
-                                                                <option value="Dacia">Dacia</option>
-                                                                <option value="DS Automobiles">DS Automobiles</option>
-                                                                <option value="Daewoo">Daewoo</option>
-                                                                <option value="Daihatsu">Daihatsu</option>
-                                                                <option value="Dodge">Dodge</option>
-                                                                <option value="Ferrari">Ferrari</option>
-                                                                <option value="Fiat">Fiat</option>
-                                                                <option value="Ford">Ford</option>
-                                                                <option value="Geely">Geely</option>
-                                                                <option value="Honda">Honda</option>
-                                                                <option value="Hyundai">Hyundai</option>
-                                                                <option value="Infiniti">Infiniti</option>
-                                                                <option value="Isuzu">Isuzu</option>
-                                                                <option value="Iveco">Iveco</option>
-                                                                <option value="Jaguar">Jaguar</option>
-                                                                <option value="Jeep">Jeep</option>
-                                                                <option value="Kia">Kia</option>
-                                                                <option value="Lada">Lada</option>
-                                                                <option value="Lamborghini">Lamborghini</option>
-                                                                <option value="Lancia">Lancia</option>
-                                                                <option value="Land-rover">Land-rover</option>
-                                                                <option value="Leapmotor">Leapmotor</option>
-                                                                <option value="Lexus">Lexus</option>
-                                                                <option value="Lincoln">Lincoln</option>
-                                                                <option value="Lotus">Lotus</option>
-                                                                <option value="Maserati">Maserati</option>
-                                                                <option value="Mazda">Mazda</option>
-                                                                <option value="McLaren">McLaren</option>
-                                                                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                                                                <option value="MG">MG</option>
-                                                                <option value="Mini">Mini</option>
-                                                                <option value="Mitsubishi">Mitsubishi</option>
-                                                                <option value="Nissan">Nissan</option>
-                                                                <option value="Opel">Opel</option>
-                                                                <option value="Peugeot">Peugeot</option>
-                                                                <option value="Porsche">Porsche</option>
-                                                                <option value="Proton">Proton</option>
-                                                                <option value="Renault">Renault</option>
-                                                                <option value="Rolls Royce">Rolls Royce</option>
-                                                                <option value="Rover">Rover</option>
-                                                                <option value="Saab">Saab</option>
-                                                                <option value="Seat">Seat</option>
-                                                                <option value="Skoda">Skoda</option>
-                                                                <option value="Smart">Smart</option>
-                                                                <option value="Ssangyong">Ssangyong</option>
-                                                                <option value="Subaru">Subaru</option>
-                                                                <option value="Suzuki">Suzuki</option>
-                                                                <option value="Tata">Tata</option>
-                                                                <option value="Tesla">Tesla</option>
-                                                                <option value="Tofaş">Tofaş</option>
-                                                                <option value="Toyota">Toyota</option>
-                                                                <option value="Volkswagen">Volkswagen</option>
-                                                                <option value="Volvo">Volvo</option>
-                                                                <option value="Voyah">Voyah</option>
-                                                                <option value="Yudo">Yudo</option>
-                                                            </select>
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="arac_markasi">Araç
+                                                                    Markası:</label>
+                                                                <select class="modal-input" name="arac_markasi"
+                                                                    id="arac_markasi">
+                                                                    <option value="">Seçiniz...</option>
+                                                                    <option value="Alfa Romeo">Alfa Romeo</option>
+                                                                    <option value="Aston Martin">Aston Martin</option>
+                                                                    <option value="Audi">Audi</option>
+                                                                    <option value="Bentley">Bentley</option>
+                                                                    <option value="BMW">BMW</option>
+                                                                    <option value="Bugatti">Bugatti</option>
+                                                                    <option value="Buick">Buick</option>
+                                                                    <option value="Cadillac">Cadillac</option>
+                                                                    <option value="Chery">Chery</option>
+                                                                    <option value="Chevrolet">Chevrolet</option>
+                                                                    <option value="Chrysler">Chrysler</option>
+                                                                    <option value="Citroen">Citroen</option>
+                                                                    <option value="Cupra">Cupra</option>
+                                                                    <option value="Dacia">Dacia</option>
+                                                                    <option value="DS Automobiles">DS Automobiles</option>
+                                                                    <option value="Daewoo">Daewoo</option>
+                                                                    <option value="Daihatsu">Daihatsu</option>
+                                                                    <option value="Dodge">Dodge</option>
+                                                                    <option value="Ferrari">Ferrari</option>
+                                                                    <option value="Fiat">Fiat</option>
+                                                                    <option value="Ford">Ford</option>
+                                                                    <option value="Geely">Geely</option>
+                                                                    <option value="Honda">Honda</option>
+                                                                    <option value="Hyundai">Hyundai</option>
+                                                                    <option value="Infiniti">Infiniti</option>
+                                                                    <option value="Isuzu">Isuzu</option>
+                                                                    <option value="Iveco">Iveco</option>
+                                                                    <option value="Jaguar">Jaguar</option>
+                                                                    <option value="Jeep">Jeep</option>
+                                                                    <option value="Kia">Kia</option>
+                                                                    <option value="Lada">Lada</option>
+                                                                    <option value="Lamborghini">Lamborghini</option>
+                                                                    <option value="Lancia">Lancia</option>
+                                                                    <option value="Land-rover">Land-rover</option>
+                                                                    <option value="Leapmotor">Leapmotor</option>
+                                                                    <option value="Lexus">Lexus</option>
+                                                                    <option value="Lincoln">Lincoln</option>
+                                                                    <option value="Lotus">Lotus</option>
+                                                                    <option value="Maserati">Maserati</option>
+                                                                    <option value="Mazda">Mazda</option>
+                                                                    <option value="McLaren">McLaren</option>
+                                                                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                                                    <option value="MG">MG</option>
+                                                                    <option value="Mini">Mini</option>
+                                                                    <option value="Mitsubishi">Mitsubishi</option>
+                                                                    <option value="Nissan">Nissan</option>
+                                                                    <option value="Opel">Opel</option>
+                                                                    <option value="Peugeot">Peugeot</option>
+                                                                    <option value="Porsche">Porsche</option>
+                                                                    <option value="Proton">Proton</option>
+                                                                    <option value="Renault">Renault</option>
+                                                                    <option value="Rolls Royce">Rolls Royce</option>
+                                                                    <option value="Rover">Rover</option>
+                                                                    <option value="Saab">Saab</option>
+                                                                    <option value="Seat">Seat</option>
+                                                                    <option value="Skoda">Skoda</option>
+                                                                    <option value="Smart">Smart</option>
+                                                                    <option value="Ssangyong">Ssangyong</option>
+                                                                    <option value="Subaru">Subaru</option>
+                                                                    <option value="Suzuki">Suzuki</option>
+                                                                    <option value="Tata">Tata</option>
+                                                                    <option value="Tesla">Tesla</option>
+                                                                    <option value="Tofaş">Tofaş</option>
+                                                                    <option value="Toyota">Toyota</option>
+                                                                    <option value="Volkswagen">Volkswagen</option>
+                                                                    <option value="Volvo">Volvo</option>
+                                                                    <option value="Voyah">Voyah</option>
+                                                                    <option value="Yudo">Yudo</option>
+                                                                </select>
 
-                                                            <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
-                                                            <select class="modal-input" id="yakit_tipi" name="yakit_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="benzin">Benzin</option>
-                                                                <option value="dizel">Dizel</option>
-                                                                <option value="lpg">LPG</option>
-                                                                <option value="elektrik">Elektrik</option>
-                                                            </select>
+                                                            </div>
 
-                                                            <label class="form-label" for="vites_tipi">Vites Tipi:</label>
-                                                            <select class="modal-input" id="vites_tipi" name="vites_tipi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="manuel">Manuel</option>
-                                                                <option value="otomatik">Otomatik</option>
-                                                            </select>
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="yakit_tipi">Yakıt
+                                                                    Tipi:</label>
+                                                                <select class="modal-input" id="yakit_tipi"
+                                                                    name="yakit_tipi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="benzin">Benzin</option>
+                                                                    <option value="dizel">Dizel</option>
+                                                                    <option value="lpg">LPG</option>
+                                                                    <option value="elektrik">Elektrik</option>
+                                                                </select>
+                                                            </div>
 
-                                                            <label class="form-label" for="arac_satis_rakami">Satış
-                                                                Rakamı:</label>
-                                                            <input class="modal-input" type="text"
-                                                                id="arac_satis_rakami" name="arac_satis_rakami"
-                                                                min="0">
 
-                                                            <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi
-                                                                Yükleyiniz:</label>
-                                                            <input class="modal-input" type="file" id="ruhsat_belgesi"
-                                                                name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
+
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="vites_tipi">Vites
+                                                                    Tipi:</label>
+                                                                <select class="modal-input" id="vites_tipi"
+                                                                    name="vites_tipi">
+                                                                    <option value="">Seçiniz</option>
+                                                                    <option value="manuel">Manuel</option>
+                                                                    <option value="otomatik">Otomatik</option>
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="arac_satis_rakami">Satış
+                                                                    Rakamı:</label>
+                                                                <input class="modal-input" type="text"
+                                                                    id="arac_satis_rakami" name="arac_satis_rakami"
+                                                                    min="0">
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <label class="form-label" for="ruhsat_belgesi">Ruhsat
+                                                                    Belgesi
+                                                                    Yükleyiniz:</label>
+                                                                <input class="modal-input" type="file"
+                                                                    id="ruhsat_belgesi" name="ruhsat_belgesi"
+                                                                    accept=".pdf,.doc,.docx">
+                                                            </div>
                                                         </div>
 
                                                         <div id="isyeriyse" style="display: none;"
                                                             class="mb-3 col-md-12 col-12">
 
-                                                            <label for="ticari_bilgiler" class="form-label">Ticari ile
-                                                                ilgili Bilgileri Giriniz:</label>
-                                                            <textarea class="modal-input" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
+                                                            <div class="mb-2">
 
-                                                            <label for="isyeri_satis_rakami"
-                                                                class="form-label">Düşündüğünüz Satış Rakamı:</label>
-                                                            <input type="text" class="modal-input"
-                                                                id="isyeri_satis_rakami" name="isyeri_satis_rakami"
-                                                                min="0">
+                                                                <label for="ticari_bilgiler" class="form-label">Ticari ile
+                                                                    ilgili Bilgileri Giriniz:</label>
+                                                                <textarea class="modal-input" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
+
+                                                            </div>
+
+                                                            <div class="mb-2">
+                                                                <label for="isyeri_satis_rakami"
+                                                                    class="form-label">Düşündüğünüz Satış Rakamı:</label>
+                                                                <input type="text" class="modal-input"
+                                                                    id="isyeri_satis_rakami" name="isyeri_satis_rakami"
+                                                                    min="0">
+                                                            </div>
+
                                                         </div>
 
                                                     </div>
 
                                                     <div class="modal-footer" style="justify-content: end !important">
-                                                        <button type="submit" class="btn btn-success" style="width:150px">Başvur</button>
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                                            style="width:150px">Kapat</button>
+                                                        <button type="submit" class="btn btn-success"
+                                                            style="width:150px">Başvur</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal" style="width:150px">Kapat</button>
                                                     </div>
 
 
@@ -1505,22 +1559,21 @@
             });
         });
         document.getElementById('price').addEventListener('input', function(e) {
-                var value = e.target.value;
-                // Sadece rakamları ve virgülü tut
-                value = value.replace(/[^0-9,]/g, '');
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
 
-                // Noktaları ve virgülü ayarlama
-                if (value.includes(',')) {
-                    var parts = value.split(',');
-                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                    value = parts.join(',');
-                } else {
-                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                }
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
 
-                e.target.value = value;
-            });
-
+            e.target.value = value;
+        });
     </script>
     <script>
         function initMap() {
@@ -2837,23 +2890,23 @@
         });
 
         $(document).on("change", ".citySelect2", function() {
-                var selectedCity = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-counties/' + selectedCity,
-                    success: function(data) {
-                        var countySelect = $('.countySelect');
-                        countySelect.empty();
-                        countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data.counties, function(index, county) {
-                            countySelect.append('<option value="' + county.ilce_key +
-                                '">' + county
-                                .ilce_title +
-                                '</option>');
-                        });
-                    }
-                });
+            var selectedCity = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('.countySelect');
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data.counties, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key +
+                            '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
             });
+        });
     </script>
 @endsection
 
@@ -2899,17 +2952,17 @@
 
         .modal-input {
             display: block;
-    width: 100%;
-    height: 38px !important;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 2.0;
-    /* background-color: #fff; */
-    /* background-clip: padding-box; */
-    border: 1px solid #eee;
-    /* border-radius: .35rem; */
-    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            width: 100%;
+            height: 38px !important;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 2.0;
+            /* background-color: #fff; */
+            /* background-clip: padding-box; */
+            border: 1px solid #eee;
+            /* border-radius: .35rem; */
+            /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
         .modal-input:focus {
