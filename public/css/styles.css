@@ -24548,6 +24548,10 @@ form label.error {
     width: 200px;
 }
 
+.modal-footer{
+    border-top: 0 !important;
+}
+
 .btn {
     height: 40px !important;
 }
