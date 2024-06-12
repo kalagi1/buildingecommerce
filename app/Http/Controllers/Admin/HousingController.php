@@ -168,8 +168,7 @@ class HousingController extends Controller
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
         $housingCityId = (int) $housing->city_id;
 
-        // $ownerCityId = ( int ) $housing->owner->id;
-        $nearestUsers = User::with('city')
+        $nearestUsers = User::with('city','district')
             ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
             ->where('type', '=', 2) // type 2 olanları al
             ->where('corporate_type', '=', 'Emlak Ofisi')
@@ -177,6 +176,7 @@ class HousingController extends Controller
             ->whereNull('parent_id') // parent_id değeri null olanları al
             ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
             ->get();
+
         $institutions = Institution::all(); // Tüm kurumları al
         $rates = Rate::where('housing_id', $housingId)->get();
 
