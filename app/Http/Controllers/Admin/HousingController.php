@@ -114,7 +114,9 @@ class HousingController extends Controller
         $deletedHousings = (clone $baseQuery)
             ->onlyTrashed()
             ->get();
-        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
+
+            return $pendingHousingTypes;
+        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
     }
 
     /**
