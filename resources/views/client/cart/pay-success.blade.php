@@ -107,7 +107,7 @@
             // }
 
             function animateBlobs() {
-    var numberOfConfetti = 20;
+    var numberOfConfetti = 100; // Daha fazla konfeti kullanabilirsiniz
 
     for (var i = 0; i < numberOfConfetti; i++) {
         var confetti = document.createElement('div');
@@ -115,10 +115,10 @@
         document.querySelector('.congrats').appendChild(confetti);
 
         var speed = _.random(1, 5);
-        var rotation = _.random(5, 100);
-        var scale = _.random(0.8, 1.5);
-        var x = _.random(-150, 150); // Adjust according to your needs
-        var y = _.random(-50, 50); // Adjust according to your needs
+        var rotation = _.random(0, 360); // Dönüş açısını daha rastgele hale getiriyoruz
+        var scale = _.random(0.5, 1.5); // Farklı boyutlar için aralığı değiştirebilirsiniz
+        var x = _.random(0, window.innerWidth); // Sayfa genişliği kadar bir x koordinatı belirliyoruz
+        var y = _.random(-window.innerHeight, 0); // Üst kısmından başlayacak şekilde bir y koordinatı belirliyoruz
 
         TweenMax.to(confetti, speed, {
             x: x,
@@ -139,6 +139,7 @@
         });
     }
 }
+
 
         });
     </script>
