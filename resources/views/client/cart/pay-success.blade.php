@@ -2,14 +2,14 @@
 
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
-        <div class="container text-center">
+        <div class="container text-center bg-congrat-style">
             <div class="congrats">
                 <h1>Siparişiniz için Teşekkürler !</h1>
             </div>
 
             <h3>Sipariş Bilgileri</h3>
 
-            <p style="font-size: 18px;"> #{{ $cart_order->id }} numaralı siparişiniz başarıyla oluşturuldu.</p>
+            <p style="font-size: 15px;"> #{{ $cart_order->id }} numaralı siparişiniz başarıyla oluşturuldu.</p>
 
 
             <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri
@@ -167,6 +167,13 @@
 
         .custom-file-upload input[type="file"] {
      display: none;
+        }
+
+        .bg-congrat-style {
+            border: 1px solid #ebebeb;
+            padding-bottom: 20px;
+            margin: 50px auto;
+            width: 40%
         }
     </style>
 @endsection
