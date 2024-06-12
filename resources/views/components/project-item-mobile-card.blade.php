@@ -482,7 +482,6 @@
                                 <label for="surname" class="q-label">Telefon Numarası : </label>
                                 <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                     id="phone" name="phone">
-                                <span id="error_message" class="error-message"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
