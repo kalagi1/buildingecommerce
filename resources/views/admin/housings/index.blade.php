@@ -28,7 +28,7 @@
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
-                @foreach (['activeHousingTypes', 'pendingHousingTypes', 'disabledHousingTypes', 'inactiveHousingTypes', 'deletedHousings', 'soldHousingsTypes'] as $type)
+                @foreach (['pendingHousingTypes', 'activeHousingTypes', 'disabledHousingTypes', 'inactiveHousingTypes', 'deletedHousings', 'soldHousingsTypes'] as $type)
                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $type }}">
                         @include('admin.housings.housing_table' . ($type == 'deletedHousings' ? '_delete' : ''), [
                             'tableId' => 'bulk-select-body-' . $type,
@@ -43,109 +43,112 @@
 
 @section('scripts')
     <script>
-        const housingData = {
-            activeHousingTypes: @json($activeHousingTypes),
-            disabledHousingTypes: @json($disabledHousingTypes),
-            pendingHousingTypes: @json($pendingHousingTypes),
-            deletedHousings: @json($deletedHousings),
-            inactiveHousingTypes: @json($inactiveHousingTypes),
-            soldHousingsTypes: @json($soldHousingsTypes),
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            const housingData = {
+                activeHousingTypes: @json($activeHousingTypes),
+                disabledHousingTypes: @json($disabledHousingTypes),
+                pendingHousingTypes: @json($pendingHousingTypes),
+                deletedHousings: @json($deletedHousings),
+                inactiveHousingTypes: @json($inactiveHousingTypes),
+                soldHousingsTypes: @json($soldHousingsTypes),
+            };
 
-        function createTable(tbodyId, housingTypes) {
-            const tbody = document.getElementById(tbodyId);
-            housingTypes.forEach(housingType => {
-                const row = document.createElement('tr');
+            function createTable(tbodyId, housingTypes) {
+                const tbody = document.getElementById(tbodyId);
+                housingTypes.forEach(housingType => {
+                    const row = document.createElement('tr');
 
-                const idCell = createCell('td', 'align-middle id', housingType.id + 2000000);
-                const housingTitleCell = createCell('td', 'align-middle housing_title', `
-                    ${housingType.title}
-                    <br>
-                    <span style='color:black;font-size:11px !important;font-weight:700'>
-                        ${housingType.city.title} / ${housingType.district.ilce_title}${housingType.neighborhood ? ' / ' + housingType.neighborhood.mahalle_title : ''}
-                    </span>
-                `);
-                const housingTypeCell = createCell('td', 'align-middle housing_type', housingType.housing_type.title);
-                const housingConsultantCell = createCell('td', 'align-middle housing_type', getConsultantName(housingType));
+                    const idCell = createCell('td', 'align-middle id', housingType.id + 2000000);
+                    const housingTitleCell = createCell('td', 'align-middle housing_title', `
+                        ${housingType.title}
+                        <br>
+                        <span style='color:black;font-size:11px !important;font-weight:700'>
+                            ${housingType.city.title} / ${housingType.district.ilce_title}${housingType.neighborhood ? ' / ' + housingType.neighborhood.mahalle_title : ''}
+                        </span>
+                    `);
+                    const housingTypeCell = createCell('td', 'align-middle housing_type', housingType.housing_type.title);
+                    const housingConsultantCell = createCell('td', 'align-middle housing_type', getConsultantName(housingType));
 
-                const statusCell = createCell('td', 'align-middle status', getStatusBadge(housingType.status));
-                const createdAtCell = createCell('td', 'align-middle created_at', new Date(housingType.created_at).toLocaleDateString());
-                const actionsCell = createCell('td', 'align-middle white-space-nowrap pe-0', getActionLinks(housingType));
+                    const statusCell = createCell('td', 'align-middle status', getStatusBadge(housingType.status));
+                    const createdAtCell = createCell('td', 'align-middle created_at', new Date(housingType.created_at).toLocaleDateString());
+                    const actionsCell = createCell('td', 'align-middle white-space-nowrap pe-0', getActionLinks(housingType));
 
-                row.append(idCell, housingTitleCell, housingTypeCell, housingConsultantCell);
+                    row.append(idCell, housingTitleCell, housingTypeCell, housingConsultantCell);
 
-                if (!housingType.deleted_at) {
-                    row.append(statusCell, createdAtCell, actionsCell);
-                }
+                    if (!housingType.deleted_at) {
+                        row.append(statusCell, createdAtCell, actionsCell);
+                    }
 
-                if (tbodyId === 'bulk-select-body-soldHousingsTypes') {
-                    const invoiceLinkCell = createCell('td', 'align-middle pe-0', getInvoiceLink(housingType.id));
-                    const orderDetailCell = createCell('td', 'align-middle', getOrderDetailLink(housingType.id));
-                    row.append(invoiceLinkCell, orderDetailCell);
-                }
+                    if (tbodyId === 'bulk-select-body-soldHousingsTypes') {
+                        const invoiceLinkCell = createCell('td', 'align-middle pe-0', getInvoiceLink(housingType.id));
+                        const orderDetailCell = createCell('td', 'align-middle', getOrderDetailLink(housingType.id));
+                        row.append(invoiceLinkCell, orderDetailCell);
+                    }
 
-                const deleteReasonCell = createCell('td', 'align-middle delete_reason', housingType.deleteReason || '');
-                row.append(deleteReasonCell);
+                    const deleteReasonCell = createCell('td', 'align-middle delete_reason', housingType.deleteReason || '');
+                    row.append(deleteReasonCell);
 
-                if (housingType.owner_id) {
-                    const sharedListingTag = document.createElement('span');
-                    sharedListingTag.className = 'badge badge-info ml-2';
-                    sharedListingTag.textContent = 'Paylaşımlı İlan';
-                    housingTitleCell.append(sharedListingTag);
-                }
+                    if (housingType.owner_id) {
+                        const sharedListingTag = document.createElement('span');
+                        sharedListingTag.className = 'badge badge-info ml-2';
+                        sharedListingTag.textContent = 'Paylaşımlı İlan';
+                        housingTitleCell.append(sharedListingTag);
+                    }
 
-                tbody.append(row);
-            });
-        }
-
-        function createCell(tag, className, innerHTML = '') {
-            const cell = document.createElement(tag);
-            cell.className = className;
-            cell.innerHTML = innerHTML;
-            return cell;
-        }
-
-        function getConsultantName(housingType) {
-            if (housingType.consultant && housingType.consultant.name) {
-                return housingType.consultant.name;
+                    tbody.append(row);
+                });
             }
-            if (housingType.user && housingType.user.name) {
-                return housingType.user.name;
+
+            function createCell(tag, className, innerHTML = '') {
+                const cell = document.createElement(tag);
+                cell.className = className;
+                cell.innerHTML = innerHTML;
+                return cell;
             }
-            return 'Mağaza Yöneticisi';
-        }
 
-        function getStatusBadge(status) {
-            switch (status) {
-                case 1:
-                    return '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>';
-                case 2:
-                    return '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>';
-                case 3:
-                    return '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>';
-                default:
-                    return '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+            function getConsultantName(housingType) {
+                if (housingType.consultant && housingType.consultant.name) {
+                    return housingType.consultant.name;
+                }
+                if (housingType.user && housingType.user.name) {
+                    return housingType.user.name;
+                }
+                return 'Mağaza Yöneticisi';
             }
-        }
 
-        function getActionLinks(housingType) {
-            return `
-                <a class="badge badge-phoenix badge-phoenix-primary ml-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/detail">Görüntüle</a>
-                <a class="badge badge-phoenix badge-phoenix-warning ml-2 mr-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/logs">Loglar</a>
-            `;
-        }
+            function getStatusBadge(status) {
+                switch (status) {
+                    case 1:
+                        return '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>';
+                    case 2:
+                        return '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>';
+                    case 3:
+                        return '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>';
+                    default:
+                        return '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+                }
+            }
 
-        function getInvoiceLink(id) {
-            return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/invoice_detail/${id}">Fatura Görüntüle</a>`;
-        }
+            function getActionLinks(housingType) {
+                return `
+                    <a class="badge badge-phoenix badge-phoenix-primary ml-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/detail">Görüntüle</a>
+                    <a class="badge badge-phoenix badge-phoenix-warning ml-2 mr-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/logs">Loglar</a>
+                `;
+            }
 
-        function getOrderDetailLink(id) {
-            return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/order_detail/${id}">Sipariş Detay</a>`;
-        }
+            function getInvoiceLink(id) {
+                return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/invoice_detail/${id}">Fatura Görüntüle</a>`;
+            }
 
-        Object.keys(housingData).forEach(type => createTable(`bulk-select-body-${type}`, housingData[type]));
+            function getOrderDetailLink(id) {
+                return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/order_detail/${id}">Sipariş Detay</a>`;
+            }
 
-        new bootstrap.Tab(document.getElementById('pendingHousingTypes-tab')).show();
+            Object.keys(housingData).forEach(type => createTable(`bulk-select-body-${type}`, housingData[type]));
+
+            var triggerEl = document.querySelector('#housingTabs a');
+            bootstrap.Tab.getInstance(triggerEl).show();
+        });
     </script>
 
     <style>
