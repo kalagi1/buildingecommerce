@@ -2,15 +2,16 @@
 
 @section('content')
     <div class="content">
-        <h3 class=" mt-2 mb-4">Başvurularım</h3>
+        <h3 class=" mt-2 mb-4">Projelere Yaptığım Başvurular</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white ">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm fs--1 mb-0">
                     <thead>
                         <tr>
                             <th>Profil</th>
-                            <th>Teklif Veren</th>
+                            <th>Teklif İstediğim Mağaza</th>
                             <th style="width:200px">Proje Başlığı</th>
+                            <th>Teklif Ettiğim Fiyat</th>
                             <th>İsim</th>
                             <th>Telefon</th>
                             <th>Meslek</th>
@@ -25,12 +26,29 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-xl mr-2">
-                                            <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
-                                                class="avatar-img rounded-circle" alt="">
+                                            @if ($item->user->profile_image == 'indir.png')
+                                            @php
+                                                $nameInitials = collect(preg_split('/\s+/', $item->user->name))
+                                                    ->map(function ($word) {
+                                                        return mb_strtoupper(mb_substr($word, 0, 1));
+                                                    })
+                                                    ->take(1)
+                                                    ->implode('');
+                                            @endphp
+
+                                            <div class="profile-initial"
+                                                style="margin: inherit !important;margin-left: 0 !important">
+                                                {{ $nameInitials }}</div>
+                                        @else
+                                            <img loading="lazy"
+                                                src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
+                                                alt="{{ $item->user->name }}" class="avatar-img rounded-circle"
+                                                style="object-fit:contain;">
+                                        @endif
                                         </div>
                                     </div>
                                 </td>
-                                <td> {{ $item->user->name }} <br><br>
+                                <td> {{ $item->project->store->name }} <br>
                                     <span style="font-size: 10px;color:black;font-weight:700">
                                         {{ $item->city ? $item->city->title : null }}
                                         {{ $item->district ? ' - ' . $item->district->ilce_title : null }}</span>
@@ -38,7 +56,9 @@
 
                                 <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
                                 </td>
+                                <td>{{ $item->price }}</td>
                                 <td>{{ $item->name }}</td>
+
                                 <td>{{ $item->phone }}</td>
                                 <td>{{ $item->title }}</td>
 
