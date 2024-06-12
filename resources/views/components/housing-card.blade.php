@@ -47,7 +47,7 @@
 
                     <h4 style="height:30px">
                         {{ mb_substr(mb_convert_case($housing->title, MB_CASE_TITLE, 'UTF-8'), 0, 45, 'UTF-8') }}
-                        {{ mb_strlen($housing->title, 'UTF-8') > 25 ? '...' : '' }}
+                        {{ mb_strlen($housing->title, 'UTF-8') > 30 ? '...' : '' }}
                     </h4>
 
 
