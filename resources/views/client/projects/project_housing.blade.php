@@ -2835,6 +2835,25 @@
                 isyeriDiv.style.display = 'none';
             }
         });
+
+        $(document).on("change", ".citySelect2", function() {
+                var selectedCity = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-counties/' + selectedCity,
+                    success: function(data) {
+                        var countySelect = $('.countySelect');
+                        countySelect.empty();
+                        countySelect.append('<option value="">İlçe Seçiniz</option>');
+                        $.each(data.counties, function(index, county) {
+                            countySelect.append('<option value="' + county.ilce_key +
+                                '">' + county
+                                .ilce_title +
+                                '</option>');
+                        });
+                    }
+                });
+            });
     </script>
 @endsection
 
