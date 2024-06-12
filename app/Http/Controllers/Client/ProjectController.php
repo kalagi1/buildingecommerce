@@ -1701,7 +1701,7 @@ class ProjectController extends Controller
     //Kullanıcının Verdiği Tekliflerin listesi
     public function get_given_offers()
     {
-        $data = ProjectOffers::with('project.store', "city", "district")->where('user_id', auth()->id())->get();
+        $data = ProjectOffers::with('project.user', "city", "district")->where('user_id', auth()->id())->get();
 
         return view('institutional.project_offers.get_given_offers', compact('data'));
     } //End

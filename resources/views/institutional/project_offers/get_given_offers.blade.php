@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td> {{ $item->project->store->name }} <br>
+                                <td> {{ $item->project->user->name }} <br>
                                     <span style="font-size: 10px;color:black;font-weight:700">
                                         {{ $item->city ? $item->city->title : null }}
                                         {{ $item->district ? ' - ' . $item->district->ilce_title : null }}</span>
