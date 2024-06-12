@@ -83,6 +83,7 @@
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
+                console.log(housingType);
 
 
                 var idCell = document.createElement("td");
