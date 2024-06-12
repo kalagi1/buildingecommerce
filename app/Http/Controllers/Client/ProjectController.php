@@ -1694,7 +1694,7 @@ class ProjectController extends Controller
     //Mağazanın Alınan Tekliflerin listesi
     public function get_received_offers()
     {
-        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->get();
+        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->orderBy("id","desc")->get();
         return view('institutional.project_offers.get_received_offers', compact('data'));
     } //End
 
