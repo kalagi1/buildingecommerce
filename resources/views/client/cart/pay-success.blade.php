@@ -39,19 +39,18 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js'></script>
     <script>
         $(document).ready(function() {
-            $(function() {
-                var numberOfStars = 20;
+            var numberOfStars = 20;
 
-                for (var i = 0; i < numberOfStars; i++) {
-                    if (window.CP.shouldStopExecution(0)) break;
-                    $('.congrats').append('<div class="blob fa fa-star ' + i + '"></div>');
-                }
-                window.CP.exitedLoop(0);
+            console.log(numberOfStars);
+            for (var i = 0; i < numberOfStars; i++) {
+                // if (window.CP.shouldStopExecution(0)) break;
+                $('.congrats').append('<div class="blob fa fa-star ' + i + '"></div>');
+            }
+            window.CP.exitedLoop(0);
 
-                animateText();
+            animateText();
 
-                animateBlobs();
-            });
+            animateBlobs();
 
             $('.congrats').click(function() {
                 reset();
