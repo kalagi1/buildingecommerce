@@ -38,10 +38,7 @@
     <script>
         $(document).ready(function() {
             for (var j = 0; j < 3; j++) {
-                reset();
-
-                animateText();
-                animateBlobs();
+                $('.congrats').click();
             }
             $(function() {
                 var numberOfStars = 20;
