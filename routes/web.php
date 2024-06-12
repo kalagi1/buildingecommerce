@@ -93,6 +93,7 @@ use App\Http\Controllers\SupportController;
 
 use App\Http\Controllers\Admin\ReasonManagementController;
 use App\Http\Controllers\Api\Institutional\CrmController;
+use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
 
 /*
@@ -1162,6 +1163,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/render_pdf/{project_id}/{room_order}',[ApiProjectController::class,"renderPdf"]);
     Route::get('/get_sale/{project_id}/{room_order}',[ApiProjectController::class,"getSale"]);
     Route::apiResource('customer', CrmController::class);
+    Route::get('/get_current_user',[ApiInstitutionalUserController::class,"getCurrentUser"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CollectionRemoveJob;
 use App\Models\Collection;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CollectionController extends Controller {
     public function getCollections() {
@@ -104,5 +107,14 @@ class CollectionController extends Controller {
 
         }
 
-        return response()->json( [ 'collection' => $collection ] );    }
+        return response()->json( [ 'collection' => $collection ] );    
+    }
+
+    public function deleteCollectionByHousingId($housingId){
+        try{
+            dispatch(new CollectionRemoveJob("housing",["housing_id" => $housingId]));
+        }catch(Throwable $e){
+            Log::info($e->getMessage());
+        }
+    }
 }

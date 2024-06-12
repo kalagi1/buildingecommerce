@@ -7,6 +7,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
     const [payDecOpen,setPayDecOpen] = useState(false);
+    const [checkedItems,setCheckedItems] = useState([]);
 
 
     const blockDataSet = (blockIndex,keyx,value) => {
@@ -161,9 +162,8 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                         <div className="housing-form mt-3">
                             {
                                 formData.map((data) => {
-                                    if(slug == "satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled"))){
+                                    if(slug == "satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
-                                            console.log(data);
                                             if(data.type == "text"){
                                                 return(
                                                     <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
@@ -295,7 +295,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -332,7 +332,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                         }
                                     }
 
-                                    if(slug == "devren-satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled"))){
+                                    if(slug == "devren-satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             console.log(data);
                                             if(data.type == "text"){
@@ -443,7 +443,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                         }
                                     }
 
-                                    if(slug == "kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled"))){
+                                    if(slug == "kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             console.log(data);
                                             if(data.type == "text"){
@@ -554,7 +554,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                         }
                                     }
 
-                                    if(slug == "devren-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled"))){
+                                    if(slug == "devren-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             console.log(data);
                                             if(data.type == "text"){
@@ -665,7 +665,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                         }
                                     }
 
-                                    if(slug == "gunluk-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "daily-rent-disabled"))){
+                                    if(slug == "gunluk-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "daily-rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             console.log(data);
                                             if(data.type == "text"){
