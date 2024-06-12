@@ -17,10 +17,10 @@
             <a href="{{ url('/') }}" class="btn btn-primary btn-lg">Anasayfaya Gİt</a>
 
              <!-- İlerleme çubuğu -->
-             <div class="progress mt-3">
+             {{-- <div class="progress mt-3">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" 
                 aria-valuemin="0" aria-valuemax="100" style="width: 100%;height:50px;">Anasayfaya Yönlendiriliyorsunuz...</div>
-            </div>
+            </div> --}}
 
         </div>
 
