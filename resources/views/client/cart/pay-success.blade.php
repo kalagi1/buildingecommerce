@@ -184,7 +184,6 @@
 @section('styles')
     <style>
         .congrats {
-            position: absolute;
             top: 140px;
             width: 550px;
             height: 100px;
@@ -201,7 +200,6 @@
             font-size: 30px;
             cursor: pointer;
             z-index: 2;
-            position: absolute;
             top: 0;
             color: #27ae60;
             text-align: center;
