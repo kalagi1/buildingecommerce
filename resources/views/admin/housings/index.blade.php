@@ -100,7 +100,7 @@
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type;
+                housingTypeCell.textContent = housingType.housing_type.title;
 
 
                 // Create a new table cell element
