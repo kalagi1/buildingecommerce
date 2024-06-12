@@ -2105,5 +2105,10 @@
             transition: 120ms transform ease-in-out;
             box-shadow: inset 1em 1em var(--form-control-color);
         }
+
+        #termResultCount{
+            padding: 0px 5px;
+            border: 1px solid #ebebeb;
+        }
     </style>
 @endsection

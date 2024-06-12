@@ -24,11 +24,11 @@ class FormController extends Controller {
             $formData[ 'ruhsat_belgesi' ] = $ruhsatFileName;
         }
 
-    $formData['store_id'] = $request->input('store_id');
-    Form::create($formData);
+        $formData[ 'store_id' ] = $request->input( 'store_id' );
+        Form::create( $formData );
 
-    // Başarılı bir şekilde kaydedildiğine dair mesaj gönder
-    return redirect()->back()->with('success', 'Takas Başvurunuz Başarıyla Gönderildi!' );
+        // Başarılı bir şekilde kaydedildiğine dair mesaj gönder
+        return redirect()->back()->with( 'success', 'Takas Başvurunuz Başarıyla Gönderildi!' );
     }
 
 }

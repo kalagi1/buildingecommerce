@@ -55,10 +55,10 @@
         "id": "GetSwapApplications",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Takas Talepleri",
+        "text": "Gelen Takas Başvuruları",
         "key": "GetSwapApplications",
         "url": "institutional.react.swap.applications",
-        "activePath": "/hesabim/takas-basvurularim"
+        "activePath": "/hesabim/gelen-takas-basvurulari"
     },
 
     {
@@ -68,7 +68,7 @@
         "text": "Projelerime Gelen Başvurular",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
-        "activePath": "/hesabim/gelen-konut-basvurulari"
+        "activePath": "/hesabim/projelerime-gelen-basvurular"
     },
     {
         "id": "GetGivenOffers",
@@ -77,7 +77,7 @@
         "text": "Projelere Yaptığım Başvurular",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
-        "activePath": "/hesabim/basvurularim"
+        "activePath": "/hesabim/projelere-yaptigim-basvurular"
     },
     {
         "id": "EmlakClubGift",

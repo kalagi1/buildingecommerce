@@ -597,7 +597,8 @@ class ProjectController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
-                ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
+                ->whereNotNull('housings.owner_id') 
+                // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->get();
@@ -1452,28 +1453,7 @@ class ProjectController extends Controller
                 ->get()
                 ->keyBy("housing_id");
 
-            $sumCartOrderQt = DB::table('cart_orders')
-                ->select(
-                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
-                )
-                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-                ->get();
-
-
-            $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
-                ->mapWithKeys(function ($group) {
-                    return [
-                        $group->first()->housing_id => [
-                            'housing_id' => $group->first()->housing_id,
-                            'qt_total' => $group->sum('qt'),
-                        ]
-                    ];
-                })
-                ->all();
+         
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
             $selectedPage = $request->input('selected_page') ?? 0;
@@ -1497,6 +1477,30 @@ class ProjectController extends Controller
             $endIndex = $project->house_count + 20;
 
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
+            
+            $sumCartOrderQt = DB::table('cart_orders')
+            ->select(
+                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+            )
+            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+            ->whereNotNull('cart->item->numbershare')
+            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+            ->get();
+
+
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+            ->mapWithKeys(function ($group) {
+                return [
+                    $group->first()->housing_id => [
+                        'housing_id' => $group->first()->housing_id,
+                        'qt_total' => $group->sum('qt'),
+                    ]
+                ];
+            })
+            ->all();
 
 
             // Meta bilgi değişkeni tanımlanıyor
@@ -1690,14 +1694,14 @@ class ProjectController extends Controller
     //Mağazanın Alınan Tekliflerin listesi
     public function get_received_offers()
     {
-        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->get();
+        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->orderBy("id","desc")->get();
         return view('institutional.project_offers.get_received_offers', compact('data'));
     } //End
 
     //Kullanıcının Verdiği Tekliflerin listesi
     public function get_given_offers()
     {
-        $data = ProjectOffers::with('project', "city", "district")->where('user_id', auth()->id())->get();
+        $data = ProjectOffers::with('project.user', "city", "district")->where('user_id', auth()->id())->get();
 
         return view('institutional.project_offers.get_given_offers', compact('data'));
     } //End
@@ -1713,6 +1717,7 @@ class ProjectController extends Controller
             'project_id'        => $request->projectId,
             'room_id'           => $request->roomId,
             'email'             => $request->email,
+            'price'             => $request->price,
             'name'             => $request->name,
             'phone'             => $request->phone,
             'city_id'             => $request->city_id,
