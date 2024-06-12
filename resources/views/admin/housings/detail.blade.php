@@ -96,11 +96,12 @@
                         </div>
                     @endforeach
                 @endif
-            
+
                 @if (isset($housingData->image))
                     <div class="item">
                         <a href="{{ asset('housing_images/' . $housingData->image) }}" target="_blank">
-                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
+                                alt="slider-listing">
                         </a>
                     </div>
                 @endif
@@ -321,63 +322,149 @@
                         <tr>
                             @foreach ($housingTypeData as $key => $housingType)
                                 @if ($loop->iteration % 5 == 1)
-                                    </tr><tr>
-                                @endif
-                                @if (isset($housingType->type) && isset($housingType->name))
-                                    @if ($housingType->type == 'checkbox-group')
-                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) && is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
-                                            @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
-                                                <td>
-                                                    <div class="card mb-3">
-                                                        <div class="card-body">
-                                                            <div class="form-group">
-                                                                <div class="form-label">{{ $housingType->label }}</div>
-                                                                @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" checked disabled>
-                                                                        <label class="form-check-label">
-                                                                            {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endif
-                                        @endif
-                                    @else
-                                        @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) && is_array($housingData->{str_replace('[]', '', $housingType->name)}))
-                                            <td>
-                                                <div class="card mb-3">
-                                                    <div class="card-body">
-                                                        <div class="form-group">
-                                                            <div class="form-label">{{ $housingType->label }}</div>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" checked disabled>
-                                                                <label class="form-check-label">
-                                                                    {!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        @endif
-                                    @endif
-                                @endif
-                            @endforeach
                         </tr>
+                        <tr>
+                    @endif
+                    @if (isset($housingType->type) && isset($housingType->name))
+                        @if ($housingType->type == 'checkbox-group')
+                            @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}) &&
+                                    is_array($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
+                                @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
+                                    <td>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="form-label">{{ $housingType->label }}</div>
+                                                    @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" checked
+                                                                disabled>
+                                                            <label class="form-check-label">
+                                                                {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                @endif
+                            @endif
+                        @else
+                            @if (isset($housingData->{str_replace('[]', '', $housingType->name)}) &&
+                                    is_array($housingData->{str_replace('[]', '', $housingType->name)}))
+                                <td>
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div class="form-label">{{ $housingType->label }}</div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                                    <label class="form-check-label">
+                                                        {!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            @endif
+                        @endif
+                    @endif
+                    @endforeach
+                    </tr>
                     @endfor
                 </table>
             </div>
         </div>
-        
-        
+
+
 
 
 
         <div class="mt-5">
+            @if ($housing->owner)
+                @if ($housing->status == 1)
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Değiştir
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select"
+                                            aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini
+                                            Değiştir</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
+                        class="btn btn-danger set_status">Pasife Al</a>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                        class="btn btn-danger reject">Reddet</a>
+                @elseif($housing->status == 2)
+                    {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                    class="btn btn-success set_status">Emlakçıya Atma</a> --}}
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Atama
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select"
+                                            aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
+                                            Aktif
+                                            Et</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                        class="btn btn-danger reject">Reddet</a>
+                @endif
+            @else
                 @if ($housing->status == 1)
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
                         class="btn btn-danger  set_status" data-status="Pasife almak">Pasife Al</a>
@@ -399,6 +486,8 @@
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}" class="btn btn-success set_status"
                         data-status="Aktife Almak">Aktife Al</a>
                 @endif
+            @endif
+
         </div>
     </div>
 @endsection
@@ -643,7 +732,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
- 
+
     <script>
         $(document).ready(function() {
             $(".images.owl-carousel").owlCarousel({
@@ -668,7 +757,6 @@
             });
         });
     </script>
-     
 @endsection
 
 @section('css')
@@ -726,14 +814,14 @@
 
 
         .owl-carousel .item img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain; /* Resmi orantılı olarak sığdır */
-    }
-        
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            /* Resmi orantılı olarak sığdır */
+        }
     </style>
 
-    
+
 
     <style>
         .form-group {
@@ -773,6 +861,4 @@
             /* İstediğiniz boşluğu ayarlayabilirsiniz */
         }
     </style>
-
-    
 @endsection
