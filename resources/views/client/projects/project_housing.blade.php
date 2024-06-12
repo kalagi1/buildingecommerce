@@ -515,32 +515,32 @@
                                                     @csrf
 
                                                     <div class="row">
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="ad">Ad:</label>
                                                             <input class="modal-input" type="text" id="ad"
                                                                 required name="ad">
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="soyad">Soyadınız:</label>
                                                             <input class="modal-input" type="text" id="soyad"
                                                                 required name="soyad">
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="telefon">Telefon
                                                                 Numaranız:</label>
                                                             <input class="modal-input" type="number" id="telefon"
                                                                 required name="telefon" maxlength="10">
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="email">E-mail:</label>
                                                             <input class="modal-input" type="email" id="email"
                                                                 required name="email">
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="sehir">Şehir:</label>
                                                             <select class="modal-input" id="sehir" name="sehir"
                                                                 required>
@@ -552,7 +552,7 @@
                                                             </select>
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-12 mb-2">
                                                             <label class="form-label" for="ilce">İlçe:</label>
                                                             <select class="modal-input" id="ilce" name="ilce"
                                                                 required disabled>
@@ -560,7 +560,7 @@
                                                             </select>
                                                         </div>
 
-                                                        <div class="col-md-12 col-12">
+                                                        <div class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="takas_tercihi">Takas
                                                                 Tercihiniz:</label>
                                                             <select class="modal-input" id="takas_tercihi" required
@@ -575,21 +575,21 @@
 
 
                                                         <div id="digeryse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="diger_detay">Takas ile ilgili
                                                                 ürün/hizmet detayı:</label>
                                                             <textarea class="modal-input" id="diger_detay" name="diger_detay"></textarea>
                                                         </div>
 
                                                         <div id="barteryse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="barter_detay">Lütfen barter
                                                                 durumunuz ile ilgili detaylı bilgileri giriniz:</label>
                                                             <textarea class="modal-input" id="barter_detay" name="barter_detay"></textarea>
                                                         </div>
 
                                                         <div id="emlakyse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
                                                             <select class="modal-input" id="emlak_tipi" name="emlak_tipi">
                                                                 <option value="">Seçiniz</option>
@@ -600,7 +600,7 @@
                                                         </div>
 
                                                         <div id="konutyse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
                                                             <label class="form-label" for="konut_tipi">Konut Tipi:</label>
                                                             <select class="modal-input" id="konut_tipi" name="konut_tipi">
                                                                 <option value="">Seçiniz</option>
@@ -700,7 +700,7 @@
                                                         </div>
 
                                                         <div id="arsayse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
 
                                                             <div class="row">
                                                                 <div class="col-md-4">
@@ -761,7 +761,7 @@
                                                         </div>
 
                                                         <div id="aracyse" style="display: none;"
-                                                            class="col-md-12 col-12">
+                                                            class="col-md-12 col-12 mb-2">
 
                                                             <label class="form-label" for="arac_model_yili">Araç Model
                                                                 Yılı:</label>
