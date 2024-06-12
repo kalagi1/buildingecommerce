@@ -193,17 +193,17 @@
             margin: 0 auto;
             left: 0;
             right: 0;
-            color: #27ae60;
+        
         }
 
         .congrats h1 {
             transform-origin: 50% 50%;
-            font-size: 50px;
-            font-family: 'Sigmar One', cursive;
+            font-size: 35px;
             cursor: pointer;
             z-index: 2;
             position: absolute;
             top: 0;
+            color: #27ae60;
             text-align: center;
             width: 100%;
         }
