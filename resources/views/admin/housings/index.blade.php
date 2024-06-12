@@ -94,7 +94,7 @@
                 housingTitleCell.innerHTML = housingType.title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
-                    housingType.district.title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
                         .mahalle_title : "") +
                     "</span>";
 
@@ -102,6 +102,13 @@
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type.title;
 
+
+                if (housingType.owner_id) {
+                    const sharedListingTag = document.createElement('span');
+                    sharedListingTag.className = 'badge badge-info ml-2';
+                    sharedListingTag.textContent = 'Paylaşımlı İlan';
+                    housingTitleCell.append(sharedListingTag);
+                }
 
                 // Create a new table cell element
                 var housingConsultant = document.createElement("td");
