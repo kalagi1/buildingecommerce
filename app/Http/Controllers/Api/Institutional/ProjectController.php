@@ -902,6 +902,7 @@ class ProjectController extends Controller
 
         if ($ownerId != null) {
             unset($postData['open_sharing1']);
+            // $postData['open_sharing1'] = "Evet";
         }
         
         $isShare =  false;
