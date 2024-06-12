@@ -898,7 +898,7 @@ class ProjectController extends Controller
 
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
-        $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+        $ownerId = auth()->user()->type == 1 ? null : null;
 
         if ($ownerId != null) {
             unset($postData['open_sharing1']);
