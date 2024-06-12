@@ -29,8 +29,7 @@
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
-                        {{ mb_substr(mb_convert_case($housing->title, MB_CASE_TITLE, 'UTF-8'), 0, 45, 'UTF-8') }}
-                        {{ mb_strlen($housing->title, 'UTF-8') > 25 ? '...' : '' }}                    </h4>
+                        {{ $housing->title }}                    </h4>
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span
