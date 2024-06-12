@@ -465,6 +465,7 @@ class HousingController extends Controller
 
     public function isShareİndex()
     {
+        
 
         $activeHousingTypes = Housing::with('city', 'county', 'neighborhood', "user", "consultant", "owner")
             ->where('status', 1)

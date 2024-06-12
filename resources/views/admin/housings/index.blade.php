@@ -25,7 +25,7 @@
                         İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satınlan İlanlar</a>
+                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satılan İlanlar</a>
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
@@ -91,16 +91,16 @@
 
                 var housingTitleCell = document.createElement("td");
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.title +
+                housingTitleCell.innerHTML = housingType.housing_title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
-                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
                         .mahalle_title : "") +
                     "</span>";
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type.title;
+                housingTypeCell.textContent = housingType.housing_type;
 
 
                 // Create a new table cell element
