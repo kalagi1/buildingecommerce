@@ -41,10 +41,11 @@
                 animateText();
                 animateBlobs();
             });
-
-            $('.congrats').hover(function() {
+            $('.congrats').click(function() {
                 reset();
+
                 animateText();
+
                 animateBlobs();
             });
 
@@ -131,6 +132,7 @@
             top: 0;
             text-align: center;
             width: 100%;
+            color: #27ae60;
         }
 
         .blob {
