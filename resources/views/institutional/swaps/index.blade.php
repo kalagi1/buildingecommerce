@@ -29,9 +29,9 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-xl mr-2">
-                                            @if ($item->user->profile_image == 'indir.png')
+                                            @if ($app->user->profile_image == 'indir.png')
                                                 @php
-                                                    $nameInitials = collect(preg_split('/\s+/', $item->user->name))
+                                                    $nameInitials = collect(preg_split('/\s+/', $app->user->name))
                                                         ->map(function ($word) {
                                                             return mb_strtoupper(mb_substr($word, 0, 1));
                                                         })
@@ -44,8 +44,8 @@
                                                     {{ $nameInitials }}</div>
                                             @else
                                                 <img loading="lazy"
-                                                    src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
-                                                    alt="{{ $item->user->name }}" class="avatar-img rounded-circle"
+                                                    src="{{ asset('storage/profile_images/' . $app->user->profile_image) }}"
+                                                    alt="{{ $app->user->name }}" class="avatar-img rounded-circle"
                                                     style="object-fit:contain;">
                                             @endif
                                         </div>
