@@ -5,7 +5,7 @@
         <h3 class=" mt-2 mb-4">Projelere Yaptığım Başvurular</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white ">
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table table-sm fs--1 mb-0">
+                <table class="table table-sm  border-200 fs--1 mb-0">
                     <thead>
                         <tr>
                             <th>
@@ -13,7 +13,7 @@
                             </th>
                             <th>Profil</th>
                             <th>Teklif İstediğim Mağaza</th>
-                            <th style="width:200px">Proje Başlığı</th>
+                            <th style="width:200px">Proje </th>
                             <th>Teklif Ettiğim Fiyat</th>
                             <th>İsim</th>
                             <th>Telefon</th>
