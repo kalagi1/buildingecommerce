@@ -12,7 +12,6 @@
                 <li class="nav-item">
                     <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab"
                         href="#disabledHousingTypes">Reddedilen İlanlar</a>
@@ -29,206 +28,137 @@
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
-                <div class="tab-pane fade " id="active">
-                    @include('admin.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-active',
-                        'housingTypes' => $activeHousingTypes,
-                    ])
-                </div>
-                <div class="tab-pane fade show active" id="pendingHousingTypes">
-                    @include('admin.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-pendingHousingTypes',
-                        'housingTypes' => $pendingHousingTypes,
-                    ])
-                </div>
-                <div class="tab-pane fade" id="disabledHousingTypes">
-                    @include('admin.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-disabledHousingTypes',
-                        'housingTypes' => $disabledHousingTypes,
-                    ])
-                </div>
-                <div class="tab-pane fade" id="inactive">
-                    @include('admin.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-inactive',
-                        'housingTypes' => $inactiveHousingTypes,
-                    ])
-                </div>
-                <div class="tab-pane fade" id="deletedHousings">
-                    @include('admin.housings.housing_table_delete', [
-                        'tableId' => 'bulk-select-body-deletedHousings',
-                        'housingTypes' => $deletedHousings,
-                    ])
-                </div>
-                <div class="tab-pane fade" id="soldHousings">
-                    @include('admin.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-soldHousingsTypes',
-                        'housingTypes' => $soldHousingsTypes,
-                    ])
-                </div>
+                @foreach (['active', 'pendingHousingTypes', 'disabledHousingTypes', 'inactive', 'deletedHousings', 'soldHousingsTypes'] as $type)
+                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $type }}">
+                        @include('admin.housings.housing_table' . ($type == 'deletedHousings' ? '_delete' : ''), [
+                            'tableId' => 'bulk-select-body-' . $type,
+                            'housingTypes' => ${$type . 'Types'},
+                        ])
+                    </div>
+                @endforeach
             </div>
         </div>
-
     </div>
 @endsection
 
 @section('scripts')
     <script>
-        var activeHousingTypes = @json($activeHousingTypes);
-        var inactiveHousingTypes = @json($inactiveHousingTypes);
-        var pendingHousingTypes = @json($pendingHousingTypes);
-        var deletedHousings = @json($deletedHousings);
-        var disabledHousingTypes = @json($disabledHousingTypes);
-        var soldHousingsTypes = @json($soldHousingsTypes);
+        const housingData = {
+            activeHousingTypes: @json($activeHousingTypes),
+            inactiveHousingTypes: @json($inactiveHousingTypes),
+            pendingHousingTypes: @json($pendingHousingTypes),
+            deletedHousings: @json($deletedHousings),
+            disabledHousingTypes: @json($disabledHousingTypes),
+            soldHousingsTypes: @json($soldHousingsTypes),
+        };
 
-        function createTable(tbody, housingTypes) {
-            housingTypes.forEach(function(housingType) {
-                var row = document.createElement("tr");
+        function createTable(tbodyId, housingTypes) {
+            const tbody = document.getElementById(tbodyId);
+            housingTypes.forEach(housingType => {
+                const row = document.createElement('tr');
 
+                const idCell = createCell('td', 'align-middle id', housingType.id + 2000000);
+                const housingTitleCell = createCell('td', 'align-middle housing_title', `
+                    ${housingType.title}
+                    <br>
+                    <span style='color:black;font-size:11px !important;font-weight:700'>
+                        ${housingType.city.title} / ${housingType.district.ilce_title}${housingType.neighborhood ? ' / ' + housingType.neighborhood.mahalle_title : ''}
+                    </span>
+                `);
+                const housingTypeCell = createCell('td', 'align-middle housing_type', housingType.housing_type.title);
+                const housingConsultantCell = createCell('td', 'align-middle housing_type', getConsultantName(housingType));
 
-                var idCell = document.createElement("td");
-                idCell.className = "align-middle id";
-                idCell.textContent = housingType.id + 2000000;
+                const statusCell = createCell('td', 'align-middle status', getStatusBadge(housingType.status));
+                const createdAtCell = createCell('td', 'align-middle created_at', new Date(housingType.created_at).toLocaleDateString());
+                const actionsCell = createCell('td', 'align-middle white-space-nowrap pe-0', getActionLinks(housingType));
 
-                var housingTitleCell = document.createElement("td");
-                housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.title +
-                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
-                    .title + " / " +
-                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
-                        .mahalle_title : "") +
-                    "</span>";
+                row.append(idCell, housingTitleCell, housingTypeCell, housingConsultantCell);
 
-                var housingTypeCell = document.createElement("td");
-                housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type.title;
-
-
-                // Create a new table cell element
-                var housingConsultant = document.createElement("td");
-
-                // Set the class name
-                housingConsultant.className = "align-middle housing_type";
-
-                // Determine the text content based on housingType.user.name
-                if (housingType.consultant && housingType.consultant.name) {
-                    housingConsultant.textContent = housingType.consultant
-                        .name;
-                } else if (housingType.user && housingType.user.name) {
-                    housingConsultant.textContent = housingType.user
-                        .name;
-                } else {
-                    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
+                if (!housingType.deleted_at) {
+                    row.append(statusCell, createdAtCell, actionsCell);
                 }
 
-                var statusCell = document.createElement("td");
-                statusCell.className = "align-middle status";
-                statusCell.innerHTML = housingType.status == 1 ?
-                    '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
-                    housingType.status == 2 ?
-                    '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>' : housingType
-                    .status == 3 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
-
-
-                var createdAtCell = document.createElement("td");
-                createdAtCell.className = "align-middle created_at";
-                createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
-
-                var actionsCell = document.createElement("td");
-                actionsCell.className = "align-middle white-space-nowrap     pe-0";
-                var exportLink = document.createElement("a");
-                exportLink.className = "badge badge-phoenix badge-phoenix-primary ml-2";
-                exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/detail';
-                exportLink.textContent = "Görüntüle";
-                var viewLink = document.createElement("a");
-                viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
-                viewLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/logs';
-                viewLink.textContent = "Loglar";
-
-
-                actionsCell.appendChild(exportLink);
-                actionsCell.appendChild(viewLink);
-
-                if (tbody.id === "bulk-select-body-soldHousingsTypes") {
-
-                    var invoiceLinkCell = document.createElement("td");
-                    invoiceLinkCell.className = "align-middle pe-0";
-                    var invoiceLink = document.createElement("a");
-                    invoiceLink.className = "badge badge-phoenix badge-phoenix-success";
-                    invoiceLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/invoice_detail/" + housingType
-                        .id;
-                    invoiceLink.textContent = "Fatura Görüntüle";
-                    invoiceLinkCell.appendChild(invoiceLink);
-
-
-                    var orderDetailCell = document.createElement("td");
-                    orderDetailCell.className = "align-middle";
-                    var orderDetailLink = document.createElement("a");
-                    orderDetailLink.className = "badge badge-phoenix badge-phoenix-success";
-                    orderDetailLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/order_detail/" +
-                        housingType.id;
-                    orderDetailLink.textContent = "Sipariş Detay";
-                    orderDetailCell.appendChild(orderDetailLink);
-
-                    // Daha önce oluşturulan "actionsCell" hücresine linkleri ekle
-                    actionsCell.appendChild(invoiceLinkCell);
-                    actionsCell.appendChild(orderDetailCell);
+                if (tbodyId === 'bulk-select-body-soldHousingsTypes') {
+                    const invoiceLinkCell = createCell('td', 'align-middle pe-0', getInvoiceLink(housingType.id));
+                    const orderDetailCell = createCell('td', 'align-middle', getOrderDetailLink(housingType.id));
+                    row.append(invoiceLinkCell, orderDetailCell);
                 }
 
-                row.appendChild(idCell);
-                row.appendChild(housingTitleCell);
-                row.appendChild(housingTypeCell);
-                row.appendChild(housingConsultant);
+                const deleteReasonCell = createCell('td', 'align-middle delete_reason', housingType.deleteReason || '');
+                row.append(deleteReasonCell);
 
-                if (housingType.deleted_at == null) {
-                    row.appendChild(statusCell);
-
+                if (housingType.owner_id) {
+                    const sharedListingTag = document.createElement('span');
+                    sharedListingTag.className = 'badge badge-info ml-2';
+                    sharedListingTag.textContent = 'Paylaşımlı İlan';
+                    housingTitleCell.append(sharedListingTag);
                 }
-                row.appendChild(createdAtCell);
 
-
-                if (housingType.deleted_at == null) {
-                    row.appendChild(actionsCell);
-
-                }
-                var deleteReasonCell = document.createElement("td");
-                deleteReasonCell.className = "align-middle delete_reason";
-                deleteReasonCell.textContent = housingType.deleteReason ? housingType.deleteReason : null;
-                row.appendChild(deleteReasonCell);
-
-                tbody.appendChild(row);
+                tbody.append(row);
             });
         }
 
-        createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
-        createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
-        createTable(document.getElementById("bulk-select-body-deletedHousings"), deletedHousings);
-        createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
-        createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
-        createTable(document.getElementById("bulk-select-body-soldHousingsTypes"), soldHousingsTypes);
+        function createCell(tag, className, innerHTML = '') {
+            const cell = document.createElement(tag);
+            cell.className = className;
+            cell.innerHTML = innerHTML;
+            return cell;
+        }
 
+        function getConsultantName(housingType) {
+            if (housingType.consultant && housingType.consultant.name) {
+                return housingType.consultant.name;
+            }
+            if (housingType.user && housingType.user.name) {
+                return housingType.user.name;
+            }
+            return 'Mağaza Yöneticisi';
+        }
 
-        // Handle tab switching
-        var housingTabs = new bootstrap.Tab(document.getElementById('pendingHousingTypes-tab'));
-        housingTabs.show();
+        function getStatusBadge(status) {
+            switch (status) {
+                case 1:
+                    return '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>';
+                case 2:
+                    return '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>';
+                case 3:
+                    return '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>';
+                default:
+                    return '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+            }
+        }
+
+        function getActionLinks(housingType) {
+            return `
+                <a class="badge badge-phoenix badge-phoenix-primary ml-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/detail">Görüntüle</a>
+                <a class="badge badge-phoenix badge-phoenix-warning ml-2 mr-2" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/${housingType.id}/logs">Loglar</a>
+            `;
+        }
+
+        function getInvoiceLink(id) {
+            return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/invoice_detail/${id}">Fatura Görüntüle</a>`;
+        }
+
+        function getOrderDetailLink(id) {
+            return `<a class="badge badge-phoenix badge-phoenix-success" href="{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/order_detail/${id}">Sipariş Detay</a>`;
+        }
+
+        Object.keys(housingData).forEach(type => createTable(`bulk-select-body-${type}`, housingData[type]));
+
+        new bootstrap.Tab(document.getElementById('pendingHousingTypes-tab')).show();
     </script>
 
-    <!-- Your existing styles -->
     <style>
         .nav-tabs .nav-link {
             color: black !important;
         }
-
         .nav-tabs .nav-link.active,
         .nav-tabs .nav-item.show .nav-link {
             color: red !important;
         }
-
         .ml-2 {
             margin-left: 20px;
         }
-
         .mr-2 {
             margin-right: 20px;
         }
