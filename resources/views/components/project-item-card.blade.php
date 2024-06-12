@@ -127,7 +127,7 @@
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]' ||
+                                            (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]') ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
                                             (isset($sumCartOrderQt[$keyIndex]) &&
                                                 $sold &&
@@ -240,7 +240,7 @@
                                                         ₺
                                                     </h6>
                                                 @endif
-                                          
+
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
@@ -573,11 +573,12 @@
                                         name="price">
                                 </div>
                             </div>
+
                         </div>
 
 
 
-                     
+
                         <div class="form-group">
                             <label for="comment" class="q-label">Açıklama:</label>
                             <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
@@ -617,7 +618,9 @@
                             <div class="invoice-body">
                                 <div class="invoice-total mt-3">
                                     <div class="mt-3">
-                                        <span><strong style="color:black">Komşumu Gör Özelliği:</strong> İlgilendiğiniz projeden konut alanları arayıp proje hakkında detaylı referans bilgisi almanıza imkan sağlar.</span><br>
+                                        <span><strong style="color:black">Komşumu Gör Özelliği:</strong> İlgilendiğiniz
+                                            projeden konut alanları arayıp proje hakkında detaylı referans bilgisi
+                                            almanıza imkan sağlar.</span><br>
                                         <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                             edin:</span>
                                         <ul>
@@ -648,7 +651,8 @@
                                 </button>
                             </form>
                             <button type="button" class=" btn btn-danger"
-                                style="width:150px;margin-left:10px; margin-top:10px; " data-bs-dismiss="modal">İptal</button>
+                                style="width:150px;margin-left:10px; margin-top:10px; "
+                                data-bs-dismiss="modal">İptal</button>
                         </div>
 
 
@@ -703,6 +707,23 @@
 
 
         <script>
+            document.getElementById('price').addEventListener('input', function(e) {
+                var value = e.target.value;
+                // Sadece rakamları ve virgülü tut
+                value = value.replace(/[^0-9,]/g, '');
+
+                // Noktaları ve virgülü ayarlama
+                if (value.includes(',')) {
+                    var parts = value.split(',');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    value = parts.join(',');
+                } else {
+                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                }
+
+                e.target.value = value;
+            });
+
             function generateRandomCode() {
                 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 const codeLength = 8; // Kod uzunluğu
