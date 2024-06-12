@@ -550,21 +550,16 @@
                                                     </h4>
                                                 </div>
                                             @endif
-                                        </div>
-                                
-                                        @if (Auth::check() && Auth::user()->id == $housing->user_id)
+
+                                            @if (Auth::check() && Auth::user()->id == $housing->user_id)
                                             <div class="col-md-12 col-12 p-0">
-                                                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="form-group">
-                                                        <label for="new-price" class="q-label">Yeni Fiyat: </label>
-                                                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
-                                                        <button type="submit" class="btn btn-primary">Güncelle</button>
-                                                    </div>
-                                                </form>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceUpdateModal">
+                                                    Fiyatı Güncelle
+                                                </button>
                                             </div>
                                         @endif
+                                        </div>
+                                
                                 
                                         <div class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6 @else col-md-12 col-12 @endif p-0">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
@@ -695,6 +690,32 @@
                                 </div>
                             </div>
                         @endif
+
+<!-- Modal -->
+<div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
+                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="new-price" class="q-label">Yeni Fiyat: </label>
+                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg">
