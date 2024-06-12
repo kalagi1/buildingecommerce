@@ -11,7 +11,6 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Profil</th>
                             <th>İsim</th>
                             <th>Soyad</th>
                             <th>Telefon</th>
@@ -25,31 +24,6 @@
                             <tr>
                                 <td>
                                     {{ $index + 1 }}
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-xl mr-2">
-                                            @if ($app->user->profile_image == 'indir.png')
-                                                @php
-                                                    $nameInitials = collect(preg_split('/\s+/', $app->user->name))
-                                                        ->map(function ($word) {
-                                                            return mb_strtoupper(mb_substr($word, 0, 1));
-                                                        })
-                                                        ->take(1)
-                                                        ->implode('');
-                                                @endphp
-
-                                                <div class="profile-initial"
-                                                    style="margin: inherit !important;margin-left: 0 !important">
-                                                    {{ $nameInitials }}</div>
-                                            @else
-                                                <img loading="lazy"
-                                                    src="{{ asset('storage/profile_images/' . $app->user->profile_image) }}"
-                                                    alt="{{ $app->user->name }}" class="avatar-img rounded-circle"
-                                                    style="object-fit:contain;">
-                                            @endif
-                                        </div>
-                                    </div>
                                 </td>
                                 <td>{{ $app->ad }}</td>
                                 <td>{{ $app->soyad }}</td>
