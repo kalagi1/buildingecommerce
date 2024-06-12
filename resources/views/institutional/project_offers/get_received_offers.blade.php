@@ -204,5 +204,19 @@
         .custom-control-input:not(:checked)+.custom-control-label::before {
             background-color: red !important;
         }
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
     </style>
 @endsection
