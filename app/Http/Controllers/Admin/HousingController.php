@@ -81,6 +81,8 @@ class HousingController extends Controller
             ->whereNull('is_sold')
             ->get();
 
+            return $activeHousingTypes;
+
         // Inactive housings
         $inactiveHousingTypes = (clone $baseQuery)
             ->where('status', 0)
