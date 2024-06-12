@@ -209,9 +209,9 @@
             color: #e54242;
             background: white;
             padding: 5px;
-            border: 2px solid #e6e6e6;
-            width: 50px;
-            height: 50px;
+            border: 1px solid #e6e6e6;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
