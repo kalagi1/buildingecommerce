@@ -99,12 +99,6 @@
                         .mahalle_title : "") +
                     "</span>";
 
-                if (housingType.owner_id) {
-                    const sharedListingTag = document.createElement('span');
-                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2 mb-2';
-                    sharedListingTag.textContent = 'Paylaşımlı İlan';
-                    housingTitleCell.append(sharedListingTag);
-                }
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
@@ -140,6 +134,12 @@
                     '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
                     '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
+                    if (housingType.owner_id) {
+                    const sharedListingTag = document.createElement('span');
+                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2 mb-2';
+                    sharedListingTag.textContent = 'Paylaşımlı İlan';
+                    statusCell.append(sharedListingTag);
+                }
 
                 var createdAtCell = document.createElement("td");
                 createdAtCell.className = "align-middle created_at";
