@@ -4,10 +4,14 @@
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container text-center">
             <div class="congrats">
-                <h1>Siparişiniz Oluşturuldu !</h1>
+                <h1>Siparişiniz için Teşekkürler !</h1>
             </div>
 
-            <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş Numaranız: {{ $cart_order->id }}</p>
+            <h3>Sipariş Bilgileri</h3>
+
+            <p style="font-size: 18px;">
+                
+                #{{ $cart_order->id }} numaralı siparişiniz başarıyla oluşturuldu.</p>
 
 
             <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri
@@ -125,7 +129,7 @@
 
         .congrats h1 {
             transform-origin: 50% 50%;
-            font-size: 32px;
+            font-size: 25px;
             cursor: pointer;
             z-index: 2;
             position: relative;
