@@ -582,8 +582,7 @@
 
                                             @if (Auth::check() && Auth::user()->id == $housing->user_id)
                                                 <div class="col-md-12 col-12 p-0 ml-3">
-                                                    <a  data-bs-toggle="modal"
-                                                        data-bs-target="#priceUpdateModal"
+                                                    <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
                                                         style="color:#007bff !important;cursor: pointer; ">
                                                         Fiyatı Güncelle
                                                     </a>
@@ -746,7 +745,7 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="form-group">
-                                                <label for="new-price" class="q-label">Yeni Fiyat: </label>
+                                                <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
                                                 <input type="text" class="modal-input" id="new-price"
                                                     name="new_price" placeholder="Yeni Fiyat">
                                             </div>
@@ -3068,6 +3067,21 @@
 
         .inner-pages .form-control {
             padding: 0 0.3rem !important
+        }
+
+        .modal-input {
+            display: block;
+            width: 100%;
+            height: 38px !important;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 2.0;
+            /* background-color: #fff; */
+            /* background-clip: padding-box; */
+            border: 1px solid #eee;
+            /* border-radius: .35rem; */
+            /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
         .formInput {
