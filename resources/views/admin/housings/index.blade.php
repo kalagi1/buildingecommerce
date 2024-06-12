@@ -101,7 +101,7 @@
 
                 if (housingType.owner_id) {
                     const sharedListingTag = document.createElement('span');
-                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2';
+                    sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2 mb-2';
                     sharedListingTag.textContent = 'Paylaşımlı İlan';
                     housingTitleCell.append(sharedListingTag);
                 }
