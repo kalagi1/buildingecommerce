@@ -1489,18 +1489,6 @@
 
     </script>
     <script>
-        var successMessage = "{{ session('success') }}";
-
-        if (successMessage) {
-            Toastify({
-                text: successMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: 'green',
-                stopOnFocus: true,
-            }).showToast();
-        }
         $('.citySelect').change(function() {
             var selectedCity = $(this).val();
 

@@ -734,33 +734,7 @@
 <script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script>
-    var errorMessage = "{{ session('error') }}";
 
-    if (errorMessage) {
-        Toastify({
-            text: errorMessage,
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
-            backgroundColor: '#ff4d4d',
-            stopOnFocus: true,
-        }).showToast();
-    }
-
-    var successMessage = "{{ session('success') }}";
-
-    if (successMessage) {
-        Toastify({
-            text: successMessage,
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
-            backgroundColor: 'green',
-            stopOnFocus: true,
-        }).showToast();
-    }
-</script>
 
 <script>
     $(document).ready(function() {
@@ -2661,21 +2635,6 @@
 
         }
     </script>
-    <script>
-        var successMessage = "{{ session('success') }}";
-
-        if (successMessage) {
-            Toastify({
-                text: successMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: 'green',
-                stopOnFocus: true,
-            }).showToast();
-        }
-    </script>
-
     <script>
         function checkOffer(offers, housingOrder) {
             var returnData = null;

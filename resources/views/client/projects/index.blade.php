@@ -1419,20 +1419,6 @@
 
         }
     </script>
-    <script>
-        var successMessage = "{{ session('success') }}";
-
-        if (successMessage) {
-            Toastify({
-                text: successMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: 'green',
-                stopOnFocus: true,
-            }).showToast();
-        }
-    </script>
 
     <script>
         function checkOffer(offers, housingOrder) {
