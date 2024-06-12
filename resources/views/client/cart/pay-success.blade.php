@@ -20,10 +20,7 @@
 
         </div>
 
-        <button id="button-conf" onclick="startConfetti()">
-            <i id="icon" class="fa-solid fa-play"></i>
-            <span id="text" class="text">Start deploy</span>
-          </button>
+
 
     </section>
 @endsection
@@ -78,130 +75,72 @@
                 });
             }
 
+            // function animateBlobs() {
+            //     var xSeed = _.random(350, 380);
+            //     var ySeed = _.random(120, 170);
+
+            //     $.each($('.blob'), function(i) {
+            //         var $blob = $(this);
+            //         var speed = _.random(1, 5);
+            //         var rotation = _.random(5, 100);
+            //         var scale = _.random(0.8, 1.5);
+            //         var x = _.random(-xSeed, xSeed);
+            //         var y = _.random(-ySeed, ySeed);
+
+            //         TweenMax.to($blob, speed, {
+            //             x: x,
+            //             y: y,
+            //             ease: Power1.easeOut,
+            //             opacity: 0,
+            //             rotation: rotation,
+            //             scale: scale,
+            //             onStartParams: [$blob],
+            //             onStart: function($element) {
+            //                 $element.css('display', 'block');
+            //             },
+            //             onCompleteParams: [$blob],
+            //             onComplete: function($element) {
+            //                 $element.css('display', 'none');
+            //             }
+            //         });
+            //     });
+            // }
+
             function animateBlobs() {
-                var xSeed = _.random(350, 380);
-                var ySeed = _.random(120, 170);
+    var numberOfConfetti = 20;
 
-                $.each($('.blob'), function(i) {
-                    var $blob = $(this);
-                    var speed = _.random(1, 5);
-                    var rotation = _.random(5, 100);
-                    var scale = _.random(0.8, 1.5);
-                    var x = _.random(-xSeed, xSeed);
-                    var y = _.random(-ySeed, ySeed);
+    for (var i = 0; i < numberOfConfetti; i++) {
+        var confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        document.querySelector('.congrats').appendChild(confetti);
 
-                    TweenMax.to($blob, speed, {
-                        x: x,
-                        y: y,
-                        ease: Power1.easeOut,
-                        opacity: 0,
-                        rotation: rotation,
-                        scale: scale,
-                        onStartParams: [$blob],
-                        onStart: function($element) {
-                            $element.css('display', 'block');
-                        },
-                        onCompleteParams: [$blob],
-                        onComplete: function($element) {
-                            $element.css('display', 'none');
-                        }
-                    });
-                });
+        var speed = _.random(1, 5);
+        var rotation = _.random(5, 100);
+        var scale = _.random(0.8, 1.5);
+        var x = _.random(-150, 150); // Adjust according to your needs
+        var y = _.random(-50, 50); // Adjust according to your needs
+
+        TweenMax.to(confetti, speed, {
+            x: x,
+            y: y,
+            ease: Power1.easeOut,
+            opacity: 0,
+            rotation: rotation,
+            scale: scale,
+            onStartParams: [confetti],
+            onStart: function(elem) {
+                elem.style.display = 'block';
+            },
+            onCompleteParams: [confetti],
+            onComplete: function(elem) {
+                elem.style.display = 'none';
+                elem.parentNode.removeChild(elem);
             }
         });
-    </script>
-      <script src='https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js'></script>
-      <script id="rendered-js" >
-var startConfetti = function () {
+    }
+}
 
-  var text = document.getElementById("text");
-  text.textContent = "Start deploy";
-  text.className = "text hidden";
-
-  var icon = document.getElementById("icon");
-  icon.className = "fa-solid fa-spinner animate-spin";
-
-  var button = document.getElementById("button-conf");
-  button.className = "loading";
-  const rect = button.getBoundingClientRect();
-  const center = {
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2 };
-
-  const origin = {
-    x: center.x / window.innerWidth,
-    y: center.y / window.innerHeight };
-
-
-  // Canvas && confetti settings
-  var myCanvas = document.createElement('canvas');
-  document.body.appendChild(myCanvas);
-  const defaults = {
-    disableForReducedMotion: true };
-
-  var colors = ['#757AE9', '#28224B', '#EBF4FF'];
-  var myConfetti = confetti.create(myCanvas, {});
-
-  // Confetti function to be more realistic
-  function fire(particleRatio, opts) {
-    confetti(
-    Object.assign({}, defaults, opts, {
-      particleCount: Math.floor(100 * particleRatio) }));
-
-
-  }
-  // Finished state confetti
-  setTimeout(() => {
-    icon.className = "";
-    button.className = "success";
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 10,
-      origin,
-      colors });
-
-    fire(0.2, {
-      spread: 60,
-      startVelocity: 20,
-      origin,
-      colors });
-
-    fire(0.35, {
-      spread: 100,
-      startVelocity: 15,
-      decay: 0.91,
-      origin,
-      colors });
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 10,
-      decay: 0.92,
-      origin,
-      colors });
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 20,
-      origin,
-      colors });
-
-
-  }, "3000");
-  // Finished state text
-  setTimeout(() => {
-    text.textContent = "Finished";
-    text.className = "text";
-    icon.className = "fa-solid fa-check";
-  }, 3500);
-  // Reset animation
-  setTimeout(() => {
-    text.textContent = "Start deploy";
-    icon.className = "fa-solid fa-play";
-    button.className = "";
-  }, 6000);
-};
-//# sourceURL=pen.js
+        });
     </script>
 @endsection
 
@@ -209,6 +148,18 @@ var startConfetti = function () {
 
 @section('styles')
     <style>
+        .confetti {
+    width: 10px;
+    height: 10px;
+    background-color: #ffcc00; /* Konfeti rengini istediğiniz renkle değiştirebilirsiniz */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: none;
+}
+
         .congrats {
             position: relative;
             width: 550px;
