@@ -526,6 +526,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
+                                <input type="text" class="modal-input" placeholder="Fiyat" id="price"
+                                    name="price">
+                            </div>
+                        </div>
                     </div>
 
 
