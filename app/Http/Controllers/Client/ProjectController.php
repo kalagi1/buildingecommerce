@@ -1502,6 +1502,8 @@ class ProjectController extends Controller
             })
             ->all();
 
+            return $sumCartOrderQt;
+
             // Meta bilgi değişkeni tanımlanıyor
             $pageInfo = [
                 "meta_title" =>
