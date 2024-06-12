@@ -570,7 +570,13 @@
 
 
 
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
+                                <input type="text" class="modal-input" placeholder="Fiyat" id="price"
+                                    name="price">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="comment" class="q-label">Açıklama:</label>
                             <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"

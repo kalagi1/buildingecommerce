@@ -1717,6 +1717,7 @@ class ProjectController extends Controller
             'project_id'        => $request->projectId,
             'room_id'           => $request->roomId,
             'email'             => $request->email,
+            'price'             => $request->price,
             'name'             => $request->name,
             'phone'             => $request->phone,
             'city_id'             => $request->city_id,
