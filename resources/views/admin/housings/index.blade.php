@@ -90,19 +90,21 @@
                 idCell.textContent = housingType.id + 2000000;
 
                 var housingTitleCell = document.createElement("td");
+
+                housingTitleCell.className = "align-middle housing_title";
+                housingTitleCell.innerHTML =  housingType.title +
+                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
+                    .title + " / " +
+                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                        .mahalle_title : "") +
+                    "</span>";
+
                 if (housingType.owner_id) {
                     const sharedListingTag = document.createElement('span');
                     sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2';
                     sharedListingTag.textContent = 'Paylaşımlı İlan';
                     housingTitleCell.append(sharedListingTag);
                 }
-                housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = "<br>" + housingType.title +
-                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
-                    .title + " / " +
-                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
-                        .mahalle_title : "") +
-                    "</span>";
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
