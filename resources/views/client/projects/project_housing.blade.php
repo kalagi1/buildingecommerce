@@ -2880,16 +2880,17 @@
 
         .modal-input {
             display: block;
-            width: 100%;
-            padding: .375rem .75rem;
-            font-size: 1rem;
-            line-height: 2.0;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #b9b9b9;
-            border-radius: .35rem;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
-            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    width: 100%;
+    height: 38px !important;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 2.0;
+    /* background-color: #fff; */
+    /* background-clip: padding-box; */
+    border: 1px solid #b9b9b9;
+    /* border-radius: .35rem; */
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
         .modal-input:focus {
