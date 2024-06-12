@@ -121,8 +121,6 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js'></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js'></script>
     <script id="rendered-js">
-        // Click "Congratulations!" to play animation
-
         $(function() {
             var numberOfStars = 20;
 
@@ -203,12 +201,12 @@
 
             });
         }
-        //# sourceURL=pen.js
     </script>
 @endsection
 
 
 @section('styles')
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
     <style>
         .custom-file-upload {
             border: 1px solid #ccc;
