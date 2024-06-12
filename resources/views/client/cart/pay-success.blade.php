@@ -120,6 +120,7 @@
             text-align: center;
             margin: 0 auto;
             left: 0;
+            top: 140;
             right: 0;
         }
 
