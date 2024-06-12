@@ -1379,10 +1379,23 @@ class ProjectController extends Controller
         ProjectHousing::where('project_id', $projectId)->where('room_order', $request->input('room_order'))->where('name', 'installments[]')->update([
             "value" => $request->input('installments')
         ]);
+        
+        $payDecCount = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->first();
 
-        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
-            "value" => $request->input('pay_decs') ? count($request->input('pay_decs')) : 0
-        ]);
+        if($payDecCount){
+            ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay-dec-count'.$request->input('room_order'))->update([
+                "value" => $request->input('pay_decs') ? count($request->input('pay_decs')) : 0
+            ]);
+        }else{
+            ProjectHousing::create([
+                "project_id" => $projectId,
+                "room_order" => $request->input('room_order'),
+                "name" => 'pay-dec-count'.$request->input('room_order'),
+                "value" => count($request->input('pay_decs')),
+                "key" => 'pay-dec-count'.$request->input('room_order')
+            ]);
+        }
+        
         
         PaymentSetting::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->delete();
 
@@ -1401,6 +1414,8 @@ class ProjectController extends Controller
             "advance" => $request->input('advance_payment') ?? false,
             "down_payment_price" => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
             "pay_decs" => json_encode($payDecArr),
+            "advance_date" => $request->input('advance_date') ?? null,
+            "deposit_date" => $request->input('deposit_date') ?? null,
         ]);
 
         if($request->input('pay_decs')){
@@ -1452,6 +1467,7 @@ class ProjectController extends Controller
             Installment::create([
                 "price" => $installment['price'] ? str_replace('.','',$installment['price']) : "0",
                 "date" => $installment['date'] ?? date('Y-m-d'),
+                "payment_date" => $installment['payment_date'] ?? null,
                 "paymentType" => $installment['paymentType'] ?? "",
                 "description" => $installment['description'] ?? "",
                 "is_payment" => $installment['is_payment'] ?? false,

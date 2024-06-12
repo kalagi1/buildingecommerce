@@ -7,25 +7,7 @@ import { toast } from 'react-toastify';
 function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCount}) {
     console.log(datat);
     const [loading,setLoading] = useState(false);
-    const [data, setData] = React.useState({
-        name: 'Abdurrahman İslamoğlu',
-        price : '1000000',
-        advance : '400000',
-        installments : 36,
-        email : 'islamoglu.abd@gmail.com',
-        phone : '(551) 108 36 52',
-        sale_type : 2,
-        pay_decs : [
-            {
-                price : '200000',
-                date : '2024-05-26'
-            },
-            {
-                price : '200000',
-                date : '2024-09-26'
-            },
-        ]
-    });
+    const [data, setData] = React.useState({});
 
     useEffect(() => {
         if(datat?.name){
@@ -205,11 +187,29 @@ function SaleModal({reloadData,projectId,open,setOpen,datat,roomOrder,getLastCou
                             onChange={handleInputChange}
                             margin="normal"
                         />
+                        <TextField
+                            type='date'
+                            fullWidth
+                            label="Kapora Ödenme Tarihi"
+                            name="deposit_date"
+                            value={data.deposit_date}
+                            onChange={handleInputChange}
+                            margin="normal"
+                        />
                          <FormControl fullWidth margin="normal">
                             <label htmlFor="">Peşinat Ödendi</label>
                             
                             <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
                         </FormControl>
+                        <TextField
+                            fullWidth
+                            type='date'
+                            label="Peşinat Ödenme Tarihi"
+                            name="advance_date"
+                            value={data.advance_date}
+                            onChange={handleInputChange}
+                            margin="normal"
+                        />
                     </Grid>
                     <Grid item xs={6} md={6}>
                         <FormControl fullWidth margin="normal">
