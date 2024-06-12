@@ -91,10 +91,10 @@
 
                 var housingTitleCell = document.createElement("td");
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.housing_title +
+                housingTitleCell.innerHTML = housingType.title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
-                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                    housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
                         .mahalle_title : "") +
                     "</span>";
 
