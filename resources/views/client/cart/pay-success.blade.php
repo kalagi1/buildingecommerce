@@ -148,18 +148,6 @@
 
 @section('styles')
     <style>
-        .confetti {
-    width: 10px;
-    height: 10px;
-    background-color: #ffcc00; /* Konfeti rengini istediğiniz renkle değiştirebilirsiniz */
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    display: none;
-}
-
         .congrats {
             position: relative;
             width: 550px;
@@ -171,6 +159,19 @@
             top: 140;
             right: 0;
         }
+        .confetti {
+    width: 20px;
+    height: 20px;
+    background-color: #ff0000; /* Kırmızı renk */
+    background-image: linear-gradient(to right, #ff0000, #0000ff); /* Kırmızıdan maviye gradient */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: none;
+}
+
 
         .congrats h1 {
             transform-origin: 50% 50%;
