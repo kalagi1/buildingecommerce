@@ -28,11 +28,11 @@
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
-                @foreach (['active', 'pendingHousingTypes', 'disabledHousingTypes', 'inactive', 'deletedHousings', 'soldHousingsTypes'] as $type)
+                @foreach (['activeHousingTypes', 'pendingHousingTypes', 'disabledHousingTypes', 'inactiveHousingTypes', 'deletedHousings', 'soldHousingsTypes'] as $type)
                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $type }}">
                         @include('admin.housings.housing_table' . ($type == 'deletedHousings' ? '_delete' : ''), [
                             'tableId' => 'bulk-select-body-' . $type,
-                            'housingTypes' => ${$type . 'Types'},
+                            'housingTypes' => $$type,
                         ])
                     </div>
                 @endforeach
@@ -45,10 +45,10 @@
     <script>
         const housingData = {
             activeHousingTypes: @json($activeHousingTypes),
-            inactiveHousingTypes: @json($inactiveHousingTypes),
+            disabledHousingTypes: @json($disabledHousingTypes),
             pendingHousingTypes: @json($pendingHousingTypes),
             deletedHousings: @json($deletedHousings),
-            disabledHousingTypes: @json($disabledHousingTypes),
+            inactiveHousingTypes: @json($inactiveHousingTypes),
             soldHousingsTypes: @json($soldHousingsTypes),
         };
 
