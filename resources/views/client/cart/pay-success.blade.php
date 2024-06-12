@@ -37,9 +37,6 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js'></script>
     <script>
         $(document).ready(function() {
-            for (var j = 0; j < 3; j++) {
-                $('.congrats').click();
-            }
             $(function() {
                 var numberOfStars = 20;
 
@@ -49,7 +46,9 @@
                 }
                 window.CP.exitedLoop(0);
 
+                animateText();
 
+                animateBlobs();
             });
 
             $('.congrats').click(function() {
@@ -184,6 +183,7 @@
 @section('styles')
     <style>
         .congrats {
+            position: absolute;
             top: 140px;
             width: 550px;
             height: 100px;
@@ -192,16 +192,16 @@
             margin: 0 auto;
             left: 0;
             right: 0;
-
         }
 
         .congrats h1 {
             transform-origin: 50% 50%;
-            font-size: 30px;
+            font-size: 50px;
+            font-family: 'Sigmar One', cursive;
             cursor: pointer;
             z-index: 2;
+            position: absolute;
             top: 0;
-            color: #27ae60;
             text-align: center;
             width: 100%;
         }
