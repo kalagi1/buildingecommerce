@@ -12,7 +12,8 @@
                         <tr>
                             <th>Profil</th>
                             <th>Teklif Eden</th>
-                            <th style="width:200px">Proje Başlığı</th>
+                            <th style="width:200px">Proje</th>
+                            <th>Teklif Edilen Fiyat</th>
                             <th>İsim</th>
                             <th>Telefon</th>
                             <th>Meslek</th>
@@ -31,12 +32,14 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td> {{ $item->user->name }} <br><br>
+                                    <td> {{ $item->user->name }} <br>
                                         <span style="font-size: 10px;color:black;font-weight:700"> {{ $item->city ? $item->city->title: null }} 
                                             {{ $item->district ? " - ".  $item->district->ilce_title: null }}</span>
                                     </td>
                                     <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}</td>
+                                    <td>{{ $item->price }}</td>
                                     <td>{{ $item->name }}</td>
+
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>{{ $item->email }}</td>
