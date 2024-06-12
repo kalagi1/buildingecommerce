@@ -10,6 +10,7 @@
                 <table class="table table-sm  border-200 fs--1 mb-0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Profil</th>
                             <th>Teklif Eden</th>
                             <th style="width:200px">Proje</th>
@@ -23,8 +24,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $item)                           
+                        @foreach ($data as $index => $item)                           
                                 <tr>
+                                    <td>
+                                        {{$index + 1}}
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="avatar avatar-xl mr-2">
