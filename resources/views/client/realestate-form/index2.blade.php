@@ -23,7 +23,7 @@
                                 zamanınız size kalsın.
                             </p>
                             <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
-                                data-bs-target="#priceUpdateModal" class="btn btn-outline-danger">Kirala</button>
+                                data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Kirala</button>
 
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                 zamanınız size kalsın.
                             </p>
                             <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
-                                data-bs-target="#priceUpdateModal" class="btn btn-outline-danger">Sat</button>
+                                data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Sat</button>
 
                         </div>
                     </div>
@@ -318,7 +318,7 @@
             if (sellType === 'kendim-satmak' || sellType === 'paylasimli-sistem') {
                 // AJAX ile PHP'ye seçimi gönder
                 $.ajax({
-                    url: '{{ route('update_sell_type') }}',
+                    url: "{{ route('update_sell_type') }}",
                     method: 'POST',
                     data: {
                         sell_type: sellType
@@ -347,7 +347,7 @@
         $(document).ready(function() {
             // AJAX ile PHP'ye seçilen satış tipini sorgula
             $.ajax({
-                url: '{{ route('get_sell_type') }}',
+                url: "{{ route('get_sell_type') }}",
                 method: 'GET',
                 success: function(response) {
                     console.log(response);
