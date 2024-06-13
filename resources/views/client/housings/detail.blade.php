@@ -491,15 +491,13 @@
                             <div class="mobileHour mobileHourDiv">
 
                                 <div class="schedule widget-boxed mt-33 mt-0">
-
-
                                     <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                         <h4
-                                                            style="color: #274abb !important; position: relative;  font-weight: 700;font-size:20px">
+                                                            style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
                                                             @if ($discountAmount)
                                                                 <svg viewBox="0 0 24 24" width="24" height="24"
                                                                     stroke="currentColor" stroke-width="2" fill="none"
@@ -507,8 +505,7 @@
                                                                     class="css-i6dzq1">
                                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                     </polyline>
-                                                                    <polyline points="17 18 23 18 23 12">
-                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12"></polyline>
                                                                 </svg>
                                                             @endif
                                                             @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
@@ -528,14 +525,14 @@
                                                                         stroke-linejoin="round" class="css-i6dzq1">
                                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                         </polyline>
-                                                                        <polyline points="17 18 23 18 23 12">
-                                                                        </polyline>
+                                                                        <polyline points="17 18 23 18 23 12"></polyline>
                                                                     </svg>
                                                                     <del style="font-size:11px; color:#EA2B2E">
                                                                         {{ number_format($price, 0, ',', '.') }}
                                                                     </del>
                                                                 @endif
-                                                                {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                                <span
+                                                                    id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                                 ₺
                                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                                     <span style="font-size:12px; color:#EA2B2E">(1
@@ -548,8 +545,7 @@
                                             @else
                                                 <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                     <h4
-                                                        style="color: #274abb !important; position: relative;  font-weight: 700;font-size:20px">
-
+                                                        style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
                                                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                             @php
                                                                 $price =
@@ -567,32 +563,39 @@
                                                                     class="css-i6dzq1">
                                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                     </polyline>
-                                                                    <polyline points="17 18 23 18 23 12">
-                                                                    </polyline>
+                                                                    <polyline points="17 18 23 18 23 12"></polyline>
                                                                 </svg>
                                                                 <del style="font-size:11px; color:#EA2B2E">
                                                                     {{ number_format($price, 0, ',', '.') }}
                                                                 </del>
                                                             @endif
-                                                            {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                            <span
+                                                                id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                             ₺
                                                             @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                <span style="font-size:11px; color:#EA2B2E">1
-                                                                    Gece</span>
+                                                                <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
                                                             @endif
                                                         @endif
                                                     </h4>
                                                 </div>
                                             @endif
 
-
+                                            @if (Auth::check() && Auth::user()->id == $housing->user_id)
+                                                <div class="col-md-12 col-12 p-0 ml-3">
+                                                    <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                        style="color:#007bff !important;cursor: pointer; ">
+                                                        Fiyatı Güncelle
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </div>
+
+
                                         <div
                                             class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6 @else col-md-12 col-12 @endif p-0">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                <button class="btn second-btn "
-                                                    style="background: #EA2B2E !important;width:100%;color:White">
-
+                                                <button class="btn second-btn"
+                                                    style="background: #EA2B2E !important; width:100%; color:White">
                                                     <span class="text">Satışa Kapatıldı</span>
                                                 </button>
                                             @else
@@ -610,7 +613,6 @@
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp
-
                                                     <button class="btn second-btn soldBtn" style="{{ $buttonStyle }}">
                                                         <span class="text">{{ $buttonText }}</span>
                                                     </button>
@@ -624,10 +626,6 @@
                                                     </button>
                                                 @endif
                                             @endif
-
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -727,6 +725,74 @@
                                 </div>
                             </div>
                         @endif
+
+                      <!-- Fiyat Güncelleme Modal -->
+<div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
+                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}" onsubmit="return false;">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
+                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="confirm-price-update">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Onay Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmation-message"></p>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="confirm-update-button">Evet, Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('confirm-price-update').addEventListener('click', function() {
+        var newPrice = document.getElementById('new-price').value;
+        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' ₺ olarak güncellemek istediğinizden emin misiniz?';
+
+        // Close the price update modal
+        document.querySelector(".priceUpdateModalLabelClose").click();
+
+        // Open the confirmation modal
+        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        confirmationModal.show();
+    });
+
+    document.getElementById('confirm-update-button').addEventListener('click', function() {
+        document.getElementById('price-update-form').onsubmit = function() {
+            return true;
+        };
+        document.getElementById('price-update-form').submit();
+    });
+</script>
+
+
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -2845,6 +2911,23 @@
                 }
             });
         });
+
+        document.getElementById('new-price').addEventListener('input', function(e) {
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            e.target.value = value;
+        });
     </script>
 
     <script>
@@ -2980,6 +3063,32 @@
             });
         });
     </script>
+    <script>
+        // $(document).ready(function() {
+        //     $('#price-update-form').on('submit', function(e) {
+        //         e.preventDefault();
+        //         var formData = $(this).serialize();
+        //         var formAction = $(this).attr('action');
+
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: formAction,
+        //             data: formData,
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     $('#current-price').text(response.new_price_formatted);
+        //                     alert('Fiyat başarıyla güncellendi.');
+        //                 } else {
+        //                     alert('Fiyat güncellenirken bir hata oluştu.');
+        //                 }
+        //             },
+        //             error: function() {
+        //                 alert('Sunucu hatası. Lütfen daha sonra tekrar deneyiniz.');
+        //             }
+        //         });
+        //     });
+        // });
+    </script>
 @endsection
 
 @section('styles')
@@ -2996,6 +3105,21 @@
 
         .inner-pages .form-control {
             padding: 0 0.3rem !important
+        }
+
+        .modal-input {
+            display: block;
+            width: 100%;
+            height: 38px !important;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 2.0;
+            /* background-color: #fff; */
+            /* background-clip: padding-box; */
+            border: 1px solid #eee;
+            /* border-radius: .35rem; */
+            /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
         .formInput {

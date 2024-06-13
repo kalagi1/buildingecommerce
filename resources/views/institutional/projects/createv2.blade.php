@@ -172,7 +172,7 @@
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
                             <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
-                            <a href="">Proje Detayları</a>
+                            <a href="">İlan Detayları</a>
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
                             <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
@@ -251,7 +251,7 @@
                         </div>
                     </div>
                     <div class="form-area mt-4">
-                        <span class="section-title">Proje Detayları</span>
+                        <span class="section-title">İlan Detayları</span>
                         
                         <div class="form-group">
                             <label for="">Proje Adı <span class="required">*</span></label>

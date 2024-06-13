@@ -45,7 +45,7 @@
             <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
 
-                    <h4 style="height:30px">
+                    <h4 style="height: 25px">
                         {{ $housing->title }}
                     </h4>
 
@@ -60,12 +60,12 @@
                             {{ $housing->city ? ($housing->district ? '/ ' . $housing->district->ilce_title : '') : ($housing->district ? $housing->district->ilce_title : '') }}
                             {{ $housing->city || $housing->district ? ($housing->neighborhood ? '/ ' . $housing->neighborhood->mahalle_title : '') : ($housing->neighborhood ? $housing->neighborhood->mahalle_title : '') }}
                         </span>
-                        
+
 
                     </p>
                 </span>
                 <!-- homes List -->
-                <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between">
+                <ul class="homes-list clearfix mb-3" style="display: flex; justify-content: space-between">
                     @if (isset($housing->listItems->column1_name) &&
                             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0]) &&
                             json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
@@ -123,7 +123,7 @@
                     @endif
                 </ul>
 
-                <ul class="homes-list clearfix pb-3"
+                <ul class="homes-list clearfix mb-3"
                     style="display: flex; justify-content: space-between;align-items:center">
                     <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
                         @if ($housing->discount_amount)
@@ -204,6 +204,7 @@
 
                     </li>
                     <li style="display: flex; justify-content: right;width:100%">
+
                         {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                     </li>
 
