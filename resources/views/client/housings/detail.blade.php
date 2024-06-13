@@ -747,7 +747,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Ürün Fiyatı:  <h4
+                                        {{-- <p>Ürün Fiyatı:  <h4
                                             style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
                                             @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 @php
@@ -779,7 +779,7 @@
                                                     <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
                                                 @endif
                                             @endif
-                                        </h4></p>
+                                        </h4></p> --}}
                                         <form action="{{ route('bids.store', $housing->id) }}" method="POST">
                                             @csrf
                                             <div class="form-group">
