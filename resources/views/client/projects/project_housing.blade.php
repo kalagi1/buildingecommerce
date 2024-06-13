@@ -1605,6 +1605,22 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+          document.getElementById('new-price').addEventListener('input', function(e) {
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            e.target.value = value;
+        });
         var navLinks = document.querySelectorAll('.nav-link');
 
         // Her bir nav-link öğesi için bir event listener ekleyin
@@ -2424,22 +2440,7 @@
 
         var isLoading = false;
 
-        document.getElementById('new-price').addEventListener('input', function(e) {
-            var value = e.target.value;
-            // Sadece rakamları ve virgülü tut
-            value = value.replace(/[^0-9,]/g, '');
-
-            // Noktaları ve virgülü ayarlama
-            if (value.includes(',')) {
-                var parts = value.split(',');
-                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                value = parts.join(',');
-            } else {
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-
-            e.target.value = value;
-        });
+      
     </script>
 
     <script>
