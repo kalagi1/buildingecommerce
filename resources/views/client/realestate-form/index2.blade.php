@@ -315,7 +315,9 @@
                     url: "{{ route('update_sell_type') }}",
                     method: 'POST',
                     data: {
-                        sell_type: sellType
+                        sell_type: sellType,
+                        "_token": "{{ csrf_token() }}",
+
                     },
                     success: function(response) {
                         console.log(response);

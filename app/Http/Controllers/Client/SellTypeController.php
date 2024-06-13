@@ -17,8 +17,7 @@ class SellTypeController extends Controller
     public function updateSellType(Request $request)
     {
         $sellType = $request->input('sell_type');
-        
-        // Session'da satış tipini güncelle
+    
         $request->session()->put('sell_type', $sellType);
 
         return response()->json(['success' => true]);
