@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../define/variables';
-function TypeList({setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes}) {
+function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes}) {
     const [housingStatuses,setHousingStatuses] = useState([]);
     const [loadingOrder,setLoadingOrder] = useState(null);
     const [loadingOrderStatusId,setLoadingOrderStatusId] = useState(null);
@@ -116,7 +116,7 @@ function TypeList({setSelectedHousingType,selectedHousingType,setSelectedTypes,s
                                 {
                                     housingTypes[1]?.map((housingType) => {
                                         return(
-                                            <li onClick={() => {setHousingTypeParent(housingType.id,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,2);setSlug(housingType.slug)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
                                                 {housingType.title}
                                                 {
                                                     loadingOrder && loadingOrder == 2 && loadingOrderStatusId && housingType.id == loadingOrderStatusId ?

@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Models\UserPlan;
 use App\Models\Chat;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\RoleChanges;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session; 
@@ -138,7 +140,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        Session::flush();
 
         $credentials = $request->only('email', 'password');
         if(!Auth::attempt($credentials)){
@@ -215,15 +216,11 @@ class LoginController extends Controller
                             'is_visible' => true,
                         ]);
                     }
-                    $cart = session('cart', []);
-                    if (count($cart) != 0) {
-                        session(['cart' => $cart]);
-                    }
+
 
                     if ($user->type == 3) {
                         return redirect()->intended('/qR9zLp2xS6y/secured/admin');
                     } elseif ($user->type != '3') {
-
                         $cart =  $request->session()->get('cart', []);
                         $cartList = CartItem::where('user_id', $user->id)->latest()->first();
                         if ($cartList) {
@@ -239,6 +236,29 @@ class LoginController extends Controller
 
                             return redirect()->intended(route('cart'));
                         } else {
+                            $favoriteData = session('favorite_data');
+                            if ($favoriteData) {
+                                if($favoriteData['type'] == "housing"){
+                                    $favorite = HousingFavorite::create([
+                                        "user_id" => $user->id,
+                                        'housing_id' => $favoriteData['housing_id'],
+                                    ]);
+                                    
+                                    session()->forget('favorite_data');
+                                    return redirect()->intended(route('favorites'));
+                                }else{
+                                    $favorite = ProjectFavorite::create([
+                                        "user_id" => $user->id,
+                                        'housing_id' =>  $favoriteData['housing_id'],
+                                        'project_id' =>  $favoriteData['project_id'],
+                                    ]);
+
+                                    session()->forget('favorite_data');
+                                    return redirect()->intended(route('favorites'));
+                                }
+                                
+                            }
+
                             return redirect()->intended(route('index'));
                         }
                     }

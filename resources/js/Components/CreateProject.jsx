@@ -26,6 +26,7 @@ function CreateProject(props) {
     const [selectedBlock,setSelectedBlock] = useState(null);
     const [selectedRoom,setSelectedRoom] = useState(0);
     const [anotherBlockErrors,setAnotherBlockErrors] = useState(0);
+    const [slug,setSlug] = useState("")
     const setProjectDataFunc = (key,value) => {
         setProjectData({
             ...projectData,
@@ -430,9 +431,9 @@ function CreateProject(props) {
             <ToastContainer/>
             {
                 step == 1 ? 
-                    <TypeList setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
+                    <TypeList setSlug={setSlug} slug={slug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <ProjectForm formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <ProjectForm slug={slug} formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} selectedTypes={selectedTypes} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSection/>
             }

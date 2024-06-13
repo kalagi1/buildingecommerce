@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller {
 
@@ -309,6 +310,8 @@ class CartController extends Controller {
             $storeID = Housing::find( $productDetails->id ?? 0 )->user->id;
             $room = null;
 
+            app()->make(FavoriteController::class)->deleteFavoriteByHousingId($productDetails->id);
+
             if ( $haveDiscount ) {
                 if ( $coupon->discount_type == 1 ) {
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $coupon->amount / 100 ) );
@@ -529,6 +532,7 @@ class CartController extends Controller {
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
 
+            app()->make(FavoriteController::class)->deleteFavoriteByProjectIdAndHousing($productDetails->id,$productDetails->housing);
             $room = $productDetails->housing;
             $shareOpen = isset( getHouse( $project, 'share-open[]', $productDetails->housing )->value ) ? getHouse( $project, 'share-open[]', $productDetails->housing )->value : null;
 
@@ -995,56 +999,55 @@ class CartController extends Controller {
     }
 
     public function add( Request $request ) {
-        try {
+        try{
             if ( Auth::check() ) {
                 $user = Auth::user();
                 $lastClick = Click::where( 'user_id', $user->id )
                 ->where( 'created_at', '>=', now()->subDays( 24 ) )
                 ->latest( 'created_at' )
                 ->first();
-
+    
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
                     CartItem::where( 'user_id', $user->id )->latest()->first()->delete();
                 }
-
+    
                 $cartItem = $this->prepareCartItem( $request );
                 if ( !$cartItem ) {
                     return response( [ 'message' => 'fail' ] );
                 }
-
+    
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
                     'hasCounter' => false // Update this based on your logic if needed
                 ];
-
+    
                 $request->session()->put( 'cart', $cart );
-
+    
                 $cartJson = json_encode( $cart );
                 CartItem::create( [
                     'cart'     => $cartJson,
                     'user_id'  => $user->id
                 ] );
-
+    
                 return response( [ 'message' => 'success' ] );
             } else {
                 $cartItem = $this->prepareCartItem( $request );
                 if ( !$cartItem ) {
                     return response( [ 'message' => 'fail' ] );
                 }
-
+    
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
                     'hasCounter' => false // Update this based on your logic if needed
                 ];
-
-                $request->session()->put( 'cart', $cart );
-
+                session(['cart' => $cart]);
+    
                 return response( [ 'message' => 'session' ] );
             }
-        } catch ( \Exception $e ) {
+        }catch ( \Exception $e ) {
             return response( [ 'message' => $e->getMessage() ] );
         }
     }
@@ -1065,7 +1068,13 @@ class CartController extends Controller {
             ->where( 'room_order', $id )
             ->get()
             ->keyBy( 'key' );
-            $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where( 'status', 1 )->get();
+
+            if(Auth::check()){
+                $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where( 'status', 1 )->get();
+            }else{
+                $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'status', 1 )->get();
+            }
+
 
             $price = $projectHousing[ 'Peşin Fiyat' ]->value ?? $projectHousing[ 'Fiyat' ]->value;
             $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;

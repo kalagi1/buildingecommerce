@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
 use function PHPSTORM_META\type;
@@ -53,7 +54,6 @@ class ProjectController extends Controller
     }
     public function index($slug, $id, Request $request)
     {
-
         if ($id > 1000000) {
             $id -= 1000000;
         }
@@ -376,6 +376,7 @@ class ProjectController extends Controller
 
     public function detail($slug)
     {
+
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $slug)->with("brand", "roomInfo", "neighbourhood", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
