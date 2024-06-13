@@ -204,26 +204,7 @@
 
                     </li>
                     <li style="display: flex; justify-content: right;width:100%">
-                        @if ($housing->user->profile_image == 'indir.png')
-                        @php
-                            $nameInitials = collect(preg_split('/\s+/', $housing->user->name))
-                                ->map(function ($word) {
-                                    return mb_strtoupper(mb_substr($word, 0, 1));
-                                })
-                                ->take(1)
-                                ->implode('');
-                        @endphp
-
-                        <div class="profile-initial"
-                            style="margin: inherit !important;margin-left: 0 !important;width:40px !important;height:40px !important">
-                            {{ $nameInitials }}
-                        </div>
-                    @else
-                        <img loading="lazy"
-                            src="{{ asset('storage/profile_images/' . $housing->user->profile_image) }}"
-                            alt="{{ $housing->user->name }}" class="img-responsive brand-logo"
-                            style="object-fit:contain;">
-                    @endif
+                        
                         {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                     </li>
 
