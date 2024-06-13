@@ -5,7 +5,6 @@
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
                 <div class="brands-square w-100 ml-4">
-                    {{$store->profile_image}}
                     @if ($store->profile_image == 'indir.png' || empty($store->profile_image))
                         @php
                             $nameInitials = collect(preg_split('/\s+/', $store->name))
@@ -215,4 +214,18 @@
             width: 100% !important;
         }
     }
+
+    .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
 </style>
