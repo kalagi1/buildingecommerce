@@ -363,16 +363,16 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         @if ($cart['type'] == 'housing')
-                                            <li> Kapora Bedeli :<strong
-                                                    class="pull-right">{{ number_format($net_kapora, 0, ',', '.') }}
+                                            <li> Güvenli Kapora Bedeli :<strong
+                                                    class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
                                                     TL</strong></li>
                                                     
 
-                                            <li>Hizmet Bedeli :<strong
+                                            {{-- <li>Hizmet Bedeli :<strong
                                                     class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
-                                                    TL</strong></li>
-                                            <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora
-                                                tutarının %10'u olarak hesaplanmıştır.</span>
+                                                    TL</strong></li> --}}
+                                            {{-- <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora
+                                                tutarının %10'u olarak hesaplanmıştır.</span> --}}
                                         @endif
 
 
