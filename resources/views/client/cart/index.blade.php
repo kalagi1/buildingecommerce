@@ -347,24 +347,34 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
 
 
-                                                @if ($saleType == 'kiralik')
+                                        {{-- @if ($saleType == 'kiralik')
                                                 <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
                                             @else
                                                 <li>%{{ $discount_percent }} Kapora :<strong class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }} TL</strong></li>
                                             @endif
-                                            
-                                            @php
-                                            $kapora = $saleType == 'kiralik' ? $discountedPrice : ($discountedPrice * $deposit_rate);
+                                             --}}
+                                        @php
+                                            $kapora =
+                                                $saleType == 'kiralik'
+                                                    ? $discountedPrice
+                                                    : $discountedPrice * $deposit_rate;
                                             $hizmet_bedeli = $kapora * 0.1;
                                             $net_kapora = $kapora - $hizmet_bedeli;
                                         @endphp
-                                        
+
                                         @if ($cart['type'] == 'housing')
-                                            <li>Hizmet Bedeli :<strong class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }} TL</strong></li>
-                                            <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora tutarının %10'u olarak hesaplanmıştır.</span>
-                                            <li>Net Kapora :<strong class="pull-right">{{ number_format($net_kapora, 0, ',', '.') }} TL</strong></li>
+                                            <li> Kapora Bedeli :<strong
+                                                    class="pull-right">{{ number_format($net_kapora, 0, ',', '.') }}
+                                                    TL</strong></li>
+                                                    
+
+                                            <li>Hizmet Bedeli :<strong
+                                                    class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
+                                                    TL</strong></li>
+                                            <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora
+                                                tutarının %10'u olarak hesaplanmıştır.</span>
                                         @endif
-                                            
+
 
                                     </ul>
                                 @endif
