@@ -201,7 +201,7 @@
                                                                     Günlük Kiralık
                                                                 @endif
                                                             @endif
-                                                            {{ $parent->title }}
+                                                            {{-- {{ $parent->title }} --}}
                                                         @endif
                                                     </span>
                                                 </td>
@@ -292,7 +292,7 @@
                                                                     Günlük Kiralık
                                                                 @endif
                                                             @endif
-                                                            {{ $parent->title }}
+                                                            {{-- {{ $parent->title }} --}}
                                                         @endif
                                                     </span>
                                                 </td>
