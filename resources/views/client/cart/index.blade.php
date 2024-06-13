@@ -399,7 +399,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
+                                        TL <br> ÖDEME YAP
                                     </a>
                                 @else
                                     <a href="{{ route('payment.index') }}"
@@ -407,7 +407,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
+                                        TL <br>  ÖDEME YAP
                                     </a>
                                 @endif
                             @endif
