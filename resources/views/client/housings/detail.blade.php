@@ -788,7 +788,7 @@
                                             @csrf
                                             <div class="form-group">
                                                 <label for="bid_amount">Teklifiniz:</label>
-                                                <input type="number" name="bid_amount" class="form-control" id="discount-price" required>
+                                                <input type="text" name="bid_amount" class="form-control" id="newPrice" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-block">Gönder</button>
                                         </form>
@@ -3021,7 +3021,9 @@
             e.target.value = value;
         });
 
-        document.getElementById('discount-price').addEventListener('input', function(e) {
+
+
+        document.getElementById('newPrice').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
             value = value.replace(/[^0-9,]/g, '');
@@ -3037,6 +3039,7 @@
 
             e.target.value = value;
         });
+
     </script>
 
     <script>
