@@ -80,23 +80,17 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="sellTypeModalLabel">Satış Tipi Seçimi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <p>Lütfen satış tipi seçiniz:</p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sellTypeRadio" id="kendim-satmak"
+                        <input class="form-control" type="radio" name="sellTypeRadio" id="kendim-satmak"
                             value="kendim-satmak">
                         <label class="form-check-label" for="kendim-satmak">
-                            Ilanımı kendim satmak istiyorum
+                            İlanımı kendim satmak istiyorum
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
+                        <input class="form-control" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
                             value="paylasimli-sistem">
                         <label class="form-check-label" for="paylasimli-sistem">
                             Profesyonel paylaşımlı emlak sistemi ile satmak istiyorum
