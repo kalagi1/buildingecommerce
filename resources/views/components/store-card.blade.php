@@ -28,6 +28,8 @@
                         </p>
                         <div class="mobile-hidden-flex">
                             @if ($store->corporate_account_status)
+                                
+                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                 <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                     <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
                                         style="display: block; margin: 0 auto;">
@@ -36,7 +38,6 @@
                                         <i class="fa fa-check"></i>
                                     </span>
                                 </span>
-                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}"
                                             alt="" style="display: block; margin: 0 auto;">
