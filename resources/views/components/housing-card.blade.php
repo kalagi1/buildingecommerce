@@ -64,7 +64,8 @@
 
                     </p>
                     <div class="footer">
-                        <a href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
+                        <a
+                            href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
                             @if ($housing->user->profile_image == 'indir.png')
                                 @php
                                     $nameInitials = collect(preg_split('/\s+/', $housing->user->name))
@@ -76,7 +77,8 @@
                                 @endphp
 
                                 <div class="profile-initial"
-                                    style="margin: inherit !important;margin-left: 0 !important">{{ $nameInitials }}
+                                    style="margin: inherit !important;margin-left: 0 !important;width:40px !important;height:40px !important">
+                                    {{ $nameInitials }}
                                 </div>
                             @else
                                 <img loading="lazy"
@@ -84,6 +86,7 @@
                                     alt="{{ $housing->user->name }}" class="img-responsive brand-logo"
                                     style="object-fit:contain;">
                             @endif
+                            {{ $housing->user->name }}
                         </a>
                     </div>
                 </span>
