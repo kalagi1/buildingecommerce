@@ -241,11 +241,11 @@ class HousingController extends Controller {
             } else {
                 $housingTypeData['price'][0] = $newPrice;
             }
-            $housing->housing_type_data = json_encode($housingTypeData);
-            $housing->status = 0;
-            $housing->save();
+                $housing->housing_type_data = json_encode($housingTypeData);
+                $housing->status = 0;
+                $housing->save();
 
-                return redirect()->back()->with('success', 'Fiyat başarıyla güncellendi.');
+                return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi.');
             } else {
                 return redirect()->back()->with('error', 'Fiyat güncellenirken bir hata oluştu.' );
         }
