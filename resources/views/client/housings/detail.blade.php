@@ -492,8 +492,6 @@
                                 </div>
                             </div>
                         @else
-                            {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
-                        style="background-color: green "></div> --}}
                             <div class="mobileHour mobileHourDiv">
 
                                 <div class="schedule widget-boxed mt-33 mt-0">
@@ -640,6 +638,12 @@
 
                         @endif
 
+                        <!-- Teklif Gönderme Butonu -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bidModal">
+                            Pazarlık Yap
+                            <i class="fa fa-handshake"></i>
+                        </button>
+
                         @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                             <div class="add-to-collections-wrapper addCollection" data-type='housing'
                                 data-id="{{ $housing->id }}">
@@ -731,6 +735,31 @@
                                 </div>
                             </div>
                         @endif
+
+                        <!-- Teklif Ver Modal -->
+<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bidModalLabel">Teklif Ver</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('bids.store', $housing->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="bid_amount">Teklif Ver:</label>
+                        <input type="number" name="bid_amount" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Teklif Ver</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
                       <!-- Fiyat Güncelleme Modal -->
 <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
