@@ -89,7 +89,7 @@
                             İlanımı kendim satmak istiyorum
                         </label>
                     </div>
-                    <div class="form-check"  style="display:flex !important">
+                    <div class="form-check mt-3"  style="display:flex !important">
                         <input class="form-control" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
                             value="paylasimli-sistem">
                         <label class="form-check-label" for="paylasimli-sistem">
