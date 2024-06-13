@@ -275,10 +275,10 @@ class ProjectController extends Controller
             $newPrice = $request->input('new_price');
             $newPrice = str_replace('.', '', $newPrice);
 
-            $fieldName = $project->step2_slug === 'gunluk-kiralik' ? 'daily_rent' : 'price';
+            $fieldName = $project->step2_slug === 'gunluk-kiralik' ? 'daily_rent[]' : 'price[]';
 
             $projectHousing = ProjectHousing::where('project_id', $projectID)
-                ->where('id', $roomID)
+                ->where('room_order', $roomID)
                 ->where('name', $fieldName)
                 ->first();
 
