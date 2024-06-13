@@ -242,7 +242,6 @@ class HousingController extends Controller {
                 $housingTypeData['price'][0] = $newPrice;
             }
                 $housing->housing_type_data = json_encode($housingTypeData);
-                $housing->status = 0;
                 $housing->save();
 
                 return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi.İlanınız onay süreci için emlak sepette yönetimine iletilmiştir.');
