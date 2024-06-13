@@ -774,7 +774,7 @@
 <script>
     document.getElementById('confirm-price-update').addEventListener('click', function() {
         var newPrice = document.getElementById('new-price').value;
-        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' olarak güncellemek istediğinizden emin misiniz?';
+        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' ₺ olarak güncellemek istediğinizden emin misiniz?';
 
         // Close the price update modal
         document.querySelector(".priceUpdateModalLabelClose").click();
