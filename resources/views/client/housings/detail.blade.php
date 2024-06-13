@@ -460,13 +460,10 @@
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <iframe
-                                    width="100%"
-                                    height="100%"
-                                    frameborder="0" style="border:0;"
-                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ $housing->latitude }},{{ $housing->longitude }}"
-                                    allowfullscreen="">
-                                </iframe>
+                                    <iframe width="100%" height="100%" frameborder="0" style="border:0;"
+                                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ $housing->latitude }},{{ $housing->longitude }}"
+                                        allowfullscreen="">
+                                    </iframe>
                                 </div>
                             </div>
 
@@ -639,7 +636,8 @@
                         @endif
 
                         <!-- Teklif Gönderme Butonu -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bidModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#bidModal">
                             Pazarlık Yap
                             <i class="fa fa-handshake"></i>
                         </button>
@@ -737,95 +735,108 @@
                         @endif
 
                         <!-- Teklif Ver Modal -->
-<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bidModalLabel">Teklif Ver</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('bids.store', $housing->id) }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="bid_amount">Teklif Ver:</label>
-                        <input type="number" name="bid_amount" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Teklif Ver</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                        <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
+                            aria-labelledby="bidModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Kapat">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('bids.store', $housing->id) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="bid_amount">Teklifiniz:</label>
+                                                <input type="number" name="bid_amount" class="form-control" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Gönder</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
-                      <!-- Fiyat Güncelleme Modal -->
-<div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
-                <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
-                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}" onsubmit="return false;">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
-                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="confirm-price-update">Güncelle</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- Fiyat Güncelleme Modal -->
+                        <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
+                            aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                                        <button type="button" class="close priceUpdateModalLabelClose"
+                                            data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
+                                        <form id="price-update-form" method="POST"
+                                            action="{{ route('housing.update.price', $housing->id) }}"
+                                            onsubmit="return false;">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
+                                                <input type="text" class="modal-input" id="new-price"
+                                                    name="new_price" placeholder="Yeni Fiyat">
+                                            </div>
+                                            <button type="button" class="btn btn-primary"
+                                                id="confirm-price-update">Güncelle</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<!-- Onay Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="confirmation-message"></p>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-primary" id="confirm-update-button">Evet, Güncelle</button>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- Onay Modal -->
+                        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="confirmation-message"></p>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">İptal</button>
+                                        <button type="button" class="btn btn-primary" id="confirm-update-button">Evet,
+                                            Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<script>
-    document.getElementById('confirm-price-update').addEventListener('click', function() {
-        var newPrice = document.getElementById('new-price').value;
-        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' ₺ olarak güncellemek istediğinizden emin misiniz?';
+                        <script>
+                            document.getElementById('confirm-price-update').addEventListener('click', function() {
+                                var newPrice = document.getElementById('new-price').value;
+                                document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice +
+                                    ' ₺ olarak güncellemek istediğinizden emin misiniz?';
 
-        // Close the price update modal
-        document.querySelector(".priceUpdateModalLabelClose").click();
+                                // Close the price update modal
+                                document.querySelector(".priceUpdateModalLabelClose").click();
 
-        // Open the confirmation modal
-        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-        confirmationModal.show();
-    });
+                                // Open the confirmation modal
+                                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                                confirmationModal.show();
+                            });
 
-    document.getElementById('confirm-update-button').addEventListener('click', function() {
-        document.getElementById('price-update-form').onsubmit = function() {
-            return true;
-        };
-        document.getElementById('price-update-form').submit();
-    });
-</script>
+                            document.getElementById('confirm-update-button').addEventListener('click', function() {
+                                document.getElementById('price-update-form').onsubmit = function() {
+                                    return true;
+                                };
+                                document.getElementById('price-update-form').submit();
+                            });
+                        </script>
 
 
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -1277,9 +1288,9 @@
                                                             <a
                                                                 href="https://telegram.me/share/url?url={{ $shareUrl }}">
                                                                 <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                    stroke="currentColor" stroke-width="2" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    fill="none" stroke-linecap="round"
+                                                                    stroke-linejoin="round" class="css-i6dzq1">
                                                                     <line x1="22" y1="2" x2="11"
                                                                         y2="13"></line>
                                                                     <polygon points="22 2 15 22 11 13 2 9 22 2">
