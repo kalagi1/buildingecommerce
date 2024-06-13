@@ -78,7 +78,7 @@
     </section>
 
         <!-- Onay Modal -->
-        <div class="modal fade" id="#priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="#priceUpdateModalLabel"
+        <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="#priceUpdateModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
