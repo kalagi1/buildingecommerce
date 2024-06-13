@@ -94,6 +94,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Admin\ReasonManagementController;
 use App\Http\Controllers\Api\Client\ProjectController as ApiClientProjectController;
 use App\Http\Controllers\Api\Institutional\CrmController;
+use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
 
 /*
@@ -140,7 +141,8 @@ Route::post('get-rendered-projects', [HomeController::class, "getRenderedProject
 Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
 Route::post('/send-contract-reminder/{cartOrder}', [ContractController::class, 'sendContractReminder'])->name('send.contract.reminder');
 Route::post('/form-kaydet', [FormController::class, 'store'])->name('form.kaydet');
-
+Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('get_sell_type');
+Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
