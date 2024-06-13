@@ -592,7 +592,7 @@
                                                 @else
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                        style="color:#007bff !important;cursor: pointer; ">
+                                                        style="color:#EA2B2E !important;cursor: pointer; ">
                                                         Pazarlık Yap <i class="fa fa-handshake"></i>
                                                     </a>
                                                 </div>
