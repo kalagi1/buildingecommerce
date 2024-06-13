@@ -82,14 +82,14 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <p>Lütfen satış tipi seçiniz:</p>
-                    <div class="form-check">
+                    <div class="form-check" style="display:flex !important">
                         <input class="form-control" type="radio" name="sellTypeRadio" id="kendim-satmak"
                             value="kendim-satmak">
                         <label class="form-check-label" for="kendim-satmak">
                             İlanımı kendim satmak istiyorum
                         </label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check"  style="display:flex !important">
                         <input class="form-control" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
                             value="paylasimli-sistem">
                         <label class="form-check-label" for="paylasimli-sistem">
