@@ -726,77 +726,72 @@
                             </div>
                         @endif
 
-                        <!-- Fiyat Güncelleme Modal -->
-                        <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
-                            aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
-                                        <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
-                                        <form id="price-update-form" method="POST"
-                                            action="{{ route('housing.update.price', $housing->id) }}">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group">
-                                                <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
-                                                <input type="text" class="modal-input" id="new-price"
-                                                    name="new_price" placeholder="Yeni Fiyat">
-                                            </div>
-                                            <button type="button" class="btn btn-primary"
-                                                id="confirm-price-update">Güncelle</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      <!-- Fiyat Güncelleme Modal -->
+<div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
+                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}" onsubmit="return false;">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
+                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="confirm-price-update">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- Onay Modal -->
-                        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
-                            aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmationModalLabel">Onayla</h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p id="confirmation-message"></p>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">İptal</button>
-                                        <button type="button" class="btn btn-primary" id="confirm-update-button">Evet,
-                                            Güncelle</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Onay Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Onayla</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmation-message"></p>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="confirm-update-button">Evet, Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <script>
-                            document.getElementById('confirm-price-update').addEventListener('click', function() {
-                                var newPrice = document.getElementById('new-price').value;
-                                document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice +
-                                    ' olarak güncellemek istediğinizden emin misiniz?';
+<script>
+    document.getElementById('confirm-price-update').addEventListener('click', function() {
+        var newPrice = document.getElementById('new-price').value;
+        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' olarak güncellemek istediğinizden emin misiniz?';
 
-                                $(".priceUpdateModalLabelClose").click();
+        // Close the price update modal
+        document.querySelector(".priceUpdateModalLabelClose").click();
 
-                                // Onay modalını aç
-                                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                                confirmationModal.show();
-                            });
+        // Open the confirmation modal
+        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        confirmationModal.show();
+    });
 
-                            document.getElementById('confirm-update-button').addEventListener('click', function() {
-                                document.getElementById('price-update-form').submit();
-                            });
-                        </script>
+    document.getElementById('confirm-update-button').addEventListener('click', function() {
+        document.getElementById('price-update-form').onsubmit = function() {
+            return true;
+        };
+        document.getElementById('price-update-form').submit();
+    });
+</script>
+
 
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
@@ -3069,30 +3064,30 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            $('#price-update-form').on('submit', function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-                var formAction = $(this).attr('action');
+        // $(document).ready(function() {
+        //     $('#price-update-form').on('submit', function(e) {
+        //         e.preventDefault();
+        //         var formData = $(this).serialize();
+        //         var formAction = $(this).attr('action');
 
-                $.ajax({
-                    type: 'POST',
-                    url: formAction,
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            $('#current-price').text(response.new_price_formatted);
-                            alert('Fiyat başarıyla güncellendi.');
-                        } else {
-                            alert('Fiyat güncellenirken bir hata oluştu.');
-                        }
-                    },
-                    error: function() {
-                        alert('Sunucu hatası. Lütfen daha sonra tekrar deneyiniz.');
-                    }
-                });
-            });
-        });
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: formAction,
+        //             data: formData,
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     $('#current-price').text(response.new_price_formatted);
+        //                     alert('Fiyat başarıyla güncellendi.');
+        //                 } else {
+        //                     alert('Fiyat güncellenirken bir hata oluştu.');
+        //                 }
+        //             },
+        //             error: function() {
+        //                 alert('Sunucu hatası. Lütfen daha sonra tekrar deneyiniz.');
+        //             }
+        //         });
+        //     });
+        // });
     </script>
 @endsection
 
