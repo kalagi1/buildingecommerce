@@ -84,10 +84,13 @@
         </div>
 
         <div class="col-12 col-xl-12 mb-12 mt-12">
-
             <h4 class="mb-3">Emlak Görselleri</h4>
             <div class="images owl-carousel mb-4">
-                @if (isset($housingData->images) && is_array($housingData->images))
+                @php
+                    $imageCount = isset($housingData->images) && is_array($housingData->images) ? count($housingData->images) : 0;
+                @endphp
+        
+                @if ($imageCount > 0)
                     @foreach ($housingData->images as $key => $image)
                         <div class="item">
                             <a href="{{ asset('housing_images/' . $image) }}" target="_blank">
@@ -96,19 +99,19 @@
                         </div>
                     @endforeach
                 @endif
-
+        
                 @if (isset($housingData->image))
                     <div class="item">
                         <a href="{{ asset('housing_images/' . $housingData->image) }}" target="_blank">
-                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
-                                alt="slider-listing">
+                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
                         </a>
                     </div>
                 @endif
             </div>
-
-
+        
+            <p>{{ $imageCount }} görsel bulunmaktadır.</p>
         </div>
+        
 
         <div class="row g-5">
             <div class="col-6 col-xl-8">
