@@ -17,7 +17,7 @@ function TopCreateProjectNavigator({step,setStep}) {
                                 <i className="fa fa-star"></i>
                                 <span>2</span>
                             </a>
-                            <a onClick={(e) => {e.stopPropagation();e.preventDefault();setStep(2)}}>Proje Detayları</a>
+                            <a onClick={(e) => {e.stopPropagation();e.preventDefault();setStep(2)}}>İlan Detayları</a>
                         </li>
                         <li className={step == 3 ? "current" : step > 3 ? "done" : ""}>
                             <a onClick={(e) => {e.stopPropagation();e.preventDefault()}} className="step-counter">
