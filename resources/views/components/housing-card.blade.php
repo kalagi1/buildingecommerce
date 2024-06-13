@@ -45,7 +45,7 @@
             <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
 
-                    <h4>
+                    <h4 style="height: 25px">
                         {{ $housing->title }}
                     </h4>
 
