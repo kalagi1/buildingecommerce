@@ -227,27 +227,31 @@ class HousingController extends Controller {
         return view( 'client.housings.list', compact( 'housings', 'menu', 'cities', 'housingTypes' ) );
     }
 
-    public function updatePrice( Request $request, $id ) {
-        $housing = Housing::findOrFail( $id );
-
-        if ( Auth::check() && Auth::user()->id == $housing->user_id ) {
-            $newPrice = $request->input( 'new_price' );
-            $housingTypeData = json_decode( $housing->housing_type_data, true );
-            if ( $housing->step2_slug == 'gunluk-kiralik' ) {
-                $housingTypeData[ 'daily_rent' ][ 0 ] = $newPrice;
+    public function updatePrice(Request $request, $id) {
+        $housing = Housing::findOrFail($id);
+    
+        if (Auth::check() && Auth::user()->id == $housing->user_id) {
+            // Request'ten gelen 'new_price' değerini al ve noktalardan arındır
+            $newPrice = $request->input('new_price');
+            $newPrice = str_replace('.', '', $newPrice);
+    
+            $housingTypeData = json_decode($housing->housing_type_data, true);
+            if ($housing->step2_slug == 'gunluk-kiralik') {
+                $housingTypeData['daily_rent'][0] = $newPrice;
             } else {
-                $housingTypeData[ 'price' ][ 0 ] = $newPrice;
+                $housingTypeData['price'][0] = $newPrice;
             }
-            $housing->housing_type_data = json_encode( $housingTypeData );
+            $housing->housing_type_data = json_encode($housingTypeData);
             $housing->status = 0;
             $housing->save();
-
-            return response()->json( [
+    
+            return response()->json([
                 'success' => true,
-                'new_price_formatted' => number_format( $newPrice, 0, ',', '.' )
-            ] );
+                'new_price_formatted' => number_format($newPrice, 0, ',', '.')
+            ]);
         } else {
-            return response()->json( [ 'success' => false ], 403 );
+            return response()->json(['success' => false], 403);
         }
     }
+    
 }
