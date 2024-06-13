@@ -811,7 +811,7 @@ Route::get('/load-more-housings', [InstitutionalProjectController::class, "loadM
 Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class, "loadMoreMobileHousings"])->name('load-more-mobile-housings');
 Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now.store');
 Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updatePrice'])->name('housing.update.price');
-Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('housing.update.price');
+Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
