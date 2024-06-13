@@ -460,7 +460,13 @@
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <div id="mapContainer" style="height: 100%"></div>
+                                    <iframe
+                                    width="100%"
+                                    height="100%"
+                                    frameborder="0" style="border:0;"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ $housing->latitude }},{{ $housing->longitude }}"
+                                    allowfullscreen="">
+                                </iframe>
                                 </div>
                             </div>
 
