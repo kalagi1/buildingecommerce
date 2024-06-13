@@ -101,7 +101,7 @@ const HousingList = ({ projectId }) => {
             // Nesnenin her özelliğini diziye ekleyelim
             for (let key in res.data.rows) {
                 // Sadece nesne kendi özelliklerini kontrol etmek için 'hasOwnProperty' kullanıyoruz
-                if (res.data.rows.hasOwnProperty(key)) {
+                if (res?.data?.rows?.hasOwnProperty(key)) {
                     dizi.push(res.data.rows[key]);
                 }
             }
