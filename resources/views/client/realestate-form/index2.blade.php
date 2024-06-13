@@ -22,8 +22,8 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button onclick="checkAuth()" style="font-weight: 700;width:100px" type="button"
-                                class="btn btn-outline-danger">Kirala</button>
+                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
+                                data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Kirala</button>
 
                         </div>
                     </div>
@@ -39,8 +39,8 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button style="font-weight: 700;width:100px" onclick="checkAuth()" type="button"
-                                class="btn btn-outline-danger">Sat</button>
+                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
+                                data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Sat</button>
 
                         </div>
                     </div>
@@ -74,6 +74,40 @@
             </div>
         </div>
     </section>
+
+    <!-- Satış Tipi Seçimi Modal -->
+    <div class="modal fade" id="sellTypeModal" tabindex="-1" role="dialog" aria-labelledby="sellTypeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Lütfen satış tipi seçiniz:</p>
+                    <div class="form-check" style="display:flex !important">
+                        <input class="form-control" type="radio" name="sellTypeRadio" id="kendim-satmak"
+                            value="kendim-satmak">
+                        <label class="form-check-label" for="kendim-satmak">
+                            İlanımı kendim satmak istiyorum
+                        </label>
+                    </div>
+                    <div class="form-check mt-3"  style="display:flex !important">
+                        <input class="form-control" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
+                            value="paylasimli-sistem">
+                        <label class="form-check-label" for="paylasimli-sistem">
+                            Profesyonel paylaşımlı emlak sistemi ile satmak istiyorum
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary" onclick="submitSellType()">Ücretsiz İlan Ver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <section style="margin-top: 50px">
         <div class="container">
             <div class="row">
@@ -90,12 +124,14 @@
                         emlaksepette.com sizin yerinize yapsın
                         zamanınız size kalsın.
                         Formu doldur bilgilerini gir kolay sat kirala!</p>
-             
-                        <button style="margin-top: 20px;" onclick="checkAuth()" type="button" class="btn btn-lg btn-danger">Formu
-                            Doldur</button>
+
+                    <button style="margin-top: 20px;" onclick="checkAuth()" type="button"
+                        class="btn btn-lg btn-danger">Formu
+                        Doldur</button>
                 </div>
                 <div class="col-md-5">
-                    <img src="https://delivery.digitalassets.zillowgroup.com/api/public/content/2x_Miso_FSBO_Vector_CMS_Full.png?v=e53ae166" alt="" style="width: 100%">
+                    <img src="https://delivery.digitalassets.zillowgroup.com/api/public/content/2x_Miso_FSBO_Vector_CMS_Full.png?v=e53ae166"
+                        alt="" style="width: 100%">
                 </div>
             </div>
             <div class="row mt-2" style="margin-bottom:30px">
@@ -104,17 +140,29 @@
                         <h2 style="font-size: 15px">Sat Kirala Nedir ?</h2>
                     </div>
                     <ul style="list-style: none; margin: 0; padding: 0; margin-top: 20px;">
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i> 
-                            Gayrimenkullerinizin güvenli ve hızlı bir şekilde satılmasını sağlamak için <strong>Emlaksepette.com</strong>, güvenilir bir çözüm sunuyor. Siz satışın keyfini çıkarırken, profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz.
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check"
+                                style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
+                            Gayrimenkullerinizin güvenli ve hızlı bir şekilde satılmasını sağlamak için
+                            <strong>Emlaksepette.com</strong>, güvenilir bir çözüm sunuyor. Siz satışın keyfini çıkarırken,
+                            profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci
+                            yaşayabilirsiniz.
                         </li>
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check"
+                                style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
                             KİRALA
-                            Gayrimenkullerinizin hızlıca kiralanması için <strong>Emlaksepette.com</strong> yanınızda! Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz. Detaylı bilgi ve hızlı satış için <strong>Emlaksepette.com</strong>'u tercih edin. 
+                            Gayrimenkullerinizin hızlıca kiralanması için <strong>Emlaksepette.com</strong> yanınızda!
+                            Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci
+                            yaşayabilirsiniz. Detaylı bilgi ve hızlı satış için <strong>Emlaksepette.com</strong>'u tercih
+                            edin.
                         </li>
-                        <li style="margin-bottom: 10px;"> <i class="fa fa-check" style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
-                            Gayrimenkullerinizin hem hızlıca kiralanması hem de güvenli bir şekilde satılması için <strong>Emlaksepette.com</strong> yanınızda! Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle birlikte, güvenli bir satış süreci yaşayabilirsiniz. Kiralama veya satış işlemlerinizde hızlı sonuçlar elde etmek için Emlaksepette.com yanınızda!
+                        <li style="margin-bottom: 10px;"> <i class="fa fa-check"
+                                style="color: #63E6BE; font-size: 20px; margin-right: 5px;"></i>
+                            Gayrimenkullerinizin hem hızlıca kiralanması hem de güvenli bir şekilde satılması için
+                            <strong>Emlaksepette.com</strong> yanınızda! Profesyonel ekibimiz ve geniş kullanıcı kitlesiyle
+                            birlikte, güvenli bir satış süreci yaşayabilirsiniz. Kiralama veya satış işlemlerinizde hızlı
+                            sonuçlar elde etmek için Emlaksepette.com yanınızda!
                         </li>
-                        
+
 
                     </ul>
                 </div>
@@ -127,7 +175,7 @@
                             satıcıların gayrimenkullerin platforma kayıtlı kurumsal emlak firmaları vasıtasıyla satışını
                             sağlayan bir hizmettir.</p>
                     </div>
-                  
+
                 </div>
             </div>
             <hr>
@@ -150,11 +198,11 @@
                             </div>
                             <div class="content">
                                 <p>
-                              
+
                                     Sat kirala sistemi gayrimenkullerini hızlı güvenli ve değerinde satmak isteyen bireysel
                                     satıcıların gayrimenkullerin platforma kayıtlı kurumsal emlak firmaları vasıtasıyla
                                     satışını sağlayan bir hizmettir.
-                                
+
                                 </p>
                             </div>
                         </li>
@@ -162,7 +210,7 @@
                             <div class="title">
                                 <span>
                                     Hangi Gayrimenkuller Sat Kirala ile satılabilir?
-                                
+
                                 </span>
                                 <i class="accordion-toggle-icon fas fa-chevron-right"></i>
 
@@ -183,14 +231,14 @@
                             <div class="title">
                                 <span>
                                     Satış süreci ne kadar sürüyor?
-                                
+
                                 </span>
                                 <i class="accordion-toggle-icon fas fa-chevron-right"></i>
 
                             </div>
                             <div class="content">
                                 <p>
-                                 
+
                                     İlanınız kurumsal satıcımıza ulaştığında onayınız doğrultusunda minimum 90 gün olmak
                                     üzere kurumsal satıcımız ile yapacağınız yetkilendirme sözleşmesi süresi boyunca satış
                                     süreçleri tarafımızdan yönetilir. Satış gerçekleşmediği taktirde onayınız doğrultusunda
@@ -203,7 +251,7 @@
 
                                 <span>
                                     Süreç nasıl işliyor?
-                                
+
                                 </span>
                                 <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
@@ -254,6 +302,63 @@
                 // Tıklanan kategoriye active sınıfını ekle, diğerlerinden kaldır
                 $('.kategori').removeClass('active');
                 $(this).addClass('active');
+            });
+        });
+
+
+        function submitSellType() {
+            const sellType = $("input[name='sellTypeRadio']:checked").val();
+
+            if (sellType === 'kendim-satmak' || sellType === 'paylasimli-sistem') {
+                // AJAX ile PHP'ye seçimi gönder
+                $.ajax({
+                    url: "{{ route('update_sell_type') }}",
+                    method: 'POST',
+                    data: {
+                        sell_type: sellType,
+                        "_token": "{{ csrf_token() }}",
+
+                    },
+                    success: function(response) {
+                        // İşlem başarılıysa modalı kapat ve yönlendir
+                        $('#sellTypeModal').modal('hide');
+                        if ({{ auth()->check() ? 'true' : 'false' }}) {
+                            window.location.href = "{{ route('institutional.housing.create.v3') }}";
+                        } else {
+                            window.location.href = "{{ route('client.login') }}";
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert('Satış tipi seçimi sırasında bir hata oluştu.');
+                    }
+                });
+            } else {
+                alert('Lütfen bir satış tipi seçiniz.');
+            }
+        }
+
+        // Sayfa yüklendiğinde, daha önce seçilen satış tipini kontrol et
+        $(document).ready(function() {
+            // AJAX ile PHP'ye seçilen satış tipini sorgula
+            $.ajax({
+                url: "{{ route('get_sell_type') }}",
+                method: 'GET',
+                success: function(response) {
+                    if (response && response.sell_type) {
+                        const storedSellType = response.sell_type;
+                        // Önceki seçimi yeniden uygula (örneğin, modal otomatik açılabilir)
+                        if (storedSellType === 'kendim-satmak') {
+                            $('#kendim-satmak').prop('checked', true);
+                        } else if (storedSellType === 'paylasimli-sistem') {
+                            $('#paylasimli-sistem').prop('checked', true);
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Satış tipi bilgisi alınırken bir hata oluştu.');
+                }
             });
         });
     </script>
