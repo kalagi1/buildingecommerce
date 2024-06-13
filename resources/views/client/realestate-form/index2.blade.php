@@ -22,7 +22,8 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button onclick="checkAuth()" style="font-weight: 700;width:100px" type="button"
+                            <button style="font-weight: 700;width:100px"
+                            data-bs-toggle="modal" data-bs-target="#priceUpdateModal" 
                                 class="btn btn-outline-danger">Kirala</button>
 
                         </div>
@@ -39,7 +40,8 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button style="font-weight: 700;width:100px" onclick="checkAuth()" type="button"
+                            <button style="font-weight: 700;width:100px"
+                            data-bs-toggle="modal" data-bs-target="#priceUpdateModal" 
                                 class="btn btn-outline-danger">Sat</button>
 
                         </div>
@@ -74,6 +76,33 @@
             </div>
         </div>
     </section>
+
+        <!-- Onay Modal -->
+        <div class="modal fade" id="sellTypeModal" tabindex="-1" role="dialog" aria-labelledby="sellTypeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sellTypeModalLabel">Satış Tipi Seçimi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Lütfen satış tipi seçiniz:</p>
+                    <div class="text-center">
+                        <button onclick="selectSellType('kendim-satmak')" class="btn btn-primary mr-3">Ilanımı kendim
+                            satmak
+                            istiyorum</button>
+                        <button onclick="selectSellType('paylasimli-sistem')" class="btn btn-primary">Profesyonel
+                            paylaşımlı emlak sistemi ile satmak istiyorum</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <section style="margin-top: 50px">
         <div class="container">
             <div class="row">
@@ -256,6 +285,17 @@
                 $(this).addClass('active');
             });
         });
+
+        function selectSellType(sellType) {
+            const storedSellType = $('#sellTypeModal').data('sellType');
+            const finalSellType = sellType || storedSellType; // Use the stored sellType if no new one is provided
+
+            if ({{ auth()->check() ? 'true' : 'false' }}) {
+                window.location.href = "{{ route('institutional.housing.create.v3') }}?sellType=" + finalSellType;
+            } else {
+                window.location.href = "{{ route('client.login') }}";
+            }
+        }
     </script>
     <script>
         function checkAuth() {
