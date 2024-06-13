@@ -227,10 +227,10 @@ class HousingController extends Controller {
         return view( 'client.housings.list', compact( 'housings', 'menu', 'cities', 'housingTypes' ) );
     }
 
-    public function updatePrice(Request $request, $id) {
-        $housing = Housing::findOrFail($id);
-    
-        if (Auth::check() && Auth::user()->id == $housing->user_id) {
+    public function updatePrice( Request $request, $id ) {
+        $housing = Housing::findOrFail( $id );
+
+        if ( Auth::check() && Auth::user()->id == $housing->user_id ) {
             // Request'ten gelen 'new_price' değerini al ve noktalardan arındır
             $newPrice = $request->input('new_price');
             $newPrice = str_replace('.', '', $newPrice);
@@ -244,14 +244,12 @@ class HousingController extends Controller {
             $housing->housing_type_data = json_encode($housingTypeData);
             $housing->status = 0;
             $housing->save();
-    
-            return response()->json([
-                'success' => true,
-                'new_price_formatted' => number_format($newPrice, 0, ',', '.')
-            ]);
-        } else {
-            return response()->json(['success' => false], 403);
+
+                return redirect()->back()->with('success', 'Fiyat başarıyla güncellendi.');
+            } else {
+                return redirect()->back()->with('error', 'Fiyat güncellenirken bir hata oluştu.' );
         }
+
     }
-    
+
 }
