@@ -734,37 +734,71 @@
                             </div>
                         @endif
 
-                     <!-- Teklif Ver Modal -->
-<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Kapat">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Ürün Fiyatı: {{ number_format($housing->price, 2, ',', '.') }}₺</p>
-                <form action="{{ route('bids.store', $housing->id) }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="bid_amount">Teklifiniz:</label>
-                        <input type="number" name="bid_amount" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gönder</button>
-                </form>
-                <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır.</p>
-                @php
-                    $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
-                                    ->whereDate('created_at', \Carbon\Carbon::today())
-                                    ->count();
-                @endphp
-                <p>Günlük Kalan Hakkınız: {{ 40 - $todayBidsCount }}</p>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- Teklif Ver Modal -->
+                        <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
+                            aria-labelledby="bidModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Kapat">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Ürün Fiyatı:  <h4
+                                            style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
+                                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                @php
+                                                    $price =
+                                                        $housing->step2_slug == 'gunluk-kiralik'
+                                                            ? json_decode($housing->housing_type_data)
+                                                                ->daily_rent[0]
+                                                            : json_decode($housing->housing_type_data)
+                                                                ->price[0];
+                                                    $discountedPrice = $price - $discountAmount;
+                                                @endphp
+                                                @if ($discountAmount)
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                        </polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                        {{ number_format($price, 0, ',', '.') }}
+                                                    </del>
+                                                @endif
+                                                <span
+                                                    id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                                ₺
+                                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                    <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                @endif
+                                            @endif
+                                        </h4></p>
+                                        <form action="{{ route('bids.store', $housing->id) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="bid_amount">Teklifiniz:</label>
+                                                <input type="number" name="bid_amount" class="form-control" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Gönder</button>
+                                        </form>
+                                        <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır.</p>
+                                        @php
+                                            $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
+                                                ->whereDate('created_at', \Carbon\Carbon::today())
+                                                ->count();
+                                        @endphp
+                                        <p>Günlük Kalan Hakkınız: {{ 40 - $todayBidsCount }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 
@@ -1268,9 +1302,9 @@
                                                             <a
                                                                 href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
                                                                 <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                    stroke="currentColor" stroke-width="2" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    fill="none" stroke-linecap="round"
+                                                                    stroke-linejoin="round" class="css-i6dzq1">
                                                                     <path
                                                                         d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
                                                                     </path>
