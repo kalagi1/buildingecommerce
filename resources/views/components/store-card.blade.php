@@ -5,7 +5,8 @@
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
                 <div class="brands-square w-100 ml-4">
-                    @if ($store->profile_image == 'indir.png')
+                    {{$store->profile_image}}
+                    @if ($store->profile_image == 'indir.png' || empty($store->profile_image))
                         @php
                             $nameInitials = collect(preg_split('/\s+/', $store->name))
                                 ->map(function ($word) {
@@ -15,7 +16,8 @@
                                 ->implode('');
                         @endphp
 
-                        <div class="profile-initial" style="margin: inherit !important;margin-left: 0 !important">{{ $nameInitials }}</div>
+                        <div class="profile-initial" style="margin: inherit !important;margin-left: 0 !important">
+                            {{ $nameInitials }}</div>
                     @else
                         <img loading="lazy" src="{{ asset('storage/profile_images/' . $store->profile_image) }}"
                             alt="{{ $store->name }}" class="img-responsive brand-logo" style="object-fit:contain;">
@@ -100,7 +102,7 @@
                 <div class="mobile-hidden-flex">
                     @if ($store->type == 1)
                         <button class="storeShareTypeBtn"
-                        onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                            onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
                             Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px;"></i>
                         </button>
                     @else
