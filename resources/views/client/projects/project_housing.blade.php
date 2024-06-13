@@ -379,6 +379,15 @@
                                             @endif
                                         </div>
 
+                                        @if (Auth::check() && Auth::user()->id == $project->user_id)
+                                            <div class="col-md-12 col-12 p-0 ml-3">
+                                                <a data-bs-toggle="modal" data-bs-target="#priceUpdateModal"
+                                                    style="color:#007bff !important;cursor: pointer; ">
+                                                    Fiyatı Güncelle
+                                                </a>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 @endif
 
@@ -1087,6 +1096,80 @@
                 </aside>
             </div>
 
+            <!-- Fiyat Güncelleme Modal -->
+            <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
+                aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                            <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Fiyatı güncellerseniz projeniz onaya düşecektir.</p>
+                            <form id="price-update-form" method="POST"
+                                action="{{ route('project.update.price', ['id' => $project->id, 'room' => $housingOrder]) }}"
+                                onsubmit="return false;">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <label for="newPrice" class="q-label">Yeni Fiyat: </label><br>
+                                    <input type="text" class="modal-input" id="newPrice" name="new_price"
+                                        placeholder="Yeni Fiyat">
+                                </div>
+                                <button type="button" class="btn btn-primary"
+                                    id="confirm-price-update">Güncelle</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onay Modal -->
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+                aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="confirmation-message"></p>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                            <button type="button" class="btn btn-primary" id="confirm-update-button">Evet,
+                                Güncelle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('confirm-price-update').addEventListener('click', function() {
+                    var newPrice = document.getElementById('newPrice').value;
+                    document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice +
+                        ' ₺ olarak güncellemek istediğinizden emin misiniz?';
+
+                    // Close the price update modal
+                    document.querySelector(".priceUpdateModalLabelClose").click();
+
+                    // Open the confirmation modal
+                    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                    confirmationModal.show();
+                });
+
+                document.getElementById('confirm-update-button').addEventListener('click', function() {
+                    document.getElementById('price-update-form').onsubmit = function() {
+                        return true;
+                    };
+                    document.getElementById('price-update-form').submit();
+                });
+            </script>
 
             <div class="row">
                 <div class="col-md-12">
@@ -1522,6 +1605,22 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+          document.getElementById('newPrice').addEventListener('input', function(e) {
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            e.target.value = value;
+        });
         var navLinks = document.querySelectorAll('.nav-link');
 
         // Her bir nav-link öğesi için bir event listener ekleyin
@@ -2340,6 +2439,8 @@
         }
 
         var isLoading = false;
+
+      
     </script>
 
     <script>
@@ -2933,6 +3034,7 @@
         .mobile-action-move {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             justify-content: space-evenly;
         }
 

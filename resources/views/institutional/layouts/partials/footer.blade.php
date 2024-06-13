@@ -99,7 +99,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
+<<<<<<< HEAD
 <script src="{{URL::to('/')}}/build/assets/app-482cad6f.js"></script>
+=======
+<script src="{{URL::to('/')}}/build/assets/app-33dbe9ef.js"></script>
+>>>>>>> 33645c008b95b091804bd1adb7ef94f8a284ebe8
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" defer></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js" defer></script>

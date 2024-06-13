@@ -92,8 +92,11 @@ use App\Http\Controllers\Institutional\FormController as InstitutionalFormContro
 use App\Http\Controllers\SupportController;
 
 use App\Http\Controllers\Admin\ReasonManagementController;
+use App\Http\Controllers\Api\Client\ProjectController as ApiClientProjectController;
 use App\Http\Controllers\Api\Institutional\CrmController;
+use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
+
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
 
 /*
@@ -140,7 +143,8 @@ Route::post('get-rendered-projects', [HomeController::class, "getRenderedProject
 Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
 Route::post('/send-contract-reminder/{cartOrder}', [ContractController::class, 'sendContractReminder'])->name('send.contract.reminder');
 Route::post('/form-kaydet', [FormController::class, 'store'])->name('form.kaydet');
-
+Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('get_sell_type');
+Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
@@ -810,6 +814,8 @@ Route::get('/load-more-rooms-block-mobile/{projectId}/{blockIndex}/{page}', [Ins
 Route::get('/load-more-housings', [InstitutionalProjectController::class, "loadMoreHousings"])->name('load-more-housings');
 Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class, "loadMoreMobileHousings"])->name('load-more-mobile-housings');
 Route::post('/apply-now', [ApplyNowController::class, 'store'])->name('apply_now.store');
+Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updatePrice'])->name('housing.update.price');
+Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');

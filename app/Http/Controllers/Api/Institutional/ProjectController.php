@@ -903,10 +903,13 @@ class ProjectController extends Controller
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+        $sellType = $request->session()->get('sell_type');
 
-        if ($ownerId != null) {
-            unset($postData['open_sharing1']);
-            // $postData['open_sharing1'] = "Evet";
+        if ($sellType == "kendim-satmak") {
+           $ownerId = null;
+           unset($postData['open_sharing1']);
+        }else{
+            $postData['open_sharing1'] = "Evet";
         }
         
         $isShare =  false;
