@@ -5,7 +5,7 @@
             <th>Başlık</th>
             <th>Emlak Tipi</th>
             <th>Mağaza/Üye</th>
-            <th>Statü</th>
+            <th style="width: 200px">Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th style="width: 50px">İşlemler</th>
             
