@@ -22,6 +22,7 @@ class BrandController extends Controller
             'banners',
             'town',
             'district',
+            "child",
             'neighborhood',
             'housings' => function ($query) {
                 $query->where('status', 1);

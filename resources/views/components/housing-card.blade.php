@@ -204,7 +204,7 @@
 
                     </li>
                     <li style="display: flex; justify-content: right;width:100%">
-                        
+
                         {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                     </li>
 
