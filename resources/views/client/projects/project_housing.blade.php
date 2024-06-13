@@ -1116,8 +1116,8 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
-                                    <input type="text" class="modal-input" id="new-price" name="new_price"
+                                    <label for="newPrice" class="q-label">Yeni Fiyat: </label><br>
+                                    <input type="text" class="modal-input" id="newPrice" name="new_price"
                                         placeholder="Yeni Fiyat">
                                 </div>
                                 <button type="button" class="btn btn-primary"
@@ -1151,7 +1151,7 @@
 
             <script>
                 document.getElementById('confirm-price-update').addEventListener('click', function() {
-                    var newPrice = document.getElementById('new-price').value;
+                    var newPrice = document.getElementById('newPrice').value;
                     document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice +
                         ' ₺ olarak güncellemek istediğinizden emin misiniz?';
 
@@ -1605,7 +1605,7 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-          document.getElementById('new-price').addEventListener('input', function(e) {
+          document.getElementById('newPrice').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
             value = value.replace(/[^0-9,]/g, '');
