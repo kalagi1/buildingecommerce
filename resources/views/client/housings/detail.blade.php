@@ -734,31 +734,38 @@
                             </div>
                         @endif
 
-                        <!-- Teklif Ver Modal -->
-                        <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
-                            aria-labelledby="bidModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal"
-                                            aria-label="Kapat">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('bids.store', $housing->id) }}" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="bid_amount">Teklifiniz:</label>
-                                                <input type="number" name="bid_amount" class="form-control" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Gönder</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                     <!-- Teklif Ver Modal -->
+<div class="modal fade" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Ürün Fiyatı: {{ number_format($housing->price, 2, ',', '.') }}₺</p>
+                <form action="{{ route('bids.store', $housing->id) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="bid_amount">Teklifiniz:</label>
+                        <input type="number" name="bid_amount" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gönder</button>
+                </form>
+                <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır.</p>
+                @php
+                    $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
+                                    ->whereDate('created_at', \Carbon\Carbon::today())
+                                    ->count();
+                @endphp
+                <p>Günlük Kalan Hakkınız: {{ 40 - $todayBidsCount }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
                         <!-- Fiyat Güncelleme Modal -->

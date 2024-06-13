@@ -11,12 +11,21 @@ class BidController extends Controller
 {
     public function store(Request $request, $housingId)
     {
+        $user = auth()->user();
+        $todayBidsCount = Bid::where('user_id', $user->id)
+                             ->whereDate('created_at', Carbon::today())
+                             ->count();
+
+        if ($todayBidsCount >= 40) {
+            return back()->with('error', 'Günlük teklif hakkınız doldu.');
+        }
+
         $request->validate([
             'bid_amount' => 'required|numeric|min:1'
         ]);
 
         Bid::create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'housing_id' => $housingId,
             'bid_amount' => $request->bid_amount
         ]);
