@@ -245,7 +245,7 @@ class HousingController extends Controller {
                 $housing->status = 0;
                 $housing->save();
 
-                return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi.');
+                return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi.İlanınız onay süreci için emlak sepette yönetimine iletilmiştir.');
             } else {
                 return redirect()->back()->with('error', 'Fiyat güncellenirken bir hata oluştu.' );
         }
