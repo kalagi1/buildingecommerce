@@ -320,7 +320,6 @@
 
                     },
                     success: function(response) {
-                        console.log(response);
                         // İşlem başarılıysa modalı kapat ve yönlendir
                         $('#sellTypeModal').modal('hide');
                         if ({{ auth()->check() ? 'true' : 'false' }}) {
@@ -346,7 +345,6 @@
                 url: "{{ route('get_sell_type') }}",
                 method: 'GET',
                 success: function(response) {
-                    console.log(response);
                     if (response && response.sell_type) {
                         const storedSellType = response.sell_type;
                         // Önceki seçimi yeniden uygula (örneğin, modal otomatik açılabilir)
