@@ -786,15 +786,15 @@
                                                 <label for="bid_amount">Teklifiniz:</label>
                                                 <input type="number" name="bid_amount" class="form-control" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Gönder</button>
+                                            <button type="submit" class="btn btn-primary btn-block">Gönder</button>
                                         </form>
-                                        <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır.</p>
                                         @php
-                                            $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
-                                                ->whereDate('created_at', \Carbon\Carbon::today())
-                                                ->count();
-                                        @endphp
-                                        <p>Günlük Kalan Hakkınız: {{ 40 - $todayBidsCount }}</p>
+                                        $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
+                                            ->whereDate('created_at', \Carbon\Carbon::today())
+                                            ->count();
+                                    @endphp
+                                        <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır. Günlük Kalan Hakkınız: {{ 40 - $todayBidsCount }}</p>
+                                      
                                     </div>
                                 </div>
                             </div>
