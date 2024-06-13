@@ -777,8 +777,12 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true">
 document.getElementById('confirm-price-update').addEventListener('click', function() {
 var newPrice = document.getElementById('new-price').value;
 document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' olarak güncellemek istediğinizden emin misiniz?';
-var priceUpdateModal = new bootstrap.Modal(document.getElementById('priceUpdateModal'));
+
+// İlk modalı kapat
+var priceUpdateModal = bootstrap.Modal.getInstance(document.getElementById('priceUpdateModal'));
 priceUpdateModal.hide();
+
+// Onay modalını aç
 var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
 confirmationModal.show();
 });
