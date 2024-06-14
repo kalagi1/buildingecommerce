@@ -213,7 +213,9 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         projectData[fileName] ?
                             <div class="cover-document">
                                 <div class="has_file">
+
                                     <span class="d-block">Dosya Eklediniz</span>                      <a class="btn btn-info" href="https://emlaksepette.com/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
+
 
                                 </div>
                             </div>
