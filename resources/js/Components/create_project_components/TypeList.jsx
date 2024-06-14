@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../define/variables';
 function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes}) {
-    const [housingStatuses,setHousingStatuses] = useState([]);
-    const [loadingOrder,setLoadingOrder] = useState(null);
-    const [loadingOrderStatusId,setLoadingOrderStatusId] = useState(null);
+    const [housingStatuses,setHousingStatuses] = React.useState([]);
+    const [loadingOrder,setLoadingOrder] = React.useState(null);
+    const [loadingOrderStatusId,setLoadingOrderStatusId] = React.useState(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         axios.get(baseUrl+'get_housing_statuses').then((res) => {
             setHousingStatuses(res.data.data);
         })

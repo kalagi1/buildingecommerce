@@ -1136,7 +1136,7 @@
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
-                                (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                (4 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
                                     response.room_info[i].room_order), 10)) + " >" + response
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
@@ -1158,8 +1158,14 @@
 
 
                                         var projectedEarningsData = "";
+                                            var ongKiraData = "";
+
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
+                                            .room_order);
+
+                                        var ongKira = getDataJS(response,
+                                            "ong_kira[]", response.room_info[i]
                                             .room_order);
                                         // var projectedEarnings = 10;
                                         var svgCode =
@@ -1169,7 +1175,13 @@
                                             "<span style='color:#28a745'> %" + projectedEarnings +
                                             "</span>" : "";
 
+                                        var ongKiraHTML = ongKira ? svgCode +
+                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
+                                            "<span style='color:#28a745'> %" + ongKira +
+                                            "</span>" : "";
+
                                         projectedEarningsData += projectedEarningsHTML;
+                                        ongKiraData += ongKiraHTML;
                                     } else {
 
 
@@ -1264,6 +1276,11 @@
                                                 priceData) + "₺</td>";
                                             if (projectedEarningsData) {
                                                 html += "<td>" + projectedEarningsData + "</td>";
+
+                                            }
+
+                                            if (ongKiraData) {
+                                                html += "<td>" + ongKiraData + "</td>";
 
                                             }
 
