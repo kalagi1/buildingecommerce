@@ -100,7 +100,11 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
+<<<<<<< HEAD
 @vite('resources/js/app.jsx')
+=======
+<script src="{{URL::to('/')}}/build/assets/app-7b6de39d.js"></script>
+>>>>>>> ed0f082542207807325c2e38d0b968c9597894f8
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" defer></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js" defer></script>
