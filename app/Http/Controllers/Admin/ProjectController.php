@@ -62,7 +62,7 @@ class ProjectController extends Controller
         return redirect()->back()->with('success', 'Kapora oranı başarıyla güncellendi.');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $projectStatuses = [
             1 => 'Aktif',
@@ -71,11 +71,33 @@ class ProjectController extends Controller
             3 => 'Yönetim Tarafından Reddedildi',
         ];
 
-        $activeProjects = Project::where('status', 1)->orderByDesc('updated_at')->get();
-        $inactiveProjects = Project::where('status', 0)->orderByDesc('updated_at')->get();
-        $disabledProjects = Project::where('status', 3)->orderByDesc('updated_at')->get();
-        $pendingProjects = Project::where('status', 2)->orderByDesc('updated_at')->get();
-        $deletedProjects = Project::onlyTrashed()->get();
+        $activeProjects = Project::where('status', 1)->orderByDesc('updated_at');
+        $inactiveProjects = Project::where('status', 0)->orderByDesc('updated_at');
+        $disabledProjects = Project::where('status', 3)->orderByDesc('updated_at');
+        $pendingProjects = Project::where('status', 2)->orderByDesc('updated_at');
+        $deletedProjects = Project::onlyTrashed();
+
+        if($request->input('title')){
+            $activeProjects = $activeProjects->where('project_title','LIKE','%'.$request->input('title').'%');
+            $inactiveProjects = $inactiveProjects->where('project_title','LIKE','%'.$request->input('title').'%');
+            $disabledProjects = $disabledProjects->where('project_title','LIKE','%'.$request->input('title').'%');
+            $pendingProjects = $pendingProjects->where('project_title','LIKE','%'.$request->input('title').'%');
+            $deletedProjects = $deletedProjects->where('project_title','LIKE','%'.$request->input('title').'%');
+        }
+
+        if($request->input('no')){
+            $activeProjects = $activeProjects->where('id','LIKE','%'.intval($request->input('no') - 1000000).'%');
+            $inactiveProjects = $inactiveProjects->where('id','LIKE','%'.intval($request->input('no') - 1000000).'%');
+            $disabledProjects = $disabledProjects->where('id','LIKE','%'.intval($request->input('no') - 1000000).'%');
+            $pendingProjects = $pendingProjects->where('id','LIKE','%'.intval($request->input('no') - 1000000).'%');
+            $deletedProjects = $deletedProjects->where('id','LIKE','%'.intval($request->input('no') - 1000000).'%');
+        }
+
+        $activeProjects = $activeProjects->get();
+        $inactiveProjects = $inactiveProjects->get();
+        $disabledProjects = $disabledProjects->get();
+        $pendingProjects = $pendingProjects->get();
+        $deletedProjects = $deletedProjects->get();
 
         // Hesaplamaları yapan bir fonksiyon
         $calculateOrderCount = function ($projects) {

@@ -16,7 +16,7 @@
                         @endif
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                            alt="{{ $housing->housing_title }}" class="img-responsive" style="height: 80px !important;">
+                            alt="{{ $housing->title }}" class="img-responsive" style="height: 80px !important;">
                     </div>
                 </div>
             </a>
@@ -29,8 +29,7 @@
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
-                        {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
-                    </h4>
+                        {{ $housing->title }}                    </h4>
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span

@@ -241,7 +241,11 @@
 
 
 
+
+
+
             <div class="col-md-7 col-12">
+
                 <div class="card shadow-sm border-300 border-bottom mb-4">
                     <div class="card-body">
                         @if ($errors->any())
@@ -259,51 +263,65 @@
                             </div>
                         @endif
 
+                        <div>
+                            <h5>Cep Telefonu Güncelleme</h5>
+                        </div>
 
+                        <div>
+                            <form action="{{ route('institutional.edit.phone') }}" method="POST"
+                                enctype="multipart/form-data" onsubmit="return validateForm2()">
+                                @csrf
+                                @method('PUT')
 
-                        <form action="{{ route('institutional.edit.phone') }}" method="POST"
-                            enctype="multipart/form-data" onsubmit="return validateForm()">
-                            @csrf
-                            @method('PUT')
+                                <div class="corporate-form row" id="corporateForm">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mt-3">
+                                                <div class="form-group">
+                                                    <label for="mobile_phone">Mevcut Telefon Numarası</label>
+                                                    <input type="text" class="form-control" id="current_mobile_phone"
+                                                        value="{{ old('mobile_phone', $user->mobile_phone) }}" disabled>
+                                                </div>
 
-                            <div class="corporate-form row" id="corporateForm">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mt-3">
-                                            <label class="q-label">Cep Numarası</label>
-                                            <span id="error_message" class="error-message"></span>
-                                            <input type="number" name="mobile_phone" class="form-control"
-                                                id="phone" value="{{ old('mobile_phone', $user->mobile_phone) }}"
-                                                readonly>
-                                            <input type="checkbox" id="enablePhone" onchange="togglePhone()">
-                                            <label for="enablePhone" class="mt-5 mb-5">Güncellemek İstiyorum</label>
-                                        </div>
-                                    </div>
+                                                <div class="form-group">
+                                                    <label for="new_mobile_phone">Yeni Telefon Numarası</label>
+                                                    <input type="text" class="form-control" id="mobile_phone"
+                                                        name="mobile_phone" placeholder="5xxxxxxxxxx" required>
+                                                    <div class="invalid-feedback">
+                                                        Telefon numarası boş bırakılamaz.
+                                                    </div>
+                                                </div>
 
-                                    <div class="col-lg-6">
-                                        <div id="phoneFields" style="display: none;">
-                                            <label class="q-label mt-3">Belge Ekle</label>
-                                            <div class="" style="position: relative;">
-                                                <!-- Resmin boyutunu küçültmek için max-width ve max-height stil özellikleri ekleyelim -->
-                                                <img src="" alt="Yüklenen Resim" id="uploadedImage"
-                                                    style="display: none; max-width: 200px; max-height: 200px; border: 1px solid #ccc;">
                                             </div>
-                                            <input type="file" name="image" id="image" class="form-control"
-                                                onchange="toggleUpdateButton()">
-
-                                            <p class="text-danger mt-2">Lütfen Belge Formatına Uygun Şeklinde Ekleyiniz.
-                                            </p>
                                         </div>
+
+                                        <div class="col-lg-6">
+                                            <div id="phoneFields">
+                                                <label class="q-label mt-3">Belge Ekle</label>
+                                                <div class="" style="position: relative;">
+                                                    <!-- Resmin boyutunu küçültmek için max-width ve max-height stil özellikleri ekleyelim -->
+                                                    <img src="" alt="Yüklenen Resim" id="uploadedImage"
+                                                        style="display: none; max-width: 200px; max-height: 200px; border: 1px solid #ccc;">
+                                                </div>
+                                                <input type="file" name="image" id="image"
+                                                    class="form-control" required>
+                                                <div class="invalid-feedback">
+                                                    Belge seçilmelidir ve uygun bir formatta olmalıdır.
+                                                </div>
+                                                <p class="text-danger mt-2">Lütfen Belge Formatına Uygun Görsel Ekleyiniz.</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-primary mt-4">Güncelle</button>
 
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <button type="submit" class="btn btn-primary mt-4" id="updateButton"
-                                        disabled>Güncelle</button>
-                                </div>
-                            </div>
-                        </form>
 
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -311,15 +329,9 @@
             <div class="col-md-5 col-12">
                 <div class="card shadow-sm border-100 border-bottom mb-4">
                     <div class="card-body">
-                        <p class="card-text">Belge formatı:</p>
-                        <p class="card-text">xxxx mail adresim ve xxxx telefon numarası ile kayıtlı olan üyeliğimdeki</p>
-                        <p class="card-text">xxxx mail addresim ve xxxx telefon numarasıyla değiştirilmesini talep ediyorum
-                        </p>
-                        <p class="card-text">isim soyisim</p>
-                        <p class="card-text">imza</p>
-                        <!-- TC Kimlik Numarası alanı -->
-                        <img class="img-fluid mx-auto d-block" src="{{ asset('images/tc/tcpng.png') }}"
-                            alt="Örnek Resim" style="width: 300px;">
+                       
+                        <img class="img-fluid mx-auto d-block" src="{{ asset('images/phone-update-image/phonefile.jpg') }}"
+                            alt="Örnek Resim" >
 
                     </div>
                 </div>
@@ -346,53 +358,18 @@
     <script>
         $(document).ready(function() {
 
-$('#area_code, #phone').on('input', function() {
-var areaCode = $('#area_code').val();
-var phoneNumber = $('#phone').val();
-// Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
-if (areaCode && phoneNumber) {
-    // Telefon numarasını güncelle
-    var fullPhoneNumber = areaCode + phoneNumber;
-    // Telefon numarasını konsola yazdır
-    console.log("Telefon numarası: " + fullPhoneNumber);
-    }
-}); 
-});
-    </script>
-
-    <script>
-        function togglePhone() {
-            var phoneInput = document.getElementById('phone');
-            var enablePhoneCheckbox = document.getElementById('enablePhone');
-            var phoneFields = document.getElementById('phoneFields');
-            var updateButton = document.getElementById('updateButton');
-
-            if (enablePhoneCheckbox.checked) {
-                phoneInput.readOnly = false;
-                phoneFields.style.display = 'block';
-                toggleUpdateButton(); // Telefonu düzenle seçildiğinde, güncelleme butonunu kontrol et
-            } else {
-                phoneInput.readOnly = true;
-                phoneFields.style.display = 'none';
-                toggleUpdateButton(); // Telefonu düzenle seçilmediğinde, güncelleme butonunu kontrol et
-            }
-        }
-
-        function toggleUpdateButton() {
-            var imageInput = document.getElementById('image');
-            var updateButton = document.getElementById('updateButton');
-            var uploadedImage = document.getElementById('uploadedImage');
-
-            if (imageInput.files.length > 0) {
-                updateButton.disabled = false; // Eğer bir resim yüklendi ise, güncelleme butonunu etkinleştir
-                uploadedImage.src = URL.createObjectURL(imageInput.files[0]); // Yüklenen resmi göster
-                uploadedImage.style.display = 'block';
-            } else {
-                updateButton.disabled = true; // Eğer resim yüklenmedi ise, güncelleme butonunu devre dışı bırak
-                uploadedImage.src = '';
-                uploadedImage.style.display = 'none';
-            }
-        }
+            $('#area_code, #phone').on('input', function() {
+                var areaCode = $('#area_code').val();
+                var phoneNumber = $('#phone').val();
+                // Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
+                if (areaCode && phoneNumber) {
+                    // Telefon numarasını güncelle
+                    var fullPhoneNumber = areaCode + phoneNumber;
+                    // Telefon numarasını konsola yazdır
+                    console.log("Telefon numarası: " + fullPhoneNumber);
+                }
+            });
+        });
     </script>
 
 
@@ -588,7 +565,7 @@ if (areaCode && phoneNumber) {
                 success: function(data) {
                     var countySelect = $('#countySelect');
                     countySelect.empty();
-                    $.each(data, function(index, county) {
+                    $.each(data.counties, function(index, county) {
                         countySelect.append('<option value="' + county.ilce_key + '">' + county
                             .ilce_title +
                             '</option>');
@@ -709,11 +686,31 @@ if (areaCode && phoneNumber) {
         }
     </script>
 
+
+    <script>
+        function validateForm2() {
+            var mobilePhone = document.getElementById('mobile_phone').value;
+            var image = document.getElementById('image').value;
+
+            if (mobilePhone.trim() === '') {
+                alert('Telefon numarası boş bırakılamaz.');
+                return false;
+            }
+
+            var fileInput = document.getElementById('image');
+            if (!fileInput.files[0]) {
+                alert('Dosya seçmelisiniz.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
     <script>
         function validateForm() {
             var ibanInput = document.getElementsByName("iban")[0];
             var ibanValue = ibanInput.value;
-
             if (ibanValue.length < 26) {
                 alert("IBAN numarası 26 haneden az olamaz!");
                 return false; // Formun gönderilmesini engelle

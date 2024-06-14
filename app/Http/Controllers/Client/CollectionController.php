@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CollectionRemoveJob;
 use App\Models\Collection;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CollectionController extends Controller {
     public function getCollections() {
@@ -20,33 +23,52 @@ class CollectionController extends Controller {
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
-    
+        $collection = Collection::where("id",$request->input('collection'))->first();
+        
         try {
+           
+    
             if ($itemType == 'project') {
+                // Proje tipindeki öğeyi koleksiyondan kaldır
                 $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
     
                 if ($link) {
                     ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->delete();
+    
+                    if (count($collection->links) == 0) {
+                        $collection->delete();
+                        return response()->json(['complete' => true, 'message' => 'Item removed from the collection.']);
+                    }   
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
                 }
             } elseif ($itemType == 'housing') {
+                // Konut tipindeki öğeyi koleksiyondan kaldır
                 $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
     
                 if ($link) {
                     ShareLink::where('item_id', $itemId)->where('item_type', 2)->delete();
+                    if (count($collection->links) == 0) {
+                        $collection->delete();
+                        return response()->json(['complete' => true, 'message' => 'Item removed from the collection.']);
+                    }
+                    
                     return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
                 } else {
                     return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
                 }
+
+              
             } else {
                 return response()->json(['success' => false, 'message' => 'Invalid item type.']);
             }
+      
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Error removing item from the collection.']);
         }
     }
+    
     
 
     public function store( Request $request ) {
@@ -104,5 +126,14 @@ class CollectionController extends Controller {
 
         }
 
-        return response()->json( [ 'collection' => $collection ] );    }
+        return response()->json( [ 'collection' => $collection ] );    
+    }
+
+    public function deleteCollectionByHousingId($housingId){
+        try{
+            dispatch(new CollectionRemoveJob("housing",["housing_id" => $housingId]));
+        }catch(Throwable $e){
+            Log::info($e->getMessage());
+        }
+    }
 }

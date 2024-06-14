@@ -12,4 +12,8 @@ class Customer extends Model
     public function project(){
         return $this->hasOne(Project::class,"id","interested_project");
     }
+
+    public function meets(){
+        return $this->hasMany(Meet::class,"customer_id","id");
+    }
 }

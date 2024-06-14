@@ -815,16 +815,20 @@ class ProjectController extends Controller
                 $file->move($destinationPath, $fileNameDocument);
             }
 
-            if ($request->file('projectData')['document']) {
+            if(auth()->user()->type != 1){
+                if ($request->file('projectData')['document']) {
 
-                $file = $request->file('projectData')['authority_certificate'];
-
-                // Dosyanın hedef dizini
-                $destinationPath = public_path('authority_certificates'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-
-                // Dosyayı belirlenen hedefe taşı
-                $fileNameAuthorityCertificateName = $projectSlug . '_authority_certificate_' . time() . '.' . $file->getClientOriginalExtension();
-                $file->move($destinationPath, $fileNameAuthorityCertificateName);
+                    $file = $request->file('projectData')['authority_certificate'];
+    
+                    // Dosyanın hedef dizini
+                    $destinationPath = public_path('authority_certificates'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+                    // Dosyayı belirlenen hedefe taşı
+                    $fileNameAuthorityCertificateName = $projectSlug . '_authority_certificate_' . time() . '.' . $file->getClientOriginalExtension();
+                    $file->move($destinationPath, $fileNameAuthorityCertificateName);
+                }
+            }else{
+                $fileNameAuthorityCertificateName = "";
             }
         } else {
             $fileNameAuthorityCertificateName = "";
@@ -899,9 +903,13 @@ class ProjectController extends Controller
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+        $sellType = $request->session()->get('sell_type');
 
-        if ($ownerId != null) {
-            unset($postData['open_sharing1']);
+        if ($sellType == "kendim-satmak") {
+           $ownerId = null;
+           unset($postData['open_sharing1']);
+        }else{
+            $postData['open_sharing1'] = "Evet";
         }
         
         $isShare =  false;

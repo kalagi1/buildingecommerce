@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TypeList from './create_project_components/TypeList';
 import ProjectForm from './create_project_components/ProjectForm';
 import axios from 'axios';
@@ -25,8 +25,6 @@ function CreateHousing(props) {
     const [haveBlocks,setHaveBlocks] = useState(false);
     const [slug,setSlug] = useState("");
 
-    console.log(selectedTypes,selectedHousingType,slug);
-
     const [blocks,setBlocks] = useState([{
         name : "housing",
         roomCount : 1,
@@ -38,6 +36,7 @@ function CreateHousing(props) {
     const [selectedBlock,setSelectedBlock] = useState(0);
     const [selectedRoom,setSelectedRoom] = useState(0);
     const [anotherBlockErrors,setAnotherBlockErrors] = useState(0);
+    const [user,setUser] = useState({});
     const setProjectDataFunc = (key,value) => {
         setProjectData({
             ...projectData,
@@ -47,6 +46,12 @@ function CreateHousing(props) {
     const nextStep = (stepOrder) => {
         setStep(stepOrder);
     }
+
+    useEffect(() => {
+        axios.get(baseUrl+'get_current_user').then((res) => {
+            setUser(res.data.user);
+        })
+    },[])
 
     function getCoords(elem) { // crossbrowser version
         if(elem && elem.getBoundingClientRect()){
@@ -209,13 +214,7 @@ function CreateHousing(props) {
                                                                 behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                             });
                                                         }else{
-                                                            if(!projectData.authority_certificate){
-                                                                var element = document.getElementById("authority_certificate");
-                                                                window.scrollTo({
-                                                                    top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
-                                                                    behavior: 'smooth' // Yumuşak kaydırma efekti için
-                                                                });
-                                                            }else{
+                                                            if(user.type == "1"){
                                                                 if(!projectData.rules_confirm){
                                                                     var element = document.getElementById("finish-tick-id");
                                                                     window.scrollTo({
@@ -223,8 +222,23 @@ function CreateHousing(props) {
                                                                         behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                                     }); 
                                                                 }
+                                                            }else{
+                                                                if(!projectData.authority_certificate){
+                                                                    var element = document.getElementById("authority_certificate");
+                                                                    window.scrollTo({
+                                                                        top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                        behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                    });
+                                                                }else{
+                                                                    if(!projectData.rules_confirm){
+                                                                        var element = document.getElementById("finish-tick-id");
+                                                                        window.scrollTo({
+                                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                        }); 
+                                                                    }
+                                                                }
                                                             }
-                                                            
                                                         }
                                                     }
                                                 }
@@ -297,9 +311,11 @@ function CreateHousing(props) {
             if(!projectData.document){
                 tempErrors.push("document");
             }
-    
-            if(!projectData.authority_certificate){
-                tempErrors.push("authority_certificate");
+
+            if(user.type != "1"){
+                if(!projectData.authority_certificate){
+                    tempErrors.push("authority_certificate");
+                }
             }
         }
 
@@ -371,6 +387,7 @@ function CreateHousing(props) {
                     'Content-Type': `multipart/form-data;`,
                 }
             }).then((res) => {
+                console.log(res);
                 if(res.data.status){
                     setStep(3);
                     setLoadingModal(false);
@@ -437,7 +454,7 @@ function CreateHousing(props) {
                 step == 1 ? 
                     <TypeList2 setSlug={setSlug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <HousingForm slug={slug} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <HousingForm user={user} slug={slug} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSectionHousing/>
             }

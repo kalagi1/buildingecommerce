@@ -92,12 +92,23 @@
                                         </script>
 
 
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-check-inline" style="margin-top:12px;">
+                                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                                    <label class="form-check-label" for="remember"  style="margin-top:2px;">Beni Hatırla</label>
+                                                </div>
+                                            </div>
 
-
-                                        <div class="forgot-password d-flex justify-content-between">
-                                            <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
+                                            <div class="col">
+                                                <div class="forgot-password d-flex justify-content-end">
+                                                    <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
+                                                </div>
+                                            </div>
+                                        
                                         </div>
 
+                                                                                
                                         <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
 
                                         <div class="social-account-login-buttons pb-3">
@@ -1013,6 +1024,10 @@
 
 @section('styles')
     <style>
+        .form-check-inline .form-check-input[type="checkbox"] {
+    transform: scale(0.7); /* Boyutu %50 oranında küçültür */
+}
+
         .inner-pages .checkboxes label:before {
             content: "";
             display: inline-block;

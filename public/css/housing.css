@@ -104,18 +104,17 @@
 .mobile-action-move {
     display: flex;
     align-items: center;
-    justify-content: space-evenly
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .mobileMovePrice h4 {
     font-size: 18px;
     font-weight: 700;
     color: #274abb;
-    display: flex;
     width: 100%;
     margin-bottom: 0;
     align-items: center;
-    justify-content: center;
     text-transform: capitalize !important;
 }
 

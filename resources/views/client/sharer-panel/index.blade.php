@@ -7,7 +7,7 @@
                 <div class="">
                     <div class="card mb-3">
                         <div class="card-img-top" style="background-color: {{ $sharer->banner_hex_code }}">
-                            <div class="brands-square w-100">
+                            <div class="brands-square w-100 ml-4">
                                 <img src="{{ url('storage/profile_images/' . $sharer->profile_image) }}" alt="" class="brand-logo">
                                 <p class="brand-name"><a href="{{ route('institutional.profile', ["slug" => Str::slug($sharer->name), "userID" => $sharer->id]) }}"
                                         style="color:White">

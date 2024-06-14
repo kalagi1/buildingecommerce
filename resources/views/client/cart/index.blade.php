@@ -347,15 +347,34 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
 
 
 
-                                        @if ($saleType == 'kiralik')
-                                            <li>Bir Kira Kapora :<strong
-                                                    class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
+                                        {{-- @if ($saleType == 'kiralik')
+                                                <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
+                                            @else
+                                                <li>%{{ $discount_percent }} Kapora :<strong class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }} TL</strong></li>
+                                            @endif
+                                             --}}
+                                        @php
+                                            $kapora =
+                                                $saleType == 'kiralik'
+                                                    ? $discountedPrice
+                                                    : $discountedPrice * $deposit_rate;
+                                            $hizmet_bedeli = $kapora * 0.1;
+                                            $net_kapora = $kapora - $hizmet_bedeli;
+                                        @endphp
+
+                                        @if ($cart['type'] == 'housing')
+                                            <li> Güvenli Kapora Bedeli :<strong
+                                                    class="pull-right">{{ number_format($kapora, 0, ',', '.') }}
                                                     TL</strong></li>
-                                        @else
-                                            <li>%{{ $discount_percent }} Kapora :<strong
-                                                    class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
-                                                    TL</strong></li>
+                                                    
+
+                                            {{-- <li>Hizmet Bedeli :<strong
+                                                    class="pull-right">{{ number_format($hizmet_bedeli, 0, ',', '.') }}
+                                                    TL</strong></li> --}}
+                                            {{-- <span class="text-muted" style="color:#EA2B2E !important;">Hizmet bedeli, kapora
+                                                tutarının %10'u olarak hesaplanmıştır.</span> --}}
                                         @endif
+
 
                                     </ul>
                                 @endif
@@ -380,7 +399,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
+                                        TL <br> ÖDEME YAP
                                     </a>
                                 @else
                                     <a href="{{ route('payment.index') }}"
@@ -388,7 +407,7 @@ $number_of_share = $cart['item']['numbershare'] ?? null;
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
+                                        TL <br>  ÖDEME YAP
                                     </a>
                                 @endif
                             @endif

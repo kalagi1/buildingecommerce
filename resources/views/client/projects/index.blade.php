@@ -1025,7 +1025,13 @@
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
-                            <div id="mapContainer" style="height: 100%"></div>
+                            <iframe
+                            width="100%"
+                            height="100%"
+                            frameborder="0" style="border:0;"
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ explode(',', $project->location)[0] }},{{ explode(',', $project->location)[1] }}"
+                            allowfullscreen="">
+                        </iframe>
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel"
                             aria-labelledby="situation-tab">
@@ -1183,7 +1189,7 @@
                         var countySelect = $('.countySelect');
                         countySelect.empty();
                         countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data, function(index, county) {
+                        $.each(data.counties, function(index, county) {
                             countySelect.append('<option value="' + county.ilce_key +
                                 '">' + county
                                 .ilce_title +
@@ -1417,20 +1423,6 @@
             var startIndex = 0;
             var endIndex = 12;
 
-        }
-    </script>
-    <script>
-        var successMessage = "{{ session('success') }}";
-
-        if (successMessage) {
-            Toastify({
-                text: successMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: 'green',
-                stopOnFocus: true,
-            }).showToast();
         }
     </script>
 
@@ -1737,6 +1729,24 @@
                 });
             });
         });
+
+        document.getElementById('price').addEventListener('input', function(e) {
+                var value = e.target.value;
+                // Sadece rakamları ve virgülü tut
+                value = value.replace(/[^0-9,]/g, '');
+
+                // Noktaları ve virgülü ayarlama
+                if (value.includes(',')) {
+                    var parts = value.split(',');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    value = parts.join(',');
+                } else {
+                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                }
+
+                e.target.value = value;
+            });
+
     </script>
 @endsection
 

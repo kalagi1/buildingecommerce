@@ -1605,11 +1605,18 @@
         }
 
         .modal-input {
-            padding: 0.7em !important;
-            border: 1px solid #eee !important;
-            margin: 0.5em 0em;
-            width: 100%;
-            transition: border-color 0.3s;
+            display: block;
+    width: 100%;
+    height: 38px !important;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 2.0;
+    /* background-color: #fff; */
+    /* background-clip: padding-box; */
+    border: 1px solid #eee;
+    /* border-radius: .35rem; */
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.07); */
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
         .modal-footer {

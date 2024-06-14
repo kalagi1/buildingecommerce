@@ -64,4 +64,12 @@ class CrmController extends Controller
             "status" => true
         ]);
     }
+
+    public function show($id){
+        $customer = Customer::with("meets","project")->where('id',$id)->first();
+
+        return json_encode([
+            "customer" => $customer
+        ]);
+    }
 }
