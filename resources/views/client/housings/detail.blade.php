@@ -460,13 +460,10 @@
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <iframe
-                                    width="100%"
-                                    height="100%"
-                                    frameborder="0" style="border:0;"
-                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ $housing->latitude }},{{ $housing->longitude }}"
-                                    allowfullscreen="">
-                                </iframe>
+                                    <iframe width="100%" height="100%" frameborder="0" style="border:0;"
+                                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ $housing->latitude }},{{ $housing->longitude }}"
+                                        allowfullscreen="">
+                                    </iframe>
                                 </div>
                             </div>
 
@@ -492,8 +489,6 @@
                                 </div>
                             </div>
                         @else
-                            {{-- <div class="schedule widget-boxed move-mobile-gain mb-30 mobile-show"
-                        style="background-color: green "></div> --}}
                             <div class="mobileHour mobileHourDiv">
 
                                 <div class="schedule widget-boxed mt-33 mt-0">
@@ -593,6 +588,14 @@
                                                         Fiyatı Güncelle
                                                     </a>
                                                 </div>
+
+                                                @else
+                                                <div class="col-md-12 col-12 p-0 ml-3">
+                                                    <a data-bs-toggle="modal" data-bs-target="#bidModal"
+                                                        style="color:#EA2B2E !important;cursor: pointer; ">
+                                                        Pazarlık Yap <i class="fa fa-handshake"></i>
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div>
 
@@ -639,6 +642,9 @@
                             </div>
 
                         @endif
+
+
+                      
 
                         @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                             <div class="add-to-collections-wrapper addCollection" data-type='housing'
@@ -732,71 +738,151 @@
                             </div>
                         @endif
 
-                      <!-- Fiyat Güncelleme Modal -->
-<div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
-                <button type="button" class="close priceUpdateModalLabelClose" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
-                <form id="price-update-form" method="POST" action="{{ route('housing.update.price', $housing->id) }}" onsubmit="return false;">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
-                        <input type="text" class="modal-input" id="new-price" name="new_price" placeholder="Yeni Fiyat">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="confirm-price-update">Güncelle</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                        <!-- Teklif Ver Modal -->
+                        <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
+                            aria-labelledby="bidModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="bidModalLabel">Pazarlık Yap</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Kapat">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{-- <p>Ürün Fiyatı:  <h4
+                                            style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
+                                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                @php
+                                                    $price =
+                                                        $housing->step2_slug == 'gunluk-kiralik'
+                                                            ? json_decode($housing->housing_type_data)
+                                                                ->daily_rent[0]
+                                                            : json_decode($housing->housing_type_data)
+                                                                ->price[0];
+                                                    $discountedPrice = $price - $discountAmount;
+                                                @endphp
+                                                @if ($discountAmount)
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                        </polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                        {{ number_format($price, 0, ',', '.') }}
+                                                    </del>
+                                                @endif
+                                                <span
+                                                    id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                                ₺
+                                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                    <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                @endif
+                                            @endif
+                                        </h4></p> --}}
+                                        <form action="{{ route('bids.store', $housing->id) }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="bid_amount">Teklifiniz:</label>
+                                                <input type="text" name="bid_amount" class="form-control" id="newPrice" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-block">Gönder</button>
+                                        </form>
+                                        @php
+                                            $todayBidsCount = \App\Models\Bid::where('user_id', auth()->id())
+                                                ->whereDate('created_at', \Carbon\Carbon::today())
+                                                ->count();
+                                        @endphp
+                                        <p class="mt-3">Tekliflerin 24 saat geçerliliği bulunmaktadır. Günlük Kalan
+                                            Hakkınız: {{ 40 - $todayBidsCount }}</p>
 
-<!-- Onay Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="confirmation-message"></p>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-primary" id="confirm-update-button">Evet, Güncelle</button>
-            </div>
-        </div>
-    </div>
-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<script>
-    document.getElementById('confirm-price-update').addEventListener('click', function() {
-        var newPrice = document.getElementById('new-price').value;
-        document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice + ' ₺ olarak güncellemek istediğinizden emin misiniz?';
 
-        // Close the price update modal
-        document.querySelector(".priceUpdateModalLabelClose").click();
 
-        // Open the confirmation modal
-        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-        confirmationModal.show();
-    });
+                        <!-- Fiyat Güncelleme Modal -->
+                        <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
+                            aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelleme</h5>
+                                        <button type="button" class="close priceUpdateModalLabelClose"
+                                            data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
+                                        <form id="price-update-form" method="POST"
+                                            action="{{ route('housing.update.price', $housing->id) }}"
+                                            onsubmit="return false;">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <label for="new-price" class="q-label">Yeni Fiyat: </label><br>
+                                                <input type="text" class="modal-input" id="new-price"
+                                                    name="new_price" placeholder="Yeni Fiyat">
+                                            </div>
+                                            <button type="button" class="btn btn-primary"
+                                                id="confirm-price-update">Güncelle</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    document.getElementById('confirm-update-button').addEventListener('click', function() {
-        document.getElementById('price-update-form').onsubmit = function() {
-            return true;
-        };
-        document.getElementById('price-update-form').submit();
-    });
-</script>
+                        <!-- Onay Modal -->
+                        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel">Fiyatı Onayla</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="confirmation-message"></p>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">İptal</button>
+                                        <button type="button" class="btn btn-primary" id="confirm-update-button">Evet,
+                                            Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.getElementById('confirm-price-update').addEventListener('click', function() {
+                                var newPrice = document.getElementById('new-price').value;
+                                document.getElementById('confirmation-message').innerText = 'Fiyatı ' + newPrice +
+                                    ' ₺ olarak güncellemek istediğinizden emin misiniz?';
+
+                                // Close the price update modal
+                                document.querySelector(".priceUpdateModalLabelClose").click();
+
+                                // Open the confirmation modal
+                                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                                confirmationModal.show();
+                            });
+
+                            document.getElementById('confirm-update-button').addEventListener('click', function() {
+                                document.getElementById('price-update-form').onsubmit = function() {
+                                    return true;
+                                };
+                                document.getElementById('price-update-form').submit();
+                            });
+                        </script>
 
 
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -1221,9 +1307,9 @@
                                                             <a
                                                                 href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
                                                                 <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                    stroke="currentColor" stroke-width="2" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    fill="none" stroke-linecap="round"
+                                                                    stroke-linejoin="round" class="css-i6dzq1">
                                                                     <path
                                                                         d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
                                                                     </path>
@@ -1248,9 +1334,9 @@
                                                             <a
                                                                 href="https://telegram.me/share/url?url={{ $shareUrl }}">
                                                                 <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                    stroke="currentColor" stroke-width="2" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    fill="none" stroke-linecap="round"
+                                                                    stroke-linejoin="round" class="css-i6dzq1">
                                                                     <line x1="22" y1="2" x2="11"
                                                                         y2="13"></line>
                                                                     <polygon points="22 2 15 22 11 13 2 9 22 2">
@@ -2934,6 +3020,26 @@
 
             e.target.value = value;
         });
+
+
+
+        document.getElementById('newPrice').addEventListener('input', function(e) {
+            var value = e.target.value;
+            // Sadece rakamları ve virgülü tut
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Noktaları ve virgülü ayarlama
+            if (value.includes(',')) {
+                var parts = value.split(',');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                value = parts.join(',');
+            } else {
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            e.target.value = value;
+        });
+
     </script>
 
     <script>
@@ -3206,6 +3312,65 @@
             .add-to-swap-wrapper {
                 margin-bottom: 30px !important;
             }
+        }
+
+        .cta {
+            position: relative;
+            margin: auto;
+            padding: 12px 18px;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #EA2B2E;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
         }
     </style>
 @endsection

@@ -96,7 +96,7 @@ use App\Http\Controllers\Api\Client\ProjectController as ApiClientProjectControl
 use App\Http\Controllers\Api\Institutional\CrmController;
 use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
-
+use App\Http\Controllers\Client\BidController;
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
 
 /*
@@ -240,7 +240,9 @@ Route::post('password/reset', [ResetPasswordController::class, "reset"])->name('
 Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
-
+Route::post('/housing/{housing}/bids', [BidController::class, 'store'])->name('bids.store');
+    Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids.accept');
+    
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 

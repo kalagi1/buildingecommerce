@@ -5,7 +5,7 @@
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
                 <div class="brands-square w-100 ml-4">
-                    @if ($store->profile_image == 'indir.png')
+                    @if ($store->profile_image == 'indir.png' || empty($store->profile_image))
                         @php
                             $nameInitials = collect(preg_split('/\s+/', $store->name))
                                 ->map(function ($word) {
@@ -15,7 +15,8 @@
                                 ->implode('');
                         @endphp
 
-                        <div class="profile-initial" style="margin: inherit !important;margin-left: 0 !important">{{ $nameInitials }}</div>
+                        <div class="profile-initial" style="margin: inherit !important;margin-left: 0 !important">
+                            {{ $nameInitials }}</div>
                     @else
                         <img loading="lazy" src="{{ asset('storage/profile_images/' . $store->profile_image) }}"
                             alt="{{ $store->name }}" class="img-responsive brand-logo" style="object-fit:contain;">
@@ -27,6 +28,8 @@
                         </p>
                         <div class="mobile-hidden-flex">
                             @if ($store->corporate_account_status)
+                                
+                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                 <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                     <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
                                         style="display: block; margin: 0 auto;">
@@ -35,7 +38,6 @@
                                         <i class="fa fa-check"></i>
                                     </span>
                                 </span>
-                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}"
                                             alt="" style="display: block; margin: 0 auto;">
@@ -100,7 +102,7 @@
                 <div class="mobile-hidden-flex">
                     @if ($store->type == 1)
                         <button class="storeShareTypeBtn"
-                        onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                            onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
                             Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px;"></i>
                         </button>
                     @else
@@ -213,4 +215,18 @@
             width: 100% !important;
         }
     }
+
+    .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
 </style>
