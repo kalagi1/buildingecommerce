@@ -217,7 +217,7 @@ if (housingType.consultant && housingType.consultant.name) {
                     var bidsCell  = document.createElement("td");
                     bidsCell .className = "align-middle";
                     var bids = document.createElement("a");
-                    bids.className = "badge badge-phoenix badge-phoenix-info btn-sm";
+                    bids.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
                     bids.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
                     bids.textContent = "Pazarlık Teklifleri";
                     bidsCell.appendChild(bids);
