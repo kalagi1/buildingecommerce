@@ -14,7 +14,7 @@ import EndSection2 from './create_project_components/EndSection2';
 
 
 function EditProject({projectId}) {
-    const [step,setStep] = useState(1);
+    const [step,setStep] = React.useState(1);
     const [loadingModal,setLoadingModal] = useState(false);
     const [projectData,setProjectData] = useState({});
     const [selectedHousingType,setSelectedHousingType] = useState({});
