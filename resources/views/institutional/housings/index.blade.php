@@ -214,8 +214,8 @@ if (housingType.consultant && housingType.consultant.name) {
 
 
                     
-                    var bidCell = document.createElement("td");
-                    bidCell.className = "align-middle";
+                    var bidsCell  = document.createElement("td");
+                    bidsCell .className = "align-middle";
                     var bids = document.createElement("a");
                     bids.className = "badge badge-phoenix badge-phoenix-info btn-sm";
                     bids.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
