@@ -27,9 +27,9 @@
                                 <td>{{ $bid->created_at->format('d.m.Y H:i') }}</td>
                                 <td>
                                     @if ($bid->acceptedBid)
-                                        <span class="badge badge-success">Kabul Edildi</span>
+                                        <span class="badge badge-phoenix badge-phoenix-success">Kabul Edildi</span>
                                     @else
-                                        <span class="badge badge-warning">Beklemede</span>
+                                        <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
                                     @endif
                                 </td>
                                 <td>
