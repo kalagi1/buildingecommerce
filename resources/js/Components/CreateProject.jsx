@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TypeList from './create_project_components/TypeList';
 import ProjectForm from './create_project_components/ProjectForm';
 import axios from 'axios';
@@ -13,20 +13,20 @@ import { Box, LinearProgress, Modal, Typography } from '@mui/material';
 
 function CreateProject(props) {
     const [step,setStep] = React.useState(1);
-    const [loadingModal,setLoadingModal] = useState(false);
-    const [loading,setLoading] = useState(0);
-    const [housingTypes,setHousingTypes] = useState([]);
-    const [selectedTypes,setSelectedTypes] = useState([]);
-    const [projectData,setProjectData] = useState({});
-    const [selectedHousingType,setSelectedHousingType] = useState({});
-    const [haveBlocks,setHaveBlocks] = useState(false);
-    const [blocks,setBlocks] = useState([]);
-    const [roomCount,setRoomCount] = useState(0);
-    const [allErrors,setAllErrors] = useState([]);
-    const [selectedBlock,setSelectedBlock] = useState(null);
-    const [selectedRoom,setSelectedRoom] = useState(0);
-    const [anotherBlockErrors,setAnotherBlockErrors] = useState(0);
-    const [slug,setSlug] = useState("")
+    const [loadingModal,setLoadingModal] = React.useState(false);
+    const [loading,setLoading] = React.useState(0);
+    const [housingTypes,setHousingTypes] = React.useState([]);
+    const [selectedTypes,setSelectedTypes] = React.useState([]);
+    const [projectData,setProjectData] = React.useState({});
+    const [selectedHousingType,setSelectedHousingType] = React.useState({});
+    const [haveBlocks,setHaveBlocks] = React.useState(false);
+    const [blocks,setBlocks] = React.useState([]);
+    const [roomCount,setRoomCount] = React.useState(0);
+    const [allErrors,setAllErrors] = React.useState([]);
+    const [selectedBlock,setSelectedBlock] = React.useState(null);
+    const [selectedRoom,setSelectedRoom] = React.useState(0);
+    const [anotherBlockErrors,setAnotherBlockErrors] = React.useState(0);
+    const [slug,setSlug] = React.useState("")
     const setProjectDataFunc = (key,value) => {
         setProjectData({
             ...projectData,
