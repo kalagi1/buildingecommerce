@@ -1416,20 +1416,22 @@ class ProjectController extends Controller
         }
 
         PaymentSetting::create([
-            "project_id" => $projectId,
-            "room_order" => $request->input('room_order'),
-            "down_payment" => $request->input('down_payment') ?? false,
-            "advance" => $request->input('advance_payment') ?? false,
-            "down_payment_price" => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
-            "pay_decs" => json_encode($payDecArr),
-            "advance_date" => $request->input('advance_date') ?? null,
-            "deposit_date" => $request->input('deposit_date') ?? null,
+            "project_id"                     => $projectId,
+            "room_order"                     => $request->input('room_order'),
+            "down_payment"                   => $request->input('down_payment') ?? false,
+            "advance"                        => $request->input('advance_payment') ?? false,
+            "down_payment_price"             => $request->input('down_payment_price') ? str_replace('.','',$request->input('down_payment_price')) : "",
+            "pay_decs"                       => json_encode($payDecArr),
+            "advance_date"                   => $request->input('advance_date') ?? null,
+            "deposit_date"                   => $request->input('deposit_date') ?? null,
+            "down_payment_price_description" => $request->input('down_payment_price_description') ?? null,
+            "advance_date_description"       => $request->input('advance_date_description') ?? null
         ]);
 
         if($request->input('pay_decs')){
             for($i = 0; $i < count($request->input('pay_decs')); $i++){
                 $checkPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_price'.$request->input('room_order').$i)->first();
-                $checkDate = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_date'.$request->input('room_order').$i)->first();
+                $checkDate  = ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name','pay_desc_date'.$request->input('room_order').$i)->first();
                 if($checkPrice){
                     ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('room_order'))->where('name',"pay_desc_price".$request->input('room_order').$i)->update([
                         "value" => $request->input('pay_decs')[$i]['price']
@@ -1438,9 +1440,9 @@ class ProjectController extends Controller
                     ProjectHousing::create([
                         "project_id" => $projectId,
                         "room_order" => $request->input('room_order'),
-                        "name" => "pay_desc_price".$request->input('room_order').$i,
-                        "value" => $request->input('pay_decs')[$i]['price'],
-                        "key" => "pay_desc_price".$request->input('room_order').$i
+                        "name"       => "pay_desc_price".$request->input('room_order').$i,
+                        "value"      => $request->input('pay_decs')[$i]['price'],
+                        "key"        => "pay_desc_price".$request->input('room_order').$i
                     ]);
                 }
     
@@ -1452,16 +1454,13 @@ class ProjectController extends Controller
                     ProjectHousing::create([
                         "project_id" => $projectId,
                         "room_order" => $request->input('room_order'),
-                        "name" => "pay_desc_date".$request->input('room_order').$i,
-                        "value" => $request->input('pay_decs')[$i]['date'],
-                        "key" => "pay_desc_date".$request->input('room_order').$i
+                        "name"       => "pay_desc_date".$request->input('room_order').$i,
+                        "value"      => $request->input('pay_decs')[$i]['date'],
+                        "key"        => "pay_desc_date".$request->input('room_order').$i
                     ]);
                 }
             }
-        }
-        
-
-
+        }     
 
         return json_encode([
             "status" => true
@@ -1470,24 +1469,33 @@ class ProjectController extends Controller
 
     public function saveInstallments(Request $request, $projectId, $roomOrder)
     {
+        // Eski taksitleri sil
         Installment::where('project_id', $projectId)->where('room_order', $roomOrder)->delete();
+        
+        $installments = [];
         foreach ($request->input('installments') as $installment) {
-            Installment::create([
-                "price" => $installment['price'] ? str_replace('.','',$installment['price']) : "0",
-                "date" => $installment['date'] ?? date('Y-m-d'),
-                "payment_date" => $installment['payment_date'] ?? null,
-                "paymentType" => $installment['paymentType'] ?? "",
-                "description" => $installment['description'] ?? "",
-                "is_payment" => $installment['is_payment'] ?? false,
-                "project_id" => $projectId,
-                "room_order" => $roomOrder
+            // Taksit verilerini oluştur
+            $createdInstallment = Installment::create([
+                "price"                          => $installment['price'] ? str_replace('.', '', $installment['price']) : "0",
+                "date"                           => $installment['date'] ?? date('Y-m-d'),
+                "payment_date"                   => $installment['payment_date'] ?? null,
+                "paymentType"                    => $installment['paymentType'] ?? "",
+                "description"                    => $installment['description'] ?? "",
+                "is_payment"                     => $installment['is_payment'] ?? false,
+                "project_id"                     => $projectId,
+                "room_order"                     => $roomOrder         
             ]);
+    
+            // Oluşturulan taksit verisini diziye ekle
+            $installments[] = $createdInstallment;
         }
-
-        return json_encode([
-            "status" => true
+        // JSON yanıtı döndür
+        return response()->json([
+            "status" => true,
+            "installments" => $installments
         ]);
     }
+    
 
     public function getInstallments($projectId, $roomOrder)
     {

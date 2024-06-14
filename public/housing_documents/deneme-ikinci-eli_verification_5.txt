@@ -1421,7 +1421,7 @@
                     },
                     xhr: function() {
                         var xhr = new window.XMLHttpRequest();
-                        console.log("asd");
+                        
                         // İlerleme durumu değiştikçe çalışacak olan fonksiyon
                         xhr.upload.addEventListener('progress', function(evt) {
                             if (evt.lengthComputable) {
@@ -2955,7 +2955,7 @@
             $('.area-list').eq(1).find('li').click(function(){
                 itemSlug = $(this).attr('slug');
                 var thisx = $(this);
-                console.log("asd");
+                
                 changeData(itemSlug,'step2_slug')
                 changeData("",'step3_slug')
                 $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()

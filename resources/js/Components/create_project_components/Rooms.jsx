@@ -11,6 +11,7 @@ function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,
     const [rendered,setRendered] = useState(0);
     const [payDecOpen,setPayDecOpen] = useState(false);
     const [checkedItems,setCheckedItems] = useState([]);
+    var selectedAccordion = 0;
 
     const setRoomCountFunc = (event) => {
         if(roomCount > 0){
@@ -333,9 +334,10 @@ function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,
                                                         )
                                                     }else{
                                                         if(data?.className?.includes('grouping-checkbox')){
+                                                            selectedAccordion++;
                                                             return(
                                                                 <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
-                                                                    <Accordion className='mt-2'>
+                                                                    <Accordion className='mt-2' expanded={selectedAccordion == 0 ? true : false}>
                                                                         <AccordionSummary
                                                                             expandIcon={<i className='fa fa-chevron-down'></i>}
                                                                             aria-controls="panel1-content"

@@ -266,6 +266,7 @@ function ReactTable(props) {
         setPage(newPage);
         var start = newPage * rowPerPage;
         axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
+
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -283,6 +284,7 @@ function ReactTable(props) {
         setPage(0);
 
         axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
+
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);   
             setLoading(false);

@@ -12,7 +12,7 @@ import Crm from './Components/Crm';
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
-console.log("asd");
+
 
 if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){

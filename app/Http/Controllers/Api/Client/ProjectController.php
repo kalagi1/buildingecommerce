@@ -284,18 +284,16 @@ class ProjectController extends Controller
 
              
             if (!$projectHousing) {
-                return redirect()->to('/')->with('error', 'Proje Bulunamadı');
+                return redirect()->back()->with('error', 'Proje Bulunamadı');
             }
 
             $projectHousing->value = $newPrice;
             $projectHousing->save();
-
-            $project->status = 0;
             $project->save();
 
-            return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi. Projeniz onay süreci için emlak sepette yönetimine iletilmiştir.');
+            return redirect()->back()->with('success', 'Fiyat başarıyla güncellendi. Projeniz onay süreci için emlak sepette yönetimine iletilmiştir.');
         } else {
-            return redirect()->to('/')->with('error', 'Fiyat güncellenirken bir hata oluştu.');
+            return redirect()->back()->with('error', 'Fiyat güncellenirken bir hata oluştu.');
         }
     }
 

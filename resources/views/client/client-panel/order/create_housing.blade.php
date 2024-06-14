@@ -377,7 +377,7 @@
         
 
         $('input[name="name"]').keyup(function(){
-            console.log("asd");
+            
             if($(this).val() != ""){
                 $(this).removeClass('error-border');
             }
@@ -662,7 +662,7 @@
         })
 
         $('.without-doping').click(function(){
-                    console.log("asd");
+                    
             $.ajax({
                 method: "POST",
                 url: "{{route('client.housing.store.v2')}}",
@@ -733,7 +733,7 @@
                     $('.tab-content').html(htmlContent)
 
                     $('.item-left-area').click(function(){
-                        console.log("asd");
+                        
                     })
                     for (let i = 1; i <= houseCount; i++) {
                         formRenderOpts = {
@@ -890,7 +890,7 @@
                     })
                     
                     $('.new_project_housing_image').click(function(){
-                        console.log("asd");
+                        
                     })
 
                     
@@ -928,7 +928,7 @@
                     })
                     
                     $('.rendered-form input').change(function(){
-                        console.log("asd");
+                        
                         var formData = new FormData();
                         var csrfToken = $("meta[name='csrf-token']").attr("content");
                         formData.append('_token', csrfToken);
@@ -952,7 +952,7 @@
                     })
 
                     $('.rendered-form select').change(function(){
-                        console.log("asd");
+                        
                         var formData = new FormData();
                         var csrfToken = $("meta[name='csrf-token']").attr("content");
                         formData.append('_token', csrfToken);
@@ -1408,7 +1408,7 @@
             const tabsContainer = document.getElementById('tabs');
 
             $('.area-list li').click( function () {
-                console.log("asd");
+                
                 var clickItem = $(this).closest('.area-list');
                 var itemOrderx = clickItem.index();
                 if(itemOrderx == 2){
@@ -1575,7 +1575,7 @@
                             })
 
                             $('.rendered-form input').change(function(){
-                                console.log("asd");
+                                
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                                 formData.append('_token', csrfToken);
@@ -1598,7 +1598,7 @@
                             })
 
                             $('.rendered-form select').change(function(){
-                                console.log("asd");
+                                
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                                 formData.append('_token', csrfToken);
@@ -2264,7 +2264,7 @@
                                         })
 
                                         $('.rendered-form input').change(function(){
-                                            console.log("asd");
+                                            
                                             var formData = new FormData();
                                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                                             formData.append('_token', csrfToken);
@@ -2287,7 +2287,7 @@
                                         })
 
                                         $('.rendered-form select').change(function(){
-                                            console.log("asd");
+                                            
                                             var formData = new FormData();
                                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                                             formData.append('_token', csrfToken);
@@ -2589,7 +2589,7 @@
                                         })
 
                                         $('.rendered-form input').change(function(){
-                                            console.log("asd");
+                                            
                                             var formData = new FormData();
                                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                                             formData.append('_token', csrfToken);
@@ -2612,7 +2612,7 @@
                                         })
 
                                         $('.rendered-form select').change(function(){
-                                            console.log("asd");
+                                            
                                             var formData = new FormData();
                                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                                             formData.append('_token', csrfToken);
@@ -2766,7 +2766,7 @@
         var $select = $('#housing_status').selectize();
         var selectize = $select[0].selectize;
         selectize.on('item_click', function(item) {
-            console.log("asd");
+            
             selectize.removeItem(item);
         });
 

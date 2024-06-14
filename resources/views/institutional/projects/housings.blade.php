@@ -988,7 +988,7 @@
 
     <script>
         @if (Session::has('status') == 'update_selected_items')
-            console.log("asd");
+            
             $.toast({
                 heading: 'Başarılı',
                 text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
