@@ -5,7 +5,7 @@
         <h3 class="mt-2 mb-4">Pazarlık Teklifleri | İlan No : {{ intval(2000000) + $housing->id }}</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table table-sm fs--1 mb-0">
+                <table class="table table-sm fs--1 mb-0" id="bids-table">
                     <thead>
                         <tr>
                             <th>Ad</th>
@@ -14,9 +14,7 @@
                             <th>Teklif Tutarı (₺)</th>
                             <th>Teklif Tarihi</th>
                             <th>Durum</th>
-                            {{-- <th>Geçerlilik Süresi</th> --}}
                             <th>İşlemler</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -29,30 +27,21 @@
                                 <td>{{ $bid->created_at->format('d.m.Y H:i') }}</td>
                                 <td>
                                     @if ($bid->status == 'accepted')
-                                        <span class="badge badge-phoenix badge-phoenix-success">Kabul Edildi</span>
+                                        <span class="badge badge-success">Kabul Edildi</span>
                                     @elseif ($bid->status == 'rejected')
-                                        <span class="badge badge-phoenix badge-phoenix-danger">Rededildi</span>
+                                        <span class="badge badge-danger">Rededildi</span>
                                     @else
-                                        <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
+                                        <span class="badge badge-warning">Beklemede</span>
                                     @endif
                                 </td>
-                                {{-- <td>
-                                    @if ($bid->acceptedBid)
-                                        {{ $bid->acceptedBid->expires_at > now() ? $bid->acceptedBid->expires_at->diffForHumans() : 'Süre Dolmuş' }}
-                                    @else
-                                        -
-                                    @endif
-                                </td> --}}
                                 <td>
                                     @if (Auth::check() && Auth::user()->id == $housing->user_id)
-                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST"
-                                            style="display:inline">
+                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST" style="display:inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
                                         </form>
-                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST"
-                                            style="display:inline">
+                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST" style="display:inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
@@ -69,5 +58,20 @@
 @endsection
 
 @section('scripts')
-    <!-- Buraya gerekli scriptler eklenebilir -->
+    <script>
+        // DataTables initialization for enhanced table functionality
+        $(document).ready(function() {
+            $('#bids-table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                },
+                "order": [[ 4, "desc" ]], // Default sorting by Teklif Tarihi column
+                "pagingType": "simple_numbers", // Simplified pagination controls
+                "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Tümü"] ], // Items per page options
+                "pageLength": 25, // Initial items per page
+                "searching": true, // Enable search field
+                "info": true // Show table information
+            });
+        });
+    </script>
 @endsection
