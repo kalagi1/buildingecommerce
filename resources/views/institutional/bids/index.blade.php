@@ -14,7 +14,9 @@
                             <th>Teklif Tutarı (₺)</th>
                             <th>Teklif Tarihi</th>
                             <th>Durum</th>
-                            <th>Geçerlilik Süresi</th>
+                            {{-- <th>Geçerlilik Süresi</th> --}}
+                            <th>İşlemler</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -32,11 +34,25 @@
                                         <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
                                     @endif
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($bid->acceptedBid)
                                         {{ $bid->acceptedBid->expires_at > now() ? $bid->acceptedBid->expires_at->diffForHumans() : 'Süre Dolmuş' }}
                                     @else
                                         -
+                                    @endif
+                                </td> --}}
+                                <td>
+                                    @if (Auth::check() && Auth::user()->id == $housing->user_id)
+                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST" style="display:inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
+                                        </form>
+                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST" style="display:inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
