@@ -28,8 +28,10 @@
                                 <td>{{ number_format($bid->bid_amount, 2, ',', '.') }}</td>
                                 <td>{{ $bid->created_at->format('d.m.Y H:i') }}</td>
                                 <td>
-                                    @if ($bid->acceptedBid)
+                                    @if ($bid->status == 'accepted')
                                         <span class="badge badge-phoenix badge-phoenix-success">Kabul Edildi</span>
+                                    @elseif ($bid->status == 'rejected')
+                                        <span class="badge badge-phoenix badge-phoenix-danger">Rededildi</span>
                                     @else
                                         <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
                                     @endif
@@ -43,12 +45,14 @@
                                 </td> --}}
                                 <td>
                                     @if (Auth::check() && Auth::user()->id == $housing->user_id)
-                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST" style="display:inline">
+                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST"
+                                            style="display:inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
                                         </form>
-                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST" style="display:inline">
+                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST"
+                                            style="display:inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
