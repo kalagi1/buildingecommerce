@@ -352,7 +352,7 @@
 
         $('.finish-button').click(function(e) {
             e.preventDefault();
-            console.log("asd");
+            
             var next = true;
             var topError = 0;
             if (!$('input[name="name"]').val()) {
@@ -582,7 +582,7 @@
         console.log($('#editor2').html());
 
         $('#editor2').on('text-change',() => {
-            console.log("asd");
+            
         })
 
         quill.on('text-change', function(delta, oldDelta, source) {
@@ -1389,7 +1389,7 @@
                             return [valid, _class, _tooltip];
                         }
                     }).on('datepicker-change', function(event, obj) {
-                        console.log("asd");
+                        
                         /* This event will be triggered when second date is selected */
                         var startTime = new Date(obj.date1);
                         var endTime = new Date(obj.date2);
@@ -1737,7 +1737,7 @@
                         })
 
                         $('.new_project_housing_image').click(function() {
-                            console.log("asd");
+                            
                         })
 
                         $('.item-left-area').click(function(e) {
@@ -2672,7 +2672,7 @@
 
         $('.finish-button').click(function(e) {
             e.preventDefault();
-            console.log("asd");
+            
             var next = true;
             var topError = 0;
             if (!$('input[name="name"]').val()) {
