@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 import { toast } from 'react-toastify';
@@ -335,24 +332,56 @@ function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,
                                                             </div>
                                                         )
                                                     }else{
-                                                        return(
-                                                            <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
-                                                                <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                                                <div className="checkbox-groups">
-                                                                    <div className="row">
-                                                                        {
-                                                                            data.values.map((valueCheckbox) => {
-                                                                                return (
-                                                                                    <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked);setCheckedItemsFunc(data?.name,e.target.checked,i) }} />} label={valueCheckbox.label} />
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                        }
+                                                        if(data?.className?.includes('grouping-checkbox')){
+                                                            return(
+                                                                <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
+                                                                    <Accordion className='mt-2'>
+                                                                        <AccordionSummary
+                                                                            expandIcon={<i className='fa fa-chevron-down'></i>}
+                                                                            aria-controls="panel1-content"
+                                                                            id="panel1-header"
+                                                                        >
+                                                                            {data.label} {data.required ? <span className='required-span'>*</span> : ""}
+                                                                        </AccordionSummary>
+                                                                        <AccordionDetails>
+                                                                            <div className="checkbox-groups">
+                                                                                <div className="row">
+                                                                                    {
+                                                                                        data.values.map((valueCheckbox) => {
+                                                                                            return (
+                                                                                                <div className="col-md-3">
+                                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked);setCheckedItemsFunc(data?.name,e.target.checked,i) }} />} label={valueCheckbox.label} />
+                                                                                                </div>
+                                                                                            )
+                                                                                        })
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </AccordionDetails>
+                                                                    </Accordion>
+                                                                </div>
+                                                            )
+                                                        }else{
+                                                            return(
+                                                                <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
+                                                                    <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                                    <div className="checkbox-groups">
+                                                                        <div className="row">
+                                                                            {
+                                                                                data.values.map((valueCheckbox) => {
+                                                                                    return (
+                                                                                        <div className="col-md-3">
+                                                                                            <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked);setCheckedItemsFunc(data?.name,e.target.checked,i) }} />} label={valueCheckbox.label} />
+                                                                                        </div>
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        )
+                                                            )
+                                                        }
+                                                        
                                                     }
                                                     
                                                 }else if(data.type == "file"){
