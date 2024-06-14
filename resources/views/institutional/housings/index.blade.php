@@ -90,7 +90,6 @@
 
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
-console.log(housingType);
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
@@ -106,6 +105,23 @@ console.log(housingType);
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
+
+ // Create a new table cell element
+ var housingConsultant = document.createElement("td");
+
+// Set the class name
+housingConsultant.className = "align-middle housing_type";
+
+// Determine the text content based on housingType.user.name
+if (housingType.consultant && housingType.consultant.name) {
+    housingConsultant.textContent = housingType.consultant
+        .name;
+} else if (housingType.user && housingType.user.name) {
+    housingConsultant.textContent = housingType.user
+        .name;
+} else {
+    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
+}
 
                 
                 var statusCell = document.createElement("td");
@@ -292,6 +308,8 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
+
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
@@ -305,6 +323,8 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
+
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
