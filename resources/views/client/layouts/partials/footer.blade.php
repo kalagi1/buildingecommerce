@@ -777,7 +777,7 @@
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
-                                (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                (4 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
                                     response.room_info[i].room_order), 10)) + " >" + response
                                 .project_title +
                                 " Projesinde " + block + " " + paymentOrder +
