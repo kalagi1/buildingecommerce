@@ -799,6 +799,8 @@
 
 
                                         var projectedEarningsData = "";
+                                            var ongKiraData = "";
+
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
                                             .room_order);
@@ -815,12 +817,12 @@
                                             "</span>" : "";
 
                                         var ongKiraHTML = ongKira ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
                                             "<span style='color:#28a745'> %" + ongKira +
                                             "</span>" : "";
 
                                         projectedEarningsData += projectedEarningsHTML;
-                                        projectedEarningsData += ongKiraHTML;
+                                        ongKiraData += ongKiraHTML;
 
                                     } else {
 
@@ -916,6 +918,12 @@
                                                 priceData) + "₺</td>";
                                             if (projectedEarningsData) {
                                                 html += "<td>" + projectedEarningsData + "</td>";
+
+                                            }
+
+                                            
+                                            if (ongKiraData) {
+                                                html += "<td>" + ongKiraData + "</td>";
 
                                             }
 
