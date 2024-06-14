@@ -197,7 +197,7 @@ button {
 }
 
 .bank-account.selected {
-    border: 1px solid #ea2a28!important;
+    border: 1px solid #ea2a28 !important;
 }
 
 @media (max-width: 768px) {
@@ -1088,7 +1088,7 @@ img {
 }
 
 .text-theme-colored2 {
-    color: #ea2a28!important;
+    color: #ea2a28 !important;
 }
 
 .tp-caption.font-p {
@@ -1546,7 +1546,7 @@ section.recently.portfolio {
 
 
 .homes-tag.featured {
-    background: #ea2a28!important;
+    background: #ea2a28 !important;
     text-align: center;
     padding: 5px;
     font-size: 11px;
@@ -1576,7 +1576,7 @@ section.recently.portfolio {
 }
 
 .recently .homes-tag.sale {
-    background: #ea2a28!important;
+    background: #ea2a28 !important;
     width: 84px !important;
     height: 31px;
 }
@@ -3156,7 +3156,7 @@ section.portfolio {
 }
 
 .portfolio .homes-tag.sale {
-    background: #ea2a28!important;
+    background: #ea2a28 !important;
     width: 84px !important;
     height: 31px;
 }
@@ -8549,7 +8549,7 @@ html input[disabled] {
 
     .itemCircleFont {
         font-size: 11px;
-        margin-left:10px;
+        margin-left: 10px;
     }
 
     .button-tabs .tab-title {
@@ -12542,7 +12542,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes-tag.sale {
-    background: #ea2a28!important;
+    background: #ea2a28 !important;
     width: 84px !important;
     height: 36px;
 }
@@ -17692,8 +17692,8 @@ section.headings-2 {
     color: #76716f;
 }
 
-.listing-title-bar{
-    margin-left:10px
+.listing-title-bar {
+    margin-left: 10px
 }
 
 .inner-pages .headings-2 .listing-title-bar h3 {
@@ -18409,6 +18409,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 11px;
     width: auto;
     white-space: nowrap;
+    text-align: center;
 }
 
 .inner-pages .blog .blog-info.details h4,
@@ -21063,11 +21064,12 @@ body.dashboard-bd {
 
 .my-properties tbody tr td {
     border-top: none;
-    text-align: center;
+    text-align: center !important;
     border-bottom: 1px solid #f3f3f3;
     padding: 15px 20px 15px 20px;
     vertical-align: middle;
     font-size: 11px;
+    
 }
 
 .my-properties table h2 {
@@ -24548,7 +24550,7 @@ form label.error {
     width: 200px;
 }
 
-.modal-footer{
+.modal-footer {
     border-top: 0 !important;
 }
 
@@ -24601,9 +24603,9 @@ form label.error {
     border: none;
     color: #fff;
     cursor: pointer;
-    background-color: white;  
-    color:black;
-      transition: all 0.2s ease;
+    background-color: white;
+    color: black;
+    transition: all 0.2s ease;
     margin-right: 20px;
 }
 
@@ -25257,8 +25259,8 @@ form label.error {
 
 #search-icon,
 #search-icon2 {
-    background: #ea2a28!important;
-    border: #ea2a28!important;
+    background: #ea2a28 !important;
+    border: #ea2a28 !important;
 }
 
 .google-maps .fa-search {
@@ -30486,7 +30488,7 @@ a {
     justify-content: center;
 }
 
-.project_estate_club_rate{
+.project_estate_club_rate {
     right: -1px;
     top: 113px;
     width: 120px;
@@ -30807,26 +30809,26 @@ a {
     font-weight: bold;
 }
 
-.ql-align-center{
-	text-align:center;
+.ql-align-center {
+    text-align: center;
 }
 
 .descriptionProject h2 {
     font-size: 1.5em !important;
-	margin:0;
-	padding :0 ;
+    margin: 0;
+    padding: 0;
 }
 
 .descriptionProject p {
-	margin:0;
-	padding : 0;
-	counter-set: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+    margin: 0;
+    padding: 0;
+    counter-set: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
 }
 
 .descriptionProject h1 {
     font-size: 2em !important;
-	margin:0;
-	padding :0 ;
+    margin: 0;
+    padding: 0;
 }
 
 .descriptionProject h3 {
