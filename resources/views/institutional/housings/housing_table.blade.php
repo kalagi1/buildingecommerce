@@ -14,9 +14,9 @@
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>
             <th>Düzenle</th>
-            <th>Pazarlık Teklifleri</th>
             <th>{{ isset($tableId) && $tableId === 'bulk-select-body-soldHousingTypes' ? 'Sipariş Durumu' : 'Resimler' }}
             </th>
+        <th>Pazarlık Teklifleri</th>
 
         </tr>
     </thead>
