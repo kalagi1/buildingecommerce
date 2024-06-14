@@ -2136,6 +2136,12 @@
                                                     l + ". Ara Ödeme</th>";
                                             }
 
+                                            
+                                        if (ongKiraData) {
+                                            html += "<th></th>";
+
+                                        }
+
                                             html += "</tr>";
                                         }
 
@@ -2265,6 +2271,12 @@
                                                                 payDescDate.getDate() + ', ' +
                                                                 payDescDate
                                                                 .getFullYear()) + "</td>";
+
+                                                                                                                            
+                                        if (ongKiraData) {
+                                                html += "<td></td>";
+
+                                            }
                                                     } else {
                                                         html += null;
                                                     }
