@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bid extends Model
 {
-    protected $fillable = ['user_id', 'housing_id', 'bid_amount'];
+    protected $fillable = ['user_id', 'housing_id', 'bid_amount','status'];
 
     public function user()
     {
@@ -17,5 +17,10 @@ class Bid extends Model
     public function housing()
     {
         return $this->belongsTo(Housing::class);
+    }
+
+    public function acceptedBid()
+    {
+        return $this->hasOne(AcceptedBid::class);
     }
 }

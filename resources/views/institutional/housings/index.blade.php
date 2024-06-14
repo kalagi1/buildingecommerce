@@ -212,6 +212,16 @@ if (housingType.consultant && housingType.consultant.name) {
                     imageLinks.textContent = "Resimler";
                     imageLinksCell.appendChild(imageLinks);
 
+
+                    
+                    var bidCell = document.createElement("td");
+                    bidCell.className = "align-middle";
+                    var bids = document.createElement("a");
+                    bids.className = "badge badge-phoenix badge-phoenix-info btn-sm";
+                    bids.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
+                    bids.textContent = "Pazarlık Teklifleri";
+                    bidsCell.appendChild(bids);
+
                     var deleteCell = document.createElement("td");
                     deleteCell.className = "align-middle";
 
@@ -315,6 +325,8 @@ if (housingType.consultant && housingType.consultant.name) {
                     row.appendChild(viewLinkCell);
                     row.appendChild(exportLinkCell);
                     row.appendChild(imageLinksCell);
+                    row.appendChild(bidsCell);
+
                     row.appendChild(statusCell);
                     row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
 
@@ -330,6 +342,8 @@ if (housingType.consultant && housingType.consultant.name) {
                     row.appendChild(viewLinkCell);
                     row.appendChild(exportLinkCell);
                     row.appendChild(imageLinksCell);
+                    row.appendChild(bidsCell);
+
                     row.appendChild(actionsCell);
                     row.appendChild(deleteCell);
 

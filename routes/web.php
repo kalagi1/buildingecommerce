@@ -240,9 +240,10 @@ Route::post('password/reset', [ResetPasswordController::class, "reset"])->name('
 Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
-Route::post('/housing/{housing}/bids', [BidController::class, 'store'])->name('bids.store');
-    Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids.accept');
-    
+Route::post('/bids/{housing}', [BidController::class, 'store'])->name('bids.store');
+Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids.accept');
+Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
+
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
@@ -826,6 +827,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
     Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
+    Route::get('/housing/{housing}/bids', [BidController::class, 'index'])->name('bids.index');
 
     Route::get('projelerime-gelen-basvurular', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('projelere-yaptigim-basvurular', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
