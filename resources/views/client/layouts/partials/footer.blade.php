@@ -799,7 +799,7 @@
 
 
                                         var projectedEarningsData = "";
-                                            var ongKiraData = "";
+                                        var ongKiraData = "";
 
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings[]", response.room_info[i]
@@ -875,11 +875,19 @@
                                             installementData +
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
+
+
                                         for (var l = 1; l <= getDataJS(response,
                                                 "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
                                             html += "<th>" +
                                                 l + ". Ara Ödeme</th>";
+                                        }
+
+
+                                        if (ongKiraData) {
+                                            html += "<th></th>";
+
                                         }
 
                                         html += "</tr>";
@@ -921,7 +929,7 @@
 
                                             }
 
-                                            
+
                                             if (ongKiraData) {
                                                 html += "<td>" + ongKiraData + "</td>";
 
@@ -1015,6 +1023,12 @@
                                                             payDescDate.getDate() + ', ' +
                                                             payDescDate
                                                             .getFullYear()) + "</td>";
+
+                                                                                                 
+                                        if (ongKiraData) {
+                                                html += "<td></td>";
+
+                                            }
                                                 } else {
                                                     html += null;
                                                 }
