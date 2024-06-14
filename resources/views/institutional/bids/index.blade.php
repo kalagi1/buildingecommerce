@@ -57,21 +57,3 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        // DataTables initialization for enhanced table functionality
-        $(document).ready(function() {
-            $('#bids-table').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
-                },
-                "order": [[ 4, "desc" ]], // Default sorting by Teklif Tarihi column
-                "pagingType": "simple_numbers", // Simplified pagination controls
-                "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Tümü"] ], // Items per page options
-                "pageLength": 25, // Initial items per page
-                "searching": true, // Enable search field
-                "info": true // Show table information
-            });
-        });
-    </script>
-@endsection
