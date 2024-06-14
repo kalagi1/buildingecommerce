@@ -19,7 +19,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($bids as $bid)
+                        @foreach ($housing->bids as $bid)
                             <tr>
                                 <td>{{ $bid->user->name }}</td>
                                 <td>{{ $bid->user->surname }}</td>
