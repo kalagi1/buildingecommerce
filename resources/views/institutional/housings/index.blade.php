@@ -214,13 +214,16 @@ if (housingType.consultant && housingType.consultant.name) {
 
 
                     
-                    var bidsCell  = document.createElement("td");
-                    bidsCell .className = "align-middle";
-                    var bids = document.createElement("a");
-                    bids.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-                    bids.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
-                    bids.textContent = "Pazarlık Teklifleri" + " ("+ housingType.bids.length.") ";
-                    bidsCell.appendChild(bids);
+                    var bidsCell = document.createElement("td");
+bidsCell.className = "align-middle";
+
+// Pazarlık Teklifleri bağlantısını oluşturun
+var bidsLink = document.createElement("a");
+bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
+bidsLink.textContent = "Pazarlık Teklifleri (" + (housingType.bids ? housingType.bids.length : 0) + ")";
+bidsCell.appendChild(bidsLink);
+
 
                     var deleteCell = document.createElement("td");
                     deleteCell.className = "align-middle";
