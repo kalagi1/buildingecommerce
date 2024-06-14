@@ -106,24 +106,24 @@
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
 
- // Create a new table cell element
- var housingConsultant = document.createElement("td");
+                // Create a new table cell element
+                var housingConsultant = document.createElement("td");
 
-// Set the class name
-housingConsultant.className = "align-middle housing_type";
+                // Set the class name
+                housingConsultant.className = "align-middle housing_type";
 
-// Determine the text content based on housingType.user.name
-if (housingType.consultant && housingType.consultant.name) {
-    housingConsultant.textContent = housingType.consultant
-        .name;
-} else if (housingType.user && housingType.user.name) {
-    housingConsultant.textContent = housingType.user
-        .name;
-} else {
-    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
-}
+                // Determine the text content based on housingType.user.name
+                if (housingType.consultant && housingType.consultant.name) {
+                    housingConsultant.textContent = housingType.consultant
+                        .name;
+                } else if (housingType.user && housingType.user.name) {
+                    housingConsultant.textContent = housingType.user
+                        .name;
+                } else {
+                    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
+                }
 
-                
+
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
                 statusCell.innerHTML = housingType.status == 1 ?
@@ -213,16 +213,17 @@ if (housingType.consultant && housingType.consultant.name) {
                     imageLinksCell.appendChild(imageLinks);
 
 
-                    
-                    var bidsCell = document.createElement("td");
-bidsCell.className = "align-middle";
 
-// Pazarlık Teklifleri bağlantısını oluşturun
-var bidsLink = document.createElement("a");
-bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
-bidsLink.textContent = "Pazarlık Teklifleri (" + (housingType.bids ? housingType.bids.length : 0) + ")";
-bidsCell.appendChild(bidsLink);
+                    var bidsCell = document.createElement("td");
+                    bidsCell.className = "align-middle";
+
+                    // Pazarlık Teklifleri bağlantısını oluşturun
+                    var bidsLink = document.createElement("a");
+                    bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                    bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
+                    bidsLink.textContent = "Pazarlık Teklifleri (" + (housingType.bids ? housingType.bids.length :
+                        0) + ")";
+                    bidsCell.appendChild(bidsLink);
 
 
                     var deleteCell = document.createElement("td");

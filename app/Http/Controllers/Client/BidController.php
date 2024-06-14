@@ -77,6 +77,6 @@ class BidController extends Controller {
 
     public function index($housingId) {
         $housing = Housing::with('bids.user')->findOrFail($housingId);
-        return view('bids.index', compact('housing'));
+        return view('institutional.bids.index', compact('housing'));
     }
 }
