@@ -183,6 +183,19 @@
                                     %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
                             @endif
 
+
+                            
+                            @if (isset($projectHousingsList[$housingOrder]['ong_kira[]']))
+                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
+                                    fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 7 23 12"></polyline>
+                                </svg>
+                                <strong style="font-size:13px;"> Öngörülen Kira Getirisi: </strong>
+                                <span style="font-size:13px;margin-left:4px">
+                                    %{{ $projectHousingsList[$housingOrder]['ong_kira[]'] }}</span>
+                            @endif
+
                         </div>
 
                     </div>
@@ -2041,19 +2054,28 @@
                                             var monhlyPrice = "";
 
                                             var projectedEarningsData = "";
-                                            var projectedEarnings = getDataJS(response,
-                                                "projected_earnings[]", response.room_info[i]
-                                                .room_order);
-                                            // var projectedEarnings = 10;
-                                            var svgCode =
-                                                '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                            var projectedEarningsHTML = projectedEarnings ? svgCode +
-                                                "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
-                                                "<span style='color:#28a745'> %" + projectedEarnings +
-                                                "</span>" : "";
+                                        var projectedEarnings = getDataJS(response,
+                                            "projected_earnings[]", response.room_info[i]
+                                            .room_order);
 
+                                        var ongKira = getDataJS(response,
+                                            "ong_kira[]", response.room_info[i]
+                                            .room_order);
+                                        // var projectedEarnings = 10;
+                                        var svgCode =
+                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                        var projectedEarningsHTML = projectedEarnings ? svgCode +
+                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                            "<span style='color:#28a745'> %" + projectedEarnings +
+                                            "</span>" : "";
 
-                                            projectedEarningsData += projectedEarningsHTML;
+                                        var ongKiraHTML = ongKira ? svgCode +
+                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                            "<span style='color:#28a745'> %" + ongKira +
+                                            "</span>" : "";
+
+                                        projectedEarningsData += projectedEarningsHTML;
+                                        projectedEarningsData += ongKiraHTML;
 
                                         } else {
 
