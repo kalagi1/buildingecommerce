@@ -7,6 +7,8 @@
             <th>Emlak Tipi</th>
             @if (Auth::user()->type != 1)
             <th>Danışman</th>
+            @else
+            <th>Satıcı Üye</th>
             @endif
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
