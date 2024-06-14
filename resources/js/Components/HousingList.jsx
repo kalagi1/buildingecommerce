@@ -126,14 +126,14 @@ const HousingList = ({ projectId }) => {
             setSolds(res.data.solds)
         })
 
-        console.log(totalProjectsBlocksx);
+        // console.log(totalProjectsBlocksx);
 
         axios.get(baseUrl+'get_sale_closes/'+projectId).then((res) => {
             setSaleCloses(res.data.sale_closes);
         })
     }
 
-    console.log(data);
+    // console.log(data);
 
     const savePayDecSelectedHousing = () => {
         axios.post(baseUrl + 'save_pay_dec', {
@@ -778,7 +778,7 @@ const HousingList = ({ projectId }) => {
                             },
                         }),
                         Cell: ({ renderedCellValue, row }) => {
-                            console.log(renderedCellValue);
+                            // console.log(renderedCellValue);
                             if(!renderedCellValue){
                                 return (
                                     'Belirtilmedi'
@@ -1482,9 +1482,9 @@ const HousingList = ({ projectId }) => {
             }else{
                 var payDecx = [];
             }
-            console.log(data[id - 1])
+            // console.log(data[id - 1])
             solds.map((sold) => {
-                console.log(sold);
+                // console.log(sold);
                 var cart = JSON.parse(sold.cart);
                 if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
                     var payDecs = [];
@@ -1518,14 +1518,71 @@ const HousingList = ({ projectId }) => {
             setSelectedSaleData(saleData);
         })
     }
-
-    console.log(selectedSaleData);
+    // const resetSaleData = () => {
+    //     setSelectedRoomOrder(null);
+    //     setSelectedSaleData({});
+    //     setSelectedId(null);
+    //     setSelectedData(null);
+    // };
+    // console.log(selectedSaleData);
 
     const paymentModalFunc = (id) => {
-        setPaymentModalOpen(true);
-        setSelectedId(id);
-        setSelectedData(data[id - 1]);
+        id = id - getLastCount();
+        console.log('idddd'+ id)
+        setSelectedRoomOrder(id);
+        var saleData = {};
+        setLoading(true); // Start loading
+        // resetSaleData()
+        // setSaleModalOpen(true);
+        axios.get(baseUrl + 'get_sale/' + projectId + '/' + (getLastCount() + id))
+            .then((res) => {
+                if (res.data.data && res.data.data.pay_decs) {
+                    var payDecx = JSON.parse(res.data.data.pay_decs);
+                } else {
+                    var payDecx = [];
+                }
+    
+                solds.map((sold) => {
+                    var cart = JSON.parse(sold.cart);
+                    if (cart.item.id == projectId && cart.item.housing == getLastCount() + id) {
+                        var payDecs = [];
+                        for (var i = 0; i < data[id - 1]['pay-dec-count' + (getLastCount() + id)]; i++) {
+                            payDecs.push({});
+                            payDecs[i]['price'] = data[id - 1]['pay_desc_price' + (getLastCount() + id) + "" + i];
+                            payDecs[i]['date'] = data[id - 1]['pay_desc_date' + (getLastCount() + id) + "" + i];
+                            payDecs[i]['status'] = payDecx.includes(i + 1) ? true : false;
+                        }
+                        saleData['name']                            = sold.full_name;
+                        saleData['email']                           = sold.email;
+                        saleData['phone']                           = sold.phone;
+                        saleData['sale_type']                       = sold.is_swap == 0 ? 1 : 2;
+                        saleData['price']                           = sold.is_swap == 0 ? data[id - 1]['price[]'] : data[id - 1]['installments-price[]'];
+                        saleData['installment_price']               = data[id - 1]['installments-price[]'];
+                        saleData['advance']                         = data[id - 1]['advance[]'];
+                        saleData['installments']                    = data[id - 1]['installments[]'];
+                        saleData['pay_decs']                        = payDecs;
+                        saleData['down_payment']                    = res.data.data?.down_payment;
+                        saleData['advance_payment']                 = res.data.data?.advance;
+                        saleData['down_payment_price']              = res.data.data?.down_payment_price;
+                        saleData['advance_date']                    = res.data.data?.advance_date;
+                        saleData['deposit_date']                    = res.data.data?.deposit_date;
+                        saleData['show_neighbour']                  = sold.is_show_user === "on" ? true : false;
+                        saleData['down_payment_price_description']  = res.data.data?.down_payment_price_description,
+                        saleData['advance_date_description']        = res.data.data?.advance_date_description
+                    }
+                });
+                setSelectedSaleData(saleData);
+                setLoading(false); // End loading                
+                setPaymentModalOpen(true);
+                setSelectedId(id);
+                setSelectedData(data[id - 1]);
+            })
+            .catch(() => {
+                setLoading(false); // End loading on error
+            });
+    
     }
+    
 
     const table = useMaterialReactTable({
         columns,
@@ -1659,20 +1716,20 @@ const HousingList = ({ projectId }) => {
 
             if(soldx){
                 return [
-                    <MenuItem
-                        key={0}
-                        onClick={() => {
-                            saleModalFunc(getLastCount() + row.index + 1)
-                            // View profile logic...
-                            closeMenu();
-                        }}
-                        sx={{ m: 0 }}
-                    >
-                        <ListItemIcon>
-                            <UserIcon />
-                        </ListItemIcon>
-                        Satış Bilgilerini Düzenle
-                    </MenuItem>,
+                    // <MenuItem
+                    //     key={0}
+                    //     onClick={() => {
+                    //         saleModalFunc(getLastCount() + row.index + 1)
+                    //         // View profile logic...
+                    //         closeMenu();
+                    //     }}
+                    //     sx={{ m: 0 }}
+                    // >
+                    //     <ListItemIcon>
+                    //         <UserIcon />
+                    //     </ListItemIcon>
+                    //     Satış Bilgilerini Düzenle
+                    // </MenuItem>,
                     <MenuItem
                         key={0}
                         onClick={() => {
@@ -1689,7 +1746,7 @@ const HousingList = ({ projectId }) => {
                         key={0}
                         onClick={() => {
                             var anchor = document.createElement('a');
-                            console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
+                            // console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
                             anchor.href = frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1);
                             anchor.target="_blank";
                             anchor.click();
@@ -1938,8 +1995,12 @@ const HousingList = ({ projectId }) => {
             <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
             <UpdateSingleHousingModal saveSingleHousing={saveSingleHousing} saveHousing={saveMultipleHousing} data={changeData} setData={setChangeData} open={updateSingleHousingModalOpen} selectedType={selectedType} setOpen={setSingleUpdateHousingModalOpen} isDotType={isDotType} />
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
-            <SaleModal getLastCount={getLastCount} reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}/>   
-            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen}/>   
+            <SaleModal getLastCount={getLastCount} reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}
+            selectedId={selectedId}  selectedData={selectedData} setSelectedId={setSelectedId}  solds={solds}   />   
+            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} 
+            setOpen={setPaymentModalOpen} getLastCount={getLastCount} reloadData={reloadData2} roomOrder={selectedRoomOrder} datat={selectedSaleData} setSelectedData={setSelectedData}
+            
+            />   
         </>
     );
 };

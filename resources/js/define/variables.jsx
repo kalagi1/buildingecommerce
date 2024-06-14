@@ -1,3 +1,4 @@
+
 export const baseUrl = "https://test.emlaksepette.com/react/";
 export const frontEndUrl = "https://test.emlaksepette.com/";
 
