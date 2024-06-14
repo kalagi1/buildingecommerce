@@ -214,34 +214,13 @@ if (housingType.consultant && housingType.consultant.name) {
 
 
                     
-                    var bidsCell = document.createElement("td");
-bidsCell.className = "align-middle";
-
-// Yeni bir div oluşturun
-var bidsDiv = document.createElement("div");
-bidsDiv.style.display = "flex";
-bidsDiv.style.flexDirection = "column";
-
-// "Pazarlık Teklifleri" bağlantısını oluşturun
-var bidsLink = document.createElement("a");
-bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
-bidsLink.textContent = "Pazarlık Teklifleri";
-
-// housing altındaki bids sayısını alın
-var bidsCount = housingType.bids_count; // Örnek olarak bids_count kullanıldı, gerçek veri yapısına göre değiştirin
-
-// bids sayısını gösteren bir span oluşturun
-var bidsCountSpan = document.createElement("span");
-bidsCountSpan.textContent = "Bids Sayısı: " + bidsCount;
-
-// Span'ı div içine ekleyin
-bidsDiv.appendChild(bidsLink);
-bidsDiv.appendChild(bidsCountSpan);
-
-// Div'i td hücresine ekleyin
-bidsCell.appendChild(bidsDiv);
-
+                    var bidsCell  = document.createElement("td");
+                    bidsCell .className = "align-middle";
+                    var bids = document.createElement("a");
+                    bids.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                    bids.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
+                    bids.textContent = "Pazarlık Teklifleri" + " ("+ housingType.bids.length.") ";
+                    bidsCell.appendChild(bids);
 
                     var deleteCell = document.createElement("td");
                     deleteCell.className = "align-middle";
