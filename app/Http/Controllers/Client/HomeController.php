@@ -805,7 +805,8 @@ class HomeController extends Controller
             $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
             $filtersDb = Filter::where('item_type', 2)->whereIn('housing_type_id', $uniqueHousingTypeIds)->get()->keyBy('filter_name')->toArray();
             $filtersDbx = array_keys($filtersDb);
-            foreach ($filtersDbx as $data) {
+            return $filtersDb;
+            foreach ($filtersDb as $data) {
                 if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
                     $inputName = $data['filter_name'];
                     if ($request->input($inputName)) {
