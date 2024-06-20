@@ -808,7 +808,7 @@ class HomeController extends Controller
             foreach ($filtersDb as $data) {
                 if ($data['filter_type'] && $data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
                     $inputName = $data['filter_name'];
-                    if ($request->input($inputName)) {
+                    if ($request->input($inputName) && is_array($request->input($inputName)))  {
                         $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
                             $query->whereJsonContains('housing_type_data->' . $inputName, [$request->input($inputName)[0]]);
                             $e = 0;
