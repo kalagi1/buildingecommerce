@@ -15,6 +15,7 @@ class MenuController extends Controller
     {
 
         $items = HousingTypeParent::with("connections.housingType")->where("parent_id", null)->get();
+        return $items;
         $formattedMenu = [];
 
         foreach ($items as $menu) {
