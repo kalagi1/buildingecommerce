@@ -718,8 +718,8 @@ class PageController extends Controller
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
-
-
+          
+            
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -728,7 +728,6 @@ class PageController extends Controller
             if ($opt) {
                 $query->where('step2_slug', $opt);
             }
-
 
 
             if ($slug) {
@@ -744,6 +743,7 @@ class PageController extends Controller
                 });
             }
 
+            
             // $slug ve $opt kontrolü burada yapılacak
             if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
                 $query->whereHas('housingTypes', function ($query) use ($slug) {
@@ -784,14 +784,11 @@ class PageController extends Controller
             }
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
-                    $query->where('created_at', '>=', now()->subDay());
+                $query->where('created_at', '>=', now()->subDay());
                 } else {
-                    $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                 }
-            }
-            if ($housingType) {
-                $query->where('housing_type_id', $housingType);
-            }
+                }
             $projects = $query->get();
         } else {
             $query = Housing::with('images')
@@ -832,7 +829,7 @@ class PageController extends Controller
             applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle);
 
             if ($housingType) {
-                $query->where('housings.housing_type_id', $newHousingType);
+                $query->where('housing_type_id', $newHousingType);
             }
 
             $query->whereHas('housingStatus', function ($query) use ($slug) {
@@ -1094,7 +1091,7 @@ class PageController extends Controller
                 $uniqueHousingTypeNames = ["price", "squaremeters"];
                 if ($housingTypeSlugName == "Müstakil Tatil") {
                     if ($newHousingType) {
-                        $filtersDb = Filter::where('item_type', 2)->where('housings.housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                        $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                     } elseif ($slug == "al-sat-acil" && !$newHousingType) {
                         $filtersDb = Filter::where('item_type', 2)
                             ->get()
@@ -1106,7 +1103,7 @@ class PageController extends Controller
                             ->toArray();
                     } else {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
                             // ->where('order_by' ,'asc')
@@ -1127,10 +1124,10 @@ class PageController extends Controller
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
                     } elseif ($newHousingType && !$housingTypeSlugName) {
-                        $filtersDb = Filter::where('item_type', 2)->where('housings.housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                        $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                     } else {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
                             // ->where('order_by' ,'asc')
@@ -1144,7 +1141,7 @@ class PageController extends Controller
                 if (!empty($optName) && !$newHousingType) {
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_sale", 1)
                             // ->where('order_by' ,'asc')
@@ -1153,7 +1150,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_rent", 1)
                             // ->where('order_by' ,'asc')
@@ -1162,7 +1159,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Günlük Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("is_daily_rent", 1)
                             // ->where('order_by' ,'asc')
@@ -1171,7 +1168,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Devren Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("transfer_for_sale_status", 1)
                             // ->where('order_by' ,'asc')
@@ -1180,7 +1177,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Devren Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("transfer_for_rent_status", 1)
                             // ->where('order_by' ,'asc')
@@ -1192,7 +1189,7 @@ class PageController extends Controller
 
                     if ($optName == "Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->where('housings.housing_type_id', $newHousingType->id)
+                            ->where('housing_type_id', $newHousingType->id)
                             ->get()
                             ->where("is_sale", 1)
                             // ->where('order_by' ,'asc')
@@ -1201,7 +1198,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->where('housings.housing_type_id', $newHousingType->id)
+                            ->where('housing_type_id', $newHousingType->id)
                             ->get()
                             ->where("is_rent", 1)
                             // ->where('order_by' ,'asc')
@@ -1210,7 +1207,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Günlük Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->where('housings.housing_type_id', $newHousingType->id)
+                            ->where('housing_type_id', $newHousingType->id)
                             ->get()
                             ->where("is_daily_rent", 1)
                             // ->where('order_by' ,'asc')
@@ -1219,7 +1216,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Devren Satılık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("transfer_for_sale_status", 1)
                             // ->where('order_by' ,'asc')
@@ -1228,7 +1225,7 @@ class PageController extends Controller
                             ->toArray();
                     } else if ($optName == "Devren Kiralık") {
                         $filtersDb = Filter::where('item_type', 2)
-                            ->whereIn('housings.housing_type_id', $uniqueHousingTypeIds)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
                             ->where("transfer_for_rent_status", 1)
                             // ->where('order_by' ,'asc')
