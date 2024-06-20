@@ -680,8 +680,6 @@ class PageController extends Controller
             }
         }
 
-        return $housingTypeParent;
-
 
         if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
           
