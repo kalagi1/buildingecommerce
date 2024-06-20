@@ -680,9 +680,11 @@ class PageController extends Controller
             }
         }
 
+        return $housingTypeParent;
+
 
         if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
-            return "a";
+          
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
 
