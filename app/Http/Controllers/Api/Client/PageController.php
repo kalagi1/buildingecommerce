@@ -681,9 +681,10 @@ class PageController extends Controller
         }
 
 
-        // if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
-        //     $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
-        // }
+        if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
+            return "a";
+            $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
+        }
 
         // Ortak olan kısımları fonksiyon olarak tanımlayalım
         function applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle)
