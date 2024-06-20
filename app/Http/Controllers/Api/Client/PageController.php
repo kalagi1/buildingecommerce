@@ -651,6 +651,7 @@ class PageController extends Controller
                     }
 
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
+                    return $housingTypeParent;
 
                     if (!empty($housingTypeSlugName)) {
                         $housingType = HousingType::where('slug', $paramValue)->first();
