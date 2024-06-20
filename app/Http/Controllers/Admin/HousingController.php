@@ -274,8 +274,8 @@ class HousingController extends Controller
             ->first();
 
         $housingData = json_decode($housing->housing_type_data);
-        $housingTypeData = HousingType::where('id', $housing->housing_type_id)->first();
-        $housingTypeData = json_decode($housingTypeData->form_json);
+        $housingType = HousingType::where('id', $housing->housing_type_id)->first();
+        $housingTypeData = json_decode($housingType->form_json);
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
         $housingCityId = (int) $housing->city_id;
 
@@ -304,7 +304,7 @@ class HousingController extends Controller
         
 
 
-        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers'));
+        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers','housingType'));
     }
 
     public function setStatus($housingId, Request $request)
