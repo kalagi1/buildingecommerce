@@ -718,8 +718,8 @@ class PageController extends Controller
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
-          
-            
+
+
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -729,9 +729,7 @@ class PageController extends Controller
                 $query->where('step2_slug', $opt);
             }
 
-            if ($housingType) {
-                $query->where('housing_type_id', $housingType);
-            }
+
 
             if ($slug) {
                 $query->whereHas('housingStatus', function ($query) use ($slug) {
@@ -786,11 +784,14 @@ class PageController extends Controller
             }
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
-                $query->where('created_at', '>=', now()->subDay());
+                    $query->where('created_at', '>=', now()->subDay());
                 } else {
-                $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                    $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                 }
-                }
+            }
+            if ($housingType) {
+                $query->where('housing_type_id', $housingType);
+            }
             $projects = $query->get();
         } else {
             $query = Housing::with('images')
@@ -831,7 +832,7 @@ class PageController extends Controller
             applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle);
 
             if ($housingType) {
-                $query->where('housing_type_id', $newHousingType);
+                $query->where('housings.housing_type_id', $newHousingType);
             }
 
             $query->whereHas('housingStatus', function ($query) use ($slug) {
