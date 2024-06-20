@@ -119,7 +119,7 @@ class HousingController extends Controller
             ->onlyTrashed()
             ->get();
 
-        $inactiveHousingCount = $inactiveHousingTypes->count();
+        $pendingHousingCount = $pendingHousingTypes->count();
 
         return view('admin.housings.index', compact('activeHousingTypes',
             'disabledHousingTypes',
@@ -127,7 +127,7 @@ class HousingController extends Controller
             'deletedHousings',
             'inactiveHousingTypes',
             'soldHousingsTypes',
-            'inactiveHousingCount'
+            'pendingHousingCount'
         ));
 
 
@@ -214,7 +214,7 @@ class HousingController extends Controller
 
         $activeTab = $request->input('tab', 'active');
 
-        $inactiveHousingCount = $inactiveHousingTypes->count();
+        $pendingHousingCount = $pendingHousingTypes->count();
 
         return view('admin.housings.index', compact('activeHousingTypes',
             'disabledHousingTypes',
@@ -223,7 +223,7 @@ class HousingController extends Controller
             'inactiveHousingTypes',
             'soldHousingsTypes',
             'activeTab',
-            'inactiveHousingCount',
+            'pendingHousingCount',
         ));
     }
 
