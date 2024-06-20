@@ -718,8 +718,8 @@ class PageController extends Controller
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
-          
-            
+
+
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -730,11 +730,11 @@ class PageController extends Controller
             }
 
 
-            if ($slug) {
-                $query->whereHas('housingStatus', function ($query) use ($slug) {
-                    $query->where('housing_status_id', $slug);
-                });
-            }
+            // if ($slug) {
+            //     $query->whereHas('housingStatus', function ($query) use ($slug) {
+            //         $query->where('housing_status_id', $slug);
+            //     });
+            // }
 
             if ($checkTitle) {
                 $query->where(function ($q) use ($checkTitle) {
@@ -743,8 +743,7 @@ class PageController extends Controller
                 });
             }
 
-           
-            // $request->input('selectedRadio') kontrolü burada yapılacak
+
             if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
                 $key = $request->input('selectedRadio')['corporate_type'];
                 if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
@@ -758,7 +757,6 @@ class PageController extends Controller
                     ->select('projects.*', 'users.corporate_type');
             }
 
-            // İlk durum için özel işlemler burada yapılacak
         }
 
 
@@ -769,7 +767,7 @@ class PageController extends Controller
 
             applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle);
 
-            
+
             // $slug ve $opt kontrolü burada yapılacak
             if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
                 $query->whereHas('housingTypes', function ($query) use ($slug) {
@@ -779,11 +777,11 @@ class PageController extends Controller
 
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
-                $query->where('created_at', '>=', now()->subDay());
+                    $query->where('created_at', '>=', now()->subDay());
                 } else {
-                $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                    $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                 }
-                }
+            }
             $projects = $query->get();
         } else {
             $query = Housing::with('images')
