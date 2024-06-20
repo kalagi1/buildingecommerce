@@ -14,6 +14,8 @@ class MenuController extends Controller
         
         $menuList = Menu::all();
         $formattedMenu = [];
+
+        return $menuList;
     
         foreach ($menuList as $menu) {
             if ($menu->parent_id === null) {
