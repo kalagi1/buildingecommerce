@@ -718,13 +718,8 @@ class PageController extends Controller
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
-            if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
-                if ($request->input('selectedRadio.listing_date') == '24') {
-                    $query->where('created_at', '>=', now()->subDay());
-                } else {
-                    $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
-                }
-            }
+          
+            
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -789,7 +784,13 @@ class PageController extends Controller
                     $query->where('housing_type_id', $slug);
                 });
             }
-
+            if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
+                if ($request->input('selectedRadio.listing_date') == '24') {
+                $query->where('created_at', '>=', now()->subDay());
+                } else {
+                $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
+                }
+                }
             $projects = $query->get();
         } else {
             $query = Housing::with('images')
@@ -841,6 +842,13 @@ class PageController extends Controller
                 $query->where('step2_slug', $opt);
             }
 
+            if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
+                if ($request->input('selectedRadio.listing_date') == '24') {
+                    $query->where('housings.created_at', '>=', now()->subDay());
+                } else {
+                    $query->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
+                }
+            }
             if ($checkTitle) {
                 $query->where(function ($q) use ($checkTitle) {
                     $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
