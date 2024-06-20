@@ -718,8 +718,8 @@ class PageController extends Controller
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
-            if ($request->has('selectedListingDate') && $request->input('selectedListingDate') && $request->input('selectedListingDate') != null) {
-                if ($request->input('selectedListingDate') == '24') {
+            if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
+                if ($request->input('selectedRadio.listing_date') == '24') {
                     $query->where('created_at', '>=', now()->subDay());
                 } else {
                     $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
