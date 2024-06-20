@@ -643,7 +643,13 @@ class PageController extends Controller
                     }
 
                     // Housing status, type and parent type checks
-                    $item1 = HousingStatus::where('slug', $paramValue)->first();
+
+                    if ($request->input('selectedProjectStatus')) {
+                        $item1 = HousingStatus::where('id', $request->input('selectedProjectStatus'))->first();
+                    }else{
+                        $item1 = HousingStatus::where('slug', $paramValue)->first();
+                    }
+                   
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
 
                     if (!empty($housingTypeSlugName)) {
