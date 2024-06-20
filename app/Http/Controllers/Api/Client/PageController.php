@@ -743,14 +743,7 @@ class PageController extends Controller
                 });
             }
 
-            
-            // $slug ve $opt kontrolü burada yapılacak
-            if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
-                $query->whereHas('housingTypes', function ($query) use ($slug) {
-                    $query->where('housing_type_id', $slug);
-                });
-            }
-
+           
             // $request->input('selectedRadio') kontrolü burada yapılacak
             if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
                 $key = $request->input('selectedRadio')['corporate_type'];
@@ -776,12 +769,14 @@ class PageController extends Controller
 
             applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle);
 
-            if ($request->input('selectedProjectStatus') != null) {
-                $slug = $request->input('selectedProjectStatus');
+            
+            // $slug ve $opt kontrolü burada yapılacak
+            if ($slug && $slug != "1" && $request->input('selectedProjectStatus') != null) {
                 $query->whereHas('housingTypes', function ($query) use ($slug) {
                     $query->where('housing_type_id', $slug);
                 });
             }
+
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
                 $query->where('created_at', '>=', now()->subDay());
@@ -829,7 +824,7 @@ class PageController extends Controller
             applyCommonFilters($query, $request, $cityID, $countyID, $neighborhoodID, $slug, $opt, $housingTypeParentSlug, $housingType, $checkTitle);
 
             if ($housingType) {
-                $query->where('housing_type_id', $newHousingType);
+                $query->where('housings.housing_type_id', $newHousingType);
             }
 
             $query->whereHas('housingStatus', function ($query) use ($slug) {
