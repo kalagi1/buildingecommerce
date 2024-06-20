@@ -37,8 +37,8 @@
         </div>
 
         <div class="mt-5 mb-5">
-            @if(isset($inactiveHousingCount) && $inactiveHousingCount > 0)
-                <p>Onay Bekleyen Konut Sayısı: {{ $inactiveHousingCount }}</p>
+            @if(isset($pendingHousingCount) && $pendingHousingCount > 0)
+                <p>Onay Bekleyen Konut Sayısı: {{ $pendingHousingCount }}</p>
             @endif
         </div>
 
