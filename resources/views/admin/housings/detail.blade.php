@@ -35,8 +35,9 @@
                     </span>
                     /
                     <span>
-                        @if ($housing->step1_slug)
-                            {{$housing->step1_slug}}
+                      
+                        @if ($housingType)
+                            {{$housingType->title}}
                         @endif
                     </span>
 
