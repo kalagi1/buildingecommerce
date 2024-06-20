@@ -807,7 +807,7 @@ class HomeController extends Controller
             $filtersDbx = array_keys($filtersDb);
             return $filtersDb;
             foreach ($filtersDb as $data) {
-                if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                if ($data['filter_type'] && $data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
                     $inputName = $data['filter_name'];
                     if ($request->input($inputName)) {
                         $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
@@ -822,7 +822,7 @@ class HomeController extends Controller
                             }
                         });
                     }
-                } else if ($data['filter_type'] == 'text') {
+                } else if ($data['filter_type'] && $data['filter_type'] == 'text') {
                     if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
                         $inputName = str_replace('[]', '', $data['filter_name']);
                         if ($request->input($inputName . '-min')) {
