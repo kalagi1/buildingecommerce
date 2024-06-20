@@ -3,7 +3,6 @@
 @section('content')
 
     <div class="content">
-
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
                 <div class="card-body position-relative">
@@ -17,109 +16,161 @@
                         </svg><!-- <span class="fa-solid fa-award ms-1"></span> Font Awesome fontawesome.com --></div>
                     <h3 class="mb-5">{{ $housing->title }}</h3>
                 </div>
+                <br>
+
+                <div style="font-size: 16px;">
+                    <span>
+                        @if ($housing->step1_slug)
+                            @if ($housing->step2_slug)
+                                @if ($housing->step2_slug == 'kiralik')
+                                    Kiralık
+                                @elseif ($housing->step2_slug == 'satilik')
+                                    Satılık
+                                @else
+                                    Günlük Kiralık
+                                @endif
+                            @endif
+                            {{-- {{ $parent->title }} --}}
+                        @endif
+                    </span>
+                    /
+                    <span>
+                        @if ($housing->step1_slug)
+                            {{$housing->step1_slug}}
+                        @endif
+                    </span>
+
+                </div>
             </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatesModal">
-                    Kapora Oranlarını Düzenle
-                </button>
-                <!-- Modal şablonu -->
-                <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- resources/views/admin/edit-rates-modal.blade.php -->
-                                <form method="post" action="{{ route('admin.housing.update-rates', $housing->id) }}">
-                                    @csrf
-                                    @method('POST') <!-- PUT veya POST gibi metotları doğru şekilde kullanın -->
 
-                                    <table class="table">
-                                        <thead>
+            <div class="col-6">
+                <div class="bg-light float-end p-3 border rounded" style="font-size: 18px;">
+                    <span class="fw-bold">Peşin Fiyat:</span>
+                    {{ number_format($housingData->price[0], 2, ',', '.') }} TL
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <div class="col-12 pt-7">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatesModal">
+                Kapora Oranlarını Düzenle
+            </button>
+            <!-- Modal şablonu -->
+            <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- resources/views/admin/edit-rates-modal.blade.php -->
+                            <form method="post" action="{{ route('admin.housing.update-rates', $housing->id) }}">
+                                @csrf
+                                @method('POST') <!-- PUT veya POST gibi metotları doğru şekilde kullanın -->
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kurum</th>
+                                            <th>Kapora Oranı</th>
+                                            <th>Satış Oranı (Emlak Kulüp)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($rates as $rate)
                                             <tr>
-                                                <th>Kurum</th>
-                                                <th>Kapora Oranı</th>
-                                                <th>Satış Oranı (Emlak Kulüp)</th>
+                                                <td>{{ $rate->institution->name }}</td>
+                                                <td>
+                                                    <input type="number" step="0.01"
+                                                        name="rates[{{ $rate->id }}][default_deposit_rate]"
+                                                        value="{{ $rate->default_deposit_rate }}" />
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="0.01"
+                                                        name="rates[{{ $rate->id }}][sales_rate_club]"
+                                                        value="{{ $rate->sales_rate_club }}" />
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($rates as $rate)
-                                                <tr>
-                                                    <td>{{ $rate->institution->name }}</td>
-                                                    <td>
-                                                        <input type="number" step="0.01"
-                                                            name="rates[{{ $rate->id }}][default_deposit_rate]"
-                                                            value="{{ $rate->default_deposit_rate }}" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" step="0.01"
-                                                            name="rates[{{ $rate->id }}][sales_rate_club]"
-                                                            value="{{ $rate->sales_rate_club }}" />
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
-                                    <button type="submit" class="btn btn-primary">Güncelle</button>
-                                </form>
+                                <button type="submit" class="btn btn-primary">Güncelle</button>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
                 </div>
-
-                <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter
-                    Sözleşmesini İndir</a>
-                <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki
-                    Belgesi İndir</a>
             </div>
+
+            <a class="btn btn-primary mb-2 mb-sm-0 download_document"
+                href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter
+                Sözleşmesini İndir</a>
+            <a class="btn btn-primary mb-2 mb-sm-0 download_document"
+                href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki
+                Belgesi İndir</a>
         </div>
+
+
 
         <div class="col-12 col-xl-12 mb-12 mt-12">
             <h4 class="mb-3">Emlak Görselleri</h4>
             <div class="images owl-carousel mb-4">
                 @php
-                    $imageCount = isset($housingData->images) && is_array($housingData->images) ? count($housingData->images) : 0;
+                    $imageCount =
+                        isset($housingData->images) && is_array($housingData->images) ? count($housingData->images) : 0;
+                    if (isset($housingData->image)) {
+                        $imageCount++;
+                    }
                 @endphp
-        
+
+
                 @if ($imageCount > 0)
-                    @foreach ($housingData->images as $key => $image)
+                    @foreach ($housingData->images as $image)
                         <div class="item">
-                            <a href="{{ asset('housing_images/' . $image) }}" target="_blank">
-                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
+                            <a href="{{ asset('housing_images/' . $image) }}" data-fancybox="gallery">
+                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing"
+                                    style="height: 50%">
                             </a>
                         </div>
                     @endforeach
                 @endif
-        
+
                 @if (isset($housingData->image))
-                    <div class="item">
-                        <a href="{{ asset('housing_images/' . $housingData->image) }}" target="_blank">
-                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid" alt="slider-listing">
+                    <div class="item border-green">
+                        <a href="{{ asset('housing_images/' . $housingData->image) }}" data-fancybox="gallery">
+                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
+                                alt="slider-listing" style="height: 50%; border: 3px solid green; ">
                         </a>
                     </div>
                 @endif
             </div>
-        
+
+
+
             <p>{{ $imageCount }} görsel bulunmaktadır.</p>
         </div>
-        
+
 
         <div class="row g-5">
             <div class="col-6 col-xl-8">
                 <div class="mb-6">
-                    <div class="card p-3 scrollbar to-do-list-body" style="height: 400px; overflow-y:scroll">
-                        {!! $housing->description !!}
+                    <div class="card p-3 scrollbar to-do-list-body" style="max-height: 400px; overflow-y: auto;">
+                        <div class="{{ strlen($housing->description) > 200 ? 'small-text' : '' }}">
+                            {!! $housing->description !!}
+                        </div>
                     </div>
                 </div>
+                
             </div>
             <div class="col-6 col-xl-4">
                 <div class="row g-2">
@@ -280,7 +331,7 @@
 
                                             <tr>
                                                 <td>
-                                                    Proje Tipi :
+                                                    Emlak Tipi :
                                                     <span class="det">
                                                         @if ($housing->step1_slug)
                                                             @if ($housing->step2_slug)
@@ -453,7 +504,7 @@
                                             aria-label="Select user">
                                             @foreach ($nearestUsers as $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }} -
-                                                    {{ $user->city ? $user->city->title : null }} - 
+                                                    {{ $user->city ? $user->city->title : null }} -
                                                     {{ $user->district ? $user->district->ilce_title : null }}</option>
                                             @endforeach
                                         </select>
@@ -504,27 +555,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            nav: true,
-            margin: 10,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 3
-                },
-                1000: {
-                    items: 2
-                },
-                1600: {
-                    items: 3
-                }
-            }
-        })
 
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- FancyBox CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <!-- FancyBox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(".owl-carousel").owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                autoWidth: false, // Tüm görsellerin boyutlarının aynı olmasını sağlar
+                navText: [
+                    '<i class="fas fa-chevron-left"></i>',
+                    '<i class="fas fa-chevron-right"></i>'
+                ],
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    <script>
         // $('.set_status').click(function(e) {
         //     e.preventDefault();
         //     var projectId = $(this).attr('project_id');
@@ -636,11 +714,10 @@
                         success: function(response) {
                             response = JSON.parse(response);
                             if (response.status) {
-                                $.toast({
-                                    heading: 'Başarılı',
-                                    text: 'Başarıyla emlağı reddetiniz',
-                                    position: 'top-right',
-                                    stack: false
+                                toastr.success('Başarıyla emlağı reddetiniz', 'Başarılı', {
+                                    positionClass: 'toast-top-right',
+                                    closeButton: true,
+                                    progressBar: true
                                 });
 
                                 location.reload();
@@ -695,12 +772,11 @@
                         success: function(response) {
                             response = JSON.parse(response);
                             if (response.status) {
-                                $.toast({
-                                    heading: 'Başarılı',
-                                    text: 'Başarıyla emlağı aktife aldınız',
-                                    position: 'top-right',
-                                    stack: false
-                                })
+                                toastr.success('Başarıyla emlağı aktife aldınız', 'Başarılı', {
+                                    positionClass: 'toast-top-right',
+                                    closeButton: true,
+                                    progressBar: true
+                                });
                                 location.reload();
                             }
                         },
