@@ -389,11 +389,11 @@ class HomeController extends Controller
             // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
             $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
 
-            return $housingType;
             $filtersDb = Filter::where('item_type', 1)
                 ->where('housing_type_id', $housingType)
                 ->get()
                 ->keyBy('filter_name');
+                return $filtersDb;
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
