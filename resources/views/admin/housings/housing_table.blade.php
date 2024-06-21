@@ -4,8 +4,8 @@
             <th>ID</th>
             <th>Başlık</th>
             <th>Emlak Tipi</th>
-            <th>Danışman</th>
-            <th>Statü</th>
+            <th>Mağaza/Üye</th>
+            <th style="width: 200px">Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th style="width: 50px">İşlemler</th>
             

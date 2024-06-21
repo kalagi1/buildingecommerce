@@ -251,9 +251,9 @@
                 success: function(data) {
                     var countySelect = $('#countySelect');
                     countySelect.empty();
-                    $.each(data, function(index, county) {
+                    $.each(data.counties, function(index, county) {
                         countySelect.append('<option value="' + county.id + '">' + county
-                            .title +
+                            .ilce_title +
                             '</option>');
                     });
                 }

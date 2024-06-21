@@ -12,7 +12,7 @@ import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
 import HousingRoom from './HousingRoom';
-function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -240,7 +240,11 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
                     slug != "gunluk-kiralik" ? 
                         <>
                             <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Tapu Belgesi / Noter Sözleşmesi" multiple={false}/>
-                            <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
+                            {
+                                user.type != "1" ? 
+                                    <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
+                                : ''
+                            }
                         </>
                     :
                         ""

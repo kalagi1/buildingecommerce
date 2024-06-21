@@ -161,4 +161,11 @@ class CrmController extends Controller
             'data'     => $project
         ]);
     }//End
+    public function show($id){
+        $customer = Customer::with("meets","project")->where('id',$id)->first();
+
+        return json_encode([
+            "customer" => $customer
+        ]);
+    }
 }

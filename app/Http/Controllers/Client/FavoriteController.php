@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\FavoriteRemoveJob;
 use App\Models\Housing;
 use App\Models\HousingFavorite;
 use App\Models\Project;
@@ -11,26 +12,33 @@ use App\Models\ProjectHousing;
 use App\Models\User;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class FavoriteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function addProjectHousingToFavorites($id, HttpRequest $request)
     {
-        $user = User::where("id", Auth::user()->id)->first();
-        if(!$user){
+        if(!Auth::check()){
             $status="notLogin";
             $message="Giriş Yapınız";
 
+            $favoriteSessionData = [
+                'housing_id' =>  $request->input("housing_id"),
+                "project_id" => $request->input("project_id"),
+                "type" => "project"
+            ];
+
+            Session::put("favorite_data",$favoriteSessionData);
+            
             return response()->json([
                 'status'  => $status,
                 'message' => $message
             ]);
         }
+        $user = User::where("id", Auth::user()->id)->first();
         $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
 
         $existingFavorite = ProjectFavorite::where('user_id', $user->id)
@@ -71,16 +79,23 @@ class FavoriteController extends Controller
     }
     public function addHousingToFavorites($id)
     {
-        $user = User::where("id", Auth::user()->id)->first();
-        if(!$user){
-              $status="notLogin";
-                $message="Giriş Yapınız";
+        if(!Auth::check()){
+            $status="notLogin";
+            $message="Giriş Yapınız";
+
+            $favoriteSessionData = [
+                "housing_id" => $id,
+                "type" => "housing"
+            ];
+
+            Session::put("favorite_data",$favoriteSessionData);
             
             return response()->json([
                 'status'  => $status,
                 'message' => $message
             ]);
         }
+        $user = User::where("id", Auth::user()->id)->first();
         $housing = Housing::findOrFail($id);
 
         // Kullanıcının favorileri içinde bu konut zaten var mı kontrol et
@@ -164,6 +179,22 @@ class FavoriteController extends Controller
         }
 
         return response()->json($result);
+    }
+
+    public function deleteFavoriteByHousingId($housingId){
+        try{
+            dispatch(new FavoriteRemoveJob("housing",["housingId" => $housingId]));
+        }catch(Throwable $e){
+            Log::info($e->getMessage());
+        }
+    }
+
+    public function deleteFavoriteByProjectIdAndHousing($projectId,$roomOrder){
+        try{
+            dispatch(new FavoriteRemoveJob("project",["projectId" => $projectId,'housingId',$roomOrder]));
+        }catch(Throwable $e){
+            Log::info($e->getMessage());
+        }
     }
 
 }

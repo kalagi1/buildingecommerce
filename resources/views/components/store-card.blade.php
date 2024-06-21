@@ -4,9 +4,23 @@
     <div class="container">
         <div class="card mb-3">
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000000' }}">
-                <div class="brands-square w-100">
-                    <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
-                        class="brand-logo">
+                <div class="brands-square w-100 ml-4">
+                    @if ($store->profile_image == 'indir.png' || empty($store->profile_image))
+                        @php
+                            $nameInitials = collect(preg_split('/\s+/', $store->name))
+                                ->map(function ($word) {
+                                    return mb_strtoupper(mb_substr($word, 0, 1));
+                                })
+                                ->take(1)
+                                ->implode('');
+                        @endphp
+
+                        <div class="profile-initial" style="margin: inherit !important;margin-left: 0 !important">
+                            {{ $nameInitials }}</div>
+                    @else
+                        <img loading="lazy" src="{{ asset('storage/profile_images/' . $store->profile_image) }}"
+                            alt="{{ $store->name }}" class="img-responsive brand-logo" style="object-fit:contain;">
+                    @endif
                     <div style="display: flex;margin-left:5px">
                         <p class="brand-name"><a
                                 href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}"
@@ -14,6 +28,8 @@
                         </p>
                         <div class="mobile-hidden-flex">
                             @if ($store->corporate_account_status)
+                                
+                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                 <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                     <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
                                         style="display: block; margin: 0 auto;">
@@ -22,7 +38,6 @@
                                         <i class="fa fa-check"></i>
                                     </span>
                                 </span>
-                                @if ($store->year && $store->name == 'Maliyetine Ev')
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}"
                                             alt="" style="display: block; margin: 0 auto;">
@@ -85,64 +100,77 @@
                     </div>
                 </div>
                 <div class="mobile-hidden-flex">
-
-                    <button class="storeShareBtn"
-                        onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
-                        Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
-                    </button>
+                    @if ($store->type == 1)
+                        <button class="storeShareTypeBtn"
+                            onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                            Sahibinden Sepette <i class="fa fa-star" style="margin-left:5px;"></i>
+                        </button>
+                    @else
+                        <button class="storeShareTypeBtn"
+                            onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                            Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
+                        </button>
+                    @endif
                 </div>
+
             </div>
             @if ($store->type == '1')
-            <div class="card-body">
-                <nav class="navbar" style="padding: 0 !important">
-                    <div class="navbar-items">
-                        <a class="navbar-item {{ Route::is('institutional.dashboard*') ? 'active' : '' }}"
-                            href="{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Anasayfa</a>
-                        <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
-                            href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
-                            Profili</a>
+                <div class="card-body">
+                    <nav class="navbar" style="padding: 0 !important">
+                        <div class="navbar-items">
+                            <a class="navbar-item {{ Route::is('institutional.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Anasayfa</a>
+                            <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
+                                href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">
+                                @if ($store->type == 1)
+                                    Sahibinden
+                                @else
+                                    Mağaza
+                                @endif
+                                Profili
+                            </a>
 
-                        <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
-                            href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
-                            İlanları</a>
-                        <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                            href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
-               
-                    </div>
+                            <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
+                                href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
+                                İlanları</a>
+                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
 
-                </nav>
-            </div>
+                        </div>
+
+                    </nav>
+                </div>
             @endif
             @if ($store->type == '2')
-            <div class="card-body">
-                <nav class="navbar" style="padding: 0 !important">
-                    <div class="navbar-items">
-                        <a class="navbar-item {{ Route::is('institutional.dashboard*') ? 'active' : '' }}"
-                            href="{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Anasayfa</a>
-                        <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
-                            href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
-                            Profili</a>
-                        @if ($store->corporate_type != 'Emlak Ofisi')
-                            <a class="navbar-item {{ Route::is('institutional.projects.detail*') ? 'active' : '' }}"
-                                href="{{ route('institutional.projects.detail', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Proje
+                <div class="card-body">
+                    <nav class="navbar" style="padding: 0 !important">
+                        <div class="navbar-items">
+                            <a class="navbar-item {{ Route::is('institutional.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Anasayfa</a>
+                            <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
+                                href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
+                                Profili</a>
+                            @if ($store->corporate_type != 'Emlak Ofisi')
+                                <a class="navbar-item {{ Route::is('institutional.projects.detail*') ? 'active' : '' }}"
+                                    href="{{ route('institutional.projects.detail', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Proje
+                                    İlanları</a>
+                            @endif
+
+                            <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
+                                href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                                 İlanları</a>
-                        @endif
+                            <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
+                                href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
+                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
+                            <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
+                                href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
+                            {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
+                                href="{{ route('institutional.swap', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Takas
+                                Başvuru Formu</a> --}}
+                        </div>
 
-                        <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
-                            href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
-                            İlanları</a>
-                        <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
-                            href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
-                        <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                            href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
-                        <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
-                            href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
-                        <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
-                            href="{{ route('institutional.swap', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Takas
-                            Başvuru Formu</a>
-                    </div>
-
-                    {{-- <div class="search-form">
+                        {{-- <div class="search-form">
                         <input class="search-input" type="text" placeholder="Mağazada Ara" id="search-project"
                             aria-label="Search" name="q">
                         <div class="header-search__suggestions">
@@ -159,8 +187,8 @@
                         </div>
                         <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
                     </div> --}}
-                </nav>
-            </div>
+                    </nav>
+                </div>
             @endif
         </div>
     </div>
@@ -187,4 +215,18 @@
             width: 100% !important;
         }
     }
+
+    .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
 </style>

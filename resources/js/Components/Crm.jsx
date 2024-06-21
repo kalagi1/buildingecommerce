@@ -50,6 +50,13 @@ const Crm = () => {
   const [selectedRating,setSelectedRating] = useState(null);
   const [selectedCustomerStatus,setSelectedCustomerStatus] = useState(null);
   const [selectedConclusion,setSelectedConclusion] = useState(null);
+  const [customerProfileOpen,setCustomerProfileOpen] = useState(false);
+  const [selectedCustomerId,setSelectedCustomerId] = useState(null);
+  
+  const customerProfileOpenFunc = (id) => {
+    setCustomerProfileOpen(true);
+    setSelectedCustomerId(id);
+  }
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -113,13 +120,13 @@ const [projectData, setProjectData] = useState(null);
           accessorKey: 'date', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
           header: 'Tarih',
           size: 250,
-          enableStickyHeader: true,
-          enableStickyFooter: true,
-          onShowGlobalFilterChange : false,
-          enableGlobalFilterModes : false,
-          enableGlobalFilter: false,
-          enableGlobalFilterRankedResults:false,
-          enableFilterMatchHighlighting : false,
+          enableColumnFilterModes: false,
+          enableColumnFilter: false,
+          enableSorting: false,
+          enableEditing: false,
+          enableColumnActions: false,
+          enableColumnPinning: false,
+          enableColumnOrdering: false,
           renderTopToolbar: ({ table }) => {
 
             return (
@@ -135,7 +142,7 @@ const [projectData, setProjectData] = useState(null);
                     
                 </Box>
             );
-        },
+          },
           Cell: ({ renderedCellValue, row }) => {
             var date = new Date(row.original.date);
             return (
@@ -179,7 +186,7 @@ const [projectData, setProjectData] = useState(null);
         },
         {
           accessorKey: 'new', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
-          header: 'Data/Kaynak',
+          header: 'Yeni/Eski',
           size: 250,
           enableColumnFilterModes: false,
           enableColumnFilter: false,
@@ -281,8 +288,8 @@ const [projectData, setProjectData] = useState(null);
           size: 300,
         },
         {
-          accessorKey: 'project', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
-          id: 'project', //id is still required when using accessorFn instead of accessorKey
+          accessorKey: 'interested_project', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+          id: 'interested_project', //id is still required when using accessorFn instead of accessorKey
           header: 'İlgilendiği Proje',
           size: 250,
           enableEditing: false,
@@ -300,7 +307,7 @@ const [projectData, setProjectData] = useState(null);
                 gap: '1rem',
               }}
             >
-              <select name="" className='form-control' id="">
+              <select name="" onChange={(e) => { changeData('interested_project', e.target.value, row.original.id) }} className='form-control' id="">
                 {
                   projects.map((project) => {
                     return (
@@ -550,6 +557,36 @@ const [projectData, setProjectData] = useState(null);
               }} checked={renderedCellValue} />
             </Box>
           ),
+        },{
+          accessorKey: 'actions', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
+          id: 'actions', //id is still required when using accessorFn instead of accessorKey
+          header: 'İşlemler',
+          size: 250,
+          enableEditing: false,
+          enableColumnFilterModes: false,
+          enableColumnFilter: false,
+          enableSorting: false,
+          enableColumnActions: false,
+          enableColumnPinning: false,
+          enableColumnOrdering: false,
+          Cell: ({ renderedCellValue, row }) => (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+              }}
+            >
+              <div className="tabs">
+                <ul>
+                  <li className="active" onClick={() => {customerProfileOpenFunc(row.original.id)}}><i className='fa fa-user'></i></li>
+                  <li className="active"><i className='fa fa-plus'></i></li>
+                  <li className="active"><i className='fa fa-handshake'></i></li>
+                  <li className="active"><i className='fa fa-heart'></i></li>
+                </ul>
+              </div>
+            </Box>
+          ),
         },
       ],
     },
@@ -574,8 +611,8 @@ const [projectData, setProjectData] = useState(null);
     enableGrouping: true,
     enableColumnPinning: true,
     enableFacetedValues: true,
-    enableRowActions: true,
-    enableRowSelection: true,
+    enableRowActions: false,
+    enableRowSelection: false,
     enableEditing: true,
     editDisplayMode: 'cell',
     initialState: {
@@ -583,7 +620,7 @@ const [projectData, setProjectData] = useState(null);
       showGlobalFilter: true,
       columnPinning: {
         left: ['mrt-row-expand', 'mrt-row-select','was_meeting'],
-        right: ['mrt-row-actions'],
+        right: ['mrt-row-actions','actions'],
       },
     },
     state: {
@@ -613,7 +650,7 @@ const [projectData, setProjectData] = useState(null);
         <ListItemIcon>
           <AccountCircle />
         </ListItemIcon>
-        View Profile
+        Kullanıcı Kayıtları
       </MenuItem>,
       <MenuItem
         key={1}
@@ -645,6 +682,100 @@ const [projectData, setProjectData] = useState(null);
     enableGlobalFilter: false,
     enableGlobalFilterRankedResults:false,
     enableFilterMatchHighlighting : false,
+    localization: {
+      actions: 'İşlemler',
+      and: 've',
+      cancel: 'İptal',
+      changeFilterMode: 'Change filter mode',
+      changeSearchMode: 'Change search mode',
+      clearFilter: 'Filtreyi Temizle',
+      clearSearch: 'Aramayı Temizle',
+      clearSelection: 'Seçme işlemini sıfırla',
+      clearSort: 'Sıralamyı sıfırla',
+      clickToCopy: 'Kopyala',
+      copy: 'Kopyala',
+      collapse: 'Collapse',
+      collapseAll: 'Collapse all',
+      columnActions: 'Column Actions',
+      copiedToClipboard: 'Copied to clipboard',
+      dropToGroupBy: 'Drop to group by {column}',
+      edit: 'Düzenle',
+      expand: 'Expand',
+      expandAll: 'Expand all',
+      filterArrIncludes: 'Includes',
+      filterArrIncludesAll: 'Includes all',
+      filterArrIncludesSome: 'Includes',
+      filterBetween: 'Between',
+      filterBetweenInclusive: 'Between Inclusive',
+      filterByColumn: '{column} alanına göre filtrele',
+      filterContains: 'Contains',
+      filterEmpty: 'Empty',
+      filterEndsWith: 'Ends With',
+      filterEquals: 'Equals',
+      filterEqualsString: 'Equals',
+      filterFuzzy: 'Fuzzy',
+      filterGreaterThan: 'Greater Than',
+      filterGreaterThanOrEqualTo: 'Greater Than Or Equal To',
+      filterInNumberRange: 'Between',
+      filterIncludesString: 'Contains',
+      filterIncludesStringSensitive: 'Contains',
+      filterLessThan: 'Less Than',
+      filterLessThanOrEqualTo: 'Less Than Or Equal To',
+      filterMode: '',
+      filterNotEmpty: 'Not Empty',
+      filterNotEquals: 'Not Equals',
+      filterStartsWith: 'Starts With',
+      filterWeakEquals: 'Equals',
+      filteringByColumn: 'Filtering by {column} - {filterType} {filterValue}',
+      goToFirstPage: 'Go to first page',
+      goToLastPage: 'Go to last page',
+      goToNextPage: 'Go to next page',
+      goToPreviousPage: 'Go to previous page',
+      grab: 'Grab',
+      groupByColumn: 'Group by {column}',
+      groupedBy: 'Grouped by ',
+      hideAll: 'Hide all',
+      hideColumn: 'Hide {column} column',
+      max: 'Max',
+      min: 'Min',
+      move: 'Move',
+      noRecordsToDisplay: 'No records to display',
+      noResultsFound: 'No results found',
+      of: 'of',
+      or: 'or',
+      pin: 'Pin',
+      pinToLeft: 'Pin to left',
+      pinToRight: 'Pin to right',
+      resetColumnSize: 'Reset column size',
+      resetOrder: 'Reset order',
+      rowActions: 'Row Actions',
+      rowNumber: '#',
+      rowNumbers: 'Row Numbers',
+      rowsPerPage: 'Gösterilen veri sayısı',
+      save: 'Save',
+      search: 'Ara...',
+      selectedCountOfRowCountRowsSelected:
+          '{selectedCount} of {rowCount} row(s) selected',
+      select: 'Select',
+      showAll: 'Show all',
+      showAllColumns: 'Show all columns',
+      showHideColumns: 'Show/Hide columns',
+      showHideFilters: 'Show/Hide filters',
+      showHideSearch: 'Show/Hide search',
+      sortByColumnAsc: 'Sort by {column} ascending',
+      sortByColumnDesc: 'Sort by {column} descending',
+      sortedByColumnAsc: 'Sorted by {column} ascending',
+      sortedByColumnDesc: 'Sorted by {column} descending',
+      thenBy: ', then by ',
+      toggleDensity: 'Toggle density',
+      toggleFullScreen: 'Toggle full screen',
+      toggleSelectAll: 'Toggle select all',
+      toggleSelectRow: 'Toggle select row',
+      toggleVisibility: 'Toggle visibility',
+      ungroupByColumn: 'Ungroup by {column}',
+      unpin: 'Unpin',
+      unpinAll: 'Unpin all',
+    }
   });
 
   const formatDate = (dateString) => {

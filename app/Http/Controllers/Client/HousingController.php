@@ -12,6 +12,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -108,7 +109,7 @@ class HousingController extends Controller {
 
         }
 
-        $housing = Housing::with( 'neighborhood',"consultant.role", 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
+        $housing = Housing::with( 'neighborhood', 'consultant.role', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
         ->where( 'id', $realHousingID )
         ->where( 'status', 1 )->first();
 
@@ -225,4 +226,29 @@ class HousingController extends Controller {
 
         return view( 'client.housings.list', compact( 'housings', 'menu', 'cities', 'housingTypes' ) );
     }
+
+    public function updatePrice( Request $request, $id ) {
+        $housing = Housing::findOrFail( $id );
+
+        if ( Auth::check() && Auth::user()->id == $housing->user_id ) {
+            // Request'ten gelen 'new_price' değerini al ve noktalardan arındır
+            $newPrice = $request->input('new_price');
+            $newPrice = str_replace('.', '', $newPrice);
+    
+            $housingTypeData = json_decode($housing->housing_type_data, true);
+            if ($housing->step2_slug == 'gunluk-kiralik') {
+                $housingTypeData['daily_rent'][0] = $newPrice;
+            } else {
+                $housingTypeData['price'][0] = $newPrice;
+            }
+                $housing->housing_type_data = json_encode($housingTypeData);
+                $housing->save();
+
+                return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi.İlanınız onay süreci için emlak sepette yönetimine iletilmiştir.');
+            } else {
+                return redirect()->back()->with('error', 'Fiyat güncellenirken bir hata oluştu.' );
+        }
+
+    }
+
 }

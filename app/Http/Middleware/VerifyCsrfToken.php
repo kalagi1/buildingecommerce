@@ -17,6 +17,6 @@ class VerifyCsrfToken extends Middleware
          '/neighbor/resultpaymentsuccess',
          '/neighbor/resultpaymentfail',
          '/reservation/resultpaymentsuccess',
-         '/reservation/resultpaymentfail'
+         '/reservation/resultpaymentfail',
     ];
 }

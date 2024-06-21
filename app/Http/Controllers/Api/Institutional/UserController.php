@@ -257,4 +257,12 @@ class UserController extends Controller
             'message' => "Kullanıcı başarıyla silindi."
         ]);
     }
+
+    public function getCurrentUser(){
+        $user = User::where('id',auth()->user()->id)->first();
+
+        return json_encode([
+            "user" => $user
+        ]);
+    }
 }

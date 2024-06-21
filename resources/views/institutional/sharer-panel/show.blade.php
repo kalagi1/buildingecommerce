@@ -21,6 +21,7 @@
                             </thead>
                             <tbody class="collection-title">
                                 @foreach ($mergedItems as $item)
+
                                     @php
                                         $discountedPrice = null;
                                         $price = null;
@@ -260,8 +261,9 @@
 
 
                                         <td>
-
+                                          
                                             <button class="btn btn-info remove-from-collection btn-sm" style="float: right"
+                                            data-collection="{{ $collection}}"
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
@@ -269,7 +271,11 @@
                                             </button>
 
                                         </td>
+
+                                       
                                     </tr>
+
+                                
                                 @endforeach
 
                             </tbody>
@@ -544,36 +550,54 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+  
+
 @endsection
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-        $(".remove-from-collection").on("click", function() {
-            var button = $(this); // Reference the clicked button
-            var itemType = button.data('type');
-            var itemId = button.data('id');
-            var projectId = button.data('project');
+        $(document).ready(function() {
+            $(".remove-from-collection").on("click", function() {
+                var button = $(this); // Tıklanan düğmeyi referans al
+                var itemType = button.data('type');
+                var itemId = button.data('id');
+                var projectId = button.data('project');
+                var collection = button.data('collection');
+        
+                $.ajax({
+                    method: 'POST',
+                    url: '/remove-from-collection',
+                    data: {
+                        itemType: itemType,
+                        itemId: itemId,
+                        projectId: projectId,
+                        collection: collection,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.complete) {
+                           
+                            var redirectUrl = '/hesabim/koleksiyonlarim';
 
-            $.ajax({
-                method: 'POST',
-                url: '/remove-from-collection',
-                data: {
-                    itemType: itemType,
-                    itemId: itemId,
-                    projectId: projectId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    location.reload();
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
+                            // Yönlendirme yap
+                            window.location.href = redirectUrl;             
+
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Hata:', error);
+                    }
+                });
             });
         });
-    </script>
+        </script>
+        
+    
 @endsection
 
 @section('css')

@@ -55,12 +55,21 @@ class ProjectController extends Controller
     }
     public function getFeaturedProjects()
     {
-        $featuredProjects = Project::select('projects.*')
-            ->with("city", "county", 'user', "neighbourhood")
-            ->with('brand', 'roomInfo', 'listItemValues', 'housingType')
+
+        $featuredProjects = Project::with([
+            "city",
+            "county",
+            'user',
+            'brand',
+            'neighbourhood',
+            'roomInfo',
+            'listItemValues',
+            'housingType'
+        ])
+            ->where('status', 1)
             ->orderBy("created_at", "desc")
-            ->where('projects.status', 1)
-            ->get();
+            ->paginate(12);
+
         return response()->json($featuredProjects);
     }
 
@@ -76,7 +85,7 @@ class ProjectController extends Controller
 
     public function show($projectID)
     {
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand","situations", "blocks", "neighbourhood", "housingType", "county", "city", 'listItemValues', 'user.brands', 'user.housings', 'images')->first();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "situations", "blocks", "neighbourhood", "housingType", "county", "city", 'listItemValues', 'user.brands', 'user.housings', 'images')->first();
         if (!$project) {
             return Response::json([
                 'error' => "Proje yayından kaldırılmıştır"
@@ -256,6 +265,38 @@ class ProjectController extends Controller
 
             return $project;
         });
+    }
+
+    public function updatePrice(Request $request, $projectID, $roomID)
+    {
+        $project = Project::findOrFail($projectID);
+
+        if (Auth::check() && Auth::user()->id == $project->user_id) {
+            $newPrice = $request->input('new_price');
+            $newPrice = str_replace('.', '', $newPrice);
+
+            $fieldName = $project->step2_slug === 'gunluk-kiralik' ? 'daily_rent[]' : 'price[]';
+
+            $projectHousing = ProjectHousing::where('project_id', $projectID)
+                ->where('room_order', $roomID)
+                ->where('name', $fieldName)
+                ->first();
+
+             
+            if (!$projectHousing) {
+                return redirect()->to('/')->with('error', 'Proje Bulunamadı');
+            }
+
+            $projectHousing->value = $newPrice;
+            $projectHousing->save();
+
+            $project->status = 0;
+            $project->save();
+
+            return redirect()->to('/')->with('success', 'Fiyat başarıyla güncellendi. Projeniz onay süreci için emlak sepette yönetimine iletilmiştir.');
+        } else {
+            return redirect()->to('/')->with('error', 'Fiyat güncellenirken bir hata oluştu.');
+        }
     }
 
     public function deleteProjectGalleryImage($id)

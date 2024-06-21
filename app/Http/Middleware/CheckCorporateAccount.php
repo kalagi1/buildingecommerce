@@ -28,6 +28,7 @@ class CheckCorporateAccount
         'institutional.profile.update',
         'client.logout',
         'institutional.edit.phone',
+        'institutional.phone.update.generateVerificationCode',
     ];
 
     private $allowedRoutes = [

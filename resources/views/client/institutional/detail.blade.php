@@ -67,7 +67,7 @@
 
                         </div>
                     @endif
-                    @if ($institutional && $institutional->type != '1')
+                    @if ($institutional && $institutional->website  && $institutional->type != '1')
                         <div class="seller-info-container__wrapper">
                             <a href="{{ $institutional->website }}" class="w-100 text-center" target="_blank">
                                 <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
