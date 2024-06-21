@@ -895,23 +895,28 @@ class PageController extends Controller
                 if ($cityID || $request->input("selectedCity")) {
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
+              
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $conditions = [];
-
+                
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
-                            $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
+                            // Değerleri düzeltilmiş şekilde JSON_CONTAINS fonksiyonuna ekliyoruz
+                            $cleanedSubkey = urldecode($subkey);
+                            if ($values[$subkey] != false) {
+                                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$cleanedSubkey\"', '$.$key')";
+                            }
                         }
                     }
-
+                
+                    // Şimdi, koşulları kullanarak sorguyu filtreleyebiliriz
                     if (!empty($conditions)) {
                         return $conditions;
                         $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
-
-
+                
 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
