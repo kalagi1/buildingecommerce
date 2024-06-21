@@ -920,7 +920,7 @@ class PageController extends Controller
                         }
 
                         if (isset($values['max'])) {
-                            $maxValue = str_replace('.', '', $values['min']); // Noktaları kaldır
+                            $maxValue = str_replace('.', '', $values['max']); // Noktaları kaldır
                             $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $maxValue . '[0]")) AS FLOAT) <= ?', [$request->input($key)]);
                         }
                     }
