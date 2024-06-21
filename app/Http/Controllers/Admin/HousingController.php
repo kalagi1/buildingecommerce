@@ -134,7 +134,6 @@ class HousingController extends Controller
 
     }
 
-
     public function filterById(Request $request)
     {
         // Define a common base query for reuse
@@ -148,85 +147,104 @@ class HousingController extends Controller
             'district',
             'neighborhood'
         ])
-            ->whereHas('listItems', function($query) {
-                $query->where('item_type', 2);
-            });
-
-
-
+        ->whereHas('listItems', function($query) {
+            $query->where('item_type', 2);
+        });
+    
         $sorting = $request->input('sorting');
         if ($sorting == 'oldest') {
             $baseQuery->orderBy('created_at', 'asc'); // En eski tarihe göre sıralama
         } else {
             $baseQuery->orderBy('created_at', 'desc'); // En yeni tarihe göre sıralama (varsayılan)
         }
-
+    
+        $housingIdSource = null;
+    
         if ($request->filled('housing_id')) {
-            $baseQuery->where('id', $request->input('housing_id')-2000000);
+            $baseQuery->where('id', $request->input('housing_id') - 2000000);
         }
-
-
-
-
-
+    
         // Active housings
         $activeHousingTypes = (clone $baseQuery)
             ->where('status', 1)
             ->whereNull('deleted_at')
             ->whereNull('is_sold')
             ->get();
-
-
+    
+        if ($activeHousingTypes->count() > 0) {
+            $housingIdSource = 'active';
+        }
+    
         // Inactive housings
         $inactiveHousingTypes = (clone $baseQuery)
             ->where('status', 0)
             ->whereNull('deleted_at')
             ->get();
-
-
+    
+        if ($inactiveHousingTypes->count() > 0) {
+            $housingIdSource = 'inactive';
+        }
+    
         // Disabled housings
         $disabledHousingTypes = (clone $baseQuery)
             ->where('status', 3)
             ->whereNull('deleted_at')
             ->get();
-
+    
+        if ($disabledHousingTypes->count() > 0) {
+            $housingIdSource = 'disabled';
+        }
+    
         // Pending housings
         $pendingHousingTypes = (clone $baseQuery)
             ->where('status', 2)
             ->whereNull('deleted_at')
             ->get();
-
+    
+        if ($pendingHousingTypes->count() > 0) {
+            $housingIdSource = 'pending';
+        }
+    
         // Sold housings
         $soldHousingsTypes = (clone $baseQuery)
             ->where('is_sold', 1)
             ->whereNull('deleted_at')
             ->get();
-
+    
+        if ($soldHousingsTypes->count() > 0) {
+            $housingIdSource = 'sold';
+        }
+    
+        // Share types
         $isShareTypes = (clone $baseQuery)
             ->whereNotNull('owner_id') // owner_id olanları sınırlayalım
             ->whereNull('deleted_at') // silinmiş olanları filtreleyelim
             ->orWhereRaw('owner_id <> user_id') // owner_id ve user_id eşit olmayanları da ekleyelim
             ->get();
-
+    
+        // Deleted housings
         $deletedHousings = (clone $baseQuery)
             ->onlyTrashed()
             ->get();
-
-        $activeTab = $request->input('tab', 'active');
-
+    
+        if ($deletedHousings->count() > 0) {
+            $housingIdSource = 'deleted';
+        }
+    
+       
         $pendingHousingCount = $pendingHousingTypes->count();
-
+    
         return view('admin.housings.index', compact('activeHousingTypes',
             'disabledHousingTypes',
             'pendingHousingTypes',
             'deletedHousings',
             'inactiveHousingTypes',
             'soldHousingsTypes',
-            'activeTab',
             'pendingHousingCount',
+            'housingIdSource', // Pass the housingIdSource parameter to the view
         ));
     }
-
+    
 
 
     /**
