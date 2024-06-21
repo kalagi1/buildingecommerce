@@ -1,16 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import { dotNumberFormat } from '../../define/variables';
 import { Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
-import { debounce } from 'lodash';
-import Swal from 'sweetalert2';
 
 function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [validationErrors,setValidationErrors] = useState([]);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
-    const [payDecOpen,setPayDecOpen] = useState(false);
     const [checkedItems,setCheckedItems] = useState([]);
 
+    const setCheckedItemsFunc = (name,checked,order) => {
+        if(checked){
+            setCheckedItems([
+                ...checkedItems,
+                {
+                    roomOrder : 0,
+                    name : name.replace("[]", "")
+                }
+            ])
+        }else{
+            var newItems = checkedItems.filter((checkedItem) => {
+                if(checkedItem.roomOrder == 0 && checkedItem.name == name.replace("[]", "")){
+
+                }else{
+                    return checkedItem
+                }
+            })
+
+            setCheckedItems(newItems);
+        }
+    }
+
+    console.log(checkedItems);
 
     const blockDataSet = (blockIndex,keyx,value) => {
         var newDatas = blocks.map((block,key) => {
@@ -45,31 +65,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
         setRendered(rendered + 1);
     }
 
-
-    const debouncedPopup = useCallback(
-        debounce((price) => {
-            Swal.fire({
-                title: "Fiyat Onayı",
-                text: "Fiyat olarak "+price+"₺ olarak belirlediniz emin misiniz?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Evet, Onayla",
-                cancelButtonText : 'İptal'
-              });
-        }, 2000), []
-    );
-
-    useEffect(() => {
-        if (blocks[0]?.rooms[0]['price[]']) {
-            debouncedPopup(blocks[0]?.rooms[0]['price[]']);
-        }
-
-        return () => {
-            debouncedPopup.cancel();
-        };
-    }, [blocks[0]?.rooms[0]['price[]'], debouncedPopup]);
 
     const blockCheckboxDataSet = (blockIndex,keyx,value,isChecked) => {
         var newDatas = blocks.map((block,key) => {
@@ -189,12 +184,12 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                     blocks.length > 0 ? 
                         <div className="housing-form mt-3">
                             {
-                                formData.map((data) => {
+                                formData.map((data,i) => {
                                     if(slug == "satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             var isX = null;
                                             if(data?.className?.includes('--if-show-checked-')){
-                                                var isX = checkedItems.find((checkedItem) => checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.includes('--if-show-checked-'))
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
                                             }
                                             if(data.type == "text"){
                                                 return(
@@ -290,7 +285,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -307,7 +302,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div>
+                                                        <div className={isX ? 'd-none' : ''}>
                                                             <label className='mt-3 font-bold' htmlFor="">
                                                                 <div className="d-flex">
                                                                     {data.label} 
@@ -327,7 +322,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);console.log(e.target.checked);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -369,7 +364,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             console.log(data);
                                             if(data.type == "text"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         {
                                                             data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
@@ -381,7 +376,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "date"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -400,7 +395,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "select"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                             {
@@ -425,7 +420,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -442,7 +437,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div>
+                                                        <div className={""+(isX ? "d-none" : "")}>
                                                             <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
@@ -450,7 +445,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -463,7 +458,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 
                                             }else if(data.type == "file"){
                                                 return (
-                                                    <div className='form-group'>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         <div className='project_imaget'>
@@ -480,7 +475,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             console.log(data);
                                             if(data.type == "text"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         {
                                                             data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
@@ -492,7 +487,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "date"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -511,7 +506,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "select"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                             {
@@ -536,7 +531,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -553,7 +548,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div>
+                                                        <div className={(isX ? "d-none" : "")}>
                                                             <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
@@ -561,7 +556,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -574,7 +569,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 
                                             }else if(data.type == "file"){
                                                 return (
-                                                    <div className='form-group'>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         <div className='project_imaget'>
@@ -591,7 +586,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             console.log(data);
                                             if(data.type == "text"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         {
                                                             data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
@@ -603,7 +598,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "date"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -622,7 +617,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 )
                                             }else if(data.type == "select"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                             {
@@ -638,7 +633,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             }else if(data.type == "checkbox-group"){
                                                 if(data.name == "payment-plan[]"){
                                                     return(
-                                                        <div>
+                                                        <div className={(isX ? "d-none" : "")}>
                                                             <div>
                                                                 <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                                 <div className="checkbox-groups" id={data?.name.replace('[]','')}>
@@ -647,7 +642,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -664,7 +659,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div>
+                                                        <div className={(isX ? "d-none" : "")}>
                                                             <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
@@ -672,7 +667,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -685,7 +680,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 
                                             }else if(data.type == "file"){
                                                 return (
-                                                    <div className='form-group'>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         <div className='project_imaget'>
@@ -702,7 +697,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             console.log(data);
                                             if(data.type == "text"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         {
                                                             data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
@@ -715,7 +710,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             }else if(data.type == "date"){
                                                 if(data.subtype == "time"){
                                                     return(
-                                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <div className={"form-group "+(isX ? "d-none" : "")}>
                                                             <label className='font-bold' htmlFor="">
                                                                 <div className="d-flex">
                                                                     {data.label} 
@@ -734,7 +729,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                        <div className={"form-group "+(isX ? "d-none" : "")}>
                                                             <label className='font-bold' htmlFor="">
                                                                 <div className="d-flex">
                                                                     {data.label} 
@@ -755,7 +750,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 
                                             }else if(data.type == "select"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                             {
@@ -771,7 +766,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                             }else if(data.type == "checkbox-group"){
                                                 if(data.name == "payment-plan[]"){
                                                     return(
-                                                        <div>
+                                                        <div className={(isX ? "d-none" : "")}>
                                                             <div>
                                                                 <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                                 <div className="checkbox-groups" id={data?.name.replace('[]','')}>
@@ -780,7 +775,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -797,7 +792,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                     )
                                                 }else{
                                                     return(
-                                                        <div>
+                                                        <div className={(isX ? "d-none" : "")}>
                                                             <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
@@ -805,7 +800,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked,i)}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -818,7 +813,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 
                                             }else if(data.type == "file"){
                                                 return (
-                                                    <div className='form-group'>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         <div className='project_imaget'>

@@ -1,6 +1,6 @@
 
-export const baseUrl = "https://test.emlaksepette.com/react/";
-export const frontEndUrl = "https://test.emlaksepette.com/";
+export const baseUrl = "https://emlaksepette.com/react/";
+export const frontEndUrl = "https://emlaksepette.com/";
 
 export const dotNumberFormat = (number) => {
     if(number){

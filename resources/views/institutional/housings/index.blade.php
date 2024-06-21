@@ -90,7 +90,6 @@
 
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
-console.log(housingType);
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
@@ -107,7 +106,24 @@ console.log(housingType);
                 housingTypeCell.className = "align-middle housing_type";
                 housingTypeCell.textContent = housingType.housing_type;
 
-                
+                // Create a new table cell element
+                var housingConsultant = document.createElement("td");
+
+                // Set the class name
+                housingConsultant.className = "align-middle housing_type";
+
+                // Determine the text content based on housingType.user.name
+                if (housingType.consultant && housingType.consultant.name) {
+                    housingConsultant.textContent = housingType.consultant
+                        .name;
+                } else if (housingType.user && housingType.user.name) {
+                    housingConsultant.textContent = housingType.user
+                        .name;
+                } else {
+                    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
+                }
+
+
                 var statusCell = document.createElement("td");
                 statusCell.className = "align-middle status";
                 statusCell.innerHTML = housingType.status == 1 ?
@@ -195,6 +211,20 @@ console.log(housingType);
                     imageLinks.href = "{{ URL::to('/') }}/hesabim/gorsel-duzenleme/" + housingType.id;
                     imageLinks.textContent = "Resimler";
                     imageLinksCell.appendChild(imageLinks);
+
+
+
+                    var bidsCell = document.createElement("td");
+                    bidsCell.className = "align-middle";
+
+                    // Pazarlık Teklifleri bağlantısını oluşturun
+                    var bidsLink = document.createElement("a");
+                    bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                    bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
+                    bidsLink.textContent = "Pazarlık Teklifleri (" + (housingType.bids ? housingType.bids.length :
+                        0) + ")";
+                    bidsCell.appendChild(bidsLink);
+
 
                     var deleteCell = document.createElement("td");
                     deleteCell.className = "align-middle";
@@ -292,11 +322,15 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
+
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
                     row.appendChild(exportLinkCell);
                     row.appendChild(imageLinksCell);
+                    row.appendChild(bidsCell);
+
                     row.appendChild(statusCell);
                     row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
 
@@ -305,11 +339,15 @@ console.log(housingType);
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     row.appendChild(housingTypeCell);
+                    row.appendChild(housingConsultant);
+
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
                     row.appendChild(viewLinkCell);
                     row.appendChild(exportLinkCell);
                     row.appendChild(imageLinksCell);
+                    row.appendChild(bidsCell);
+
                     row.appendChild(actionsCell);
                     row.appendChild(deleteCell);
 

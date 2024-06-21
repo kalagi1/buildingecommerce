@@ -38,6 +38,12 @@ class Housing extends Model
         return $this->hasMany(HousingImages::class);
     }
 
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'housing_id', 'id');

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import TypeList from './create_project_components/TypeList';
-import ProjectForm from './create_project_components/ProjectForm';
 import axios from 'axios';
 import { baseUrl } from '../define/variables';
-import EndSection from './create_project_components/EndSection';
 import TopCreateProjectNavigator from './create_project_components/TopCreateProjectNavigator';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Block } from '@mui/icons-material';
 import { Box, LinearProgress, Modal, Typography } from '@mui/material';
 import TypeList2 from './create_project_components/TypeList2';
 import HousingForm from './create_project_components/HousingForm';
