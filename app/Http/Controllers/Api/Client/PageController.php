@@ -737,27 +737,15 @@ class PageController extends Controller
             //     });
             // }
 
-            if ($checkTitle) {
-                $query->where(function ($q) use ($checkTitle) {
-                    $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
-                });
-            }
+            // if ($checkTitle) {
+            //     $query->where(function ($q) use ($checkTitle) {
+            //         $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
+            //             ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
+            //     });
+            // }
 
 
-            if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
-                $key = $request->input('selectedRadio')['corporate_type'];
-                if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
-                    $key = "Turizm Amaçlı Kiralama";
-                } else if ($request->input('selectedRadio')['corporate_type'] == "construction_office") {
-                    $key = "İnşaat Ofisi";
-                }
-
-                $query->join('users', 'users.id', '=', 'projects.user_id')
-                    ->where('users.corporate_type', $key)
-                    ->select('projects.*', 'users.corporate_type');
-            }
-
+         
         }
 
 
@@ -774,6 +762,18 @@ class PageController extends Controller
                 $query->whereHas('housingTypes', function ($query) use ($slug) {
                     $query->where('housing_type_id', $slug);
                 });
+            }
+            if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
+                $key = $request->input('selectedRadio')['corporate_type'];
+                if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
+                    $key = "Turizm Amaçlı Kiralama";
+                } else if ($request->input('selectedRadio')['corporate_type'] == "construction_office") {
+                    $key = "İnşaat Ofisi";
+                }
+
+                $query->join('users', 'users.id', '=', 'projects.user_id')
+                    ->where('users.corporate_type', $key)
+                    ->select('projects.*', 'users.corporate_type');
             }
 
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
