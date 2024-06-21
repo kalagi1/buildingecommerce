@@ -926,8 +926,6 @@ class PageController extends Controller
                     }
                 }
 
-                return $query->toSql();
-
                 if ($countyID || $request->input("selectedCounty")) {
                     $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
                 }
