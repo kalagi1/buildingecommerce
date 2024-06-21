@@ -903,8 +903,7 @@ class PageController extends Controller
                         $conditions = [];
                 
                         foreach ($values as $subkey => $value) {
-                            if ($value) {
-                                return $value;
+                            if ($value == true) {
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
