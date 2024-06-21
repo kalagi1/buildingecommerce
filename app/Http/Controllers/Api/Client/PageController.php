@@ -902,7 +902,6 @@ class PageController extends Controller
                 
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
-                            // Değerleri düzeltilmiş şekilde JSON_CONTAINS fonksiyonuna ekliyoruz
                             $cleanedSubkey = urldecode($subkey);
                             if ($values[$subkey] != false) {
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$cleanedSubkey\"', '$.$key')";
