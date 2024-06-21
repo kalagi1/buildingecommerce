@@ -889,6 +889,19 @@ class PageController extends Controller
                 if ($housingType) {
                     $query->where('housings.housing_type_id', $housingType);
                 }
+                
+                if ($cityID || $request->input("selectedCity")) {
+                    $query->where('city_id', $cityID);
+                }
+    
+                if ($countyID || $request->input("selectedCounty")) {
+                    $query->where('county_id', $countyID);
+                }
+    
+                if ($neighborhoodID || $request->input("selectedNeighborhood")) {
+                    $query->where('neighborhood_id', $neighborhoodID);
+                }
+       
 
                 if ($opt) {
                     $query->where('step2_slug', $opt);
@@ -954,15 +967,15 @@ class PageController extends Controller
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
 
-            if ($cityID) {
+            if ($cityID || $request->input("selectedCity")) {
                 $query->where('city_id', $cityID);
             }
 
-            if ($countyID) {
+            if ($countyID || $request->input("selectedCounty")) {
                 $query->where('county_id', $countyID);
             }
 
-            if ($neighborhoodID) {
+            if ($neighborhoodID || $request->input("selectedNeighborhood")) {
                 $query->where('neighborhood_id', $neighborhoodID);
             }
 
