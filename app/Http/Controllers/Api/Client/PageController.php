@@ -961,6 +961,7 @@ class PageController extends Controller
 
                 
             if ($request->has('sortValue')) {
+                return $request->input('sortValue');
                 switch ($request->input('sortValue')) {
                     case 'date-asc':
                         $query->orderBy('housings.created_at', 'asc');
