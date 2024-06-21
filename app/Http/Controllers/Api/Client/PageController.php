@@ -912,7 +912,6 @@ class PageController extends Controller
                 
                     // Şimdi, koşulları kullanarak sorguyu filtreleyebiliriz
                     if (!empty($conditions)) {
-                        return $conditions;
                         $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
