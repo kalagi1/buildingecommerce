@@ -889,18 +889,19 @@ class PageController extends Controller
                 if ($housingType) {
                     $query->where('housings.housing_type_id', $housingType);
                 }
-                
-                if ($cityID || $request->input("selectedCity")) {
-                    $query->where('city_id', $cityID);
-                }
-    
-                if ($countyID || $request->input("selectedCounty")) {
-                    $query->where('county_id', $countyID);
-                }
-    
-                if ($neighborhoodID || $request->input("selectedNeighborhood")) {
-                    $query->where('neighborhood_id', $neighborhoodID);
-                }
+
+               if ($cityID || $request->input("selectedCity")) {
+    $query->where('city_id', $cityID ?? $request->input("selectedCity"));
+}
+
+if ($countyID || $request->input("selectedCounty")) {
+    $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
+}
+
+if ($neighborhoodID || $request->input("selectedNeighborhood")) {
+    $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
+}
+
        
 
                 if ($opt) {
@@ -966,19 +967,18 @@ class PageController extends Controller
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
-
             if ($cityID || $request->input("selectedCity")) {
-                $query->where('city_id', $cityID);
+                $query->where('city_id', $cityID ?? $request->input("selectedCity"));
             }
-
+            
             if ($countyID || $request->input("selectedCounty")) {
-                $query->where('county_id', $countyID);
+                $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
             }
-
+            
             if ($neighborhoodID || $request->input("selectedNeighborhood")) {
-                $query->where('neighborhood_id', $neighborhoodID);
+                $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
             }
-
+            
 
             if ($housingType) {
                 $query->where('housings.housing_type_id', $newHousingType);
