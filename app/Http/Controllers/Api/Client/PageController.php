@@ -736,8 +736,6 @@ class PageController extends Controller
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
 
-        return $slug;
-
         if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
@@ -911,6 +909,8 @@ class PageController extends Controller
                 $query->whereHas('housingStatus', function ($query) use ($slug) {
                     $query->where('housing_status_id', $slug);
                 });
+
+                return $request->has('selectedRadio.listing_date');
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
