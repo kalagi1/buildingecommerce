@@ -392,9 +392,7 @@ class HomeController extends Controller
             $filtersDb = Filter::where('item_type', 1)
                 ->where('housing_type_id', $housingType)
                 ->get()
-                ->keyBy('filter_name');
-
-                return $filtersDb;
+                ->keyBy('filter_name')->toArray();
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
