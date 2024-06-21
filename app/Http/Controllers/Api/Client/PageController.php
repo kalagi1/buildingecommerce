@@ -912,8 +912,6 @@ class PageController extends Controller
 
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
-                    return $request->input('selectedRadio.listing_date');
-
                     if ($request->input('selectedRadio.listing_date') == '24') {
                         $query->where('housings.created_at', '>=', now()->subDay());
                     } else {
