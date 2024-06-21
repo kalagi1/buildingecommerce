@@ -557,7 +557,7 @@ class PageController extends Controller
             $slugName = "Al Sat Acil";
             $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
 
-            $secondhandHousings =  Housing::with('images')
+            $secondhandHousingQuery =  Housing::with('images')
                 ->select(
                     'housings.id',
                     'housings.slug',
@@ -591,8 +591,7 @@ class PageController extends Controller
                 ->where('housings.status', 1)
                 ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
                 ->where('project_list_items.item_type', 2)
-                ->orderByDesc('housings.created_at')
-                ->get();
+                ->orderByDesc('housings.created_at');
         }
 
         if ($deneme && $deneme == "paylasimli-ilanlar") {
@@ -602,7 +601,7 @@ class PageController extends Controller
             $slugName = "Paylaşımlı İlanlar";
             $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
 
-            $secondhandHousings =  Housing::with('images')
+            $secondhandHousingQuery =  Housing::with('images')
                 ->select(
                     'housings.id',
                     'housings.slug',
@@ -637,8 +636,7 @@ class PageController extends Controller
                 ->whereNotNull('housings.owner_id')
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
-                ->orderByDesc('housings.created_at')
-                ->get();
+                ->orderByDesc('housings.created_at');
         }
 
 
@@ -738,7 +736,9 @@ class PageController extends Controller
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
 
-        if ($slug && $deneme == null) {
+        return $slug;
+
+        if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
                     ->where("projects.status", 1)
@@ -847,40 +847,40 @@ class PageController extends Controller
                 $projects = $query->get();
             } else {
                 $query = Housing::with('images')
-                ->select(
-                    'housings.id',
-                    'housings.slug',
-                    'housings.title AS housing_title',
-                    'housings.created_at',
-                    'housings.step1_slug',
-                    'housings.step2_slug',
-                    'housing_types.title as housing_type_title',
-                    'housings.housing_type_data',
-                    'project_list_items.column1_name as column1_name',
-                    'project_list_items.column2_name as column2_name',
-                    'project_list_items.column3_name as column3_name',
-                    'project_list_items.column4_name as column4_name',
-                    'project_list_items.column1_additional as column1_additional',
-                    'project_list_items.column2_additional as column2_additional',
-                    'project_list_items.column3_additional as column3_additional',
-                    'project_list_items.column4_additional as column4_additional',
-                    'housings.address',
-                    DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
-                    'cities.title AS city_title',
-                    'districts.ilce_title AS county_title',
-                    'neighborhoods.mahalle_title AS neighborhood_title',
-                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
-                )
-                ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-                ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-                ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-                ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-                ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-                ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-                ->where('housings.status', 1)
-                ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
-                ->where('project_list_items.item_type', 2)
-                ->orderByDesc('housings.created_at');
+                    ->select(
+                        'housings.id',
+                        'housings.slug',
+                        'housings.title AS housing_title',
+                        'housings.created_at',
+                        'housings.step1_slug',
+                        'housings.step2_slug',
+                        'housing_types.title as housing_type_title',
+                        'housings.housing_type_data',
+                        'project_list_items.column1_name as column1_name',
+                        'project_list_items.column2_name as column2_name',
+                        'project_list_items.column3_name as column3_name',
+                        'project_list_items.column4_name as column4_name',
+                        'project_list_items.column1_additional as column1_additional',
+                        'project_list_items.column2_additional as column2_additional',
+                        'project_list_items.column3_additional as column3_additional',
+                        'project_list_items.column4_additional as column4_additional',
+                        'housings.address',
+                        DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
+                        'cities.title AS city_title',
+                        'districts.ilce_title AS county_title',
+                        'neighborhoods.mahalle_title AS neighborhood_title',
+                        DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
+                    )
+                    ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                    ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                    ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                    ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                    ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+                    ->where('housings.status', 1)
+                    ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
+                    ->where('project_list_items.item_type', 2)
+                    ->orderByDesc('housings.created_at');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -890,19 +890,19 @@ class PageController extends Controller
                     $query->where('housings.housing_type_id', $housingType);
                 }
 
-               if ($cityID || $request->input("selectedCity")) {
-    $query->where('city_id', $cityID ?? $request->input("selectedCity"));
-}
+                if ($cityID || $request->input("selectedCity")) {
+                    $query->where('city_id', $cityID ?? $request->input("selectedCity"));
+                }
 
-if ($countyID || $request->input("selectedCounty")) {
-    $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
-}
+                if ($countyID || $request->input("selectedCounty")) {
+                    $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
+                }
 
-if ($neighborhoodID || $request->input("selectedNeighborhood")) {
-    $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
-}
+                if ($neighborhoodID || $request->input("selectedNeighborhood")) {
+                    $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
+                }
 
-       
+
 
                 if ($opt) {
                     $query->where('step2_slug', $opt);
@@ -919,6 +919,7 @@ if ($neighborhoodID || $request->input("selectedNeighborhood")) {
                         $query->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
                     }
                 }
+
                 if ($checkTitle) {
                     $query->where(function ($q) use ($checkTitle) {
                         $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
@@ -927,86 +928,55 @@ if ($neighborhoodID || $request->input("selectedNeighborhood")) {
                 }
                 $secondhandHousings = $query->get();
             }
-        } elseif( $deneme == null) {
-            $query = Housing::with('images')
-            ->select(
-                'housings.id',
-                'housings.slug',
-                'housings.title AS housing_title',
-                'housings.created_at',
-                'housings.step1_slug',
-                'housings.step2_slug',
-                'housing_types.title as housing_type_title',
-                'housings.housing_type_data',
-                'project_list_items.column1_name as column1_name',
-                'project_list_items.column2_name as column2_name',
-                'project_list_items.column3_name as column3_name',
-                'project_list_items.column4_name as column4_name',
-                'project_list_items.column1_additional as column1_additional',
-                'project_list_items.column2_additional as column2_additional',
-                'project_list_items.column3_additional as column3_additional',
-                'project_list_items.column4_additional as column4_additional',
-                'housings.address',
-                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
-                'cities.title AS city_title',
-                'districts.ilce_title AS county_title',
-                'neighborhoods.mahalle_title AS neighborhood_title',
-                DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
-            )
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-            ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-            ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-            ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-            ->where('housings.status', 1)
-            ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
-            ->where('project_list_items.item_type', 2)
-            ->orderByDesc('housings.created_at');
+        } elseif ($deneme == null) {
 
             if ($housingTypeParentSlug) {
-                $query->where("step1_slug", $housingTypeParentSlug);
+                $secondhandHousingQuery->where("step1_slug", $housingTypeParentSlug);
             }
             if ($cityID || $request->input("selectedCity")) {
-                $query->where('city_id', $cityID ?? $request->input("selectedCity"));
+                $secondhandHousingQuery->where('city_id', $cityID ?? $request->input("selectedCity"));
             }
-            
+
             if ($countyID || $request->input("selectedCounty")) {
-                $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
+                $secondhandHousingQuery->where('county_id', $countyID ?? $request->input("selectedCounty"));
             }
-            
+
             if ($neighborhoodID || $request->input("selectedNeighborhood")) {
-                $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
+                $secondhandHousingQuery->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
             }
-            
+
 
             if ($housingType) {
-                $query->where('housings.housing_type_id', $newHousingType);
+                $secondhandHousingQuery->where('housings.housing_type_id', $newHousingType);
             }
 
 
-            $query->whereHas('housingStatus', function ($query) use ($slug) {
-                $query->where('housing_status_id', $slug);
+            $secondhandHousingQuery->whereHas('housingStatus', function ($secondhandHousingQuery) use ($slug) {
+                $secondhandHousingQuery->where('housing_status_id', $slug);
             });
 
             if ($opt) {
-                $query->where('step2_slug', $opt);
+                $secondhandHousingQuery->where('step2_slug', $opt);
             }
+
+
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
-                    $query->where('housings.created_at', '>=', now()->subDay());
+                    $secondhandHousingQuery->where('housings.created_at', '>=', now()->subDay());
                 } else {
-                    $query->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
+                    $secondhandHousingQuery->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
                 }
             }
+
+
             if ($checkTitle) {
-                $query->where(function ($q) use ($checkTitle) {
+                $secondhandHousingQuery->where(function ($q) use ($checkTitle) {
                     $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
                         ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
                 });
             }
 
-            $secondhandHousings = $query->get();
+            $secondhandHousings = $secondhandHousingQuery->get();
         }
 
 
