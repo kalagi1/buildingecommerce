@@ -909,11 +909,11 @@ class PageController extends Controller
                 // textInputs işleme
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
+                    return $textInputs;
 
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = $values['min'];
-                            // Min değeri JSON içinde arama yap
                             $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') >= ?", [$minValue]);
                         }
 
