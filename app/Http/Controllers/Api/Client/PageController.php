@@ -904,13 +904,12 @@ class PageController extends Controller
                 
                         foreach ($values as $subkey => $value) {
                             if ($value) {
-                                // Eğer değer 'true' ise JSON alanında arama yap
+                                return $value;
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
                 
                         if (!empty($conditions)) {
-                            return $conditions;
                        
                             $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                         }
