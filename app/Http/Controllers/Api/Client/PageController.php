@@ -1011,37 +1011,42 @@ class PageController extends Controller
                 $secondhandHousingQuery->where('housings.housing_type_id', $newHousingType);
             }
 
-            // selectedCheckboxes işleme
+           
             if ($request->has('selectedCheckboxes')) {
                 $selectedCheckboxes = $request->input('selectedCheckboxes');
-
+                $conditions = [];
+            
                 foreach ($selectedCheckboxes as $key => $values) {
                     foreach ($values as $subkey => $value) {
-                        if ($value) {
-                            $secondhandHousingQuery->whereRaw("JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')");
+                        $cleanedSubkey = urldecode($subkey);
+                        if ($values[$subkey] != false) {
+                            $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$cleanedSubkey\"', '$.$key')";
                         }
                     }
                 }
+            
+
+                if (!empty($conditions)) {
+                    $secondhandHousingQuery->whereRaw('(' . implode(' OR ', $conditions) . ')');
+                }
             }
 
-            // textInputs işleme
+            
             if ($request->has('textInputs')) {
                 $textInputs = $request->input('textInputs');
 
                 foreach ($textInputs as $key => $values) {
                     if (isset($values['min'])) {
-                        $minValue = $values['min'];
-                        // Min değeri JSON içinde arama yap
-                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $minValue . '[0]")) AS FLOAT) >= ?', [$request->input($key)]);
+                        $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
+                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) >= ?', [$minValue]);
                     }
 
                     if (isset($values['max'])) {
-                        $maxValue = $values['max'];
-                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $maxValue . '[0]")) AS FLOAT) <= ?', [$request->input($key)]);
+                        $maxValue = str_replace('.', '', $values['max']);
+                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) <= ?', [$maxValue]);
                     }
                 }
             }
-
             $secondhandHousingQuery->whereHas('housingStatus', function ($secondhandHousingQuery) use ($slug) {
                 $secondhandHousingQuery->where('housing_status_id', $slug);
             });
