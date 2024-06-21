@@ -896,19 +896,26 @@ class PageController extends Controller
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
 
-                // selectedCheckboxes işleme
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-
+                
                     foreach ($selectedCheckboxes as $key => $values) {
+                        $conditions = [];
+                
                         foreach ($values as $subkey => $value) {
                             if ($value) {
                                 // Eğer değer 'true' ise JSON alanında arama yap
-                                $query->whereRaw("JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')");
+                                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
+                        }
+                
+                        if (!empty($conditions)) {
+                            // Tüm koşulları birleştir ve bir WHERE şartı olarak ekle
+                            $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                         }
                     }
                 }
+                
 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
