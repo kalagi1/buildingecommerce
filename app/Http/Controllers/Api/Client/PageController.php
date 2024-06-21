@@ -901,10 +901,9 @@ class PageController extends Controller
                     $conditions = [];
                 
                     foreach ($selectedCheckboxes as $key => $values) {
-                        return $values;
                         foreach ($values as $subkey => $value) {
+                            return $values[$subkey];
                             if ($value == true) {
-                                // Eğer değer 'true' ise JSON alanında arama yap
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
