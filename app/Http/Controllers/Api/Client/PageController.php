@@ -892,6 +892,39 @@ class PageController extends Controller
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
 
+                // selectedCheckboxes işleme
+                if ($request->has('selectedCheckboxes')) {
+                    $selectedCheckboxes = $request->input('selectedCheckboxes');
+
+                    foreach ($selectedCheckboxes as $key => $values) {
+                        foreach ($values as $subkey => $value) {
+                            if ($value) {
+                                // Eğer değer 'true' ise JSON alanında arama yap
+                                $query->whereRaw("JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')");
+                            }
+                        }
+                    }
+                }
+
+                // textInputs işleme
+                if ($request->has('textInputs')) {
+                    $textInputs = $request->input('textInputs');
+
+                    foreach ($textInputs as $key => $values) {
+                        if (isset($values['min'])) {
+                            $minValue = $values['min'];
+                            // Min değeri JSON içinde arama yap
+                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') >= ?", [$minValue]);
+                        }
+
+                        if (isset($values['max'])) {
+                            $maxValue = $values['max'];
+                            // Max değeri JSON içinde arama yap
+                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') <= ?", [$maxValue]);
+                        }
+                    }
+                }
+
                 if ($countyID || $request->input("selectedCounty")) {
                     $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
                 }
@@ -927,7 +960,7 @@ class PageController extends Controller
                 }
                 $secondhandHousings = $query->get();
             }
-        } elseif ($deneme == null) {
+        } else {
 
             if ($housingTypeParentSlug) {
                 $secondhandHousingQuery->where("step1_slug", $housingTypeParentSlug);
@@ -949,6 +982,38 @@ class PageController extends Controller
                 $secondhandHousingQuery->where('housings.housing_type_id', $newHousingType);
             }
 
+            // selectedCheckboxes işleme
+            if ($request->has('selectedCheckboxes')) {
+                $selectedCheckboxes = $request->input('selectedCheckboxes');
+
+                foreach ($selectedCheckboxes as $key => $values) {
+                    foreach ($values as $subkey => $value) {
+                        if ($value) {
+                            // Eğer değer 'true' ise JSON alanında arama yap
+                            $secondhandHousingQuery->whereRaw("JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')");
+                        }
+                    }
+                }
+            }
+
+            // textInputs işleme
+            if ($request->has('textInputs')) {
+                $textInputs = $request->input('textInputs');
+
+                foreach ($textInputs as $key => $values) {
+                    if (isset($values['min'])) {
+                        $minValue = $values['min'];
+                        // Min değeri JSON içinde arama yap
+                        $secondhandHousingQuery->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') >= ?", [$minValue]);
+                    }
+
+                    if (isset($values['max'])) {
+                        $maxValue = $values['max'];
+                        // Max değeri JSON içinde arama yap
+                        $secondhandHousingQuery->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') <= ?", [$maxValue]);
+                    }
+                }
+            }
 
             $secondhandHousingQuery->whereHas('housingStatus', function ($secondhandHousingQuery) use ($slug) {
                 $secondhandHousingQuery->where('housing_status_id', $slug);
