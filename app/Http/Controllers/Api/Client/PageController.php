@@ -918,11 +918,12 @@ class PageController extends Controller
 
                         if (isset($values['max'])) {
                             $maxValue = $values['max'];
-                            return $key;
                             $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') <= ?", [$maxValue]);
                         }
                     }
                 }
+
+                return $query->toSql();
 
                 if ($countyID || $request->input("selectedCounty")) {
                     $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
