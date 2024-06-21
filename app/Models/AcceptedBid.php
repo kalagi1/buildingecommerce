@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AcceptBid extends Model
+class AcceptedBid extends Model
 {
     protected $fillable = ['housing_id', 'bid_id', 'expires_at'];
 

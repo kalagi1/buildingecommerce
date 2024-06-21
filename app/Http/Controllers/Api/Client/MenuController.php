@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     public function getMenuList(){
+        
         $menuList = Menu::all();
         $formattedMenu = [];
     
-        // Parent olmayan menülerin ilk olarak düzenlenmesi
         foreach ($menuList as $menu) {
             if ($menu->parent_id === null) {
                 $formattedMenu[$menu->id] = [

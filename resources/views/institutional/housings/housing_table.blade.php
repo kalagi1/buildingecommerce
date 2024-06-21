@@ -7,6 +7,8 @@
             <th>Emlak Tipi</th>
             @if (Auth::user()->type != 1)
             <th>Danışman</th>
+            @else
+            <th>Satıcı Üye</th>
             @endif
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
@@ -14,6 +16,7 @@
             <th>Düzenle</th>
             <th>{{ isset($tableId) && $tableId === 'bulk-select-body-soldHousingTypes' ? 'Sipariş Durumu' : 'Resimler' }}
             </th>
+        <th>Pazarlık Teklifleri</th>
 
         </tr>
     </thead>

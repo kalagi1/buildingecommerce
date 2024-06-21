@@ -89,6 +89,8 @@ class HousingController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
+
+
         // Disabled housings
         $disabledHousingTypes = (clone $baseQuery)
             ->where('status', 3)
@@ -117,8 +119,115 @@ class HousingController extends Controller
             ->onlyTrashed()
             ->get();
 
-        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes', 'soldHousingsTypes'));
+        $pendingHousingCount = $pendingHousingTypes->count();
+
+        return view('admin.housings.index', compact('activeHousingTypes',
+            'disabledHousingTypes',
+            'pendingHousingTypes',
+            'deletedHousings',
+            'inactiveHousingTypes',
+            'soldHousingsTypes',
+            'pendingHousingCount'
+        ));
+
+
+
     }
+
+
+    public function filterById(Request $request)
+    {
+        // Define a common base query for reuse
+        $baseQuery = Housing::with([
+            'images',
+            'user',
+            'owner',
+            'housing_type',
+            'listItems',
+            'city',
+            'district',
+            'neighborhood'
+        ])
+            ->whereHas('listItems', function($query) {
+                $query->where('item_type', 2);
+            });
+
+
+
+        $sorting = $request->input('sorting');
+        if ($sorting == 'oldest') {
+            $baseQuery->orderBy('created_at', 'asc'); // En eski tarihe göre sıralama
+        } else {
+            $baseQuery->orderBy('created_at', 'desc'); // En yeni tarihe göre sıralama (varsayılan)
+        }
+
+        if ($request->filled('housing_id')) {
+            $baseQuery->where('id', $request->input('housing_id')-2000000);
+        }
+
+
+
+
+
+        // Active housings
+        $activeHousingTypes = (clone $baseQuery)
+            ->where('status', 1)
+            ->whereNull('deleted_at')
+            ->whereNull('is_sold')
+            ->get();
+
+
+        // Inactive housings
+        $inactiveHousingTypes = (clone $baseQuery)
+            ->where('status', 0)
+            ->whereNull('deleted_at')
+            ->get();
+
+
+        // Disabled housings
+        $disabledHousingTypes = (clone $baseQuery)
+            ->where('status', 3)
+            ->whereNull('deleted_at')
+            ->get();
+
+        // Pending housings
+        $pendingHousingTypes = (clone $baseQuery)
+            ->where('status', 2)
+            ->whereNull('deleted_at')
+            ->get();
+
+        // Sold housings
+        $soldHousingsTypes = (clone $baseQuery)
+            ->where('is_sold', 1)
+            ->whereNull('deleted_at')
+            ->get();
+
+        $isShareTypes = (clone $baseQuery)
+            ->whereNotNull('owner_id') // owner_id olanları sınırlayalım
+            ->whereNull('deleted_at') // silinmiş olanları filtreleyelim
+            ->orWhereRaw('owner_id <> user_id') // owner_id ve user_id eşit olmayanları da ekleyelim
+            ->get();
+
+        $deletedHousings = (clone $baseQuery)
+            ->onlyTrashed()
+            ->get();
+
+        $activeTab = $request->input('tab', 'active');
+
+        $pendingHousingCount = $pendingHousingTypes->count();
+
+        return view('admin.housings.index', compact('activeHousingTypes',
+            'disabledHousingTypes',
+            'pendingHousingTypes',
+            'deletedHousings',
+            'inactiveHousingTypes',
+            'soldHousingsTypes',
+            'activeTab',
+            'pendingHousingCount',
+        ));
+    }
+
+
 
     /**
      * Display a listing of the comments.
@@ -165,8 +274,8 @@ class HousingController extends Controller
             ->first();
 
         $housingData = json_decode($housing->housing_type_data);
-        $housingTypeData = HousingType::where('id', $housing->housing_type_id)->first();
-        $housingTypeData = json_decode($housingTypeData->form_json);
+        $housingType = HousingType::where('id', $housing->housing_type_id)->first();
+        $housingTypeData = json_decode($housingType->form_json);
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
         $housingCityId = (int) $housing->city_id;
 
@@ -195,7 +304,7 @@ class HousingController extends Controller
         
 
 
-        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers'));
+        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers','housingType'));
     }
 
     public function setStatus($housingId, Request $request)
