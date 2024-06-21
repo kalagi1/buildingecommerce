@@ -887,7 +887,7 @@ class PageController extends Controller
                 }
 
                 if ($housingType) {
-                    $query->where('housing_type_id', $housingType);
+                    $query->where('housings.housing_type_id', $housingType);
                 }
 
                 if ($opt) {
@@ -968,7 +968,7 @@ class PageController extends Controller
 
 
             if ($housingType) {
-                $query->where('housing_type_id', $newHousingType);
+                $query->where('housings.housing_type_id', $newHousingType);
             }
 
 
