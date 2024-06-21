@@ -736,6 +736,8 @@ class PageController extends Controller
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
 
+        return $slug;
+
         if ($slug) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
