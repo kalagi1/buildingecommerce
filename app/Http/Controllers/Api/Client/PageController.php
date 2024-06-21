@@ -898,23 +898,23 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
+                    $conditions = [];
                 
                     foreach ($selectedCheckboxes as $key => $values) {
-                        $conditions = [];
-                
                         foreach ($values as $subkey => $value) {
                             if ($value == true) {
+                                // Eğer değer 'true' ise JSON alanında arama yap
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
+                    }
                 
-                        if (!empty($conditions)) {
-                            return $conditions;
-                       
-                            $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
-                        }
+                    if (!empty($conditions)) {
+                        return $conditions;
+                        $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
+                
                 
 
                 if ($request->has('textInputs')) {
