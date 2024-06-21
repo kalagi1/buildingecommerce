@@ -393,7 +393,6 @@ class HomeController extends Controller
                 ->where('housing_type_id', $housingType)
                 ->get()
                 ->keyBy('filter_name');
-                return $filtersDb;
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
