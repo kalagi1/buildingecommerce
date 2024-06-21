@@ -593,8 +593,6 @@ class PageController extends Controller
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->get();
-
-                return $secondhandHousings;
         }
 
         if ($deneme && $deneme == "paylasimli-ilanlar") {
@@ -636,7 +634,7 @@ class PageController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
-                ->whereNotNull('housings.owner_id') 
+                ->whereNotNull('housings.owner_id')
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
@@ -736,15 +734,15 @@ class PageController extends Controller
 
 
         if ($housingTypeParentSlug && $housingTypeParentSlug == "arsa") {
-          
+
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
 
-          if ($slug) {
+        if ($slug && $deneme == null) {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
-                ->where("projects.status", 1)
-                ->orderBy('created_at', 'desc');
+                    ->where("projects.status", 1)
+                    ->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -771,12 +769,12 @@ class PageController extends Controller
                     } else if ($request->input('selectedRadio')['corporate_type'] == "construction_office") {
                         $key = "İnşaat Ofisi";
                     }
-    
+
                     $query->join('users', 'users.id', '=', 'projects.user_id')
                         ->where('users.corporate_type', $key)
                         ->select('projects.*', 'users.corporate_type');
                 }
-    
+
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') != null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
                         $query->where('created_at', '>=', now()->subDay());
@@ -881,7 +879,7 @@ class PageController extends Controller
                 }
                 $secondhandHousings = $query->get();
             }
-        } else {
+        } elseif( $deneme == null) {
             $query = Housing::with('images', "city", "county");
 
             if ($housingTypeParentSlug) {
