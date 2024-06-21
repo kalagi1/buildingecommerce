@@ -1154,7 +1154,7 @@ class PageController extends Controller
             }
         } else {
 
-            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil" ||  $slug == "paylasimli-ilanlar") {
 
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
