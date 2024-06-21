@@ -895,14 +895,13 @@ class PageController extends Controller
                 if ($cityID || $request->input("selectedCity")) {
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
-
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $conditions = [];
                 
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
-                            if ($values[$subkey] != false) {
+                            if ($value === true) {  // Kullanılabilir değer 'true'
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
