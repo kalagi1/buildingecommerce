@@ -916,12 +916,12 @@ class PageController extends Controller
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
-                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $minValue . '[0]")) AS FLOAT) >= ?', [$request->input($key)]);
+                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) >= ?', [$minValue]);
                         }
 
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']); 
-                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $maxValue . '[0]")) AS FLOAT) <= ?', [$request->input($key)]);
+                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) <= ?', [$maxValue]);
                         }
                     }
                 }
