@@ -909,7 +909,6 @@ class PageController extends Controller
                 // textInputs işleme
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-                    return $textInputs;
 
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
@@ -919,7 +918,7 @@ class PageController extends Controller
 
                         if (isset($values['max'])) {
                             $maxValue = $values['max'];
-                            // Max değeri JSON içinde arama yap
+                            return $maxValue;
                             $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') <= ?", [$maxValue]);
                         }
                     }
