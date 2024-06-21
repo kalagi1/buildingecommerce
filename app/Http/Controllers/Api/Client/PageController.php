@@ -906,25 +906,22 @@ class PageController extends Controller
                     }
                 }
 
-                // textInputs işleme
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-
+                
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = $values['min'];
-                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') >= ?", [$minValue]);
+                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.\"$key\"') >= ?", [$minValue]);
                         }
-
+                
                         if (isset($values['max'])) {
                             $maxValue = $values['max'];
-                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.$key') <= ?", [$maxValue]);
+                            $query->whereRaw("JSON_EXTRACT(housings.housing_type_data, '$.\"$key\"') <= ?", [$maxValue]);
                         }
                     }
                 }
-
-                return $query->toSql();
-
+                
                 if ($countyID || $request->input("selectedCounty")) {
                     $query->where('county_id', $countyID ?? $request->input("selectedCounty"));
                 }
