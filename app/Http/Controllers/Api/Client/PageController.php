@@ -901,6 +901,7 @@ class PageController extends Controller
                     $conditions = [];
                 
                     foreach ($selectedCheckboxes as $key => $values) {
+                        return $values;
                         foreach ($values as $subkey => $value) {
                             if ($value == true) {
                                 // Eğer değer 'true' ise JSON alanında arama yap
