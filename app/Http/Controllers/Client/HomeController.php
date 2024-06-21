@@ -394,7 +394,7 @@ class HomeController extends Controller
                 ->get()
                 ->keyBy('filter_name');
 
-                return is_array($filtersDb);
+                return $filtersDb;
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
