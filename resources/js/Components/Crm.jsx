@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-
+import  { useRef } from 'react';
 //MRT Imports
 import {
   MaterialReactTable,
@@ -8,7 +8,6 @@ import {
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from 'material-react-table';
-
 //Material UI Imports
 import {
   Box,
@@ -19,44 +18,76 @@ import {
   Rating,
   Typography,
   lighten,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  TextField
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 //Icons Imports
 import { AccountCircle, Send } from '@mui/icons-material';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import '../../css/crm.css';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import moment from 'moment';
+// import '@fullcalendar/common/main.css';
+// import '@fullcalendar/daygrid/main.css';
+// const localizer = momentLocalizer(moment);
+// import Modal from './Modal';
 
 const Crm = () => {
   const [customers, setCustomers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [wasMeeting,setWasMeeting] = useState(0);
   const [loading,setLoading] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [selectedMeetType,setSelectedMeetType] = useState(null);
   const [selectedRating,setSelectedRating] = useState(null);
   const [selectedCustomerStatus,setSelectedCustomerStatus] = useState(null);
   const [selectedConclusion,setSelectedConclusion] = useState(null);
 
-  var months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const formRef = useRef(null); // Ref tanımlama
+  // State değişkeni tanımı
+const [showAllCalls, setShowAllCalls] = useState(false);
+const [events, setEvents] = useState([]);
+const [selectedEvent, setSelectedEvent] = useState(null);
+const [isDialogOpen, setIsDialogOpen] = useState(false);
+const [customerData, setCustomerData] = useState(null);
+const [projectData, setProjectData] = useState(null);
 
-  useEffect(() => {
+  var months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const fetchRecords = () => {
     setLoading(true);
     var filter = {
-      was_meeting : wasMeeting,
-      selected_meet_type : selectedMeetType,
-      selected_rating : selectedRating,
-      selected_customer_status : selectedCustomerStatus,
-      selected_conclusion : selectedConclusion
-    }
-    
-    axios.get(baseUrl + 'customer?'+QueryString.stringify(filter)).then((res) => {
+      was_meeting: wasMeeting,
+      selected_meet_type: selectedMeetType,
+      selected_rating: selectedRating,
+      selected_customer_status: selectedCustomerStatus,
+      selected_conclusion: selectedConclusion
+    };
+
+    axios.get(baseUrl + 'customer?' + QueryString.stringify(filter)).then((res) => {
       setCustomers(res.data.data);
       setProjects(res.data.projects);
       setLoading(false);
-    })
+    });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchRecords();
   }, [wasMeeting,selectedMeetType,selectedRating,selectedConclusion,selectedCustomerStatus])
 
   const changeData = (key, value, id) => {
     axios.put(baseUrl + 'customer/' + id, { key, value }).then((res) => {
-      console.log(res);
     })
 
     var newDatas = customers.map((customer) => {
@@ -73,7 +104,6 @@ const Crm = () => {
     setCustomers(newDatas);
   }
 
-  console.log(projects);
   const columns = [
     {
       id: 'employee', //id used to define `group` column
@@ -107,7 +137,6 @@ const Crm = () => {
             );
         },
           Cell: ({ renderedCellValue, row }) => {
-            console.log(row);
             var date = new Date(row.original.date);
             return (
               <Box
@@ -134,7 +163,6 @@ const Crm = () => {
           enableColumnPinning: false,
           enableColumnOrdering: false,
           Cell: ({ renderedCellValue, row }) => {
-            console.log(row);
             var date = new Date(row.original.date);
             return (
               <Box
@@ -161,7 +189,7 @@ const Crm = () => {
           enableColumnPinning: false,
           enableColumnOrdering: false,
           Cell: ({ renderedCellValue, row }) => {
-            console.log(row);
+            // console.log(row);
             var date = new Date(row.original.date);
             return (
               <Box
@@ -414,7 +442,7 @@ const Crm = () => {
           enableColumnPinning: false,
           enableColumnOrdering: false,
           Cell: ({ renderedCellValue, row }) => {
-            console.log(renderedCellValue);
+            // console.log(renderedCellValue);
             return (
               <Box
                 sx={{
@@ -471,7 +499,7 @@ const Crm = () => {
           enableColumnPinning: false,
           enableColumnOrdering: false,
           Cell: ({ renderedCellValue, row }) => {
-            console.log(renderedCellValue);
+            // console.log(renderedCellValue);
             return (
               <Box
                 sx={{
@@ -527,6 +555,17 @@ const Crm = () => {
     },
   ];
 
+  const handleClickOpen = (customer) => {
+    setSelectedCustomer(customer);
+    setOpenDialog(true);
+  };
+// console.log('customer-->>'+JSON.stringify(selectedCustomer))
+  const handleClose = () => {
+    setOpenDialog(false);
+    setSelectedCustomer(null);
+  };
+
+
   const table = useMaterialReactTable({
     columns,
     data: customers, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -562,7 +601,7 @@ const Crm = () => {
       shape: 'rounded',
       variant: 'outlined',
     },
-    renderRowActionMenuItems: ({ closeMenu }) => [
+    renderRowActionMenuItems: ({ closeMenu,row }) => [
       <MenuItem
         key={0}
         onClick={() => {
@@ -589,6 +628,15 @@ const Crm = () => {
         </ListItemIcon>
         Send Email
       </MenuItem>,
+       <MenuItem onClick={() => {
+        setAnchorEl(null);
+        handleClickOpen(row.original);
+      }}>
+         <ListItemIcon>
+         <Send />
+
+        </ListItemIcon>
+        Arama Kayıtları</MenuItem>
     ],
     enableStickyHeader: true,
     enableStickyFooter: true,
@@ -599,14 +647,261 @@ const Crm = () => {
     enableFilterMatchHighlighting : false,
   });
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const [showForm, setShowForm] = useState(false);
+  const [newRecord, setNewRecord] = useState({
+    meet_date: '',
+    note: '',
+    meet_type: '',
+    presentation: '',
+    conclusion: '',
+    appointment_date: '',
+    appointment_info: '',
+    email: '',
+    city: '',
+    name: '',
+    project_title: ''
+  });
+
+  const handleChange = (e) => {
+    setNewRecord({
+      ...newRecord,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  useEffect(() => {
+    if (selectedCustomer) {
+      setNewRecord({
+        meet_date: '',
+        note: '',
+        meet_type: '',
+        presentation: '',
+        conclusion: '',
+        appointment_date: '',
+        appointment_info: '',
+        email: selectedCustomer.email || '',
+        city: selectedCustomer.city || '',
+        name: selectedCustomer.name || '',
+        project_title: selectedCustomer.project.project_title || ''
+      });
+    }
+  }, [selectedCustomer]);
+
+  const handleSave = async () => {
+    try {
+      // Save the new call record
+      setLoadingModal(true);
+      const response = await axios.post(baseUrl+'new-call-record', {
+        customer_id: selectedCustomer.id,
+        meet_date: newRecord.meet_date,
+        note: newRecord.note,
+        meet_type: newRecord.meet_type,
+        presentation: newRecord.presentation,
+        conclusion: newRecord.conclusion,
+        email: newRecord.email,
+        city: newRecord.city,
+        name: newRecord.name,
+        project_title: newRecord.project_title
+      });
+
+      if (newRecord.conclusion === 1) {
+        // Save the appointment if the conclusion is 'Randevu'
+        await axios.post(baseUrl+'new-appointment', {
+          customer_id: selectedCustomer.id,
+          appointment_date: newRecord.appointment_date,
+          appointment_info: newRecord.appointment_info
+        });
+      }
+
+      console.log('New Record saved:', response.data);
+
+      // Close the form after saving
+      setShowForm(false);
+
+      // Reset the form
+      setNewRecord({
+        meet_date: '',
+        note: '',
+        meet_type: '',
+        presentation: '',
+        conclusion: '',
+        appointment_date: '',
+        appointment_info: '',
+        email: '',
+        city: '',
+        name: '',
+        project_title: ''
+      });
+
+      fetchAllCustomerCalls();
+      setLoadingModal(false);
+
+    } catch (error) {
+      console.error('Error saving the new record:', error);
+    }
+  };
+
+const fetchAllCustomerCalls = async () => {
+  try {
+    const response = await  axios.get(baseUrl + 'fetch-customers/' + selectedCustomer.id);
+    setCustomerCalls(response.data.data);
+    console.log('aramaaaa '+JSON.stringify(customerCalls))
+  } catch (error) {
+    console.error('Error fetching customer calls:', error);
+  }
+};
+
+
+const [customerCalls, setCustomerCalls] = useState([]);
+
+useEffect(() => {
+  const fetchCustomerCalls = async () => {
+    setLoadingModal(true); // Yükleme durumunu başlat
+    try {
+      const response = await axios.get(baseUrl + 'fetch-customers/' + selectedCustomer.id);
+      setCustomerCalls(response.data.data);
+    } catch (error) {
+      console.error('Error fetching customer calls:', error);
+    }
+    setLoadingModal(false); // Yükleme durumunu bitir
+  };
+
+  if (selectedCustomer && selectedCustomer.id) {
+    fetchCustomerCalls();
+  }
+}, [selectedCustomer]);
+
+const [date, setDate] = useState(new Date());
+const [appointments, setAppointments] = useState([]);
+const [selectedAppointments, setSelectedAppointments] = useState([]);
+
+useEffect(() => {
+  getAppointments();
+}, []);
+
+const getAppointments = async () => {
+  try {
+    const response = await axios.get(baseUrl + 'all-appointments');
+    // console.log('Fetched appointments:',JSON.stringify(response.data));
+    setAppointments(response.data.data);
+    const formattedEvents = response.data.data.map(appointment => ({
+      title: appointment.appointment_info,
+      date: appointment.appointment_date,
+      id: appointment.id, 
+      customer_id: appointment.customer_id,
+    }));
+    setEvents(formattedEvents);
+  } catch (error) {
+    console.error('Error fetching appointments:', error);
+  }
+};
+
+  // Takvimde bir etkinliğe tıklandığında tetiklenecek fonksiyon
+  const handleEventClick = (clickInfo) => {
+    const clickedEvent = events.find(event => event.id == clickInfo.event._def.publicId);
+   
+    setSelectedEvent(clickedEvent);
+    setIsDialogOpen(true);   
+
+    if (clickedEvent) {
+      axios.get(baseUrl +`getbycustomer/${clickedEvent.customer_id}`)
+        .then(response => {
+          setCustomerData(response.data.data);
+           setProjectData(response.data.project)
+        
+        })
+        .catch(error => {
+          console.error('Error fetching customer data:', error);
+        });
+       
+    }
+   
+};
+console.log('data'+projectData)
+const handleCloseDialog = () => {
+  setIsDialogOpen(false);
+  setSelectedEvent(null);
+  setCustomerData(null);
+  setProjectData(null);
+};
+
   return (
     <>
       <div class="tabs">
         <ul>
           <li onClick={() => {setWasMeeting(0)}} className={wasMeeting == 0 ? "active" : ""}>Arama Yapılmamış</li>
           <li onClick={() => {setWasMeeting(1)}} className={wasMeeting == 1 ? "active" : ""}>Arama Yapılmış</li>
+          <li onClick={() => {setWasMeeting(2)}} className={wasMeeting === 2 ? "active" : ""}>Randevu Takvimi</li>
         </ul>
       </div>
+
+      {wasMeeting === 2 && (
+        
+        <div style={{ width: '80%', margin: '20px auto' }}>
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              events={events}
+              eventColor="green"
+              locale="tr"
+              height="auto"
+              contentHeight={400}
+              eventClick={handleEventClick} // Etkinliğe tıklama işlemi
+            />
+       
+     
+        </div>
+        
+      )}
+       <Dialog
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            >
+              {/* <DialogTitle id="alert-dialog-title">
+              <h3 className='section-title'>Müşteri Bilgileri ve Randevu Detayları</h3>
+              </DialogTitle> */}
+              <DialogContent style={{width:'400px'}}>
+                {selectedEvent && (
+                  <div className="event-details">
+                    <h4 className='section-title'>Müşteri Bilgileri</h4>
+                  
+                    {customerData ? (
+                      <>
+                        <p>İsim              : <strong> {customerData.name}</strong></p>
+                        <p>Email             : <strong>{customerData.email}</strong></p>
+                        <p>Telefon           : <strong>{customerData.phone}</strong></p>
+                        <p>Meslek            : <strong> {customerData.job}</strong></p>
+                        <p>Şehir             : <strong>{customerData.city}</strong></p>
+                        <p>İlgilendiği Proje : <strong>{projectData ? projectData.project_title : 'Yükleniyor...'}</strong></p>
+              
+                      </>
+                    ) : (
+                      <p>Müşteri bilgileri yükleniyor...</p>
+                    )}
+                    <h4 className='section-title'>Randevu Bilgileri</h4>
+
+                    <p>Randevu Bilgisi : <strong> {selectedEvent.title}</strong></p>
+                    <p>Randevu Tarihi  : <strong>{formatDate(selectedEvent.date)}</strong></p>
+                  </div>
+                )}
+              </DialogContent>
+                
+              <DialogActions>
+                  <Button onClick={handleCloseDialog} color="primary">
+                    Kapat
+                  </Button>
+                </DialogActions>
+    
+          </Dialog>
       {
         wasMeeting == 1 ? 
           <div className="filters">
@@ -649,7 +944,7 @@ const Crm = () => {
                 <div className="col-md-3">
                   <label htmlFor="">Görüşme Sonucu</label>
                   <select className='form-control' value={selectedConclusion} onChange={(e) => {setSelectedConclusion(e.target.value)}} name="" id="">
-                    <option value="">Görüşme Sonucu Seöiniz</option>
+                    <option value="">Görüşme Sonucu Seçiniz</option>
                     <option value="1">Randevu</option>
                     <option value="2">Yeni Projelerde Aranacak</option>
                     <option value="3">Bir Daha Aranmayacak</option>
@@ -661,6 +956,222 @@ const Crm = () => {
         : ''
       }
       <MaterialReactTable table={table} />
+      <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        // maxWidth="md"
+        // fullWidth
+         >
+      <DialogContent>
+      {loadingModal ? (
+          <div className="loading" style={{textAlign:'center'}}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+       
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',backgroundColor: 'whitesmoke',padding: '6px 20px' }}>
+                <Typography variant="h6">Yeni Kayıt Ekle</Typography>
+                <IconButton onClick={() => {
+                      setShowForm(!showForm);
+                      setTimeout(() => {
+                          formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll yap
+                      }, 300);
+                  }}>
+                  <AddIcon />
+                </IconButton>
+              </Box><br />
+        {selectedCustomer && (
+          
+          <Box sx={{ display: 'block', justifyContent: 'space-between', gap: '1rem', }}>
+            <Box sx={{ flex: 1,marginBottom:'18px' }}>
+              <Typography variant="h6" className="section-title">Müşteri Bilgileri</Typography>
+              <hr />
+              <br />
+              <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                <Typography sx={{ width: '25%' }}><strong>Ad:</strong></Typography>
+                <Typography sx={{ width: '75%' }}>{selectedCustomer.name}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                <Typography sx={{ width: '25%' }}><strong>Email:</strong></Typography>
+                <Typography sx={{ width: '75%' }}>{selectedCustomer.email}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex',marginBottom:'2px'}}>
+                <Typography sx={{ width: '25%' }}><strong>Telefon:</strong></Typography>
+                <Typography sx={{ width: '75%' }}>{selectedCustomer.phone}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex',marginBottom:'2px'}}>
+                <Typography sx={{ width: '25%' }}><strong>Şehir:</strong></Typography>
+                <Typography sx={{ width: '75%' }}>{selectedCustomer.city}</Typography>
+              </Box>
+              <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                <Typography sx={{ width: '25%' }}><strong>İlgilendiği Proje:</strong></Typography>
+                <Typography sx={{ width: '75%' }}>{selectedCustomer.project.project_title}</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ flex: 1 }}>
+            <Typography variant="h6"  className="section-title">Arama Kayıtları Bilgileri</Typography>
+            <hr />
+            {customerCalls.slice(0, 3).map(call => (
+                <Box key={call.id}>
+                
+                  <br />
+                  <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Tarihi:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>{formatDate(call.meeting_date)}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex',marginBottom:'2px'  }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Türü:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>
+                      {call.meet_type == 1 ? "Telefon Numarası" : call.meet_type == 2 ? "Ziyaret" : call.meet_type == 3 ? "Yüz Yüze" :  call.meet_type == 4 ? "Zoom" : ""}
+                    </Typography>
+                  </Box>
+             
+
+                  <Box sx={{ display: 'flex',marginBottom:'2px'  }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Sonucu:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>
+                    {
+                    call.conclusion == 1 ? "Randevu" : call.conclusion == 2 ? "Yeni Projelerde Aranacak" : call.conclusion == 3 ? "Bir daha aranmayacak" : ""
+                    }
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                      <Typography sx={{ width: '25%' }}><strong>Görüşme Notu:</strong></Typography>
+                      <Typography sx={{ width: '75%' }}>{call.note}</Typography>
+                  </Box>
+                  <hr />
+                </Box>                
+              ))}
+            </Box>
+            {customerCalls.length > 4 && !showAllCalls && (
+    <Button onClick={() => setShowAllCalls(true)} color="primary">
+        Daha fazla göster
+    </Button>
+)}
+{showAllCalls && (
+    <>
+        {customerCalls.slice(3).map(call => (
+                  <Box key={call.id}>
+                
+                  <br />
+                  <Box sx={{ display: 'flex',marginBottom:'2px'}}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Tarihi:</strong></Typography>
+                    <Typography>{formatDate(call.meeting_date)}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Türü:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>
+                      {call.meet_type == 1 ? "Telefon Numarası" : call.meet_type == 2 ? "Ziyaret" : call.meet_type == 3 ? "Yüz Yüze" :  call.meet_type == 4 ? "Zoom" : ""}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Notu:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>{call.note}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex',marginBottom:'2px' }}>
+                    <Typography sx={{ width: '25%' }}><strong>Görüşme Sonucu:</strong></Typography>
+                    <Typography sx={{ width: '75%' }}>{call.conclusion == 1 ? "Randevu" : call.conclusion == 2 ? "Yeni Projelerde Aranaacak" : call.conclusion == 3 ? "Bir daha aranmayacak" : ""}
+                    </Typography>
+                  </Box><hr />
+                </Box>   
+        ))}
+        <Button onClick={() => setShowAllCalls(false)} color="primary">
+            Daha az göster
+        </Button>
+    </>
+)}
+          </Box>
+        )}
+        {showForm && (
+          <Box sx={{ mt: 1 }}  ref={formRef}>
+            <Typography variant="h6">Yeni Arama Kaydı Ekle</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', mt: 2 }}>
+              <TextField
+                label="Görüşme Tarihi"
+                type="date"
+                name="meet_date"
+                value={newRecord.meet_date}
+                onChange={handleChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                label="Görüşme Notu"
+                name="note"
+                value={newRecord.note}
+                onChange={handleChange}
+              />
+              <TextField
+                label="Görüşme Türü"
+                name="meet_type"
+                value={newRecord.meet_type}
+                onChange={handleChange}
+                select >
+                <MenuItem value={1}>Telefon Numarası</MenuItem>
+                <MenuItem value={2}>Ziyaret</MenuItem>
+                <MenuItem value={3}>Yüz Yüze</MenuItem>
+                <MenuItem value={4}>Zoom</MenuItem>
+              </TextField>
+              <TextField
+                label="Sunum Dosyası"
+                name="presentation"
+                value={newRecord.presentation}
+                onChange={handleChange}
+                select
+              >
+                <MenuItem value={1}>Gösterildi</MenuItem>
+                <MenuItem value={0}>Gösterilmedi</MenuItem>
+              </TextField>
+              <TextField
+                label="Görüşme Sonucu"
+                name="conclusion"
+                value={newRecord.conclusion}
+                onChange={handleChange}
+                select >
+                <MenuItem value={1}>Randevu</MenuItem>
+                <MenuItem value={2}>Yeni Projelerde Aranacak</MenuItem>
+                <MenuItem value={3}>Bir daha Aranmayacak</MenuItem>
+              </TextField>
+              {newRecord.conclusion === 1 && (
+                <>
+                  <TextField
+                    label="Randevu Tarihi"
+                    type="date"
+                    name="appointment_date"
+                    value={newRecord.appointment_date}
+                    onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <TextField
+                    label="Randevu Bilgisi"
+                    name="appointment_info"
+                    value={newRecord.appointment_info}
+                    onChange={handleChange}
+                  />
+                </>
+              )}
+            </Box>
+          </Box>
+        )}
+            </>
+        )}
+      </DialogContent>
+      <DialogActions>
+      {showForm && (
+        <Button onClick={handleSave} color="primary">
+          Kaydet
+        </Button>
+         )}
+        <Button onClick={handleClose} color="primary">
+          Kapat
+        </Button>
+      </DialogActions>
+    </Dialog>
     </>
   );
 }
@@ -674,6 +1185,7 @@ import { render } from 'react-dom';
 import { ro } from 'date-fns/locale';
 import Swal from 'sweetalert2';
 import QueryString from 'qs';
+import Add from '@mui/icons-material/Add';
 const ExampleWithLocalizationProvider = () => (
   //App.tsx or AppProviders file
   <LocalizationProvider dateAdapter={AdapterDayjs}>

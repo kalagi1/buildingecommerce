@@ -1,0 +1,116 @@
+/* MaterialReactTable bileşeni */
+.material-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.material-table th,
+.material-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.material-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  text-align: left;
+}
+
+.material-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.material-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* İletişim Kutusu */
+.dialog-content {
+  padding: 20px;
+}
+
+.dialog-actions {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dialog-actions button {
+  margin-left: 10px;
+}
+
+
+/* Müşteri Bilgileri */
+.customer-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .customer-details h6 {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .customer-details hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+  }
+  
+  .customer-details .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  /* Arama Kayıtları */
+  .call-records {
+    margin-top: 20px;
+  }
+  
+  .call-record {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .call-record h6 {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .call-record .record-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .call-record .record-info p {
+    margin: 0;
+  }
+  
+  .call-record hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+  }
+
+  .section-title{
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: x-large;
+    background-color: whitesmoke;
+    padding: 8px;
+  }
+
+  .react-calendar__tile--highlight {
+    background: green !important;
+    color: white;
+  }
+  

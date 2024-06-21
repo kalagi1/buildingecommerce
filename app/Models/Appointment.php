@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Appointment extends Model
 {
     use HasFactory;
+    protected $table = 'appointments';
     protected $guarded = [];
-
-
-    public function project(){
-        return $this->hasOne(Project::class,"id","interested_project");
-    }
 }
