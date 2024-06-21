@@ -921,7 +921,7 @@ class PageController extends Controller
 
                         if (isset($values['max'])) {
                             $maxValue = $values['max'];
-                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $minValue . '[0]")) AS FLOAT) <= ?', [$request->input($key)]);
+                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $maxValue . '[0]")) AS FLOAT) <= ?', [$request->input($key)]);
                         }
                     }
                 }
