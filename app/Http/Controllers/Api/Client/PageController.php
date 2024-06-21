@@ -895,11 +895,11 @@ class PageController extends Controller
                 if ($cityID || $request->input("selectedCity")) {
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
-              
+
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $conditions = [];
-                
+
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
                             $cleanedSubkey = urldecode($subkey);
@@ -908,13 +908,13 @@ class PageController extends Controller
                             }
                         }
                     }
-                
+
 
                     if (!empty($conditions)) {
                         $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
-                
+
 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
@@ -958,6 +958,27 @@ class PageController extends Controller
                         $query->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
                     }
                 }
+
+                
+            if ($request->has('sortValue')) {
+                switch ($request->input('sortValue')) {
+                    case 'date-asc':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    case 'date-desc':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'price-asc':
+                        $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
+                        break;
+                    case 'price-desc':
+                        $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
+                        break;
+                }
+            } else {
+                $query->orderBy('created_at', 'desc');
+            }
+
 
                 if ($checkTitle) {
                     $query->where(function ($q) use ($checkTitle) {
@@ -1011,11 +1032,11 @@ class PageController extends Controller
                 $secondhandHousingQuery->where('housings.housing_type_id', $newHousingType);
             }
 
-           
+
             if ($request->has('selectedCheckboxes')) {
                 $selectedCheckboxes = $request->input('selectedCheckboxes');
                 $conditions = [];
-            
+
                 foreach ($selectedCheckboxes as $key => $values) {
                     foreach ($values as $subkey => $value) {
                         $cleanedSubkey = urldecode($subkey);
@@ -1024,14 +1045,35 @@ class PageController extends Controller
                         }
                     }
                 }
-            
+
 
                 if (!empty($conditions)) {
                     $secondhandHousingQuery->whereRaw('(' . implode(' OR ', $conditions) . ')');
                 }
             }
 
-            
+            if ($request->has('sortValue')) {
+                switch ($request->input('sortValue')) {
+                    case 'date-asc':
+                        $secondhandHousingQuery->orderBy('created_at', 'asc');
+                        break;
+                    case 'date-desc':
+                        $secondhandHousingQuery->orderBy('created_at', 'desc');
+                        break;
+                    case 'price-asc':
+                        $secondhandHousingQuery->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
+                        break;
+                    case 'price-desc':
+                        $secondhandHousingQuery->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
+                        break;
+                }
+            } else {
+                $secondhandHousingQuery->orderBy('created_at', 'desc');
+            }
+
+
+
+
             if ($request->has('textInputs')) {
                 $textInputs = $request->input('textInputs');
 
