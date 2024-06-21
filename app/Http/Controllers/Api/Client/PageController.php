@@ -513,6 +513,9 @@ class PageController extends Controller
             $deneme = "paylasimli-ilanlar";
         }
 
+        return $deneme;
+        
+
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
         $parameters = [$slug, $type, $optional, $title, $check, $city, $county, $hood];
         $secondhandHousings = [];
