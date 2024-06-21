@@ -513,8 +513,7 @@ class PageController extends Controller
             $deneme = "paylasimli-ilanlar";
         }
 
-        return $deneme;
-        
+
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
         $parameters = [$slug, $type, $optional, $title, $check, $city, $county, $hood];
@@ -594,6 +593,8 @@ class PageController extends Controller
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
                 ->get();
+
+                return $secondhandHousings;
         }
 
         if ($deneme && $deneme == "paylasimli-ilanlar") {
