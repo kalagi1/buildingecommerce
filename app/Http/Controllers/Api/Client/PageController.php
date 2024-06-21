@@ -912,7 +912,6 @@ class PageController extends Controller
                 
 
                     if (!empty($conditions)) {
-                        return $conditions;
                         $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
