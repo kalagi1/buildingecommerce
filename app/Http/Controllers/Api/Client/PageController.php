@@ -913,9 +913,9 @@ class PageController extends Controller
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
-                        $query->where('housings.created_at', '>=', now()->subDay());
+                        $query->where('created_at', '>=', now()->subDay());
                     } else {
-                        $query->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
+                        $query->where('created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
                     }
                 }
 
@@ -961,9 +961,9 @@ class PageController extends Controller
 
             if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                 if ($request->input('selectedRadio.listing_date') == '24') {
-                    $secondhandHousingQuery->where('housings.created_at', '>=', now()->subDay());
+                    $secondhandHousingQuery->where('created_at', '>=', now()->subDay());
                 } else {
-                    $secondhandHousingQuery->where('housings.created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
+                    $secondhandHousingQuery->where('created_at', '>=', now()->subDays($request->input('selectedRadio.listing_date')));
                 }
             }
 
