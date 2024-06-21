@@ -963,10 +963,10 @@ class PageController extends Controller
             if ($request->has('sortValue')) {
                 switch ($request->input('sortValue')) {
                     case 'date-asc':
-                        $query->orderBy('created_at', 'asc');
+                        $query->orderBy('housings.created_at', 'asc');
                         break;
                     case 'date-desc':
-                        $query->orderBy('created_at', 'desc');
+                        $query->orderBy('housings.created_at', 'desc');
                         break;
                     case 'price-asc':
                         $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
