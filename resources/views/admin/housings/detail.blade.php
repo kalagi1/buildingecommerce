@@ -44,14 +44,12 @@
                 </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-12">
                 <div class="bg-light float-end p-3 border rounded" style="font-size: 18px;">
                     <span class="fw-bold">Peşin Fiyat:</span>
                     {{ number_format($housingData->price[0], 2, ',', '.') }} TL
                 </div>
             </div>
-
-
         </div>
 
 
@@ -215,6 +213,17 @@
                                                 </td>
                                             </tr>
 
+                                            @if ($housing->owner->name)
+                                                <tr>
+                                                    <td>
+                                                        İlan Sahibi:
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
 
                                             @if ($housing->owner->phone)
                                                 <tr>
