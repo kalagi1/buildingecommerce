@@ -910,7 +910,8 @@ class PageController extends Controller
                         }
                 
                         if (!empty($conditions)) {
-                            // Tüm koşulları birleştir ve bir WHERE şartı olarak ekle
+                            return $conditions;
+                       
                             $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                         }
                     }
