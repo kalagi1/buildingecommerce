@@ -119,13 +119,17 @@ class ProjectController extends Controller
         $pendingProjects = $calculateOrderCount($pendingProjects)->sortByDesc('orderCount');
         $deletedProjects = $calculateOrderCount($deletedProjects)->sortByDesc('orderCount');
 
+        $pendingProjectCount = $pendingProjects->count();
+
+        
         return view('admin.projects.index', compact(
             'activeProjects',
             'inactiveProjects',
             'disabledProjects',
             'pendingProjects',
             'deletedProjects',
-            'projectStatuses'
+            'projectStatuses',
+            'pendingProjectCount'
         ));
     }
 
