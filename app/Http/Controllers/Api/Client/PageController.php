@@ -901,14 +901,12 @@ class PageController extends Controller
                 
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
-                            if ($value === true) {  // Kullanılabilir değer 'true'
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
-                            }
+                            
                         }
                     }
                 
                     if (!empty($conditions)) {
-                        return $conditions;
                         $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
                     }
                 }
