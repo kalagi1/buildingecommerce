@@ -738,10 +738,9 @@ class PageController extends Controller
 
           if ($slug) {
             if ($is_project) {
-                $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
-                $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
-
-                $query = Project::query()->with("city", "county","user")->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
+                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                ->where("projects.status", 1)
+                ->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -843,11 +842,7 @@ class PageController extends Controller
                     }
                 }
 
-                $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
-                    ->orderBy('id', 'asc')
-                    ->get()
-                    ->concat($anotherProjects);
+                $projects = $query->get();
             } else {
                 $query = Housing::with('images', "city", "county");
 
