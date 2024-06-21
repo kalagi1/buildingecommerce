@@ -741,7 +741,7 @@ class PageController extends Controller
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
-                $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
+                $query = Project::query()->with("city", "county")->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
