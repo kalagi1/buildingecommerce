@@ -902,8 +902,7 @@ class PageController extends Controller
                 
                     foreach ($selectedCheckboxes as $key => $values) {
                         foreach ($values as $subkey => $value) {
-                            return $values[$subkey];
-                            if ($value == true) {
+                            if ($values[$subkey] != false) {
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '\"$subkey\"', '$.$key')";
                             }
                         }
