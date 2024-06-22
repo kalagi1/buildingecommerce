@@ -806,6 +806,7 @@ class PageController extends Controller
                         'housings.title AS housing_title',
                         'housings.created_at',
                         'housings.step1_slug',
+                        'housings.owner_id',
                         'housings.step2_slug',
                         'housing_types.title as housing_type_title',
                         'housings.housing_type_data',
@@ -949,7 +950,6 @@ class PageController extends Controller
                 }
 
                 if ($slug == "paylasimli-ilanlar") {
-                    return "asas";
                     $query->whereNotNull('housings.owner_id');
                 }
 
