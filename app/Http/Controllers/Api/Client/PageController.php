@@ -738,7 +738,7 @@ class PageController extends Controller
 
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
-                $query = Project::with("city", "county","housings", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                $query = Project::with("city", "county", "housings", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
                     ->where("projects.status", 1);
 
                 if ($housingTypeParentSlug) {
@@ -807,24 +807,23 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                
-                    $projects = $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
-                            foreach ($selectedCheckboxes as $key => $values) {
-                                $query->where(function ($query) use ($values) {
-                                    foreach ($values as $subkey => $value) {
-                                        $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
-                                        $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
-                                            $query->where('key', $cleanedSubkey)
-                                                ->where('value', $cleanedValue);
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                
+
+                    $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
+                        foreach ($selectedCheckboxes as $key => $values) {
+                            $query->where(function ($query) use ($values) {
+                                foreach ($values as $subkey => $value) {
+                                    $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
+                                    $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                                    $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                        $query->where('key', $cleanedSubkey)
+                                            ->where('value', $cleanedValue);
+                                    });
+                                }
+                            });
+                        }
+                    });
                 }
-                
+
                 $projects = $query->get();
             } else {
                 $query = Housing::with('images')
@@ -879,17 +878,17 @@ class PageController extends Controller
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
-                
+
                     foreach ($selectedCheckboxes as $key => $values) {
                         $conditions = [];
                         foreach ($values as $subkey => $value) {
                             $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                             $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                
+
                             if ($cleanedValue != false) {
                                 // Karşılanan verideki Unicode karakterlerini çöz
                                 $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
-                
+
                                 // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                             }
@@ -898,12 +897,12 @@ class PageController extends Controller
                             $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
                         }
                     }
-                
+
                     if (!empty($groupedConditions)) {
                         $query->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
                     }
                 }
-                
+
 
 
                 if ($request->has('textInputs')) {
@@ -1025,13 +1024,13 @@ class PageController extends Controller
             if ($request->has('selectedCheckboxes')) {
                 $selectedCheckboxes = $request->input('selectedCheckboxes');
                 $groupedConditions = [];
-            
+
                 foreach ($selectedCheckboxes as $key => $values) {
                     $conditions = [];
                     foreach ($values as $subkey => $value) {
                         $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                         $cleanedValue = urldecode($value); // URL kodlamasını çöz
-            
+
                         if ($cleanedValue != false) {
                             $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                             $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
@@ -1041,12 +1040,12 @@ class PageController extends Controller
                         $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
                     }
                 }
-            
+
                 if (!empty($groupedConditions)) {
                     $secondhandHousingQuery->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
                 }
             }
-            
+
 
 
             if ($request->has('sortValue')) {
