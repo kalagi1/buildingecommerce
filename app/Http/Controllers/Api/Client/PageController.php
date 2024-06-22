@@ -903,7 +903,6 @@ class PageController extends Controller
                     $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
                 }
 
-return $opt. "dsd";
 
                 if ($opt) {
                     $query->where('step2_slug', $opt);
@@ -916,6 +915,7 @@ return $opt. "dsd";
     
                 }
            
+                return $slug;
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
