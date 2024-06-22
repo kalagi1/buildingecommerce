@@ -820,7 +820,7 @@ class PageController extends Controller
                                     if ($firstSubKey) {
                                         $query->where(function ($query) use ($cleanedSubkey, $cleanedValue) {
                                             $query->where('name', $cleanedSubkey . "[]")
-                                                  ->where('value', $cleanedValue);
+                                                  ->whereIn('value', $cleanedValue);
                                         });
                                         $firstSubKey = false;
                                     } else {
@@ -843,17 +843,19 @@ class PageController extends Controller
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
                             $query->whereHas('roomInfo', function ($query) use ($key, $minValue) {
-                                $query->where('name', $key . "[]")
-                                      ->whereRaw('CAST(value AS FLOAT) >= ?', [$minValue]);
-                            });
+                                $query->where([
+                                    ['name', $key . "[]"],
+                                ])->where('value', '>=', $minValue)->groupBy('project_id');
+                            }, '>=', 1);
                         }
                 
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
                             $query->whereHas('roomInfo', function ($query) use ($key, $maxValue) {
-                                $query->where('name', $key . "[]")
-                                      ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
-                            });
+                                $query->where([
+                                    ['name', $key . "[]"],
+                                ])->where('value', '>=', $maxValue)->groupBy('project_id');
+                            }, '>=', 1);
                         }
                     }
                 }
