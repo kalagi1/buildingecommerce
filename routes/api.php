@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
 
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
+use App\Http\Controllers\Api\Client\PayController as ClientPayController;
 use App\Http\Controllers\Api\Institutional\BoughtController;
 use App\Http\Controllers\Api\Institutional\CartController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
@@ -101,6 +102,7 @@ Route::post('/remove_pay_dec_item', [TempOrderController::class, 'removePayDecIt
 Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
 Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+Route::post('/pay', [ClientPayController::class, 'pay']);
 
 Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
