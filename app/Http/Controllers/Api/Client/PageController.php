@@ -845,8 +845,8 @@ class PageController extends Controller
                             $query->whereHas('roomInfo', function ($query) use ($key, $minValue) {
                                 $query->where([
                                     ['name', $key . "[]"],
-                                ])->where('value', '>=', $minValue)->groupBy('project_id');
-                            }, '>=', 1);
+                                ])->where('value', '>=', $minValue);
+                            });
                         }
                 
                         if (isset($values['max'])) {
@@ -854,8 +854,8 @@ class PageController extends Controller
                             $query->whereHas('roomInfo', function ($query) use ($key, $maxValue) {
                                 $query->where([
                                     ['name', $key . "[]"],
-                                ])->where('value', '>=', $maxValue)->groupBy('project_id');
-                            }, '>=', 1);
+                                ])->where('value', '>=', $maxValue);
+                            });
                         }
                     }
                 }
