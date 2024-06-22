@@ -937,8 +937,7 @@ class PageController extends Controller
                     }
 
                     if (!empty($conditions)) {
-                        return $conditions;
-                        $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
+                        $query->whereRaw('(' . implode(' AND ', $conditions) . ')');
                     }
                 }
 
@@ -1077,7 +1076,7 @@ class PageController extends Controller
                 }
 
                 if (!empty($conditions)) {
-                    $secondhandHousingQuery->whereRaw('(' . implode(' OR ', $conditions) . ')');
+                    $secondhandHousingQuery->whereRaw('(' . implode(' AND ', $conditions) . ')');
                 }
             }
 
