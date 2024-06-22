@@ -760,6 +760,20 @@ class PageController extends Controller
                     });
                 }
 
+
+                if ($request->has('sortValue')) {
+                    switch ($request->input('sortValue')) {
+                        case 'date-asc':
+                            $query->orderBy('created_at', 'asc');
+                            break;
+                        case 'date-desc':
+                            $query->orderBy('created_at', 'desc');
+                            break;
+                    }
+                } else {
+                    $query->orderBy('created_at', 'desc');
+                }
+
                 if ($request->has('selectedRadio') && isset($request->input('selectedRadio')['corporate_type']) && $request->input('selectedRadio')['corporate_type'] !== null) {
                     $key = $request->input('selectedRadio')['corporate_type'];
                     if ($request->input('selectedRadio')['corporate_type'] == "tourism_purpose_rental") {
@@ -956,25 +970,25 @@ class PageController extends Controller
                     }
                 }
 
-                
-            if ($request->has('sortValue')) {
-                switch ($request->input('sortValue')) {
-                    case 'date-asc':
-                        $query->orderBy('housings.created_at', 'asc');
-                        break;
-                    case 'date-desc':
-                        $query->orderBy('housings.created_at', 'desc');
-                        break;
-                    case 'price-asc':
-                        $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
-                        break;
-                    case 'price-desc':
-                        $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
-                        break;
+
+                if ($request->has('sortValue')) {
+                    switch ($request->input('sortValue')) {
+                        case 'date-asc':
+                            $query->orderBy('housings.created_at', 'asc');
+                            break;
+                        case 'date-desc':
+                            $query->orderBy('housings.created_at', 'desc');
+                            break;
+                        case 'price-asc':
+                            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
+                            break;
+                        case 'price-desc':
+                            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
+                            break;
+                    }
+                } else {
+                    $query->orderBy('housings.created_at', 'desc');
                 }
-            } else {
-                $query->orderBy('housings.created_at', 'desc');
-            }
 
 
                 if ($checkTitle) {
