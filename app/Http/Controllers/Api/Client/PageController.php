@@ -949,6 +949,7 @@ class PageController extends Controller
                 }
 
                 if ($slug == "paylasimli-ilanlar") {
+                    return "asas";
                     $query->whereNotNull('housings.owner_id');
                 }
 
