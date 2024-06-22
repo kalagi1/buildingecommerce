@@ -810,41 +810,31 @@ class PageController extends Controller
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
                 
+                    // Loop through each group of checkboxes
                     foreach ($selectedCheckboxes as $key => $values) {
-                        // Anahtarları ve değerleri işleme al
+                        $conditions = [];
+                
+                        // Loop through each checkbox within the group
                         foreach ($values as $subkey => $value) {
-                            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
-                            $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                            $cleanedSubkey = urldecode($subkey); // Decode the URL encoding
+                            $cleanedValue = urldecode($value); // Decode the URL encoding
                 
-                            // Karşılanan verideki Unicode karakterlerini çöz
-                            $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                            // Prepare the condition
+                            $conditions[] = "(room_info.name = '$cleanedSubkey[]' AND room_info.value = '$cleanedValue')";
+                        }
                 
-                            // Koşul oluştur
-                            $groupedConditions[$key][] = [
-                                'name' => $cleanedSubkey . "[]",
-                                'value' => $cleanedValue,
-                            ];
+                        // Add conditions for this group to groupedConditions
+                        if (!empty($conditions)) {
+                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
                         }
                     }
                 
-                    // Oluşturulan koşulları kullanarak sorgu oluştur
-                    $query->where(function ($query) use ($groupedConditions) {
-                        foreach ($groupedConditions as $key => $conditions) {
-                            $query->where(function ($query) use ($conditions) {
-                                foreach ($conditions as $index => $condition) {
-                                    if ($index === 0) {
-                                        $query->where('room_info.name', $condition['name'])
-                                              ->where('room_info.value', $condition['value']);
-                                    } else {
-                                        $query->orWhere(function ($query) use ($condition) {
-                                            $query->where('room_info.name', $condition['name'])
-                                                  ->where('room_info.value', $condition['value']);
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    });
+                    // Apply the grouped conditions with an AND relation
+                    if (!empty($groupedConditions)) {
+                        $query->whereHas('roomInfo', function ($query) use ($groupedConditions) {
+                            $query->whereRaw(implode(' AND ', $groupedConditions));
+                        });
+                    }
                 }
                 
                 
