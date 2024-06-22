@@ -838,8 +838,7 @@ class PageController extends Controller
                             $query->whereRaw(implode(' AND ', $groupedConditions));
                         });
                     }
-                
-                    return $groupedConditions;
+            
                 }
                 
                 
