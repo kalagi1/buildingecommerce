@@ -964,7 +964,6 @@ class PageController extends Controller
                     });
                 }
 
-                return $query->toSql();
 
                 $secondhandHousings = $query->get();
             }
