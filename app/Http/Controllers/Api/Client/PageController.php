@@ -835,12 +835,11 @@ class PageController extends Controller
                     ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
                     ->where('project_list_items.item_type', 2);
 
-                    return $housingTypeParentSlug;
-
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
+                return $housingType;
                 if ($housingType) {
                     $query->where('housings.housing_type_id', $housingType);
                 }
