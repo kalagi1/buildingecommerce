@@ -338,8 +338,8 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($sold && $sold[0]->status == 1 && $share_sale == '[]')
-                                                    <td class="price">
+                                                @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || !$share_sale)
+                                                <td class="price">
                                                         @if (isset($sold[0]))
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
@@ -951,8 +951,8 @@
                                 @endif
                             </td>
 
-                            @if ($sold && $sold[0]->status == 1 && $share_sale == '[]')
-                                <td class="price">
+                            @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || !$share_sale)
+                            <td class="price">
                                     @if (isset($sold[0]))
                                         <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                             class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
