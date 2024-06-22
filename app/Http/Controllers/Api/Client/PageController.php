@@ -735,6 +735,7 @@ class PageController extends Controller
         }
 
 
+        return $slug;
 
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
