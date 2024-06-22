@@ -830,7 +830,7 @@ class PageController extends Controller
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
                             $query->whereHas('housings', function ($query) use ($key, $minValue) {
-                                $query->where('key', $key . "[]")
+                                $query->where('name', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) >= ?', [$minValue]);
                             });
                         }
@@ -838,7 +838,7 @@ class PageController extends Controller
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
                             $query->whereHas('housings', function ($query) use ($key, $maxValue) {
-                                $query->where('key', $key . "[]")
+                                $query->where('name', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
                             });
                         }
