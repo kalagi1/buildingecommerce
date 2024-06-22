@@ -816,19 +816,10 @@ class PageController extends Controller
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
-
-                                    if ($firstSubKey) {
-                                        $query->where(function ($query) use ($cleanedSubkey, $cleanedValue) {
-                                            $query->where('name', $cleanedSubkey . "[]")
-                                                ->whereRaw('? IN (value)', [$cleanedValue]);
-                                        });
-                                        $firstSubKey = false;
-                                    } else {
-                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
-                                            $query->where('name', $cleanedSubkey . "[]")
-                                                ->where('value', $cleanedValue);
-                                        });
-                                    }
+                                    $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                        $query->where('name', $cleanedSubkey . "[]")
+                                            ->where('value', $cleanedValue);
+                                    });
                                 }
                             });
                         }
