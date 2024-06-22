@@ -5,13 +5,13 @@ import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 import { toast } from 'react-toastify';
 
-function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
+function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [validationErrors,setValidationErrors] = useState([]);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
     const [payDecOpen,setPayDecOpen] = useState(false);
     const [checkedItems,setCheckedItems] = useState([]);
-    var selectedAccordion = 0;
+    const [selectedAccordion,setSelectedAccordion] = useState("");
 
     const setRoomCountFunc = (event) => {
         if(roomCount > 0){
@@ -334,10 +334,9 @@ function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,
                                                         )
                                                     }else{
                                                         if(data?.className?.includes('grouping-checkbox')){
-                                                            selectedAccordion++;
                                                             return(
                                                                 <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
-                                                                    <Accordion className='mt-2' expanded={selectedAccordion == 0 ? true : false}>
+                                                                    <Accordion onClick={() => {setSelectedAccordion(data?.name)}} className='mt-2' expanded={selectedAccordion == data?.name ? true : false}>
                                                                         <AccordionSummary
                                                                             expandIcon={<i className='fa fa-chevron-down'></i>}
                                                                             aria-controls="panel1-content"
@@ -363,6 +362,7 @@ function Rooms({slug,selectedTypes,formDataHousing,allErrors,anotherBlockErrors,
                                                                     </Accordion>
                                                                 </div>
                                                             )
+                                                            
                                                         }else{
                                                             return(
                                                                 <div className={""+(data?.className?.includes('--if-show-checked-') ? checkedItems.find((checkedItem) => {console.log(checkedItem,selectedRoom,data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]); if(checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1]?.split(' ')[0]){return checkedItem}}) ? "" : "d-none" : "")}>
