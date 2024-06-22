@@ -839,18 +839,24 @@ class PageController extends Controller
                 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
+                    
                     $query->where(function ($query) use ($textInputs) {
                         foreach ($textInputs as $key => $values) {
+                            // Tekil bir whereHas fonksiyonu oluştur
                             $query->where(function ($query) use ($key, $values) {
                                 foreach ($values as $type => $amount) {
                                     $amount = str_replace('.', '', $amount); // Noktaları kaldır
                                     
+                                    // Min değeri için işlem
                                     if ($type === 'min') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . "[]")
                                                   ->where('value', '>=', $amount);
                                         });
-                                    } elseif ($type === 'max') {
+                                    }
+                                    
+                                    // Max değeri için işlem
+                                    elseif ($type === 'max') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . "[]")
                                                   ->where('value', '<=', $amount);
@@ -860,8 +866,8 @@ class PageController extends Controller
                             });
                         }
                     });
-                    
                 }
+                
 
 
                 $projects = $query->get();
