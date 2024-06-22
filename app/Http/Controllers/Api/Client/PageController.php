@@ -807,26 +807,26 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                    
-                    $query->where(function ($query) use ($selectedCheckboxes) {
+
+                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
                                 $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
-                                
+
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                                    
+
                                     if ($firstSubKey) {
                                         $query->where(function ($query) use ($cleanedSubkey, $cleanedValue) {
                                             $query->where('name', $cleanedSubkey . "[]")
-                                                  ->whereRaw('? IN (value)', [$cleanedValue]);
+                                                ->whereRaw('? IN (value)', [$cleanedValue]);
                                         });
                                         $firstSubKey = false;
                                     } else {
                                         $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
                                             $query->where('name', $cleanedSubkey . "[]")
-                                                  ->where('value', $cleanedValue);
+                                                ->where('value', $cleanedValue);
                                         });
                                     }
                                 }
@@ -834,32 +834,32 @@ class PageController extends Controller
                         }
                     });
                 }
-                
-        
-                
+
+
+
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-                    
+
                     $query->where(function ($query) use ($textInputs) {
                         foreach ($textInputs as $key => $values) {
                             // Tekil bir whereHas fonksiyonu oluştur
                             $query->where(function ($query) use ($key, $values) {
                                 foreach ($values as $type => $amount) {
                                     $amount = str_replace('.', '', $amount); // Noktaları kaldır
-                                    
+
                                     // Min değeri için işlem
                                     if ($type === 'min') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . "[]")
-                                                  ->where('value', '>=', $amount);
+                                                ->where('value', '>=', $amount);
                                         });
                                     }
-                                    
+
                                     // Max değeri için işlem
                                     elseif ($type === 'max') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . "[]")
-                                                  ->where('value', '<=', $amount);
+                                                ->where('value', '<=', $amount);
                                         });
                                     }
                                 }
@@ -867,7 +867,7 @@ class PageController extends Controller
                         }
                     });
                 }
-                
+
 
 
                 $projects = $query->get();
