@@ -37,6 +37,7 @@ class PayController extends Controller
         $transaction = $this->createTransaction();
 
         $data = $this->preparePaymentData($requestData, 1, $amount, $transaction);
+        dd($data);
         return view('payment.pay-mobil', $data);
     }
 
