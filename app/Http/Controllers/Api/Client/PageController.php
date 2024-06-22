@@ -590,8 +590,7 @@ class PageController extends Controller
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
                 ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
-                ->where('project_list_items.item_type', 2)
-                ->orderByDesc('housings.created_at');
+                ->where('project_list_items.item_type', 2);
         }
 
         if ($deneme && $deneme == "paylasimli-ilanlar") {
@@ -635,8 +634,7 @@ class PageController extends Controller
                 ->where('housings.status', 1)
                 ->whereNotNull('housings.owner_id')
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
-                ->where('project_list_items.item_type', 2)
-                ->orderByDesc('housings.created_at');
+                ->where('project_list_items.item_type', 2);
         }
 
 
@@ -879,8 +877,7 @@ class PageController extends Controller
                     ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                     ->where('housings.status', 1)
                     ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
-                    ->where('project_list_items.item_type', 2)
-                    ->orderByDesc('housings.created_at');
+                    ->where('project_list_items.item_type', 2);
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
