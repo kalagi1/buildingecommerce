@@ -910,10 +910,13 @@ class PageController extends Controller
                     $query->where('step2_slug', $opt);
                 }
 
-                $query->whereHas('housingStatus', function ($query) use ($slug) {
-                    $query->where('housing_status_id', $slug);
-                });
-
+                if ($slug != "emlak-ilanlari") {
+                    $query->whereHas('housingStatus', function ($query) use ($slug) {
+                        $query->where('housing_status_id', $slug);
+                    });
+    
+                }
+           
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
