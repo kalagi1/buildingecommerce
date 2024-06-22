@@ -826,7 +826,6 @@ class PageController extends Controller
                 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-                return $textInputs;
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
@@ -838,6 +837,7 @@ class PageController extends Controller
                 
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
+                            return $maxValue;
                             $query->whereHas('housings', function ($query) use ($key, $maxValue) {
                                 $query->where('key', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
