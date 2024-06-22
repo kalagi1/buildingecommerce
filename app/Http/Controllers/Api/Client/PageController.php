@@ -944,13 +944,13 @@ class PageController extends Controller
                     $query->orderBy('housings.created_at', 'desc');
                 }
 
-                // if ($slug == "al-sat-acil") {
-                //     $query->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")');
-                // }
+                if ($slug == "al-sat-acil") {
+                    $query->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")');
+                }
 
-                // if ($slug == "paylasimli-ilanlar") {
-                //     $query->whereNotNull('housings.owner_id');
-                // }
+                if ($slug == "paylasimli-ilanlar") {
+                    $query->whereNotNull('housings.owner_id');
+                }
 
                 if ($checkTitle) {
                     $query->where(function ($q) use ($checkTitle) {
