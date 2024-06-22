@@ -807,24 +807,49 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-
-                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
+                    $groupedConditions = [];
+                
+                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes, &$groupedConditions) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
                                 $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
-
+                                $conditions = [];
+                
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                                    $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
-                                        $query->where('name', $cleanedSubkey . "[]")
-                                            ->where('value', $cleanedValue);
+                
+                                    if ($cleanedValue != false) {
+                                        // Karşılanan verideki Unicode karakterlerini çöz
+                                        $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                
+                                        $conditions[] = [
+                                            'name' => $cleanedSubkey . "[]",
+                                            'value' => $cleanedValue,
+                                        ];
+                                    }
+                                }
+                
+                                if (!empty($conditions)) {
+                                    $query->where(function ($query) use ($conditions) {
+                                        foreach ($conditions as $index => $condition) {
+                                            if ($index === 0) {
+                                                $query->where('name', $condition['name'])
+                                                      ->where('value', $condition['value']);
+                                            } else {
+                                                $query->orWhere(function ($query) use ($condition) {
+                                                    $query->where('name', $condition['name'])
+                                                          ->where('value', $condition['value']);
+                                                });
+                                            }
+                                        }
                                     });
                                 }
                             });
                         }
                     });
                 }
+                
 
 
 
@@ -854,6 +879,8 @@ class PageController extends Controller
                                         });
                                     }
                                 }
+
+
                             });
                         }
                     });
