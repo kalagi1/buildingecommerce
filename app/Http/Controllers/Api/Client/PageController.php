@@ -739,8 +739,7 @@ class PageController extends Controller
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
                 $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
-                    ->where("projects.status", 1)
-                    ->orderBy('created_at', 'desc');
+                    ->where("projects.status", 1);
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
