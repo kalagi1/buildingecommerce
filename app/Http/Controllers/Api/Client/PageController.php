@@ -839,7 +839,6 @@ class PageController extends Controller
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
-                return $housingType;
                 if ($housingType) {
                     $query->where('housings.housing_type_id', $housingType);
                 }
@@ -904,7 +903,7 @@ class PageController extends Controller
                     $query->where('neighborhood_id', $neighborhoodID ?? $request->input("selectedNeighborhood"));
                 }
 
-
+return $opt. "dsd";
 
                 if ($opt) {
                     $query->where('step2_slug', $opt);
