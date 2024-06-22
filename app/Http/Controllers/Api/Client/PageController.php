@@ -807,33 +807,34 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                
+                    
                     $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
-                        $firstKey = true; // İlk döngüyü takip etmek için bir bayrak
-                
                         foreach ($selectedCheckboxes as $key => $values) {
-                            $query->where(function ($query) use ($values, &$firstKey) {
+                            $query->where(function ($query) use ($values) {
+                                $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
+                                
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                
-                                    if ($firstKey) {
-                                        // İlk döngü için OR ilişkisi
-                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
-                                            $query->where('key', $cleanedSubkey . "[]")
+                                    
+                                    if ($firstSubKey) {
+                                        $query->where(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                            $query->where('name', $cleanedSubkey . "[]")
                                                   ->where('value', $cleanedValue);
                                         });
-                                        $firstKey = false;
+                                        $firstSubKey = false;
                                     } else {
-                                        // Diğer döngüler için AND ilişkisi
-                                        $query->where('key', $cleanedSubkey . "[]")
-                                              ->where('value', $cleanedValue);
+                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                            $query->where('name', $cleanedSubkey . "[]")
+                                                  ->where('value', $cleanedValue);
+                                        });
                                     }
                                 }
                             });
                         }
                     });
                 }
+                
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
                     foreach ($textInputs as $key => $values) {
