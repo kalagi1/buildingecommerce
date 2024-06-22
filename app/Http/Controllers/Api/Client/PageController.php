@@ -806,14 +806,12 @@ class PageController extends Controller
                 }
             
 
-
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
                 
                     foreach ($selectedCheckboxes as $key => $values) {
-                        $conditions = [];
-                
+                        // Anahtarları ve değerleri işleme al
                         foreach ($values as $subkey => $value) {
                             $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                             $cleanedValue = urldecode($value); // URL kodlamasını çöz
@@ -821,32 +819,32 @@ class PageController extends Controller
                             // Karşılanan verideki Unicode karakterlerini çöz
                             $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
-                            // Her bir koşul için whereHas kullanarak filtreleme
-                            $conditions[] = [
+                            // Koşul oluştur
+                            $groupedConditions[$key][] = [
                                 'name' => $cleanedSubkey . "[]",
                                 'value' => $cleanedValue,
                             ];
                         }
-                
-                        if (!empty($conditions)) {
-                            $groupedConditions[] = $conditions;
-                        }
                     }
                 
-                    if (!empty($groupedConditions)) {
-                        $query->whereHas('roomInfo', function ($query) use ($groupedConditions) {
-                            foreach ($groupedConditions as $conditions) {
-                                $query->where(function ($query) use ($conditions) {
-                                    foreach ($conditions as $index => $condition) {
+                    // Oluşturulan koşulları kullanarak sorgu oluştur
+                    $query->where(function ($query) use ($groupedConditions) {
+                        foreach ($groupedConditions as $key => $conditions) {
+                            $query->where(function ($query) use ($conditions) {
+                                foreach ($conditions as $index => $condition) {
+                                    if ($index === 0) {
+                                        $query->where('room_info.name', $condition['name'])
+                                              ->where('room_info.value', $condition['value']);
+                                    } else {
                                         $query->orWhere(function ($query) use ($condition) {
-                                            $query->where('name', $condition['name'])
-                                                  ->where('value', $condition['value']);
+                                            $query->where('room_info.name', $condition['name'])
+                                                  ->where('room_info.value', $condition['value']);
                                         });
                                     }
-                                });
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
+                    });
                 }
                 
                 
