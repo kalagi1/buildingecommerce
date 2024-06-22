@@ -35,9 +35,9 @@
                     </span>
                     /
                     <span>
-                      
+
                         @if ($housingType)
-                            {{$housingType->title}}
+                            {{ $housingType->title }}
                         @endif
                     </span>
 
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-6 col-xl-4">
                 <div class="row g-2">
@@ -314,6 +314,18 @@
                                                     </span>
                                                 </td>
                                             </tr>
+
+                                            @if ($housing->user->name)
+                                                <tr>
+                                                    <td>
+                                                        İlan Sahibi:
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
 
 
                                             @if ($housing->user->phone)
