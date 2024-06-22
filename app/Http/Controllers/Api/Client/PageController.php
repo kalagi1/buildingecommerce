@@ -917,29 +917,30 @@ class PageController extends Controller
                     $query->where('city_id', $cityID ?? $request->input("selectedCity"));
                 }
 
-              if ($request->has('selectedCheckboxes')) {
-    $selectedCheckboxes = $request->input('selectedCheckboxes');
-    $conditions = [];
+                if ($request->has('selectedCheckboxes')) {
+                    $selectedCheckboxes = $request->input('selectedCheckboxes');
+                    $conditions = [];
 
-    foreach ($selectedCheckboxes as $key => $values) {
-        foreach ($values as $subkey => $value) {
-            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
-            $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                    foreach ($selectedCheckboxes as $key => $values) {
+                        foreach ($values as $subkey => $value) {
+                            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
+                            $cleanedValue = urldecode($value); // URL kodlamasını çöz
 
-            if ($cleanedValue != false) {
-                // Karşılanan verideki Unicode karakterlerini çöz
-                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                            if ($cleanedValue != false) {
+                                // Karşılanan verideki Unicode karakterlerini çöz
+                                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
 
-                // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
-                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
-            }
-        }
-    }
+                                // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
+                                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
+                            }
+                        }
+                    }
 
-    if (!empty($conditions)) {
-        $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
-    }
-}
+                    if (!empty($conditions)) {
+                        return $conditions;
+                        $query->whereRaw('(' . implode(' OR ', $conditions) . ')');
+                    }
+                }
 
 
                 if ($request->has('textInputs')) {
@@ -1062,27 +1063,24 @@ class PageController extends Controller
             if ($request->has('selectedCheckboxes')) {
                 $selectedCheckboxes = $request->input('selectedCheckboxes');
                 $conditions = [];
-            
+
                 foreach ($selectedCheckboxes as $key => $values) {
                     foreach ($values as $subkey => $value) {
                         $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                         $cleanedValue = urldecode($value); // URL kodlamasını çöz
-            
+
                         if ($cleanedValue != false) {
-                            // Karşılanan verideki Unicode karakterlerini çöz
                             $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
-            
-                            // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
                             $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                         }
                     }
                 }
-            
+
                 if (!empty($conditions)) {
                     $secondhandHousingQuery->whereRaw('(' . implode(' OR ', $conditions) . ')');
                 }
             }
-            
+
 
             if ($request->has('sortValue')) {
                 switch ($request->input('sortValue')) {
