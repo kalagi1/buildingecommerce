@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
         integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
- @php
+    @php
         if (!function_exists('convertMonthToTurkishCharacter')) {
             function convertMonthToTurkishCharacter($date)
             {
@@ -215,66 +215,71 @@
 
 
     @if ($housings->isNotEmpty())
-    <section class="featured portfolio rec-pro disc bg-white">
-        <div class="container">
-            <div class="featured-heads mb-3">
-                <div class="section-title">
-                    <h2>Emlak İlanları</h2>
-                </div>
-                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                        class="w-100">
-                        Tümünü Gör
-                    </button>
-                </a>
-            </div>
-
-            <div class="mobile-show">
-                <div id="housingMobileRow">
-                    @forelse ($housings->take(4) as $housing)
-                        @php($sold = $housing->sold)
-                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                        @endif
-                    @endforeach
-                </div>
-
-                <div class="ajax-load" style="display: none;">
-                    <div class="spinner-border" role="status">
-                           
-                          </div>
-                </div>
-            </div>
-
-            <div class="mobile-hidden" style="margin-top: 20px">
-                <section class="properties-right list featured portfolio blog pb-5 bg-white">
-                    <div class="container" id="housingContainer">
-                        <div class="row" id="housingRow">
-                            @forelse ($housings->take(4) as $housing)
-                                @php($sold = $housing->sold)
-                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                    <div class="col-md-3">
-                                        <x-housing-card :housing="$housing" :sold="$sold" />
-                                    </div>
-                                @endif
-                            @empty
-                                <p>Henüz İlan Yayınlanmadı</p>
-                            @endforelse
-                        </div>
-                        <div class="ajax-load" style="display: none;">
-                                <div class="spinner-border" role="status">
-                                   
+        <section class="featured portfolio rec-pro disc bg-white">
+            <div class="container">
+                <div class="featured-heads mb-3">
+                    <div class="section-title">
+                        <h2>Emlak İlanları</h2>
                     </div>
-                </section>
-            </div>
-        </div>
-    </section>
-</div>
+                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                            class="w-100">
+                            Tümünü Gör
+                        </button>
+                    </a>
+                </div>
 
-    
-</div>
+                <div class="mobile-show">
+                    <div id="housingMobileRow">
+                        @forelse ($housings->take(4) as $housing)
+                            @php($sold = $housing->sold)
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                            @endif
+                        @empty
+                            <p>Henüz İlan Yayınlanmadı</p>
+                        @endforelse
+                    </div>
+                    <button id="loadMoreMobileButton" style="display: block;">Daha Fazlasını Gör</button>
+                    <div class="ajax-load" style="display: none;">
+                        <div class="spinner-border" role="status"></div>
+                    </div>
+                </div>
+
+                <div class="mobile-hidden" style="margin-top: 20px">
+                    <section class="properties-right list featured portfolio blog pb-5 bg-white">
+                        <div class="container" id="housingContainer">
+                            <div class="row" id="housingRow">
+                                @forelse ($housings->take(4) as $housing)
+                                    @php($sold = $housing->sold)
+                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                        <div class="col-md-3">
+                                            <x-housing-card :housing="$housing" :sold="$sold" />
+                                        </div>
+                                    @endif
+                                @empty
+                                    <p>Henüz İlan Yayınlanmadı</p>
+                                @endforelse
+                            </div>
+                            <div class="text-center">
+                                <button id="loadMoreButton" class="btn btn-primary my-3"
+                                    style="display: none; margin: 0 auto;">Daha Fazlasını Gör</button>
+                                <div class="ajax-load" style="display: none;">
+                                    <div class="spinner-border" role="status"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </section>
-@endif
+
+        </div>
+
+
+        </div>
+        </section>
+    @endif
 
 
 
@@ -345,26 +350,34 @@
     @endif --}}
     @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
-    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-            <div class="modal-content">
-                <div class="modal-body modal12">
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="modal-bg">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                        <i class="fa fa-close"></i>
-                                    </button>
-                                    <div class="offer-content">
-                                        <img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}" class="img-fluid blur-up lazyloaded" alt="">
-                                        <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin kadar paylaş; paylaştıkça kazan!</h2>
-                                        <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
-                                           @else href="{{ route('client.login') }}" @endif style="font-size: 11px;display:flex;align-items:center;justify-content:center">
-                                           <button style="background-color: #ea2a28; color: white; padding: 10px; border: none; width:150px">
-                                               SEN DE KATIL !
-                                           </button>
-                                        </a>
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
+                style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+                <div class="modal-content">
+                    <div class="modal-body modal12">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="modal-bg">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                        <div class="offer-content">
+                                            <img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}"
+                                                class="img-fluid blur-up lazyloaded" alt="">
+                                            <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
+                                                kadar paylaş; paylaştıkça kazan!</h2>
+                                            <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
+                                           @else href="{{ route('client.login') }}" @endif
+                                                style="font-size: 11px;display:flex;align-items:center;justify-content:center">
+                                                <button
+                                                    style="background-color: #ea2a28; color: white; padding: 10px; border: none; width:150px">
+                                                    SEN DE KATIL !
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -373,87 +386,72 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-  <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Önce, çerezin zaten ayarlanıp ayarlanmadığını kontrol ediyoruz
-            var lastShownDate = getCookie("modalShownDate");
-    
-            // Eğer çerez yoksa veya bugün gösterilmediyse, modalı göster ve çerezi ayarla
-            if (!lastShownDate || lastShownDate !== getCurrentDate()) {
-                setTimeout(function() {
-                    $('#customModal').modal('show');
-                }, 5000);
-    
-                // Çerezi bugünün tarihi ile ayarla
-                setCookie("modalShownDate", getCurrentDate(), 1); // Çerez 1 gün boyunca geçerli olacak
-            }
-        });
-    
-        // Bir çerez ayarlamak için fonksiyon
-        function setCookie(name, value, days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Çerez 1 gün geçerli
-            var expires = "expires=" + date.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
-        }
-    
-        // Çerez değeri almak için fonksiyon
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i].trim();
-                if (c.indexOf(nameEQ) === 0) {
-                    return c.substring(nameEQ.length, c.length);
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Önce, çerezin zaten ayarlanıp ayarlanmadığını kontrol ediyoruz
+                var lastShownDate = getCookie("modalShownDate");
+
+                // Eğer çerez yoksa veya bugün gösterilmediyse, modalı göster ve çerezi ayarla
+                if (!lastShownDate || lastShownDate !== getCurrentDate()) {
+                    setTimeout(function() {
+                        $('#customModal').modal('show');
+                    }, 5000);
+
+                    // Çerezi bugünün tarihi ile ayarla
+                    setCookie("modalShownDate", getCurrentDate(), 1); // Çerez 1 gün boyunca geçerli olacak
                 }
+            });
+
+            // Bir çerez ayarlamak için fonksiyon
+            function setCookie(name, value, days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Çerez 1 gün geçerli
+                var expires = "expires=" + date.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
             }
-            return null;
-        }
-    
-        // Geçerli tarihi YYYY-MM-DD formatında almak için fonksiyon
-        function getCurrentDate() {
-            var date = new Date();
-            return date.toISOString().split('T')[0];
-        }
-    </script>
-  @endif
- 
+
+            // Çerez değeri almak için fonksiyon
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(nameEQ) === 0) {
+                        return c.substring(nameEQ.length, c.length);
+                    }
+                }
+                return null;
+            }
+
+            // Geçerli tarihi YYYY-MM-DD formatında almak için fonksiyon
+            function getCurrentDate() {
+                var date = new Date();
+                return date.toISOString().split('T')[0];
+            }
+        </script>
+    @endif
+
 @endsection
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Include Toastify CSS and JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        var page = 1; 
-    var isLoading = false;
-    var housingRow = $('#housingRow');
-        var housingMobileRow = $('#housingMobileRow');
-        var itemsPerPage = 4;
-        var maxPages = null;
-        var housingCounts = @json($housings);
-        maxPages = Math.ceil(housingCounts.length / itemsPerPage);
-
-        function centerAjaxLoadElements() {
-            var ajaxLoadElements = document.querySelectorAll('.ajax-load');
-
-            ajaxLoadElements.forEach(function(element) {
-                element.style.display = 'flex';
-                element.style.justifyContent = 'center';
-                element.style.margin = '0 auto';
-            });
-        }
+        var page = 1;
+        var maxPages = 4; // Maksimum sayfa sayısını buraya girin
+        var isLoading = false;
+        var itemsPerLoad = 20; // Yüklenecek öğe sayısı
+        var initialLoad = true; // Başlangıçta ilk yükleme kontrolü
 
         function loadMoreHousings() {
             if (isLoading || page >= maxPages) return;
             isLoading = true;
-            centerAjaxLoadElements();
             $('.ajax-load').show();
 
             page++;
@@ -465,8 +463,20 @@
                     document.getElementById('housingRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
+
+                    if (initialLoad && page * itemsPerLoad >= 40) {
+                        document.getElementById('loadMoreButton').style.display = 'block';
+                        window.removeEventListener('scroll', onScrollLoadMoreHousings);
+                        initialLoad = false;
+                    } else if (page >= maxPages) {
+                        document.getElementById('loadMoreButton').style.display = 'none';
+                    }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    isLoading = false;
+                    $('.ajax-load').hide();
+                });
         }
 
         function loadMoreMobileHousings() {
@@ -474,7 +484,7 @@
             isLoading = true;
             $('.ajax-load').show();
 
-            page++; 
+            page++;
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
 
             fetch(url)
@@ -483,25 +493,47 @@
                     document.getElementById('housingMobileRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
+
+                    if (initialLoad && page * itemsPerLoad >= 40) {
+                        document.getElementById('loadMoreMobileButton').style.display = 'block';
+                        window.removeEventListener('scroll', onScrollLoadMoreMobileHousings);
+                        initialLoad = false;
+                    } else if (page >= maxPages) {
+                        document.getElementById('loadMoreMobileButton').style.display = 'none';
+                    }
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    isLoading = false;
+                    $('.ajax-load').hide();
+                });
         }
 
-        window.addEventListener('scroll', function() {
-            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
-                50 && !isLoading && window.innerWidth >= 768) {
-                loadMoreHousings();
+        function onScrollLoadMoreHousings() {
+            if (window.innerWidth >= 768 && !isLoading) {
+                var housingRow = document.getElementById('housingRow');
+                if (window.scrollY + window.innerHeight >= housingRow.offsetTop + housingRow.offsetHeight - 50) {
+                    loadMoreHousings();
+                }
             }
-            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow
-                .outerHeight() -
-                50 && !isLoading && window.innerWidth < 768) {
-                loadMoreMobileHousings();
-            }
-        });
-    </script>
-    
+        }
 
-   
+        function onScrollLoadMoreMobileHousings() {
+            if (window.innerWidth < 768 && !isLoading) {
+                var housingMobileRow = document.getElementById('housingMobileRow');
+                if (window.scrollY + window.innerHeight >= housingMobileRow.offsetTop + housingMobileRow.offsetHeight -
+                    50) {
+                    loadMoreMobileHousings();
+                }
+            }
+        }
+
+        document.getElementById('loadMoreButton').addEventListener('click', loadMoreHousings);
+        document.getElementById('loadMoreMobileButton').addEventListener('click', loadMoreMobileHousings);
+
+        window.addEventListener('scroll', onScrollLoadMoreHousings);
+        window.addEventListener('scroll', onScrollLoadMoreMobileHousings);
+    </script>
 @endsection
 
 @section('styles')
