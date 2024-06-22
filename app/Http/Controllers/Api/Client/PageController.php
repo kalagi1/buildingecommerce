@@ -919,27 +919,32 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                    $conditions = [];
-
+                    $groupedConditions = [];
+                
                     foreach ($selectedCheckboxes as $key => $values) {
+                        $conditions = [];
                         foreach ($values as $subkey => $value) {
                             $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                             $cleanedValue = urldecode($value); // URL kodlamasını çöz
-
+                
                             if ($cleanedValue != false) {
                                 // Karşılanan verideki Unicode karakterlerini çöz
                                 $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
-
+                
                                 // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
                                 $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                             }
                         }
+                        if (!empty($conditions)) {
+                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
+                        }
                     }
-
-                    if (!empty($conditions)) {
-                        $query->whereRaw('(' . implode(' AND ', $conditions) . ')');
+                
+                    if (!empty($groupedConditions)) {
+                        $query->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
                     }
                 }
+                
 
 
                 if ($request->has('textInputs')) {
@@ -1058,27 +1063,31 @@ class PageController extends Controller
                 $secondhandHousingQuery->where('housings.housing_type_id', $newHousingType);
             }
 
-
             if ($request->has('selectedCheckboxes')) {
                 $selectedCheckboxes = $request->input('selectedCheckboxes');
-                $conditions = [];
-
+                $groupedConditions = [];
+            
                 foreach ($selectedCheckboxes as $key => $values) {
+                    $conditions = [];
                     foreach ($values as $subkey => $value) {
                         $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                         $cleanedValue = urldecode($value); // URL kodlamasını çöz
-
+            
                         if ($cleanedValue != false) {
                             $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                             $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                         }
                     }
+                    if (!empty($conditions)) {
+                        $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
+                    }
                 }
-
-                if (!empty($conditions)) {
-                    $secondhandHousingQuery->whereRaw('(' . implode(' AND ', $conditions) . ')');
+            
+                if (!empty($groupedConditions)) {
+                    $secondhandHousingQuery->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
                 }
             }
+            
 
 
             if ($request->has('sortValue')) {
