@@ -338,7 +338,7 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || !$share_sale)
+                                                @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || $sold && $sold[0]->status == 1 && !$share_sale)
                                                 <td class="price">
                                                         @if (isset($sold[0]))
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
@@ -954,7 +954,7 @@
                                 @endif
                             </td>
 
-                            @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || !$share_sale)
+                            @if ($sold && $sold[0]->status == 1 && (isset($share_sale) && $share_sale == '[]') || $sold && $sold[0]->status == 1 && !$share_sale)
                             <td class="price">
                                     @if (isset($sold[0]))
                                         <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
