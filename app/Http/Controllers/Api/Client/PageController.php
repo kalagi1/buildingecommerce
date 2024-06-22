@@ -807,7 +807,7 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-
+                
                     $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
@@ -816,14 +816,14 @@ class PageController extends Controller
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
                                     $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
                                         $query->where('key', $cleanedSubkey . "[]")
-                                            ->where('value', $cleanedValue);
+                                              ->where('value', $cleanedValue);
                                     });
                                 }
                             });
                         }
                     });
                 }
-
+                
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
                 
@@ -845,8 +845,8 @@ class PageController extends Controller
                         }
                     }
                 }
+                
 
-                return $query->toSql();
                 $projects = $query->get();
             } else {
                 $query = Housing::with('images')
