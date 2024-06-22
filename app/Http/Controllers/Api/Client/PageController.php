@@ -908,7 +908,7 @@ class PageController extends Controller
                     $query->where('step2_slug', $opt);
                 }
 
-                if ($slug != "emlak-ilanlari") {
+                if ($slug == "emlak-ilanlari") {
                     $query->whereHas('housingStatus', function ($query) use ($slug) {
                         $query->where('housing_status_id', $slug);
                     });
@@ -958,6 +958,7 @@ class PageController extends Controller
                             ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
                     });
                 }
+
                 $secondhandHousings = $query->get();
             }
 
