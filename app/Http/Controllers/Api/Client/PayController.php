@@ -127,7 +127,7 @@ class PayController extends Controller
         $currency = '949';
         $lang = 'tr';
 
-        $creditCardNumbers = implode('', $requestData['creditcard']);
+        $creditCardNumbers = $requestData['creditcard'];
 
 
         $data = [
