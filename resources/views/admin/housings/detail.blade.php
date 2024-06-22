@@ -46,8 +46,14 @@
 
             <div class="col-12">
                 <div class="bg-light float-end p-3 border rounded" style="font-size: 18px;">
-                    <span class="fw-bold">Peşin Fiyat:</span>
-                    {{ number_format($housingData->price[0], 2, ',', '.') }} TL
+
+                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                        <span class="fw-bold">Günlük Fiyat:</span>
+                        {{ number_format($housingData->daliy_rent[0], 2, ',', '.') }} TL
+                    @else
+                        <span class="fw-bold">Peşin Fiyat:</span>
+                        {{ number_format($housingData->price[0], 2, ',', '.') }} TL
+                    @endif
                 </div>
             </div>
         </div>
