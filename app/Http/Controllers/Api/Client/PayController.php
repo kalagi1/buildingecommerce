@@ -33,8 +33,11 @@ class PayController extends Controller
     public function pay(Request $request){
         $requestData = $request->all();
         $requestData['creditcard'] = $request->input('card_number');
+        $amount = $request->input('amount');
+        $transaction = $this->createTransaction();
 
-        return $requestData;
+        $data = $this->preparePaymentData($requestData, 1, $amount, $transaction);
+        return view('payment.pay-mobil', $data);
     }
 
     public function resultPaymentSuccess(Request $request)
