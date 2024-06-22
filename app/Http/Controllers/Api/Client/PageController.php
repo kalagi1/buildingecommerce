@@ -858,6 +858,7 @@ class PageController extends Controller
                 }
                 
                 
+
                 
 
                 if ($request->has('textInputs')) {
@@ -892,6 +893,8 @@ class PageController extends Controller
                         }
                     });
                 }
+
+                return $query->toSql();
 
 
                 $projects = $query->get();
