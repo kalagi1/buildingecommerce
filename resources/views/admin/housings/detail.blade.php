@@ -49,7 +49,7 @@
 
                     @if ($housing->step2_slug == 'gunluk-kiralik')
                         <span class="fw-bold">Günlük Fiyat:</span>
-                        {{ number_format($housingData->daliy_rent[0], 2, ',', '.') }} TL
+                        {{ number_format($housingData->daily_rent[0], 2, ',', '.') }} TL
                     @else
                         <span class="fw-bold">Peşin Fiyat:</span>
                         {{ number_format($housingData->price[0], 2, ',', '.') }} TL
