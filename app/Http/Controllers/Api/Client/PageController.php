@@ -810,27 +810,24 @@ class PageController extends Controller
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
-                    
+                
                     foreach ($selectedCheckboxes as $key => $values) {
                         $conditions = [];
+                
                         foreach ($values as $subkey => $value) {
                             $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                             $cleanedValue = urldecode($value); // URL kodlamasını çöz
                 
-                            if ($cleanedValue != false) {
-                                // Karşılanan verideki Unicode karakterlerini çöz
-                                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                            // Karşılanan verideki Unicode karakterlerini çöz
+                            $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
-                                // Key değerine [] ekleyerek koşul oluştur
-                                $keyWithArray = $key . '[]';
-                
-                                // Her bir koşul için whereHas kullanarak filtreleme
-                                $conditions[] = [
-                                    'name' => $keyWithArray,
-                                    'value' => $cleanedSubkey,
-                                ];
-                            }
+                            // Her bir koşul için whereHas kullanarak filtreleme
+                            $conditions[] = [
+                                'name' => $cleanedSubkey . "[]",
+                                'value' => $cleanedValue,
+                            ];
                         }
+                
                         if (!empty($conditions)) {
                             $groupedConditions[] = $conditions;
                         }
@@ -841,15 +838,10 @@ class PageController extends Controller
                             foreach ($groupedConditions as $conditions) {
                                 $query->where(function ($query) use ($conditions) {
                                     foreach ($conditions as $index => $condition) {
-                                        if ($index === 0) {
+                                        $query->orWhere(function ($query) use ($condition) {
                                             $query->where('name', $condition['name'])
                                                   ->where('value', $condition['value']);
-                                        } else {
-                                            $query->orWhere(function ($query) use ($condition) {
-                                                $query->where('name', $condition['name'])
-                                                      ->where('value', $condition['value']);
-                                            });
-                                        }
+                                        });
                                     }
                                 });
                             }
@@ -857,8 +849,6 @@ class PageController extends Controller
                     }
                 }
                 
-                
-
                 
 
                 if ($request->has('textInputs')) {
@@ -893,8 +883,6 @@ class PageController extends Controller
                         }
                     });
                 }
-
-                return $query->toSql();
 
 
                 $projects = $query->get();
