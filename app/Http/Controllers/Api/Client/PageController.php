@@ -735,7 +735,6 @@ class PageController extends Controller
         }
 
 
-        return $slug;
 
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
@@ -1080,7 +1079,10 @@ class PageController extends Controller
                         $cleanedValue = urldecode($value); // URL kodlamasını çöz
 
                         if ($cleanedValue != false) {
+                            // Karşılanan verideki Unicode karakterlerini çöz
                             $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+
+                            // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
                             $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                         }
                     }
@@ -1094,6 +1096,23 @@ class PageController extends Controller
                 }
             }
 
+
+
+            if ($request->has('textInputs')) {
+                $textInputs = $request->input('textInputs');
+
+                foreach ($textInputs as $key => $values) {
+                    if (isset($values['min'])) {
+                        $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
+                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) >= ?', [$minValue]);
+                    }
+
+                    if (isset($values['max'])) {
+                        $maxValue = str_replace('.', '', $values['max']);
+                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) <= ?', [$maxValue]);
+                    }
+                }
+            }
 
 
             if ($request->has('sortValue')) {
@@ -1118,21 +1137,7 @@ class PageController extends Controller
 
 
 
-            if ($request->has('textInputs')) {
-                $textInputs = $request->input('textInputs');
-
-                foreach ($textInputs as $key => $values) {
-                    if (isset($values['min'])) {
-                        $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
-                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) >= ?', [$minValue]);
-                    }
-
-                    if (isset($values['max'])) {
-                        $maxValue = str_replace('.', '', $values['max']);
-                        $secondhandHousingQuery->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) <= ?', [$maxValue]);
-                    }
-                }
-            }
+          
             $secondhandHousingQuery->whereHas('housingStatus', function ($secondhandHousingQuery) use ($slug) {
                 $secondhandHousingQuery->where('housing_status_id', $slug);
             });
