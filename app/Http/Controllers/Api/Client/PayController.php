@@ -37,6 +37,7 @@ class PayController extends Controller
         $transaction = $this->createTransaction();
 
         $data = $this->preparePaymentData($requestData, 1, $amount, $transaction);
+        return $data;
         return view('payment.pay-mobil', $data);
     }
 
@@ -73,7 +74,7 @@ class PayController extends Controller
     public function resultPaymentFail(Request $request)
     {
         $data = $request->all();
-
+        dd($data);
         $existingOrder = CartOrder::where('transaction', $data['oid'])->first();
 
 
