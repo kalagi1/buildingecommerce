@@ -820,7 +820,9 @@ class PageController extends Controller
                             $cleanedValue = urldecode($value); // Decode the URL encoding
                 
                             // Prepare the condition
-                            $conditions[] = "(room_info.name = '$cleanedSubkey[]' AND room_info.value = '$cleanedValue')";
+                            $conditions[] = "(room_info.name = ? AND room_info.value = ?)";
+                            $bindings[] = $cleanedSubkey . '[]';
+                            $bindings[] = $cleanedValue;
                         }
                 
                         // Add conditions for this group to groupedConditions
@@ -831,8 +833,8 @@ class PageController extends Controller
                 
                     // Apply the grouped conditions with an AND relation
                     if (!empty($groupedConditions)) {
-                        $query->whereHas('roomInfo', function ($query) use ($groupedConditions) {
-                            $query->whereRaw(implode(' AND ', $groupedConditions));
+                        $query->whereHas('roomInfo', function ($query) use ($groupedConditions, $bindings) {
+                            $query->whereRaw(implode(' AND ', $groupedConditions), $bindings);
                         });
                     }
                 }
