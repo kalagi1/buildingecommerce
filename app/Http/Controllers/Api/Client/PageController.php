@@ -837,7 +837,6 @@ class PageController extends Controller
                 
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
-                            return $key."[]";
                             $query->whereHas('housings', function ($query) use ($key, $maxValue) {
                                 $query->where('key', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
@@ -845,6 +844,8 @@ class PageController extends Controller
                         }
                     }
                 }
+
+                return $query->toSql();
                 
 
                 $projects = $query->get();
