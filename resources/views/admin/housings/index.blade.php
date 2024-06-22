@@ -3,63 +3,114 @@
 @section('content')
     <div class="content">
         <h2 class="mb-2 lh-sm">Emlak İlanları</h2>
+        <div class="row">
+            <div class="col-4">
+                <form action="{{ route('admin.housings.filter') }}" method="GET">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label for="housing_id">İlan Numarası:</label>
+                            <input type="number" name="housing_id" id="housing_id" class="form-control"
+                                value="{{ request('housing_id') }}">
+                        </div>
+
+                        <div class="col-6 form-group">
+                            <label for="sorting">Tarihe Göre Sırala:</label>
+                            <select class="form-control" name="sorting" id="sorting">
+                                <option value="newest" {{ request('sorting') == 'newest' ? 'selected' : '' }}>En Yeni
+                                </option>
+                                <option value="oldest" {{ request('sorting') == 'oldest' ? 'selected' : '' }}>En Eski
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <button type="submit" class="btn btn-primary">Filtrele</button>
+                        </div>
+                        <div class="col-3">
+                            <a class="btn btn-info" href="{{ route('admin.housings.index') }}">Temizle</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="col-6 mt-5 mb-5">
+                @if (isset($pendingHousingCount) && $pendingHousingCount > 0)
+                    <p>Onay Bekleyen Konut Sayısı: {{ $pendingHousingCount }}</p>
+                @endif
+            </div>
+    
+
+        </div>
+
+       
+
         <div class="card shadow-none border border-300 my-4">
             <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pendingHousingTypes-tab" data-bs-toggle="tab"
-                        href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'pending' ? 'active' : '' }}" id="pendingHousingTypes-tab"
+                        data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab"
-                        href="#disabledHousingTypes">Reddedilen İlanlar</a>
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'active' ? 'active' : '' }}" id="active-tab"
+                        data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="deletedHousings-tab" data-bs-toggle="tab" href="#deletedHousings">Silinen
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'disabled' ? 'active' : '' }}"
+                        id="disabledHousingTypes-tab" data-bs-toggle="tab" href="#disabledHousingTypes">Reddedilen
                         İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satılan İlanlar</a>
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'inactive' ? 'active' : '' }}"id="inactive-tab"
+                        data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'deleted' ? 'active' : '' }}" id="deletedHousings-tab"
+                        data-bs-toggle="tab" href="#deletedHousings">Silinen İlanlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  {{ isset($housingIdSource) && $housingIdSource == 'sold' ? 'active' : '' }}" id="soldHousings-tab"
+                        data-bs-toggle="tab" href="#soldHousings">Satılan İlanlar</a>
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
-                <div class="tab-pane fade " id="active">
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'active' ? 'active' : '' }}" id="active">
                     @include('admin.housings.housing_table', [
                         'tableId' => 'bulk-select-body-active',
                         'housingTypes' => $activeHousingTypes,
                     ])
                 </div>
-                <div class="tab-pane fade show active" id="pendingHousingTypes">
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'pending' ? 'active' : '' }}"
+                    id="pendingHousingTypes">
                     @include('admin.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
                         'housingTypes' => $pendingHousingTypes,
                     ])
                 </div>
-                <div class="tab-pane fade" id="disabledHousingTypes">
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'disabled' ? 'active' : '' }}"
+                    id="disabledHousingTypes">
                     @include('admin.housings.housing_table', [
                         'tableId' => 'bulk-select-body-disabledHousingTypes',
                         'housingTypes' => $disabledHousingTypes,
                     ])
                 </div>
-                <div class="tab-pane fade" id="inactive">
+
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'inactive' ? 'active' : '' }}" id="inactive">
                     @include('admin.housings.housing_table', [
                         'tableId' => 'bulk-select-body-inactive',
                         'housingTypes' => $inactiveHousingTypes,
                     ])
                 </div>
-                <div class="tab-pane fade" id="deletedHousings">
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'deleted' ? 'active' : '' }}"
+                    id="deletedHousings">
                     @include('admin.housings.housing_table_delete', [
                         'tableId' => 'bulk-select-body-deletedHousings',
                         'housingTypes' => $deletedHousings,
                     ])
                 </div>
-                <div class="tab-pane fade" id="soldHousings">
+                <div class="tab-pane fade  {{ isset($housingIdSource) && $housingIdSource == 'sold' ? 'active' : '' }}" id="soldHousings">
                     @include('admin.housings.housing_table', [
                         'tableId' => 'bulk-select-body-soldHousingsTypes',
                         'housingTypes' => $soldHousingsTypes,
@@ -67,6 +118,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 @endsection
@@ -91,7 +143,7 @@
                 var housingTitleCell = document.createElement("td");
 
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML =  housingType.title +
+                housingTitleCell.innerHTML = housingType.title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
                     housingType.district.ilce_title + (housingType.neighborhood ? " / " + housingType.neighborhood
@@ -133,7 +185,7 @@
                     '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
                     '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
-                    if (housingType.owner_id) {
+                if (housingType.owner_id) {
                     const sharedListingTag = document.createElement('span');
                     sharedListingTag.className = 'badge badge-phoenix badge-phoenix-success ml-2 mb-2';
                     sharedListingTag.textContent = 'Paylaşımlı İlan';
