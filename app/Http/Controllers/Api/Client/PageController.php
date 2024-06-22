@@ -804,7 +804,6 @@ class PageController extends Controller
                         $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                     }
                 }
-            
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
@@ -839,42 +838,38 @@ class PageController extends Controller
                     }
                 }
                 
-                
-                
-
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-
+                
                     $query->where(function ($query) use ($textInputs) {
                         foreach ($textInputs as $key => $values) {
                             // Tekil bir whereHas fonksiyonu oluştur
                             $query->where(function ($query) use ($key, $values) {
                                 foreach ($values as $type => $amount) {
                                     $amount = str_replace('.', '', $amount); // Noktaları kaldır
-
+                                    $amount = (int)$amount; // Convert to integer for comparison
+                
                                     // Min değeri için işlem
                                     if ($type === 'min') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
-                                            $query->where('name', $key . "[]")
-                                                ->where('value', '>=', $amount);
+                                            $query->where('name', $key . '[]')
+                                                ->whereRaw('CAST(value AS UNSIGNED) >= ?', [$amount]);
                                         });
                                     }
-
+                
                                     // Max değeri için işlem
                                     elseif ($type === 'max') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
-                                            $query->where('name', $key . "[]")
-                                                ->where('value', '<=', $amount);
+                                            $query->where('name', $key . '[]')
+                                                ->whereRaw('CAST(value AS UNSIGNED) <= ?', [$amount]);
                                         });
                                     }
                                 }
-
-
                             });
                         }
                     });
                 }
-
+                
 
                 $projects = $query->get();
             } else {
