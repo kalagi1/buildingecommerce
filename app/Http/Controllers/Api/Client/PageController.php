@@ -839,25 +839,28 @@ class PageController extends Controller
                 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-                    foreach ($textInputs as $key => $values) {
-                        if (isset($values['min'])) {
-                            $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
-                            $query->whereHas('roomInfo', function ($query) use ($key, $minValue) {
-                                $query->where([
-                                    ['name', $key . "[]"],
-                                ])->where('value', '>=', $minValue);
+                    $query->where(function ($query) use ($textInputs) {
+                        foreach ($textInputs as $key => $values) {
+                            $query->where(function ($query) use ($key, $values) {
+                                foreach ($values as $type => $amount) {
+                                    $amount = str_replace('.', '', $amount); // Noktaları kaldır
+                                    
+                                    if ($type === 'min') {
+                                        $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
+                                            $query->where('name', $key . "[]")
+                                                  ->where('value', '>=', $amount);
+                                        });
+                                    } elseif ($type === 'max') {
+                                        $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
+                                            $query->where('name', $key . "[]")
+                                                  ->where('value', '<=', $amount);
+                                        });
+                                    }
+                                }
                             });
                         }
-                
-                        if (isset($values['max'])) {
-                            $maxValue = str_replace('.', '', $values['max']);
-                            $query->whereHas('roomInfo', function ($query) use ($key, $maxValue) {
-                                $query->where([
-                                    ['name', $key . "[]"],
-                                ])->where('value', '<=', $maxValue);
-                            });
-                        }
-                    }
+                    });
+                    
                 }
 
 
