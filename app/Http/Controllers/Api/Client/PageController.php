@@ -809,21 +809,31 @@ class PageController extends Controller
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                 
                     $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
+                        $firstKey = true; // İlk döngüyü takip etmek için bir bayrak
+                
                         foreach ($selectedCheckboxes as $key => $values) {
-                            $query->where(function ($query) use ($values) {
+                            $query->where(function ($query) use ($values, &$firstKey) {
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                                    $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                
+                                    if ($firstKey) {
+                                        // İlk döngü için OR ilişkisi
+                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                            $query->where('key', $cleanedSubkey . "[]")
+                                                  ->where('value', $cleanedValue);
+                                        });
+                                        $firstKey = false;
+                                    } else {
+                                        // Diğer döngüler için AND ilişkisi
                                         $query->where('key', $cleanedSubkey . "[]")
                                               ->where('value', $cleanedValue);
-                                    });
+                                    }
                                 }
                             });
                         }
                     });
                 }
-                
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
                     foreach ($textInputs as $key => $values) {
