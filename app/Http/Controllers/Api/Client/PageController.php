@@ -847,12 +847,13 @@ class PageController extends Controller
                             $query->where(function ($query) use ($key, $values) {
                                 foreach ($values as $type => $amount) {
                                     $amount = str_replace('.', '', $amount); // Noktaları kaldır
+                                    $amount = (int)$amount; // Convert to integer for comparison
                 
                                     // Min değeri için işlem
                                     if ($type === 'min') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . '[]')
-                                                ->where('value', '>=', $amount);
+                                                ->whereRaw('CAST(value AS UNSIGNED) >= ?', [$amount]);
                                         });
                                     }
                 
@@ -860,7 +861,7 @@ class PageController extends Controller
                                     elseif ($type === 'max') {
                                         $query->whereHas('roomInfo', function ($query) use ($key, $amount) {
                                             $query->where('name', $key . '[]')
-                                                ->where('value', '<=', $amount);
+                                                ->whereRaw('CAST(value AS UNSIGNED) <= ?', [$amount]);
                                         });
                                     }
                                 }
