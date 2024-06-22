@@ -738,7 +738,7 @@ class PageController extends Controller
 
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
-                $query = Project::with("city", "county", "housings", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                $query = Project::with("city", "county", "roomInfo", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
                     ->where("projects.status", 1);
 
                 if ($housingTypeParentSlug) {
@@ -808,7 +808,7 @@ class PageController extends Controller
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     
-                    $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
+                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
                                 $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
@@ -834,13 +834,15 @@ class PageController extends Controller
                         }
                     });
                 }
+
+        
                 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
-                            $query->whereHas('housings', function ($query) use ($key, $minValue) {
+                            $query->whereHas('roomInfo', function ($query) use ($key, $minValue) {
                                 $query->where('name', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) >= ?', [$minValue]);
                             });
@@ -848,7 +850,7 @@ class PageController extends Controller
                 
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
-                            $query->whereHas('housings', function ($query) use ($key, $maxValue) {
+                            $query->whereHas('roomInfo', function ($query) use ($key, $maxValue) {
                                 $query->where('name', $key . "[]")
                                       ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
                             });
