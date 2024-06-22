@@ -950,7 +950,7 @@ class PageController extends Controller
                 }
 
                 if ($slug == "paylasimli-ilanlar") {
-                    $query->whereNotNull('owner_id');
+                    $query->whereNotNull('housings.owner_id');
                 }
 
                 if ($checkTitle) {
@@ -959,8 +959,6 @@ class PageController extends Controller
                             ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
                     });
                 }
-
-                return $query->toSql();
 
                 $secondhandHousings = $query->get();
             }
