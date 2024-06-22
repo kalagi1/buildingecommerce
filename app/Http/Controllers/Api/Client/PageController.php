@@ -810,7 +810,7 @@ class PageController extends Controller
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
-                
+                    
                     foreach ($selectedCheckboxes as $key => $values) {
                         $conditions = [];
                         foreach ($values as $subkey => $value) {
@@ -821,8 +821,11 @@ class PageController extends Controller
                                 // Karşılanan verideki Unicode karakterlerini çöz
                                 $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
+                                // Key değerine [] ekleyerek koşul oluştur
+                                $keyWithArray = $key . '[]';
+                
                                 // Her bir koşul için whereHas kullanarak filtreleme
-                                $conditions[] = "(room_info.name = $key AND room_info.value = $cleanedSubkey)";
+                                $conditions[] = "(room_info.name = '$keyWithArray' AND room_info.value = '$cleanedSubkey')";
                             }
                         }
                         if (!empty($conditions)) {
@@ -835,9 +838,10 @@ class PageController extends Controller
                             $query->whereRaw(implode(' AND ', $groupedConditions));
                         });
                     }
-
+                
                     return $groupedConditions;
                 }
+                
                 
 
                 if ($request->has('textInputs')) {
