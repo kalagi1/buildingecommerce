@@ -835,6 +835,8 @@ class PageController extends Controller
                     ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
                     ->where('project_list_items.item_type', 2);
 
+                    return $housingTypeParentSlug;
+
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
@@ -946,14 +948,14 @@ class PageController extends Controller
                 }
 
                 if ($slug == "al-sat-acil") {
-                    $query->whereHas('housingStatus', function ($query) use ($slug) {
+                    $query->whereHas('housingStatus', function ($query) {
                         $query->where('housing_status_id', 4);
                     });
                     $query->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")');
                 }
 
                 if ($slug == "paylasimli-ilanlar") {
-                    $query->whereHas('housingStatus', function ($query) use ($slug) {
+                    $query->whereHas('housingStatus', function ($query) {
                         $query->where('housing_status_id', 4);
                     });
                     $query->whereNotNull('housings.owner_id');
