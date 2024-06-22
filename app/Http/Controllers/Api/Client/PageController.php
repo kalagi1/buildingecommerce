@@ -820,9 +820,9 @@ class PageController extends Controller
                             $cleanedValue = urldecode($value); // Decode the URL encoding
                 
                             // Prepare the condition
-                            $conditions[] = "(key = ? AND value = ?)";
-                            $bindings[] = $cleanedSubkey . '[]';
-                            $bindings[] = $cleanedValue;
+                            $conditions[] = "(name = ? AND value = ?)";
+                            $bindings[] = $key . '[]';
+                            $bindings[] = $cleanedSubkey;
                         }
                 
                         // Add conditions for this group to groupedConditions
