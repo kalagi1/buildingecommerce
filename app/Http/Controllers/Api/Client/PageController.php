@@ -807,32 +807,24 @@ class PageController extends Controller
 
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                    $groupedConditions = [];
                 
-                    foreach ($selectedCheckboxes as $key => $values) {
-                        $conditions = [];
-                        foreach ($values as $subkey => $value) {
-                            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
-                            $cleanedValue = urldecode($value); // URL kodlamasını çöz
-                
-                            if ($cleanedValue != false) {
-                                // Karşılanan verideki Unicode karakterlerini çöz
-                                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
-                
-                                // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
-                                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
+                    $projects = $query->whereHas('housings', function ($query) use ($selectedCheckboxes) {
+                            foreach ($selectedCheckboxes as $key => $values) {
+                                $query->where(function ($query) use ($values) {
+                                    foreach ($values as $subkey => $value) {
+                                        $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
+                                        $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                                        $query->orWhere(function ($query) use ($cleanedSubkey, $cleanedValue) {
+                                            $query->where('key', $cleanedSubkey)
+                                                ->where('value', $cleanedValue);
+                                        });
+                                    }
+                                });
                             }
-                        }
-                        if (!empty($conditions)) {
-                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
-                        }
-                    }
+                        });
                 
-                    if (!empty($groupedConditions)) {
-                        $query->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
-                    }
                 }
-
+                
                 $projects = $query->get();
             } else {
                 $query = Housing::with('images')
