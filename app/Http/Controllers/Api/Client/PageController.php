@@ -915,7 +915,6 @@ class PageController extends Controller
     
                 }
            
-                return $slug;
 
                 if ($request->has('selectedRadio.listing_date') && $request->input('selectedRadio.listing_date') !== null) {
                     if ($request->input('selectedRadio.listing_date') == '24') {
@@ -965,6 +964,8 @@ class PageController extends Controller
                             ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
                     });
                 }
+
+                return $query->toSql();
 
                 $secondhandHousings = $query->get();
             }
