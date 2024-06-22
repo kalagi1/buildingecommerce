@@ -825,21 +825,38 @@ class PageController extends Controller
                                 $keyWithArray = $key . '[]';
                 
                                 // Her bir koşul için whereHas kullanarak filtreleme
-                                $conditions[] = "(room_info.name = '$keyWithArray' AND room_info.value = '$cleanedSubkey')";
+                                $conditions[] = [
+                                    'name' => $keyWithArray,
+                                    'value' => $cleanedSubkey,
+                                ];
                             }
                         }
                         if (!empty($conditions)) {
-                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
+                            $groupedConditions[] = $conditions;
                         }
                     }
                 
                     if (!empty($groupedConditions)) {
                         $query->whereHas('roomInfo', function ($query) use ($groupedConditions) {
-                            $query->whereRaw(implode(' AND ', $groupedConditions));
+                            foreach ($groupedConditions as $conditions) {
+                                $query->where(function ($query) use ($conditions) {
+                                    foreach ($conditions as $index => $condition) {
+                                        if ($index === 0) {
+                                            $query->where('name', $condition['name'])
+                                                  ->where('value', $condition['value']);
+                                        } else {
+                                            $query->orWhere(function ($query) use ($condition) {
+                                                $query->where('name', $condition['name'])
+                                                      ->where('value', $condition['value']);
+                                            });
+                                        }
+                                    }
+                                });
+                            }
                         });
                     }
-            
                 }
+                
                 
                 
 
