@@ -804,22 +804,19 @@ class PageController extends Controller
                         $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                     }
                 }
-
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                    $groupedConditions = [];
-                
-                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes, &$groupedConditions) {
+                    
+                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
-                                $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
                                 $conditions = [];
                 
                                 foreach ($values as $subkey => $value) {
                                     $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
                                     $cleanedValue = urldecode($value); // URL kodlamasını çöz
                 
-                                    if ($cleanedValue != false) {
+                                    if ($cleanedValue !== false) {
                                         // Karşılanan verideki Unicode karakterlerini çöz
                                         $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
@@ -887,6 +884,7 @@ class PageController extends Controller
                 }
 
 
+                return $query->toSql();
 
                 $projects = $query->get();
             } else {
