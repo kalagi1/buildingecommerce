@@ -854,7 +854,7 @@ class PageController extends Controller
                             $query->whereHas('roomInfo', function ($query) use ($key, $maxValue) {
                                 $query->where([
                                     ['name', $key . "[]"],
-                                ])->where('value', '>=', $maxValue);
+                                ])->where('value', '<=', $maxValue);
                             });
                         }
                     }
