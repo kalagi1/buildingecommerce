@@ -808,7 +808,7 @@ class PageController extends Controller
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     
-                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
+                    $query->where(function ($query) use ($selectedCheckboxes) {
                         foreach ($selectedCheckboxes as $key => $values) {
                             $query->where(function ($query) use ($values) {
                                 $firstSubKey = true; // İlk alt anahtarı takip etmek için bir bayrak
@@ -820,7 +820,7 @@ class PageController extends Controller
                                     if ($firstSubKey) {
                                         $query->where(function ($query) use ($cleanedSubkey, $cleanedValue) {
                                             $query->where('name', $cleanedSubkey . "[]")
-                                                  ->whereIn('value', $cleanedValue);
+                                                  ->whereRaw('? IN (value)', [$cleanedValue]);
                                         });
                                         $firstSubKey = false;
                                     } else {
@@ -834,7 +834,7 @@ class PageController extends Controller
                         }
                     });
                 }
-
+                
         
                 
                 if ($request->has('textInputs')) {
