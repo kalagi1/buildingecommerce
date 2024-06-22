@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
 Route::get('/my_projects', [InstitutionalProjectController::class, "index"]);
 Route::get('/popular-construction-brands', [StoreController::class, 'getFeaturedStores']);
+Route::get('/popular-estate-brands', [StoreController::class, 'getFeaturedEstateStores']);
+
 Route::get('/featured-sliders', [ClientSliderController::class, 'getFeaturedSliders']);
 Route::get('dashboard-statuses', [HousingController::class, 'getDashboardStatuses']);
 Route::get('/real-estates', [RealEstateController::class, 'getRealEstates']);

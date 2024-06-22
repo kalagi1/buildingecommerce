@@ -13,4 +13,10 @@ class StoreController extends Controller {
 
         return response()->json( $brands );
     }
+
+    public function getFeaturedEstateStores() {
+        $brands = User::where( 'type', '2' )->where( 'corporate_type', 'Emlak Ofisi' )->where( 'status', '1' )->where( 'is_show', 'yes' )->where( 'corporate_account_status', '1' )->orderBy( 'order', 'asc' )->get();
+
+        return response()->json( $brands );
+    }
 }
