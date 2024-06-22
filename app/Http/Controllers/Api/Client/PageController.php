@@ -822,7 +822,7 @@ class PageController extends Controller
                                 $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
                                 // Her bir koşul için whereHas kullanarak filtreleme
-                                $conditions[] = "(room_info.name = $cleanedSubkey AND room_info.value = $cleanedValue)";
+                                $conditions[] = "(room_info.name = $key AND room_info.value = $cleanedSubkey)";
                             }
                         }
                         if (!empty($conditions)) {
