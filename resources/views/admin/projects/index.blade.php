@@ -4,6 +4,13 @@
     <div class="content">
         <h3 class="mb-2 lh-sm">Proje İlanları</h3>
 
+        <div class="mt-5 mb-5">
+            @if(isset($pendingProjectCount) && $pendingProjectCount > 0)
+                <p>Onay Bekleyen Proje Sayısı: {{ $pendingProjectCount }}</p>
+            @endif
+        </div>
+
+
         <div class="card shadow-none border border-300 my-4">
             <ul class="nav nav-tabs px-4 mt-3 mb-3" id="projectTabs">
                 <li class="nav-item" role="presentation">

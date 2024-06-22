@@ -100,7 +100,8 @@ class HomeController extends Controller
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
 
-        $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
+        $brands = User::where("type", "2")->where('corporate_type',"İnşaat Ofisi")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
+        $housingBrands = User::where("type", "2")->where('corporate_type','Emlak Ofisi')->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
 
         $sliders = Slider::all();
 
@@ -186,7 +187,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
-        return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+        return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider','housingBrands'));
     }
 
 
@@ -392,7 +393,7 @@ class HomeController extends Controller
             $filtersDb = Filter::where('item_type', 1)
                 ->where('housing_type_id', $housingType)
                 ->get()
-                ->keyBy('filter_name');
+                ->keyBy('filter_name')->toArray();
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
