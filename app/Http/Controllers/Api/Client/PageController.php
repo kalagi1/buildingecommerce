@@ -826,20 +826,25 @@ class PageController extends Controller
 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
-
+                
                     foreach ($textInputs as $key => $values) {
                         if (isset($values['min'])) {
                             $minValue = str_replace('.', '', $values['min']); // Noktaları kaldır
-                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) >= ?', [$minValue]);
+                            $query->whereHas('housings', function ($query) use ($key, $minValue) {
+                                $query->where('key', $key)
+                                      ->whereRaw('CAST(value AS FLOAT) >= ?', [$minValue]);
+                            });
                         }
-
+                
                         if (isset($values['max'])) {
                             $maxValue = str_replace('.', '', $values['max']);
-                            $query->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $key . '[0]")) AS FLOAT) <= ?', [$maxValue]);
+                            $query->whereHas('housings', function ($query) use ($key, $maxValue) {
+                                $query->where('key', $key)
+                                      ->whereRaw('CAST(value AS FLOAT) <= ?', [$maxValue]);
+                            });
                         }
                     }
                 }
-
                 return $query->toSql();
 
                 $projects = $query->get();
