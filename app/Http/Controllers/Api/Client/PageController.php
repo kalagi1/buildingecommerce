@@ -738,7 +738,7 @@ class PageController extends Controller
 
         if ($slug && $slug != "al-sat-acil" && $slug != "paylasimli-ilanlar") {
             if ($is_project) {
-                $query = Project::with("city", "county", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
+                $query = Project::with("city", "county","housings", 'user', "neighbourhood", 'brand', 'roomInfo', 'listItemValues', 'housingType')
                     ->where("projects.status", 1);
 
                 if ($housingTypeParentSlug) {
@@ -805,64 +805,31 @@ class PageController extends Controller
                     }
                 }
 
-                if (empty($housingType) && !empty($housingTypeParentSlug)) {
-                    $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)
-                        ->with("parents.connections.housingType")
-                        ->first();
-
-                    $parentConnections = $connections->parents->pluck('connections')->flatten();
-
-                    // Benzersiz housing_type_id değerlerini bul
-                    $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
-                    $filtersDb = Filter::where('item_type', 2)
-                        ->whereIn('housing_type_id', $uniqueHousingTypeIds)
-                        ->get()
-                        ->keyBy('filter_name');
-
-                    // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
-                    $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
-
-                    foreach ($filtersDb as $data) {
-                        if (isset($combinedFilters[$data['filter_name']])) {
-                            if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
-                                $inputName = $data['filter_name'];
-                                if ($request->input($inputName)) {
-                                    $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                        $query->where([
-                                            ['name', $data->name],
-                                        ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
-                                    }, '>=', 1);
-                                }
-                            } elseif ($data['filter_type'] == 'text') {
-                                if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
-                                    $inputName = str_replace('[]', '', $data['filter_name']);
-                                    if ($request->input($inputName . '-min')) {
-                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                            $query->where([
-                                                ['name', $data->name],
-                                            ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
-                                        }, '>=', 1);
-                                    }
-
-                                    if ($request->input($inputName . '-max')) {
-                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                            $query->where([
-                                                ['name', $data->name],
-                                            ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
-                                        }, '>=', 1);
-                                    }
-                                } else {
-                                    $inputName = str_replace('[]', '', $data->name);
-                                    if ($request->input($inputName)) {
-                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
-                                            $query->where([
-                                                ['name', $data->name],
-                                            ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
-                                        }, '>=', 1);
-                                    }
-                                }
+                if ($request->has('selectedCheckboxes')) {
+                    $selectedCheckboxes = $request->input('selectedCheckboxes');
+                    $groupedConditions = [];
+                
+                    foreach ($selectedCheckboxes as $key => $values) {
+                        $conditions = [];
+                        foreach ($values as $subkey => $value) {
+                            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
+                            $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                
+                            if ($cleanedValue != false) {
+                                // Karşılanan verideki Unicode karakterlerini çöz
+                                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                
+                                // "Hayır" -> "Hay\\u0131r" eşitliği sağlamak için
+                                $conditions[] = "JSON_CONTAINS(housings.housing_type_data, '$cleanedSubkey', '$.$key')";
                             }
                         }
+                        if (!empty($conditions)) {
+                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
+                        }
+                    }
+                
+                    if (!empty($groupedConditions)) {
+                        $query->whereRaw('(' . implode(' AND ', $groupedConditions) . ')');
                     }
                 }
 
