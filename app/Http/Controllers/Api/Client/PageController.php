@@ -804,51 +804,41 @@ class PageController extends Controller
                         $query->where('created_at', '>=', now()->subDays($request->input('selectedListingDate')));
                     }
                 }
+            
+
+
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
-                    
-                    $query->whereHas('roomInfo', function ($query) use ($selectedCheckboxes) {
-                        foreach ($selectedCheckboxes as $key => $values) {
-                            $query->where(function ($query) use ($values) {
-                                $conditions = [];
+                    $groupedConditions = [];
                 
-                                foreach ($values as $subkey => $value) {
-                                    $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
-                                    $cleanedValue = urldecode($value); // URL kodlamasını çöz
+                    foreach ($selectedCheckboxes as $key => $values) {
+                        $conditions = [];
+                        foreach ($values as $subkey => $value) {
+                            $cleanedSubkey = urldecode($subkey); // URL kodlamasını çöz
+                            $cleanedValue = urldecode($value); // URL kodlamasını çöz
                 
-                                    if ($cleanedValue !== false) {
-                                        // Karşılanan verideki Unicode karakterlerini çöz
-                                        $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
+                            if ($cleanedValue != false) {
+                                // Karşılanan verideki Unicode karakterlerini çöz
+                                $cleanedSubkey = json_encode(json_decode('"' . $cleanedSubkey . '"'));
                 
-                                        $conditions[] = [
-                                            'name' => $cleanedSubkey . "[]",
-                                            'value' => $cleanedValue,
-                                        ];
-                                    }
-                                }
-                
-                                if (!empty($conditions)) {
-                                    $query->where(function ($query) use ($conditions) {
-                                        foreach ($conditions as $index => $condition) {
-                                            if ($index === 0) {
-                                                $query->where('name', $condition['name'])
-                                                      ->where('value', $condition['value']);
-                                            } else {
-                                                $query->orWhere(function ($query) use ($condition) {
-                                                    $query->where('name', $condition['name'])
-                                                          ->where('value', $condition['value']);
-                                                });
-                                            }
-                                        }
-                                    });
-                                }
-                            });
+                                // Her bir koşul için whereHas kullanarak filtreleme
+                                $conditions[] = "(room_info.name = $cleanedSubkey AND room_info.value = $cleanedValue)";
+                            }
                         }
-                    });
+                        if (!empty($conditions)) {
+                            $groupedConditions[] = '(' . implode(' OR ', $conditions) . ')';
+                        }
+                    }
+                
+                    if (!empty($groupedConditions)) {
+                        $query->whereHas('roomInfo', function ($query) use ($groupedConditions) {
+                            $query->whereRaw(implode(' AND ', $groupedConditions));
+                        });
+                    }
+
+                    return $groupedConditions;
                 }
                 
-
-
 
                 if ($request->has('textInputs')) {
                     $textInputs = $request->input('textInputs');
