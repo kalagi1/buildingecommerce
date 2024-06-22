@@ -805,10 +805,10 @@ class PageController extends Controller
                     }
                 }
             
-
                 if ($request->has('selectedCheckboxes')) {
                     $selectedCheckboxes = $request->input('selectedCheckboxes');
                     $groupedConditions = [];
+                    $bindings = [];
                 
                     // Loop through each group of checkboxes
                     foreach ($selectedCheckboxes as $key => $values) {
@@ -820,7 +820,7 @@ class PageController extends Controller
                             $cleanedValue = urldecode($value); // Decode the URL encoding
                 
                             // Prepare the condition
-                            $conditions[] = "(room_info.name = ? AND room_info.value = ?)";
+                            $conditions[] = "(key = ? AND value = ?)";
                             $bindings[] = $cleanedSubkey . '[]';
                             $bindings[] = $cleanedValue;
                         }
@@ -838,6 +838,7 @@ class PageController extends Controller
                         });
                     }
                 }
+                
                 
                 
 
