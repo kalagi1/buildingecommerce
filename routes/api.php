@@ -129,6 +129,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
@@ -138,7 +139,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:CreateUser'])->group(function () {
             Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
-            Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
         });
 
 
