@@ -129,7 +129,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
-        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
@@ -191,6 +190,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     }); 
     Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
     Route::post('/update-cart', [ApiCartController::class, 'update'])->name('cart.update');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
     Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
     Route::get('/notifications', [AuthController::class, 'getAllNotifications']);
