@@ -26,6 +26,7 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
+        return "a";
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->unique()->toArray();
