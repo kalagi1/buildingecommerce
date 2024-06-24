@@ -322,6 +322,8 @@
                     success: function(response) {
                         // İşlem başarılıysa modalı kapat ve yönlendir
                         $('#sellTypeModal').modal('hide');
+                        $('.modal-backdrop').addClass('hidden');
+                        
                         if ({{ auth()->check() ? 'true' : 'false' }}) {
                             window.location.href = "{{ route('institutional.housing.create.v3') }}";
                         } else {
@@ -625,6 +627,12 @@
             gap: 0px;
             opacity: 0px;
 
+        }
+
+    </style>
+    <style>
+        .hidden {
+            display: none !important;
         }
     </style>
 @endsection
