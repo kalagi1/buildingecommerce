@@ -320,8 +320,13 @@
                                                             </ul>
                                                         @endif
                                                     @endif
+                                                @else
+                                                    <div>
+                                                        <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
+                                                    </div>
                                                 @endif
                                             @endforeach
+                                      
                                         </div>
                                     </div>
                                 </div>
