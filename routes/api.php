@@ -124,6 +124,7 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
     ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
@@ -190,7 +191,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     }); 
     Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
     Route::post('/update-cart', [ApiCartController::class, 'update'])->name('cart.update');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
     Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
     Route::get('/notifications', [AuthController::class, 'getAllNotifications']);
