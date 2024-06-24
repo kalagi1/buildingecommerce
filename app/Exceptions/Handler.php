@@ -32,16 +32,16 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof HttpException) {
-            $statusCode = $exception->getStatusCode();
+        // if ($exception instanceof HttpException) {
+        //     $statusCode = $exception->getStatusCode();
 
-            switch ($statusCode) {
-                case 403:
-                    return $this->renderCustom403Page();
-                case 404:
-                    return $this->renderCustom404Page();
-            }
-        }
+        //     switch ($statusCode) {
+        //         case 403:
+        //             return $this->renderCustom403Page();
+        //         case 404:
+        //             return $this->renderCustom404Page();
+        //     }
+        // }
 
         // if ($exception instanceof HttpException && $exception->getStatusCode() == 500) {
         //     return redirect('/')->with('error', 'Bir Hata Oluştu');
