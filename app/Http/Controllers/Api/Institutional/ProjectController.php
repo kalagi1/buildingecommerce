@@ -948,7 +948,6 @@ class ProjectController extends Controller
 
         $institutions = Institution::all();
 
-        return $institutions;
         foreach ($institutions as $key => $institution) {
             $defaultDepositRate = 0.90;
             $institutionalRateClub = 0.45;
