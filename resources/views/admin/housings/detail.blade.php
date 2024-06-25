@@ -141,39 +141,27 @@
             <h4 class="mb-3">Emlak Görselleri</h4>
             <div class="images owl-carousel mb-4">
                 @php
-                    $imageCount =
-                        isset($housingData->images) && is_array($housingData->images) ? count($housingData->images) : 0;
+                    $images = isset($housingData->images) && is_array($housingData->images) ? $housingData->images : [];
                     if (isset($housingData->image)) {
-                        $imageCount++;
+                        array_unshift($images, $housingData->image);
                     }
                 @endphp
-
-
-                @if ($imageCount > 0)
-                    @foreach ($housingData->images as $image)
+        
+                @if (count($images) > 0)
+                    @foreach ($images as $image)
                         <div class="item">
                             <a href="{{ asset('housing_images/' . $image) }}" data-fancybox="gallery">
                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
-                                    alt="slider-listing" style="height: 50%">
+                                    alt="slider-listing" style="height: 50%; {{ $loop->first && isset($housingData->image) && $housingData->image == $image ? 'border: 3px solid green;' : '' }}">
                             </a>
                         </div>
                     @endforeach
                 @endif
-
-                @if (isset($housingData->image))
-                    <div class="item border-green">
-                        <a href="{{ asset('housing_images/' . $housingData->image) }}" data-fancybox="gallery">
-                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
-                                alt="slider-listing" style="height: 50%; border: 3px solid green; ">
-                        </a>
-                    </div>
-                @endif
             </div>
-
-
-
-            <p>{{ $imageCount }} görsel bulunmaktadır.</p>
+        
+            <p>{{ count($images) }} görsel bulunmaktadır.</p>
         </div>
+        
 
 
         <div class="row g-5">
