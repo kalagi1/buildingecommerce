@@ -77,84 +77,90 @@
                                             $project = $cart->type == 'project' ? App\Models\Project::with('user')->find($cart->item->id) : null;
                                             $housing = $cart->type == 'housing' ? App\Models\Housing::with('user')->find($cart->item->id) : null;
                                         @endphp
-                                        <tr @if($order->refund && $order->refund->status == 1 || $order->refund != null) class="table-danger" @endif>
-                                            <td class="order_no align-middle fw-semibold text-body-highlight">{{ $order->id }}</td>
-                                            <td class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-wrap">{{ $order->created_at }}</td>
-                                            <td class="ad_no align-middle fw-semibold text-body-highlight">
-                                                <a target="_blank"
-                                                    href="{{ $orderCart['type'] == 'housing'
-                                                        ? route('housing.show', [
-                                                            'housingSlug' => isset($orderCart['item']['slug']) && $orderCart['item']['slug'] ? $orderCart['item']['slug'] : null,
-                                                            'housingID' => $orderCart['item']['id'] + 2000000,
-                                                        ])
-                                                        : route('project.housings.detail', [
-                                                            'projectSlug' => optional(App\Models\Project::find($orderCart['item']['id']))->slug . '-' . optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug . '-' . optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
-                                                            'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
-                                                            'housingOrder' => $orderCart['item']['housing'],
-                                                        ]) }}">
-                                                    {{ $order->key }}
-                                                </a>
-                                            </td>
-                                            <td class="customer align-middle white-space-nowrap">
-                                                <a class="d-flex align-items-center text-body">
-                                                    <div class="avatar avatar-m">
-                                                        <img class="rounded-circle" src="{{ $profileImage }}" alt="">
-                                                    </div>
-                                                    <p class="mb-0 ms-3 text-body text-wrap">{{ $user->name }}</p>
-                                                </a>
-                                            </td>
-                                            <td class="customer align-middle white-space-nowrap">
-                                                <a target="_href" href="{{ route('institutional.dashboard', ['slug' => $store->name, 'userID' => $store->id]) }}" class="d-flex align-items-center text-body">
-                                                    <div class="avatar avatar-m">
-                                                        <img class="rounded-circle" src="{{ $storeImage }}" alt="">
-                                                    </div>
-                                                    <p class="mb-0 ms-3 text-body text-wrap">{{ $store->name }}</p>
-                                                </a>
-                                            </td>
-                                            <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->amount }} <br></td>
-                                            <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br></td>
-                                            <td class="order_amount align-middle fw-semibold text-body-highlight">
-                                                @if(isset($order->payment_result))
-                                                    Kredi Kartı ile<br>
-                                                @else
-                                                    <span>EFT / Havale</span> <br>
-                                                    @if(isset($order->dekont))
-                                                        <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}" style="color: hsla(229, 100%, 50%, 0.89)">Dekontu Görüntüle</a><br>
-                                                    @else
-                                                        <span style="color: #EA2B2E">Dekont Eklenmedi</span>
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td class="order_status">
-                                                @if($order->refund != null)
-                                                    {!! [
-                                                        '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
-                                                    ][$order->refund->status] !!}
-                                                    @if ($order->invoice)
-                                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                            <a href="{{ route('admin.invoice.show', $order->id) }}">Faturayı Görüntüle</a>
-                                                        </span>
-                                                    @endif
-                                                @else
-                                                    {!! [
-                                                        '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Ödeme Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
-                                                    ][$order->status] !!}
-                                                    @if ($order->invoice)
-                                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                            <a href="{{ route('admin.invoice.show', $order->id) }}">Faturayı Görüntüle</a>
-                                                        </span>
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td class="order_user align-middle fw-semibold text-body-highlight">
-                                                <a href="{{ route('admin.order.detail', ['order_id' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş Detayı</a>
-                                            </td>
-                                        </tr>
+
+
+
+@if (isset($store))
+<tr @if($order->refund && $order->refund->status == 1 || $order->refund != null) class="table-danger" @endif>
+    <td class="order_no align-middle fw-semibold text-body-highlight">{{ $order->id }}</td>
+    <td class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-wrap">{{ $order->created_at }}</td>
+    <td class="ad_no align-middle fw-semibold text-body-highlight">
+        <a target="_blank"
+            href="{{ $orderCart['type'] == 'housing'
+                ? route('housing.show', [
+                    'housingSlug' => isset($orderCart['item']['slug']) && $orderCart['item']['slug'] ? $orderCart['item']['slug'] : null,
+                    'housingID' => $orderCart['item']['id'] + 2000000,
+                ])
+                : route('project.housings.detail', [
+                    'projectSlug' => optional(App\Models\Project::find($orderCart['item']['id']))->slug . '-' . optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug . '-' . optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                    'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                    'housingOrder' => $orderCart['item']['housing'],
+                ]) }}">
+            {{ $order->key }}
+        </a>
+    </td>
+    <td class="customer align-middle white-space-nowrap">
+        <a class="d-flex align-items-center text-body">
+            <div class="avatar avatar-m">
+                <img class="rounded-circle" src="{{ $profileImage }}" alt="">
+            </div>
+            <p class="mb-0 ms-3 text-body text-wrap">{{ $user->name }}</p>
+        </a>
+    </td>
+    <td class="customer align-middle white-space-nowrap">
+        <a target="_href" href="{{ route('institutional.dashboard', ['slug' => $store->name, 'userID' => $store->id]) }}" class="d-flex align-items-center text-body">
+            <div class="avatar avatar-m">
+                <img class="rounded-circle" src="{{ $storeImage }}" alt="">
+            </div>
+            <p class="mb-0 ms-3 text-body text-wrap">{{ $store->name }}</p>
+        </a>
+    </td>
+    <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->amount }} <br></td>
+    <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br></td>
+    <td class="order_amount align-middle fw-semibold text-body-highlight">
+        @if(isset($order->payment_result))
+            Kredi Kartı ile<br>
+        @else
+            <span>EFT / Havale</span> <br>
+            @if(isset($order->dekont))
+                <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}" style="color: hsla(229, 100%, 50%, 0.89)">Dekontu Görüntüle</a><br>
+            @else
+                <span style="color: #EA2B2E">Dekont Eklenmedi</span>
+            @endif
+        @endif
+    </td>
+    <td class="order_status">
+        @if($order->refund != null)
+            {!! [
+                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+            ][$order->refund->status] !!}
+            @if ($order->invoice)
+                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                    <a href="{{ route('admin.invoice.show', $order->id) }}">Faturayı Görüntüle</a>
+                </span>
+            @endif
+        @else
+            {!! [
+                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Ödeme Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+            ][$order->status] !!}
+            @if ($order->invoice)
+                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                    <a href="{{ route('admin.invoice.show', $order->id) }}">Faturayı Görüntüle</a>
+                </span>
+            @endif
+        @endif
+    </td>
+    <td class="order_user align-middle fw-semibold text-body-highlight">
+        <a href="{{ route('admin.order.detail', ['order_id' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş Detayı</a>
+    </td>
+</tr>
+@endif
+                                  
                                     @endforeach
                                 @else
                                     <tr>
