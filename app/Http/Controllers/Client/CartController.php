@@ -1003,10 +1003,11 @@ class CartController extends Controller {
         try {
             if ( Auth::check() ) {
                 $user = Auth::user();
-                $lastClick = Click::where( 'user_id', $user->id )
-                ->where( 'created_at', '>=', now()->subDays( 24 ) )
-                ->latest( 'created_at' )
+                $lastClick = Click::where('user_id', $user->id)
+                ->where('created_at', '>=', now()->subDays(24))
+                ->latest('created_at')
                 ->first();
+
 
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
