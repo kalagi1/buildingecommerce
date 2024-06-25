@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="content">
+
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
                 <div class="card-body position-relative">
@@ -68,7 +69,7 @@
             <!-- Modal şablonu -->
             <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
@@ -86,12 +87,16 @@
                                     <thead>
                                         <tr>
                                             <th>Kurum</th>
-                                            <th>Kapora Oranı</th>
+                                            <th>Paylaşımsız <br> Kapora Oranı</th>
+                                            <th>Emlak Sepette Oranı</th>
                                             <th>Satış Oranı (Emlak Kulüp)</th>
+                                            <th>Satış Oranı (Satıcı)</th>
+
                                         </tr>
                                     </thead>
+
                                     <tbody>
-                                        @foreach ($rates as $rate)
+                                        @foreach ($housing->rates as $rate)
                                             <tr>
                                                 <td>{{ $rate->institution->name }}</td>
                                                 <td>
@@ -99,10 +104,15 @@
                                                         name="rates[{{ $rate->id }}][default_deposit_rate]"
                                                         value="{{ $rate->default_deposit_rate }}" />
                                                 </td>
+                                                <td> <input type="number" step="0.01" readonly
+                                                        value="{{ 1 - $rate->default_deposit_rate }}" /></td>
                                                 <td>
                                                     <input type="number" step="0.01"
                                                         name="rates[{{ $rate->id }}][sales_rate_club]"
                                                         value="{{ $rate->sales_rate_club }}" />
+                                                </td>
+                                                <td> <input type="number" step="0.01" readonly
+                                                        value="{{ 1 - $rate->sales_rate_club - (1 - $rate->default_deposit_rate) }}" />
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -126,44 +136,32 @@
         </div>
 
 
-
         <div class="col-12 col-xl-12 mb-12 mt-12">
             <h4 class="mb-3">Emlak Görselleri</h4>
-            <div class="images owl-carousel mb-4">
+            <div class="row mb-2">
                 @php
-                    $imageCount =
-                        isset($housingData->images) && is_array($housingData->images) ? count($housingData->images) : 0;
+                    $images = isset($housingData->images) && is_array($housingData->images) ? $housingData->images : [];
                     if (isset($housingData->image)) {
-                        $imageCount++;
+                        array_unshift($images, $housingData->image);
                     }
                 @endphp
 
-
-                @if ($imageCount > 0)
-                    @foreach ($housingData->images as $image)
-                        <div class="item">
-                            <a href="{{ asset('housing_images/' . $image) }}" data-fancybox="gallery">
+                @if (count($images) > 0)
+                    @foreach ($images as $image)
+                        <div class="col-1">
+                            <a href="{{ asset('housing_images/' . $image) }}" data-fancybox="gallery"
+                                style="width: 100%; height: 100%; display:block;">
                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing"
-                                    style="height: 50%">
+                                    style="height: 100px; object-fit: cover; {{ $loop->first && isset($housingData->image) && $housingData->image == $image ? 'border: 3px solid green;' : '' }}">
                             </a>
                         </div>
                     @endforeach
                 @endif
-
-                @if (isset($housingData->image))
-                    <div class="item border-green">
-                        <a href="{{ asset('housing_images/' . $housingData->image) }}" data-fancybox="gallery">
-                            <img src="{{ asset('housing_images/' . $housingData->image) }}" class="img-fluid"
-                                alt="slider-listing" style="height: 50%; border: 3px solid green; ">
-                        </a>
-                    </div>
-                @endif
             </div>
 
-
-
-            <p>{{ $imageCount }} görsel bulunmaktadır.</p>
+            <p>{{ count($images) }} görsel bulunmaktadır.</p>
         </div>
+
 
 
         <div class="row g-5">

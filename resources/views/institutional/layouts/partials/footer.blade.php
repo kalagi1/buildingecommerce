@@ -88,8 +88,8 @@
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js" defer>
 </script>
 
-<script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js" defer></script>
-
+{{-- <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js" defer></script> --}}
+@vite('resources/js/app.jsx') 
 
 <!--FormBuilder-->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" defer></script>
@@ -100,7 +100,9 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{URL::to('/')}}/build/assets/app-93e9f7de.js"></script>
+
+<script src="{{URL::to('/')}}/build/assets/app-e31e5f3a.js"></script>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" defer></script>

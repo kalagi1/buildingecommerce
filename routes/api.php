@@ -219,6 +219,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
     Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
+
+    Route::post('/housing/{id}/send-comment', [HousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);

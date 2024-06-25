@@ -811,19 +811,20 @@ class PayController extends Controller
 
                         foreach ($rates as $rate) {
                             if ($collection->user->corporate_type == $rate->institution->name) {
-                                // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                                 $sales_rate_club = $rate->sales_rate_club;
-
-                                break; // Eşleşme bulunduğunda döngüyü sonlandırın
+                                break; 
                             }
                         }
 
-                        // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
                         if ($sales_rate_club === null && count($rates) > 0) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
+                                                // $amount değerini float'a dönüştür
+$amount = str_replace('.', '', $amount); // Noktaları kaldır
+$amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
+$amount = floatval($amount); // Float'a dönüştür
 
-                        $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                        $estateclubrate = ($amount - $sharedAmount_balance) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
 

@@ -232,7 +232,6 @@ class HomeController extends Controller
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
                     $housingType = HousingType::where('slug', $request->input($paramValue))->first();
-
                     if ($item1) {
                         $slugName = $item1->name;
                         $slug = $item1->id;
@@ -250,6 +249,7 @@ class HomeController extends Controller
                 }
             }
         }
+        dd($slug,$housingTypeSlug,$housingType);
 
         $query = Project::query()->where('projects.status', 1);
 
@@ -308,7 +308,7 @@ class HomeController extends Controller
                 $query->where('housing_type_id', $slug);
             });
         }
-
+        
         if ($housingTypeSlug) {
             $query->where("step1_slug", $housingTypeSlug);
         }
@@ -463,7 +463,6 @@ class HomeController extends Controller
 
         if ($request->input('term')) {
             $term = $request->input('term');
-
             $query->where(function ($queryf) use ($term) {
                 $queryf->where('project_title', 'LIKE', "%{$term}%")
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
@@ -478,7 +477,6 @@ class HomeController extends Controller
                     });
             })->where("projects.status", 1);
         }
-
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
         $term = $request->input('term') ?? null;
