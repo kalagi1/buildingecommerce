@@ -1018,6 +1018,8 @@ class CartController extends Controller {
                     return response( [ 'message' => 'fail' ] );
                 }
 
+                $hasCounter = false;
+
                 if ( $request->input( 'type' ) == 'project' ) {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
