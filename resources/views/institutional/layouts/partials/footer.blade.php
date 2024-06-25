@@ -100,7 +100,7 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{URL::to('/')}}/build/assets/app-a79a2835.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-e31e5f3a.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" defer></script>

@@ -189,7 +189,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
                                             var isX = null;
                                             if(data?.className?.includes('--if-show-checked-')){
-                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                                isX = !checkedItems.find((checkedItem) => { return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
                                             }
                                             if(data.type == "text"){
                                                 return(
@@ -361,7 +361,10 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
 
                                     if(slug == "devren-satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
-                                            console.log(data);
+                                            var isX = null;
+                                            if(data?.className?.includes('--if-show-checked-')){
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                            }
                                             if(data.type == "text"){
                                                 return(
                                                     <div className={"form-group "+(isX ? "d-none" : "")}>
@@ -583,7 +586,10 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
 
                                     if(slug == "devren-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
-                                            console.log(data);
+                                            var isX = null;
+                                            if(data?.className?.includes('--if-show-checked-')){
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                            }
                                             if(data.type == "text"){
                                                 return(
                                                     <div className={"form-group "+(isX ? "d-none" : "")}>

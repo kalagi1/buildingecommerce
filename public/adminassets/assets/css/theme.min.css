@@ -47639,3 +47639,18 @@ hr {
     background: whitesmoke;
     margin: 0 3px;
   }
+
+  .error-under-input{
+    color: red;
+    font-size: 12px;
+  }
+
+  .info-small-area{
+    background-color: #EA2B2E;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+  }

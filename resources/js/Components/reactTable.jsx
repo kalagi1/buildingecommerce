@@ -250,7 +250,7 @@ function ReactTable(props) {
     const [loading,setLoading] = useState(true);
     useEffect(() => {
         setLoading(true);
-        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+        axios.get('https://test.emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
 
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
@@ -267,7 +267,7 @@ function ReactTable(props) {
         setPage(newPage);
         var start = newPage * rowPerPage;
 
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
+        axios.get(`https://test.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
 
 
             setRows(res.data.data);
@@ -287,7 +287,7 @@ function ReactTable(props) {
         setPage(0);
 
 
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
+        axios.get(`https://test.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
 
 
             setRows(res.data.data);
@@ -310,7 +310,7 @@ function ReactTable(props) {
                     if(res.data.status){
                         setLoading(true);
 
-                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('https://test.emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
                             Swal.fire("Başarıyla projeyi pasife aldınız", "", "success");
                             setRows(res.data.data);
                             setTotalProjectsCount(res.data.total_projects_count);
@@ -364,7 +364,7 @@ function ReactTable(props) {
                     if(res.data.status){
                         setLoading(true);
 
-                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('https://test.emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
 
                             Swal.fire("Başarıyla projeyi sildiniz", "", "success");
                             setRows(res.data.data);
@@ -461,12 +461,12 @@ function ReactTable(props) {
                                                 </TableCell>
                                                 <TableCell>
 
-                                                    <a href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/housings_v2`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
+                                                    <a href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/housings_v2`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="d-flex">
-                                                        <a class="badge badge-phoenix badge-phoenix-warning" href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                        <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                        <a class="badge badge-phoenix badge-phoenix-warning" href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/logs`}>İşlem Kayıtları</a>
+                                                        <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://test.emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
 
                                                     </div>
                                                 </TableCell>
