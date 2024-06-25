@@ -1007,7 +1007,6 @@ class CartController extends Controller {
                 ->where( 'created_at', '>=', now()->subDays( 24 ) )
                 ->latest( 'created_at' )
                 ->first();
-                return $lastClick;
 
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
@@ -1034,6 +1033,7 @@ class CartController extends Controller {
                         }
                     }
                 } else {
+                    return $request->input("type");
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
