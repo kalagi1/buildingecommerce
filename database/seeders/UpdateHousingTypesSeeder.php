@@ -21,8 +21,10 @@ class UpdateHousingTypesSeeder extends Seeder
             // Decode the form_json column value into an associative array
             $formJson = json_decode($housingType->form_json, true);
 
-            // Modify the formJson array to move discount_rate[] after open_sharing[]
-            $formJson = $this->moveDiscountRateAfterOpenSharing($formJson);
+            // // Modify the formJson array to move discount_rate[] after open_sharing[]
+            // $formJson = $this->moveDiscountRateAfterOpenSharing($formJson);
+
+            $formJson = $this->updateOffSaleElements($formJson);
 
             // Encode the modified formJson array back to JSON format
             $updatedFormJson = json_encode($formJson);
@@ -52,8 +54,8 @@ class UpdateHousingTypesSeeder extends Seeder
             array_splice($formJson, $discountRateIndex, 1);
 
             // Find the correct position to insert discount_rate[] after open_sharing[]
-            if ($discountRateIndex > $openSharingIndex) {
-                $openSharingIndex++; // Increment index to maintain position after splice
+            if ($discountRateIndex < $openSharingIndex) {
+                $openSharingIndex--; // Decrement index to maintain position after splice
             }
 
             // Insert discount_rate[] after open_sharing[]
@@ -78,5 +80,18 @@ class UpdateHousingTypesSeeder extends Seeder
             }
         }
         return null;
+    }
+
+    private function updateOffSaleElements($formJson)
+    {
+        foreach ($formJson as &$item) {
+            if (isset($item['name']) && $item['name'] === 'discount_rate[]') {
+
+                $item['label'] = 'Emlak Kulüp İndirim Oranı %';
+                $item['placeholder'] = 'Emlak Kulüp İndirim Oranı %';
+
+            }
+        }
+        return $formJson;
     }
 }
