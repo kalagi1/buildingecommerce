@@ -1045,6 +1045,8 @@ class CartController extends Controller {
                     }
                 }
 
+                return $hasCounter;
+
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
