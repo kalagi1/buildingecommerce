@@ -1026,7 +1026,7 @@ class CartController extends Controller {
 
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->user_id != Auth::guard( 'api' )->user()->id ) ) {
+                                if ( ( $link->user_id != $user->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
@@ -1036,8 +1036,9 @@ class CartController extends Controller {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
+                            return $$collection->links ;
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 2  && $link->user_id != Auth::user()->id ) ) {
+                                if ( ( $link->item_type == 2  && $link->user_id != $user->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
