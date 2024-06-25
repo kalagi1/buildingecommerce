@@ -82,7 +82,7 @@
                         @else
                             <div class="px-xxl-5">
                                 <div class="text-center mb-6">
-                                    <p class="text-body-tertiary mb-5">Telefon doğrulama kodunu oluşturmak için lütfen aşağıdaki düğmeye tıklayın.</p>
+                                    <p class="text-body-tertiary mb-5">Telefon doğrulama kodunu oluşturmak için lütfen aşağıdaki butona tıklayın.</p>
                             
                                     <form action="{{ route('institutional.phone.generateVerificationCode') }}" method="POST">
                                         @csrf
