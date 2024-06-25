@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Listeners\UpdateHousingsCache;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +24,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(InstitutionSeeder::class);
 
         // $this->call(HousingSeeder::class);
-        $this->call(GeneralSeeder::class);
+        $this->call(UpdateHousingReorderTypesSeeder::class);
     }   
 }
