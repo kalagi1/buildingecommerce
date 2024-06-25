@@ -948,7 +948,7 @@ class ProjectController extends Controller
 
         if ($project) {
             $institutions = Institution::all();
-
+        
             foreach ($institutions as $key => $institution) {
                 $defaultDepositRate = 0.90;
                 $institutionalRateClub = 0.45;
@@ -966,14 +966,22 @@ class ProjectController extends Controller
                 $defaultDepositRateToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalRate ?? $defaultDepositRate) : ($sellTypeClientRate ?? $clientDepositRate);
                 $salesRateClubToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalClub ?? $institutionalRateClub) : ($sellTypeClientClub ?? $clientRateClub);
             
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $project->id,
-                    'default_deposit_rate' => $defaultDepositRateToUse,
-                    'sales_rate_club' => $salesRateClubToUse,
-                ]);
+                // Check if Rate record already exists for this institution and project
+                $existingRate = Rate::where('institution_id', $institution->id)
+                                    ->where('housing_id', $project->id)
+                                    ->first();
+            
+                if (!$existingRate) {
+                    Rate::create([
+                        'institution_id' => $institution->id,
+                        'housing_id' => $project->id,
+                        'default_deposit_rate' => $defaultDepositRateToUse,
+                        'sales_rate_club' => $salesRateClubToUse,
+                    ]);
+                }
             }
         }
+        
 
      
         $user = auth()->user();
