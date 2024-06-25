@@ -86,7 +86,7 @@
                                     <thead>
                                         <tr>
                                             <th>Kurum</th>
-                                            <th>Kapora Oranı</th>
+                                            <th>Paylaşımsız <br> Kapora Oranı</th>
                                             <th>Emlak Sepette Oranı</th>
                                             <th>Satış Oranı (Emlak Kulüp)</th>
                                             <th>Satış Oranı (Satıcı)</th>
