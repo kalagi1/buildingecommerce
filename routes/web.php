@@ -826,6 +826,7 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
+    Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
     Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
@@ -1190,6 +1191,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('getbycustomer/{id}',[CrmController::class,'getByCustomer']);
     Route::get('getbyproject/{id}',[CrmController::class,'getByProject']);
     Route::get('/get_current_user',[ApiInstitutionalUserController::class,"getCurrentUser"]);
+    Route::get('fetch-users',[CrmController::class,'getAllUsers']);
+    Route::get('fetch-projects',[CrmController::class,'getAllProjects']);
+    Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
+
+
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
