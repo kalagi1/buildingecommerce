@@ -91,7 +91,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($rates as $rate)
+                                        @foreach ($housing->rates as $rate)
                                             <tr>
                                                 <td>{{ $rate->institution->name }}</td>
                                                 <td>
