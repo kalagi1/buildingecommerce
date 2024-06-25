@@ -1038,7 +1038,7 @@ class CartController extends Controller {
                         if ( isset( $collection ) ) {
                             return $collection->links ;
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 2  && $link->user_id != $user->id ) ) {
+                                if ( ( $link->user_id != $user->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
