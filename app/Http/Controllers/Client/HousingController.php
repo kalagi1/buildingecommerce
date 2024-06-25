@@ -128,10 +128,9 @@ class HousingController extends Controller {
                 if ( $housingType ) {
                     $formJsonItems = json_decode( $housingType->form_json, true ) ?? [];
 
-                    return $formJsonItems;
                     foreach ( $formJsonItems as $formJsonItem ) {
                         $formJsonItemName = rtrim( $formJsonItem[ 'name' ], '[]' );
-
+return $formJsonItemName;
                         // Remove the last character '1' if it exists in the key
                         $keyWithoutLastCharacter = rtrim( $key, '1' );
 
