@@ -202,7 +202,7 @@
                                 <tr>
                                     <td style="text-align: left">{{$i + 1}}. Ara Ödeme</td>
                                     <td style="text-align: left">{{date('d.m.Y',strtotime($payDecs['pay_desc_date'.$roomOrder.$i]->value))}}</td>
-                                    <td style="text-align: left">{{number_format($payDecs['pay_desc_price'.$roomOrder.$i]->value, 0, '', '.')}}₺</td>
+                                    <td style="text-align: left">{{number_format(str_replace('.','',$payDecs['pay_desc_price'.$roomOrder.$i]->value), 0, '', '.')}}₺</td>
                                     
                                     @if(in_array($i+1,$paidPayDecs))
                                         <td style="text-align: left"><span style="background: green;padding: 3px 10px;color: #fff;">Alındı</span></td>

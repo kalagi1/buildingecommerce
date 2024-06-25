@@ -1181,6 +1181,14 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/render_pdf/{project_id}/{room_order}',[ApiProjectController::class,"renderPdf"]);
     Route::get('/get_sale/{project_id}/{room_order}',[ApiProjectController::class,"getSale"]);
     Route::apiResource('customer', CrmController::class);
+
+    Route::post('new-call-record',[CrmController::class,'newCallRecord']);
+    Route::post('new-appointment',[CrmController::class,'newAppointment']);
+    Route::get('fetch-customers/{customerId}',[CrmController::class,'fetchCustomers']);
+    Route::get('all-appointments',[CrmController::class,'allAppointments']);
+    Route::get('/appointments/{date}', [CrmController::class, 'getByDate']);
+    Route::get('getbycustomer/{id}',[CrmController::class,'getByCustomer']);
+    Route::get('getbyproject/{id}',[CrmController::class,'getByProject']);
     Route::get('/get_current_user',[ApiInstitutionalUserController::class,"getCurrentUser"]);
 });
 
