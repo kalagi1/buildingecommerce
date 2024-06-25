@@ -1005,11 +1005,11 @@ class ProjectController extends Controller
             }
         }
 
-        if (isset($postData['property_owner_phone']) && isset($postData['property_owner'])) {
+        if (isset( $request->input('room')['property_owner']) && isset( $request->input('room')['property_owner_phone'])) {
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
-            $property_owner_phone = $postData['property_owner_phone'];
-            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . auth()->user()->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
+            $property_owner_phone = $request->input('room')['property_owner_phone'];
+            $message = "Sayın " . $request->input('room')['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . auth()->user()->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
 
             // SmsService sınıfını kullanarak SMS gönderme işlemi
             $smsService = new SmsService();
