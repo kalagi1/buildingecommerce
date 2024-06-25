@@ -11,7 +11,7 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
-function ProjectForm({slug,selectedTypes,formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function ProjectForm({errorMessages,slug,selectedTypes,formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -44,13 +44,13 @@ function ProjectForm({slug,selectedTypes,formDataHousing,anotherBlockErrors,sele
                 for(var i = 0; i < block.roomCount; i++){
                     if(blocks[blockIndex].rooms[i]){
                         formDataHousing.forEach((formDataHousing) => {
-                            if(!formDataHousing.className.includes('project-disabled')){
-                                if(formDataHousing.required){
+                            if(!formDataHousing?.className?.includes('project-disabled')){
+                                if(formDataHousing?.required){
                                     if(blocks.length < 1){
-                                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                                        tempErrors.push(formDataHousing?.name?.replace("[]",""))
                                     }else{
                                         if(!blocks[blockIndex].rooms[i][formDataHousing.name]){
-                                            tempErrors.push(formDataHousing.name.replace("[]","")+blockIndex+i)
+                                            tempErrors.push(formDataHousing?.name?.replace("[]","")+blockIndex+i)
                                         }
                                     }
                                     
@@ -59,7 +59,7 @@ function ProjectForm({slug,selectedTypes,formDataHousing,anotherBlockErrors,sele
                         })
                     }else{
                         formDataHousing.forEach((formDataHousing) => {
-                            tempErrors.push(formDataHousing.name.replace("[]","")+blockIndex+i)
+                            tempErrors.push(formDataHousing?.name?.replace("[]","")+blockIndex+i)
                         })
                     }
                 }
@@ -253,23 +253,38 @@ function ProjectForm({slug,selectedTypes,formDataHousing,anotherBlockErrors,sele
                             </div>
                         </div>
                         
-                        <div className="col-md-6 mt-2">
+                        <div className="col-md-6 mt-2" id='start_date_id'>
                             <label htmlfor="">Başlangıç Tarihi</label>
                             <div className="icon-input">
                                 <div className="icon-area">
                                     <i className="fa fa-calendar-days"></i>
                                 </div>
-                                <input type="date" value={projectData.start_date} onChange={(e) => {setProjectDataFunc('start_date',e.target.value)}} className="start_date"/>
+                                <input type="date" value={projectData.start_date} onChange={(e) => { if(e.target.value.length <= 10){setProjectDataFunc('start_date',e.target.value)}}} className={"start_date "+(allErrors.includes('start_date') ? "error-border" : "")}/>
+                                
+                            </div>
+                            <div className="error-under-input">
+                                {
+                                    errorMessages.start_date ? 
+                                        errorMessages.start_date 
+                                    : ''
+                                }
                             </div>
                         </div>
                         
-                        <div className="col-md-6 mt-2">
+                        <div className="col-md-6 mt-2" id='end_date_id'>
                             <label htmlfor="">Bitiş Tarihi</label>
                             <div className="icon-input">
                                 <div className="icon-area">
                                     <i className="fa fa-calendar-days"></i>
                                 </div>
-                                <input type="date" value={projectData.end_date} onChange={(e) => {setProjectDataFunc('end_date',e.target.value)}} className="end_date"/>
+                                <input type="date" value={projectData.end_date} onChange={(e) => {if(e.target.value.length <= 10){setProjectDataFunc('end_date',e.target.value)}}} className={"end_date "+(allErrors.includes('end_date') ? "error-border" : "")}/>
+                            </div>
+                            <div className="error-under-input">
+                                {
+                                    errorMessages.end_date ? 
+                                        errorMessages.end_date 
+                                    : ''
+                                }
                             </div>
                         </div>
                     </div>

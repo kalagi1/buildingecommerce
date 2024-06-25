@@ -76,7 +76,7 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                 <div className="area-listx">
                     <ul>
                         {
-                            housingStatuses.map((housingStatus) => {
+                            housingStatuses.sort((a, b) => a.name.localeCompare(b.name, 'tr')).map((housingStatus) => {
                                 if(!housingStatus.is_default){
                                     return(
                                         <li onClick={() => {setHousingStatus(housingStatus.id)}} className={selectedTypes[0] == housingStatus.id ? "selected" : ""}>{housingStatus.name}</li>

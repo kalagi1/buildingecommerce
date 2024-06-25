@@ -100,7 +100,8 @@ class HomeController extends Controller
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
 
-        $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
+        $brands = User::where("type", "2")->where('corporate_type',"İnşaat Ofisi")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
+        $housingBrands = User::where("type", "2")->where('corporate_type','Emlak Ofisi')->where("status", "1")->where("is_show", "yes")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
 
         $sliders = Slider::all();
 
@@ -186,7 +187,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
-        return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+        return view('client.home.index', compact('sharerLinks', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'housings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider','housingBrands'));
     }
 
 
@@ -231,7 +232,6 @@ class HomeController extends Controller
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
                     $housingType = HousingType::where('slug', $request->input($paramValue))->first();
-
                     if ($item1) {
                         $slugName = $item1->name;
                         $slug = $item1->id;
@@ -249,6 +249,7 @@ class HomeController extends Controller
                 }
             }
         }
+        dd($slug,$housingTypeSlug,$housingType);
 
         $query = Project::query()->where('projects.status', 1);
 
@@ -307,7 +308,7 @@ class HomeController extends Controller
                 $query->where('housing_type_id', $slug);
             });
         }
-
+        
         if ($housingTypeSlug) {
             $query->where("step1_slug", $housingTypeSlug);
         }
@@ -462,7 +463,6 @@ class HomeController extends Controller
 
         if ($request->input('term')) {
             $term = $request->input('term');
-
             $query->where(function ($queryf) use ($term) {
                 $queryf->where('project_title', 'LIKE', "%{$term}%")
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
@@ -477,7 +477,6 @@ class HomeController extends Controller
                     });
             })->where("projects.status", 1);
         }
-
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
         $term = $request->input('term') ?? null;

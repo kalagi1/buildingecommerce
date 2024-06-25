@@ -123,25 +123,35 @@ class HousingController extends Controller {
             $housingTypeData = json_decode( $housing->housing_type_data, true );
 
             $housingType = HousingType::find( $housing->housing_type_id );
-            foreach ( $housingTypeData as $key => $value ) {
-
-                if ( $housingType ) {
-                    $formJsonItems = json_decode( $housingType->form_json, true ) ?? [];
-
-                    foreach ( $formJsonItems as $formJsonItem ) {
-                        $formJsonItemName = rtrim( $formJsonItem[ 'name' ], '[]' );
-
-                        // Remove the last character '1' if it exists in the key
-                        $keyWithoutLastCharacter = rtrim( $key, '1' );
-
-                        // Check for equality after removing the last character
-                        if ( isset( $formJsonItem[ 'name' ] ) && $formJsonItemName === $keyWithoutLastCharacter ) {
-                            $labels[ $formJsonItem[ 'label' ] ] = $value;
-                            break;
+            foreach ($housingTypeData as $key => $value) {
+                if ($housingType) {
+                    $formJsonItems = json_decode($housingType->form_json, true) ?? [];
+            
+                    foreach ($formJsonItems as $formJsonItem) {
+                        // Check if $formJsonItem is an array
+                        if (is_array($formJsonItem)) {
+                            // Proceed with operations on $formJsonItem
+                            if (isset($formJsonItem['name'])) {
+                                $formJsonItemName = rtrim($formJsonItem['name'], '[]');
+                                
+                                // Remove the last character '1' if it exists in the key
+                                $keyWithoutLastCharacter = rtrim($key, '1');
+            
+                                // Check for equality after removing the last character
+                                if ($formJsonItemName === $keyWithoutLastCharacter) {
+                                    // Ensure $formJsonItem has 'label' key before accessing it
+                                    if (isset($formJsonItem['label'])) {
+                                        $labels[$formJsonItem['label']] = $value;
+                                    }
+                                    break; // Exit the inner loop once a match is found
+                                }
+                            }
                         }
                     }
                 }
             }
+            
+            
 
             $pageInfo = [
                 'meta_title' => $housing->title,

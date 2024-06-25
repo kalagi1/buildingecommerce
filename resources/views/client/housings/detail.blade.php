@@ -311,17 +311,25 @@
                                                         @if ($label != 'Galeri')
                                                             <h5>
                                                                 {{ $label }}</h5>
-                                                            <ul class="homes-list clearfix mb-3 checkSquareIcon">
-                                                                @foreach ($val as $item)
-                                                                    <li><i class="fa fa-check-square"
-                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
+                                                            @if ($val)
+                                                                <ul class="homes-list clearfix mb-3 checkSquareIcon">
+                                                                    @foreach ($val as $item)
+                                                                        <li><i class="fa fa-check-square"
+                                                                                aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                <div>
+                                                                    <span>Bu ilana ait herhangi bir özellik
+                                                                        belirtilmemiştir.</span>
+                                                                </div>
+                                                            @endif
                                                         @endif
                                                     @endif
                                                 @endif
                                             @endforeach
+
                                         </div>
                                     </div>
                                 </div>
@@ -588,8 +596,7 @@
                                                         Fiyatı Güncelle
                                                     </a>
                                                 </div>
-
-                                                @else
+                                            @else
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#bidModal"
                                                         style="color:#EA2B2E !important;cursor: pointer; ">
@@ -644,7 +651,7 @@
                         @endif
 
 
-                      
+
 
                         @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                             <div class="add-to-collections-wrapper addCollection" data-type='housing'
@@ -788,7 +795,8 @@
                                             @csrf
                                             <div class="form-group">
                                                 <label for="bid_amount">Teklifiniz:</label>
-                                                <input type="text" name="bid_amount" class="form-control" id="newPrice" required>
+                                                <input type="text" name="bid_amount" class="form-control"
+                                                    id="newPrice" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-block">Gönder</button>
                                         </form>
@@ -3039,7 +3047,6 @@
 
             e.target.value = value;
         });
-
     </script>
 
     <script>

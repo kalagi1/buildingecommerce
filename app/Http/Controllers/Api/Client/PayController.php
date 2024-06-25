@@ -1,24 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Client;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\BankAccount;
 use App\Models\CartItem;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Arr;
 use App\Models\CartOrder;
 use App\Models\Project;
 use App\Models\Housing;
-use App\Models\ProjectHousing;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\View;
 use App\Models\Invoice;
-use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\CartPrice;
 use App\Models\Click;
@@ -27,134 +21,23 @@ use App\Models\Coupon;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\NeighborView;
-use App\Models\Offer;
-use App\Models\Order;
-use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\UseCoupon;
-use App\Models\Reservation;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Models\NeighborPayment;
 use App\Models\Rate;
-use Termwind\Components\Raw;
-use Carbon\Carbon;
 
 class PayController extends Controller
 {
-    //test ortamı 
-    // protected $storeNumber = '190100000';
-    // protected $adminUsername = '190933121admin';
-    // protected $adminPassword = 'TEST1010';
-    // protected $apiUsername = '190933121api';
-    // protected $apiPassword = 'TEST1010';
-    // protected $storeKey = '123456';
-    // protected $reportLoginUrl = 'https://entegrasyon.asseco-see.com.tr/ziraat/report/user.login';
-    // protected $testUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dgate';
-    // protected $apiUrl = 'https://entegrasyon.asseco-see.com.tr/fim/api';
-    // protected $testStoreUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
-
-    public function index()
-    {
-
-        if (Auth::check()) {
-
-            $userId = Auth::user()->id;
-
-            // Oturum açmış kullanıcının işlemlerini burada devam ettirin
-        } else {
-            // Kullanıcı oturum açmamışsa, login sayfasına yönlendirin
-            return redirect()->route('client.login'); // login sayfasının route ismini buraya yazın
-        }
-
-        $user = User::find($userId);
-        $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-        $cart = null;
-        if ($cartItem) {
-            $cart = json_decode($cartItem->cart, true);
-        }
-
-        $bankAccounts = BankAccount::all();
-
-
-        $saleType = null;
-        $column_name = null;
-        $project = null;
-        $projectHousingsList = [];
-        $projectHousings = null;
-
-        $housing = null;
-
-        if (isset($cart) && !empty($cart)) {
-            if ($cart['type'] == 'housing') {
-                $housing = Housing::with('images')
-                    ->select(
-                        'housings.id',
-                        'housings.slug',
-                        'housings.title AS housing_title',
-                        'housings.created_at',
-                        'housings.step1_slug',
-                        'housings.step2_slug',
-                        'housing_types.title as housing_type_title',
-                        'housings.housing_type_data',
-                        'project_list_items.column1_name as column1_name',
-                        'project_list_items.column2_name as column2_name',
-                        'project_list_items.column3_name as column3_name',
-                        'project_list_items.column4_name as column4_name',
-                        'project_list_items.column1_additional as column1_additional',
-                        'project_list_items.column2_additional as column2_additional',
-                        'project_list_items.column3_additional as column3_additional',
-                        'project_list_items.column4_additional as column4_additional',
-                        'housings.address',
-                        DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
-                        'cities.title AS city_title',
-                        'districts.ilce_title AS county_title',
-                        'neighborhoods.mahalle_title AS neighborhood_title',
-                        DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
-                    )
-                    ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-                    ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-                    ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-                    ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-                    ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-                    ->where('housings.status', 1)
-                    ->where("housings.id", $cart['item']['id'])
-                    ->where('project_list_items.item_type', 2)
-                    ->orderByDesc('housings.created_at')
-                    ->first();
-
-                $saleType = $housing->step2_slug;
-            } else {
-                $project = Project::where('id', $cart['item']['id'])->first();
-                $saleType = $project->step2_slug;
-                $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
-
-                $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
-                    $projectHousingsList[$item->room_order][$item->name] = $item->value;
-                });
-            }
-        }
-
-
-
-        return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
-    }
-
-
-    public function initiate3DPayment(Request $request)
-    {
+    public function pay(Request $request){
         $requestData = $request->all();
-
-        //dd($requestData);
+        $requestData['creditcard'] = $request->input('card_number');
+        $amount = $request->input('amount');
         $transaction = $this->createTransaction();
-        $userId = $this->getUserId($requestData);
-        $storeId = $this->getStoreId($requestData);
-        $amount = $this->calculatePayableAmount($requestData);
-        $cartOrder = $this->createCartOrder($request, $transaction);
-        $orderId = $this->getOrderId($cartOrder);
-        $data = $this->preparePaymentData($requestData, $orderId, $amount, $transaction);
-        return view('payment.pay', $data);
+
+        $data = $this->preparePaymentData($requestData, 1, $amount, $transaction);
+        return view('payment.pay-mobil', $data);
     }
 
     public function resultPaymentSuccess(Request $request)
@@ -190,7 +73,7 @@ class PayController extends Controller
     public function resultPaymentFail(Request $request)
     {
         $data = $request->all();
-
+        return $data;
         $existingOrder = CartOrder::where('transaction', $data['oid'])->first();
 
 
@@ -229,10 +112,8 @@ class PayController extends Controller
     private function preparePaymentData($requestData, $orderId, $amount, $transaction)
     {
 
-        // $clientId = '190100000';
-        // $storeKey = '123456';
-        $clientId = '190933121';
-        $storeKey = 'MasteR3457';
+        $clientId = '190100000';
+        $storeKey = '123456';
         $expDateMonth = $requestData['month'];
         $expDateYear = $requestData['year'];
         $okUrl = url('/resultpaymentsuccess');
@@ -246,7 +127,7 @@ class PayController extends Controller
         $currency = '949';
         $lang = 'tr';
 
-        $creditCardNumbers = implode('', $requestData['creditcard']);
+        $creditCardNumbers = $requestData['creditcard'];
 
 
         $data = [
@@ -811,15 +692,19 @@ class PayController extends Controller
 
                         foreach ($rates as $rate) {
                             if ($collection->user->corporate_type == $rate->institution->name) {
+                                // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                                 $sales_rate_club = $rate->sales_rate_club;
-                                break; 
+
+                                break; // Eşleşme bulunduğunda döngüyü sonlandırın
                             }
                         }
 
+                        // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
                         if ($sales_rate_club === null && count($rates) > 0) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
-                                                // $amount değerini float'a dönüştür
+
+                                                                        // $amount değerini float'a dönüştür
 $amount = str_replace('.', '', $amount); // Noktaları kaldır
 $amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
 $amount = floatval($amount); // Float'a dönüştür

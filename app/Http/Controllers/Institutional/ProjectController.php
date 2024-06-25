@@ -137,11 +137,13 @@ class ProjectController extends Controller
 
     public function loadMoreHousings(Request $request)
     {
+
+      
        // AJAX isteğiyle gelen sayfa numarasını al
         $page = $request->input('page', 1);
 
         // Sayfalama işlemi için, her sayfada kaç konut gösterileceğini belirleyin
-        $perPage = 4;
+        $perPage = 20;
 
         $housings = Housing::with([
             'images',

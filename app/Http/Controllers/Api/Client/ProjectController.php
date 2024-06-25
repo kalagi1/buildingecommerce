@@ -10,6 +10,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\ProjectFavorite;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
@@ -153,7 +154,12 @@ class ProjectController extends Controller
             $projectHousings->map(function ($item) use (&$projectHousingsList) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;
             });
-
+            if(auth()->guard("api")->check()){
+                $projectFavorites = ProjectFavorite::where('user_id',auth()->guard("api")->user()->id)->where('project_id',$project->id)->get()->keyBy('housing_id')->toArray();
+                $projectFavorites = array_keys($projectFavorites);
+            }else{
+                $projectFavorites = [];
+            }
 
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
         } else {
@@ -168,7 +174,8 @@ class ProjectController extends Controller
             "projectHousingsList" => $projectHousingsList,
             "sumCartOrderQt" => $sumCartOrderQt,
             "parent" => $parent,
-            "projectHousingSetting" => $projectHousingSetting
+            "projectHousingSetting" => $projectHousingSetting,
+            "projectFavorites" => $projectFavorites
         ]);
     }
 

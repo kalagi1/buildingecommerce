@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
 
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
+use App\Http\Controllers\Api\Client\PayController as ClientPayController;
 use App\Http\Controllers\Api\Institutional\BoughtController;
 use App\Http\Controllers\Api\Institutional\CartController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
@@ -49,7 +50,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
 Route::get('/my_projects', [InstitutionalProjectController::class, "index"]);
-Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
+Route::get('/popular-construction-brands', [StoreController::class, 'getFeaturedStores']);
+Route::get('/popular-estate-brands', [StoreController::class, 'getFeaturedEstateStores']);
+
 Route::get('/featured-sliders', [ClientSliderController::class, 'getFeaturedSliders']);
 Route::get('dashboard-statuses', [HousingController::class, 'getDashboardStatuses']);
 Route::get('/real-estates', [RealEstateController::class, 'getRealEstates']);
@@ -101,6 +104,7 @@ Route::post('/remove_pay_dec_item', [TempOrderController::class, 'removePayDecIt
 Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
 Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+Route::post('/pay', [ClientPayController::class, 'pay']);
 
 Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
@@ -120,6 +124,7 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
     ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
@@ -134,7 +139,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:CreateUser'])->group(function () {
             Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
-            Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
         });
 
 
@@ -215,6 +219,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
     Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
+
+    Route::post('/housing/{id}/send-comment', [HousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
