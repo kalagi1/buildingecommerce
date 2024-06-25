@@ -128,18 +128,29 @@ class HousingController extends Controller {
                     $formJsonItems = json_decode($housingType->form_json, true) ?? [];
             
                     foreach ($formJsonItems as $formJsonItem) {
-                        $formJsonItemName = rtrim($formJsonItem['name'], '[]');
-                        // Remove the last character '1' if it exists in the key
-                        $keyWithoutLastCharacter = rtrim($key, '1');
+                        // Check if $formJsonItem is an array
+                        if (is_array($formJsonItem)) {
+                            // Proceed with operations on $formJsonItem
+                            if (isset($formJsonItem['name'])) {
+                                $formJsonItemName = rtrim($formJsonItem['name'], '[]');
+                                
+                                // Remove the last character '1' if it exists in the key
+                                $keyWithoutLastCharacter = rtrim($key, '1');
             
-                        // Check for equality after removing the last character
-                        if (isset($formJsonItem['name']) && $formJsonItemName === $keyWithoutLastCharacter) {
-                            $labels[$formJsonItem['label']] = $value; // Error occurs here
-                            break;
+                                // Check for equality after removing the last character
+                                if ($formJsonItemName === $keyWithoutLastCharacter) {
+                                    // Ensure $formJsonItem has 'label' key before accessing it
+                                    if (isset($formJsonItem['label'])) {
+                                        $labels[$formJsonItem['label']] = $value;
+                                    }
+                                    break; // Exit the inner loop once a match is found
+                                }
+                            }
                         }
                     }
                 }
             }
+            
             
 
             $pageInfo = [
