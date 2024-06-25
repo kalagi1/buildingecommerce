@@ -149,7 +149,7 @@
         
                 @if (count($images) > 0)
                     @foreach ($images as $image)
-                        <div class="icol-md-4">
+                        <div class="col-md-3">
                             <a href="{{ asset('housing_images/' . $image) }}" data-fancybox="gallery">
                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                     alt="slider-listing" style="height: 50%; {{ $loop->first && isset($housingData->image) && $housingData->image == $image ? 'border: 3px solid green;' : '' }}">
