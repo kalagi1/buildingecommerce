@@ -1007,6 +1007,7 @@ class CartController extends Controller {
                 ->where( 'created_at', '>=', now()->subDays( 24 ) )
                 ->latest( 'created_at' )
                 ->first();
+                return $lastClick;
 
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
