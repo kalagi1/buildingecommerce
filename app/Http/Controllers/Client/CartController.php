@@ -1021,7 +1021,7 @@ class CartController extends Controller {
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
-                    'hasCounter' => false // Update this based on your logic if needed
+                    'hasCounter' => $cartItem["hasCounter"]
                 ];
     
                 $request->session()->put( 'cart', $cart );
@@ -1042,7 +1042,7 @@ class CartController extends Controller {
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
-                    'hasCounter' => false // Update this based on your logic if needed
+                    'hasCounter' => $cartItem["hasCounter"]
                 ];
                 session(['cart' => $cart]);
     
@@ -1159,6 +1159,7 @@ class CartController extends Controller {
                 'pesinat' => $request->input( 'isShare' ) && $request->input( 'isShare' ) != '[]' ? ( $pesinat / $request->input( 'numbershare' ) ) : $pesinat,
                 'taksitSayisi' => $taksitSayisi,
                 'aylik' => $aylik,
+                'hasCounter' => $hasCounter,
                 'pay_decs' => $payDecs,
             ];
         } else if ( $type == 'housing' ) {
@@ -1177,6 +1178,7 @@ class CartController extends Controller {
                 'defaultPrice' => $housingData->price[ 0 ],
                 'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                 'discount_amount' => $hasCounter ? $discount_amount : 0,
+                'hasCounter' => $hasCounter,
                 'share_open' => $housingData-> {
                     'share-open'}
                     [ 0 ] ?? null,
