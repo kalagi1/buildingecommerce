@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         $schedule->command('check:release-date')->daily();
+        $schedule->command('bids:check-expiry')->hourly();
+
     }
 
     /**

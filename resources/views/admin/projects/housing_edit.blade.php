@@ -434,7 +434,7 @@
                         })
 
                         $('.new_project_housing_image').click(function() {
-                            console.log("asd");
+                            
                         })
 
                         $('.item-left-area').click(function(e) {

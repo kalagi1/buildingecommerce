@@ -392,7 +392,7 @@ class HomeController extends Controller
             $filtersDb = Filter::where('item_type', 1)
                 ->where('housing_type_id', $housingType)
                 ->get()
-                ->keyBy('filter_name');
+                ->keyBy('filter_name')->toArray();
 
             $filtersDbx = array_keys($filtersDb);
             if ($formData) {
@@ -806,9 +806,9 @@ class HomeController extends Controller
             $filtersDb = Filter::where('item_type', 2)->whereIn('housing_type_id', $uniqueHousingTypeIds)->get()->keyBy('filter_name')->toArray();
             $filtersDbx = array_keys($filtersDb);
             foreach ($filtersDb as $data) {
-                if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                if ($data['filter_type'] && $data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
                     $inputName = $data['filter_name'];
-                    if ($request->input($inputName)) {
+                    if ($request->input($inputName) && is_array($request->input($inputName)))  {
                         $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
                             $query->whereJsonContains('housing_type_data->' . $inputName, [$request->input($inputName)[0]]);
                             $e = 0;
@@ -821,7 +821,7 @@ class HomeController extends Controller
                             }
                         });
                     }
-                } else if ($data['filter_type'] == 'text') {
+                } else if ($data['filter_type'] && $data['filter_type'] == 'text') {
                     if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
                         $inputName = str_replace('[]', '', $data['filter_name']);
                         if ($request->input($inputName . '-min')) {

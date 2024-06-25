@@ -9,11 +9,12 @@ import ProjectListItem from './Components/project_components/ProjectListItem';
 import HousingList from './Components/HousingList';
 import Crm from './Components/Crm';
 import ProjectAssigment from './Components/ProjectAssigment';
+import { useContext } from 'react';
 
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
-console.log("asd");
+
 
 if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){

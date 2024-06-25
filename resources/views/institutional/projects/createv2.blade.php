@@ -882,7 +882,7 @@
             @endif
 
             $('.pop-back').click(function(){
-                console.log("asd");
+                
                 $('.pop-up-v3').addClass('d-none')
             })
 
@@ -4360,7 +4360,7 @@
                     },
                     xhr: function() {
                         var xhr = new window.XMLHttpRequest();
-                        console.log("asd");
+                        
                         // İlerleme durumu değiştikçe çalışacak olan fonksiyon
                         xhr.upload.addEventListener('progress', function(evt) {
                             if (evt.lengthComputable) {

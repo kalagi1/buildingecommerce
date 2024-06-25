@@ -248,7 +248,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                                                                 });
                                                             }}
                                                             setList={() => {
-                                                                console.log("asd");
+                                                                
                                                             }}
                                                         >
                                                             {
