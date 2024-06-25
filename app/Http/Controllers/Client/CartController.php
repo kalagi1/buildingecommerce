@@ -431,8 +431,14 @@ class CartController extends Controller {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
 
-                        return ( $amount - $sharedAmount_balance ) * $sales_rate_club;
+                        // $amount değerini float'a dönüştür
+$amount = str_replace('.', '', $amount); // Noktaları kaldır
+$amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
+$amount = floatval($amount); // Float'a dönüştür
 
+                        // Hesaplama
+                        $result = ( $amount - $sharedAmount_balance ) * $sales_rate_club;
+                        return $result;
                         $estateclubrate = ( $newAmount - $sharedAmount_balance ) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
@@ -1005,11 +1011,10 @@ class CartController extends Controller {
         try {
             if ( Auth::check() ) {
                 $user = Auth::user();
-                $lastClick = Click::where('user_id', $user->id)
-                ->where('created_at', '>=', now()->subDays(24))
-                ->latest('created_at')
+                $lastClick = Click::where( 'user_id', $user->id )
+                ->where( 'created_at', '>=', now()->subDays( 24 ) )
+                ->latest( 'created_at' )
                 ->first();
-
 
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
@@ -1043,7 +1048,6 @@ class CartController extends Controller {
                         }
                     }
                 }
-
 
                 $cart = [
                     'item' => $cartItem,
