@@ -957,11 +957,11 @@ class ProjectController extends Controller
             
                 $isOpenSharing1Set = isset($postData['open_sharing1']);
             
-                $sellTypeInstitutionalRate = $isOpenSharing1Set && $institution->name !== "Diğer" ? 0.80 : null;
-                $sellTypeClientRate = !$isOpenSharing1Set && $institution->name === "Diğer" ? 0.70 : null;
+                $sellTypeInstitutionalRate = $ownerId && $institution->name !== "Diğer" ? 0.80 : null;
+                $sellTypeClientRate = !$ownerId && $institution->name === "Diğer" ? 0.70 : null;
             
-                $sellTypeInstitutionalClub = $isOpenSharing1Set && $institution->name !== "Diğer" ? 0.40 : null;
-                $sellTypeClientClub = !$isOpenSharing1Set && $institution->name === "Diğer" ? 0.25 : null;
+                $sellTypeInstitutionalClub = $ownerId && $institution->name !== "Diğer" ? 0.40 : null;
+                $sellTypeClientClub = !$ownerId && $institution->name === "Diğer" ? 0.25 : null;
             
                 $defaultDepositRateToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalRate ?? $defaultDepositRate) : ($sellTypeClientRate ?? $clientDepositRate);
                 $salesRateClubToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalClub ?? $institutionalRateClub) : ($sellTypeClientClub ?? $clientRateClub);
