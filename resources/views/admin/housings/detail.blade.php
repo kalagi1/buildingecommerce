@@ -68,7 +68,7 @@
             <!-- Modal şablonu -->
             <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
