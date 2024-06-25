@@ -29,7 +29,7 @@
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
-                        {{ $housing->title }}                    </h4>
+                        {{ $housing->title }} </h4>
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span
@@ -72,29 +72,44 @@
                                     @endif
                                 </button>
                             @else
-                                <button class="CartBtn mobileCBtn" data-type='housing' data-id='{{ $housing->id }}'>
-                                    <span class="IconContainer">
-                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
+                                @if (checkIfUserCanAddToCart($housing->id))
+                                    <button class="CartBtn mobileCBtn" data-type='housing'
+                                        data-id='{{ $housing->id }}'>
+                                        <span class="IconContainer">
+                                            <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
 
-                                    </span>
-                                    <span class="text">Sepete Ekle</span>
-                                </button>
+                                        </span>
+                                        <span class="text">Sepete Ekle</span>
+                                    </button>
+                                @else
+                                    <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                        class="btn btn-success">
+                                        <span class="text">İlanı Düzenle</span>
+                                    </a>
+                                @endif
                             @endif
                         @endif
                     @else
-                        <button onclick="redirectToReservation()" class="reservationBtn mobileCBtn">
-                            <span class="IconContainer">
-                                <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
-                            </span>
-                            <span class="text">Rezervasyon Yap</span>
-                        </button>
+                        @if (checkIfUserCanAddToCart($housing->id))
+                            <button onclick="redirectToReservation()" class="reservationBtn mobileCBtn">
+                                <span class="IconContainer">
+                                    <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Rezervasyon Yap</span>
+                            </button>
 
-                        <script>
-                            function redirectToReservation() {
-                                window.location.href =
-                                    "{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
-                            }
-                        </script>
+                            <script>
+                                function redirectToReservation() {
+                                    window.location.href =
+                                        "{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
+                                }
+                            </script>
+                        @else
+                            <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                class="btn btn-success">
+                                <span class="text">İlanı Düzenle</span>
+                            </a>
+                        @endif
                     @endif
                 </div>
                 <span class="ml-auto text-primary priceFont">
@@ -180,64 +195,64 @@
 <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
     <div class="d-flex justify-content-between align-items-center" style="height: 100%;padding: 10px">
         <ul class="d-flex align-items-center h-100"
-        style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
-        @if (isset($housing->listItems->column1_name) &&
-             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0]) &&
-             json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1"></i>
-                <span>
-                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
-                    @if (isset($housing->listItems->column1_additional))
-                        {{ $housing->listItems->column1_additional }}
-                    @endif
-                </span>
-            </li>
-        @endif
-    
-        @if (isset($housing->listItems->column2_name) &&
-             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0]) &&
-             json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] != 'Belirtilmemiş')
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1"></i>
-                <span>
-                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
-                    @if (isset($housing->listItems->column2_additional))
-                        {{ $housing->listItems->column2_additional }}
-                    @endif
-                </span>
-            </li>
-        @endif
-    
-        @if (isset($housing->listItems->column3_name) &&
-             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0]) &&
-             json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] != 'Belirtilmemiş')
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1"></i>
-                <span>
-                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
-                    @if (isset($housing->listItems->column3_additional))
-                        {{ $housing->listItems->column3_additional }}
-                    @endif
-                </span>
-            </li>
-        @endif
-    
-        @if (isset($housing->listItems->column4_name) &&
-             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0]) &&
-             json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] != 'Belirtilmemiş')
-            <li class="d-flex align-items-center itemCircleFont">
-                <i class="fa fa-circle circleIcon mr-1"></i>
-                <span>
-                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] ?? null }}
-                    @if (isset($housing->listItems->column4_additional))
-                        {{ $housing->listItems->column4_additional }}
-                    @endif
-                </span>
-            </li>
-        @endif
-    </ul>
-    
+            style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
+            @if (isset($housing->listItems->column1_name) &&
+                    isset(json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0]) &&
+                    json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1"></i>
+                    <span>
+                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
+                        @if (isset($housing->listItems->column1_additional))
+                            {{ $housing->listItems->column1_additional }}
+                        @endif
+                    </span>
+                </li>
+            @endif
+
+            @if (isset($housing->listItems->column2_name) &&
+                    isset(json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0]) &&
+                    json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] != 'Belirtilmemiş')
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1"></i>
+                    <span>
+                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
+                        @if (isset($housing->listItems->column2_additional))
+                            {{ $housing->listItems->column2_additional }}
+                        @endif
+                    </span>
+                </li>
+            @endif
+
+            @if (isset($housing->listItems->column3_name) &&
+                    isset(json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0]) &&
+                    json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] != 'Belirtilmemiş')
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1"></i>
+                    <span>
+                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
+                        @if (isset($housing->listItems->column3_additional))
+                            {{ $housing->listItems->column3_additional }}
+                        @endif
+                    </span>
+                </li>
+            @endif
+
+            @if (isset($housing->listItems->column4_name) &&
+                    isset(json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0]) &&
+                    json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] != 'Belirtilmemiş')
+                <li class="d-flex align-items-center itemCircleFont">
+                    <i class="fa fa-circle circleIcon mr-1"></i>
+                    <span>
+                        {{ json_decode($housing->housing_type_data)->{$housing->listItems->column4_name}[0] ?? null }}
+                        @if (isset($housing->listItems->column4_additional))
+                            {{ $housing->listItems->column4_additional }}
+                        @endif
+                    </span>
+                </li>
+            @endif
+        </ul>
+
         <span style="font-size: 9px !important"> {{ $housing->city ? $housing->city->title : null }}
             {{ '/' }}
             {{ $housing->district ? $housing->district->ilce_title : null }}

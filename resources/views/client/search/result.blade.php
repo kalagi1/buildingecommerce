@@ -63,26 +63,26 @@
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
             <span>
-                <strong style="color: black">{{ $term }}</strong> araması için 
+                <strong style="color: black">{{ $term }}</strong> araması için
                 <strong style="color: black">
                     @php
-                        $housingResults = isset($results['housings']) ? count($results['housings']) : 0 ;
+                        $housingResults = isset($results['housings']) ? count($results['housings']) : 0;
                         $projectResults = isset($results['projects']) ? count($results['projects']) : 0;
                         $merchantResults = isset($results['merchants']) ? count($results['merchants']) : 0;
                     @endphp
-            
-                    @if($housingResults > 0)
-                        toplam {{ $housingResults }}  sonucu bulundu.
+
+                    @if ($housingResults > 0)
+                        toplam {{ $housingResults }} sonucu bulundu.
                     @elseif($projectResults > 0)
                         toplam {{ $projectResults }} sonucu bulundu.
                     @elseif($merchantResults > 0)
-                        toplam {{ $merchantResults }}  sonucu bulundu.
+                        toplam {{ $merchantResults }} sonucu bulundu.
                     @else
                         Sonuç bulunamadı.
                     @endif
                 </strong>
             </span>
-            
+
 
             {{-- Display the search results here --}}
             <div class="header-search-box-page">
@@ -98,7 +98,7 @@
                                 <div class="slick-lancers">
                                     @foreach ($results['merchants'] as $result)
                                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                                            <a href="{{ route('institutional.dashboard', ["slug" => $result['slug'], "userID" =>$result['id']]) }}"
+                                            <a href="{{ route('institutional.dashboard', ['slug' => $result['slug'], 'userID' => $result['id']]) }}"
                                                 class="homes-img">
                                                 <div class="landscapes">
                                                     <div class="project-single">
@@ -130,13 +130,14 @@
                                 @foreach ($results['housings'] as $result)
                                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                             <div class="project-inner project-head">
-                                                <a href="{{ route('housing.show', ['housingSlug' => $result['step1_slug']. "-". $result['step2_slug']. "-" . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}">
+                                                <a
+                                                    href="{{ route('housing.show', ['housingSlug' => $result['step1_slug'] . '-' . $result['step2_slug'] . '-' . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}">
                                                     <div class="homes">
                                                         <div class="homes-img h-100 d-flex align-items-center"
                                                             style="width: 130px; height: 128px;">
@@ -152,7 +153,7 @@
                                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                                 <a style="text-decoration: none;height:100%"
-                                                    href="{{ route('housing.show', ['housingSlug' => $result['step1_slug']. "-". $result['step2_slug']. "-" . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}">
+                                                    href="{{ route('housing.show', ['housingSlug' => $result['step1_slug'] . '-' . $result['step2_slug'] . '-' . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}">
                                                     <div class="d-flex"
                                                         style="gap: 8px;justify-content:space-between;align-items:center">
                                                         <h4>{{ mb_convert_case($result['housing_title'], MB_CASE_TITLE, 'UTF-8') }}
@@ -185,31 +186,71 @@
                                                                         @endif
                                                                     </button>
                                                                 @else
-                                                                    <button class="CartBtn mobileCBtn" data-type='housing'
-                                                                        data-id='{{ $result['id'] }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
+                                                                    @if (checkIfUserCanAddToCart($result['id']))
+                                                                        <button class="CartBtn mobileCBtn"
+                                                                            data-type='housing'
+                                                                            data-id='{{ $result['id'] }}'>
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                    alt="">
 
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
+                                                                            </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                        </button>
+                                                                    @else
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                            class="btn btn-success"
+                                                                            style="width: 100%;
+                                                                                    height: 40px;
+                                                                                    border: none;
+                                                                                    background-color: green;
+                                                                                    display: flex;
+                                                                                    border-radius: 0;
+                                                                                    align-items: center;
+                                                                                    justify-content: center;
+                                                                                    cursor: pointer;
+                                                                                    transition-duration: .5s;
+                                                                                    overflow: hidden;
+                                                                                    position: relative;">
+                                                                            <span class="text">İlanı Düzenle</span>
+                                                                        </a>
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         @else
-                                                            <button onclick="redirectToReservation()"
-                                                                class="reservationBtn CartBtn mobileCBtn">
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Rezervasyon Yap</span>
-                                                            </button>
+                                                            @if (checkIfUserCanAddToCart($result['id']))
+                                                                <button onclick="redirectToReservation()"
+                                                                    class="reservationBtn CartBtn mobileCBtn">
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Rezervasyon Yap</span>
+                                                                </button>
 
-                                                            <script>
-                                                                function redirectToReservation() {
-                                                                    window.location.href = "{{ route('housing.show', ['housingSlug' => $result['step1_slug']. "-". $result['step2_slug']. "-" . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}";
-                                                                }
-                                                            </script>
+                                                                <script>
+                                                                    function redirectToReservation() {
+                                                                        window.location.href =
+                                                                            "{{ route('housing.show', ['housingSlug' => $result['step1_slug'] . '-' . $result['step2_slug'] . '-' . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}";
+                                                                    }
+                                                                </script>
+                                                            @else
+                                                                <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                    class="btn btn-success"
+                                                                    style="width: 100%;
+                                                                                height: 40px;
+                                                                                border: none;
+                                                                                background-color: green;
+                                                                                display: flex;
+                                                                                border-radius: 0;
+                                                                                align-items: center;
+                                                                                justify-content: center;
+                                                                                cursor: pointer;
+                                                                                transition-duration: .5s;
+                                                                                overflow: hidden;
+                                                                                position: relative;">
+                                                                    <span class="text">İlanı Düzenle</span>
+                                                                </a>
+                                                            @endif
                                                         @endif
                                                     </div>
                                                     <span class="ml-auto text-primary priceFont">
@@ -331,7 +372,7 @@
                                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
 
                                                     <div class="col-md-3 mb-3">
-                                                        <a href="{{route('housing.show', ['housingSlug' => $result['step1_slug']. "-". $result['step2_slug']. "-" . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}"
+                                                        <a href="{{ route('housing.show', ['housingSlug' => $result['step1_slug'] . '-' . $result['step2_slug'] . '-' . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}"
                                                             class="text-decoration-none">
                                                             <div data-aos="fade-up" data-aos-delay="150">
                                                                 <div class="landscapes">
@@ -347,7 +388,7 @@
                                                                                         class="type-tag button alt featured">
                                                                                         @if ($result['step2_slug'] == 'kiralik')
                                                                                             Kiralık
-                                                                                            @elseif($result['step2_slug'] == 'gunluk-kiralik')
+                                                                                        @elseif($result['step2_slug'] == 'gunluk-kiralik')
                                                                                             Günlük Kiralık
                                                                                         @else
                                                                                             Satılık
@@ -537,35 +578,78 @@
                                                                                             @endif
                                                                                         </button>
                                                                                     @else
-                                                                                        <button class="CartBtn"
-                                                                                            data-type='housing'
-                                                                                            data-id='{{ $result['id'] }}'>
-                                                                                            <span class="IconContainer">
-                                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                                    alt="">
+                                                                                        @if (checkIfUserCanAddToCart($result['id']))
+                                                                                            <button class="CartBtn"
+                                                                                                data-type='housing'
+                                                                                                data-id='{{ $result['id'] }}'>
+                                                                                                <span
+                                                                                                    class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}"
+                                                                                                        alt="">
 
-                                                                                            </span>
-                                                                                            <span class="text">Sepete
-                                                                                                Ekle</span>
-                                                                                        </button>
+                                                                                                </span>
+                                                                                                <span class="text">Sepete
+                                                                                                    Ekle</span>
+                                                                                            </button>
+                                                                                        @else
+                                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                                                class="btn btn-success"
+                                                                                                style="width: 100%;
+                                                                                                    height: 40px;
+                                                                                                    border: none;
+                                                                                                    background-color: green;
+                                                                                                    display: flex;
+                                                                                                    border-radius: 0;
+                                                                                                    align-items: center;
+                                                                                                    justify-content: center;
+                                                                                                    cursor: pointer;
+                                                                                                    transition-duration: .5s;
+                                                                                                    overflow: hidden;
+                                                                                                    position: relative;">
+                                                                                                <span class="text">İlanı
+                                                                                                    Düzenle</span>
+                                                                                            </a>
+                                                                                        @endif
                                                                                     @endif
                                                                                 @endif
                                                                             @else
-                                                                                <button onclick="redirectToReservation()"
-                                                                                    class="reservationBtn">
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                            alt="">
-                                                                                    </span>
-                                                                                    <span class="text">Rezervasyon
-                                                                                        Yap</span>
-                                                                                </button>
+                                                                                @if (checkIfUserCanAddToCart($result['id']))
+                                                                                    <button
+                                                                                        onclick="redirectToReservation()"
+                                                                                        class="reservationBtn">
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                                alt="">
+                                                                                        </span>
+                                                                                        <span class="text">Rezervasyon
+                                                                                            Yap</span>
+                                                                                    </button>
 
-                                                                                <script>
-                                                                                    function redirectToReservation() {
-                                                                                        window.location.href = "{{ route('housing.show', ['housingSlug' => $result['step1_slug']. "-". $result['step2_slug']. "-" . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}";
-                                                                                    }
-                                                                                </script>
+                                                                                    <script>
+                                                                                        function redirectToReservation() {
+                                                                                            window.location.href =
+                                                                                                "{{ route('housing.show', ['housingSlug' => $result['step1_slug'] . '-' . $result['step2_slug'] . '-' . $result['slug'], 'housingID' => $result['id'] + 2000000]) }}";
+                                                                                        }
+                                                                                    </script>
+                                                                                @else
+                                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                                        class="btn btn-success"
+                                                                                        style="width: 100%;
+            height: 40px;
+            border: none;
+            background-color: green;
+            display: flex;
+            border-radius: 0;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition-duration: .5s;
+            overflow: hidden;
+            position: relative;">
+                                                                                        <span class="text">İlanı
+                                                                                            Düzenle</span>
+                                                                                    </a>
+                                                                                @endif
                                                                             @endif
 
 
@@ -620,14 +704,18 @@
                                 <div class="project-single no-mb aos-init aos-animate" style="height:100%"
                                     data-aos="zoom-in" data-aos-delay="150">
                                     <div class="listing-item compact" style="height:100%">
-                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id'] +1000000]) }}"
+                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id'] + 1000000]) }}"
                                             class="listing-img-container">
                                             <span class="project_brand_profile_image">
-                                                <img loading="lazy" src="{{ URL::to('/') . '/storage/profile_images/' . $result['profile_image'] }}" alt="">
-                                                <span class="country">{{ $result["city"] }}/{{ $result["county"] }}</span>
+                                                <img loading="lazy"
+                                                    src="{{ URL::to('/') . '/storage/profile_images/' . $result['profile_image'] }}"
+                                                    alt="">
+                                                <span
+                                                    class="country">{{ $result['city'] }}/{{ $result['county'] }}</span>
                                             </span>
-                                            <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">
-                                                <span class="badge badge-phoenix text-left">{{  $result['name'] }}</span>
+                                            <div class="listing-img-content"
+                                                style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">
+                                                <span class="badge badge-phoenix text-left">{{ $result['name'] }}</span>
                                             </div>
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $result['photo']) }}"
                                                 alt="" style="height:100%;object-fit:contain">
@@ -642,7 +730,10 @@
 
 
                 {{-- No results message --}}
-                @if (isset($results['housings'], $results['projects'], $results['merchants']) && count($results['housings']) == 0 && count($results['projects']) == 0 && count($results['merchants']) == 0)
+                @if (isset($results['housings'], $results['projects'], $results['merchants']) &&
+                        count($results['housings']) == 0 &&
+                        count($results['projects']) == 0 &&
+                        count($results['merchants']) == 0)
                     <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç
                         bulunamadı</div>
                 @endif

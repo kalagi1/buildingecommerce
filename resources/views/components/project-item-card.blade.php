@@ -467,15 +467,24 @@
                                             @endif
                                         </button>
                                     @else
-                                        <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                            data-project='{{ $project->id }}' style="height: auto !important"
-                                            data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
-                                            data-number-share="{{ $number_of_share }}">
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
-                                        </button>
+                                    
+                                        @if (checkIfUserCanAddToProjectHousings($project->id,$keyIndex))
+                                        
+                                            <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                data-project='{{ $project->id }}' style="height: auto !important"
+                                                data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
+                                                data-number-share="{{ $number_of_share }}">
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @else
+                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex] ) }}"
+                                                class="second-btn">
+                                                <span class="text" >İlanı Düzenle</span>
+                                            </a>
+                                        @endif
                                     @endif
                                 @endif
 

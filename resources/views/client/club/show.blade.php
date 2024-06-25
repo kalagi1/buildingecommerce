@@ -206,10 +206,12 @@
                                                                     )->discount_rate[0];
 
                                                                     $defaultPrice =
-                                                                json_decode($item['housing']['housing_type_data'])
-                                                                    ->price[0] ??
-                                                                json_decode($item['housing']['housing_type_data'])
-                                                                    ->daily_rent[0];
+                                                                        json_decode(
+                                                                            $item['housing']['housing_type_data'],
+                                                                        )->price[0] ??
+                                                                        json_decode(
+                                                                            $item['housing']['housing_type_data'],
+                                                                        )->daily_rent[0];
 
                                                                     $price = $defaultPrice - $item['discount_amount'];
                                                                     $discountedPrice =
@@ -327,41 +329,99 @@
                                                                             <span class="text">Ödeme Bekleniyor</span>
                                                                         </button>
                                                                     @elseif ($item['action'] == 'tryBuy')
-                                                                        <button class="CartBtn mobileCBtn"
-                                                                            data-type='housing'
-                                                                            data-id='{{ $item['housing']->id }}'>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                    alt="">
-                                                                            </span>
-                                                                            <span class="text">Sepete Ekle</span>
-                                                                        </button>
+                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                            <button class="CartBtn mobileCBtn"
+                                                                                data-type='housing'
+                                                                                data-id='{{ $item['housing']->id }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('sc.png') }}"
+                                                                                        alt="">
+                                                                                </span>
+                                                                                <span class="text">Sepete Ekle</span>
+                                                                            </button>
+                                                                        @else
+                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                                class="btn btn-success"
+                                                                                style="width: 100%;
+                                                                                            height: 40px;
+                                                                                            border: none;
+                                                                                            background-color: green;
+                                                                                            display: flex;
+                                                                                            border-radius: 0;
+                                                                                            align-items: center;
+                                                                                            justify-content: center;
+                                                                                            cursor: pointer;
+                                                                                            transition-duration: .5s;
+                                                                                            overflow: hidden;
+                                                                                            position: relative;">
+                                                                                <span class="text">İlanı Düzenle</span>
+                                                                            </a>
+                                                                        @endif
                                                                     @else
-                                                                        <button class="CartBtn mobileCBtn"
-                                                                            data-type='housing'
-                                                                            data-id='{{ $item['housing']->id }}'>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                    alt="">
-                                                                            </span>
-                                                                            <span class="text">Sepete Ekle</span>
-                                                                        </button>
+                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                            <button class="CartBtn mobileCBtn"
+                                                                                data-type='housing'
+                                                                                data-id='{{ $item['housing']->id }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('sc.png') }}"
+                                                                                        alt="">
+                                                                                </span>
+                                                                                <span class="text">Sepete Ekle</span>
+                                                                            </button>
+                                                                        @else
+                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                                class="btn btn-success"
+                                                                                style="width: 100%;
+                                                                                        height: 40px;
+                                                                                        border: none;
+                                                                                        background-color: green;
+                                                                                        display: flex;
+                                                                                        border-radius: 0;
+                                                                                        align-items: center;
+                                                                                        justify-content: center;
+                                                                                        cursor: pointer;
+                                                                                        transition-duration: .5s;
+                                                                                        overflow: hidden;
+                                                                                        position: relative;">
+                                                                                <span class="text">İlanı Düzenle</span>
+                                                                            </a>
+                                                                        @endif
                                                                     @endif
                                                                 @endif
                                                             @else
-                                                                <button onclick="redirectToReservation()"
-                                                                    class="reservationBtn mobileCBtn">
-                                                                    <span class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                    </span>
-                                                                    <span class="text">Rezervasyon Yap</span>
-                                                                </button>
-                                                                <script>
-                                                                    function redirectToReservation() {
-                                                                        window.location.href =
-                                                                            "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
-                                                                    }
-                                                                </script>
+                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    <button onclick="redirectToReservation()"
+                                                                        class="reservationBtn mobileCBtn">
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+                                                                        </span>
+                                                                        <span class="text">Rezervasyon Yap</span>
+                                                                    </button>
+                                                                    <script>
+                                                                        function redirectToReservation() {
+                                                                            window.location.href =
+                                                                                "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
+                                                                        }
+                                                                    </script>
+                                                                @else
+                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                        class="btn btn-success"
+                                                                        style="width: 100%;
+                height: 40px;
+                border: none;
+                background-color: green;
+                display: flex;
+                border-radius: 0;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition-duration: .5s;
+                overflow: hidden;
+                position: relative;">
+                                                                        <span class="text">İlanı Düzenle</span>
+                                                                    </a>
+                                                                @endif
                                                             @endif
                                                         @else
                                                             @if (
@@ -742,39 +802,98 @@
                                                                         <span class="text">Ödeme Bekleniyor</span>
                                                                     </button>
                                                                 @elseif ($item['action'] == 'tryBuy')
-                                                                    <button class="CartBtn mobileCBtn" data-type='housing'
-                                                                        data-id='{{ $item['housing']->id }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
+                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        <button class="CartBtn mobileCBtn"
+                                                                            data-type='housing'
+                                                                            data-id='{{ $item['housing']->id }}'>
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                    alt="">
+                                                                            </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                        </button>
+                                                                    @else
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                            class="btn btn-success"
+                                                                            style="width: 100%;
+                                                                                        height: 40px;
+                                                                                        border: none;
+                                                                                        background-color: green;
+                                                                                        display: flex;
+                                                                                        border-radius: 0;
+                                                                                        align-items: center;
+                                                                                        justify-content: center;
+                                                                                        cursor: pointer;
+                                                                                        transition-duration: .5s;
+                                                                                        overflow: hidden;
+                                                                                        position: relative;">
+                                                                            <span class="text">İlanı Düzenle</span>
+                                                                        </a>
+                                                                    @endif
                                                                 @else
-                                                                    <button class="CartBtn mobileCBtn" data-type='housing'
-                                                                        data-id='{{ $item['housing']->id }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
+                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        <button class="CartBtn mobileCBtn"
+                                                                            data-type='housing'
+                                                                            data-id='{{ $item['housing']->id }}'>
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                    alt="">
+                                                                            </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                        </button>
+                                                                    @else
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                            class="btn btn-success"
+                                                                            style="width: 100%;
+                                                                                        height: 40px;
+                                                                                        border: none;
+                                                                                        background-color: green;
+                                                                                        display: flex;
+                                                                                        border-radius: 0;
+                                                                                        align-items: center;
+                                                                                        justify-content: center;
+                                                                                        cursor: pointer;
+                                                                                        transition-duration: .5s;
+                                                                                        overflow: hidden;
+                                                                                        position: relative;">
+                                                                            <span class="text">İlanı Düzenle</span>
+                                                                        </a>
+                                                                    @endif
                                                                 @endif
                                                             @endif
                                                         @else
-                                                            <button onclick="redirectToReservation()"
-                                                                class="reservationBtn mobileCBtn">
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Rezervasyon Yap</span>
-                                                            </button>
-                                                            <script>
-                                                                function redirectToReservation() {
-                                                                    window.location.href =
-                                                                        "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
-                                                                }
-                                                            </script>
+                                                            @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                <button onclick="redirectToReservation()"
+                                                                    class="reservationBtn mobileCBtn">
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Rezervasyon Yap</span>
+                                                                </button>
+                                                                <script>
+                                                                    function redirectToReservation() {
+                                                                        window.location.href =
+                                                                            "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
+                                                                    }
+                                                                </script>
+                                                            @else
+                                                                <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                    class="btn btn-success"
+                                                                    style="width: 100%;
+                height: 40px;
+                border: none;
+                background-color: green;
+                display: flex;
+                border-radius: 0;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition-duration: .5s;
+                overflow: hidden;
+                position: relative;">
+                                                                    <span class="text">İlanı Düzenle</span>
+                                                                </a>
+                                                            @endif
                                                         @endif
                                                     @else
                                                         @if (
@@ -804,17 +923,39 @@
                                                         @else
                                                             <div style="width:50% !important;">
 
-                                                                <button class="CartBtn second-btn mobileCBtn "
-                                                                    data-type='project'
-                                                                    data-project='{{ $item['project']->id }}'
-                                                                    data-id='{{ $item['room_order'] }}'
-                                                                    data-share="{{ $share_sale }}"
-                                                                    data-number-share="{{ $number_of_share }}">
-                                                                    <span class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                    </span>
-                                                                    <span class="text">Sepete Ekle</span>
-                                                                </button>
+
+
+                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    <button class="CartBtn second-btn mobileCBtn "
+                                                                        data-type='project'
+                                                                        data-project='{{ $item['project']->id }}'
+                                                                        data-id='{{ $item['room_order'] }}'
+                                                                        data-share="{{ $share_sale }}"
+                                                                        data-number-share="{{ $number_of_share }}">
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+                                                                        </span>
+                                                                        <span class="text">Sepete Ekle</span>
+                                                                    </button>
+                                                                @else
+                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                        class="btn btn-success"
+                                                                        style="width: 100%;
+                                                                                    height: 40px;
+                                                                                    border: none;
+                                                                                    background-color: green;
+                                                                                    display: flex;
+                                                                                    border-radius: 0;
+                                                                                    align-items: center;
+                                                                                    justify-content: center;
+                                                                                    cursor: pointer;
+                                                                                    transition-duration: .5s;
+                                                                                    overflow: hidden;
+                                                                                    position: relative;">
+                                                                        <span class="text">İlanı Düzenle</span>
+                                                                    </a>
+                                                                @endif
                                                             </div>
 
                                                             <button class="first-btn payment-plan-button"

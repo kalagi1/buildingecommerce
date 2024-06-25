@@ -678,6 +678,7 @@ class HomeController extends Controller
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
 
+    
 
         if ($request->input("slug") == "paylasimli-ilanlar") {
             $obj = $obj->whereNotNull('housings.owner_id') ;
@@ -978,6 +979,8 @@ class HomeController extends Controller
                 'neighborhood' => $item->neighborhood->mahalle_title,
                 'created_at' => $item->created_at,
                 "action" => $action,
+                'checkIfUserCanAddHousings' => $this->checkIfUserCanAddToCart($item->id),
+                'route' => $this->checkIfUserCanAddToCart($item->id) ? false : route('institutional.housing.edit', ['id' => $item->id]),
                 'offSale' => $offSale,
                 'share' => $share,
                 'sold' => $item->sold,
@@ -1007,13 +1010,27 @@ class HomeController extends Controller
         $result = [
             'totalCount' => $objPaginated->total(), // Toplam öğe sayısını alın
             'data' => $transformedData,
-            'term' => $term
+            'term' => $term,
         ];
 
 
 
         // JSON yanıtını döndürün
         return response()->json($result);
+    }
+
+    private function checkIfUserCanAddToCart($housingId)
+    {
+        $user = auth()->user();
+
+        // Check if the user is logged in
+        if ($user) {
+            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+            $exists = $user->housings()->where('id', $housingId)->exists();
+            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+        }
+
+        return true; // Return false if user is not logged in
     }
 
     public function getSearchList(Request $request)

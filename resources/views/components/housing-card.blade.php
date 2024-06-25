@@ -230,29 +230,69 @@
                                 @endif
                             </button>
                         @else
-                            <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
-                                <span class="IconContainer">
-                                    <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
+                            @if (checkIfUserCanAddToCart($housing->id))
+                                <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
+                                    <span class="IconContainer">
+                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
 
-                                </span>
-                                <span class="text">Sepete Ekle</span>
-                            </button>
+                                    </span>
+                                    <span class="text">Sepete Ekle</span>
+                                </button>
+                            @else
+                                <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                    class="btn btn-success" style="width: 100%;
+                                    height: 40px;
+                                    border: none;
+                                    background-color: green;
+                                    display: flex;
+                                    border-radius: 0;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                    transition-duration: .5s;
+                                    overflow: hidden;
+                                    position: relative;">
+                                    <span class="text">İlanı Düzenle</span>
+                                </a>
+                            @endif
+
+
                         @endif
                     @endif
                 @else
-                    <button onclick="redirectToReservation()" class="reservationBtn">
-                        <span class="IconContainer">
-                            <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
-                        </span>
-                        <span class="text">Rezervasyon Yap</span>
-                    </button>
+                   
 
-                    <script>
-                        function redirectToReservation() {
-                            window.location.href =
-                                "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
-                        }
-                    </script>
+@if (checkIfUserCanAddToCart($housing->id))
+<button onclick="redirectToReservation()" class="reservationBtn">
+    <span class="IconContainer">
+        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
+    </span>
+    <span class="text">Rezervasyon Yap</span>
+</button>
+
+<script>
+    function redirectToReservation() {
+        window.location.href =
+            "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
+    }
+</script>
+@else
+<a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+    class="btn btn-success" style="width: 100%;
+    height: 40px;
+    border: none;
+    background-color: green;
+    display: flex;
+    border-radius: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: .5s;
+    overflow: hidden;
+    position: relative;">
+    <span class="text">İlanı Düzenle</span>
+</a>
+@endif
                 @endif
 
 

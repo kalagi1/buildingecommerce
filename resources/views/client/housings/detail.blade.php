@@ -397,73 +397,75 @@
                                     @else
                                         <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
                                     @endif
+                                    @if (checkIfUserCanAddToCart($housing->id))
+                                        <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                            @csrf
+                                            <input type="hidden" name="rate" id="rate" />
+                                            <h5>Yeni Yorum Ekle</h5>
 
-                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
-                                        @csrf
-                                        <input type="hidden" name="rate" id="rate" />
-                                        <h5>Yeni Yorum Ekle</h5>
-
-                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                            <div class="d-flex rating-area">
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
+                                            <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                <div class="d-flex rating-area">
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                        <rect fill="none" height="50" width="50" />
+                                                        <polygon fill="none"
+                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <input type="file" style="display: none;" class="fileinput"
+                                                        name="images[]" multiple accept="image/*" />
+                                                    <button type="button" class="btn btn-primary q-button"
+                                                        id="selectImageButton">Resimleri Seç</button>
+                                                </div>
                                             </div>
-                                            <div class="ml-auto">
-                                                <input type="file" style="display: none;" class="fileinput"
-                                                    name="images[]" multiple accept="image/*" />
-                                                <button type="button" class="btn btn-primary q-button"
-                                                    id="selectImageButton">Resimleri Seç</button>
-                                            </div>
-                                        </div>
-                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                        <button type="button" class="ud-btn btn-white2 mt-3"
-                                            onclick="submitForm()">Yorumu
-                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                            <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                            <button type="button" class="ud-btn btn-white2 mt-3"
+                                                onclick="submitForm()">Yorumu
+                                                Gönder<i class="fal fa-arrow-right-long"></i></button>
 
-                                    </form>
+                                        </form>
+                                    @endif
+
 
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
@@ -633,13 +635,20 @@
                                                         <span class="text">{{ $buttonText }}</span>
                                                     </button>
                                                 @else
-                                                    <button class="CartBtn" data-type='housing'
-                                                        data-id='{{ $housing->id }}'>
-                                                        <span class="IconContainer">
-                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                        </span>
-                                                        <span class="text">Sepete Ekle</span>
-                                                    </button>
+                                                    @if (checkIfUserCanAddToCart($housing->id))
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Sepete Ekle</span>
+                                                        </button>
+                                                    @else
+                                                        <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                                            class="btn btn-success">
+                                                            <span class="text">İlanı Düzenle</span>
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </div>
@@ -650,100 +659,101 @@
 
                         @endif
 
+                        @if (checkIfUserCanAddToCart($housing->id))
 
+                            @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                                <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                                    data-id="{{ $housing->id }}">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-
-                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                            <div class="add-to-collections-wrapper addCollection" data-type='housing'
-                                data-id="{{ $housing->id }}">
-                                <div class="add-to-collection-button-wrapper">
-                                    <div class="add-to-collection-button">
-
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#e54242" />
-                                            <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577" transform="translate(-1100 -1183)"
-                                                    fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#ea2a28" />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32" height="32"
-                                                                    rx="4" fill="#ea2a28" />
-                                                                <g id="Group 72">
-                                                                    <path id="Rectangle 12"
-                                                                        d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                        fill="white" stroke="white" stroke-width="2" />
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#e54242" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#ea2a28" />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#ea2a28" />
+                                                                    <g id="Group 72">
+                                                                        <path id="Rectangle 12"
+                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                            fill="white" stroke="white"
+                                                                            stroke-width="2" />
+                                                                    </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
                                                 </g>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg><span class="add-to-collection-button-text">
-                                            @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                Portföyüme Ekle
-                                            @else
-                                                Koleksiyona Ekle
-                                            @endif
-                                        </span>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg><span class="add-to-collection-button-text">
+                                                @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    Portföyüme Ekle
+                                                @else
+                                                    Koleksiyona Ekle
+                                                @endif
+                                            </span>
+                                        </div>
+                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                    <i class="fa fa-caret-right"></i>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
+                            @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-                        @if (isset(json_decode($housing->housing_type_data)->swap[0]))
-                            <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                <div class="add-to-collection-button-wrapper">
-                                    <div class="add-to-collection-button">
-
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#F0F0F0" />
-                                            <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577" transform="translate(-1100 -1183)"
-                                                    fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#FEF4EB" />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32" height="32"
-                                                                    rx="4" fill="#F27A1A" />
-                                                                <g id="Group 72">
-                                                                    <path d="M16 11V21M11 16H21" stroke="white"
-                                                                        stroke-width="2" stroke-linecap="round" />
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#F0F0F0" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#FEF4EB" />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#F27A1A" />
+                                                                    <g id="Group 72">
+                                                                        <path d="M16 11V21M11 16H21" stroke="white"
+                                                                            stroke-width="2" stroke-linecap="round" />
+                                                                    </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
                                                 </g>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
 
-                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                        </div>
+                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                    <i class="fa fa-caret-right"></i>
                                 </div>
-                            </div>
+                            @endif
                         @endif
+
 
                         <!-- Teklif Ver Modal -->
                         <div class="modal fade" id="bidModal" tabindex="-1" role="dialog"
@@ -1289,6 +1299,9 @@
                         </div>
                         <div class="mt-5 mb-5">
                             @if ($housing->step2_slug == 'gunluk-kiralik')
+
+                               
+                                @if (checkIfUserCanAddToCart($housing->id))
                                 <div class="mobileMove" id="mobileMoveID">
 
                                     <div class="schedule widget-boxed mt-33 mt-0">
@@ -1362,6 +1375,7 @@
                                             </div>
                                         </div>
                                         <div class="widget-boxed-body">
+                                            
                                             <form id="rezervasyonForm">
                                                 @csrf
                                                 <input type="hidden" name="key" id="orderKey">
@@ -1426,10 +1440,26 @@
                                                     class="reservationBtn reservation btn-radius full-width mt-2 text-white"
                                                     id="submitBtn">Rezervasyon
                                                     Yap</button>
-                                            </form>
+                                            </form>                
                                         </div>
                                     </div>
                                 </div>
+                            @else
+                                <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                    class="btn btn-success " style="width: 100%;
+                                    height: 40px;
+                                    border: none;
+                                    display: flex;
+                                    border-radius: 0;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                    transition-duration: .5s;
+                                    overflow: hidden;
+                                    position: relative;">
+                                    <span class="text">İlanı Düzenle</span>
+                                </a>
+                            @endif
                             @endif
 
 
