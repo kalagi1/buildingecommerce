@@ -11,6 +11,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HousingController extends Controller {
     public function getDashboardStatuses() {
@@ -172,5 +173,44 @@ class HousingController extends Controller {
             "inactiveHousingTypes" => $inactiveHousingTypes,
             "activeHousingTypes" => $activeHousingTypes,
         ]);
+    }
+
+
+    public function sendComment( Request $request, $id ) {
+        $housing = Housing::where( 'id', $id )->with( 'user' )->first();
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+            ]
+        );
+
+        if ( $validator->fails() ) {
+            return redirect()->back()->withErrors( $validator->errors() );
+        }
+
+        $rate = $request->input( 'rate' );
+        $comment = $request->input( 'comment' );
+
+        $images = [];
+        if ( is_array( $request->images ) ) {
+            foreach ( $request->images as $image ) {
+                $images[] = $image->store( 'public/housing-comment-images' );
+            }
+        }
+
+       $housingComment = HousingComment::create(
+            [
+                'user_id' => auth()->user()->id,
+                'housing_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'images' => json_encode( $images ),
+                'owner_id' => $housing->user_id,
+            ]
+        );
+
+        return response()->json(['message' => 'success'], 200);
     }
 }
