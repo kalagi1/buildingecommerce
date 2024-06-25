@@ -1009,7 +1009,7 @@ class ProjectController extends Controller
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
             $property_owner_phone = $postData['property_owner_phone'];
-            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . $user->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
+            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . auth()->user()->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
 
             // SmsService sınıfını kullanarak SMS gönderme işlemi
             $smsService = new SmsService();
