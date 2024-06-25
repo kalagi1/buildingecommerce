@@ -431,7 +431,7 @@ class CartController extends Controller {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
 
-                        return $amount;
+                        return ( $amount - $sharedAmount_balance ) * $sales_rate_club;
 
                         $estateclubrate = ( $newAmount - $sharedAmount_balance ) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
