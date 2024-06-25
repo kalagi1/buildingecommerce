@@ -20,7 +20,7 @@ class UpdateHousingReorderTypesSeeder extends Seeder
         foreach ($housingTypes as $housingType) {
             $formJson = json_decode($housingType->form_json, true);
 
-            // JSON içindeki elemanların sırasını güncelle
+            // JSON içindeki elemanların sıraya koymak için yeniden düzenle
             $formJson = $this->reorderElements($formJson);
 
             // Güncellenmiş JSON'u tekrar encode ediyoruz
@@ -41,27 +41,26 @@ class UpdateHousingReorderTypesSeeder extends Seeder
      */
     private function reorderElements($formJson)
     {
-        $discountElement = null;
-        $newFormJson = [];
+        $desiredOrder = [
+            'open_sharing[]',
+            'discount_rate[]'
+        ];
 
+        $newFormJson = [];
+        $remainingElements = [];
+
+        // JSON içindeki elemanları sıraya göre düzenle
         foreach ($formJson as $element) {
-            if (isset($element['label']) && $element['label'] === 'İndirim Oranı %') {
-                $discountElement = $element;
-            } else {
+            // İstenen sıra içinde mi diye kontrol et
+            if (in_array($element['name'], $desiredOrder)) {
                 $newFormJson[] = $element;
-                if (isset($element['label']) && $element['label'] === 'Paylaşıma Açık') {
-                    if ($discountElement !== null) {
-                        $newFormJson[] = $discountElement;
-                        $discountElement = null;
-                    }
-                }
+            } else {
+                $remainingElements[] = $element;
             }
         }
 
-        // Eğer discountElement hala null değilse, en sona ekle
-        if ($discountElement !== null) {
-            $newFormJson[] = $discountElement;
-        }
+        // Kalan elemanları sıralı olarak ekleyin
+        $newFormJson = array_merge($newFormJson, $remainingElements);
 
         return $newFormJson;
     }

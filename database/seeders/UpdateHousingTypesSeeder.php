@@ -14,26 +14,20 @@ class UpdateHousingTypesSeeder extends Seeder
      */
     public function run()
     {
-        // Housing types tablosundaki tüm satırları çekiyoruz
+        // Retrieve all rows from the housing_types table
         $housingTypes = DB::table('housing_types')->get();
 
         foreach ($housingTypes as $housingType) {
+            // Decode the form_json column value into an associative array
             $formJson = json_decode($housingType->form_json, true);
 
-            // JSON içindeki her bir öğenin label ve placeholder değerini güncelliyoruz
-            foreach ($formJson as &$item) {
-                if (isset($item['label'])) {
-                    $item['label'] = $this->updateLabel($item['label']);
-                }
-                if (isset($item['placeholder'])) {
-                    $item['placeholder'] = $this->updatePlaceholder($item['placeholder']);
-                }
-            }
+            // Modify the formJson array to move discount_rate[] after open_sharing[]
+            $formJson = $this->moveDiscountRateAfterOpenSharing($formJson);
 
-            // Güncellenmiş JSON'u tekrar encode ediyoruz
+            // Encode the modified formJson array back to JSON format
             $updatedFormJson = json_encode($formJson);
 
-            // Veritabanındaki ilgili satırı güncelliyoruz
+            // Update the housing_types table with the updated form_json value
             DB::table('housing_types')
                 ->where('id', $housingType->id)
                 ->update(['form_json' => $updatedFormJson]);
@@ -41,36 +35,48 @@ class UpdateHousingTypesSeeder extends Seeder
     }
 
     /**
-     * Label değerini güncellemek için yardımcı fonksiyon
+     * Move discount_rate[] after open_sharing[] in the given formJson array.
      *
-     * @param string $label
-     * @return string
+     * @param array $formJson
+     * @return array
      */
-    private function updateLabel($label)
+    private function moveDiscountRateAfterOpenSharing($formJson)
     {
-        // Özel label güncellemeleri
-        if ($label === 'Satış Yetkisi Bitiş Tarihi') {
-            return 'Yetki Bitiş Tarihi';
+        $openSharingIndex = $this->findInsertIndex($formJson, 'open_sharing[]');
+        $discountRateIndex = $this->findInsertIndex($formJson, 'discount_rate[]');
+
+        // Ensure both elements are found before proceeding
+        if ($openSharingIndex !== null && $discountRateIndex !== null) {
+            // Remove discount_rate[] from its current position
+            $discountRateItem = $formJson[$discountRateIndex];
+            array_splice($formJson, $discountRateIndex, 1);
+
+            // Find the correct position to insert discount_rate[] after open_sharing[]
+            if ($discountRateIndex > $openSharingIndex) {
+                $openSharingIndex++; // Increment index to maintain position after splice
+            }
+
+            // Insert discount_rate[] after open_sharing[]
+            array_splice($formJson, $openSharingIndex + 1, 0, [$discountRateItem]);
         }
 
-        // Diğer label'lar için aynı kalacak
-        return $label;
+        return $formJson;
     }
 
     /**
-     * Placeholder değerini güncellemek için yardımcı fonksiyon
+     * Find the index of an element in the formJson array by its 'name' attribute.
      *
-     * @param string $placeholder
-     * @return string
+     * @param array $formJson
+     * @param string $name
+     * @return int|null
      */
-    private function updatePlaceholder($placeholder)
+    private function findInsertIndex($formJson, $name)
     {
-        // Özel placeholder güncellemeleri
-        if ($placeholder === 'Satış Yetkisi Bitiş Tarihi') {
-            return 'Yetki Bitiş Tarihi';
+        foreach ($formJson as $index => $element) {
+            if (isset($element['name']) && $element['name'] === $name) {
+                return $index;
+            }
         }
-
-        // Diğer placeholder'lar için aynı kalacak
-        return $placeholder;
+        return null;
     }
 }
