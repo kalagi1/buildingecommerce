@@ -430,7 +430,8 @@ class CartController extends Controller {
                         if ( $sales_rate_club === null && count( $rates ) > 0 ) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
-                        $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                        
+                        $estateclubrate = ($newAmount - $sharedAmount_balance) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
                         SharerPrice::create( [

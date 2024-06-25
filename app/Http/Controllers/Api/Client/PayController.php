@@ -704,7 +704,7 @@ class PayController extends Controller
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
 
-                        $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                        $estateclubrate = ($newAmount - $sharedAmount_balance) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
 
