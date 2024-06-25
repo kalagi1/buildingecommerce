@@ -1026,22 +1026,14 @@ class CartController extends Controller {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
                         if ( isset( $collection ) ) {
-                            foreach ( $collection->links as $link ) {
-                                if ( ( $link->user_id != $user->id ) ) {
-                                    $hasCounter = true;
-                                }
-                            }
+                            $hasCounter = true;
                         }
                     }
                 } else {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
-                            foreach ( $collection->links as $link ) {
-                                if ( ( $link->user_id != $user->id ) ) {
-                                    $hasCounter = true;
-                                }
-                            }
+                            $hasCounter = true;
                         }
                     }
                 }

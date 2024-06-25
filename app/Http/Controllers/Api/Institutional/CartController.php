@@ -68,11 +68,7 @@ class CartController extends Controller
                         $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
 
                         if (isset($collection)) {
-                            foreach ($collection->links as $link) {
-                                if (($link->user_id != Auth::guard("api")->user()->id)) {
-                                    $hasCounter = true;
-                                }
-                            }
+                            $hasCounter = true;
                         }
                     }
 
@@ -167,11 +163,7 @@ class CartController extends Controller
                     if ($lastClick) {
                         $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
                         if (isset($collection)) {
-                            foreach ($collection->links as $link) {
-                                if (($link->item_type == 2 && $link->user_id != Auth::guard("api")->user()->id)) {
-                                    $hasCounter = true;
-                                }
-                            }
+                            $hasCounter = true;
                         }
                     }
                     $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
