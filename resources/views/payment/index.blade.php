@@ -1327,10 +1327,10 @@
                                 }
                             });
 
-                            // var redirectUrl =
-                            //     "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
-                            // window.location.href = redirectUrl.replace(':cartOrderId',
-                            //     cartOrderId);
+                            var redirectUrl =
+                                "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
+                            window.location.href = redirectUrl.replace(':cartOrderId',
+                                cartOrderId);
                         }
                     },
                     error: function(error) {
