@@ -184,7 +184,7 @@
                             @endif
 
 
-                            
+
                             @if (isset($projectHousingsList[$housingOrder]['ong_kira[]']))
                                 <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
                                     fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -208,8 +208,9 @@
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="button-effect-div favorite-move">
+                                   
                                     <div class="button-effect toggle-project-favorite" style="width:35px !important"
-                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-housing-id="{{ isset($projectHousingsList[$housingOrder]['squaremeters'][0]) ? $projectHousingsList[$housingOrder]['squaremeters'][0] : "" }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div>
@@ -421,14 +422,22 @@
                                             @endif
                                         </button>
                                     @else
-                                        <button class="CartBtn second-btn" data-type='project'
-                                            data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
-                                            data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
-                                        </button>
+                                        @if (checkIfUserCanAddToProject($project->id))
+                                            <button class="CartBtn second-btn" data-type='project'
+                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
+                                                data-share="{{ $share_sale }}"
+                                                data-number-share="{{ $number_of_share }}">
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @else
+                                        <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug,'project_id' => $project->id]) }}"
+                                            class="btn btn-success">
+                                            <span class="text">Projeyi Düzenle</span>
+                                        </a>
+                                        @endif
                                     @endif
 
                                     {{-- <div class="button-effect toggle-project-favorite" style="margin-left:13px;width:40px !important"
@@ -1566,13 +1575,10 @@
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
-                            <iframe
-                            width="100%"
-                            height="100%"
-                            frameborder="0" style="border:0;"
-                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ explode(',', $project->location)[0] }},{{ explode(',', $project->location)[1] }}"
-                            allowfullscreen="">
-                        </iframe>
+                            <iframe width="100%" height="100%" frameborder="0" style="border:0;"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&q={{ explode(',', $project->location)[0] }},{{ explode(',', $project->location)[1] }}"
+                                allowfullscreen="">
+                            </iframe>
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel"
                             aria-labelledby="situation-tab">
@@ -1624,7 +1630,7 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-          document.getElementById('newPrice').addEventListener('input', function(e) {
+        document.getElementById('newPrice').addEventListener('input', function(e) {
             var value = e.target.value;
             // Sadece rakamları ve virgülü tut
             value = value.replace(/[^0-9,]/g, '');
@@ -2056,28 +2062,28 @@
                                             var projectedEarningsData = "";
                                             var ongKiraData = "";
 
-                                        var projectedEarnings = getDataJS(response,
-                                            "projected_earnings[]", response.room_info[i]
-                                            .room_order);
+                                            var projectedEarnings = getDataJS(response,
+                                                "projected_earnings[]", response.room_info[i]
+                                                .room_order);
 
-                                        var ongKira = getDataJS(response,
-                                            "ong_kira[]", response.room_info[i]
-                                            .room_order);
-                                        // var projectedEarnings = 10;
-                                        var svgCode =
-                                            '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                        var projectedEarningsHTML = projectedEarnings ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
-                                            "<span style='color:#28a745'> %" + projectedEarnings +
-                                            "</span>" : "";
+                                            var ongKira = getDataJS(response,
+                                                "ong_kira[]", response.room_info[i]
+                                                .room_order);
+                                            // var projectedEarnings = 10;
+                                            var svgCode =
+                                                '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                            var projectedEarningsHTML = projectedEarnings ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                                "<span style='color:#28a745'> %" + projectedEarnings +
+                                                "</span>" : "";
 
-                                        var ongKiraHTML = ongKira ? svgCode +
-                                            "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                            "<span style='color:#28a745'> %" + ongKira +
-                                            "</span>" : "";
+                                            var ongKiraHTML = ongKira ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
+                                                "<span style='color:#28a745'> %" + ongKira +
+                                                "</span>" : "";
 
-                                        projectedEarningsData += projectedEarningsHTML;
-                                        ongKiraData += ongKiraHTML;
+                                            projectedEarningsData += projectedEarningsHTML;
+                                            ongKiraData += ongKiraHTML;
 
                                         } else {
 
@@ -2136,11 +2142,11 @@
                                                     l + ". Ara Ödeme</th>";
                                             }
 
-                                            
-                                        if (ongKiraData) {
-                                            html += "<th></th>";
 
-                                        }
+                                            if (ongKiraData) {
+                                                html += "<th></th>";
+
+                                            }
 
                                             html += "</tr>";
                                         }
@@ -2272,11 +2278,11 @@
                                                                 payDescDate
                                                                 .getFullYear()) + "</td>";
 
-                                                                                                                            
-                                        if (ongKiraData) {
-                                                html += "<td></td>";
 
-                                            }
+                                                        if (ongKiraData) {
+                                                            html += "<td></td>";
+
+                                                        }
                                                     } else {
                                                         html += null;
                                                     }
@@ -2485,8 +2491,6 @@
         }
 
         var isLoading = false;
-
-      
     </script>
 
     <script>

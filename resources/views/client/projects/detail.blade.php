@@ -345,14 +345,21 @@
                                                             @endif
                                                         </button>
                                                     @else
-                                                        <button class="CartBtn second-btn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            data-id='{{ $i + 1 }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
+                                                        @if (checkIfUserCanAddToProject($project->id))
+                                                            <button class="CartBtn second-btn" data-type='project'
+                                                                data-project='{{ $project->id }}'
+                                                                data-id='{{ $i + 1 }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Sepete Ekle</span>
+                                                            </button>
+                                                        @else
+                                                            <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug,'project_id' => $project->id]) }}"
+                                                                class="btn btn-success">
+                                                                <span class="text">Projeyi Düzenle</span>
+                                                            </a>
+                                                        @endif
                                                     @endif
 
                                                 </div>
