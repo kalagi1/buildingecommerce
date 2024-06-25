@@ -972,10 +972,10 @@ class ProjectController extends Controller
                 'sales_rate_club' => $salesRateClubToUse,
             ]);
         }
-        
+        $user = auth()->user();
 
         if ($project && auth()->user()->type == 1) {
-            $user = auth()->user();
+        
             // Kullanıcının telefon numarasını kontrol et
             if ($user->mobile_phone) {
                 $ownerId = $user->id;
