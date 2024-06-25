@@ -1036,7 +1036,7 @@ class CartController extends Controller {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
-                            return $$collection->links ;
+                            return $collection->links ;
                             foreach ( $collection->links as $link ) {
                                 if ( ( $link->item_type == 2  && $link->user_id != $user->id ) ) {
                                     $hasCounter = true;
