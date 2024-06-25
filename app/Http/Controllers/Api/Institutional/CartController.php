@@ -168,7 +168,7 @@ class CartController extends Controller
                         $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
                         if (isset($collection)) {
                             foreach ($collection->links as $link) {
-                                if (($link->item_type == 2 && $link->item_id == $id && $link->user_id != Auth::guard("api")->user()->id)) {
+                                if (($link->item_type == 2 && $link->user_id != Auth::guard("api")->user()->id)) {
                                     $hasCounter = true;
                                 }
                             }
