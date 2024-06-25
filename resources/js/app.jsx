@@ -8,6 +8,7 @@ import CreateHousing from './Components/CreateHousing';
 import ProjectListItem from './Components/project_components/ProjectListItem';
 import HousingList from './Components/HousingList';
 import Crm from './Components/Crm';
+import ProjectAssigment from './Components/ProjectAssigment';
 
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
@@ -38,7 +39,12 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<Crm projectId={slashs[slashs.length - 2]} />, document.getElementById('react_render_area'));
     }
-}else{
+}else if(slashs[slashs.length - 1] == "project_assigment"){
+    if(document.getElementById('react_render_area')){
+        ReactDOM.render(<ProjectAssigment projectId={slashs[slashs.length - 2]} />, document.getElementById('react_render_area'));
+    }
+}
+else{
     if(document.getElementById('react_projects')){
         ReactDOM.render(<ReactTable />, document.getElementById('react_projects'));
     }

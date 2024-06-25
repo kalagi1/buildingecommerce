@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\CustomerCall;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -167,5 +168,37 @@ class CrmController extends Controller
         return json_encode([
             "customer" => $customer
         ]);
-    }
+    }//End
+
+    public function getAllUsers(){
+        $users = User::all();
+        return response()->json([
+           'data' => $users   
+        ]);
+    }//End
+
+    public function getAllProjects(){
+        $projects = Project::all();
+        return response()->json([
+           'data' => $projects   
+        ]);
+    }//End
+
+    public function addProjectAssigment(Request $request){
+
+        $projectIds = $request->projectIds;
+        $userId = $request->userId;
+
+        foreach ($projectIds as $projectId) {
+            DB::table('project_assigment')->insert([
+                'user_id'    => $userId,
+                'project_id' => $projectId,
+                'created_at' => now()
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Başarıyla kaydedildi'
+        ]);
+    }//End
 }
