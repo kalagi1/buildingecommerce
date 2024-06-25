@@ -1630,7 +1630,7 @@ class ProjectController extends Controller
             foreach($paymentSettingPayDecs as $payDec){
                 $payDecPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay_desc_price'.$roomOrder.($payDec-1))->first();
 
-                $paidPrice +=  $payDecPrice->value;
+                $paidPrice +=  intval(str_replace('.','',$payDecPrice->value));
             }
             $remainingPayment = $installmentPrice->value - $paidPrice;
         }else{
