@@ -102,14 +102,14 @@
                                                         name="rates[{{ $rate->id }}][default_deposit_rate]"
                                                         value="{{ $rate->default_deposit_rate }}" />
                                                 </td>
-                                                <td> <input type="number" step="0.01" readonly value="0.1" /></td>
+                                                <td> <input type="number" step="0.01" readonly value="{{ 1- $rate->default_deposit_rate }}" /></td>
                                                 <td>
                                                     <input type="number" step="0.01"
                                                         name="rates[{{ $rate->id }}][sales_rate_club]"
                                                         value="{{ $rate->sales_rate_club }}" />
                                                 </td>
                                                 <td> <input type="number" step="0.01" readonly
-                                                        value="{{ 1 - $rate->sales_rate_club - 0.1 }}" /></td>
+                                                        value="{{ 1 - $rate->sales_rate_club - (1- $rate->default_deposit_rate) }}" /></td>
                                             </tr>
                                         @endforeach
                                     </tbody>

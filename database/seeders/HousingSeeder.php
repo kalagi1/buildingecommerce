@@ -27,21 +27,28 @@ class HousingSeeder extends Seeder
             
                 $isOpenSharing1Set = isset($postData['open_sharing1']);
             
-                $sellTypeInstitutionalRate = $isOpenSharing1Set && $institution->name !== "Diğer" ? 0.80 : null;
-                $sellTypeClientRate = !$isOpenSharing1Set && $institution->name === "Diğer" ? 0.70 : null;
+                $sellTypeInstitutionalRate = $value->owner_id && $institution->name !== "Diğer" ? 0.80 : null;
+                $sellTypeClientRate = ! $value->owner_id && $institution->name === "Diğer" ? 0.70 : null;
             
-                $sellTypeInstitutionalClub = $isOpenSharing1Set && $institution->name !== "Diğer" ? 0.40 : null;
-                $sellTypeClientClub = !$isOpenSharing1Set && $institution->name === "Diğer" ? 0.25 : null;
+                $sellTypeInstitutionalClub =  $value->owner_id && $institution->name !== "Diğer" ? 0.40 : null;
+                $sellTypeClientClub = ! $value->owner_id && $institution->name === "Diğer" ? 0.25 : null;
             
                 $defaultDepositRateToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalRate ?? $defaultDepositRate) : ($sellTypeClientRate ?? $clientDepositRate);
                 $salesRateClubToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalClub ?? $institutionalRateClub) : ($sellTypeClientClub ?? $clientRateClub);
             
-                Rate::create([
-                    'institution_id' => $institution->id,
-                    'housing_id' => $value->id,
-                    'default_deposit_rate' => $defaultDepositRateToUse,
-                    'sales_rate_club' => $salesRateClubToUse,
-                ]);
+                // Check if Rate record already exists for this institution and project
+                $existingRate = Rate::where('institution_id', $institution->id)
+                                    ->where('housing_id', $value->id)
+                                    ->first();
+            
+                if (!$existingRate) {
+                    Rate::create([
+                        'institution_id' => $institution->id,
+                        'housing_id' => $value->id,
+                        'default_deposit_rate' => $defaultDepositRateToUse,
+                        'sales_rate_club' => $salesRateClubToUse,
+                    ]);
+                }
             }
         }
     }
