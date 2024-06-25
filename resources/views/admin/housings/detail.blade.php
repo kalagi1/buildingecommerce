@@ -87,6 +87,8 @@
                                         <tr>
                                             <th>Kurum</th>
                                             <th>Kapora Oranı</th>
+                                            <th>Emlak Sepette Oranı</th>
+
                                             <th>Satış Oranı (Emlak Kulüp)</th>
                                         </tr>
                                     </thead>
@@ -99,6 +101,7 @@
                                                         name="rates[{{ $rate->id }}][default_deposit_rate]"
                                                         value="{{ $rate->default_deposit_rate }}" />
                                                 </td>
+                                                <td>0,10</td>
                                                 <td>
                                                     <input type="number" step="0.01"
                                                         name="rates[{{ $rate->id }}][sales_rate_club]"
