@@ -126,9 +126,9 @@ class HousingController extends Controller {
             foreach ( $housingTypeData as $key => $value ) {
 
                 if ( $housingType ) {
-                    return $housingType;
                     $formJsonItems = json_decode( $housingType->form_json, true ) ?? [];
 
+                    return $formJsonItems;
                     foreach ( $formJsonItems as $formJsonItem ) {
                         $formJsonItemName = rtrim( $formJsonItem[ 'name' ], '[]' );
 
