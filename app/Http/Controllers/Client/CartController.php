@@ -310,7 +310,7 @@ class CartController extends Controller {
             $storeID = Housing::find( $productDetails->id ?? 0 )->user->id;
             $room = null;
 
-            app()->make(FavoriteController::class)->deleteFavoriteByHousingId($productDetails->id);
+            app()->make( FavoriteController::class )->deleteFavoriteByHousingId( $productDetails->id );
 
             if ( $haveDiscount ) {
                 if ( $coupon->discount_type == 1 ) {
@@ -430,8 +430,8 @@ class CartController extends Controller {
                         if ( $sales_rate_club === null && count( $rates ) > 0 ) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
-                        
-                        $estateclubrate = ($newAmount - $sharedAmount_balance) * $sales_rate_club;
+
+                        $estateclubrate = ( $newAmount - $sharedAmount_balance ) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
                         SharerPrice::create( [
@@ -533,7 +533,7 @@ class CartController extends Controller {
             $storeID = $project->user->id;
             $estateProjectRate = $project->club_rate / 100;
 
-            app()->make(FavoriteController::class)->deleteFavoriteByProjectIdAndHousing($productDetails->id,$productDetails->housing);
+            app()->make( FavoriteController::class )->deleteFavoriteByProjectIdAndHousing( $productDetails->id, $productDetails->housing );
             $room = $productDetails->housing;
             $shareOpen = isset( getHouse( $project, 'share-open[]', $productDetails->housing )->value ) ? getHouse( $project, 'share-open[]', $productDetails->housing )->value : null;
 
@@ -1000,55 +1000,80 @@ class CartController extends Controller {
     }
 
     public function add( Request $request ) {
-        try{
+        try {
             if ( Auth::check() ) {
                 $user = Auth::user();
                 $lastClick = Click::where( 'user_id', $user->id )
                 ->where( 'created_at', '>=', now()->subDays( 24 ) )
                 ->latest( 'created_at' )
                 ->first();
-    
+
                 $cartList = CartItem::where( 'user_id', $user->id )->latest()->first();
                 if ( $cartList ) {
                     CartItem::where( 'user_id', $user->id )->latest()->first()->delete();
                 }
-    
+
                 $cartItem = $this->prepareCartItem( $request );
                 if ( !$cartItem ) {
                     return response( [ 'message' => 'fail' ] );
                 }
-    
+
+                if ( $request->input( 'type' ) == 'project' ) {
+                    if ( $lastClick ) {
+                        $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
+
+                        if ( isset( $collection ) ) {
+                            foreach ( $collection->links as $link ) {
+                                if ( ( $link->user_id != Auth::guard( 'api' )->user()->id ) ) {
+                                    $hasCounter = true;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if ( $lastClick ) {
+                        $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
+                        if ( isset( $collection ) ) {
+                            foreach ( $collection->links as $link ) {
+                                if ( ( $link->item_type == 2  && $link->user_id != Auth::guard( 'api' )->user()->id ) ) {
+                                    $hasCounter = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
-                    'hasCounter' => $cartItem["hasCounter"]
+                    'hasCounter' => $hasCounter
                 ];
-    
+
                 $request->session()->put( 'cart', $cart );
-    
+
                 $cartJson = json_encode( $cart );
                 CartItem::create( [
                     'cart'     => $cartJson,
                     'user_id'  => $user->id
                 ] );
-    
+
                 return response( [ 'message' => 'success' ] );
             } else {
                 $cartItem = $this->prepareCartItem( $request );
                 if ( !$cartItem ) {
                     return response( [ 'message' => 'fail' ] );
                 }
-    
+
                 $cart = [
                     'item' => $cartItem,
                     'type' => $request->input( 'type' ),
-                    'hasCounter' => $cartItem["hasCounter"]
+                    'hasCounter' => false
                 ];
-                session(['cart' => $cart]);
-    
+                session( [ 'cart' => $cart ] );
+
                 return response( [ 'message' => 'session' ] );
             }
-        }catch ( \Exception $e ) {
+        } catch ( \Exception $e ) {
             return response( [ 'message' => $e->getMessage() ] );
         }
     }
@@ -1070,12 +1095,11 @@ class CartController extends Controller {
             ->get()
             ->keyBy( 'key' );
 
-            if(Auth::check()){
+            if ( Auth::check() ) {
                 $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where( 'status', 1 )->get();
-            }else{
+            } else {
                 $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'status', 1 )->get();
             }
-
 
             $price = $projectHousing[ 'Peşin Fiyat' ]->value ?? $projectHousing[ 'Fiyat' ]->value;
             $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;
