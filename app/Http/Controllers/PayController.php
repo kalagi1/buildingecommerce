@@ -819,8 +819,12 @@ class PayController extends Controller
                         if ($sales_rate_club === null && count($rates) > 0) {
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
+                                                // $amount değerini float'a dönüştür
+$amount = str_replace('.', '', $amount); // Noktaları kaldır
+$amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
+$amount = floatval($amount); // Float'a dönüştür
 
-                        $estateclubrate = ($newAmount - $sharedAmount_balance) * $sales_rate_club;
+                        $estateclubrate = ($amount - $sharedAmount_balance) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
 
 
