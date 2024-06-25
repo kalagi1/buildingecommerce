@@ -1033,12 +1033,11 @@ class CartController extends Controller {
                         }
                     }
                 } else {
-                    return $request->input("type");
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 2  && $link->user_id != Auth::guard( 'api' )->user()->id ) ) {
+                                if ( ( $link->item_type == 2  && $link->user_id != Auth::user()->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
