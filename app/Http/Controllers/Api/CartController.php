@@ -142,7 +142,6 @@ class CartController extends Controller
         session()->forget('cart');
     
         $cartItem = CartItem::where('user_id', Auth::guard('api')->user()->id)->first();
-        return response()->json($cartItem , 200);
         if ($cartItem) {
             $cartItem->delete();
             return response()->json(['status' => 'success', 'message' => 'Sepet temizlendi.'], 200);
