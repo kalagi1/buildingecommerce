@@ -50,10 +50,10 @@
                                         <i class="fa fa-info-circle ml-2" data-toggle="tooltip" style="font-size: 18px;"
                                             aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
                                             title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
-                                    <input type="text" name="iban" id="ibanInput"
-                                        class="form-control @error('iban') is-invalid @enderror"
-                                        value="{{ old('iban', $user->iban) }}"
-                                        placeholder="TR" oninput="formatIBAN(this)">
+                                            <input type="text" name="iban" id="ibanInput"
+                                            class="form-control @error('iban') is-invalid @enderror"
+                                            value="{{ $user->iban != 'null' ? $user->iban : '' }}" oninput="formatIBAN(this)">
+                                        
                                     @error('iban')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
