@@ -877,27 +877,30 @@ class ProjectController extends Controller
             $postData[$key] = [$pData];
         }
         foreach ($housingTypeInputs as $input) {
-            if ($input->type == "checkbox-group") {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+            if(isset($input) && isset($input->type) && $input->type){
+                if ($input->type == "checkbox-group") {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
                     }
                 } else {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                    }
-                }
-            } else {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                    }
-                } else {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                        }
                     }
                 }
             }
+            
         }
 
         $postData['image'] = $fileNameCoverImage;
