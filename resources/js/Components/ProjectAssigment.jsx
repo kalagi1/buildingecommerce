@@ -155,15 +155,24 @@ const ProjectAssignment = () => {
     },
     {
       header: 'Atanan Projeler',
-      Cell: ({ row }) => (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleViewProjectsClick(row.original)}
-        >
-          Görüntüle
-        </Button>
-      ),
+      Cell: ({ row }) => {
+        const assignedProjects = getAssignedProjects(row.original.id);
+        return (
+          <>
+            {assignedProjects.length > 0 ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleViewProjectsClick(row.original)}
+              >
+                Görüntüle
+              </Button>
+            ) : (
+              '-'
+            )}
+          </>
+        );
+      },
     },
     {
       header: 'Proje Atama',
