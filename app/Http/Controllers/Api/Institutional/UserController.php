@@ -83,7 +83,7 @@ class UserController extends Controller
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
         $permissions = array_values($permissions);
 
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $accessToken = $user->accessToken;
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->unique()->toArray();
