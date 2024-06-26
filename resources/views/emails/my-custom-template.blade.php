@@ -10,11 +10,11 @@
                         <tr>
                             <td
                                 style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
-                                <a href="https://emlaksepette.com"
+                                <a href="https://test.emlaksepette.com"
                                     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block"
                                     target="_blank"
-                                    data-saferedirecturl="https://www.google.com/url?q=https://emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
-                                    <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
+                                    data-saferedirecturl="https://www.google.com/url?q=https://test.emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
+                                    <img src="https://test.emlaksepette.com/images/emlaksepettelogo.png"
                                         alt="Emlak Sepette Logo"
                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:600px;border:none;height:40px;max-height:40px;width:200px"
                                         class="CToWUd" data-bit="iit">
