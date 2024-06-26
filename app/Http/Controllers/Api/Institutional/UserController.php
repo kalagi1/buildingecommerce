@@ -119,7 +119,7 @@ class UserController extends Controller
         $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
 
 
-        $userData = response()->json([
+        $userData = [
             "status" => 200,
             'success' => true,
             'id' => $user->id,
@@ -208,7 +208,7 @@ class UserController extends Controller
             'balanceStatus2' => $balanceStatus2,
             'successPercentage' => $successPercentage,
             'collections' => $collections
-        ]);
+        ];
         
         return response()->json([
             'user' => $userData,
