@@ -70,7 +70,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                     housingTypes[0].map((housingType) => {
                                         return(
                                             <li onClick={() => {setHousingTypeParent(housingType.id,0)}} className={selectedTypes[0] == housingType.id ? "selected" : ""}>
-                                                {housingType.title}
+                                                {housingType?.title}
                                                 {
                                                     loadingOrder && loadingOrder == 0 && loadingOrderStatusId && loadingOrderStatusId == housingType.id ?
                                                         <div class="loading-icon"><i class="fa fa-spinner"></i></div>
@@ -92,7 +92,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                     housingTypes[1]?.map((housingType) => {
                                         return(
                                             <li onClick={() => {setHousingTypeParent(housingType.id,1);setSlug(housingType.slug)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
-                                                {housingType.title}
+                                                {housingType?.title}
                                                 {
                                                     loadingOrder && loadingOrder == 1 && loadingOrderStatusId && housingType.id == loadingOrderStatusId ?
                                                         <div class="loading-icon"><i class="fa fa-spinner"></i></div>
@@ -114,7 +114,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                     housingTypes[2]?.map((housingType) => {
                                         return(
                                             <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
-                                                {housingType.housing_type.title}
+                                                {housingType?.housing_type?.title}
                                             </li>
                                         )
                                     })

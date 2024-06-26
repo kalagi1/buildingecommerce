@@ -139,7 +139,7 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                                     housingTypes[2]?.map((housingType) => {
                                         return(
                                             <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,3)}} className={selectedTypes[3] == housingType.id ? "selected" : ""}>
-                                                {housingType.housing_type.title}
+                                                {housingType?.housing_type?.title}
                                             </li>
                                         )
                                     })
