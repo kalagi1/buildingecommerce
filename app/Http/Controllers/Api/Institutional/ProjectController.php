@@ -949,23 +949,48 @@ class ProjectController extends Controller
             ]
         );
 
-        $institutions = Institution::all();
-
-        foreach ($institutions as $key => $institution) {
-            $defaultDepositRate = 0.90;
-            $institutionalRateClub = 0.50;
-            $clientRateClub = 0.25;
-            $clientDepositRate = 0.70;
-            Rate::create([
-                'institution_id' => $institution->id,
-                'housing_id' => $project->id,
-                'default_deposit_rate' => $institution->name != "Diğer" ? $defaultDepositRate : $clientDepositRate,
-                'sales_rate_club' => $institution->name != "Diğer" ? $institutionalRateClub : $clientRateClub,
-            ]);
+        if ($project) {
+            $institutions = Institution::all();
+        
+            foreach ($institutions as $key => $institution) {
+                $defaultDepositRate = 0.90;
+                $institutionalRateClub = 0.45;
+                $clientRateClub = 0.25;
+                $clientDepositRate = 0.70;
+            
+                $isOpenSharing1Set = isset($postData['open_sharing1']);
+            
+                $sellTypeInstitutionalRate = $ownerId && $institution->name !== "Diğer" ? 0.80 : null;
+                $sellTypeClientRate = !$ownerId && $institution->name === "Diğer" ? 0.70 : null;
+            
+                $sellTypeInstitutionalClub = $ownerId && $institution->name !== "Diğer" ? 0.40 : null;
+                $sellTypeClientClub = !$ownerId && $institution->name === "Diğer" ? 0.25 : null;
+            
+                $defaultDepositRateToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalRate ?? $defaultDepositRate) : ($sellTypeClientRate ?? $clientDepositRate);
+                $salesRateClubToUse = $institution->name !== "Diğer" ? ($sellTypeInstitutionalClub ?? $institutionalRateClub) : ($sellTypeClientClub ?? $clientRateClub);
+            
+                // Check if Rate record already exists for this institution and project
+                $existingRate = Rate::where('institution_id', $institution->id)
+                                    ->where('housing_id', $project->id)
+                                    ->first();
+            
+                if (!$existingRate) {
+                    Rate::create([
+                        'institution_id' => $institution->id,
+                        'housing_id' => $project->id,
+                        'default_deposit_rate' => $defaultDepositRateToUse,
+                        'sales_rate_club' => $salesRateClubToUse,
+                    ]);
+                }
+            }
         }
+        
+
+     
+        $user = auth()->user();
 
         if ($project && auth()->user()->type == 1) {
-            $user = auth()->user();
+        
             // Kullanıcının telefon numarasını kontrol et
             if ($user->mobile_phone) {
                 $ownerId = $user->id;
@@ -983,11 +1008,11 @@ class ProjectController extends Controller
             }
         }
 
-        if (isset($postData['property_owner_phone']) && $postData['property_owner_phone'] && $postData['property_owner'] && $user) {
+        if (isset( $request->input('room')['property_owner']) && isset( $request->input('room')['property_owner_phone'])) {
 
             // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
-            $property_owner_phone = $postData['property_owner_phone'];
-            $message = "Sayın " . $postData['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . $user->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
+            $property_owner_phone = $request->input('room')['property_owner_phone'];
+            $message = "Sayın " . $request->input('room')['property_owner'] . ", mülkünüz Yetkili Emlak Ofisi " . auth()->user()->name . " tarafından Emlak Sepeti Yönetimine iletilmiştir.";
 
             // SmsService sınıfını kullanarak SMS gönderme işlemi
             $smsService = new SmsService();
@@ -1633,7 +1658,7 @@ class ProjectController extends Controller
             foreach($paymentSettingPayDecs as $payDec){
                 $payDecPrice = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->where('name','pay_desc_price'.$roomOrder.($payDec-1))->first();
 
-                $paidPrice +=  $payDecPrice->value;
+                $paidPrice +=  intval(str_replace('.','',$payDecPrice->value));
             }
             $remainingPayment = $installmentPrice->value - $paidPrice;
         }else{

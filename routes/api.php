@@ -124,6 +124,7 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
     ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
@@ -138,7 +139,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:CreateUser'])->group(function () {
             Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
             Route::post('/users', [UserController::class, 'store'])->name('users.store');
-            Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
         });
 
 
@@ -219,6 +219,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/addLink', [ClientPageController::class, 'addLink'])->name('add.to.link');
     Route::post('/remove_item_on_collection', [ClientPageController::class, 'removeItemOnCollection'])->name('remove.item.on.collection');
+
+    Route::post('/housing/{id}/send-comment', [HousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);

@@ -36,8 +36,42 @@ class AuthController extends Controller
     {
         $this->smsService = $smsService;
     }
+    private function sendVerificationEmail(User $user)
+    {
+        $emailTemplate = EmailTemplate::where('slug', 'account-confirmation')->first();
 
+        if (!$emailTemplate) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
 
+        $content = $emailTemplate->body;
+
+        $variables = [
+            'username' => $user->name,
+            'companyName' => 'Emlak Sepette',
+            'email' => $user->email,
+            'token' => $user->email_verification_token,
+            'verificationLink' => URL::to("/verify-email/{$user->email_verification_token}"),
+        ];
+
+        foreach ($variables as $key => $value) {
+            $content = str_replace('{{' . $key . '}}', $value, $content);
+        }
+
+        try {
+            Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
+            // session()->flash( 'warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.' );
+            // return redirect()->route( 'client.login' );
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Hata');
+            return redirect()->route('client.login');
+        }
+    }
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
