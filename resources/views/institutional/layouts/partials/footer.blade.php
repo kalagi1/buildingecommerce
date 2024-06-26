@@ -101,7 +101,7 @@
 
 
 
-<script src="{{URL::to('/')}}/build/assets/app-a42fbdd9.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-e31e5f3a.js"></script>
 
 
 

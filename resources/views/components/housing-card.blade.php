@@ -240,7 +240,8 @@
                                 </button>
                             @else
                                 <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
-                                    class="btn btn-success" style="width: 100%;
+                                    class="btn btn-success"
+                                    style="width: 100%;
                                     height: 40px;
                                     border: none;
                                     background-color: green;
@@ -260,25 +261,24 @@
                         @endif
                     @endif
                 @else
-                   
+                    @if (checkIfUserCanAddToCart($housing->id))
+                        <button onclick="redirectToReservation()" class="reservationBtn">
+                            <span class="IconContainer">
+                                <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
+                            </span>
+                            <span class="text">Rezervasyon Yap</span>
+                        </button>
 
-@if (checkIfUserCanAddToCart($housing->id))
-<button onclick="redirectToReservation()" class="reservationBtn">
-    <span class="IconContainer">
-        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
-    </span>
-    <span class="text">Rezervasyon Yap</span>
-</button>
-
-<script>
-    function redirectToReservation() {
-        window.location.href =
-            "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
-    }
-</script>
-@else
-<a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
-    class="btn btn-success" style="width: 100%;
+                        <script>
+                            function redirectToReservation() {
+                                window.location.href =
+                                    "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
+                            }
+                        </script>
+                    @else
+                        <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                            class="btn btn-success"
+                            style="width: 100%;
     height: 40px;
     border: none;
     background-color: green;
@@ -290,9 +290,9 @@
     transition-duration: .5s;
     overflow: hidden;
     position: relative;">
-    <span class="text">İlanı Düzenle</span>
-</a>
-@endif
+                            <span class="text">İlanı Düzenle</span>
+                        </a>
+                    @endif
                 @endif
 
 
