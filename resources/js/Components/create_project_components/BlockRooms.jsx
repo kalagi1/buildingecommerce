@@ -13,6 +13,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
     const [validationErrors,setValidationErrors] = useState([]);
     const [blockName,setBlockName] = useState("");
     const [payDecOpen,setPayDecOpen] = useState(false);
+    const [checkedItems,setCheckedItems] = useState([]);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     console.log(slug);
     const [rendered,setRendered] = useState(0);
@@ -33,14 +34,38 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
     const addBlock = () => {
         setSelectedBlock(blocks.length)
         if(roomCount > 0){
+            var defaultValuues = [];
+            var checkedItemsTemp = [];
+            for(var i = 0 ; i < roomCount; i++){
+                formData.map((data) => {
+                    if(data?.className?.includes('project-default-checked')){
+                        console.log(data);
+                        checkedItemsTemp.push({
+                            roomOrder : i,
+                            name : data?.name?.replace("[]", "")
+                        })
+
+                        if(defaultValuues[i]){
+                            defaultValuues[i][data?.name] = [data?.values[0]?.value]
+                        }else{
+                            defaultValuues.push({
+                                [data?.name] : [data?.values[0]?.value]
+                            })
+                        }
+                        
+                    }
+                })
+            }
+            setCheckedItems([
+                ...checkedItems,
+                ...checkedItemsTemp
+            ]);
             setBlocks([
                 ...blocks,
                 {
                     name : blockName,
                     roomCount : roomCount,
-                    rooms : [
-                        {}
-                    ]
+                    rooms : defaultValuues
                 }
             ]);
     
@@ -52,6 +77,8 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
             toast.error("Lütfen geçerli bir konut sayısı giriniz");
         }
     }
+
+    console.log(blocks,checkedItems);
 
     const blockDataSet = (blockIndex,keyx,value) => {
         var newDatas = blocks.map((block,key) => {
@@ -85,6 +112,31 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
         setBlocks(newDatas);
         setRendered(rendered + 1);
     }
+
+    const setCheckedItemsFunc = (name,checked) => {
+        console.log(checked,name,"aaa")
+        if(checked){
+            setCheckedItems([
+                ...checkedItems,
+                {
+                    roomOrder : selectedRoom,
+                    name : name.replace("[]", "")
+                }
+            ])
+        }else{
+            var newItems = checkedItems.filter((checkedItem) => {
+                if(checkedItem.roomOrder == selectedRoom && checkedItem.name == name.replace("[]", "")){
+
+                }else{
+                    return checkedItem
+                }
+            })
+
+            setCheckedItems(newItems);
+        }
+    }
+
+    console.log(checkedItems);
     
 
     const blockCheckboxDataSet = (blockIndex,keyx,value,isChecked) => {
@@ -249,10 +301,15 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                             formData.map((data) => {
                                 if(slug == "satilik" && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent")){
                                     if(!data?.className?.includes("project-disabled")){
+                                        var isX = null;
+                                        if(data?.className?.includes('--if-show-checked-')){
+                                            console.log(data?.className?.split('--if-show-checked-')[1],selectedRoom,data?.className?.split('--if-show-checked-')[1]);
+                                            isX = !checkedItems.find((checkedItem) => {return checkedItem.roomOrder == selectedRoom && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                        }
                                         if(!data?.className?.includes('only-not-show-project')){
                                             if(data.type == "text"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -276,7 +333,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 )
                                             }else if(data.type == "date"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -295,7 +352,351 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 )
                                             }else if(data.type == "select"){
                                                 return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
+                                                            {
+                                                                data.values.map(valueSelect => {
+                                                                    return(
+                                                                        <option value={valueSelect.value}>{valueSelect.label}</option>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "checkbox-group"){
+                                                if(data.name == "payment-plan[]"){
+                                                    return(
+                                                        <div>
+                                                            <div>
+                                                                <label className='mt-3 font-bold' htmlFor="">
+                                                                    <div className="d-flex">
+                                                                        {data.label} 
+                                                                        {
+                                                                            data.description != undefined ? 
+                                                                                <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                    <div><i className='fa fa-circle-info'></i></div>
+                                                                                </Tooltip>
+                                                                            : ""
+                                                                        }
+                                                                        {data.required ? <span className='required-span'>*</span> : ""}
+                                                                    </div>
+                                                                </label>
+                                                                <div className="checkbox-groups" id={data?.name.replace('[]','')}>
+                                                                    <div className="row">
+                                                                        {
+                                                                            data.values.map((valueCheckbox) => {
+                                                                                return (
+                                                                                    <div className="col-md-3">
+                                                                                        <FormControlLabel control={<Switch label={valueCheckbox.label} checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                        {
+                                                                            allErrors.includes(data?.name.replace('[]','')) ?
+                                                                                <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+                                                                            : ""
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
+                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
+                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <div className={(isX ? "d-none" : "")}>
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                            {
+                                                                data?.className?.includes('project-not-change') ? 
+                                                                    <div className="info-small-area">
+                                                                        Bu alan projelerde seçilmesi zorunlu alandır değiştiremezsiniz
+                                                                    </div>
+                                                                : ''
+                                                            }
+                                                            <div className="checkbox-groups">
+                                                                <div className="row">
+                                                                    {
+                                                                        data.values.map((valueCheckbox) => {
+                                                                            return (
+                                                                                <div className="col-md-3">
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                
+                                            }else if(data.type == "file"){
+                                                return (
+                                                    <div className={'form-group '+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                        <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        <div className='project_imaget'>
+                                                            <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(slug == "devren-satilik" && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent")){
+                                    if(!data?.className?.includes("project-disabled")){
+                                        if(!data?.className?.includes('only-not-show-project')){
+                                            var isX = null;
+                                            if(data?.className?.includes('--if-show-checked-')){
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                            }
+                                            if(data.type == "text"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        {
+                                                            data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
+                                                            : 
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        }
+                                                    </div>
+                                                )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "select"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
+                                                            {
+                                                                data.values.map(valueSelect => {
+                                                                    return(
+                                                                        <option value={valueSelect.value}>{valueSelect.label}</option>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "checkbox-group"){
+                                                if(data.name == "payment-plan[]"){
+                                                    return(
+                                                        <div>
+                                                            <div>
+                                                                <label className='mt-3 font-bold' htmlFor="">
+                                                                    <div className="d-flex">
+                                                                        {data.label} 
+                                                                        {
+                                                                            data.description != undefined ? 
+                                                                                <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                    <div><i className='fa fa-circle-info'></i></div>
+                                                                                </Tooltip>
+                                                                            : ""
+                                                                        }
+                                                                        {data.required ? <span className='required-span'>*</span> : ""}
+                                                                    </div>
+                                                                </label>
+                                                                <div className="checkbox-groups" id={data?.name.replace('[]','')}>
+                                                                    <div className="row">
+                                                                        {
+                                                                            data.values.map((valueCheckbox) => {
+                                                                                return (
+                                                                                    <div className="col-md-3">
+                                                                                        <FormControlLabel control={<Switch label={valueCheckbox.label} checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                        {
+                                                                            allErrors.includes(data?.name.replace('[]','')) ?
+                                                                                <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+                                                                            : ""
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
+                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
+                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <div className={(isX ? "d-none" : "")}>
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                            {
+                                                                data?.className?.includes('project-not-change') ? 
+                                                                    <div className="info-small-area">
+                                                                        Bu alan projelerde seçilmesi zorunlu alandır değiştiremezsiniz
+                                                                    </div>
+                                                                : ''
+                                                            }
+                                                            <div className="checkbox-groups">
+                                                                <div className="row">
+                                                                    {
+                                                                        data.values.map((valueCheckbox) => {
+                                                                            return (
+                                                                                <div className="col-md-3">
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                
+                                            }else if(data.type == "file"){
+                                                return (
+                                                    <div className={'form-group '+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                        <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        <div className='project_imaget'>
+                                                            <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(slug == "kiralik" && !data?.className?.includes("only-show-project-sale") && !data?.className?.includes("only-show-project-daliy-rent")){
+                                    if(!data?.className?.includes("project-disabled")){
+                                        if(!data?.className?.includes('only-not-show-project')){
+                                            var isX = null;
+                                            if(data?.className?.includes('--if-show-checked-')){
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                            }
+                                            if(data.type == "text"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        {
+                                                            data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
+                                                            : 
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        }
+                                                    </div>
+                                                )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "select"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
@@ -366,14 +767,31 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 }else{
                                                     return(
                                                         <div>
-                                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                            {
+                                                                data?.className?.includes('project-not-change') ? 
+                                                                    <div className="info-small-area">
+                                                                        Bu alan projelerde seçilmesi zorunlu alandır değiştiremezsiniz
+                                                                    </div>
+                                                                : ''
+                                                            }
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
                                                                     {
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -386,7 +804,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 
                                             }else if(data.type == "file"){
                                                 return (
-                                                    <div className='form-group'>
+                                                    <div className={'form-group '+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                         <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         <div className='project_imaget'>
@@ -397,7 +815,184 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                             }
                                         }
                                     }
-                                }else if(slug == "kiralik" && !data?.className?.includes("only-show-project-sale") && !data?.className?.includes("only-show-project-daliy-rent")){
+                                }
+                                else if(slug == "devren-kiralik" && !data?.className?.includes("only-show-project-sale") && !data?.className?.includes("only-show-project-daliy-rent")){
+                                    console.log(slug);
+                                    if(!data?.className?.includes("project-disabled")){
+                                        if(!data?.className?.includes('only-not-show-project')){
+                                            var isX = null;
+                                            if(data?.className?.includes('--if-show-checked-')){
+                                                isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
+                                            }
+                                            if(isX){
+                                                console.log(data);
+                                            }
+                                            if(data.type == "text"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        {
+                                                            data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
+                                                            : 
+                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        }
+                                                    </div>
+                                                )
+                                            }else if(data.type == "date"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "select"){
+                                                return(
+                                                    <div className={"form-group "+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                        </label>
+                                                        <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
+                                                            {
+                                                                data.values.map(valueSelect => {
+                                                                    return(
+                                                                        <option value={valueSelect.value}>{valueSelect.label}</option>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                )
+                                            }else if(data.type == "checkbox-group"){
+                                                if(data.name == "payment-plan[]"){
+                                                    return(
+                                                        <div>
+                                                            <div>
+                                                                <label className='mt-3 font-bold' htmlFor="">
+                                                                    <div className="d-flex">
+                                                                        {data.label} 
+                                                                        {
+                                                                            data.description != undefined ? 
+                                                                                <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                    <div><i className='fa fa-circle-info'></i></div>
+                                                                                </Tooltip>
+                                                                            : ""
+                                                                        }
+                                                                        {data.required ? <span className='required-span'>*</span> : ""}
+                                                                    </div>
+                                                                </label>
+                                                                <div className="checkbox-groups" id={data?.name.replace('[]','')}>
+                                                                    <div className="row">
+                                                                        {
+                                                                            data.values.map((valueCheckbox) => {
+                                                                                return (
+                                                                                    <div className="col-md-3">
+                                                                                        <FormControlLabel control={<Switch label={valueCheckbox.label} checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}} />} label={valueCheckbox.label} />
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                        {
+                                                                            allErrors.includes(data?.name.replace('[]','')) ?
+                                                                                <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+                                                                            : ""
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
+                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
+                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <div className={(isX ? "d-none" : "")}>
+                                                            <div className="d-flex">
+                                                                {data.label} 
+                                                                {
+                                                                    data.description != undefined ? 
+                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                            <div><i className='fa fa-circle-info'></i></div>
+                                                                        </Tooltip>
+                                                                    : ""
+                                                                }
+                                                                {data.required ? <span className='required-span'>*</span> : ""}
+                                                            </div>
+                                                            {
+                                                                data?.className?.includes('project-not-change') ? 
+                                                                    <div className="info-small-area">
+                                                                        Bu alan projelerde seçilmesi zorunlu alandır değiştiremezsiniz
+                                                                    </div>
+                                                                : ''
+                                                            }
+                                                            <div className="checkbox-groups">
+                                                                <div className="row">
+                                                                    {
+                                                                        data.values.map((valueCheckbox) => {
+                                                                            return (
+                                                                                <div className="col-md-3">
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                
+                                            }else if(data.type == "file"){
+                                                return (
+                                                    <div className={'form-group '+(isX ? "d-none" : "")}>
+                                                        <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                        <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                        <div className='project_imaget'>
+                                                            <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(slug == "gunluk-kiralik" && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-sale")){
                                     if(!data?.className?.includes("project-disabled")){
                                         if(!data?.className?.includes('only-not-show-project')){
                                             if(data.type == "text"){
@@ -516,44 +1111,6 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 }else{
                                                     return(
                                                         <div>
-                                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                                            <div className="checkbox-groups">
-                                                                <div className="row">
-                                                                    {
-                                                                        data.values.map((valueCheckbox) => {
-                                                                            return (
-                                                                                <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
-                                                                                </div>
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                }
-                                                
-                                            }else if(data.type == "file"){
-                                                return (
-                                                    <div className='form-group'>
-                                                        <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                                        <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
-                                                        <div className='project_imaget'>
-                                                            <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
-                                        }
-                                    }
-                                }else if(slug == "kiralik" && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-sale")){
-                                    if(!data?.className?.includes("project-disabled")){
-                                        if(!data?.className?.includes('only-not-show-project')){
-                                            if(data.type == "text"){
-                                                return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                        <label className='font-bold' htmlFor="">
                                                             <div className="d-flex">
                                                                 {data.label} 
                                                                 {
@@ -565,115 +1122,20 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                 }
                                                                 {data.required ? <span className='required-span'>*</span> : ""}
                                                             </div>
-                                                        </label>
-                                                        {
-                                                            data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
-                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
-                                                            : 
-                                                                <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
-                                                        }
-                                                    </div>
-                                                )
-                                            }else if(data.type == "date"){
-                                                return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                        <label className='font-bold' htmlFor="">
-                                                            <div className="d-flex">
-                                                                {data.label} 
-                                                                {
-                                                                    data.description != undefined ? 
-                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
-                                                                            <div><i className='fa fa-circle-info'></i></div>
-                                                                        </Tooltip>
-                                                                    : ""
-                                                                }
-                                                                {data.required ? <span className='required-span'>*</span> : ""}
-                                                            </div>
-                                                        </label>
-                                                        <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
-                                                    </div>
-                                                )
-                                            }else if(data.type == "select"){
-                                                return(
-                                                    <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                        <label className='font-bold' htmlFor="">
-                                                            <div className="d-flex">
-                                                                {data.label} 
-                                                                {
-                                                                    data.description != undefined ? 
-                                                                        <Tooltip className='mx-2' title={data.description} placement="top-start">
-                                                                            <div><i className='fa fa-circle-info'></i></div>
-                                                                        </Tooltip>
-                                                                    : ""
-                                                                }
-                                                                {data.required ? <span className='required-span'>*</span> : ""}
-                                                            </div>
-                                                        </label>
-                                                        <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                             {
-                                                                data.values.map(valueSelect => {
-                                                                    return(
-                                                                        <option value={valueSelect.value}>{valueSelect.label}</option>
-                                                                    )
-                                                                })
+                                                                data?.className?.includes('project-not-change') ? 
+                                                                    <div className="info-small-area">
+                                                                        Bu alan projelerde seçilmesi zorunlu alandır değiştiremezsiniz
+                                                                    </div>
+                                                                : ''
                                                             }
-                                                        </select>
-                                                    </div>
-                                                )
-                                            }else if(data.type == "checkbox-group"){
-                                                if(data.name == "payment-plan[]"){
-                                                    return(
-                                                        <div>
-                                                            <div>
-                                                                <label className='mt-3 font-bold' htmlFor="">
-                                                                    <div className="d-flex">
-                                                                        {data.label} 
-                                                                        {
-                                                                            data.description != undefined ? 
-                                                                                <Tooltip className='mx-2' title={data.description} placement="top-start">
-                                                                                    <div><i className='fa fa-circle-info'></i></div>
-                                                                                </Tooltip>
-                                                                            : ""
-                                                                        }
-                                                                        {data.required ? <span className='required-span'>*</span> : ""}
-                                                                    </div>
-                                                                </label>
-                                                                <div className="checkbox-groups" id={data?.name.replace('[]','')}>
-                                                                    <div className="row">
-                                                                        {
-                                                                            data.values.map((valueCheckbox) => {
-                                                                                return (
-                                                                                    <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Switch label={valueCheckbox.label} checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                        {
-                                                                            allErrors.includes(data?.name.replace('[]','')) ?
-                                                                                <Alert severity="error">Harita üzerine bir konum seçin</Alert>
-                                                                            : ""
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                }else{
-                                                    return(
-                                                        <div>
-                                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                                             <div className="checkbox-groups">
                                                                 <div className="row">
                                                                     {
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })

@@ -252,7 +252,23 @@ function CreateHousing(props) {
 
         if(blocks.length > 0){
             formDataHousing.forEach((formDataHousing) => {
-                if(slug == "satilik"){
+                if(slug == "satilik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                console.log(formDataHousing);
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                if(slug == "devren-satilik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "project-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
                     if(!formDataHousing.className.includes('project-disabled')){
                         if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
                             if(formDataHousing.required){
@@ -260,7 +276,46 @@ function CreateHousing(props) {
                                     console.log(formDataHousing);
                                     tempErrors.push(formDataHousing.name.replace("[]",""))
                                 }else{
-                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                                    if(blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                                        console.log(blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]);
+                                    }
+                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+
+                if(slug == "kiralik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                            if(formDataHousing.required){
+                                if(blocks.length < 1){
+                                    console.log(formDataHousing);
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }else{
+                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+
+                if(slug == "devren-kiralik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                            if(formDataHousing.required){
+                                if(blocks.length < 1){
+                                    console.log(formDataHousing);
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }else{
+                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
                                         tempErrors.push(formDataHousing.name.replace("[]",""))
                                     }
                                 }
@@ -314,6 +369,8 @@ function CreateHousing(props) {
                 }
             }
         }
+
+        console.log(tempErrors);
 
         if(!projectData.rules_confirm){
             tempErrors.push("rules_confirm");

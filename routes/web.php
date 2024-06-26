@@ -443,7 +443,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
-        Route::get('/admin/housings/filter', [HousingController::class, 'filterById'])->name('housings.filter');
+        Route::get('/housings/filter', [HousingController::class, 'filterById'])->name('housings.filter');
 
 
         Route::get('/housings/is-share', [HousingController::class, 'isShareİndex'])->name('is_share.housings.index');

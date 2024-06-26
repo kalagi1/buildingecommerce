@@ -698,10 +698,10 @@ class ProjectController extends Controller
         if ($slug) {
             if ($is_project) {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
+                
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
-
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
@@ -780,7 +780,7 @@ class ProjectController extends Controller
                         }
                     }
                 }
-
+                
                 $anotherProjects = $query->get();
                 $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
                     ->orderBy('id', 'asc')
@@ -796,7 +796,6 @@ class ProjectController extends Controller
                 if ($housingType) {
                     $query->where('housing_type_id', $housingType);
                 }
-
                 if ($opt) {
                     $query->where('step2_slug', $opt);
                 }
@@ -1282,7 +1281,6 @@ class ProjectController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
-
 
         return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
     }

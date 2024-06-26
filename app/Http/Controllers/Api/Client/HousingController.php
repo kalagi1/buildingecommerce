@@ -11,6 +11,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HousingController extends Controller {
     public function getDashboardStatuses() {
@@ -33,21 +34,29 @@ class HousingController extends Controller {
         $housingTypeData = json_decode( $housing->housing_type_data, true );
 
         $housingType = HousingType::find( $housing->housing_type_id );
-        foreach ( $housingTypeData as $key => $value ) {
-
-            if ( $housingType ) {
-                $formJsonItems = json_decode( $housingType->form_json, true ) ?? [];
-
-                foreach ( $formJsonItems as $formJsonItem ) {
-                    $formJsonItemName = rtrim( $formJsonItem[ 'name' ], '[]' );
-
-                    // Remove the last character '1' if it exists in the key
-                    $keyWithoutLastCharacter = rtrim( $key, '1' );
-
-                    // Check for equality after removing the last character
-                    if ( isset( $formJsonItem[ 'name' ] ) && $formJsonItemName === $keyWithoutLastCharacter ) {
-                        $labels[ $formJsonItem[ 'label' ] ] = $value;
-                        break;
+        foreach ($housingTypeData as $key => $value) {
+            if ($housingType) {
+                $formJsonItems = json_decode($housingType->form_json, true) ?? [];
+        
+                foreach ($formJsonItems as $formJsonItem) {
+                    // Check if $formJsonItem is an array
+                    if (is_array($formJsonItem)) {
+                        // Proceed with operations on $formJsonItem
+                        if (isset($formJsonItem['name'])) {
+                            $formJsonItemName = rtrim($formJsonItem['name'], '[]');
+                            
+                            // Remove the last character '1' if it exists in the key
+                            $keyWithoutLastCharacter = rtrim($key, '1');
+        
+                            // Check for equality after removing the last character
+                            if ($formJsonItemName === $keyWithoutLastCharacter) {
+                                // Ensure $formJsonItem has 'label' key before accessing it
+                                if (isset($formJsonItem['label'])) {
+                                    $labels[$formJsonItem['label']] = $value;
+                                }
+                                break; // Exit the inner loop once a match is found
+                            }
+                        }
                     }
                 }
             }
@@ -164,5 +173,44 @@ class HousingController extends Controller {
             "inactiveHousingTypes" => $inactiveHousingTypes,
             "activeHousingTypes" => $activeHousingTypes,
         ]);
+    }
+
+
+    public function sendComment( Request $request, $id ) {
+        $housing = Housing::where( 'id', $id )->with( 'user' )->first();
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+            ]
+        );
+
+        if ( $validator->fails() ) {
+            return redirect()->back()->withErrors( $validator->errors() );
+        }
+
+        $rate = $request->input( 'rate' );
+        $comment = $request->input( 'comment' );
+
+        $images = [];
+        if ( is_array( $request->images ) ) {
+            foreach ( $request->images as $image ) {
+                $images[] = $image->store( 'public/housing-comment-images' );
+            }
+        }
+
+       $housingComment = HousingComment::create(
+            [
+                'user_id' => auth()->user()->id,
+                'housing_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'images' => json_encode( $images ),
+                'owner_id' => $housing->user_id,
+            ]
+        );
+
+        return response()->json(['message' => 'success'], 200);
     }
 }

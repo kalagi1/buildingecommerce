@@ -27,6 +27,7 @@ function CreateProject(props) {
     const [selectedRoom,setSelectedRoom] = React.useState(0);
     const [anotherBlockErrors,setAnotherBlockErrors] = React.useState(0);
     const [slug,setSlug] = React.useState("")
+    const [errorMessages,setErrorMessages] = React.useState([]);
     const setProjectDataFunc = (key,value) => {
         setProjectData({
             ...projectData,
@@ -72,6 +73,8 @@ function CreateProject(props) {
         // createRoom işlevini çağır ve bekleyerek sonucu döndür
         return await createRoom(formData);
     };
+
+    console.log(errorMessages);
 
     const createProject = () => {
         var formDataHousing = JSON.parse(selectedHousingType?.housing_type?.form_json);
@@ -211,6 +214,48 @@ function CreateProject(props) {
                                                                     top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                                     behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                                 }); 
+                                                            }else{
+                                                                var element = document.getElementById("start_date_id");
+                                                                
+                                                                if(projectData.start_date){
+                                                                    const selectedDate = new Date(projectData.start_date);
+                                                                    const minDate = new Date('2010-01-01');
+                                                                    const maxDate = new Date('2050-01-01');
+                                                            
+                                                                    if (selectedDate < minDate) {
+                                                                        window.scrollTo({
+                                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                        }); 
+                                                                    } else if (selectedDate > maxDate) {
+                                                                        window.scrollTo({
+                                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                        }); 
+                                                                    }
+                                                                }
+                                                                
+                                                                var element = document.getElementById("end_date_id");
+
+                                                                if(projectData.end_date){
+                                                                    const selectedDate = new Date(projectData.start_date);
+                                                                    const minDate = new Date('2010-01-01');
+                                                                    const maxDate = new Date('2050-01-01');
+                                                            
+                                                                    if (selectedDate < minDate) {
+                                                                        window.scrollTo({
+                                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                        });
+                                                                    } else if (selectedDate > maxDate) {
+                                                                        window.scrollTo({
+                                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                        });
+                                                                    }
+                                                                }
+
+                                                                setErrorMessages(tempErrorMessages);
                                                             }
                                                         }
                                                     }
@@ -227,18 +272,111 @@ function CreateProject(props) {
             }
         }
 
+        var tempErrorMessages = {};
+        if(projectData.start_date){
+            const selectedDate = new Date(projectData.start_date);
+            const minDate = new Date('2010-01-01');
+            const maxDate = new Date('2050-01-01');
+    
+            if (selectedDate < minDate) {
+                tempErrorMessages['start_date'] = "Başlangıç Tarihi 2010 yılından öncesi olamaz"
+                tempErrors.push("start_date");
+            } else if (selectedDate > maxDate) {
+                tempErrorMessages['start_date'] = "Başlangıç Tarihi 2050 yılından sonrası olamaz"
+                tempErrors.push("start_date");
+            }
+        }
+
+        if(projectData.end_date){
+            const selectedDate = new Date(projectData.end_date);
+            const minDate = new Date('2010-01-01');
+            const maxDate = new Date('2050-01-01');
+    
+            if (selectedDate < minDate) {
+                tempErrorMessages['end_date'] = "Bitiş Tarihi 2010 yılından öncesi olamaz"
+                tempErrors.push("end_date");
+            } else if (selectedDate > maxDate) {
+                tempErrorMessages['end_date'] =  "Bitiş Tarihi 2050 yılından sonrası olamaz"
+                tempErrors.push("end_date");
+            }
+        }
+
+        setErrorMessages(tempErrorMessages);
+
         if(blocks.length > 0){
             formDataHousing.forEach((formDataHousing) => {
-                if(!formDataHousing.className.includes('project-disabled')){
-                    if(formDataHousing.required){
-                        if(blocks.length < 1){
-                            tempErrors.push(formDataHousing.name.replace("[]",""))
-                        }else{
-                            if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                if(slug == "satilik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
                             }
+                            
                         }
-                        
+                    }
+                }
+                
+                if(slug == "devren-satilik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                if(slug == "kiralik" && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                if(slug == "devren-kiralik" && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+
+                if(slug == "gunluk-kiralik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
                     }
                 }
             })
@@ -288,8 +426,7 @@ function CreateProject(props) {
         }
 
         setAllErrors(tempErrors);
-
-        console.log(tempErrors,anotherBlockErrorsTemp);
+        
         if(tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0){
             setLoadingModal(true);
             const formData = new FormData();
@@ -433,7 +570,7 @@ function CreateProject(props) {
                 step == 1 ? 
                     <TypeList setSlug={setSlug} slug={slug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <ProjectForm slug={slug} formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} selectedTypes={selectedTypes} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <ProjectForm errorMessages={errorMessages} slug={slug} formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} selectedTypes={selectedTypes} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSection/>
             }
