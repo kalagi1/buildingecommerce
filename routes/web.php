@@ -98,6 +98,7 @@ use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
 use App\Http\Controllers\Client\BidController;
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
+use App\Http\Controllers\GoogleSheetsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1256,3 +1257,6 @@ Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->n
 Route::get('qR9zLp2xS6y/secured/destek/takip', [AdminSupportController::class, 'index'])->name('admin.support.index');
 Route::post('qR9zLp2xS6y/secured/destek/yanit', [AdminSupportController::class, 'returnSupport'])->name('admin.return.support');
 Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle', [AdminSupportController::class, 'returnSupportEdit'])->name('admin.return.support.edit');
+
+
+Route::post('/webhook/google-sheets', [GoogleSheetsController::class, 'handleWebhook']);
