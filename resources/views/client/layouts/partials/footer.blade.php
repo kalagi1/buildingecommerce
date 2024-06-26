@@ -41,7 +41,7 @@
     <div class="second-footer bg-white-3">
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 5px;">
-                <span id="current-year"></span> © Copyright - Tüm hakları saklıdır. @kodturk
+                <span id="current-year"></span> © Copyright - emlaksepette.com
             </p>
             
             <script>
