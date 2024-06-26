@@ -10,6 +10,8 @@ use App\Models\City;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\SharerPrice;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
@@ -194,6 +196,8 @@ class AuthController extends Controller
                     $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id", "desc")->limit(6)->get();
                     $totalStatus1Count = $balanceStatus1Lists->count();
                     $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+                    $housingFavorites = HousingFavorite::where("user_id", Auth::user()->id)->count();
+                    $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)->count();
 
 
                     return response()->json([
@@ -208,6 +212,8 @@ class AuthController extends Controller
                         "account_type" => $user->account_type,
                         "corporate_type" => $user->corporate_type,
                         'has_club' => $user->has_club,
+                        "housingFavorites" => $housingFavorites,
+                        "projectFavorites"=> $projectFavorites,
                         'profile_image' => $user->profile_image,
                         'banner_hex_code' => $user->banner_hex_code,
                         "phone_verification_status" => $user->phone_verification_status,
