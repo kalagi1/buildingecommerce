@@ -51,7 +51,7 @@
                                         title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
                                 <input type="text" name="iban" id="ibanInput"
                                     class="form-control @error('iban') is-invalid @enderror"
-                                    value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
+                                    value="{{$user->iban }}" oninput="formatIBAN(this)">
                                 @error('iban')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
