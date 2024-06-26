@@ -191,6 +191,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     }); 
     Route::post('/update-cart-qt', [ApiCartController::class, 'updateqt'])->name('cart.update.qt');
     Route::post('/update-cart', [ApiCartController::class, 'update'])->name('cart.update');
+    Route::post('/remove-from-cart', [ApiCartController::class, 'removeFromCart'])->name('client.remove.from.cart');
 
     Route::get('/user/notification', [AuthController::class, "getUserNotifications"])->name('getUserNotifications');
     Route::get('/notifications', [AuthController::class, 'getAllNotifications']);

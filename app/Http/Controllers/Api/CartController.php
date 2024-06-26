@@ -136,4 +136,18 @@ class CartController extends Controller
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function removeFromCart(Request $request)
+    { 
+        session()->forget('cart');
+    
+        $cartItem = CartItem::where('user_id', Auth::guard('api')->user()->id)->first();
+        if ($cartItem) {
+            $cartItem->delete();
+            return response()->json(['status' => 'success', 'message' => 'Sepet temizlendi.'], 200);
+        }
+        
+        return response()->json(['status' => 'fail', 'message' => 'Sepette ürün bulunamadı.'], 404);
+    
+    }
 }

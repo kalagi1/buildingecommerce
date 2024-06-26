@@ -216,6 +216,7 @@ class AuthController extends Controller
                         'banner_hex_code' => $user->banner_hex_code,
                         "phone_verification_status" => $user->phone_verification_status,
                         'role' => $user->role->name,
+                        'role_id' => $user->role->id,
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
                         "cartItem" => $cartItem ? $cartItem : null,
