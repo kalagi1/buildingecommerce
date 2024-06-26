@@ -214,7 +214,7 @@ class AuthController extends Controller
                         'role' => $user->role->name,
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
-                        "cartItem" => $cartItem,
+                        "cartItem" => $cartItem ? $cartItem : null,
                         "corporateAccountStatus" => $user->corporate_account_status,
                         'email' => $user->email,
                         'mobile_phone' => $user->mobile_phone,
