@@ -10,6 +10,8 @@ use App\Models\City;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\SharerPrice;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
@@ -107,7 +109,7 @@ class AuthController extends Controller
             } elseif ($user->status == 1) {
                 if (Auth::attempt($credentials, $request->filled('remember'))) {
                     $user = Auth::user();
-                    $updateUser = User::where('id', Auth::user()->id)->first();
+                    $updateUser = User::where('id', $user->id)->first();
 
                     if ($user->type == 1 && !$user->last_login) {
                         // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
@@ -191,9 +193,11 @@ class AuthController extends Controller
                         ->where("status", "2")
                         ->sum('balance');
 
-                    $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id", "desc")->limit(6)->get();
+                    $collections = Collection::with("links")->where("user_id", $user->id)->orderBy("id", "desc")->limit(6)->get();
                     $totalStatus1Count = $balanceStatus1Lists->count();
                     $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+                    $housingFavorites = HousingFavorite::where("user_id", $user->id)->count();
+                    $projectFavorites = ProjectFavorite::where("user_id", $user->id)->count();
 
 
                     return response()->json([
@@ -215,6 +219,8 @@ class AuthController extends Controller
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
                         "cartItem" => $cartItem ? $cartItem : null,
+                        "housingFavoritesCount" => $housingFavorites,
+                        "projectFavoritesCount"=> $projectFavorites,
                         "corporateAccountStatus" => $user->corporate_account_status,
                         'email' => $user->email,
                         'mobile_phone' => $user->mobile_phone,
