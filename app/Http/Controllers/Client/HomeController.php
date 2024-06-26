@@ -510,6 +510,9 @@ class HomeController extends Controller
 
     public function getRenderedSecondhandHousings(Request $request)
     {
+
+        
+
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -782,7 +785,8 @@ class HomeController extends Controller
             $obj = $obj->where('housings.created_at', '>=', now()->subDays($request->input('listing_date')));
         }
 
-        if ($request->has('corporateType') && $request->input('corporateType') !== null) {
+    
+        if ($request->has('corporateType') && $request->input('corporateType') !== null && $request->input('corporateType') !== "all") {
 
             if ($request->input('corporateType') != "Sahibinden") {
                 $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
