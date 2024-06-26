@@ -18,6 +18,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
             var defaultValuues = [];
             var checkedItemsTemp = [];
             for(var i = 0 ; i < roomCount; i++){
+                defaultValuues.push({});
                 formData.map((data) => {
                     if(data?.className?.includes('project-default-checked')){
                         console.log(data);
@@ -82,6 +83,8 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                 return block;
             }
         })
+
+        console.log(newDatas);
 
         var newErrors = validationErrors.filter((validationError) => validationError != keyx);
 

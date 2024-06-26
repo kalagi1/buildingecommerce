@@ -38,6 +38,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
             var checkedItemsTemp = [];
             for(var i = 0 ; i < roomCount; i++){
                 formData.map((data) => {
+                    defaultValuues.push({});
                     if(data?.className?.includes('project-default-checked')){
                         console.log(data);
                         checkedItemsTemp.push({
@@ -447,7 +448,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -619,7 +620,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -791,7 +792,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -967,7 +968,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
@@ -1135,7 +1136,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                                         data.values.map((valueCheckbox) => {
                                                                             return (
                                                                                 <div className="col-md-3">
-                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                 </div>
                                                                             )
                                                                         })
