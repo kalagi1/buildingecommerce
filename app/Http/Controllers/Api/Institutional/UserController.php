@@ -83,7 +83,7 @@ class UserController extends Controller
         $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
     
         // Erişim token'ı oluştur
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $accessToken = auth()->guard("api")->user()->createToken('authToken')->accessToken;
     
         // Kullanıcı verilerini bir diziye aktar
         $userData = [
