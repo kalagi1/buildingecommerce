@@ -54,7 +54,7 @@ function RoomNavigator({formDataHousing,selectedRoom,setSelectedRoom,blocks,setB
             if(!formData[i]?.className?.includes("project-disabled")){
                 if(formData[i].required){
                     requiredCount++;
-                    if(blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "" && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "Seçiniz"){
+                    if(blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "" && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "Seçiniz"){
                         rightCount++;
                     }
                 }
