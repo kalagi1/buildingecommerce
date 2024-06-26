@@ -543,7 +543,8 @@
 
             page++;
             var url = "{{ route('load-more-housings') }}?page=" + page;
-
+  
+            
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
