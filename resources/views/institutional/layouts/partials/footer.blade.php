@@ -88,8 +88,6 @@
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js" defer>
 </script>
 
-{{-- <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js" defer></script> --}}
-@vite('resources/js/app.jsx') 
 
 <!--FormBuilder-->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" defer></script>
