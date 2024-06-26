@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartItem;
 use App\Models\Chat;
 use App\Models\Collection;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\Role;
 use App\Models\SharerPrice;
 use App\Models\User;
@@ -80,8 +83,80 @@ class UserController extends Controller
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
         $permissions = array_values($permissions);
 
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+            return $rolePermission->permissions->pluck('key');
+        })->unique()->toArray();
+
+
+        $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
+            ->where("status", "0")->get();
+
+        $balanceStatus0 = SharerPrice::where("user_id", $user->id)
+            ->where("status", "0")
+            ->sum('balance');
+
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)
+            ->where("status", "1")->get();
+
+        $balanceStatus1 = SharerPrice::where("user_id", $user->id)
+            ->where("status", "1")
+            ->sum('balance');
+
+
+        $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)
+            ->where("status", "2")->get();
+
+        $balanceStatus2 = SharerPrice::where("user_id", $user->id)
+            ->where("status", "2")
+            ->sum('balance');
+
+        $collections = Collection::with("links")->where("user_id", $user->id)->orderBy("id", "desc")->limit(6)->get();
+        $totalStatus1Count = $balanceStatus1Lists->count();
+        $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+        $housingFavorites = HousingFavorite::where("user_id", $user->id)->count();
+        $projectFavorites = ProjectFavorite::where("user_id", $user->id)->count();
+        $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
+
+
+        $userData = response()->json([
+            "status" => 200,
+            'success' => true,
+            'id' => $user->id,
+            'name' => $user->name,
+            "bank_name" => $user->bank_name,
+            "iban" => $user->iban,
+            "longitude" => $user->longitude,
+            "latitude" => $user->latitude,
+            "account_type" => $user->account_type,
+            "corporate_type" => $user->corporate_type,
+            'has_club' => $user->has_club,
+            'profile_image' => $user->profile_image,
+            'banner_hex_code' => $user->banner_hex_code,
+            "phone_verification_status" => $user->phone_verification_status,
+            'role' => $user->role->name,
+            'role_id' => $user->role->id,
+            'slug' => $user->role->slug,
+            "buyerStatus" => $user->status,
+            "cartItem" => $cartItem ? $cartItem : null,
+            "housingFavoritesCount" => $housingFavorites,
+            "projectFavoritesCount"=> $projectFavorites,
+            "corporateAccountStatus" => $user->corporate_account_status,
+            'email' => $user->email,
+            'mobile_phone' => $user->mobile_phone,
+            'access_token' => $accessToken,
+            "rolePermissions" => $user->role->rolePermissions,
+            "permissions" => $permissions,
+            "works" => $user->works,
+            'token_type' => 'Bearer',
+            "balanceStatus1Lists" => $balanceStatus1Lists,
+            "balanceStatus0" => $balanceStatus0,
+            "balanceStatus2" => $balanceStatus2,
+            "successPercentage" => $successPercentage,
+            "collections" => $collections
+        ]);
         return response()->json([
-            'user' => $user,
+            'user' => $userData,
             "balanceStatus1" => $balanceStatus1,
             "balanceStatus0" => $balanceStatus0,
             "balanceStatus2" => $balanceStatus2,
