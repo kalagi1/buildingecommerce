@@ -41,9 +41,13 @@
     <div class="second-footer bg-white-3">
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
-                <span>2023 © Copyright - Tüm hakları saklıdır. @kodturk</span>
-
+                <span id="current-year"></span> © Copyright - Tüm hakları saklıdır. @kodturk
             </p>
+            
+            <script>
+                document.getElementById("current-year").textContent = new Date().getFullYear();
+            </script>
+            
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
                     <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
