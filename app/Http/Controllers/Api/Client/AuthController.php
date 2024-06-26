@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\CartItem;
 use App\Models\Chat;
 use App\Models\City;
 use App\Models\Collection;
@@ -86,7 +87,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
         if ($user) {
-
+            $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
             if ($user->status == 0) {
                 $this->sendVerificationEmail($user);
                 return json_encode([
@@ -213,6 +214,7 @@ class AuthController extends Controller
                         'role' => $user->role->name,
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
+                        "cartItemCount" => $cartItem,
                         "corporateAccountStatus" => $user->corporate_account_status,
                         'email' => $user->email,
                         'mobile_phone' => $user->mobile_phone,
