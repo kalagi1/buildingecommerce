@@ -1,5 +1,25 @@
 @props(['housing', 'sold'])
 
+@php 
+
+if (!function_exists('checkIfUserCanAddToCart')) {
+    function checkIfUserCanAddToCart($housingId)
+    {
+        $user = auth()->user();
+
+        // Check if the user is logged in
+        if ($user) {
+            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+            $exists = $user->housings()->where('id', $housingId)->exists();
+            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+        }
+
+        return true; // Return false if user is not logged in
+    }
+}
+
+@endphp
+
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">

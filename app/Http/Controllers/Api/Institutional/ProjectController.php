@@ -477,7 +477,7 @@ class ProjectController extends Controller
                 if (!$housingTypeInputs[$j]->multiple) {
                     $imageRoom = $request->file('room')['image'];
                     if ($imageRoom) {
-                        $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp) . '.' . $imageRoom->getClientOriginalExtension();
+                        $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp).uniqid() . '.' . $imageRoom->getClientOriginalExtension();
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
 
@@ -845,7 +845,7 @@ class ProjectController extends Controller
             $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
 
             // Dosyayı belirlenen hedefe taşı
-            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . time() . '.' . $file->getClientOriginalExtension();
+            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameGalleryImage);
             $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
             $imageWidth = $image->width();
