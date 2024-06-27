@@ -1197,9 +1197,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
     Route::get('user-projects/{userId}',[CrmController::class,'getUserProjects']);
 
-Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
-Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
-Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+    Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
+    Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
+    Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+
+    Route::post('add-user', [CrmController::class, 'addUser']);
 
 });
 
