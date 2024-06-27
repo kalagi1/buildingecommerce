@@ -6,8 +6,12 @@
         <div>
             <div class="single homes-content details mb-30">
                 <!-- title -->
-                <h5 class="mb-4" style="border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;">
+                <h5 class="mb-4"
+                    style="    border-bottom: 1px solid #ddd;
+    background: #ea2a28 !important;
+    color: white;
+    margin: 0;
+    padding: 10px;">
                     @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                         Portföylerim
                     @else
@@ -31,7 +35,8 @@
 
                                         <div class="col-auto" style="display: flex;align-items:center">
                                             <div>
-                                                <button class="btn btn-sm" style="padding:0;background-color:white !important" type="button"
+                                                <button class="btn btn-sm"
+                                                    style="padding:0;background-color:white !important" type="button"
                                                     data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
                                                     aria-expanded="true" data-bs-reference="parent">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -153,20 +158,20 @@
                                                 </p>
                                             </div>
                                             @if (Auth::check() && Auth::user()->type != '1' && Auth::user()->type != '3')
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important; margin-right: 10px;">
-                                                    Mağazamda paylaş
-                                                </p>
-                                                <div class="form-switch text-center pb-0 mb-0"
-                                                style="height: 15px">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="brandToggle_{{ $collection->id }}"
-                                                        {{ $collection->status == 1 ? 'checked' : '' }}
-                                                        onchange="toggleBrandStatus({{ $collection->id }}, this)" />
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <p class="fw-bold mb-0 lh-1"
+                                                        style="font-size: 12px !important; margin-right: 10px;">
+                                                        Mağazamda paylaş
+                                                    </p>
+                                                    <div class="form-switch text-center pb-0 mb-0" style="height: 15px">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="brandToggle_{{ $collection->id }}"
+                                                            {{ $collection->status == 1 ? 'checked' : '' }}
+                                                            onchange="toggleBrandStatus({{ $collection->id }}, this)" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endif
-                                        
+                                            @endif
+
 
 
                                         </div>
@@ -313,9 +318,8 @@
         }
 
         .homes-content .row {
-    width: 100% !important;
-    margin:0 auto;
-}
-        
+            width: 100% !important;
+            margin: 0 auto;
+        }
     </style>
 @endsection
