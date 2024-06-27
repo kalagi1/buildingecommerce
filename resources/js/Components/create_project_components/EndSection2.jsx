@@ -9,7 +9,6 @@ function EndSection2(props) {
                             <div className="icon"><i className="fa fa-thumbs-up"></i></div>
                             <div className="text">Başarıyla ilanı güncellediniz</div>
                             <div className="text"><a href="/institutional/konutlar" className="btn btn-info">Mağazama Git</a></div>
-                            <a href="/institutional/create_housing_v3" className="btn btn-info mx-2">Yeni İlan Ekle</a>
                         </div>
                     </div>
                 </div>
