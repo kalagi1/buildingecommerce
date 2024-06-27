@@ -58,6 +58,43 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
+        <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Canonical URL için bölüm -->
+    @if (isset($canonicalUrl))
+        <link rel="canonical" href="canonical-url" />
+    @endif
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <meta name="msapplication-TileImage" content="{{ URL::to('/') }}/favicon.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="{{ URL::to('/') }}/adminassets/assets/js/config.js"></script>
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
+        rel="stylesheet">
+    <link href="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet"
+        id="style-rtl">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
+        id="style-default">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/user-rtl.min.css" type="text/css" rel="stylesheet"
+        id="user-style-rtl">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/user.min.css" type="text/css" rel="stylesheet"
+        id="user-style-default">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/leaflet-locationpicker.src.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
