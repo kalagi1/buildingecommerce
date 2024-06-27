@@ -522,7 +522,7 @@
                                             'mainLink' => 'Hesabım',
                                             'links' => [
                                                 [
-                                                    'url' =>  route('institutional.dashboard', ['slug' => auth()->user()->name, 'userID' => auth()->user()->id]),
+                                                    'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
                                                     'icon' => 'fas fa-store',
                                                     'text' => 'Mağazam',
                                                 ],
