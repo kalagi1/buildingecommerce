@@ -295,6 +295,8 @@ class HousingController extends Controller
         $housingType = HousingType::where('id', $housing->housing_type_id)->first();
         $housingTypeData = json_decode($housingType->form_json);
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
+        $parent2 = HousingTypeParent::where('slug', $housing->step2_slug)->first();
+
         $housingCityId = (int) $housing->city_id;
 
         $nearestUsers = User::with('city','district')
@@ -322,7 +324,7 @@ class HousingController extends Controller
         
 
 
-        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers','housingType'));
+        return vieW('admin.housings.detail', compact('housing', "parent2","rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers','housingType'));
     }
 
     public function setStatus($housingId, Request $request)
