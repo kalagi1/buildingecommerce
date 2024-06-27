@@ -2009,11 +2009,9 @@
 <script src="{{ URL::to('/') }}/adminassets/vendors//bootstrap/bootstrap.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//anchorjs/anchor.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//is/is.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//fontawesome/all.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//lodash/lodash.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//list.js/list.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//feather-icons/feather.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//dayjs/dayjs.min.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/assets//js/phoenix.js" ></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js" ></script>
