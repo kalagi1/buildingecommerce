@@ -830,8 +830,8 @@
                                 }
                             @endphp
                             @foreach ($groupedMenuData as $label => $groupedMenu)
-                                <li><a href="#">{{ $label }}</a></li>
-                                @php
+                                <li><a href="#">{{ $label }}</a>
+                                    @php
                                     $hasVisibleMenus = false;
                                 @endphp
 
@@ -959,19 +959,12 @@
                                         @endforeach
                                     </ul>
                                 @endif
+                                </li>
+                              
 
 
                             @endforeach
 
-                            <li class="club-items mobile-show">
-                                <a href="{{ url('/emlak-kulup') }}">
-                                    <b style="font-weight:800 !important;display:flex">
-                                        <img style="" class="lazy entered loading clubStyles"
-                                            src="{{ url('emlakkulüplogo.png') }}" alt="Yeniler"
-                                            data-ll-status="loading">
-                                        EMLAK KULÜP</b>
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
