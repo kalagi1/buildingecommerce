@@ -374,12 +374,13 @@
     <style>
         .nav-tabs .nav-link {
             color: black !important;
-            border-color:#e9ecef #e9ecef #dee2e6;
+            box-shadow: 0 0 0 1px rgba(71, 85, 95, 0.08) !important;
         }
 
         .nav-tabs .nav-link.active,
         .nav-tabs .nav-item.show .nav-link {
-            color: white !important;
+            color: #274abb !important;
+            background-color: white !important;
         }
 
         .ml-2 {
