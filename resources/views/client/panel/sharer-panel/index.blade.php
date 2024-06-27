@@ -18,8 +18,7 @@
                     @if (count($collections) > 0)
                         @foreach ($collections as $collection)
                             <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
-                                <div
-                                    class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
+                                <div class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
                                     <div class="card-header border-bottom bg-white mb-3"
                                         style="display: flex;
                                 justify-content: space-between;
@@ -120,9 +119,9 @@
                                                                     Koleksiyon Adı:
                                                                 @endif
                                                             </label>
-                                                            <input type="text" class="form-control"
-                                                                id="collectionName" name="collectionName"
-                                                                value="{{ $collection->name }}" required>
+                                                            <input type="text" class="form-control" id="collectionName"
+                                                                name="collectionName" value="{{ $collection->name }}"
+                                                                required>
                                                         </div>
 
                                                         <button type="submit" class="btn btn-primary">Güncelle</button>
@@ -304,7 +303,7 @@
 @endsection
 
 
-@section('css')
+@section('styles')
     <style>
         @media (max-width:768px) {
 
@@ -314,7 +313,7 @@
         }
 
         .border {
-    border: 1px solid #dee2e6 !important;
-}
+            border: 1px solid #dee2e6 !important;
+        }
     </style>
 @endsection
