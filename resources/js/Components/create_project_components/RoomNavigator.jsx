@@ -124,7 +124,7 @@ function RoomNavigator({formDataHousing,selectedRoom,setSelectedRoom,blocks,setB
         var tempErrors = [];
         if(blocks.length > 0){
             formDataHousing.forEach((formDataHousing) => {
-                if(!formDataHousing.className.includes('project-disabled')){
+                if(!formDataHousing?.className?.includes('project-disabled')){
                     if(formDataHousing.required){
                         if(blocks.length < 1){
                             tempErrors.push(formDataHousing.name.replace("[]",""))
