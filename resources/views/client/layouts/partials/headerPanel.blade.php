@@ -408,7 +408,7 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-        @if (request()->routeIs('index'))
+
             <div class="slick-lancersl">
                 @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
@@ -417,7 +417,6 @@
                     </div>
                 @endforeach
             </div>
-        @endif
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
