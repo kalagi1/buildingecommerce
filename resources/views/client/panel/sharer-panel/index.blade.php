@@ -157,7 +157,8 @@
                                                 <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important; margin-right: 10px;">
                                                     Mağazamda paylaş
                                                 </p>
-                                                <div class="form-check form-switch text-center pb-0 mb-0">
+                                                <div class="form-switch text-center pb-0 mb-0"
+                                                style="height: 15px">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="brandToggle_{{ $collection->id }}"
                                                         {{ $collection->status == 1 ? 'checked' : '' }}
