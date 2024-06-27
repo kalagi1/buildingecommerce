@@ -1,6 +1,9 @@
 @extends('client.layouts.masterPanel')
 @section('content')
-asasas
+
+
+
+
 @endsection
 
 @section('scripts')
