@@ -386,5 +386,9 @@
         .mr-2 {
             margin-right: 20px;
         }
+
+        .table td{
+            display: table-cell !important;
+        }
     </style>
 @endsection
