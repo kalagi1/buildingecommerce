@@ -2,110 +2,18 @@
 
 @section('content')
 
-<section>
-    <div>
-        <div class="single homes-content details mb-30">
-            <!-- title -->
-            <h5 class="mb-4">Property Details</h5>
-            <ul class="homes-list clearfix">
-                <li>
-                    <span class="font-weight-bold mr-1">Property ID:</span>
-                    <span class="det">V254680</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Property Type:</span>
-                    <span class="det">House</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Property status:</span>
-                    <span class="det">For Sale</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Property Price:</span>
-                    <span class="det">$230,000</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Rooms:</span>
-                    <span class="det">6</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Bedrooms:</span>
-                    <span class="det">7</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Bath:</span>
-                    <span class="det">4</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Garages:</span>
-                    <span class="det">2</span>
-                </li>
-                <li>
-                    <span class="font-weight-bold mr-1">Year Built:</span>
-                    <span class="det">10/6/2020</span>
-                </li>
-            </ul>
-            <!-- title -->
-            <h5 class="mt-5">Amenities</h5>
-            <!-- cars List -->
-            <ul class="homes-list clearfix">
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Air Cond</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Balcony</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Internet</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Dishwasher</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Bedding</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Cable TV</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Parking</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Pool</span>
-                </li>
-                <li>
-                    <i class="fa fa-check-square" aria-hidden="true"></i>
-                    <span>Fridge</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</section>
-    <div class="content">
-        <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
-            <div class="card-header border-bottom">
-                <div class="row flex-between-center g-2">
-                    <div class="col-auto">
-                        <h4 class="mb-0">
-                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
-                                Portföylerim
-                            @else
-                                Koleksiyonlarım
-                            @endif
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-
+    <section>
+        <div>
+            <div class="single homes-content details mb-30">
+                <!-- title -->
+                <h5 class="mb-4" style="border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;">
+                    @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                        Portföylerim
+                    @else
+                        Koleksiyonlarım
+                    @endif
+                </h5>
                 <div class="row list" id="icon-list">
                     @if (count($collections) > 0)
                         @foreach ($collections as $collection)
@@ -224,9 +132,9 @@
                                                                     Koleksiyon Adı:
                                                                 @endif
                                                             </label>
-                                                            <input type="text" class="form-control" id="collectionName"
-                                                                name="collectionName" value="{{ $collection->name }}"
-                                                                required>
+                                                            <input type="text" class="form-control"
+                                                                id="collectionName" name="collectionName"
+                                                                value="{{ $collection->name }}" required>
                                                         </div>
 
                                                         <button type="submit" class="btn btn-primary">Güncelle</button>
@@ -349,13 +257,14 @@
                                     class="img-fluid w-lg-100 d-dark-none"
                                     src="{{ asset('images/emlak-kulup-banner.png') }}" alt=""
                                     width="400"><img class="img-fluid w-md-50 w-lg-100 d-light-none"
-                                    src="{{ asset('images/emlak-kulup-banner.png') }}" alt=""
-                                    width="540"></div>
+                                    src="{{ asset('images/emlak-kulup-banner.png') }}" alt="" width="540">
+                            </div>
                             <div class="col-12 col-lg-6 text-center text-lg-start">
-                                <h2 class="text-body-secondary fw-bolder mb-3 text-black">Takipçilerine ilham ver! Doğru evi bulmalarına aracı ol!</h2>
+                                <h2 class="text-body-secondary fw-bolder mb-3 text-black">Takipçilerine ilham ver! Doğru
+                                    evi bulmalarına aracı ol!</h2>
                                 <p class="text-body mb-5">Sosyal medya hesaplarının ne kadar popüler olduğu fark
                                     etmeksizin paylaşımlarında hepsini değerlendir, satış nereden gelir bilinmez! </p><a
-                                    class="btn btn-lg btn-primary" href="{{url('/')}}">Paylaş Kazan</a>
+                                    class="btn btn-lg btn-primary" href="{{ url('/') }}">Paylaş Kazan</a>
                             </div>
                         </div>
                     @endif
@@ -368,7 +277,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
 
     <script>
