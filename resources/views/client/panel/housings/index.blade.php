@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-        <div class="single homes-content details mb-30">
+        <div class="single homes-content details">
             <!-- title -->
             <h5 class="mb-4 header-title">
                 Emlak İlanları
@@ -30,7 +30,7 @@
 
             </ul>
 
-            <div class="tab-content px-4 pb-4">
+            <div class="tab-content px-4 ">
                 <div class="tab-pane fade show active" id="active">
                     <div class="table-responsive">
                         @include('institutional.housings.housing_table', [
