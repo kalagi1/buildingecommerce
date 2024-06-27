@@ -63,29 +63,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
-
-     <!-- ===============================================-->
-    <!--    Favicons-->
-    <!-- ===============================================-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Canonical URL için bölüm -->
     @if (isset($canonicalUrl))
         <link rel="canonical" href="canonical-url" />
     @endif
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage" content="{{ URL::to('/') }}/favicon.png">
-    <meta name="theme-color" content="#ffffff">
+
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/config.js"></script>
-    <!-- ===============================================-->
-    <!--    Stylesheets-->
-    <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
