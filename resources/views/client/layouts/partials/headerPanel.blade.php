@@ -91,13 +91,7 @@
             margin: 0;
             border-radius: 0;
             float: none;
-            width: 208px;
-        }
-
-        #navigation ul li ul,
-        #navigation.style-1 ul ul li {
-            left: 0 !important;
-            right: 0 !important;
+            width: 150px
         }
 
         #whatsappButton {
