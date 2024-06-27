@@ -63,6 +63,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @yield('styles')
 
