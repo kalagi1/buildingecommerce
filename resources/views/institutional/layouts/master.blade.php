@@ -1,4 +1,4 @@
-@include('institutional.layouts.partials.header')
+@include('institutional.layouts.partials.header2')
 
 @yield('content')
 
