@@ -1387,16 +1387,23 @@ class HomeController extends Controller
 
         $housings = $housings->groupBy('step1_slug')->map(function ($group) {
             return $group->mapToGroups(function ($item) {
-                return [$item->step2_slug => [
-                    'count' => $item->count,
-                    'step1_title' => $item->step1_slug,
-                    'step2_title' => $item->step2_slug,
-
-                ]];
+                // Retrieve HousingTypeParent objects for step1_slug and step2_slug
+                $parent = HousingTypeParent::where('slug', $item->step1_slug)->first();
+                $parent2 = HousingTypeParent::where('slug', $item->step2_slug)->first();
+        
+                return [
+                    $item->step2_slug => [
+                        'count' => $item->count,
+                        'step1_title' => $parent ? $parent->title : null, // Check if $parent exists before accessing title
+                        'step2_title' => $parent2 ? $parent2->title : null, // Check if $parent2 exists before accessing title
+                    ]
+                ];
             });
         });
 
-
+        
+       
+      
 
 
 
