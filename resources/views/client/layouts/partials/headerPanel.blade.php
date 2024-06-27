@@ -409,14 +409,14 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-            <div class="slick-lancersl">
-                @foreach ($adBanners as $adBanner)
-                    <div class="home-top-banner d-xl-block d-none d-lg-block"
-                        style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                        <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
-                    </div>
-                @endforeach
-            </div>
+        <div class="slick-lancersl">
+            @foreach ($adBanners as $adBanner)
+                <div class="home-top-banner d-xl-block d-none d-lg-block"
+                    style="background-color: {{ $adBanner->background_color }};padding:0 !important">
+                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                </div>
+            @endforeach
+        </div>
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -840,12 +840,13 @@
                                 }
                             @endphp
                             @foreach ($groupedMenuData as $label => $groupedMenu)
-                                <li><a href="#">{{ $label }}</a>
-                                    @php
-                                        $hasVisibleMenus = false;
-                                    @endphp
 
-                                    @if (count($groupedMenu) > 0)
+
+                                @if (count($groupedMenu) > 0)
+                                    <li><a href="#">{{ $label }}</a>
+                                        @php
+                                            $hasVisibleMenus = false;
+                                        @endphp
                                         <ul>
                                             @foreach ($groupedMenu as $menuItem)
                                                 @if ($menuItem['visible'])
@@ -976,9 +977,11 @@
                                                     </li>
                                                 @endif
                                             @endforeach
+
                                         </ul>
-                                    @endif
-                                </li>
+                                    </li>
+                                @endif
+
 
 
 
