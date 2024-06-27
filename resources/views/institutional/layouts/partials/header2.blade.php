@@ -1448,7 +1448,7 @@
                             $hasVisibleMenus = false;
                         @endphp
                             <li>
-                                <a href="{{ $menuItem['href'] }}">
+                                <a href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif ">
                                     @if (!empty($menuItem['icon']))
                                         <i class="{{ $menuItem['icon'] }}"></i>
                                     @endif
