@@ -841,7 +841,6 @@
                             @endphp
                             @foreach ($groupedMenuData as $label => $groupedMenu)
                                 <li class="navbar-vertical-label"><a href="#">{{ $label }}</a>
-                                    <hr class="navbar-vertical-line" />
 
                                     @php
                                         $hasVisibleMenus = false;

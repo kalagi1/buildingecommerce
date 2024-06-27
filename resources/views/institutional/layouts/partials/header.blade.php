@@ -1069,6 +1069,7 @@
                             <li class="nav-item">
                                 <p class="navbar-vertical-label">{{ $label }}</p>
                             </li>
+                            <hr class="navbar-vertical-line" />
 
                             @foreach ($groupedMenu as $menuItem)
                                 @if ($menuItem['visible'])
