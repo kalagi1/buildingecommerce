@@ -316,5 +316,11 @@
         .border {
             border: 1px solid #dee2e6 !important;
         }
+
+        .homes-content .row {
+    width: 100% !important;
+    margin:0 auto;
+}
+        
     </style>
 @endsection
