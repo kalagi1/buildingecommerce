@@ -32,3 +32,8 @@ export const dotNumberFormat = (number) => {
     return "";
   }
 };
+
+export const telNumberFormat = (input) => {
+  const parsed = Number(input);
+    return isNaN(parsed) ? 0 : parsed;
+}
