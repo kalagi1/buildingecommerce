@@ -86,7 +86,7 @@ class DashboardController extends Controller
         ->get();
 
 
-        return view('institutional.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations','refundedReservations' ) );
+        return view('client.panel.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations','refundedReservations' ) );
 
     }
 
@@ -211,27 +211,27 @@ class DashboardController extends Controller
 
         $cartOrders = $projectOrders->merge($housingOrders);
 
-        return view('institutional.orders.index', compact('cartOrders'));
+        return view('client.panel.orders.index', compact('cartOrders'));
     }
 
     public function corporateAccountVerification()
     {
-        return view('institutional.home.verification');
+        return view('client.panel.home.verification');
     }
 
 
     public function corporateAccountWaiting()
     {
-        return view('institutional.home.waiting');
+        return view('client.panel.home.waiting');
     }
 
     public function corporateHasClubAccountVerification()
     {
-        return view('institutional.home.has-club-verification');
+        return view('client.panel.home.has-club-verification');
     }
     public function corporateHasClubAccountVerificationStatus()
     {
-        return view('institutional.home.has-club-status');
+        return view('client.panel.home.has-club-status');
     }
 
     public function phoneUpdate(Request $request)
@@ -247,7 +247,7 @@ class DashboardController extends Controller
     public function phoneVerification()
     {
         $user = Auth::user();
-        return view('institutional.home.phone-verification', compact('user'));
+        return view('client.panel.home.phone-verification', compact('user'));
     }
 
     public function generateVerificationCode()

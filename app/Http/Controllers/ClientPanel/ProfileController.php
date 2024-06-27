@@ -41,14 +41,14 @@ class ProfileController extends Controller
     {
         $order = CartOrder::where('id', $id)->first();
 
-        return view('institutional.orders.detail', compact('order'));
+        return view('client.panel.orders.detail', compact('order'));
     }
 
     public function reservationDetail($id)
     {
         $order = Reservation::where('id', $id)->first();
 
-        return view('institutional.reservations.detail', compact('order'));
+        return view('client.panel.reservations.detail', compact('order'));
     }
 
     public function upload(Request $request)
@@ -126,7 +126,7 @@ class ProfileController extends Controller
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
         
-        return view('institutional.orders.get', compact('cartOrders'));
+        return view('client.panel.orders.get', compact('cartOrders'));
 
     }
 
