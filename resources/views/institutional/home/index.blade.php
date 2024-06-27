@@ -1,4 +1,4 @@
-@extends('institutional.layouts.master')
+@extends('institutional.layouts.master2')
 
 
 @section('content')
