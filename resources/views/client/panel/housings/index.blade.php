@@ -1,7 +1,6 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <section>
         <div class="single homes-content details mb-30">
             <!-- title -->
             <h5 class="mb-4 header-title">
@@ -74,7 +73,6 @@
                 </div>
             </div>
         </div>
-    </section>
 @endsection
 
 @section('scripts')
