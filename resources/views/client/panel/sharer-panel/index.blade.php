@@ -175,7 +175,7 @@
 
 
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-5 p-0 m-0">
                                             <div class="col-md-12">
                                                 <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
                                                     class="text-decoration-none">
