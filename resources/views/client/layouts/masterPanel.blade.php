@@ -2,4 +2,4 @@
 
 @yield('content')
 
-@include('client.layouts.partials.footer')
+@include('client.layouts.partials.footerPanel')

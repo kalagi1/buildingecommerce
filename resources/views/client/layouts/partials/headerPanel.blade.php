@@ -409,14 +409,14 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-            <div class="slick-lancersl">
-                @foreach ($adBanners as $adBanner)
-                    <div class="home-top-banner d-xl-block d-none d-lg-block"
-                        style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                        <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
-                    </div>
-                @endforeach
-            </div>
+        <div class="slick-lancersl">
+            @foreach ($adBanners as $adBanner)
+                <div class="home-top-banner d-xl-block d-none d-lg-block"
+                    style="background-color: {{ $adBanner->background_color }};padding:0 !important">
+                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                </div>
+            @endforeach
+        </div>
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -984,16 +984,16 @@
 
 
                                 @if (!$hasVisibleMenus)
-                                <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
-                                <script>
-                                    var labels = document.getElementsByClassName("navbar-vertical-label");
-                                    var label = labels[labels.length - 1];
-                                    label.parentNode.removeChild(label);
-                                    var lines = document.getElementsByClassName("navbar-vertical-line");
-                                    var line = lines[lines.length - 1];
-                                    line.parentNode.removeChild(line);
-                                </script>
-                            @endif
+                                    <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
+                                    <script>
+                                        var labels = document.getElementsByClassName("navbar-vertical-label");
+                                        var label = labels[labels.length - 1];
+                                        label.parentNode.removeChild(label);
+                                        var lines = document.getElementsByClassName("navbar-vertical-line");
+                                        var line = lines[lines.length - 1];
+                                        line.parentNode.removeChild(line);
+                                    </script>
+                                @endif
                             @endforeach
 
                         </ul>
@@ -1051,3 +1051,5 @@
                 <div class="status-mes"></div>
             </div>
         </div>
+
+        <div class="container">
