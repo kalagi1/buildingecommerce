@@ -529,7 +529,7 @@
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa fa-user',
-                                                    'text' => 'Gösterge Paneli',
+                                                    'text' => 'Panelim',
                                                 ],
                                                 [
                                                     'url' =>
