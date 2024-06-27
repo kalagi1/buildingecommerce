@@ -492,7 +492,7 @@
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
-                                                    'url' => route('fa favorites'),
+                                                    'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
@@ -558,7 +558,7 @@
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
-                                                    'url' => route('fa favorites'),
+                                                    'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
