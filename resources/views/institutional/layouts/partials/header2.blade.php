@@ -1024,3 +1024,179 @@
                 <div class="status-mes"></div>
             </div>
         </div>
+        <script>
+            var navbarTopShape = window.config.config.phoenixNavbarTopShape;
+            var navbarPosition = window.config.config.phoenixNavbarPosition;
+            var body = document.querySelector('body');
+            var navbarDefault = document.querySelector('#navbarDefault');
+            var navbarTop = document.querySelector('#navbarTop');
+            var topNavSlim = document.querySelector('#topNavSlim');
+            var navbarTopSlim = document.querySelector('#navbarTopSlim');
+            var navbarCombo = document.querySelector('#navbarCombo');
+            var navbarComboSlim = document.querySelector('#navbarComboSlim');
+            var dualNav = document.querySelector('#dualNav');
+
+            var documentElement = document.documentElement;
+            var navbarVertical = document.querySelector('.navbar-vertical');
+
+            if (navbarPosition === 'dual-nav') {
+                topNavSlim.remove();
+                navbarTop.remove();
+                navbarVertical.remove();
+                navbarTopSlim.remove();
+                navbarCombo.remove();
+                navbarComboSlim.remove();
+                navbarDefault.remove();
+                dualNav.removeAttribute('style');
+                documentElement.classList.add('dual-nav');
+            } else if (navbarTopShape === 'slim' && navbarPosition === 'vertical') {
+                navbarDefault.remove();
+                navbarTop.remove();
+                navbarTopSlim.remove();
+                navbarCombo.remove();
+                navbarComboSlim.remove();
+                topNavSlim.style.display = 'block';
+                navbarVertical.style.display = 'inline-block';
+                body.classList.add('nav-slim');
+            } else if (navbarTopShape === 'slim' && navbarPosition === 'horizontal') {
+                navbarDefault.remove();
+                navbarVertical.remove();
+                navbarTop.remove();
+                topNavSlim.remove();
+                navbarCombo.remove();
+                navbarComboSlim.remove();
+                navbarTopSlim.removeAttribute('style');
+                body.classList.add('nav-slim');
+            } else if (navbarTopShape === 'slim' && navbarPosition === 'combo') {
+                navbarDefault.remove();
+                //- navbarVertical.remove();
+                navbarTop.remove();
+                topNavSlim.remove();
+                navbarCombo.remove();
+                navbarTopSlim.remove();
+                navbarComboSlim.removeAttribute('style');
+                navbarVertical.removeAttribute('style');
+                body.classList.add('nav-slim');
+            } else if (navbarTopShape === 'default' && navbarPosition === 'horizontal') {
+                navbarDefault.remove();
+                topNavSlim.remove();
+                navbarVertical.remove();
+                navbarTopSlim.remove();
+                navbarCombo.remove();
+                navbarComboSlim.remove();
+                navbarTop.removeAttribute('style');
+                documentElement.classList.add('navbar-horizontal');
+            } else if (navbarTopShape === 'default' && navbarPosition === 'combo') {
+                topNavSlim.remove();
+                navbarTop.remove();
+                navbarTopSlim.remove();
+                navbarDefault.remove();
+                navbarComboSlim.remove();
+                navbarCombo.removeAttribute('style');
+                navbarVertical.removeAttribute('style');
+                documentElement.classList.add('navbar-combo')
+
+            } else {
+                topNavSlim.remove();
+                navbarTop.remove();
+                navbarTopSlim.remove();
+                navbarCombo.remove();
+                navbarComboSlim.remove();
+                navbarDefault.removeAttribute('style');
+                navbarVertical.removeAttribute('style');
+            }
+
+            var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+            var navbarTop = document.querySelector('.navbar-top');
+            if (navbarTopStyle === 'darker') {
+                navbarTop.classList.add('navbar-darker');
+            }
+
+            var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+            var navbarVertical = document.querySelector('.navbar-vertical');
+            if (navbarVerticalStyle === 'darker') {
+                navbarVertical.classList.add('navbar-darker');
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Bildirimlere tıklama işlemi
+                $('.notification-click').on('click', function(e) {
+                    e.preventDefault();
+                    var notificationId = $(this).data('id');
+                    var notificationLink = $(this).data('link');
+
+                    // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+                    $.ajax({
+                        url: "{{ route('notification.read') }}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                            id: notificationId, // Güncellenecek bildirimin kimliği
+                            link: notificationLink
+                        },
+                        success: function(response) {
+                            window.location.href =
+                                notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
+
+
+                        }
+                    });
+                });
+            });
+
+
+            document.addEventListener("DOMContentLoaded", function() {
+                // Bildirim kartlarını bul
+                var notificationCards = document.querySelectorAll(".notification-card");
+
+                // Her kart için tıklama etkinleyici ekleyin
+                notificationCards.forEach(function(card) {
+                    card.addEventListener("click", function() {
+                        var notificationId = card.getAttribute("data-id");
+                        var notificationLink = $(this).data('link');
+
+                        console.log(notificationId);
+
+                        // AJAX ile bildirimi işaretle
+                        fetch('/mark-notification-as-read/' + notificationId, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                }
+                            })
+                            .then(function(response) {
+
+                                if (notificationLink) {
+                                    window.location.href = notificationLink;
+                                }
+                                card.classList.remove("unread");
+                                card.classList.add("read");
+
+                            })
+                            .catch(function(error) {
+                                console.error('Bir hata oluştu:', error);
+                            });
+                    });
+                });
+            });
+        </script>
+
+
+
+        <style>
+            .notification-card {
+                cursor: pointer
+            }
+
+            .navbar-logo .logo {
+                height: 35px !important;
+                padding: 5px;
+            }
+
+            .navbar-logo .logo-text {
+                width: 300px
+            }
+        </style>
