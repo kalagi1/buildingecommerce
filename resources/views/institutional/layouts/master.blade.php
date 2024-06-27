@@ -1,5 +1,5 @@
-@include('institutional.layouts.partials.header')
+@include('client.layouts.partials.header')
 
 @yield('content')
 
-@include('institutional.layouts.partials.footer')
+@include('client.layouts.partials.footer')
