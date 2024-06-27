@@ -1,8 +1,8 @@
 @extends('client.layouts.masterPanel')
 @section('content')
 
-<section class="featured home18 bg-white mb-8">
-    <div class="container">
+<section>
+    <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-xl-4">
                 <div class="card">
