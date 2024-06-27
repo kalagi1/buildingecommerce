@@ -2098,7 +2098,7 @@
             }
 
             .tab label {
-                padding: 5px 20px;
+                padding: 5px 13px;
                 border: 1px solid #ccc;
                 cursor: pointer;
                 border-radius: 4px;
