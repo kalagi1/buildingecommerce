@@ -27,6 +27,10 @@
                                     Kiralık
                                 @elseif ($housing->step2_slug == 'satilik')
                                     Satılık
+                                @elseif ($housing->step2_slug == 'devren-satilik')
+                                    Devren Satılık
+                                @elseif ($housing->step2_slug == 'devren-kiralik')
+                                    Devren Kiralık
                                 @else
                                     Günlük Kiralık
                                 @endif
