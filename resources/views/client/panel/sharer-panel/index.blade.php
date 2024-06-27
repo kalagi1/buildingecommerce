@@ -153,24 +153,19 @@
                                                 </p>
                                             </div>
                                             @if (Auth::check() && Auth::user()->type != '1' && Auth::user()->type != '3')
-                                                <div class="d-flex align-items-center mb-2">
-
-                                                    <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">
-                                                        Mağazamda paylaş
-                                                        <span style="margin-left:5px">
-                                                            <div
-                                                                class="form-check form-switch text-center d-block pb-0 mb-0">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="brandToggle_{{ $collection->id }}"
-                                                                    {{ $collection->status == 1 ? 'checked' : '' }}
-                                                                    onchange="toggleBrandStatus({{ $collection->id }}, this)" />
-                                                            </div>
-                                                        </span>
-                                                    </p>
-
-
+                                            <div class="d-flex align-items-center mb-2">
+                                                <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important; margin-right: 10px;">
+                                                    Mağazamda paylaş
+                                                </p>
+                                                <div class="form-check form-switch text-center pb-0 mb-0">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="brandToggle_{{ $collection->id }}"
+                                                        {{ $collection->status == 1 ? 'checked' : '' }}
+                                                        onchange="toggleBrandStatus({{ $collection->id }}, this)" />
                                                 </div>
-                                            @endif
+                                            </div>
+                                        @endif
+                                        
 
 
                                         </div>
