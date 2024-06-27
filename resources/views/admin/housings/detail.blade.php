@@ -21,17 +21,14 @@
 
                 <div style="font-size: 16px;">
                     <span>
-                        @if ($housing->step1_slug)
-                            @if ($housing->step2_slug)
-                                @if ($housing->step2_slug == 'kiralik')
-                                    Kiralık
-                                @elseif ($housing->step2_slug == 'satilik')
-                                    Satılık
-                                @else
-                                    Günlük Kiralık
-                                @endif
-                            @endif
-                            {{-- {{ $parent->title }} --}}
+                        @if ($parent)
+                            {{ $parent->title }}
+                        @endif
+                    </span>
+                    /
+                    <span>
+                        @if ($parent2)
+                            {{ $parent2->title }}
                         @endif
                     </span>
                     /

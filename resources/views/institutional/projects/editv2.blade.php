@@ -251,6 +251,9 @@
                                 </div>
                             </div>
                             <div class="photos">
+                                <div>
+                                    <span>{{count($tempData->images)}} / 40</span>
+                                </div>
                                 @if (isset($tempData->images) && $tempData->images)
                                     @foreach ($tempData->images as $key => $image)
                                         <div class="project_imagex" order="{{ $image->image }}">

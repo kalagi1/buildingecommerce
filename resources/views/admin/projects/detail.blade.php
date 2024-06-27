@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div class="row g-5">
+        <div class="row g-5 ">
             <div class="col-12 col-xl-8">
                 <div class="mb-6">
                     <div class="card p-3 scrollbar to-do-list-body" style="height: 500px; overflow-y:scroll">
@@ -60,18 +60,28 @@
                 </div>
                 <h4 class="mb-3">Projenin Kapak Fotoğrafı</h4>
                 <div>
-                    <img style="width:150px;" class="mb-5"
+                    <img style="width: 150px;" class="mb-5"
                         src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                         alt="">
                 </div>
-                <h4 class="mb-3">Proje Görselleri ({{count($project->images)}})</h4>
-                <div class="images owl-carousel mb-4">
-                    @foreach ($project->images as $key => $image)
-                        <img loading="lazy" src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
-                            class="img-fluid lazyload" alt="slider-listing">
-                    @endforeach
-                </div>
+                <h4 class="mb-3 ">Proje Görselleri </h4>
+                @if (count($project->images) > 0)
+                    <div class="row pb-5">
+                        @foreach ($project->images as $key => $image)
+                            <div class="col-2 pt-2 pb-2">
+                                <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
+                                        class="img-fluid" alt="slider-listing">
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
 
+                    <p>{{ count($project->images) }} görsel bulunmaktadır.</p>
+                @endif
+               
+                
                 <div class="admin-house-count">
                     <h4 class="mb-3">Emlak Sayısı</h4>
                     <p style="">{{ $project->room_count }}</p>
@@ -416,6 +426,11 @@
 @endsection
 
 @section('scripts')
+    <!-- FancyBox CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <!-- FancyBox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
         integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -550,10 +565,9 @@
                             console.error('İstek sırasında bir hata oluştu.');
                             console.error('Hata detayı:', error);
                         }
-                        
+
                     });
-                }
-                else if (result.isDenied) {
+                } else if (result.isDenied) {
                     // Kullanıcı "Şablon Oluştur" butonuna tıkladı
                     // Mevcut URL'yi al
                     var currentUrl = window.location.href;
