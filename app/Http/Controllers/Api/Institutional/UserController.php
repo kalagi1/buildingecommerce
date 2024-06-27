@@ -29,7 +29,6 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        return auth()->user()->id;
         // Kullanıcının rollerine ve izinlerine göre permissions dizisini oluştur
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
