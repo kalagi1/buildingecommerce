@@ -83,6 +83,17 @@
             background-color: #eff2f6;
         }
 
+        #navigation ul ul a {
+            padding: 10px 30px 10px 15px !important
+        }
+
+        #navigation.style-1 ul ul li {
+            margin: 0;
+            border-radius: 0;
+            float: none;
+            width: 208px;
+        }
+
         #whatsappButton {
             height: 100% !important;
             background: green;
@@ -832,135 +843,144 @@
                             @foreach ($groupedMenuData as $label => $groupedMenu)
                                 <li><a href="#">{{ $label }}</a>
                                     @php
-                                    $hasVisibleMenus = false;
-                                @endphp
+                                        $hasVisibleMenus = false;
+                                    @endphp
 
-                                @if (count($groupedMenu) > 0)
-                                    <ul>
-                                        @foreach ($groupedMenu as $menuItem)
-                                            @if ($menuItem['visible'])
-                                                @php
-                                                    $hasVisibleMenus = true;
-                                                    $applicationCount = null;
-                                                    $pendingHousingTypes = null;
-                                                    $pendingProjects = null;
-                                                    $orderCount = null;
-                                                    $neighborCount = null;
-                                                    $reservationsCount = null;
-                                                    $commentCount = null;
+                                    @if (count($groupedMenu) > 0)
+                                        <ul>
+                                            @foreach ($groupedMenu as $menuItem)
+                                                @if ($menuItem['visible'])
+                                                    @php
+                                                        $hasVisibleMenus = true;
+                                                        $applicationCount = null;
+                                                        $pendingHousingTypes = null;
+                                                        $pendingProjects = null;
+                                                        $orderCount = null;
+                                                        $neighborCount = null;
+                                                        $reservationsCount = null;
+                                                        $commentCount = null;
 
-                                                    if ($menuItem['key'] == 'EmlakClubApplications') {
-                                                        $applicationCount =
-                                                            \App\Models\User::where('has_club', '2')->count() ?: null;
-                                                    } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
-                                                        $neighborCount =
-                                                            \App\Models\NeighborView::where('status', '0')->count() ?:
-                                                            null;
-                                                    } elseif ($menuItem['key'] == 'Housings') {
-                                                        $pendingHousingTypes =
-                                                            \App\Models\Housing::with('city', 'county', 'neighborhood')
-                                                                ->where('status', 2)
+                                                        if ($menuItem['key'] == 'EmlakClubApplications') {
+                                                            $applicationCount =
+                                                                \App\Models\User::where('has_club', '2')->count() ?:
+                                                                null;
+                                                        } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                                                            $neighborCount =
+                                                                \App\Models\NeighborView::where(
+                                                                    'status',
+                                                                    '0',
+                                                                )->count() ?:
+                                                                null;
+                                                        } elseif ($menuItem['key'] == 'Housings') {
+                                                            $pendingHousingTypes =
+                                                                \App\Models\Housing::with(
+                                                                    'city',
+                                                                    'county',
+                                                                    'neighborhood',
+                                                                )
+                                                                    ->where('status', 2)
+                                                                    ->where('user_id', Auth::user()->id)
+                                                                    ->leftJoin(
+                                                                        'housing_types',
+                                                                        'housing_types.id',
+                                                                        '=',
+                                                                        'housings.housing_type_id',
+                                                                    )
+                                                                    ->select(
+                                                                        'housings.id',
+                                                                        'housings.title AS housing_title',
+                                                                        'housings.status AS status',
+                                                                        'housings.address',
+                                                                        'housings.created_at',
+                                                                        'housing_types.title as housing_type',
+                                                                        'housing_types.slug',
+                                                                        'housings.deleted_at',
+                                                                        'housings.city_id',
+                                                                        'housings.county_id',
+                                                                        'housings.neighborhood_id',
+                                                                        'housing_types.form_json',
+                                                                    )
+                                                                    ->orderByDesc('housings.updated_at')
+                                                                    ->count() ?:
+                                                                null;
+                                                        } elseif ($menuItem['key'] == 'Projects') {
+                                                            $pendingProjects = \App\Models\Project::where('status', 2)
                                                                 ->where('user_id', Auth::user()->id)
-                                                                ->leftJoin(
-                                                                    'housing_types',
-                                                                    'housing_types.id',
-                                                                    '=',
-                                                                    'housings.housing_type_id',
-                                                                )
-                                                                ->select(
-                                                                    'housings.id',
-                                                                    'housings.title AS housing_title',
-                                                                    'housings.status AS status',
-                                                                    'housings.address',
-                                                                    'housings.created_at',
-                                                                    'housing_types.title as housing_type',
-                                                                    'housing_types.slug',
-                                                                    'housings.deleted_at',
-                                                                    'housings.city_id',
-                                                                    'housings.county_id',
-                                                                    'housings.neighborhood_id',
-                                                                    'housing_types.form_json',
-                                                                )
-                                                                ->orderByDesc('housings.updated_at')
-                                                                ->count() ?:
-                                                            null;
-                                                    } elseif ($menuItem['key'] == 'Projects') {
-                                                        $pendingProjects = \App\Models\Project::where('status', 2)
-                                                            ->where('user_id', Auth::user()->id)
-                                                            ->orderByDesc('updated_at')
-                                                            ->get();
-                                                    } elseif ($menuItem['key'] == 'GetOrders') {
-                                                        $orderCount = \App\Models\CartOrder::with(
-                                                            'user',
-                                                            'share',
-                                                            'price',
-                                                        )
-                                                            ->orderByDesc('created_at')
-                                                            ->where('status', '0')
-                                                            ->get();
-                                                    } elseif ($menuItem['key'] == 'GetReservations') {
-                                                        $reservationsCount = \App\Models\Reservation::with('user')
-                                                            ->orderByDesc('created_at')
-                                                            ->where('status', '0')
-                                                            ->get();
-                                                    } elseif ($menuItem['key'] == 'GetHousingComments') {
-                                                        $commentCount = \App\Models\HousingComment::with('user')
-                                                            ->orderByDesc('created_at')
-                                                            ->where('status', '0')
-                                                            ->get();
-                                                    }
+                                                                ->orderByDesc('updated_at')
+                                                                ->get();
+                                                        } elseif ($menuItem['key'] == 'GetOrders') {
+                                                            $orderCount = \App\Models\CartOrder::with(
+                                                                'user',
+                                                                'share',
+                                                                'price',
+                                                            )
+                                                                ->orderByDesc('created_at')
+                                                                ->where('status', '0')
+                                                                ->get();
+                                                        } elseif ($menuItem['key'] == 'GetReservations') {
+                                                            $reservationsCount = \App\Models\Reservation::with('user')
+                                                                ->orderByDesc('created_at')
+                                                                ->where('status', '0')
+                                                                ->get();
+                                                        } elseif ($menuItem['key'] == 'GetHousingComments') {
+                                                            $commentCount = \App\Models\HousingComment::with('user')
+                                                                ->orderByDesc('created_at')
+                                                                ->where('status', '0')
+                                                                ->get();
+                                                        }
 
-                                                @endphp
-                                                <li>
-                                                    <a
-                                                        href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif">
-                                                        @if (!empty($menuItem['icon']))
-                                                            <i class="{{ $menuItem['icon'] }}"></i>
-                                                        @endif
-                                                        @if ($menuItem['key'] == 'GetMyCollection')
-                                                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                                Portföylerim
-                                                            @else
-                                                                Koleksiyonlarım
+                                                    @endphp
+                                                    <li>
+                                                        <a
+                                                            href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif">
+                                                            @if (!empty($menuItem['icon']))
+                                                                <i class="{{ $menuItem['icon'] }}"></i>
                                                             @endif
-                                                        @else
-                                                            {{ $menuItem['text'] }}
-                                                        @endif
-
-                                                        {{ $applicationCount != null ? "($applicationCount)" : null }}
-                                                        {{ $neighborCount != null ? "($neighborCount)" : null }}
-
-                                                        {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
-                                                        {{ $pendingProjects != null && $pendingProjects->count() != 0 ? '(' . $pendingProjects->count() . ')' : null }}
-                                                        {{ $orderCount != null ? '(' . $orderCount->count() . ')' : null }}
-                                                        {{ $reservationsCount != null ? '(' . $reservationsCount->count() . ')' : null }}
-                                                        {{ $commentCount != null ? '(' . $commentCount->count() . ')' : null }}
-                                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                                            <span class="caret"></span>
-                                                        @endif
-                                                    </a>
-
-                                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                                        <ul>
-                                                            @foreach ($menuItem['subMenu'] as $subMenuItem)
-                                                                @if ($subMenuItem['visible'])
-                                                                    <li>
-                                                                        <a href="{{ route($subMenuItem['url']) }}">
-                                                                            {{ $subMenuItem['text'] }}
-                                                                        </a>
-                                                                    </li>
+                                                            @if ($menuItem['key'] == 'GetMyCollection')
+                                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                    Portföylerim
+                                                                @else
+                                                                    Koleksiyonlarım
                                                                 @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    @endif
+                                                            @else
+                                                                {{ $menuItem['text'] }}
+                                                            @endif
 
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                @endif
+                                                            {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                            {{ $neighborCount != null ? "($neighborCount)" : null }}
+
+                                                            {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                                            {{ $pendingProjects != null && $pendingProjects->count() != 0 ? '(' . $pendingProjects->count() . ')' : null }}
+                                                            {{ $orderCount != null ? '(' . $orderCount->count() . ')' : null }}
+                                                            {{ $reservationsCount != null ? '(' . $reservationsCount->count() . ')' : null }}
+                                                            {{ $commentCount != null ? '(' . $commentCount->count() . ')' : null }}
+                                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                                <span class="caret"></span>
+                                                            @endif
+                                                        </a>
+
+                                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                            <ul>
+                                                                @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                                    @if ($subMenuItem['visible'])
+                                                                        <li>
+                                                                            <a
+                                                                                href="{{ route($subMenuItem['url']) }}">
+                                                                                {{ $subMenuItem['text'] }}
+                                                                            </a>
+                                                                        </li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
                                 </li>
-                              
+
 
 
                             @endforeach
