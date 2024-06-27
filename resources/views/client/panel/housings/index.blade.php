@@ -1,78 +1,81 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="content">
-        <h2 class="mb-2 lh-sm">Emlak İlanları</h2>
-        <div class="card shadow-none border border-300 my-4">
-            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
-                <li class="nav-item">
-                    <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay
-                        Bekleyen İlanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab"
-                        href="#disabledHousingTypes">Reddedilen İlanlar</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="soldHousingTypes-tab" data-bs-toggle="tab" href="#soldHousingTypes">Satılan
-                        İlanlar</a>
-                </li>
+<section>
+    <div class="single homes-content details mb-30">
+        <!-- title -->
+        <h5 class="mb-4 header-title">
+            Emlak İlanları
+        </h5>
+        <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay
+                    Bekleyen İlanlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab"
+                    href="#disabledHousingTypes">Reddedilen İlanlar</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="soldHousingTypes-tab" data-bs-toggle="tab" href="#soldHousingTypes">Satılan
+                    İlanlar</a>
+            </li>
 
 
-            </ul>
+        </ul>
 
-            <div class="tab-content px-4 pb-4">
-                <div class="tab-pane fade show active" id="active">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_table', [
-                            'tableId' => 'bulk-select-body-active',
-                            'housingTypes' => $activeHousingTypes,
-                        ])
-                    </div>
+        <div class="tab-content px-4 pb-4">
+            <div class="tab-pane fade show active" id="active">
+                <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-active',
+                        'housingTypes' => $activeHousingTypes,
+                    ])
                 </div>
-                <div class="tab-pane fade" id="pendingHousingTypes">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_table', [
-                            'tableId' => 'bulk-select-body-pendingHousingTypes',
-                            'housingTypes' => $pendingHousingTypes,
-                        ])
-                    </div>
+            </div>
+            <div class="tab-pane fade" id="pendingHousingTypes">
+                <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-pendingHousingTypes',
+                        'housingTypes' => $pendingHousingTypes,
+                    ])
                 </div>
-                <div class="tab-pane fade" id="disabledHousingTypes">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_table', [
-                            'tableId' => 'bulk-select-body-disabledHousingTypes',
-                            'housingTypes' => $disabledHousingTypes,
-                        ])
-                    </div>
+            </div>
+            <div class="tab-pane fade" id="disabledHousingTypes">
+                <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-disabledHousingTypes',
+                        'housingTypes' => $disabledHousingTypes,
+                    ])
                 </div>
-                <div class="tab-pane fade" id="inactive">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_table', [
-                            'tableId' => 'bulk-select-body-inactive',
-                            'housingTypes' => $inactiveHousingTypes,
-                        ])
-                    </div>
+            </div>
+            <div class="tab-pane fade" id="inactive">
+                <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-inactive',
+                        'housingTypes' => $inactiveHousingTypes,
+                    ])
                 </div>
-                <div class="tab-pane fade" id="soldHousingTypes">
-                    <div class="table-responsive">
-                        @include('institutional.housings.housing_table', [
-                            'tableId' => 'bulk-select-body-soldHousingTypes',
-                            'housingTypes' => $soldHousingTypes,
-                        ])
-                    </div>
+            </div>
+            <div class="tab-pane fade" id="soldHousingTypes">
+                <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-soldHousingTypes',
+                        'housingTypes' => $soldHousingTypes,
+                    ])
                 </div>
             </div>
         </div>
-
     </div>
+</section>
 @endsection
 
 @section('scripts')
@@ -389,6 +392,14 @@
 
         .table td{
             display: table-cell !important;
+        }
+
+        .header-title{
+            border-bottom: 1px solid #ddd;
+    background: #ea2a28 !important;
+    color: white;
+    margin: 0;
+    padding: 10px;
         }
     </style>
 @endsection

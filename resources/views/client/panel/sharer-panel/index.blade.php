@@ -3,15 +3,9 @@
 @section('content')
 
     <section>
-        <div>
             <div class="single homes-content details mb-30">
                 <!-- title -->
-                <h5 class="mb-4"
-                    style="    border-bottom: 1px solid #ddd;
-    background: #ea2a28 !important;
-    color: white;
-    margin: 0;
-    padding: 10px;">
+                <h5 class="mb-4 header-title">
                     @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                         Portföylerim
                     @else
@@ -264,7 +258,6 @@
 
                 </div>
             </div>
-        </div>
     </section>
 
 
@@ -320,6 +313,14 @@
         .homes-content .row {
             width: 100% !important;
             margin: 0 auto;
+        }
+
+        .header-title{
+            border-bottom: 1px solid #ddd;
+    background: #ea2a28 !important;
+    color: white;
+    margin: 0;
+    padding: 10px;
         }
     </style>
 @endsection
