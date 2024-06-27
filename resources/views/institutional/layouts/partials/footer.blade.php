@@ -6,6 +6,8 @@
 <!-- ===============================================-->
 <!--    JavaScripts-->
 <!-- ===============================================-->
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
 <script src="{{ URL::to('/') }}/adminassets/vendors/popper/popper.min.js" defer></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors/bootstrap/bootstrap.min.js" defer></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors/anchorjs/anchor.min.js" defer></script>
