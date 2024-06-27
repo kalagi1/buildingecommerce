@@ -1,3 +1,6 @@
+
+</div>
+
 <footer class="first-footer">
     <div class="top-footer">
         <div class="container">
@@ -252,8 +255,6 @@
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 
