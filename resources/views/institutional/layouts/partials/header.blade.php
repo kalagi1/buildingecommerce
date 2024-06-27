@@ -942,7 +942,7 @@
                                                 ])
                                             @endif
                                         </li>
-                                    @endforeach
+                                    @endif
                                 @endforeach
 
                                 <li class="club-items mobile-show">
