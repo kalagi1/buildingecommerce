@@ -519,7 +519,7 @@
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
                                         @include('client.layouts.partials.dropdown_user_icon', [
-                                            'mainLink' => 'Mağazam',
+                                            'mainLink' => 'Hesabım',
                                             'links' => [
                                                 [
                                                     'url' =>  route('institutional.dashboard', ['slug' => auth()->user()->name, 'userID' => auth()->user()->id]),
@@ -529,7 +529,7 @@
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa-user',
-                                                    'text' => 'Hesabım',
+                                                    'text' => 'Gösterge Paneli',
                                                 ],
                                                 [
                                                     'url' =>
