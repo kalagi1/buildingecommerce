@@ -35,20 +35,8 @@
                                                 <button class="btn btn-sm" style="padding:0" type="button"
                                                     data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
                                                     aria-expanded="true" data-bs-reference="parent">
-                                                    <svg class="svg-inline--fa fa-ellipsis" style="transform:rotate(90deg)"
-                                                        data-fa-transform="shrink-2" aria-hidden="true" focusable="false"
-                                                        data-prefix="fas" data-icon="ellipsis" role="img"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                        data-fa-i2svg="" style="transform-origin: 0.4375em 0.5em;">
-                                                        <g transform="translate(224 256)">
-                                                            <g
-                                                                transform="translate(0, 0)  scale(0.875, 0.875)  rotate(0 0 0)">
-                                                                <path fill="currentColor"
-                                                                    d="M120 256C120 286.9 94.93 312 64 312C33.07 312 8 286.9 8 256C8 225.1 33.07 200 64 200C94.93 200 120 225.1 120 256zM280 256C280 286.9 254.9 312 224 312C193.1 312 168 286.9 168 256C168 225.1 193.1 200 224 200C254.9 200 280 225.1 280 256zM328 256C328 225.1 353.1 200 384 200C414.9 200 440 225.1 440 256C440 286.9 414.9 312 384 312C353.1 312 328 286.9 328 256z"
-                                                                    transform="translate(-224 -256)"></path>
-                                                            </g>
-                                                        </g>
-                                                    </svg></button>
+                                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
                                                 <ul class="dropdown-menu dropdown-menu-end"
                                                     data-popper-placement="bottom-end">
                                                     <li><a class="dropdown-item" data-bs-toggle="modal"
