@@ -31,7 +31,7 @@ class ProfileController extends Controller
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
         ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
-            return view('institutional.orders.get', compact('cartOrders'));
+            return view('client.panel.orders.get', compact('cartOrders'));
 
     
         
