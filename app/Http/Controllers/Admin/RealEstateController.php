@@ -25,13 +25,13 @@ class RealEstateController extends Controller
 
     public function iindex(){
         $realEstates = RealEstateForm::orderBy('is_show')->where("user_id",Auth::user()->id)->orderByDesc('created_at')->get();
-        return view('institutional.real_estate.index',compact('realEstates'));
+        return view('client.panel.real_estate.index',compact('realEstates'));
     }
 
     public function idetail($id){
         $realEstate = RealEstateForm::where('id',$id)->where("user_id",Auth::user()->id)->first();
 
-        return view('institutional.real_estate.detail',compact('realEstate'));
+        return view('client.panel.real_estate.detail',compact('realEstate'));
     }
 
     public function satKiralaYetkiVer(Request $request){
