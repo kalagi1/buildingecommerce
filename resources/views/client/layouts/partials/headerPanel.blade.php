@@ -1052,5 +1052,5 @@
             </div>
         </div>
 
-        <div style="background-color: ghostwhite;">
-        <div class="container pt-5 pb-8">
+        <div style="background-color: ghostwhite;" class="pb-8 pt-5">
+        <div class="container">
