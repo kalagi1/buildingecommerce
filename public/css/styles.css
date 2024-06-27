@@ -30845,3 +30845,21 @@ a {
     color:#bc3803;
     background-color:#ffefca
 }
+
+.badge-phoenix-info{
+    width: 100%;
+    font-size: 10px;
+    padding: 8px 0;
+    border: 1px solid #96d9ff;
+    color:#005585;
+    background-color:#c7ebff
+}
+
+.badge-phoenix-success{
+    width: 100%;
+    font-size: 10px;
+    padding: 8px 0;
+    border: 1px solid #bee8b4;
+    color:#1c6c09;
+    background-color:#d9fbd0
+}
