@@ -1987,6 +1987,8 @@
                 <div class="status-mes"></div>
             </div>
         </div>
+    
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             var navbarTopShape = window.config.config.phoenixNavbarTopShape;
             var navbarPosition = window.config.config.phoenixNavbarPosition;
@@ -2081,8 +2083,6 @@
                 navbarVertical.classList.add('navbar-darker');
             }
         </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
         <script>
             $(document).ready(function() {
                 // Bildirimlere tıklama işlemi
