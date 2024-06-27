@@ -12,7 +12,7 @@ class BrandController extends Controller
 {
     public function create()
     {
-        return view('institutional.brands.create'); // Brand oluşturma formunu gösteren bir view döndürün
+        return view('client.panel.brands.create'); // Brand oluşturma formunu gösteren bir view döndürün
     }
 
     public function store(Request $request)
@@ -46,13 +46,13 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::where('user_id', Auth::user()->id)->get(); // Kullanıcının markalarını getir
-        return view('institutional.brands.index', compact('brands'));
+        return view('client.panel.brands.index', compact('brands'));
     }
 
     public function edit($id)
     {
         $brand = Brand::findOrFail($id); // Düzenlenecek markayı bulun
-        return view('institutional.brands.edit', compact('brand')); // Marka düzenleme formunu gösteren bir view döndürün
+        return view('client.panel.brands.edit', compact('brand')); // Marka düzenleme formunu gösteren bir view döndürün
     }
 
     public function update(Request $request, $id)

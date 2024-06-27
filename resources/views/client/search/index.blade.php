@@ -10,10 +10,11 @@
                 @endphp
 
                 <div class="mb-5" style="font-size:13px ">
-                    <strong style="font-weight: bold !important">"{{$term}}"</strong> aramanız için <span style="color:#EA2B2E !important">  {{$totalCount}} </span>  sonuç bulundu. 
+                    <strong style="font-weight: bold !important">"{{ $term }}"</strong> aramanız için <span
+                        style="color:#EA2B2E !important"> {{ $totalCount }} </span> sonuç bulundu.
                 </div>
 
-                
+
 
                 <div class="row">
                     <!-- plan start -->
@@ -24,19 +25,21 @@
                             {{-- <p class="plan-price"><small>{{ $housingTotalCount }} İlan bulundu</small><sub></sub></p> --}}
                             <ul class="list-unstyled" id="housingList">
                                 @php $countHousing = 0 @endphp
+
                                 @foreach ($housings as $step1_slug => $step1_data)
-                                    @foreach ($step1_data as $step2_slug => $step2_data)
-                                        @php $countHousing++ @endphp
-                                        <li class="housing-item"
-                                            @if ($countHousing > 3) style="display: none;" @endif>
-                                            <a
-                                                href="{{ url('/kategori/' . $step1_slug . '/' . $step2_slug . '?' . http_build_query(['term' => $term])) }}">
-                                                {{ $step2_slug }}
-                                                {{ $step1_slug }}<span>({{ $step2_data[0]['count'] }})</span>
-                                            </a>
-                                        </li>
-                                    @endforeach
+                                    <ul>
+                                        @foreach ($step1_data as $step2_slug => $step2_data)
+                                            <li class="housing-item">
+                                                <a
+                                                    href="{{ url('/kategori/' . $step1_slug . '/' . $step2_slug . '?' . http_build_query(['term' => $term])) }}">
+                                                    {{ $step2_data[0]['step2_title'] }} {{ $step2_data[0]['step1_title'] }}
+                                                    <span>({{ $step2_data[0]['count'] }})</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 @endforeach
+
                             </ul>
                             @if ($countHousing > 3)
                                 <a class="btn btn-primary" href="#" id="showMore">Daha Fazlasını Gör</a>

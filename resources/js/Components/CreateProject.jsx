@@ -112,7 +112,7 @@ function CreateProject(props) {
                     var boolCheck = false;
                     formDataHousing.forEach((formDataHousing,order) => {
                         console.log(formDataHousing);
-                        if(!formDataHousing.className.includes('project-disabled')){
+                        if(!formDataHousing?.className?.includes('project-disabled')){
                             if(formDataHousing.required){
                                 if(blocks.length < 1){
                                     tempErrors.push(formDataHousing.name.replace("[]",""))
@@ -306,7 +306,7 @@ function CreateProject(props) {
         if(blocks.length > 0){
             formDataHousing.forEach((formDataHousing) => {
                 if(slug == "satilik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
-                    if(!formDataHousing.className.includes('project-disabled')){
+                    if(!formDataHousing?.className?.includes('project-disabled')){
                         if(formDataHousing.required){
                             if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))
@@ -321,7 +321,7 @@ function CreateProject(props) {
                 }
                 
                 if(slug == "devren-satilik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
-                    if(!formDataHousing.className.includes('project-disabled')){
+                    if(!formDataHousing?.className?.includes('project-disabled')){
                         if(formDataHousing.required){
                             if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))
@@ -336,7 +336,7 @@ function CreateProject(props) {
                 }
 
                 if(slug == "kiralik" && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
-                    if(!formDataHousing.className.includes('project-disabled')){
+                    if(!formDataHousing?.className?.includes('project-disabled')){
                         if(formDataHousing.required){
                             if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))
@@ -351,7 +351,7 @@ function CreateProject(props) {
                 }
 
                 if(slug == "devren-kiralik" && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent")){
-                    if(!formDataHousing.className.includes('project-disabled')){
+                    if(!formDataHousing?.className?.includes('project-disabled')){
                         if(formDataHousing.required){
                             if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))
@@ -366,7 +366,7 @@ function CreateProject(props) {
                 }
 
                 if(slug == "gunluk-kiralik" && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
-                    if(!formDataHousing.className.includes('project-disabled')){
+                    if(!formDataHousing?.className?.includes('project-disabled')){
                         if(formDataHousing.required){
                             if(blocks.length < 1){
                                 tempErrors.push(formDataHousing.name.replace("[]",""))

@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        // Kullanıcının rollerine ve izinlerine göre permissions dizisini oluştur
+
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->unique()->toArray();
@@ -83,7 +83,6 @@ class UserController extends Controller
         $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
     
         // Erişim token'ı oluştur
-        $accessToken = auth()->guard("api")->user()->createToken('authToken')->accessToken;
     
         // Kullanıcı verilerini bir diziye aktar
         $userData = [
@@ -165,7 +164,6 @@ class UserController extends Controller
             'corporateAccountStatus' => $user->corporate_account_status,
             'email' => $user->email,
             'mobile_phone' => $user->mobile_phone,
-            'access_token' => $accessToken,
             'rolePermissions' => $user->role->rolePermissions,
             'permissions' => $permissions,
             'works' => $user->works,

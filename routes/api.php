@@ -124,9 +124,10 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
     ->name('all.menu.project.list');
 
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
-Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');

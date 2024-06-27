@@ -54,7 +54,7 @@ class SharerController extends Controller
             $item['housing'] = $item->housing;
         }
 
-        return view('institutional.sharer-panel.index', compact('items', 'sharer', 'collections'));
+        return view('client.panel.sharer-panel.index', compact('items', 'sharer', 'collections'));
     }
     public function earnings()
     {
@@ -339,7 +339,7 @@ class SharerController extends Controller
     public function viewsLinks($id)
     {
         $collection = Collection::with("clicks.user")->where('id', $id)->first();
-        return view('institutional.sharer-panel.views', compact("collection"));
+        return view('client.panel.sharer-panel.views', compact("collection"));
     }
 
 
@@ -416,7 +416,7 @@ class SharerController extends Controller
             return array_merge($item, $itemArray);
         }, $items->toArray(), $itemsArray->toArray());
 
-        return view('institutional.sharer-panel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
+        return view('client.panel.sharer-panel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
     }
 
     public function sharerPanel()

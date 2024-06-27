@@ -585,7 +585,7 @@ class TempOrderController extends Controller
             $uploadedFiles = $request->file();
             $imageNames = [];
             foreach ($uploadedFiles as $fileKey => $file) {
-                $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
+                $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))).uniqid() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('project_images'), $imageName);
                 
                 $data = $tempData;
@@ -618,7 +618,7 @@ class TempOrderController extends Controller
             $imageNames = [];
             $tempOrder = 0;
             foreach ($uploadedFiles as $fileKey => $file) {
-                $imageName = 'temp_order_image'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
+                $imageName = 'temp_order_image'.uniqid().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('storage/project_images'), $imageName);
 
@@ -853,7 +853,7 @@ class TempOrderController extends Controller
     }
 
     public function choiseAdvertiseType(){
-        return view('institutional.advertise.choise');
+        return view('client.panel.advertise.choise');
     }
 
     public function getDataByKey($order,$tempData,$key){

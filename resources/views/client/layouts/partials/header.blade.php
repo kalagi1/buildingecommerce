@@ -33,7 +33,9 @@
         <link rel="canonical" href="{{ $canonicalUrl }}" />
     @endif
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css" integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.3/themes/base/jquery-ui.min.css"
+        integrity="sha512-8PjjnSP8Bw/WNPxF6wkklW6qlQJdWJc/3w/ZQPvZ/1bjVDkrrSqLe9mfPYrMxtnzsXFPc434+u4FHLnLjXTSsg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
     <!-- FONT AWESOME -->
@@ -77,7 +79,6 @@
         gtag('config', 'G-FVHQEVC6S0');
     </script>
     <style>
-        
         .notification-card.unread {
             background-color: #eff2f6;
         }
@@ -281,7 +282,7 @@
 
         .circleIcon {
             font-size: 5px !important;
-            color: #ea2a28!important;
+            color: #ea2a28 !important;
             padding-right: 5px
         }
 
@@ -360,22 +361,31 @@
     <!-- End Google Tag Manager -->
 
     <!-- Meta Pixel Code -->
-   
+
     <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '{{ env("FACEBOOK_PIXEL_ID") }}');
+        ! function(f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function() {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '{{ env('FACEBOOK_PIXEL_ID') }}');
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id={{ env("FACEBOOK_PIXEL_ID") }}&ev=PageView&noscript=1"
-        /></noscript>
+            src="https://www.facebook.com/tr?id={{ env('FACEBOOK_PIXEL_ID') }}&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
 
 </head>
@@ -387,7 +397,6 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-        @if (request()->routeIs('index'))
             <div class="slick-lancersl">
                 @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
@@ -396,7 +405,6 @@
                     </div>
                 @endforeach
             </div>
-        @endif
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -465,12 +473,12 @@
                                             'links' => [
                                                 [
                                                     'url' => route('institutional.index'),
-                                                    'icon' => 'fa-user',
+                                                    'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa-bookmark',
+                                                    'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
@@ -478,17 +486,17 @@
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
+                                                    'icon' => 'fa fa-shopping-cart',
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
                                                     'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
+                                                    'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],
@@ -509,21 +517,29 @@
                                             auth()->user()->type != 3 &&
                                             auth()->user()->type != 21)
                                         @include('client.layouts.partials.dropdown_user_icon', [
-                                            'mainLink' => 'Mağazam',
+                                            'mainLink' => 'Hesabım',
                                             'links' => [
                                                 [
-                                                    'url' => route('institutional.index'),
-                                                    'icon' => 'fa-user',
-                                                    'text' => 'Hesabım',
+                                                    'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
+                                                    'icon' => 'fas fa-store',
+                                                    'text' => 'Mağazam',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.react.projects'),
-                                                    'icon' => 'fa-home',
+                                                    'url' => route('institutional.index'),
+                                                    'icon' => 'fa fa-user',
+                                                    'text' => 'Panelim',
+                                                ],
+                                                [
+                                                    'url' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? route('institutional.housing.list')
+                                                            : route('institutional.react.projects'),
+                                                    'icon' => 'fa fa-home',
                                                     'text' => 'İlanlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa-bookmark',
+                                                    'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
@@ -531,22 +547,22 @@
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
-                                                    'icon' => 'fa-plus',
+                                                    'icon' => 'fa fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
+                                                    'icon' => 'fa fa-shopping-cart',
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
                                                     'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
+                                                    'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],
@@ -566,12 +582,12 @@
                                             'links' => [
                                                 [
                                                     'url' => route('admin.index'),
-                                                    'icon' => 'fa-user',
+                                                    'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],

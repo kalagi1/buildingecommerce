@@ -57,10 +57,10 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <a href="">
-                                <button style="font-weight: 700;width:100px" type="button"
-                                    class="btn btn-outline-danger">Detaylı
-                                    Bilgi</button>
+                            <a href="#" id="scrollDownLink">
+                                <button style="font-weight: 700; width: 100px;" type="button" class="btn btn-outline-danger">
+                                    Detaylı Bilgi
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -382,6 +382,23 @@
 
         });
     </script>
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Butona tıklandığında scroll işlemi gerçekleştir
+            $('#scrollDownLink').click(function(event) {
+                event.preventDefault(); // Bağlantıya varsayılan davranışını engelle
+    
+                // Sayfanın altına doğru yavaşça (500 milisaniye içinde) kaydır, 20 piksel ekleyerek
+                $('html, body').animate({
+                    scrollTop: $(window).scrollTop() + 700 // 20 piksel aşağı kaydır
+                }, 500);
+            });
+        });
+    </script>
+    
+    
 @endsection
 
 @section('styles')
