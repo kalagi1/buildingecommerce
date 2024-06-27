@@ -843,7 +843,7 @@
 
 
                                 @if (count($groupedMenu) > 0)
-                                    <li><a href="#">{{ $label }}</a>
+                                    <li><a href="#">{{ $label }} {{count($groupedMenu)}}</a>
                                         @php
                                             $hasVisibleMenus = false;
                                         @endphp
