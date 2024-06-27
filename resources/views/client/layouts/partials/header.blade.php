@@ -848,6 +848,185 @@
                                 </a>
                             </li>
                         </ul>
+                        <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+
+                            @php
+                                $groupedMenuData = [];
+    
+                                foreach ($menuData as $menuItem) {
+                                    $label = $menuItem['label'];
+    
+                                    // Gruplandırılmış menüyü oluştur
+                                    if (!isset($groupedMenuData[$label])) {
+                                        $groupedMenuData[$label] = [];
+                                    }
+    
+                                    // Menü öğesini ilgili gruba ekle
+                                    $groupedMenuData[$label][] = $menuItem;
+                                }
+                            @endphp
+    
+                            @foreach ($groupedMenuData as $label => $groupedMenu)
+                                @php
+                                    $hasVisibleMenus = false;
+                                @endphp
+    
+                                <!-- Label Başlığı -->
+                                <li class="nav-item">
+                                    <p class="navbar-vertical-label">{{ $label }}</p>
+                                </li>
+                                <hr class="navbar-vertical-line" />
+    
+                                @foreach ($groupedMenu as $menuItem)
+                                    @if ($menuItem['visible'])
+                                        @php
+                                            $hasVisibleMenus = true;
+                                            $applicationCount = null;
+                                            $pendingHousingTypes = null;
+                                            $pendingProjects = null;
+                                            $orderCount = null;
+                                            $neighborCount = null;
+                                            $reservationsCount = null;
+                                            $commentCount = null;
+    
+                                            if ($menuItem['key'] == 'EmlakClubApplications') {
+                                                $applicationCount =
+                                                    \App\Models\User::where('has_club', '2')->count() ?: null;
+                                            } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                                                $neighborCount =
+                                                    \App\Models\NeighborView::where('status', '0')->count() ?: null;
+                                            } elseif ($menuItem['key'] == 'Housings') {
+                                                $pendingHousingTypes =
+                                                    \App\Models\Housing::with('city', 'county', 'neighborhood')
+                                                        ->where('status', 2)
+                                                        ->where('user_id', Auth::user()->id)
+                                                        ->leftJoin(
+                                                            'housing_types',
+                                                            'housing_types.id',
+                                                            '=',
+                                                            'housings.housing_type_id',
+                                                        )
+                                                        ->select(
+                                                            'housings.id',
+                                                            'housings.title AS housing_title',
+                                                            'housings.status AS status',
+                                                            'housings.address',
+                                                            'housings.created_at',
+                                                            'housing_types.title as housing_type',
+                                                            'housing_types.slug',
+                                                            'housings.deleted_at',
+                                                            'housings.city_id',
+                                                            'housings.county_id',
+                                                            'housings.neighborhood_id',
+                                                            'housing_types.form_json',
+                                                        )
+                                                        ->orderByDesc('housings.updated_at')
+                                                        ->count() ?:
+                                                    null;
+                                            } elseif ($menuItem['key'] == 'Projects') {
+                                                $pendingProjects = \App\Models\Project::where('status', 2)
+                                                    ->where('user_id', Auth::user()->id)
+                                                    ->orderByDesc('updated_at')
+                                                    ->get();
+                                            } elseif ($menuItem['key'] == 'GetOrders') {
+                                                $orderCount = \App\Models\CartOrder::with('user', 'share', 'price')
+                                                    ->orderByDesc('created_at')
+                                                    ->where('status', '0')
+                                                    ->get();
+                                            } elseif ($menuItem['key'] == 'GetReservations') {
+                                                $reservationsCount = \App\Models\Reservation::with('user')
+                                                    ->orderByDesc('created_at')
+                                                    ->where('status', '0')
+                                                    ->get();
+                                            } elseif ($menuItem['key'] == 'GetHousingComments') {
+                                                $commentCount = \App\Models\HousingComment::with('user')
+                                                    ->orderByDesc('created_at')
+                                                    ->where('status', '0')
+                                                    ->get();
+                                            }
+    
+                                        @endphp
+    
+                                        <div class="nav-item-wrapper">
+                                            <a class="nav-link dropdown-indicator label-1 {{ request()->is($menuItem['activePath']) ? 'active' : '' }}"
+                                                href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
+                                                role="button"
+                                                @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-icon">
+                                                        <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                                    </span>
+                                                    <span class="nav-link-text">
+                                                        @if ($menuItem['key'] == 'GetMyCollection')
+                                                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                Portföylerim
+                                                            @else
+                                                                Koleksiyonlarım
+                                                            @endif
+                                                        @else
+                                                            {{ $menuItem['text'] }}
+                                                        @endif
+    
+                                                        {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                        {{ $neighborCount != null ? "($neighborCount)" : null }}
+    
+                                                        {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                                        {{ $pendingProjects != null && $pendingProjects->count() != 0 ? '(' . $pendingProjects->count() . ')' : null }}
+                                                        {{ $orderCount != null ? '(' . $orderCount->count() . ')' : null }}
+                                                        {{ $reservationsCount != null ? '(' . $reservationsCount->count() . ')' : null }}
+                                                        {{ $commentCount != null ? '(' . $commentCount->count() . ')' : null }}
+                                                    </span>
+    
+                                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                        <div class="dropdown-indicator-icon" style="margin-left: 1px">
+                                                            <span class="fas fa-caret-right"></span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </a>
+    
+                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                <div class="parent-wrapper label-1">
+                                                    <ul class="nav collapse parent {{ request()->is($menuItem['activePath']) ? 'show' : '' }}"
+                                                        data-bs-parent="#navbarVerticalCollapse"
+                                                        id="nv-{{ $menuItem['key'] }}">
+                                                        @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                            @if ($subMenuItem['visible'])
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link {{ request()->is($subMenuItem['activePath']) ? 'active' : '' }}"
+                                                                        href="{{ route($subMenuItem['url']) }}"
+                                                                        data-bs-toggle="" aria-expanded="false">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <span
+                                                                                class="nav-link-text">{{ $subMenuItem['text'] }}</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endif
+                                @endforeach
+    
+                                @if (!$hasVisibleMenus)
+                                    <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
+                                    <script>
+                                        var labels = document.getElementsByClassName("navbar-vertical-label");
+                                        var label = labels[labels.length - 1];
+                                        label.parentNode.removeChild(label);
+                                        var lines = document.getElementsByClassName("navbar-vertical-line");
+                                        var line = lines[lines.length - 1];
+                                        line.parentNode.removeChild(line);
+                                    </script>
+                                @endif
+                            @endforeach
+    
+    
+    
+                        </ul>
                     </nav>
                 </div>
 
