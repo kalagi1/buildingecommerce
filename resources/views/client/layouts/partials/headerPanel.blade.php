@@ -94,6 +94,10 @@
             width: 208px;
         }
 
+        #navigation ul li ul {
+            left: 0 !important;
+        }
+
         #whatsappButton {
             height: 100% !important;
             background: green;
