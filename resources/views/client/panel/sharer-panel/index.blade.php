@@ -31,8 +31,7 @@
 
                                         <div class="col-auto" style="display: flex;align-items:center">
                                             <div>
-                                                <button class="btn btn-sm" style="padding:0" type="button"
-                                                style="background-color:White"
+                                                <button class="btn btn-sm" style="padding:0;background-color:white !important" type="button"
                                                     data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
                                                     aria-expanded="true" data-bs-reference="parent">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
