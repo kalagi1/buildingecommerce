@@ -29,7 +29,6 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        return auth()->guard("api")->user()->id;
 
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
