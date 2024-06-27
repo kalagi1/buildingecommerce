@@ -312,5 +312,9 @@
                 margin-bottom: 10px
             }
         }
+
+        .border {
+    border: 1px solid #dee2e6 !important;
+}
     </style>
 @endsection
