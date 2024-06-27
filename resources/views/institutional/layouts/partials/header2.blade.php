@@ -1024,7 +1024,10 @@
                 <div class="status-mes"></div>
             </div>
         </div>
+
+        
         <script>
+            
             var navbarTopShape = window.config.config.phoenixNavbarTopShape;
             var navbarPosition = window.config.config.phoenixNavbarPosition;
             var body = document.querySelector('body');
