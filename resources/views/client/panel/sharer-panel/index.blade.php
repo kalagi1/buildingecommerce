@@ -17,7 +17,7 @@
                 <div class="row list" id="icon-list">
                     @if (count($collections) > 0)
                         @foreach ($collections as $collection)
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-6 mb-3">
                                 <div
                                     class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
                                     <div class="card-header border-bottom bg-white mb-3"
