@@ -1,5 +1,7 @@
 
 </div>
+</div>
+
 
 <footer class="first-footer">
     <div class="top-footer">
