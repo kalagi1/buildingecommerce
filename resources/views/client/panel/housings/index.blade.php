@@ -383,6 +383,9 @@
             background-color: white !important;
         }
 
+        .nav-tabs li {
+            margin-right: 10px;
+        }
         .ml-2 {
             margin-left: 20px;
         }
