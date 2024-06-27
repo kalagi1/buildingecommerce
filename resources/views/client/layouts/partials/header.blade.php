@@ -475,12 +475,12 @@
                                             'links' => [
                                                 [
                                                     'url' => route('institutional.index'),
-                                                    'icon' => 'fa-user',
+                                                    'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa-bookmark',
+                                                    'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
@@ -488,17 +488,17 @@
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
+                                                    'icon' => 'fa fa-shopping-cart',
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
-                                                    'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
+                                                    'url' => route('fa favorites'),
+                                                    'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],
@@ -523,12 +523,12 @@
                                             'links' => [
                                                 [
                                                     'url' =>  route('institutional.dashboard', ['slug' => auth()->user()->name, 'userID' => auth()->user()->id]),
-                                                    'icon' => 'fa-store',
+                                                    'icon' => 'fas fa-store',
                                                     'text' => 'Mağazam',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
-                                                    'icon' => 'fa-user',
+                                                    'icon' => 'fa fa-user',
                                                     'text' => 'Gösterge Paneli',
                                                 ],
                                                 [
@@ -536,12 +536,12 @@
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? route('institutional.housing.list')
                                                             : route('institutional.react.projects'),
-                                                    'icon' => 'fa-home',
+                                                    'icon' => 'fa fa-home',
                                                     'text' => 'İlanlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
-                                                    'icon' => 'fa-bookmark',
+                                                    'icon' => 'fa fa-bookmark',
                                                     'text' =>
                                                         Auth::user()->corporate_type == 'Emlak Ofisi'
                                                             ? 'Portföylerim'
@@ -549,22 +549,22 @@
                                                 ],
                                                 [
                                                     'url' => url('hesabim/ilan-tipi-sec'),
-                                                    'icon' => 'fa-plus',
+                                                    'icon' => 'fa fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
+                                                    'icon' => 'fa fa-shopping-cart',
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
-                                                    'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
+                                                    'url' => route('fa favorites'),
+                                                    'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],
@@ -584,12 +584,12 @@
                                             'links' => [
                                                 [
                                                     'url' => route('admin.index'),
-                                                    'icon' => 'fa-user',
+                                                    'icon' => 'fa fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
+                                                    'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
                                                 ],
                                             ],
