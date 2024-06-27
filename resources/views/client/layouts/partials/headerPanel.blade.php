@@ -91,8 +91,9 @@
             margin: 0;
             border-radius: 0;
             float: none;
-            width: 150px
+            width: 208px;
         }
+
 
         #whatsappButton {
             height: 100% !important;
@@ -408,7 +409,6 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-
             <div class="slick-lancersl">
                 @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
