@@ -811,25 +811,136 @@
                 <div class="header-bottom d-xl-block d-none d-lg-block mb-0">
                     <nav id="navigation" class="style-1">
                         <ul id="responsive">
-                            @foreach ($menu as $menuItem)
+                            @php
+                            $groupedMenuData = [];
+
+                            foreach ($menuData as $menuItem) {
+                                $label = $menuItem['label'];
+
+                                // Gruplandırılmış menüyü oluştur
+                                if (!isset($groupedMenuData[$label])) {
+                                    $groupedMenuData[$label] = [];
+                                }
+
+                                // Menü öğesini ilgili gruba ekle
+                                $groupedMenuData[$label][] = $menuItem;
+                            }
+                        @endphp
+
+                        @foreach ($groupedMenuData as $label => $groupedMenu)
+                        @php
+                        $hasVisibleMenus = false;
+                    @endphp
+                       @foreach ($groupedMenu as $menuItem)
+                       @if ($menuItem['visible'])
+                       @php
+                           $hasVisibleMenus = true;
+                           $applicationCount = null;
+                           $pendingHousingTypes = null;
+                           $pendingProjects = null;
+                           $orderCount = null;
+                           $neighborCount = null;
+                           $reservationsCount = null;
+                           $commentCount = null;
+
+                           if ($menuItem['key'] == 'EmlakClubApplications') {
+                               $applicationCount =
+                                   \App\Models\User::where('has_club', '2')->count() ?: null;
+                           } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                               $neighborCount =
+                                   \App\Models\NeighborView::where('status', '0')->count() ?: null;
+                           } elseif ($menuItem['key'] == 'Housings') {
+                               $pendingHousingTypes =
+                                   \App\Models\Housing::with('city', 'county', 'neighborhood')
+                                       ->where('status', 2)
+                                       ->where('user_id', Auth::user()->id)
+                                       ->leftJoin(
+                                           'housing_types',
+                                           'housing_types.id',
+                                           '=',
+                                           'housings.housing_type_id',
+                                       )
+                                       ->select(
+                                           'housings.id',
+                                           'housings.title AS housing_title',
+                                           'housings.status AS status',
+                                           'housings.address',
+                                           'housings.created_at',
+                                           'housing_types.title as housing_type',
+                                           'housing_types.slug',
+                                           'housings.deleted_at',
+                                           'housings.city_id',
+                                           'housings.county_id',
+                                           'housings.neighborhood_id',
+                                           'housing_types.form_json',
+                                       )
+                                       ->orderByDesc('housings.updated_at')
+                                       ->count() ?:
+                                   null;
+                           } elseif ($menuItem['key'] == 'Projects') {
+                               $pendingProjects = \App\Models\Project::where('status', 2)
+                                   ->where('user_id', Auth::user()->id)
+                                   ->orderByDesc('updated_at')
+                                   ->get();
+                           } elseif ($menuItem['key'] == 'GetOrders') {
+                               $orderCount = \App\Models\CartOrder::with('user', 'share', 'price')
+                                   ->orderByDesc('created_at')
+                                   ->where('status', '0')
+                                   ->get();
+                           } elseif ($menuItem['key'] == 'GetReservations') {
+                               $reservationsCount = \App\Models\Reservation::with('user')
+                                   ->orderByDesc('created_at')
+                                   ->where('status', '0')
+                                   ->get();
+                           } elseif ($menuItem['key'] == 'GetHousingComments') {
+                               $commentCount = \App\Models\HousingComment::with('user')
+                                   ->orderByDesc('created_at')
+                                   ->where('status', '0')
+                                   ->get();
+                           }
+
+                       @endphp
                                 <li>
-                                    <a href="{{ $menuItem['href'] }}">
+                                    <a href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif">
                                         @if (!empty($menuItem['icon']))
                                             <i class="{{ $menuItem['icon'] }}"></i>
                                         @endif
-                                        {{ $menuItem['text'] }}
-                                        @if (!empty($menuItem['children']))
-                                            <span class="caret"></span>
-                                        @endif
+                                        <span class="nav-link-text">
+                                            @if ($menuItem['key'] == 'GetMyCollection')
+                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    Portföylerim
+                                                @else
+                                                    Koleksiyonlarım
+                                                @endif
+                                            @else
+                                                {{ $menuItem['text'] }}
+                                            @endif
+
+                                            {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                            {{ $neighborCount != null ? "($neighborCount)" : null }}
+
+                                            {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                            {{ $pendingProjects != null && $pendingProjects->count() != 0 ? '(' . $pendingProjects->count() . ')' : null }}
+                                            {{ $orderCount != null ? '(' . $orderCount->count() . ')' : null }}
+                                            {{ $reservationsCount != null ? '(' . $reservationsCount->count() . ')' : null }}
+                                            {{ $commentCount != null ? '(' . $commentCount->count() . ')' : null }}
+                                        </span>
+                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                        <div class="dropdown-indicator-icon" style="margin-left: 1px">
+                                            <span class="fas fa-caret-right"></span>
+                                        </div>
+                                    @endif
                                     </a>
 
-                                    @if (!empty($menuItem['children']))
-                                        @include('client.layouts.partials.menu-item', [
-                                            'items' => $menuItem['children'],
+                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                    @include('client.layouts.partials.menu-item', [
+                                            'items' => $menuItem['subMenu'],
                                         ])
                                     @endif
                                 </li>
                             @endforeach
+                            @endforeach
+
 
                             {{-- @foreach ($headerLinks as $link)
                                 <li>
