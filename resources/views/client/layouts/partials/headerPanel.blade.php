@@ -95,7 +95,7 @@
         }
 
         #navigation ul li ul,
-        #navigation ul li ul li {
+        #navigation.style-1 ul ul li {
             left: 0 !important;
             right: 0 !important;
         }
