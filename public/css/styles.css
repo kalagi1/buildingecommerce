@@ -18384,8 +18384,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .blog-info.details,
-.listing-details-sliders.mb-30,
-.homes-content.details.mb-30,
+.listing-details-sliders,
+.homes-content.details,
 .property-location,
 .reviews.comments,
 .reviews.leve-comments,
@@ -18645,7 +18645,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
         margin-bottom: 13px;
     }
 
-    .inner-pages .homes-content.details.mb-30 .homes-list {
+    .inner-pages .homes-content.details .homes-list {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
