@@ -1,4 +1,4 @@
-@extends('client.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     @if($hasTemp)
