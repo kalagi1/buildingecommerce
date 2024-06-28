@@ -86,7 +86,7 @@ class DashboardController extends Controller
         ->get();
 
 
-        return view('client.panel.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations','refundedReservations' ) );
+        return view('institutional.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations','refundedReservations' ) );
 
     }
 
@@ -211,27 +211,27 @@ class DashboardController extends Controller
 
         $cartOrders = $projectOrders->merge($housingOrders);
 
-        return view('client.panel.orders.index', compact('cartOrders'));
+        return view('institutional.orders.index', compact('cartOrders'));
     }
 
     public function corporateAccountVerification()
     {
-        return view('client.panel.home.verification');
+        return view('institutional.home.verification');
     }
 
 
     public function corporateAccountWaiting()
     {
-        return view('client.panel.home.waiting');
+        return view('institutional.home.waiting');
     }
 
     public function corporateHasClubAccountVerification()
     {
-        return view('client.panel.home.has-club-verification');
+        return view('institutional.home.has-club-verification');
     }
     public function corporateHasClubAccountVerificationStatus()
     {
-        return view('client.panel.home.has-club-status');
+        return view('institutional.home.has-club-status');
     }
 
     public function phoneUpdate(Request $request)
@@ -247,7 +247,7 @@ class DashboardController extends Controller
     public function phoneVerification()
     {
         $user = Auth::user();
-        return view('client.panel.home.phone-verification', compact('user'));
+        return view('institutional.home.phone-verification', compact('user'));
     }
 
     public function generateVerificationCode()
@@ -498,6 +498,6 @@ class DashboardController extends Controller
         $totalStatus1Count = $balanceStatus1Lists->count();
         $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
 
-        return view('client.panel.home.index', compact("userLog", "housingCounts", "housingFavorites", "projectFavorites", "projectCounts", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
+        return view('institutional.home.index', compact("userLog", "housingCounts", "housingFavorites", "projectFavorites", "projectCounts", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
     }
 }

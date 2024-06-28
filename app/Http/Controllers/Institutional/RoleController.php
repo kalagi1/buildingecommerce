@@ -17,7 +17,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::where('parent_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
-        return view('client.panel.roles.index', compact('roles'));
+        return view('institutional.roles.index', compact('roles'));
     }
 
     public function create()
@@ -107,7 +107,7 @@ class RoleController extends Controller
             ->toArray();
 
         // Görünümü gruplanmış izinlerle döndürün
-        return view('client.panel.roles.create', compact('groupedPermissions', 'specialPermissionIDs'));
+        return view('institutional.roles.create', compact('groupedPermissions', 'specialPermissionIDs'));
     }
 
 
@@ -201,7 +201,7 @@ class RoleController extends Controller
 
 
 
-        return view('client.panel.roles.edit', compact('role', 'groupedPermissions', 'specialPermissionIDs'));
+        return view('institutional.roles.edit', compact('role', 'groupedPermissions', 'specialPermissionIDs'));
     }
 
     public function store(CreateRoleRequest $request)

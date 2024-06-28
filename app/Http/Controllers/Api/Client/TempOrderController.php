@@ -854,7 +854,7 @@ class TempOrderController extends Controller
     }
 
     public function choiseAdvertiseType(){
-        return view('client.panel.advertise.choise');
+        return view('institutional.advertise.choise');
     }
 
     public function getDataByKey($order,$tempData,$key){

@@ -16,7 +16,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('client.panel.login.index');
+        return view('institutional.login.index');
     }
 
     public function login(Request $request)

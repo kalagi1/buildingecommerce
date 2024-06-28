@@ -13,12 +13,12 @@ class StoreBannerController extends Controller
     public function index()
     {
         $storeBanners = StoreBanner::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->orderBy("order", "asc")->get();
-        return view('client.panel.store_banners.index', compact('storeBanners'));
+        return view('institutional.store_banners.index', compact('storeBanners'));
     }
 
     public function create()
     {
-        return view('client.panel.store_banners.create');
+        return view('institutional.store_banners.create');
     }
 
     public function store(Request $request)
@@ -50,7 +50,7 @@ class StoreBannerController extends Controller
 
     public function edit(StoreBanner $storeBanner)
     {
-        return view('client.panel.store_banners.edit', compact('storeBanner'));
+        return view('institutional.store_banners.edit', compact('storeBanner'));
     }
 
     public function update(Request $request, StoreBanner $storeBanner)

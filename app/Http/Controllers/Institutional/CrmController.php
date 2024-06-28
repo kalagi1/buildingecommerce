@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class CrmController extends Controller
 {
     public function index(){
-        return view('client.panel.crm.index');
+        return view('institutional.crm.index');
     }
 
     public function projectAssigment(){
-        return view('client.panel.crm.project_assigment');
+        return view('institutional.crm.project_assigment');
     }
 }

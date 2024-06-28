@@ -30,7 +30,7 @@ class InvoiceController extends Controller
         ];
 
 
-        return view('client.panel.invoice.index', compact("data"));
+        return view('institutional.invoice.index', compact("data"));
     }
 
     public function adminshow($order){
