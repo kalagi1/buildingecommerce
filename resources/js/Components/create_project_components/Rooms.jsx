@@ -996,7 +996,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length == 10){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
