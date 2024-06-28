@@ -1,4 +1,4 @@
-@extends('client.layouts.masterPanel')
+@extends('client.layouts.master')
 
 
 
