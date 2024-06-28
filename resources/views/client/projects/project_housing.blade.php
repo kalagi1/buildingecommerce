@@ -208,9 +208,9 @@
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="button-effect-div favorite-move">
-                                   
+
                                     <div class="button-effect toggle-project-favorite" style="width:35px !important"
-                                        data-project-housing-id="{{ isset($projectHousingsList[$housingOrder]['squaremeters'][0]) ? $projectHousingsList[$housingOrder]['squaremeters'][0] : "" }}"
+                                        data-project-housing-id="{{ isset($projectHousingsList[$housingOrder]['squaremeters'][0]) ? $projectHousingsList[$housingOrder]['squaremeters'][0] : '' }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div>
@@ -433,10 +433,10 @@
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
                                         @else
-                                        <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug,'project_id' => $project->id]) }}"
-                                            class="btn btn-success">
-                                            <span class="text">Projeyi Düzenle</span>
-                                        </a>
+                                            <a href="{{ route('institutional.project.edit.v2', ['projectSlug' => $project->slug, 'project_id' => $project->id]) }}"
+                                                class="btn btn-success">
+                                                <span class="text">Projeyi Düzenle</span>
+                                            </a>
                                         @endif
                                     @endif
 
@@ -1021,9 +1021,10 @@
                                                 <td>
                                                     İlan No:
                                                     <span class="det" style="color: #274abb !important;">
-                                                        {{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $project->id + 1000000 . $housingOrder }}
                                                     </span>
                                                 </td>
+
                                             </tr>
                                             <tr>
                                                 <td>
