@@ -12,7 +12,7 @@ import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
 import HousingRoom from './HousingRoom';
-function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function HousingForm({selectedTypesTitles,user,slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -29,8 +29,6 @@ function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBloc
             setProjectDataFunc('project_title',projectTitle)
         }
     }
-
-    console.log(zoom);
 
     const dotNumberFormat = (number) => {
         if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
@@ -133,6 +131,19 @@ function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBloc
     return(
         <div>
             <div className="card p-4">
+                <ul className='adv-breadcrumb'>
+                    <li><i className='fa fa-home'></i></li>
+                    {
+                        selectedTypesTitles.map((selectedTypeTitle) => {
+                            return(
+                                <>
+                                    <li>{selectedTypeTitle} </li>
+                                    <li><i className='fa fa-chevron-right'></i></li>
+                                </>
+                            )
+                        })
+                    }
+                </ul>
                 <div className="form-group">
                     <label htmlFor="">İlan Başlığı <span className="required">*</span></label>
                     <div className="max-character-input">
