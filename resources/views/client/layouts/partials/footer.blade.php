@@ -1680,14 +1680,15 @@
                             .replace('slug_placeholder', data.project.slug)
                             .replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000)
                             .replace('id_housing_order_placeholder', parseInt(data.housingOrder));
-                            console.log(baseRoute);
-                        // const formattedName = data.project.name.charAt(0).toUpperCase() + data
-                        //     .project.name
-                        //     .slice(1);
+
+                            const formattedName = data.project.project_title.charAt(0).toUpperCase() + data
+                            .project.project_title
+                            .slice(1);
                        
 
                         $('.header-search-box').append(`
-                            <a href="${baseRoute.replace('slug_placeholder', data.project.slug).replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000).replace('id_housing_order_placeholder', parseInt(data.housingOrder))}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                            <a href="${baseRoute}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName}</span>
                             </a>
                         `);
                     }
