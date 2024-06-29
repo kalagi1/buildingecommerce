@@ -133,13 +133,12 @@
                             <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                                 İlanları</a>
-                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route('club.dashboard', array_filter([
+                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('club.dashboard', [
+                                 $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null,
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
-                                    $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null
-                                ])) }}">Koleksiyonlar</a>
-                             
+                                ]) }}">Koleksiyonlar</a>
 
                         </div>
 
