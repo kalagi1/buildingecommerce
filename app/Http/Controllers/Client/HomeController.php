@@ -1055,10 +1055,7 @@ class HomeController extends Controller
             $housingOrder = (int)$parts[1];
     
             
-            $projectIdNumber = Project::find($projectId - 1000000);
-
-            return $projectIdNumber . " ".  $housingOrder;
-            
+            $projectIdNumber = $projectId - 1000000;            
 
             $projectHousings = ProjectHousing::where('project_id', $projectIdNumber)
             ->where('room_order', $housingOrder)
