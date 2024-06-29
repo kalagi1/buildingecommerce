@@ -1048,19 +1048,17 @@ class HomeController extends Controller
         $term = $request->input('searchTerm');
         $projectHousings = null;
 
-        // "-" işareti var mı kontrol et
         if (strpos($term, '-') !== false) {
-            // Terimi tire işaretinden (-) ayırın
             $parts = explode('-', $term);
-
-            return $parts;
     
-            // İlk parça projenin ID'si olacak
             $projectId = (int)$parts[0];
-            // İkinci parça konut sırası olacak (varsa)
-            $housingOrder = isset($parts[1]) ? (int)$parts[1] : null;
+            $housingOrder = (int)$parts[1];
+    
+            
+            $projectIdNumber = Project::find($projectId - 1000000);
+            
 
-            $projectHousings = ProjectHousing::where('project_id', $projectId)
+            $projectHousings = ProjectHousing::where('project_id', $projectIdNumber)
             ->where('room_order', $housingOrder)
             ->get();
         }
