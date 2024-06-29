@@ -58,11 +58,13 @@
                         <div class="collection">
                             <div class="collection-head">
                                 <div><a
-                                        href="{{ route('club.dashboard', [
-                                            'parentSlug' => $item->parent ? Str::slug($item->parent->name) : null,
-                                            'slug' => Str::slug($item->name),
-                                            'userID' => $item->id,
-                                        ]) }}">
+                                        href="{{ route(
+                                            'club.dashboard',
+                                            [
+                                                'slug' => Str::slug($item->name),
+                                                'userID' => $item->id,
+                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                        ) }}">
                                         @if ($item->profile_image == 'indir.png')
                                             @php
                                                 $nameInitials = collect(preg_split('/\s+/', $item->name))
@@ -83,11 +85,13 @@
                                     </a></div>
                                 <ul class="collection-actions">
                                     <li> <button>
-                                            <a href="whatsapp://send?text={{ route('club.dashboard', [
-                                                'parentSlug' => $item->parent ? Str::slug($item->parent->name) : null,
-                                                'slug' => Str::slug($item->name),
-                                                'userID' => $item->id,
-                                            ]) }}"
+                                            <a href="whatsapp://send?text={{ route(
+                                                'club.dashboard',
+                                                [
+                                                    'slug' => Str::slug($item->name),
+                                                    'userID' => $item->id,
+                                                ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                            ) }}"
                                                 style="color: green">
                                                 <i class="fa fa-whatsapp"></i><span>Paylaş</span>
                                             </a>
@@ -122,11 +126,13 @@
 
                                 </div>
                                 <div class="collection-navigation"><a
-                                        href="{{ route('club.dashboard', [
-                                            'parentSlug' => $item->parent ? Str::slug($item->parent->name) : null,
-                                            'slug' => Str::slug($item->name),
-                                            'userID' => $item->id,
-                                        ]) }}"><span>Koleksiyonlara
+                                        href="{{ route(
+                                            'club.dashboard',
+                                            [
+                                                'slug' => Str::slug($item->name),
+                                                'userID' => $item->id,
+                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                        ) }}"><span>Koleksiyonlara
                                             Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
