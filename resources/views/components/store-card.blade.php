@@ -136,11 +136,15 @@
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
                                 href="{{ route(
                                     'club.dashboard',
-                                    [
-                                        'slug' => Str::slug($store->name),
-                                        'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
+                                    array_merge(
+                                        [
+                                            'slug' => Str::slug($store->name),
+                                            'userID' => $store->id,
+                                        ],
+                                        $store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : [],
+                                    ),
                                 ) }}">Koleksiyonlar</a>
+
 
                         </div>
 
