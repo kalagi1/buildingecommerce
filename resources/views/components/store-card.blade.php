@@ -133,12 +133,13 @@
                             <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                                 İlanları</a>
-                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route('club.dashboard', [
-                                    'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                href="{{ route('club.dashboard', array_filter([
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
-                                ]) }}">Koleksiyonlar</a>
+                                    $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null
+                                ])) }}">Koleksiyonlar</a>
+                             
 
                         </div>
 
@@ -166,14 +167,11 @@
                             <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route(
-                                    'club.dashboard',
-                                    [
-                                        'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
-                                        'slug' => Str::slug($store->name),
-                                        'userID' => $store->id,
-                                    ] ,
-                                ) }}">Koleksiyonlar</a>
+                                href="{{ route('club.dashboard', [
+                                    'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}">Koleksiyonlar</a>
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
                             {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
