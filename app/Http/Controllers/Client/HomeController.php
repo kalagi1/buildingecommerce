@@ -1052,6 +1052,8 @@ class HomeController extends Controller
         if (strpos($term, '-') !== false) {
             // Terimi tire işaretinden (-) ayırın
             $parts = explode('-', $term);
+
+            return $parts;
     
             // İlk parça projenin ID'si olacak
             $projectId = (int)$parts[0];
