@@ -139,6 +139,7 @@
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}">Koleksiyonlar</a>
+                            
 
 
                         </div>
@@ -166,12 +167,13 @@
                                 İlanları</a>
                             <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
-                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
                                 href="{{ route('club.dashboard', [
                                     $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null,
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}">Koleksiyonlar</a>
+                            
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
                             {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
