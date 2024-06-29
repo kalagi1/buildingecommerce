@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class ClubController extends Controller
 {
-    public function dashboard($parentSlug, $slug, $userID)
+    public function dashboard($parentSlug = null, $slug, $userID)
     {    
-        return $slug;
 
         $store = User::where('id', $userID)
             ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
