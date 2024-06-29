@@ -149,8 +149,11 @@ Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])-
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
+
 Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+    ->where('parentSlug', '.*') // parentSlug tüm karakterleri kabul etsin
     ->name('club.dashboard');
+
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
