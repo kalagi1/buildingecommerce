@@ -1671,7 +1671,7 @@
                     let hasResults = false;
 
                     if (data.housingOrder && data.projectIdNumber && data.project) {
-                       
+                        hideSearchingMessage(); 
                         $('.header-search-box').append(`
                             <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Proje İlanı</div>
                         `);
@@ -1693,6 +1693,7 @@
                         `);
                     }
                     if (data.housings.length > 0) {
+                        hideSearchingMessage(); 
                         hasResults = true;
                         $('.header-search-box').append(`
                             <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
@@ -1735,6 +1736,7 @@
 
                     // Project search
                     if (data.projects.length > 0) {
+                        hideSearchingMessage(); 
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const projectsToShow = data.projects.slice(0,
                             maxResultsToShow); // İlk 4 sonucu al
@@ -1776,6 +1778,8 @@
                     }
 
                     if (data.merchants.length > 0) {
+
+                        hideSearchingMessage(); 
                         hasResults = true;
                         $('.header-search-box').append(`
                             <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Mağazalar</div>
@@ -1817,8 +1821,7 @@
                                 <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
                     } else {
-                        hideSearchingMessage
-                            (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
+                        hideSearchingMessage(); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
                     }
 
                     if ($('.header-search-box').children().length > 3) {
