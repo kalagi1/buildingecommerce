@@ -157,7 +157,11 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
+Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, 'dashboard'])
+    ->where('parentSlug', '[a-zA-Z0-9\-_]+')
+    ->where('slug', '[a-zA-Z0-9\-_]+')
+    ->where('userID', '[0-9]+')
+    ->name('club.dashboard');
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
 Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
 
