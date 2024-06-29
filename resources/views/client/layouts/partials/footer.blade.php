@@ -1687,8 +1687,8 @@
                        
 
                         $('.header-search-box').append(`
-                            <a href="${baseRoute}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
-                                <span>${formattedName}</span>
+                            <a href="${baseRoute}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName} ${data.housingOrder} No'lu İlan</span>
                             </a>
                         `);
                     }
