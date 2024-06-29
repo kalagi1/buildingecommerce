@@ -58,13 +58,16 @@
                         <div class="collection">
                             <div class="collection-head">
                                 <div><a
-                                        href="{{ route(
-                                            'club.dashboard',
-                                            [
-                                                'slug' => Str::slug($item->name),
-                                                'userID' => $item->id,
-                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
-                                        ) }}">
+                                        @if (isset($item->parent)) href="{{ route('club.dashboard', [
+                                            'parentSlug' => Str::slug($item->parent->name),
+                                            'slug' => Str::slug($item->name),
+                                            'userID' => $item->id,
+                                        ]) }}"
+                                    @else
+                                    href="{{ route('club.dashboard2', [
+                                        'slug' => Str::slug($item->name),
+                                        'userID' => $item->id,
+                                    ]) }}" @endif>
                                         @if ($item->profile_image == 'indir.png')
                                             @php
                                                 $nameInitials = collect(preg_split('/\s+/', $item->name))
@@ -85,13 +88,16 @@
                                     </a></div>
                                 <ul class="collection-actions">
                                     <li> <button>
-                                            <a href="whatsapp://send?text={{ route(
-                                                'club.dashboard',
-                                                [
-                                                    'slug' => Str::slug($item->name),
-                                                    'userID' => $item->id,
-                                                ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
-                                            ) }}"
+                                            <a @if (isset($item->parent)) href="whatsapp://send?text={{ route('club.dashboard', [
+                                                'parentSlug' => Str::slug($item->parent->name),
+                                                'slug' => Str::slug($item->name),
+                                                'userID' => $item->id,
+                                            ]) }}"
+                                @else
+                                href="whatsapp://send?text={{ route('club.dashboard2', [
+                                    'slug' => Str::slug($item->name),
+                                    'userID' => $item->id,
+                                ]) }}" @endif
                                                 style="color: green">
                                                 <i class="fa fa-whatsapp"></i><span>Paylaş</span>
                                             </a>
@@ -125,15 +131,23 @@
                                     @endforeach
 
                                 </div>
-                                <div class="collection-navigation"><a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                    href="{{ route('club.dashboard', array_filter([
-                                        'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
-                                        'slug' => Str::slug($store->name),
-                                        'userID' => $store->id
-                                    ], function ($value) {
-                                        return !is_null($value);
-                                    })) }}">Koleksiyonlar</a>
-                                 
+                                <div class="collection-navigation">
+
+                                    <a href=""></a>
+
+
+                                    <a
+                                        @if (isset($item->parent)) href="{{ route('club.dashboard', [
+                                            'parentSlug' => Str::slug($item->parent->name),
+                                            'slug' => Str::slug($item->name),
+                                            'userID' => $item->id,
+                                        ]) }}"
+                                @else
+                                href="{{ route('club.dashboard2', [
+                                    'slug' => Str::slug($item->name),
+                                    'userID' => $item->id,
+                                ]) }}" @endif><span>Koleksiyonlara
+                                            Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
                         </div>
