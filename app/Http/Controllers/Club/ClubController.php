@@ -14,21 +14,19 @@ use Illuminate\Support\Facades\DB;
 class ClubController extends Controller
 {
     public function dashboard($slug, $userID)
-    {
-        $user = User::where('id', $userID)->first();
-    
-        $store = User::where('id', $user->id)
-            ->with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', "child.collections.clicks", 'banners')
+    {    
+        $store = User::where('id', $userID)
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
             ->first();
     
-        if (empty($user->parent_id)) {
+        if (empty($store->parent_id)) {
             $collections = Collection::with('links.project', 'links.housing')
                 ->where('status', 1)
-                ->where('user_id', $user->id)
+                ->where('user_id', $store->id)
                 ->get();
         } else {
             $collections = Collection::with('links.project', 'links.housing')
-                ->where('user_id', $user->id)
+                ->where('user_id', $store->id)
                 ->get();
         }
     
