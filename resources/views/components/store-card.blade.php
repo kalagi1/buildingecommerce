@@ -134,13 +134,11 @@
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                                 İlanları</a>
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route(
-                                    'club.dashboard',
-                                    [
-                                        'slug' => Str::slug($store->name),
-                                        'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
-                                ) }}">Koleksiyonlar</a>
+                                href="{{ route('club.dashboard', [
+                                    'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}">Koleksiyonlar</a>
 
                         </div>
 
@@ -171,9 +169,10 @@
                                 href="{{ route(
                                     'club.dashboard',
                                     [
+                                        'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
                                         'slug' => Str::slug($store->name),
                                         'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
+                                    ] ,
                                 ) }}">Koleksiyonlar</a>
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
