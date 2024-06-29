@@ -1671,7 +1671,7 @@
                     let hasResults = false;
 
                     if (data.housingOrder && data.projectIdNumber && data.project) {
-                        hasResults = true;
+                       
                         $('.header-search-box').append(`
                             <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Proje İlanı</div>
                         `);
@@ -1684,7 +1684,7 @@
                             const formattedName = data.project.project_title.charAt(0).toUpperCase() + data
                             .project.project_title
                             .slice(1);
-                       
+                            hasResults = true;
 
                         $('.header-search-box').append(`
                             <a href="${baseRoute}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
