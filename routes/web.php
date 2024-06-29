@@ -150,6 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
+    ->name('club.dashboard2');
+
 Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
     ->name('club.dashboard');
 

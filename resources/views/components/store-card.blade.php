@@ -140,7 +140,7 @@
                                     'userID' => $store->id,
                                 ]) }}"
                                 @else
-                                href="{{ route('club.dashboard', [
+                                href="{{ route('club.dashboard2', [
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}" @endif>
@@ -180,7 +180,7 @@
                                     'userID' => $store->id,
                                 ]) }}"
                                 @else
-                                href="{{ route('club.dashboard', [
+                                href="{{ route('club.dashboard2', [
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}" @endif>

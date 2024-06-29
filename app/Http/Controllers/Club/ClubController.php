@@ -37,5 +37,31 @@ class ClubController extends Controller
     
         return view('client.club.dashboard', compact('store', 'collections', 'slug'));
     }
+
+    public function dashboard2( $slug, $userID, )
+    {    
+        $store = User::where('id', $userID)
+            ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
+            ->first();
+
+        if (empty($store->parent_id)) {
+            $collections = Collection::with('links.project', 'links.housing')
+                ->where('status', 1)
+                ->where('user_id', $store->id)
+                ->get();
+        } else {
+            $collections = Collection::with('links.project', 'links.housing')
+                ->where('user_id', $store->id)
+                ->get();
+        }
+    
+        // Hiç link yoksa koleksiyonu filtrele
+        $collections = $collections->reject(function ($collection) {
+            return $collection->links->isEmpty();
+        });
+    
+        return view('client.club.dashboard', compact('store', 'collections', 'slug'));
+    }
+    
     
 }
