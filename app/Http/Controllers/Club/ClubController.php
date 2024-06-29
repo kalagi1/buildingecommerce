@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class ClubController extends Controller
 {
-    public function dashboard($parentSlug = null, $slug, $userID)
+    public function dashboard( $slug, $userID, $parentSlug = null)
     {    
         dd("asad");
 
