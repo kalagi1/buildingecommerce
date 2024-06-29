@@ -1669,7 +1669,7 @@
                 },
                 success: function(data) {
                     let hasResults = false;
-                    console.log(response.projectHousings);
+                    console.log(data.projectHousings);
                     // Housing search
                     if (data.housings.length > 0) {
                         hasResults = true;
