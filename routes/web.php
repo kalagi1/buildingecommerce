@@ -150,7 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
-Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar/{parentSlug?}', [ClubController::class, "dashboard"])
     ->where('parentSlug', '.*') // parentSlug tüm karakterleri kabul etsin
     ->name('club.dashboard');
 
