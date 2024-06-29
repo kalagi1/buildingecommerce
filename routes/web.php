@@ -149,7 +149,7 @@ Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])-
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
-Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
     ->name('club.dashboard');
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
