@@ -139,7 +139,7 @@
                                     [
                                         'slug' => Str::slug($store->name),
                                         'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : null),
+                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
                                 ) }}">Koleksiyonlar</a>
 
                         </div>
@@ -173,7 +173,7 @@
                                     [
                                         'slug' => Str::slug($store->name),
                                         'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : null),
+                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
                                 ) }}">Koleksiyonlar</a>
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>

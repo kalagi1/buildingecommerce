@@ -63,7 +63,7 @@
                                             [
                                                 'slug' => Str::slug($item->name),
                                                 'userID' => $item->id,
-                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
                                         ) }}">
                                         @if ($item->profile_image == 'indir.png')
                                             @php
@@ -90,7 +90,7 @@
                                                 [
                                                     'slug' => Str::slug($item->name),
                                                     'userID' => $item->id,
-                                                ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                                ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
                                             ) }}"
                                                 style="color: green">
                                                 <i class="fa fa-whatsapp"></i><span>Paylaş</span>
@@ -131,7 +131,7 @@
                                             [
                                                 'slug' => Str::slug($item->name),
                                                 'userID' => $item->id,
-                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : null),
+                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
                                         ) }}"><span>Koleksiyonlara
                                             Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
