@@ -1056,6 +1056,8 @@ class HomeController extends Controller
     
             
             $projectIdNumber = Project::find($projectId - 1000000);
+
+            return $projectIdNumber . " ".  $housingOrder;
             
 
             $projectHousings = ProjectHousing::where('project_id', $projectIdNumber)
