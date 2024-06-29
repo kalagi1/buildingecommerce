@@ -125,15 +125,15 @@
                                     @endforeach
 
                                 </div>
-                                <div class="collection-navigation"><a
-                                        href="{{ route(
-                                            'club.dashboard',
-                                            [
-                                                'slug' => Str::slug($item->name),
-                                                'userID' => $item->id,
-                                            ] + ($item->parent ? ['parentSlug' => Str::slug($item->parent->name)] : []),
-                                        ) }}"><span>Koleksiyonlara
-                                            Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
+                                <div class="collection-navigation"><a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                    href="{{ route('club.dashboard', array_filter([
+                                        'parentSlug' => $store->parent ? Str::slug($store->parent->name) : null,
+                                        'slug' => Str::slug($store->name),
+                                        'userID' => $store->id
+                                    ], function ($value) {
+                                        return !is_null($value);
+                                    })) }}">Koleksiyonlar</a>
+                                 
                                 </div>
                             </div>
                         </div>
