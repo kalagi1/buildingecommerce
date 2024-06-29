@@ -147,7 +147,7 @@ Route::post('/form-kaydet', [FormController::class, 'store'])->name('form.kaydet
 Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('get_sell_type');
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
-    Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+    Route::post('/housing/{ids}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
