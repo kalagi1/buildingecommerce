@@ -15,6 +15,7 @@ class ClubController extends Controller
 {
     public function dashboard($parentSlug = null, $slug, $userID)
     {    
+        dd("asad");
 
         $store = User::where('id', $userID)
             ->with('projects.housings', 'housings', 'city', 'town', 'district', "parent",'neighborhood', 'brands', "child.collections.clicks", 'banners')
