@@ -1060,7 +1060,6 @@ class HomeController extends Controller
 
             $projectHousings = ProjectHousing::where('project_id', $projectId)
             ->where('room_order', $housingOrder)
-            ->orderBy('room_order') 
             ->get();
         }
 
