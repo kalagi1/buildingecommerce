@@ -43,11 +43,11 @@
             <p class="d-flex align-items-center" style="gap: 5px;">
                 <span id="current-year"></span> © Copyright - emlaksepette.com
             </p>
-            
+
             <script>
                 document.getElementById("current-year").textContent = new Date().getFullYear();
             </script>
-            
+
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
                     <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
@@ -1028,11 +1028,11 @@
                                                             payDescDate
                                                             .getFullYear()) + "</td>";
 
-                                                                                                 
-                                        if (ongKiraData) {
-                                                html += "<td></td>";
 
-                                            }
+                                                    if (ongKiraData) {
+                                                        html += "<td></td>";
+
+                                                    }
                                                 } else {
                                                     html += null;
                                                 }
@@ -1669,8 +1669,28 @@
                 },
                 success: function(data) {
                     let hasResults = false;
-                    console.log(data.projectHousings);
-                    // Housing search
+
+                    if (data.housingOrder && data.projectIdNumber && data.project) {
+                        hasResults = true;
+                        $('.header-search-box').append(`
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Proje İlanı</div>
+                        `);
+                        var baseRoute =
+                            `{{ route('project.housings.detail', ['projectSlug' => 'slug_placeholder', 'projectID' => 'id_placeholder', 'housingOrder' => 'id_housing_order_placeholder']) }}`
+                            .replace('slug_placeholder', data.project.slug)
+                            .replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000)
+                            .replace('id_housing_order_placeholder', parseInt(data.housingOrder));
+                        const imageUrl =
+                            `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                        const formattedName = data.project.name.charAt(0).toUpperCase() + data
+                            .project.name
+                            .slice(1);
+                        $('.header-search-box').append(`
+                            <a href="${baseRoute.replace('slug_placeholder', data.project.slug).replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000).replace('id_housing_order_placeholder', parseInt(data.housingOrder))}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName}</span>
+                            </a>
+                        `);
+                    }
                     if (data.housings.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
@@ -1720,11 +1740,10 @@
 
                         hasResults = true;
                         $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Projeler</div>
                         `);
 
                         projectsToShow.forEach((e) => {
-                            console.log(e);
                             const imageUrl =
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0).toUpperCase() + e.name
@@ -1758,7 +1777,7 @@
                     if (data.merchants.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Mağazalar</div>
                         `);
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const merchantsToShow = data.merchants.slice(0,

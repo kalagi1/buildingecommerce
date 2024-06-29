@@ -1046,7 +1046,9 @@ class HomeController extends Controller
         );
 
         $term = $request->input('searchTerm');
-        $projectHousings = null;
+        $housingOrder = null;
+        $projectIdNumber =null;
+        $project = null;
 
         if (strpos($term, '-') !== false) {
             $parts = explode('-', $term);
@@ -1055,16 +1057,15 @@ class HomeController extends Controller
             $housingOrder = (int)$parts[1];
     
             
-            $projectIdNumber = $projectId - 1000000;            
-
-            $projectHousings = ProjectHousing::where('project_id', $projectIdNumber)
-            ->where('room_order', $housingOrder)
-            ->get();
+            $projectIdNumber = $projectId - 1000000;    
+            $project = Project::where("id", $projectIdNumber)->first();        
         }
 
         return response()->json(
             [
-                'project_housings' => $projectHousings,
+                'housingOrder' => $housingOrder,
+                'projectIdNumber' => $projectIdNumber,
+                "project" => $project,
                 'housings' => Housing::with(['city', 'county'])
                     ->where('status', 1)
                     ->where(function ($query) use ($term) {
