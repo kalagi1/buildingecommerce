@@ -1669,6 +1669,7 @@
                 },
                 success: function(data) {
                     let hasResults = false;
+                    console.log(response.projectHousings);
                     // Housing search
                     if (data.housings.length > 0) {
                         hasResults = true;
@@ -1863,6 +1864,7 @@
                     },
                     success: function(data) {
                         let hasResults = false;
+                        console.log(data.projectHousings);
 
                         // Housing search
                         if (data.housings.length > 0) {

@@ -19,6 +19,7 @@ use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\Filter;
+use App\Models\ProjectHousing;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1045,10 +1046,27 @@ class HomeController extends Controller
         );
 
         $term = $request->input('searchTerm');
+        $projectHousings = null;
+
+        // "-" işareti var mı kontrol et
+        if (strpos($term, '-') !== false) {
+            // Terimi tire işaretinden (-) ayırın
+            $parts = explode('-', $term);
+    
+            // İlk parça projenin ID'si olacak
+            $projectId = (int)$parts[0];
+            // İkinci parça konut sırası olacak (varsa)
+            $housingOrder = isset($parts[1]) ? (int)$parts[1] : null;
+
+            $projectHousings = ProjectHousing::where('project_id', $projectId)
+            ->where('room_order', $housingOrder)
+            ->orderBy('room_order') 
+            ->get();
+        }
 
         return response()->json(
             [
-                'project_housings' => [],
+                'project_housings' => $projectHousings,
                 'housings' => Housing::with(['city', 'county'])
                     ->where('status', 1)
                     ->where(function ($query) use ($term) {
