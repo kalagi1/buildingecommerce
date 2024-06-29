@@ -151,7 +151,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar/{parentSlug?}', [ClubController::class, "dashboard"])
-    ->where('parentSlug', '.*') // parentSlug tüm karakterleri kabul etsin
     ->name('club.dashboard');
 
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
