@@ -1085,7 +1085,7 @@ class HomeController extends Controller
                             'name' => $item->project_title,
                             'slug' => $item->slug,
                         ];
-                    })
+                    });
         }
 
         return response()->json(
