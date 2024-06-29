@@ -1021,7 +1021,8 @@
                                                 <td>
                                                     İlan No:
                                                     <span class="det" style="color: #274abb !important;">
-                                                        {{ $project->id + 1000000 . $housingOrder }}
+                                                        {{ $project->id + 1000000 . "-" . $housingOrder }}
+
                                                     </span>
                                                 </td>
 

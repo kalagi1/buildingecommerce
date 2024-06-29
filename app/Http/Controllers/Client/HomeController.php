@@ -1342,25 +1342,49 @@ class HomeController extends Controller
                 ]);
             }
         }
-        if (is_numeric($term)) {
-            // Eğer $term bir sayıya karşılık geliyorsa, ilgili projeyi bul
-            $project = Project::find((int)$term - 1000000);
 
-            // Proje bulunduysa ve slug değeri varsa, yönlendirme yap
+        if (strpos($term, '-') !== false) {
+            // Terimi tire işaretinden (-) ayırın
+            $parts = explode('-', $term);
+        
+            if (count($parts) == 2 && is_numeric($parts[0]) && is_numeric($parts[1])) {
+                $projectId = (int)$parts[0];
+                $housingOrder = (int)$parts[1];
+        
+                // Proje bulunuyor mu kontrol edin
+                $project = Project::find($projectId - 1000000);
+        
+                if ($project && $project->slug) {
+                    // İlgili yönlendirmeyi yapın
+                    return redirect()->route('project.housings.detail', [
+                        'projectSlug' => $project->slug,
+                        'projectID' => $projectId,
+                        'housingOrder' => $housingOrder  // Konut sırasını da iletebilirsiniz
+                    ]);
+                }
+            }
+        } else {
+            // "-" işareti bulunmuyorsa, sadece tek bir proje ID'si olduğunu varsayabilirsiniz
+            $projectId = (int)$term;
+        
+            // Proje bulunuyor mu kontrol edin
+            $project = Project::find($projectId - 1000000);
+        
             if ($project && $project->slug) {
+                // İlgili yönlendirmeyi yapın
                 return redirect()->route('project.detail', [
                     'slug' => $project->slug,
-                    'id' => (int)$term
+                    'id' => $projectId
                 ]);
             }
         }
-
+        
 
         $housings = Housing::select(
             'housings.step1_slug',
             'housings.step2_slug',
-            \DB::raw('COUNT(DISTINCT housings.id) as total_count'),
-            \DB::raw('COUNT(*) as count')
+            DB::raw('COUNT(DISTINCT housings.id) as total_count'),
+            DB::raw('COUNT(*) as count')
         )
 
             ->with(['city', 'county'])
