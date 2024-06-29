@@ -176,14 +176,22 @@
                                 İlanları</a>
                             <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
-                            <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route(
-                                    'club.dashboard',
-                                    [
-                                        'slug' => Str::slug($store->name),
-                                        'userID' => $store->id,
-                                    ] + ($store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : []),
-                                ) }}">Koleksiyonlar</a>
+                                <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
+                                @if($store->parent)
+                                href="{{ route('club.dashboard', [
+                                    'parentSlug' => Str::slug($store->parent->name),
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id
+                                ]) }}"
+                                @else
+                                href="{{ route('club.dashboard', [
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id
+                                ]) }}"
+                                @endif
+                             >
+                                Koleksiyonlar
+                             </a>
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
                             {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
