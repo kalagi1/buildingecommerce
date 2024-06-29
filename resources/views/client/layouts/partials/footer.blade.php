@@ -1681,7 +1681,7 @@
                             .replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000)
                             .replace('id_housing_order_placeholder', parseInt(data.housingOrder));
                         const imageUrl =
-                            `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                            `${appUrl}${data.project.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                         const formattedName = data.project.name.charAt(0).toUpperCase() + data
                             .project.name
                             .slice(1);
