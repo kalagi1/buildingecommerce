@@ -273,11 +273,7 @@
         .slick-track {
             margin: 0 !important;
         }
-
-        .slick-slide {
-            margin: 10px
-        }
-
+        
         .section-title h2 {
             color: black !important
         }

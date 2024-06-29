@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(OrderChangeSeeder::class);
         // $this->call(InstitutionSeeder::class);
 
-        $this->call(HousingSeeder::class);
+        $this->call(CollectionSeeder::class);
         // $this->call(UpdateHousingTypesSeeder::class);
     }   
 }

@@ -58,7 +58,16 @@
                         <div class="collection">
                             <div class="collection-head">
                                 <div><a
-                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}">
+                                        @if (isset($item->parent)) href="{{ route('club.dashboard', [
+                                            'parentSlug' => Str::slug($item->parent->name),
+                                            'slug' => Str::slug($item->name),
+                                            'userID' => $item->id,
+                                        ]) }}"
+                                    @else
+                                    href="{{ route('club.dashboard2', [
+                                        'slug' => Str::slug($item->name),
+                                        'userID' => $item->id,
+                                    ]) }}" @endif>
                                         @if ($item->profile_image == 'indir.png')
                                             @php
                                                 $nameInitials = collect(preg_split('/\s+/', $item->name))
@@ -79,7 +88,16 @@
                                     </a></div>
                                 <ul class="collection-actions">
                                     <li> <button>
-                                            <a href="whatsapp://send?text={{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"
+                                            <a @if (isset($item->parent)) href="whatsapp://send?text={{ route('club.dashboard', [
+                                                'parentSlug' => Str::slug($item->parent->name),
+                                                'slug' => Str::slug($item->name),
+                                                'userID' => $item->id,
+                                            ]) }}"
+                                @else
+                                href="whatsapp://send?text={{ route('club.dashboard2', [
+                                    'slug' => Str::slug($item->name),
+                                    'userID' => $item->id,
+                                ]) }}" @endif
                                                 style="color: green">
                                                 <i class="fa fa-whatsapp"></i><span>Paylaş</span>
                                             </a>
@@ -113,8 +131,22 @@
                                     @endforeach
 
                                 </div>
-                                <div class="collection-navigation"><a
-                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
+                                <div class="collection-navigation">
+
+                                    <a href=""></a>
+
+
+                                    <a
+                                        @if (isset($item->parent)) href="{{ route('club.dashboard', [
+                                            'parentSlug' => Str::slug($item->parent->name),
+                                            'slug' => Str::slug($item->name),
+                                            'userID' => $item->id,
+                                        ]) }}"
+                                @else
+                                href="{{ route('club.dashboard2', [
+                                    'slug' => Str::slug($item->name),
+                                    'userID' => $item->id,
+                                ]) }}" @endif><span>Koleksiyonlara
                                             Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
@@ -396,10 +428,6 @@
     <style>
         .slick-track {
             margin: 0 !important;
-        }
-
-        .slick-slide {
-            margin: 10px
         }
 
         .section-title h2 {

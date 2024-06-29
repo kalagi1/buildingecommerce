@@ -1,4 +1,4 @@
-@extends('institutional.layouts.master')
+@extends('client.layouts.master')
 
 @section('content')
     <section class="loginItems">

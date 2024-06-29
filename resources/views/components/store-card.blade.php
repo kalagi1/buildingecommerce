@@ -28,16 +28,16 @@
                         </p>
                         <div class="mobile-hidden-flex">
                             @if ($store->corporate_account_status)
-                                
+
                                 @if ($store->year && $store->name == 'Maliyetine Ev')
-                                <span class="badgeYearIcon" style="display: inline-block; position: relative;">
-                                    <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
-                                        style="display: block; margin: 0 auto;">
-                                    <span
-                                        style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                        <i class="fa fa-check"></i>
+                                    <span class="badgeYearIcon" style="display: inline-block; position: relative;">
+                                        <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}"
+                                            alt="" style="display: block; margin: 0 auto;">
+                                        <span
+                                            style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                            <i class="fa fa-check"></i>
+                                        </span>
                                     </span>
-                                </span>
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}"
                                             alt="" style="display: block; margin: 0 auto;">
@@ -134,7 +134,19 @@
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                                 İlanları</a>
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
+                                @if (isset($store->parent)) href="{{ route('club.dashboard', [
+                                    'parentSlug' => Str::slug($store->parent->name),
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}"
+                                @else
+                                href="{{ route('club.dashboard2', [
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}" @endif>
+                                Koleksiyonlar
+                            </a>
+
 
                         </div>
 
@@ -162,7 +174,19 @@
                             <a class="navbar-item {{ Route::is('institutional.teams*') ? 'active' : '' }}"
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
-                                href="{{ route('club.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Koleksiyonlar</a>
+                                @if (isset($store->parent)) href="{{ route('club.dashboard', [
+                                    'parentSlug' => Str::slug($store->parent->name),
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}"
+                                @else
+                                href="{{ route('club.dashboard2', [
+                                    'slug' => Str::slug($store->name),
+                                    'userID' => $store->id,
+                                ]) }}" @endif>
+                                Koleksiyonlar
+                            </a>
+
                             <a class="navbar-item {{ Route::is('institutional.comments*') ? 'active' : '' }}"
                                 href="{{ route('institutional.comments', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Değerlendirmeler</a>
                             {{-- <a class="navbar-item {{ Route::is('institutional.swap*') ? 'active' : '' }}"
@@ -217,16 +241,16 @@
     }
 
     .profile-initial {
-            font-size: 20px;
-            color: #e54242;
-            background: white;
-            border: 2px solid #e6e6e6;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
+        font-size: 20px;
+        color: #e54242;
+        background: white;
+        border: 2px solid #e6e6e6;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto;
+    }
 </style>

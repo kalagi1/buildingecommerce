@@ -18,5 +18,6 @@ class VerifyCsrfToken extends Middleware
          '/neighbor/resultpaymentfail',
          '/reservation/resultpaymentsuccess',
          '/reservation/resultpaymentfail',
+         '/webhook/google-sheets',
     ];
 }

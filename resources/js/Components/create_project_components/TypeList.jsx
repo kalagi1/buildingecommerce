@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../define/variables';
-function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes}) {
+function TypeList({setSlug,setSelectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes,selectedTypesTitles,setSelectedTypesTitles}) {
     const [housingStatuses,setHousingStatuses] = React.useState([]);
     const [loadingOrder,setLoadingOrder] = React.useState(null);
     const [loadingOrderStatusId,setLoadingOrderStatusId] = React.useState(null);
@@ -70,6 +70,21 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
         
     }
 
+    const setHousingTypeTitles = (housingTypeTitle,order) => {
+        var tempHousingTypeParents = [];
+
+        for(var i = 0; i <= order; i++){
+            if(i == order){
+                tempHousingTypeParents.push(housingTypeTitle);
+            }else{
+                tempHousingTypeParents.push(selectedTypesTitles[i]);
+            }
+        }
+        
+        setSelectedTypesTitles(tempHousingTypeParents)
+        
+    }
+
     return(
         <div>
             <div className="row">
@@ -79,7 +94,7 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                             housingStatuses.sort((a, b) => a.name.localeCompare(b.name, 'tr')).map((housingStatus) => {
                                 if(!housingStatus.is_default){
                                     return(
-                                        <li onClick={() => {setHousingStatus(housingStatus.id)}} className={selectedTypes[0] == housingStatus.id ? "selected" : ""}>{housingStatus.name}</li>
+                                        <li onClick={() => {setHousingStatus(housingStatus.id);setHousingTypeTitles(housingStatus.name,0)}} className={selectedTypes[0] == housingStatus.id ? "selected" : ""}>{housingStatus.name}</li>
                                     )
                                 }
                                 
@@ -94,7 +109,7 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                                 {
                                     housingTypes[0].map((housingType) => {
                                         return(
-                                            <li onClick={() => {setHousingTypeParent(housingType.id,1)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,1);setHousingTypeTitles(housingType.title,1)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
                                                 {housingType.title}
                                                 {
                                                     loadingOrder && loadingOrder == 1 && loadingOrderStatusId && loadingOrderStatusId == housingType.id ?
@@ -116,7 +131,7 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                                 {
                                     housingTypes[1]?.map((housingType) => {
                                         return(
-                                            <li onClick={() => {setHousingTypeParent(housingType.id,2);setSlug(housingType.slug)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,2);setSlug(housingType.slug);setHousingTypeTitles(housingType.title,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
                                                 {housingType.title}
                                                 {
                                                     loadingOrder && loadingOrder == 2 && loadingOrderStatusId && housingType.id == loadingOrderStatusId ?
@@ -138,8 +153,8 @@ function TypeList({slug,setSlug,setSelectedHousingType,selectedHousingType,setSe
                                 {
                                     housingTypes[2]?.map((housingType) => {
                                         return(
-                                            <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,3)}} className={selectedTypes[3] == housingType.id ? "selected" : ""}>
-                                                {housingType.housing_type.title}
+                                            <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,3);setHousingTypeTitles(housingType?.housing_type?.title,3)}} className={selectedTypes[3] == housingType.id ? "selected" : ""}>
+                                                {housingType?.housing_type?.title}
                                             </li>
                                         )
                                     })

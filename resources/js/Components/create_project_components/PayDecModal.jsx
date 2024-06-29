@@ -15,7 +15,7 @@ function PayDecModal({open,setOpen,blocks,setBlocks,selectedBlock,selectedRoom})
     };
 
     useEffect(() => {
-        if(!blocks[selectedBlock]?.rooms[selectedRoom]['payDecs']){
+        if(blocks[selectedBlock]?.rooms[selectedRoom] && !blocks[selectedBlock]?.rooms[selectedRoom]['payDecs']){
             blockDataSet(selectedBlock,"payDecs",[])
         }
     },[selectedBlock,selectedRoom])

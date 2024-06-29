@@ -43667,7 +43667,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .progress-line ol li{
-    width: 25%;
+    width: 33.33%;
 }
 
 .progress-line.step1 ol:before{
@@ -47653,4 +47653,19 @@ hr {
     border-radius: 5px;
     color: #fff;
     display: inline-block;
+  }
+
+  .adv-breadcrumb{
+    display: flex;
+    background: #ea2a28;
+    padding: 5px 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .adv-breadcrumb li{
+    list-style: none;
+    color: #fff;
+    padding: 0 5px;
   }

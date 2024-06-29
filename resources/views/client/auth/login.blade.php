@@ -659,7 +659,7 @@
                                                     <div class="filter-tags-wrap">
                                                         <input id="check-e" type="checkbox" name="check-e">
                                                         <label for="check-e" style="font-size: 11px;">
-                                                            Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
+                                                            İletişim bilgilerime kampanya, tanıtım ve reklam içerikli ticari elektronik ileti gönderilmesine, bu amaçla kişisel verilerimin “Emlaksepette” tarafından işlenmesine ve tedarikçileri ve işbirlikçileri ile paylaşılmasına, bu amaçlarla verilerimin yurt dışına aktarılmasına izin veriyorum.
                                                         </label>
                                                     </div>
                                                 </div>

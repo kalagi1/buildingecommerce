@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Models\AssignedUser;
 use App\Models\Customer;
 use App\Models\CustomerCall;
 use App\Models\Project;
@@ -171,7 +172,7 @@ class CrmController extends Controller
     }//End
 
     public function getAllUsers(){
-        $users = User::all();
+        $users = AssignedUser::all();
         return response()->json([
            'data' => $users   
         ]);
@@ -200,5 +201,95 @@ class CrmController extends Controller
         return response()->json([
             'message' => 'Başarıyla kaydedildi'
         ]);
+    }//End
+
+    public function getUserProjects($userId){
+        try {
+            $userProjects = DB::table('project_assigment')->where('user_id', $userId)
+                ->join('projects', 'project_assigment.project_id', '=', 'projects.id')
+                ->select('projects.*', 'project_assigment.created_at')
+                ->get();
+
+            return response()->json([
+                'data' => $userProjects,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong',
+            ], 500);
+        }
+    }//End
+
+    public function getAssignedProjectDetails($userId){
+        try {
+            // Belirli kullanıcının atanmış projelerini getir
+            $assignedProjects = DB::table('project_assigment')->where('user_id', $userId)->pluck('project_id');
+
+            // Projelerin detaylarını getir
+            $projects = Project::whereIn('id', $assignedProjects)->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $projects,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching assigned project details.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function fetchProjectAssigments(){
+        try {
+            $assignments = DB::table('project_assigment')
+                ->join('assigned_users', 'project_assigment.user_id', '=', 'assigned_users.id')
+                ->join('projects', 'project_assigment.project_id', '=', 'projects.id')
+                ->select('project_assigment.*', 'assigned_users.name as user_name', 'assigned_users.email as user_email', 'projects.project_title as project_title')
+                ->get();
+
+            return response()->json([
+                'data' => $assignments,
+                'status' => 'success'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error fetching project assignments',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }//End
+
+    public function removeProjectAssignment(Request $request){
+        try {
+            DB::table('project_assigment')
+                ->where('user_id', $request->input('userId'))
+                ->where('project_id', $request->input('projectId'))
+                ->delete();
+
+            return response()->json([
+                'message' => 'Project assignment removed successfully',
+                'status' => 'success'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error removing project assignment',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }//End
+
+    public function addUser(Request $request){
+           // Create a new user
+           $user = new AssignedUser();
+           $user->name      = $request->name;
+           $user->email     = $request->email;
+           $user->phone     = $request->phone;
+           $user->job_title = $request->job_title;
+           $user->save();
+
+           return response()->json(['message' => 'User added successfully', 'data' => $user], 201);
+
     }//End
 }

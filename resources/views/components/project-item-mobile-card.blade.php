@@ -19,6 +19,30 @@
     'blockName',
     'blockStart',
 ])
+
+@php 
+
+if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+    function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            $exists = $user->projects()
+                           ->where('id', $projectId)
+                           ->whereHas('housings', function($query) use ($keyIndex) {
+                               $query->where('room_order', $keyIndex);
+                           })
+                           ->exists();
+            return !$exists;
+        }
+
+        return true;
+    }
+}
+
+@endphp
+
 @php
     if ($key == 0) {
         $keyIndex = $i + 1;
@@ -244,14 +268,24 @@
 
                                     @endif
                                 </span>
-                                <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                    data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'
-                                    data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
-                                    <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
-                                    </span>
-                                    <span class="text">Sepete Ekle</span>
-                                </button>
+
+                                @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
+                                    <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'
+                                        data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
+                                        <span class="IconContainer">
+                                            <img src="{{ asset('sc.png') }}" alt="">
+                                        </span>
+                                        <span class="text">Sepete Ekle</span>
+                                    </button>
+                                @else
+                                    <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
+                                        class="second-btn">
+                                        <span class="text">İlanı Düzenle</span>
+                                    </a>
+                                @endif
+
+
                             </div>
                         @endif
                     @endif

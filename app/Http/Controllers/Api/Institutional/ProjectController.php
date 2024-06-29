@@ -477,7 +477,7 @@ class ProjectController extends Controller
                 if (!$housingTypeInputs[$j]->multiple) {
                     $imageRoom = $request->file('room')['image'];
                     if ($imageRoom) {
-                        $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp) . '.' . $imageRoom->getClientOriginalExtension();
+                        $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp).uniqid() . '.' . $imageRoom->getClientOriginalExtension();
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
 
@@ -845,7 +845,7 @@ class ProjectController extends Controller
             $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
 
             // Dosyayı belirlenen hedefe taşı
-            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . time() . '.' . $file->getClientOriginalExtension();
+            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . uniqid() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameGalleryImage);
             $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
             $imageWidth = $image->width();
@@ -877,27 +877,30 @@ class ProjectController extends Controller
             $postData[$key] = [$pData];
         }
         foreach ($housingTypeInputs as $input) {
-            if ($input->type == "checkbox-group") {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+            if(isset($input) && isset($input->type) && $input->type){
+                if ($input->type == "checkbox-group") {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
                     }
                 } else {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                    }
-                }
-            } else {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                    }
-                } else {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                        }
                     }
                 }
             }
+            
         }
 
         $postData['image'] = $fileNameCoverImage;

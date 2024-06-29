@@ -296,7 +296,7 @@ class CartController extends Controller {
                 'housing' => $housing,
                 'projectOffer' => $projectOffer,
                 'housingOffer' => $housingOffer,
-                'store' => $housing ? $housing->user : $project->user
+                'store' => $housing || $project ? ( $housing ? $housing->user : ( $project ? $project->user : null ) ) : null
             ] );
         }
 

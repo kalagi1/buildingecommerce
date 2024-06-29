@@ -19,6 +19,7 @@ use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\Filter;
+use App\Models\ProjectHousing;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -181,6 +182,7 @@ class HomeController extends Controller
             'neighborhood'
         ])
             ->where('status', 1)
+            ->whereNull('is_sold')
             ->whereHas('listItems', function ($query) {
                 $query->where('item_type', 2);
             })
@@ -509,6 +511,9 @@ class HomeController extends Controller
 
     public function getRenderedSecondhandHousings(Request $request)
     {
+
+        
+
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -676,6 +681,7 @@ class HomeController extends Controller
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
 
+    
 
         if ($request->input("slug") == "paylasimli-ilanlar") {
             $obj = $obj->whereNotNull('housings.owner_id') ;
@@ -780,7 +786,8 @@ class HomeController extends Controller
             $obj = $obj->where('housings.created_at', '>=', now()->subDays($request->input('listing_date')));
         }
 
-        if ($request->has('corporateType') && $request->input('corporateType') !== null) {
+    
+        if ($request->has('corporateType') && $request->input('corporateType') !== null && $request->input('corporateType') !== "all") {
 
             if ($request->input('corporateType') != "Sahibinden") {
                 $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
@@ -976,6 +983,8 @@ class HomeController extends Controller
                 'neighborhood' => $item->neighborhood->mahalle_title,
                 'created_at' => $item->created_at,
                 "action" => $action,
+                'checkIfUserCanAddHousings' => $this->checkIfUserCanAddToCart($item->id),
+                'route' => $this->checkIfUserCanAddToCart($item->id) ? false : route('institutional.housing.edit', ['id' => $item->id]),
                 'offSale' => $offSale,
                 'share' => $share,
                 'sold' => $item->sold,
@@ -1005,13 +1014,27 @@ class HomeController extends Controller
         $result = [
             'totalCount' => $objPaginated->total(), // Toplam öğe sayısını alın
             'data' => $transformedData,
-            'term' => $term
+            'term' => $term,
         ];
 
 
 
         // JSON yanıtını döndürün
         return response()->json($result);
+    }
+
+    private function checkIfUserCanAddToCart($housingId)
+    {
+        $user = auth()->user();
+
+        // Check if the user is logged in
+        if ($user) {
+            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+            $exists = $user->housings()->where('id', $housingId)->exists();
+            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+        }
+
+        return true; // Return false if user is not logged in
     }
 
     public function getSearchList(Request $request)
@@ -1023,10 +1046,53 @@ class HomeController extends Controller
         );
 
         $term = $request->input('searchTerm');
+        $housingOrder = null;
+        $projectIdNumber =null;
+        $project = null;
+        $projects = null;
+
+
+        if (strpos($term, '-') !== false) {
+            $parts = explode('-', $term);
+    
+            $projectId = (int)$parts[0];
+            $housingOrder = (int)$parts[1];
+    
+            
+            $projectIdNumber = $projectId - 1000000;    
+            $project = Project::where("id", $projectIdNumber)->first();        
+        }else{
+          $projects =  Project::where('status', 1)
+                    ->where(function ($query) use ($term) {
+                        $query->where('project_title', 'LIKE', "%{$term}%")
+                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%")
+                            ->orWhere('id', '=', (int)$term - 1000000)
+                            ->orWhereHas('city', function ($query) use ($term) {
+                                $query->where('title', 'LIKE', "%{$term}%");
+                            })
+                            ->orWhereHas('county', function ($query) use ($term) {
+                                $query->where('ilce_title', 'LIKE', "%{$term}%");
+                            });
+                    })->where('projects.status',1)
+                    
+                    ->get()
+                    ->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'photo' => $item->image,
+                            'name' => $item->project_title,
+                            'slug' => $item->slug,
+                        ];
+                    });
+        }
 
         return response()->json(
             [
-                'project_housings' => [],
+                'housingOrder' => $housingOrder,
+                'projectIdNumber' => $projectIdNumber,
+                "project" => $project,
                 'housings' => Housing::with(['city', 'county'])
                     ->where('status', 1)
                     ->where(function ($query) use ($term) {
@@ -1054,30 +1120,7 @@ class HomeController extends Controller
 
 
 
-                'projects' => Project::where('status', 1)
-                    ->where(function ($query) use ($term) {
-                        $query->where('project_title', 'LIKE', "%{$term}%")
-                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
-                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
-                            ->orWhere('description', 'LIKE', "%{$term}%")
-                            ->orWhere('id', '=', (int)$term - 1000000)
-                            ->orWhereHas('city', function ($query) use ($term) {
-                                $query->where('title', 'LIKE', "%{$term}%");
-                            })
-                            ->orWhereHas('county', function ($query) use ($term) {
-                                $query->where('ilce_title', 'LIKE', "%{$term}%");
-                            });
-                    })->where('projects.status',1)
-                    
-                    ->get()
-                    ->map(function ($item) {
-                        return [
-                            'id' => $item->id,
-                            'photo' => $item->image,
-                            'name' => $item->project_title,
-                            'slug' => $item->slug,
-                        ];
-                    }),
+                'projects' => $projects,
 
                 'merchants' => User::where('type', '2')->where("corporate_account_status", "1")->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
@@ -1320,25 +1363,49 @@ class HomeController extends Controller
                 ]);
             }
         }
-        if (is_numeric($term)) {
-            // Eğer $term bir sayıya karşılık geliyorsa, ilgili projeyi bul
-            $project = Project::find((int)$term - 1000000);
 
-            // Proje bulunduysa ve slug değeri varsa, yönlendirme yap
+        if (strpos($term, '-') !== false) {
+            // Terimi tire işaretinden (-) ayırın
+            $parts = explode('-', $term);
+        
+            if (count($parts) == 2 && is_numeric($parts[0]) && is_numeric($parts[1])) {
+                $projectId = (int)$parts[0];
+                $housingOrder = (int)$parts[1];
+        
+                // Proje bulunuyor mu kontrol edin
+                $project = Project::find($projectId - 1000000);
+        
+                if ($project && $project->slug) {
+                    // İlgili yönlendirmeyi yapın
+                    return redirect()->route('project.housings.detail', [
+                        'projectSlug' => $project->slug,
+                        'projectID' => $projectId,
+                        'housingOrder' => $housingOrder  // Konut sırasını da iletebilirsiniz
+                    ]);
+                }
+            }
+        } else {
+            // "-" işareti bulunmuyorsa, sadece tek bir proje ID'si olduğunu varsayabilirsiniz
+            $projectId = (int)$term;
+        
+            // Proje bulunuyor mu kontrol edin
+            $project = Project::find($projectId - 1000000);
+        
             if ($project && $project->slug) {
+                // İlgili yönlendirmeyi yapın
                 return redirect()->route('project.detail', [
                     'slug' => $project->slug,
-                    'id' => (int)$term
+                    'id' => $projectId
                 ]);
             }
         }
-
+        
 
         $housings = Housing::select(
             'housings.step1_slug',
             'housings.step2_slug',
-            \DB::raw('COUNT(DISTINCT housings.id) as total_count'),
-            \DB::raw('COUNT(*) as count')
+            DB::raw('COUNT(DISTINCT housings.id) as total_count'),
+            DB::raw('COUNT(*) as count')
         )
 
             ->with(['city', 'county'])
@@ -1365,16 +1432,23 @@ class HomeController extends Controller
 
         $housings = $housings->groupBy('step1_slug')->map(function ($group) {
             return $group->mapToGroups(function ($item) {
-                return [$item->step2_slug => [
-                    'count' => $item->count,
-                    'step1_title' => $item->step1_slug,
-                    'step2_title' => $item->step2_slug,
-
-                ]];
+                // Retrieve HousingTypeParent objects for step1_slug and step2_slug
+                $parent = HousingTypeParent::where('slug', $item->step1_slug)->first();
+                $parent2 = HousingTypeParent::where('slug', $item->step2_slug)->first();
+        
+                return [
+                    $item->step2_slug => [
+                        'count' => $item->count,
+                        'step1_title' => $parent ? $parent->title : null, // Check if $parent exists before accessing title
+                        'step2_title' => $parent2 ? $parent2->title : null, // Check if $parent2 exists before accessing title
+                    ]
+                ];
             });
         });
 
-
+        
+       
+      
 
 
 

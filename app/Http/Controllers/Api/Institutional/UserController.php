@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartItem;
 use App\Models\Chat;
 use App\Models\Collection;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\Role;
 use App\Models\SharerPrice;
 use App\Models\User;
@@ -26,16 +29,17 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
+
         $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
             return $rolePermission->permissions->pluck('key');
         })->unique()->toArray();
-
-        if ($user->type != "1" || $user->type != "3") {
-
+    
+        if ($user->type != "1" && $user->type != "3") {
+    
             if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
-                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects","GetReceivedOffers", "DeleteProject", "UpdateProject", 'GetProjectById']);
+                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "GetReceivedOffers", "DeleteProject", "UpdateProject", 'GetProjectById']);
             }
-
+    
             if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
                 $permissions = array_diff($permissions, [
                     "Offers",
@@ -47,50 +51,141 @@ class UserController extends Controller
                     "GetOffers"
                 ]);
             }
-
+    
             if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
                 $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
             }
         }
-
-        $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)
-            ->where("status", "0")->get();
-
-        $balanceStatus0 = SharerPrice::where("user_id", $user->id)
-            ->where("status", "0")
-            ->sum('balance');
-
-        $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)
-            ->where("status", "1")->get();
-
-        $balanceStatus1 = SharerPrice::where("user_id", $user->id)
-            ->where("status", "1")
-            ->sum('balance');
-
-
-        $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)
-            ->where("status", "2")->get();
-
-        $balanceStatus2 = SharerPrice::where("user_id", $user->id)
-            ->where("status", "2")
-            ->sum('balance');
-
-        $collections = Collection::with("links.project", "links.housing","clicks")->where("user_id",  $user->id)->orderBy("id", "desc")->limit(6)->get();
+    
+        // Balance ve Collections bilgilerini getir
+        $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)->where("status", "0")->get();
+        $balanceStatus0 = $balanceStatus0Lists->sum('balance');
+    
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)->where("status", "1")->get();
+        $balanceStatus1 = $balanceStatus1Lists->sum('balance');
+    
+        $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)->where("status", "2")->get();
+        $balanceStatus2 = $balanceStatus2Lists->sum('balance');
+    
+        $collections = Collection::with("links.project", "links.housing", "clicks")
+                        ->where("user_id", $user->id)
+                        ->orderBy("id", "desc")
+                        ->limit(6)
+                        ->get();
+    
         $totalStatus1Count = $balanceStatus1Lists->count();
-        $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
-        $permissions = array_values($permissions);
-
+        $successPercentage = $totalStatus1Count > 0 
+            ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 
+            : 0;
+    
+        $housingFavorites = HousingFavorite::where("user_id", $user->id)->count();
+        $projectFavorites = ProjectFavorite::where("user_id", $user->id)->count();
+        $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
+    
+        // Erişim token'ı oluştur
+    
+        // Kullanıcı verilerini bir diziye aktar
+        $userData = [
+            "status" => 200,
+            'success' => true,
+            'id' => $user->id,
+            'facebook_id' => $user->facebook_id,
+            'is_show' => $user->is_show,
+            'name' => $user->name,
+            'type' => $user->type,
+            'status' => $user->status,
+            'email' => $user->email,
+            'email_verified_at' => $user->email_verified_at,
+            'password' => $user->password,
+            'remember_token' => $user->remember_token,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+            'deleted_at' => $user->deleted_at,
+            'phone' => $user->phone,
+            'phone_verification_status' => $user->phone_verification_status,
+            'phone_verification_code' => $user->phone_verification_code,
+            'birthday' => $user->birthday,
+            'city_id' => $user->city_id,
+            'email_verification_token' => $user->email_verification_token,
+            'activity' => $user->activity,
+            'county_id' => $user->county_id,
+            'account_type' => $user->account_type,
+            'taxOfficeCity' => $user->taxOfficeCity,
+            'taxOffice' => $user->taxOffice,
+            'taxNumber' => $user->taxNumber,
+            'idNumber' => $user->idNumber,
+            'plan_id' => $user->plan_id,
+            'subscription_plan_id' => $user->subscription_plan_id,
+            'profile_image' => $user->profile_image,
+            'banner_hex_code' => $user->banner_hex_code,
+            'parent_id' => $user->parent_id,
+            'neighborhood_id' => $user->neighborhood_id,
+            'corporate_type' => $user->corporate_type,
+            'corporate_account_status' => $user->corporate_account_status,
+            'tax_document' => $user->tax_document,
+            'record_document' => $user->record_document,
+            'corporate_account_note' => $user->corporate_account_note,
+            'tax_document_approve' => $user->tax_document_approve,
+            'record_document_approve' => $user->record_document_approve,
+            'identity_document' => $user->identity_document,
+            'identity_document_approve' => $user->identity_document_approve,
+            'company_document' => $user->company_document,
+            'company_document_approve' => $user->company_document_approve,
+            'is_blocked' => $user->is_blocked,
+            'username' => $user->username,
+            'institutional_awaiting_approval' => $user->institutional_awaiting_approval,
+            'commercial_title' => $user->commercial_title,
+            'last_login' => $user->last_login,
+            'instagramusername' => $user->instagramusername,
+            'iban' => $user->iban,
+            'year' => $user->year,
+            'code' => $user->code,
+            'has_club' => $user->has_club,
+            'bank_name' => $user->bank_name,
+            'mobile_phone' => $user->mobile_phone,
+            'latitude' => $user->latitude,
+            'longitude' => $user->longitude,
+            'order' => $user->order,
+            'title' => $user->title,
+            'website' => $user->website,
+            'store_name' => $user->store_name,
+            'is_called' => $user->is_called,
+            'is_show_files' => $user->is_show_files,
+            'authority_licence' => $user->authority_licence,
+            'approve_website' => $user->approve_website,
+            'approve_website_approve' => $user->approve_website_approve,
+            'role' => $user->role->name,
+            'role_id' => $user->role->id,
+            'slug' => $user->role->slug,
+            'buyerStatus' => $user->status,
+            'cartItem' => $cartItem ? $cartItem : null,
+            'housingFavoritesCount' => $housingFavorites,
+            'projectFavoritesCount' => $projectFavorites,
+            'corporateAccountStatus' => $user->corporate_account_status,
+            'email' => $user->email,
+            'mobile_phone' => $user->mobile_phone,
+            'rolePermissions' => $user->role->rolePermissions,
+            'permissions' => $permissions,
+            'works' => $user->works,
+            'token_type' => 'Bearer',
+            'balanceStatus1Lists' => $balanceStatus1Lists,
+            'balanceStatus0' => $balanceStatus0,
+            'balanceStatus2' => $balanceStatus2,
+            'successPercentage' => $successPercentage,
+            'collections' => $collections
+        ];
+    
         return response()->json([
-            'user' => $user,
+            'user' => $userData,
             "balanceStatus1" => $balanceStatus1,
             "balanceStatus0" => $balanceStatus0,
             "balanceStatus2" => $balanceStatus2,
             "successPercentage" => $successPercentage,
             "collections" => $collections,
             "permissions" => $permissions,
-
         ]);
     }
+    
 
     public function index()
     {
@@ -258,8 +353,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function getCurrentUser(){
-        $user = User::where('id',auth()->user()->id)->first();
+    public function getCurrentUser()
+    {
+        $user = User::where('id', auth()->user()->id)->first();
 
         return json_encode([
             "user" => $user

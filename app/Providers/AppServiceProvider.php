@@ -50,7 +50,9 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer([
             "client.layouts.partials.header",
+            "client.layouts.partials.headerPanel",
             "client.layouts.partials.footer",
+            "client.layouts.partials.footerPanel",
             "client.layouts.partials.cart_icon",
             "client.client-panel*"
         ], function ($view) {

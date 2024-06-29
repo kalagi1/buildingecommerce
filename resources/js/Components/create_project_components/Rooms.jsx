@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { dotNumberFormat } from '../../define/variables';
+import { dotNumberFormat, telNumberFormat } from '../../define/variables';
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
@@ -18,6 +18,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
             var defaultValuues = [];
             var checkedItemsTemp = [];
             for(var i = 0 ; i < roomCount; i++){
+                defaultValuues.push({});
                 formData.map((data) => {
                     if(data?.className?.includes('project-default-checked')){
                         console.log(data);
@@ -82,6 +83,8 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                 return block;
             }
         })
+
+        console.log(newDatas);
 
         var newErrors = validationErrors.filter((validationError) => validationError != keyx);
 
@@ -250,6 +253,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                             }
                                             if(!data?.className?.includes('only-not-show-project')){
                                                 if(data.type == "text"){
+                                                    console.log(data);
                                                     return(
                                                         <div className={"form-group "+(isX ? "d-none" : "")}>
                                                             <label className='font-bold' htmlFor="">
@@ -269,7 +273,10 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                                     <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                                 : 
-                                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    data?.className?.includes('tel-only') ?
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,telNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    :
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                             }
                                                         </div>
                                                     )
@@ -289,7 +296,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
@@ -389,7 +396,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -441,7 +448,10 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                                     <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                                 : 
-                                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    data?.className?.includes('tel-only') ?
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,telNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    :
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                             }
                                                         </div>
                                                     )
@@ -461,7 +471,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length == 10){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
@@ -561,7 +571,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -613,7 +623,10 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                                     <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                                 : 
-                                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    data?.className?.includes('tel-only') ?
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    :
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                             }
                                                         </div>
                                                     )
@@ -633,7 +646,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length == 10){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
@@ -733,7 +746,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -789,7 +802,10 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                                     <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                                 : 
-                                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    data?.className?.includes('tel-only') ?
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,telNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    :
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                             }
                                                         </div>
                                                     )
@@ -809,7 +825,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length == 10){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
@@ -909,7 +925,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })
@@ -957,7 +973,10 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                                     <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                                 : 
-                                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    data?.className?.includes('tel-only') ?
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,telNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                                    :
+                                                                        <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                             }
                                                         </div>
                                                     )
@@ -977,7 +996,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                     {data.required ? <span className='required-span'>*</span> : ""}
                                                                 </div>
                                                             </label>
-                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
+                                                            <input id={data?.name.replace('[]','')} type='date' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {if(e.target.value.length == 10){blockDataSet(selectedBlock,data?.name,e.target.value)}}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                                         </div>
                                                     )
                                                 }else if(data.type == "select"){
@@ -1077,7 +1096,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                                             data.values.map((valueCheckbox) => {
                                                                                 return (
                                                                                     <div className="col-md-3">
-                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
+                                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {if(!data?.className?.includes('project-not-change')){blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e);setCheckedItemsFunc(data?.name,e.target.checked)}}} />} label={valueCheckbox.label} />
                                                                                     </div>
                                                                                 )
                                                                             })

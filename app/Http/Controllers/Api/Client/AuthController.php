@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\CartItem;
 use App\Models\Chat;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\HousingFavorite;
+use App\Models\ProjectFavorite;
 use App\Models\SharerPrice;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
@@ -86,7 +89,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
         if ($user) {
-
+            $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
             if ($user->status == 0) {
                 $this->sendVerificationEmail($user);
                 return json_encode([
@@ -106,7 +109,7 @@ class AuthController extends Controller
             } elseif ($user->status == 1) {
                 if (Auth::attempt($credentials, $request->filled('remember'))) {
                     $user = Auth::user();
-                    $updateUser = User::where('id', Auth::user()->id)->first();
+                    $updateUser = User::where('id', $user->id)->first();
 
                     if ($user->type == 1 && !$user->last_login) {
                         // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
@@ -190,42 +193,101 @@ class AuthController extends Controller
                         ->where("status", "2")
                         ->sum('balance');
 
-                    $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id", "desc")->limit(6)->get();
+                    $collections = Collection::with("links")->where("user_id", $user->id)->orderBy("id", "desc")->limit(6)->get();
                     $totalStatus1Count = $balanceStatus1Lists->count();
                     $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
-
+                    $housingFavorites = HousingFavorite::where("user_id", $user->id)->count();
+                    $projectFavorites = ProjectFavorite::where("user_id", $user->id)->count();
 
                     return response()->json([
                         "status" => 200,
                         'success' => true,
                         'id' => $user->id,
+                        'facebook_id' => $user->facebook_id,
+                        'is_show' => $user->is_show,
                         'name' => $user->name,
-                        "bank_name" => $user->bank_name,
-                        "iban" => $user->iban,
-                        "longitude" => $user->longitude,
-                        "latitude" => $user->latitude,
-                        "account_type" => $user->account_type,
-                        "corporate_type" => $user->corporate_type,
-                        'has_club' => $user->has_club,
+                        'type' => $user->type,
+                        'status' => $user->status,
+                        'email' => $user->email,
+                        'email_verified_at' => $user->email_verified_at,
+                        'password' => $user->password,
+                        'remember_token' => $user->remember_token,
+                        'created_at' => $user->created_at,
+                        'updated_at' => $user->updated_at,
+                        'deleted_at' => $user->deleted_at,
+                        'phone' => $user->phone,
+                        'phone_verification_status' => $user->phone_verification_status,
+                        'phone_verification_code' => $user->phone_verification_code,
+                        'birthday' => $user->birthday,
+                        'city_id' => $user->city_id,
+                        'email_verification_token' => $user->email_verification_token,
+                        'activity' => $user->activity,
+                        'county_id' => $user->county_id,
+                        'account_type' => $user->account_type,
+                        'taxOfficeCity' => $user->taxOfficeCity,
+                        'taxOffice' => $user->taxOffice,
+                        'taxNumber' => $user->taxNumber,
+                        'idNumber' => $user->idNumber,
+                        'plan_id' => $user->plan_id,
+                        'subscription_plan_id' => $user->subscription_plan_id,
                         'profile_image' => $user->profile_image,
                         'banner_hex_code' => $user->banner_hex_code,
-                        "phone_verification_status" => $user->phone_verification_status,
+                        'parent_id' => $user->parent_id,
+                        'neighborhood_id' => $user->neighborhood_id,
+                        'corporate_type' => $user->corporate_type,
+                        'corporate_account_status' => $user->corporate_account_status,
+                        'tax_document' => $user->tax_document,
+                        'record_document' => $user->record_document,
+                        'corporate_account_note' => $user->corporate_account_note,
+                        'tax_document_approve' => $user->tax_document_approve,
+                        'record_document_approve' => $user->record_document_approve,
+                        'identity_document' => $user->identity_document,
+                        'identity_document_approve' => $user->identity_document_approve,
+                        'company_document' => $user->company_document,
+                        'company_document_approve' => $user->company_document_approve,
+                        'is_blocked' => $user->is_blocked,
+                        'username' => $user->username,
+                        'institutional_awaiting_approval' => $user->institutional_awaiting_approval,
+                        'commercial_title' => $user->commercial_title,
+                        'last_login' => $user->last_login,
+                        'instagramusername' => $user->instagramusername,
+                        'iban' => $user->iban,
+                        'year' => $user->year,
+                        'code' => $user->code,
+                        'has_club' => $user->has_club,
+                        'bank_name' => $user->bank_name,
+                        'mobile_phone' => $user->mobile_phone,
+                        'latitude' => $user->latitude,
+                        'longitude' => $user->longitude,
+                        'order' => $user->order,
+                        'title' => $user->title,
+                        'website' => $user->website,
+                        'store_name' => $user->store_name,
+                        'is_called' => $user->is_called,
+                        'is_show_files' => $user->is_show_files,
+                        'authority_licence' => $user->authority_licence,
+                        'approve_website' => $user->approve_website,
+                        'approve_website_approve' => $user->approve_website_approve,
                         'role' => $user->role->name,
+                        'role_id' => $user->role->id,
                         'slug' => $user->role->slug,
-                        "buyerStatus" => $user->status,
-                        "corporateAccountStatus" => $user->corporate_account_status,
+                        'buyerStatus' => $user->status,
+                        'cartItem' => $cartItem ? $cartItem : null,
+                        'housingFavoritesCount' => $housingFavorites,
+                        'projectFavoritesCount' => $projectFavorites,
+                        'corporateAccountStatus' => $user->corporate_account_status,
                         'email' => $user->email,
                         'mobile_phone' => $user->mobile_phone,
                         'access_token' => $accessToken,
-                        "rolePermissions" => $user->role->rolePermissions,
-                        "permissions" => $permissions,
-                        "works" => $user->works,
+                        'rolePermissions' => $user->role->rolePermissions,
+                        'permissions' => $permissions,
+                        'works' => $user->works,
                         'token_type' => 'Bearer',
-                        "balanceStatus1Lists" => $balanceStatus1Lists,
-                        "balanceStatus0" => $balanceStatus0,
-                        "balanceStatus2" => $balanceStatus2,
-                        "successPercentage" => $successPercentage,
-                        "collections" => $collections
+                        'balanceStatus1Lists' => $balanceStatus1Lists,
+                        'balanceStatus0' => $balanceStatus0,
+                        'balanceStatus2' => $balanceStatus2,
+                        'successPercentage' => $successPercentage,
+                        'collections' => $collections
                     ]);
                 } else {
                     return json_encode([

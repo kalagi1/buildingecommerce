@@ -583,6 +583,15 @@ const [projectData, setProjectData] = useState(null);
                   <li className="active"><i className='fa fa-plus'></i></li>
                   <li className="active"><i className='fa fa-handshake'></i></li>
                   <li className="active"><i className='fa fa-heart'></i></li>
+                  <MenuItem onClick={() => {
+        setAnchorEl(null);
+        handleClickOpen(row.original);
+      }}>
+         <ListItemIcon>
+         <Send />
+
+        </ListItemIcon>
+        Arama Kayıtları</MenuItem>
                 </ul>
               </div>
             </Box>

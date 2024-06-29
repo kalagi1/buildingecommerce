@@ -40,10 +40,14 @@
     </div>
     <div class="second-footer bg-white-3">
         <div class="container">
-            <p class="d-flex align-items-center" style="gap: 16px;">
-                <span>2023 © Copyright - Tüm hakları saklıdır. @kodturk</span>
-
+            <p class="d-flex align-items-center" style="gap: 5px;">
+                <span id="current-year"></span> © Copyright - emlaksepette.com
             </p>
+
+            <script>
+                document.getElementById("current-year").textContent = new Date().getFullYear();
+            </script>
+
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
                     <li><a href="{{ $icon->url }}" target="_blank"><i class="{{ $icon->icon_class }}"
@@ -1024,11 +1028,11 @@
                                                             payDescDate
                                                             .getFullYear()) + "</td>";
 
-                                                                                                 
-                                        if (ongKiraData) {
-                                                html += "<td></td>";
 
-                                            }
+                                                    if (ongKiraData) {
+                                                        html += "<td></td>";
+
+                                                    }
                                                 } else {
                                                     html += null;
                                                 }
@@ -1637,7 +1641,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+    const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1665,8 +1669,31 @@
                 },
                 success: function(data) {
                     let hasResults = false;
-                    // Housing search
+
+                    if (data.housingOrder && data.projectIdNumber && data.project) {
+                        hideSearchingMessage(); 
+                        $('.header-search-box').append(`
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Proje İlanı</div>
+                        `);
+                        var baseRoute =
+                            `{{ route('project.housings.detail', ['projectSlug' => 'slug_placeholder', 'projectID' => 'id_placeholder', 'housingOrder' => 'id_housing_order_placeholder']) }}`
+                            .replace('slug_placeholder', data.project.slug)
+                            .replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000)
+                            .replace('id_housing_order_placeholder', parseInt(data.housingOrder));
+
+                            const formattedName = data.project.project_title.charAt(0).toUpperCase() + data
+                            .project.project_title
+                            .slice(1);
+                            hasResults = true;
+
+                        $('.header-search-box').append(`
+                            <a href="${baseRoute}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName} ${data.housingOrder} No'lu İlan</span>
+                            </a>
+                        `);
+                    }
                     if (data.housings.length > 0) {
+                        hideSearchingMessage(); 
                         hasResults = true;
                         $('.header-search-box').append(`
                             <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
@@ -1709,17 +1736,17 @@
 
                     // Project search
                     if (data.projects.length > 0) {
+                        hideSearchingMessage(); 
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const projectsToShow = data.projects.slice(0,
                             maxResultsToShow); // İlk 4 sonucu al
 
                         hasResults = true;
                         $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Projeler</div>
                         `);
 
                         projectsToShow.forEach((e) => {
-                            console.log(e);
                             const imageUrl =
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0).toUpperCase() + e.name
@@ -1751,9 +1778,11 @@
                     }
 
                     if (data.merchants.length > 0) {
+
+                        hideSearchingMessage(); 
                         hasResults = true;
                         $('.header-search-box').append(`
-                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">Mağazalar</div>
                         `);
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const merchantsToShow = data.merchants.slice(0,
@@ -1792,8 +1821,7 @@
                                 <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
                     } else {
-                        hideSearchingMessage
-                            (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
+                        hideSearchingMessage(); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
                     }
 
                     if ($('.header-search-box').children().length > 3) {
@@ -1831,7 +1859,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
@@ -1859,6 +1887,7 @@
                     },
                     success: function(data) {
                         let hasResults = false;
+                        console.log(data.projectHousings);
 
                         // Housing search
                         if (data.housings.length > 0) {

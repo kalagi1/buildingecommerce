@@ -98,6 +98,7 @@ use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
 use App\Http\Controllers\Client\BidController;
 use App\Http\Controllers\Institutional\CrmController as InstitutionalCrmController;
+use App\Http\Controllers\GoogleSheetsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,8 +147,14 @@ Route::post('/form-kaydet', [FormController::class, 'store'])->name('form.kaydet
 Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('get_sell_type');
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
-    Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+    Route::post('/housing/{ids}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
+
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
+    ->name('club.dashboard2');
+
+Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+    ->name('club.dashboard');
 
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
@@ -156,7 +163,7 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
+
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
 Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
 
@@ -1194,7 +1201,13 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('fetch-users',[CrmController::class,'getAllUsers']);
     Route::get('fetch-projects',[CrmController::class,'getAllProjects']);
     Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
+    Route::get('user-projects/{userId}',[CrmController::class,'getUserProjects']);
 
+    Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
+    Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
+    Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+
+    Route::post('add-user', [CrmController::class, 'addUser']);
 
 });
 
@@ -1256,3 +1269,6 @@ Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->n
 Route::get('qR9zLp2xS6y/secured/destek/takip', [AdminSupportController::class, 'index'])->name('admin.support.index');
 Route::post('qR9zLp2xS6y/secured/destek/yanit', [AdminSupportController::class, 'returnSupport'])->name('admin.return.support');
 Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle', [AdminSupportController::class, 'returnSupportEdit'])->name('admin.return.support.edit');
+
+
+Route::post('/webhook/google-sheets', [GoogleSheetsController::class, 'handleWebhook']);

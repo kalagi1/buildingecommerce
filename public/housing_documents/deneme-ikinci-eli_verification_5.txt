@@ -1,6 +1,6 @@
     Zehra sana aşığım
     
-    @extends('institutional.layouts.master')
+    @extends('client.layouts.masterPanel')
 
     @section('content')
         <div class="load-area d-none">

@@ -7,7 +7,7 @@
 
         <ul>
             @foreach ($links as $link)
-                <li><a href="{{ $link['url'] }}"><i class="fa {{ $link['icon'] }}"></i> {{ $link['text'] }}</a></li>
+                <li><a href="{{ $link['url'] }}"><i class="{{ $link['icon'] }}"></i> {{ $link['text'] }}</a></li>
             @endforeach
         </ul>
     </a>
