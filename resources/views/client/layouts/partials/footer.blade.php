@@ -1680,7 +1680,6 @@
                             .replace('slug_placeholder', data.project.slug)
                             .replace('id_placeholder', parseInt(data.projectIdNumber) + 1000000)
                             .replace('id_housing_order_placeholder', parseInt(data.housingOrder));
-                            console.log(formattedName);
                             console.log(baseRoute);
                         // const formattedName = data.project.name.charAt(0).toUpperCase() + data
                         //     .project.name
