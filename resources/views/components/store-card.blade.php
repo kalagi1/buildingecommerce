@@ -135,7 +135,7 @@
                                 İlanları</a>
                                 <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
                                 href="{{ route('club.dashboard', [
-                                    $store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : [],
+                                    $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null,
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}">Koleksiyonlar</a>
@@ -168,7 +168,7 @@
                                 href="{{ route('institutional.teams', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Ekibimiz</a>
                             <a class="navbar-item {{ Route::is('club.dashboard*') ? 'active' : '' }}"
                                 href="{{ route('club.dashboard', [
-                                    $store->parent ? ['parentSlug' => Str::slug($store->parent->name)] : [],
+                                    $store->parent ? 'parentSlug' => Str::slug($store->parent->name) : null,
                                     'slug' => Str::slug($store->name),
                                     'userID' => $store->id,
                                 ]) }}">Koleksiyonlar</a>
