@@ -1245,7 +1245,7 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 5,
+                slidesToShow: 4,
                 slidesToScroll: 5,
                 dots: false,
                 arrows: false
