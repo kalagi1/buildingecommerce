@@ -716,7 +716,7 @@
                  --}}
 
 
-                    <div class="row" style="width: 100%;margin:0 auto">
+                    <div class="row mobile-hidden" style="width: 100%;margin:0 auto">
                         <div class="tab">
                             <input type="radio" name="tab-group" id="all" value="all"
                                 onclick="changeTabStyle('all')" class="allButton">
