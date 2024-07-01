@@ -307,37 +307,6 @@
         </div>
     </section>
     
-    <style>
-        .agents-carousel {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-    
-        .agents-grid {
-            flex: 0 0 auto;
-            scroll-snap-align: start;
-            margin-right: 10px;
-        }
-    
-        @media (max-width: 768px) {
-            .agents-carousel {
-                display: flex;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-            }
-    
-            .agents-grid {
-                flex: 0 0 auto;
-                scroll-snap-align: start;
-                margin-right: 10px;
-            }
-        }
-    </style>
     
     <script>
         // Slick Carousel initialization
