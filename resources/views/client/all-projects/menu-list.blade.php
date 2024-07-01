@@ -572,7 +572,7 @@
 
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
 
-                    <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
+                    <section class="row headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head py-2" style="padding-top: 0">
 
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
@@ -716,7 +716,7 @@
                  --}}
 
 
-                    <div class="row">
+                    <div class="row" style="width: 100%;margin:0 auto">
                         <div class="tab">
                             <input type="radio" name="tab-group" id="all" value="all"
                                 onclick="changeTabStyle('all')">
@@ -2096,7 +2096,7 @@
 
     <style>
         .tab {
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
         .tab input[type="radio"] {
