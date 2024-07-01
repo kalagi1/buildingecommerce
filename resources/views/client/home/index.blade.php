@@ -245,34 +245,15 @@
     @endif
 
 
-
-    <section class="featured home18 bg-white mb-8">
-        <div class="container mb-5">
-            <div class="portfolio">
-                <div class="row">
-                    <div class="col-md-9 col-12">
-                        <div class="section-title mb-3 mobileSectionTitle">
-                            <h2>Popüler Gayrimenkul Markaları</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12 text-end">
-                        <div class="featured-heads mb-3">
-                            <div class="section-title">
-                                <h2>Emlak İlanları</h2>
-                            </div>
-                            <div>
-                                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
-                                        Tümünü Gör
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <!-- START SECTION RECENTLY PROPERTIES -->
+        <section class="featured portfolio rec-pro disc">
+            <div class="container-fluid">
+                <div class="sec-title discover">
+                    <h2><span>Discover </span>Popular Properties</h2>
+                    <p>We provide full service at every step.</p>
                 </div>
-    
-                <div class="job_clientSlide">
-                        @foreach ($housingBrands as $brand)
+                <div class="portfolio col-xl-12">
+                    <div class="job_clientSlide">
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
@@ -339,8 +320,40 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END SECTION RECENTLY PROPERTIES -->
 
-                        {{-- <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+    <section class="featured home18 bg-white mb-8">
+        <div class="container mb-5">
+            <div class="portfolio">
+                <div class="row">
+                    <div class="col-md-9 col-12">
+                        <div class="section-title mb-3 mobileSectionTitle">
+                            <h2>Popüler Gayrimenkul Markaları</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 text-end">
+                        <div class="featured-heads mb-3">
+                            <div class="section-title">
+                                <h2>Emlak İlanları</h2>
+                            </div>
+                            <div>
+                                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
+                                        Tümünü Gör
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="slick-lancershb">
+                        @foreach ($housingBrands as $brand)
+                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}" class="homes-img">
                                 <div class="landscapes">
                                     <div class="project-single">
@@ -365,7 +378,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> --}}
+                        </div>
                         @endforeach
                 </div>
             </div>
