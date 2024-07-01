@@ -27290,6 +27290,12 @@ h4 {
     object-fit: cover;
 }
 
+@media (max-width: 768px){
+    .home-top-banner img{
+        display: none !important;
+    }
+}
+
 .portfolio .project-head span {
     text-align: center;
     color: #333;
