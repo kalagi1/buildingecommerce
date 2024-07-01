@@ -620,11 +620,11 @@
                         <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0">
                             @if ($secondhandHousings)
                                 <div class="mobile-hidden">
-                                    <a href="#" id="list-view-btn" class="change-view-btn lde mr-3"
+                                    <a href="#" id="list-view-btn" class="change-view-btn lde"
                                         onclick="changeView('list')">
                                         <i class="fa fa-th-list"></i>
                                     </a>
-                                    <a href="#" id="grid-view-btn" class="change-view-btn active-view-btn"
+                                    <a href="#" id="grid-view-btn" class="change-view-btn mr-3 active-view-btn"
                                         onclick="changeView('grid')">
                                         <i class="fa fa-th-large"></i>
                                     </a>
