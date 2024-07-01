@@ -246,7 +246,7 @@
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="featured portfolio rec-pro disc bg-white">
+    <section class="featured portfolio rec-pro disc bg-white" style="height: 200px !important">
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-12">
