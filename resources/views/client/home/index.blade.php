@@ -671,32 +671,32 @@
     <script>
          $('.job_clientSlide').slick({
                 infinite: false,
-                slidesToShow: 1,
-                slidesToScroll: 1,
+                slidesToShow: 10,
+                slidesToScroll: 10,
                 dots: true,
                 arrows: false,
                 adaptiveHeight: true,
                 responsive: [{
                     breakpoint: 1292,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
+                        slidesToShow: 10,
+                        slidesToScroll: 4,
                         dots: true,
                         arrows: false
                     }
                 }, {
                     breakpoint: 993,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
+                        slidesToShow: 8,
+                        slidesToScroll: 8,
                         dots: true,
                         arrows: false
                     }
                 }, {
                     breakpoint: 769,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
                         dots: true,
                         arrows: false
                     }
