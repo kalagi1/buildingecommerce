@@ -3477,6 +3477,7 @@ section.portfolio {
     z-index: 2;
 }
 
+
 .brand-image-pp {
     width: 50px !important;
     height: 50px !important;
@@ -5273,6 +5274,9 @@ section.counterup {
 }
 
 @media screen and (max-width: 768px) {
+    .mobileHousingBrands{
+        height: 200px !important;
+    }
     .first-footer .logo img {
         width: 50%;
         height: auto;
