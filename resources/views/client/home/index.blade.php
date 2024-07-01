@@ -250,9 +250,9 @@
         <div class="container mb-5">
 
             <div class="portfolio ">
-                <div class="row">
+                <div class="row mb-5">
                     <div class="col-md-9 col-12">
-                        <div class="section-title mb-3">
+                        <div class="section-title mb-3 mobileSectionTitle">
                             <h2>Popüler Gayrimenkul Markaları</h2>
                         </div>
                     </div>
