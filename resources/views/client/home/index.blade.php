@@ -259,7 +259,7 @@
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
-                                    <div class="project-inner project-head">
+                                    <div class="project-inner">
                                         <div class="homes">
                                             <!-- homes img -->
                                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}" class="homes-img">
