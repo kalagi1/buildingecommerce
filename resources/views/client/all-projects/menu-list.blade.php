@@ -1376,7 +1376,7 @@
                                 // Class assignment with nested conditions
                                 const spanClass = isAvailable ?
                                     (res.action !== 'sold' || res.offSale ?
-                                        'btn addCollection' :
+                                        'btn addCollection mobileAddCollection ' :
                                         'btn disabledShareButton') :
                                     'btn hidden';
 
