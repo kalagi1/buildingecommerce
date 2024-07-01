@@ -2110,7 +2110,7 @@
         }
 
         .tab label:hover {
-            background-color: #007bff;
+            background-color: #007bff !important;
             color: #fff !important;
         }
 
