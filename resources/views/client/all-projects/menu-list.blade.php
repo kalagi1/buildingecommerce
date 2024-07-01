@@ -1836,7 +1836,7 @@
                                                      </li>` : ''}
 </ul>
 
-                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
+                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county}  </span>
                                                     </div>
                                             </div> <hr> `);
                             @endif
