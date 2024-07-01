@@ -251,12 +251,12 @@
 
             <div class="portfolio ">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-9 col-12">
                         <div class="section-title mb-3">
                             <h2>Popüler Gayrimenkul Markaları</h2>
                         </div>
                     </div>
-                    <div class="col-3 text-end">
+                    <div class="col-md-3 col-12 text-end">
                         <div class="featured-heads  mb-5">
                             <div class="section-title ml-5">
                                 <h2>Emlak İlanları</h2>
