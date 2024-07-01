@@ -245,68 +245,73 @@
     @endif
 
 
-        <!-- START SECTION RECENTLY PROPERTIES -->
-        <section class="featured portfolio rec-pro disc">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-9 col-12">
-                        <div class="section-title mb-3 mobileSectionTitle">
-                            <h2>Popüler Gayrimenkul Markaları</h2>
-                        </div>
+    <!-- START SECTION RECENTLY PROPERTIES -->
+    <section class="featured portfolio rec-pro disc bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-12">
+                    <div class="section-title mb-3 mobileSectionTitle">
+                        <h2>Popüler Gayrimenkul Markaları</h2>
                     </div>
-                    <div class="col-md-3 col-12 text-end">
-                        <div class="featured-heads mb-3">
-                            <div class="section-title">
-                                <h2>Emlak İlanları</h2>
-                            </div>
-                            <div>
-                                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
-                                        Tümünü Gör
-                                    </button>
-                                </a>
-                            </div>
+                </div>
+                <div class="col-md-3 col-12 text-end">
+                    <div class="featured-heads mb-3">
+                        <div class="section-title">
+                            <h2>Emlak İlanları</h2>
+                        </div>
+                        <div>
+                            <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                                <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                                    class="w-100">
+                                    Tümünü Gör
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio col-xl-12">
-                    <div class="job_clientSlide">
-                        @foreach ($housingBrands as $brand)
-
+            </div>
+            <div class="portfolio col-xl-12">
+                <div class="job_clientSlide">
+                    @foreach ($housingBrands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner">
                                         <div class="homes">
                                             <!-- homes img -->
-                                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}" class="homes-img">
+                                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
+                                                class="homes-img">
                                                 @if ($brand->profile_image == 'indir.png')
-                                                @php
-                                                    $nameInitials = collect(preg_split('/\s+/', $brand->name))
-                                                        ->map(function ($word) {
-                                                            return mb_strtoupper(mb_substr($word, 0, 1));
-                                                        })
-                                                        ->take(1)
-                                                        ->implode('');
-                                                @endphp
-                                                <div class="profile-initial">{{ $nameInitials }}</div>
-                                            @else
-                                                <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}" alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
-                                            @endif
+                                                    @php
+                                                        $nameInitials = collect(preg_split('/\s+/', $brand->name))
+                                                            ->map(function ($word) {
+                                                                return mb_strtoupper(mb_substr($word, 0, 1));
+                                                            })
+                                                            ->take(1)
+                                                            ->implode('');
+                                                    @endphp
+                                                    <div class="profile-initial">{{ $nameInitials }}</div>
+                                                @else
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp"
+                                                        style="object-fit:contain;">
+                                                @endif
                                             </a>
-                                            <span style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
+                                            <span
+                                                style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endforeach
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        </section>
-        <!-- END SECTION RECENTLY PROPERTIES -->
+        </div>
+    </section>
+    <!-- END SECTION RECENTLY PROPERTIES -->
 
     <section class="featured home18 bg-white mb-8">
         <div class="container mb-5">
@@ -324,7 +329,9 @@
                             </div>
                             <div>
                                 <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
+                                    <button
+                                        style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                                        class="w-100">
                                         Tümünü Gör
                                     </button>
                                 </a>
@@ -332,11 +339,12 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="slick-lancershb">
-                        @foreach ($housingBrands as $brand)
+                    @foreach ($housingBrands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}" class="homes-img">
+                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
+                                class="homes-img">
                                 <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
@@ -352,23 +360,27 @@
                                                     @endphp
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
-                                                    <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}" alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp"
+                                                        style="object-fit:contain;">
                                                 @endif
-                                                <span style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
+                                                <span
+                                                    style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                        @endforeach
+                    @endforeach
                 </div>
             </div>
         </div>
     </section>
-    
-    
-    
+
+
+
 
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
@@ -681,40 +693,39 @@
     </script>
 
     <script>
-         $('.job_clientSlide').slick({
-                infinite: false,
-                slidesToShow: 10,
-                slidesToScroll: 10,
-                dots: true,
-                arrows: false,
-                adaptiveHeight: true,
-                responsive: [{
-                    breakpoint: 1292,
-                    settings: {
-                        slidesToShow: 10,
-                        slidesToScroll: 4,
-                        dots: true,
-                        arrows: false
-                    }
-                }, {
-                    breakpoint: 993,
-                    settings: {
-                        slidesToShow: 8,
-                        slidesToScroll: 8,
-                        dots: true,
-                        arrows: false
-                    }
-                }, {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        dots: true,
-                        arrows: false
-                    }
-                }]
-            });
-
+        $('.job_clientSlide').slick({
+            infinite: false,
+            slidesToShow: 10,
+            slidesToScroll: 10,
+            dots: true,
+            arrows: false,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 1292,
+                settings: {
+                    slidesToShow: 10,
+                    slidesToScroll: 4,
+                    dots: true,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 8,
+                    dots: true,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    dots: true,
+                    arrows: false
+                }
+            }]
+        });
     </script>
 @endsection
 
