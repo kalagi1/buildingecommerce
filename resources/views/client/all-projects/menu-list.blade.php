@@ -843,8 +843,7 @@
                 $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                 $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
                 $(".hiddenCityName").removeClass("d-flex").addClass("d-none");
-
-
+                changeTabStyle('all');
             });
         });
 
