@@ -227,7 +227,7 @@
                     <p>We provide full service at every step.</p>
                 </div>
                 <div class="portfolio col-xl-12">
-                    <div class="slick-lancers">
+                    <div class="job_clientSlide">
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
@@ -1153,6 +1153,43 @@
 
         window.addEventListener('scroll', onScrollLoadMoreHousings);
         window.addEventListener('scroll', onScrollLoadMoreMobileHousings);
+    </script>
+
+    <script>
+         $('.job_clientSlide').slick({
+                infinite: false,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: false,
+                adaptiveHeight: true,
+                responsive: [{
+                    breakpoint: 1292,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        dots: true,
+                        arrows: false
+                    }
+                }, {
+                    breakpoint: 993,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        dots: true,
+                        arrows: false
+                    }
+                }, {
+                    breakpoint: 769,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false
+                    }
+                }]
+            });
+
     </script>
 @endsection
 
