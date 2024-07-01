@@ -716,7 +716,7 @@
                  --}}
 
 
-                    <div class="row" style="width: 100%;margin:0 auto">
+                    <div class="row mobile-hidden" style="width: 100%;margin:0 auto">
                         <div class="tab">
                             <input type="radio" name="tab-group" id="all" value="all"
                                 onclick="changeTabStyle('all')" class="allButton">
@@ -1376,7 +1376,7 @@
                                 // Class assignment with nested conditions
                                 const spanClass = isAvailable ?
                                     (res.action !== 'sold' || res.offSale ?
-                                        'btn addCollection' :
+                                        'btn addCollection mobileAddCollection ' :
                                         'btn disabledShareButton') :
                                     'btn hidden';
 
@@ -1434,7 +1434,7 @@
                                                                                                         </li>` : ''}
                                                     </ul>
 
-                                                        <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:20px !important">
+                                                        <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:10px !important">
                                                             <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
@@ -1748,7 +1748,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </button>`
                                                                             :
                                                                             res.checkIfUserCanAddHousings === true ?
-                                                                                    `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
+                                                                                    `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''} mobileCBtn" data-type='housing' data-id='${res.id}'>
                                                                                             <span class="IconContainer">
                                                                                                 <img src="{{ asset('sc.png') }}" alt="">
                                                                                             </span>
@@ -1817,7 +1817,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                                            <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:10px">
                                                 <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <ul class="d-flex align-items-center h-100"
@@ -1836,7 +1836,7 @@
                                                      </li>` : ''}
 </ul>
 
-                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
+                                                    <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county}  </span>
                                                     </div>
                                             </div> <hr> `);
                             @endif
