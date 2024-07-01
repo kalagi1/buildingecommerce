@@ -1238,31 +1238,31 @@
 
 
 
-                    if (count > 0 && term != null) {
-                        $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + count +
-                            '</span>');
-                        $("#termResultCount").removeClass("d-none").addClass("d-block");
+                    // if (count > 0 && term != null) {
+                    //     $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + count +
+                    //         '</span>');
+                    //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
-                        var searchResultsText = '<span style="font-weight: bold;">( "' + term + '"</span>' +
-                            " araması için " + "<span> toplam " +
-                            '<span style="color: #EA2B2E; font-size: 13px;">' + count +
-                            '</span> sonuç bulundu. )</span>';
+                    //     var searchResultsText = '<span style="font-weight: bold;">( "' + term + '"</span>' +
+                    //         " araması için " + "<span> toplam " +
+                    //         '<span style="color: #EA2B2E; font-size: 13px;">' + count +
+                    //         '</span> sonuç bulundu. )</span>';
 
-                        $("#searchResultsText").html(searchResultsText);
+                    //     $("#searchResultsText").html(searchResultsText);
 
 
-                    } else {
-                        $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + response
-                            .totalCount +
-                            '</span>');
-                        $("#termResultCount").removeClass("d-none").addClass("d-block");
+                    // } else {
+                    //     $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + response
+                    //         .totalCount +
+                    //         '</span>');
+                    //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
-                        var searchResultsText = "( Toplam " +
-                            '<span style="color: #EA2B2E; font-size: 13px;">' + response.totalCount +
-                            '</span> ilan bulundu. )</span>';
+                    //     var searchResultsText = "( Toplam " +
+                    //         '<span style="color: #EA2B2E; font-size: 13px;">' + response.totalCount +
+                    //         '</span> ilan bulundu. )</span>';
 
-                        $("#searchResultsText").html(searchResultsText);
-                    }
+                    //     $("#searchResultsText").html(searchResultsText);
+                    // }
 
 
                     if (response.data.data.length > 0) {
