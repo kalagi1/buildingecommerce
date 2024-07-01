@@ -629,17 +629,17 @@
     <script>
         $('.job_clientSlide').slick({
             infinite: false,
-            slidesToShow: 10,
-            slidesToScroll: 10,
+            slidesToShow: 11,
+            slidesToScroll: 11,
             dots: false,
             arrows: false,
             adaptiveHeight: true,
             responsive: [{
                 breakpoint: 1292,
                 settings: {
-                    slidesToShow: 10,
+                    slidesToShow: 11,
                     slidesToScroll: 4,
-                    dots: true,
+                    dots: false,
                     arrows: false
                 }
             }, {
@@ -647,7 +647,7 @@
                 settings: {
                     slidesToShow: 8,
                     slidesToScroll: 8,
-                    dots: true,
+                    dots: false,
                     arrows: false
                 }
             }, {
@@ -655,7 +655,7 @@
                 settings: {
                     slidesToShow: 4,
                     slidesToScroll: 4,
-                    dots: true,
+                    dots: false,
                     arrows: false
                 }
             }]
