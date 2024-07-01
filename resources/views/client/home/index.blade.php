@@ -247,7 +247,7 @@
 
         <!-- START SECTION RECENTLY PROPERTIES -->
         <section class="featured portfolio rec-pro disc">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="sec-title discover">
                     <h2><span>Discover </span>Popular Properties</h2>
                     <p>We provide full service at every step.</p>
