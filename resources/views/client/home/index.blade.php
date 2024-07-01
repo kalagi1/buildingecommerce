@@ -299,7 +299,7 @@
                                                 @endif
                                             </a>
                                             <span
-                                                style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
+                                                style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">{{ $brand->name }}</span>
 
                                         </div>
                                     </div>
@@ -697,7 +697,7 @@
             infinite: false,
             slidesToShow: 10,
             slidesToScroll: 10,
-            dots: true,
+            dots: false,
             arrows: false,
             adaptiveHeight: true,
             responsive: [{
