@@ -27291,7 +27291,7 @@ h4 {
 }
 
 @media (max-width: 768px){
-    .home-top-banner{
+    .homeTopBanner{
         display: none !important;
     }
 }
