@@ -271,8 +271,7 @@
                     </div>
                 </div>
     
-                <div class="slick-lancers">
-                    <div class="agents-carousel">
+                <div class="slick-lancershb">
                         @foreach ($housingBrands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}" class="homes-img">
@@ -301,33 +300,12 @@
                             </a>
                         </div>
                         @endforeach
-                    </div>
                 </div>
             </div>
         </div>
     </section>
     
     
-    <script>
-        // Slick Carousel initialization
-        $(document).ready(function(){
-            $('.agents-carousel').slick({
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000,
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        }
-                    }
-                ]
-            });
-        });
-    </script>
     
 
     @if ($housings->isNotEmpty())
