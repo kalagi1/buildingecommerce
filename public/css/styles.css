@@ -23584,12 +23584,9 @@ a.btn_1 {
 
     .mobileSectionTitle {
         text-align: center;
+        justify-content: center;
     }
 
-    .section-title {
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-    }
 
     .circleIcon {
         font-size: 5px;
