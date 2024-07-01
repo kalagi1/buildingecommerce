@@ -257,7 +257,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-12 text-end">
-                        <div class="featured-heads">
+                        <div class="featured-heads mb-3">
                             <div class="section-title">
                                 <h2>Emlak İlanları</h2>
                             </div>
