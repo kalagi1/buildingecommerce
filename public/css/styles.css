@@ -16537,6 +16537,7 @@ a.button {
     border: none;
     /* right: 0; */
     width: 100%;
+    text-align:center !important;
     text-align: -webkit-center
     /* position: absolute; */
     /* top: 0; */
