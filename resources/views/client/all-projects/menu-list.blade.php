@@ -1434,7 +1434,7 @@
                                                                                                         </li>` : ''}
                                                     </ul>
 
-                                                        <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:20px !important">
+                                                        <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:10px !important">
                                                             <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
@@ -1817,7 +1817,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                                            <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:10px">
                                                 <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <ul class="d-flex align-items-center h-100"
