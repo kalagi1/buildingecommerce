@@ -719,7 +719,7 @@
                     <div class="row" style="width: 100%;margin:0 auto">
                         <div class="tab">
                             <input type="radio" name="tab-group" id="all" value="all"
-                                onclick="changeTabStyle('all')">
+                                onclick="changeTabStyle('all')" class="allButton">
                             <label for="all" class="activeTab">Tümü</label>
                         </div>
                         <div class="tab">
@@ -794,8 +794,6 @@
         });
 
         function changeTabStyle(id) {
-            console.log(id);
-            // Tüm label elementlerini beyaz arka plan ve siyah yazı rengine geri döndür
             var labels = document.querySelectorAll('.tab label');
             labels.forEach(function(label) {
                 label.style.backgroundColor = '#fff';
@@ -843,7 +841,8 @@
                 $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                 $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
                 $(".hiddenCityName").removeClass("d-flex").addClass("d-none");
-                changeTabStyle('all');
+                $(".allButton").click();
+                
             });
         });
 
