@@ -397,7 +397,7 @@
     <!-- End Google Tag Manager (noscript) -->
     <!-- Wrapper -->
     <div id="wrapper">
-            <div class="slick-lancersl">
+            <div class="slick-lancersl homeTopBanner">
                 @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
                         style="background-color: {{ $adBanner->background_color }};padding:0 !important">
