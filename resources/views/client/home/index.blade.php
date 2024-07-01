@@ -248,9 +248,26 @@
         <!-- START SECTION RECENTLY PROPERTIES -->
         <section class="featured portfolio rec-pro disc">
             <div class="container">
-                <div class="sec-title discover">
-                    <h2><span>Discover </span>Popular Properties</h2>
-                    <p>We provide full service at every step.</p>
+                <div class="row">
+                    <div class="col-md-9 col-12">
+                        <div class="section-title mb-3 mobileSectionTitle">
+                            <h2>Popüler Gayrimenkul Markaları</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 text-end">
+                        <div class="featured-heads mb-3">
+                            <div class="section-title">
+                                <h2>Emlak İlanları</h2>
+                            </div>
+                            <div>
+                                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
+                                        Tümünü Gör
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="portfolio col-xl-12">
                     <div class="job_clientSlide">
@@ -277,14 +294,9 @@
                                                 <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}" alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
                                             @endif
                                             </a>
-                                            
+                                            <span style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
+
                                         </div>
-                                    </div>
-                                    <!-- homes content -->
-                                    <div class="homes-content">
-                                        <!-- homes address -->
-                                        <h3><a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}">{{ $brand->name }}</a></h3>
-                                    
                                     </div>
                                 </div>
                             </div>
