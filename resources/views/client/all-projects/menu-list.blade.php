@@ -1748,7 +1748,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </button>`
                                                                             :
                                                                             res.checkIfUserCanAddHousings === true ?
-                                                                                    `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
+                                                                                    `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''} mobileCBtn" data-type='housing' data-id='${res.id}'>
                                                                                             <span class="IconContainer">
                                                                                                 <img src="{{ asset('sc.png') }}" alt="">
                                                                                             </span>
