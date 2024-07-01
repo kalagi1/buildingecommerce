@@ -274,7 +274,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="slick-lancers">
+                <div class="slick-lancers">
                     @foreach ($housingBrands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
@@ -309,7 +309,7 @@
                             </a>
                         </div>
                     @endforeach
-                </div> --}}
+                </div>
             </div>
         </div>
     </section>

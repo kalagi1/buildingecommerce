@@ -1245,14 +1245,13 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 4,
+                slidesToShow:4,
                 slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
         }]
     });
-
     $('.home5-right-slider').owlCarousel({
         loop: true,
         margin: 30,
