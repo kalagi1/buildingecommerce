@@ -1,4 +1,4 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @section('content')
     @if (!in_array('GetUsers', $userPermissions))

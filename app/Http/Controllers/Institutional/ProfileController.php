@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
         $plans = SubscriptionPlan::where('plan_type', $user->corporate_type)->orderBy("price", "asc")->get();
         $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        return view('institutional.profile.upgrade', compact('plans', 'current', 'bankAccounts'));
+        return view('client.panel.profile.upgrade', compact('plans', 'current', 'bankAccounts'));
     }
 
     public function upgradeProfile(Request $request, $id)
@@ -165,7 +165,7 @@ class ProfileController extends Controller
         $subscriptionPlans = SubscriptionPlan::all();
         $user = User::where("id", Auth::user()->id)->first();
         $taxOffices = TaxOffice::all();
-        return view('institutional.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
+        return view('client.panel.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
 
     public function editPhone(Request $request)

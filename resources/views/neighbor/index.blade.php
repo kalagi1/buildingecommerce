@@ -1,4 +1,5 @@
-@extends('institutional.layouts.master')
+
+@extends('client.layouts.masterPanel')
 
 @section('content')
   

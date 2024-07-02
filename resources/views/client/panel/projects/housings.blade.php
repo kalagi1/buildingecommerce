@@ -1,4 +1,4 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @php
     if (!function_exists('getData')) {
