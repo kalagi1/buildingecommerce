@@ -136,6 +136,7 @@ class UserController extends Controller {
         $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
         $user->code = $lastUser->id + auth()->user()->id  + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
+        $user->project_authority = $request->project_authority;
 
         $user->save();
 
@@ -163,11 +164,12 @@ class UserController extends Controller {
 
     public function update( Request $request, $id ) {
         // Form doğrulama kurallarını tanımlayın
+        // print_r($request->project_authority);die;
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'type' => 'required',
-            'mobile_phone' => 'required',
+            // 'mobile_phone' => 'required',
             'title' => 'required',
             'is_active' => 'nullable',
         ];
@@ -181,10 +183,12 @@ class UserController extends Controller {
         $user->name = $validatedData[ 'name' ];
         $user->email = $validatedData[ 'email' ];
         $user->title = $validatedData[ 'title' ];
-        $user->mobile_phone = $validatedData[ 'mobile_phone' ];
+        // $user->mobile_phone = $validatedData[ 'mobile_phone' ];
+        $user->mobile_phone =$request->mobile_phone;
 
         $user->type = $validatedData[ 'type' ];
         $user->status = $request->has( 'is_active' ) ? 5 : 0;
+        $user->project_authority = $request->project_authority ? $request->project_authority : "";
         
             
         if ($request->hasFile('profile_image')) {

@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\CrmController as AdminCrmController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -252,6 +253,8 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
     //arandı mı
@@ -831,6 +834,13 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+
+        //sıfırdan crm rotaları
+        Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+        Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
+
+        Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
