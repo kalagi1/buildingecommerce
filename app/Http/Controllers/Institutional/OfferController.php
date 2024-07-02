@@ -15,14 +15,14 @@ class OfferController extends Controller
     public function index()
     {
         $offers = Offer::with('project', 'housing')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
-        return view('institutional.offers.index', compact('offers'));
+        return view('client.panel.offers.index', compact('offers'));
     }
 
     public function create()
     {
         $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('status', '1')->get();
         $housings = Housing::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
-        return view('institutional.offers.create', compact('projects', 'housings'));
+        return view('client.panel.offers.create', compact('projects', 'housings'));
     }
 
     public function edit(Request $request, $id)
@@ -30,7 +30,7 @@ class OfferController extends Controller
         $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         $housings = Housing::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         $offer = Offer::find($id);
-        return view('institutional.offers.edit', compact('projects', 'housings', 'id', 'offer'));
+        return view('client.panel.offers.edit', compact('projects', 'housings', 'id', 'offer'));
     }
 
     public function store(Request $request)

@@ -50,7 +50,7 @@ class ProjectController extends Controller
         $applyNowRecords = ApplyNow::with("project")->whereIn('project_id', $userProjects)->get();
 
         // Kayıtları bir view'e gönderin.
-        return view('institutional.applyNowRecords.index', compact('applyNowRecords'));
+        return view('client.panel.applyNowRecords.index', compact('applyNowRecords'));
     }
     public function index($slug, $id, Request $request)
     {
@@ -1694,7 +1694,7 @@ class ProjectController extends Controller
     public function get_received_offers()
     {
         $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->orderBy("id","desc")->get();
-        return view('institutional.project_offers.get_received_offers', compact('data'));
+        return view('client.panel.project_offers.get_received_offers', compact('data'));
     } //End
 
     //Kullanıcının Verdiği Tekliflerin listesi
@@ -1702,7 +1702,7 @@ class ProjectController extends Controller
     {
         $data = ProjectOffers::with('project.user', "city", "district")->where('user_id', auth()->id())->get();
 
-        return view('institutional.project_offers.get_given_offers', compact('data'));
+        return view('client.panel.project_offers.get_given_offers', compact('data'));
     } //End
 
 

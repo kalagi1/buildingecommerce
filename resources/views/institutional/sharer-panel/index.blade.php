@@ -306,9 +306,7 @@
                     status: status
                 },
                 success: function(response) {
-                    if (response.success) {
-                        $(element).closest('.brand-item').attr('data-is-show', isShow);
-                    }
+                   console.log(response);
                 },
                 error: function(error) {
                     console.error(error);
