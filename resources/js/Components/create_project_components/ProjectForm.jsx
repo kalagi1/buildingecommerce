@@ -390,10 +390,10 @@ function ProjectForm({selectedTypesTitles,errorMessages,slug,selectedTypes,formD
                         ) : <></>
                     }
                 </div>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
-                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
+                <FileUpload requiredType={["pdf"]} accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
                 <FinishArea allErrors={allErrors} projectData={projectData} setProjectDataFunc={setProjectDataFunc} createProject={createProject}/>
             </div>
         </div>

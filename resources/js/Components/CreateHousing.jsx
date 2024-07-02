@@ -325,6 +325,22 @@ function CreateHousing(props) {
                         }
                     }
                 }
+
+                if(slug == "gunluk-kiralik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "daily-rent-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                console.log(formDataHousing);
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
             })
         }
         

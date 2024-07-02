@@ -176,10 +176,12 @@ class ProjectController extends Controller
         $roomValidationsMessages = [];
 
         foreach ($housingTypeInputs as $input) {
-            if (!str_contains($input->className, 'project-disabled')) {
-                if ($input->required) {
-                    $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
-                    $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
+            if($input && isset($input->className) && $input->className){
+                if (!str_contains($input->className, 'project-disabled')) {
+                    if ($input->required) {
+                        $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
+                        $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
+                    }
                 }
             }
         }
@@ -878,24 +880,26 @@ class ProjectController extends Controller
         }
         foreach ($housingTypeInputs as $input) {
             if(isset($input) && isset($input->type) && $input->type){
-                if ($input->type == "checkbox-group") {
-                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                if($input && isset($input->className) && $input->className){
+                    if ($input->type == "checkbox-group") {
+                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                            }
+                        } else {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                            }
                         }
                     } else {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                        }
-                    }
-                } else {
-                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                        }
-                    } else {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                            }
+                        } else {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                            }
                         }
                     }
                 }
