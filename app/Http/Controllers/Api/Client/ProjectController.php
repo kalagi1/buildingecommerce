@@ -232,6 +232,8 @@ class ProjectController extends Controller
 
         $userId = $user->id;
 
+        $orderBy = $request->input('order', 'desc');
+
         $fullProjectsCount = Project::where('user_id', $userId)
             ->where('status', $request->input('status'))
             ->count();
@@ -249,7 +251,7 @@ class ProjectController extends Controller
                 'favorites', // Ensure favorites relationship is loaded
                 'sharerLinks' // Ensure sharerLinks relationship is loaded
             ])
-            ->orderByDesc('created_at')
+            ->orderBy('created_at',$orderBy)
             ->where('status', $request->input('status'))
             ->take($request->input('take', 10)) // Default take to 10 if not provided
             ->skip($request->input('start', 0)) // Default skip to 0 if not provided
