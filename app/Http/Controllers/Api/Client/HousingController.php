@@ -100,7 +100,6 @@ class HousingController extends Controller {
         $orderBy = $request->input('orderByHousings');
         
         $query = Housing::with('city', 'county', 'neighborhood')
-            ->where('status', 1)
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
@@ -118,113 +117,31 @@ class HousingController extends Controller {
             )
             ->where('user_id', $userId);
         
-        // Sıralama yönergelerini kontrol et
-        if ($orderBy === 'asc-date') {
-            $query->orderBy('housings.created_at', 'asc');
-        } elseif ($orderBy === 'desc-date') {
-            $query->orderBy('housings.created_at', 'desc');
-        } elseif ($orderBy === 'asc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-        } elseif ($orderBy === 'desc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-        }
+            if ($orderBy === 'asc-date') {
+                $query->orderBy('housings.created_at', 'asc');
+            } elseif ($orderBy === 'desc-date') {
+                $query->orderBy('housings.created_at', 'desc');
+            } elseif ($orderBy === 'asc-price') {
+                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+            } elseif ($orderBy === 'desc-price') {
+                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+            }
         
-        $activeHousingTypes = $query->get();
-    
-        
-    
-        $inactiveHousingTypes = Housing::with('city', 'county', 'neighborhood')
-            ->where('status', 0)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json'
-            )
-            ->where('user_id', $userId);
-         
- // Sıralama yönergelerini kontrol et
- if ($orderBy === 'asc-date') {
-    $query->orderBy('housings.created_at', 'asc');
-} elseif ($orderBy === 'desc-date') {
-    $query->orderBy('housings.created_at', 'desc');
-} elseif ($orderBy === 'asc-price') {
-    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-} elseif ($orderBy === 'desc-price') {
-    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-}
-            
-            $inactiveHousingTypes = $query->get();
-    
-        $disabledHousingTypes = Housing::with('city', 'county', 'neighborhood')
-            ->where('status', 3)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json'
-            )
-            ->where('user_id', $userId);
 
+        $housingTypes = $query->get();
 
-            // Sıralama yönergelerini kontrol et
-        if ($orderBy === 'asc-date') {
-            $query->orderBy('housings.created_at', 'asc');
-        } elseif ($orderBy === 'desc-date') {
-            $query->orderBy('housings.created_at', 'desc');
-        } elseif ($orderBy === 'asc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-        } elseif ($orderBy === 'desc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-        }
-            $disabledHousingTypes = $query->get();
+        $activeHousingTypes = $housingTypes->where('status', 1);
     
-        $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood')
-            ->where('status', 2)
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json'
-            )
-            ->where('user_id', $userId);
-
+        $inactiveHousingTypes = $housingTypes->where('status', 0);
+    
+      
+        $disabledHousingTypes = $housingTypes->where('status', 3);
+    
+       
+        $pendingHousingTypes =  $housingTypes->where('status', 2);
 
           // Sıralama yönergelerini kontrol et
-        if ($orderBy === 'asc-date') {
-            $query->orderBy('housings.created_at', 'asc');
-        } elseif ($orderBy === 'desc-date') {
-            $query->orderBy('housings.created_at', 'desc');
-        } elseif ($orderBy === 'asc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-        } elseif ($orderBy === 'desc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-        }
-            $pendingHousingTypes = $query->get();
+         
     
         return response()->json([
             "pendingHousingTypes" => $pendingHousingTypes,
