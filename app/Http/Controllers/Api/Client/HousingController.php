@@ -96,7 +96,7 @@ class HousingController extends Controller {
         }
     
         $userId = $user->parent_id ? $user->parent_id : $user->id;
-
+    
         $orderBy = $request->input('orderByHousings');
         
         $query = Housing::with('city', 'county', 'neighborhood')
@@ -117,31 +117,33 @@ class HousingController extends Controller {
             )
             ->where('user_id', $userId);
         
-            if ($orderBy === 'asc-date') {
-                $query->orderBy('housings.created_at', 'asc');
-            } elseif ($orderBy === 'desc-date') {
-                $query->orderBy('housings.created_at', 'desc');
-            } elseif ($orderBy === 'asc-price') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-            } elseif ($orderBy === 'desc-price') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-            }
-        
-
-        $housingTypes = $query->get();
-
-        $activeHousingTypes = $housingTypes->where('status', 1);
+        if ($orderBy === 'asc-date') {
+            $query->orderBy('housings.created_at', 'asc');
+        } elseif ($orderBy === 'desc-date') {
+            $query->orderBy('housings.created_at', 'desc');
+        } elseif ($orderBy === 'asc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+        } elseif ($orderBy === 'desc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+        }
     
-        $inactiveHousingTypes = $housingTypes->where('status', 0);
+        $housingTypes = $query->get()->toArray();
     
-      
-        $disabledHousingTypes = $housingTypes->where('status', 3);
+        $activeHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 1;
+        }));
     
-       
-        $pendingHousingTypes =  $housingTypes->where('status', 2);
-
-          // Sıralama yönergelerini kontrol et
-         
+        $inactiveHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 0;
+        }));
+    
+        $disabledHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 3;
+        }));
+    
+        $pendingHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 2;
+        }));
     
         return response()->json([
             "pendingHousingTypes" => $pendingHousingTypes,
