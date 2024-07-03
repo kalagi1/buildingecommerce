@@ -251,7 +251,6 @@ class HomeController extends Controller
                 }
             }
         }
-        dd($slug,$housingTypeSlug,$housingType);
 
         $query = Project::query()->where('projects.status', 1);
 
