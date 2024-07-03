@@ -715,7 +715,7 @@
                 </section>
                  --}}
 
-
+                 @if ($secondhandHousings)
                     <div class="row mobile-hidden" style="width: 100%;margin:0 auto">
                         <div class="tab">
                             <input type="radio" name="tab-group" id="all" value="all"
@@ -748,6 +748,9 @@
                             <label for="Sahibinden">Sahibinden</label>
                         </div>
                     </div>
+                    @endif
+
+
 
 
                     <section class="popular-places home18 mt-3" style="padding-top:0 !important">
