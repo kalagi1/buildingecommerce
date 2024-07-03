@@ -237,9 +237,9 @@ class HousingController extends Controller {
             $pendingHousingTypes = $query->get();
     
         return response()->json([
-            // "pendingHousingTypes" => $pendingHousingTypes,
-            // "disabledHousingTypes" => $disabledHousingTypes,
-            // "inactiveHousingTypes" => $inactiveHousingTypes,
+            "pendingHousingTypes" => $pendingHousingTypes,
+            "disabledHousingTypes" => $disabledHousingTypes,
+            "inactiveHousingTypes" => $inactiveHousingTypes,
             "activeHousingTypes" => $activeHousingTypes,
         ]);
     }
