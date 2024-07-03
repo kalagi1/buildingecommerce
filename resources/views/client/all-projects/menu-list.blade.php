@@ -811,13 +811,13 @@
     </script>
 
     <script>
+         var projects = @json($projects ?? null);
         // Görünüm değiştirme düğmeleri için işlev
         function changeView(view) {
             // Aktif görünüm düğmesinin rengini güncelle
             $(".change-view-btn").removeClass("active-view-btn");
             $("#" + view + "-view-btn").addClass("active-view-btn");
 
-            // Görünümü değiştir
             if (view === "grid") {
                 $(".pp-row").show();
                 $(".pp-row-list").hide();
@@ -828,7 +828,13 @@
         }
 
         $(document).ready(function() {
+            if (projects.length > 0) {
+            changeView("grid");
+                
+            }else{
             changeView("list");
+
+            }
         });
     </script>
 
