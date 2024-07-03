@@ -97,8 +97,7 @@ class HousingController extends Controller {
     
         $userId = $user->parent_id ? $user->parent_id : $user->id;
 
-        $orderBy = $request->input('order');
-        $orderByPrice = $request->input('order_by_price');
+        $orderBy = $request->input('orderByHousings');
         
         $query = Housing::with('city', 'county', 'neighborhood')
             ->where('status', 1)
@@ -120,15 +119,13 @@ class HousingController extends Controller {
             ->where('user_id', $userId);
         
         // Sıralama yönergelerini kontrol et
-        if ($orderBy === 'asc') {
+        if ($orderBy === 'asc-date') {
             $query->orderBy('housings.created_at', 'asc');
-        } elseif ($orderBy === 'desc') {
+        } elseif ($orderBy === 'desc-date') {
             $query->orderBy('housings.created_at', 'desc');
-        }
-        
-        if ($orderByPrice === 'asc') {
+        } elseif ($orderBy === 'asc-price') {
             $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-        } elseif ($orderByPrice === 'desc') {
+        } elseif ($orderBy === 'desc-price') {
             $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
         }
         
@@ -154,19 +151,16 @@ class HousingController extends Controller {
             )
             ->where('user_id', $userId);
          
-
-
-            if ($orderBy === 'asc') {
-                $query->orderBy('housings.created_at', 'asc');
-            } elseif ($orderBy === 'desc') {
-                $query->orderBy('housings.created_at', 'desc');
-            }
-            
-            if ($orderByPrice === 'asc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-            } elseif ($orderByPrice === 'desc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-            }
+ // Sıralama yönergelerini kontrol et
+ if ($orderBy === 'asc-date') {
+    $query->orderBy('housings.created_at', 'asc');
+} elseif ($orderBy === 'desc-date') {
+    $query->orderBy('housings.created_at', 'desc');
+} elseif ($orderBy === 'asc-price') {
+    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+} elseif ($orderBy === 'desc-price') {
+    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+}
             
             $inactiveHousingTypes = $query->get();
     
@@ -189,18 +183,16 @@ class HousingController extends Controller {
             ->where('user_id', $userId);
 
 
-            if ($orderBy === 'asc') {
-                $query->orderBy('housings.created_at', 'asc');
-            } elseif ($orderBy === 'desc') {
-                $query->orderBy('housings.created_at', 'desc');
-            }
-            
-            if ($orderByPrice === 'asc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-            } elseif ($orderByPrice === 'desc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-            }
-            
+            // Sıralama yönergelerini kontrol et
+        if ($orderBy === 'asc-date') {
+            $query->orderBy('housings.created_at', 'asc');
+        } elseif ($orderBy === 'desc-date') {
+            $query->orderBy('housings.created_at', 'desc');
+        } elseif ($orderBy === 'asc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+        } elseif ($orderBy === 'desc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+        }
             $disabledHousingTypes = $query->get();
     
         $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood')
@@ -222,18 +214,16 @@ class HousingController extends Controller {
             ->where('user_id', $userId);
 
 
-            if ($orderBy === 'asc') {
-                $query->orderBy('housings.created_at', 'asc');
-            } elseif ($orderBy === 'desc') {
-                $query->orderBy('housings.created_at', 'desc');
-            }
-            
-            if ($orderByPrice === 'asc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-            } elseif ($orderByPrice === 'desc') {
-                $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-            }
-            
+          // Sıralama yönergelerini kontrol et
+        if ($orderBy === 'asc-date') {
+            $query->orderBy('housings.created_at', 'asc');
+        } elseif ($orderBy === 'desc-date') {
+            $query->orderBy('housings.created_at', 'desc');
+        } elseif ($orderBy === 'asc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+        } elseif ($orderBy === 'desc-price') {
+            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+        }
             $pendingHousingTypes = $query->get();
     
         return response()->json([
