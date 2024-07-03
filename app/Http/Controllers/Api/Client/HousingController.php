@@ -116,16 +116,23 @@ class HousingController extends Controller {
                 DB::raw('JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) as price')
             )
             ->where('user_id', $userId);
+
+            if (isset($orderBy)) {
+                if ($orderBy === 'asc-date') {
+                    $query->orderBy('housings.created_at', 'asc');
+                } elseif ($orderBy === 'desc-date') {
+                    $query->orderBy('housings.created_at', 'desc');
+                } elseif ($orderBy === 'asc-price') {
+                    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+                } elseif ($orderBy === 'desc-price') {
+                    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+                }
+            }else{
+                $query->orderBy('housings.created_at', 'desc');
+
+            }
         
-        if ($orderBy === 'asc-date') {
-            $query->orderBy('housings.created_at', 'asc');
-        } elseif ($orderBy === 'desc-date') {
-            $query->orderBy('housings.created_at', 'desc');
-        } elseif ($orderBy === 'asc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
-        } elseif ($orderBy === 'desc-price') {
-            $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
-        }
+      
     
         $housingTypes = $query->get()->toArray();
     
