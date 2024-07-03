@@ -127,15 +127,18 @@ class HousingController extends Controller {
                 $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
             }
         
-        $activeHousingTypes = $query->where('status', 1)->get();
+
+        $housingTypes = $query->get();
+
+        $activeHousingTypes = $housingTypes->where('status', 1);
     
-        $inactiveHousingTypes = $query->where('status', 2)->get();
+        $inactiveHousingTypes = $housingTypes->where('status', 0);
     
       
-        $disabledHousingTypes = $query->where('status', 3)->get();
+        $disabledHousingTypes = $housingTypes->where('status', 3);
     
        
-        $pendingHousingTypes =  $query->where('status', 0)->get();
+        $pendingHousingTypes =  $housingTypes->where('status', 2);
 
           // Sıralama yönergelerini kontrol et
          
