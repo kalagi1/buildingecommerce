@@ -42,6 +42,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <table class="table">
+                                       
                                             <tbody>
                                                 @foreach ($housingViews as $housingView)
                                                     <tr>
@@ -52,7 +53,7 @@
                                                                         class="text-truncate">{{ $housingView->title }}</span></a>
                                                             </div>
                                                             <div class="d-flex justify-content-between">
-                                                                <span>{{ $housingView->view_count }}</span>
+                                                                <span>{{ $housingView->views_count }}</span>
                                                             </div>
                                                         </td>
                                                     </tr>
