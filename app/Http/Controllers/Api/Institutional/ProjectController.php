@@ -18,6 +18,7 @@ use App\Models\HousingTypeParentConnection;
 use App\Models\Installment;
 use App\Models\Institution;
 use App\Models\Invoice;
+use App\Models\ProjectFavorite;
 use App\Models\Neighborhood;
 use App\Models\Offer;
 use App\Models\PaymentSetting;
@@ -1673,4 +1674,25 @@ class ProjectController extends Controller
         $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs','paymentSetting'));
         return $pdf->download($project->project_title.' '.$roomOrder.' Nolu Konut Ödeme Detayı.pdf');
     }
+
+    public function destroyAllFavorite()
+    {
+        // Giriş yapmış kullanıcının ID'sini alın
+        $userId = auth()->guard()->user()->id;
+
+        // Kullanıcının favorilerini silin
+        $deleted = ProjectFavorite::where('user_id', $userId)->delete();
+
+        if ($deleted) {
+            return response()->json([
+                'message' => 'Tüm favoriler başarıyla silindi.',
+                'deleted_count' => $deleted
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Silinecek favori bulunamadı.'
+            ], 404);
+        }
+    }
+    
 }
