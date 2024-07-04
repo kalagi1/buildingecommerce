@@ -642,8 +642,12 @@ class DashboardController extends Controller
 
     private function housingViews()
     {
-        $housingViews = Housing::where('status', 2) 
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $housingViews = Housing::where('status', 1) 
         ->orderBy('view_count', 'desc') 
+        ->where('user_id', $userId)
         ->limit(3) 
         ->get();
        
@@ -652,8 +656,12 @@ class DashboardController extends Controller
 
     private function housings()
     {
-        $housings= Housing::where('status', 2) 
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $housings= Housing::where('status', 1) 
         ->orderBy('created_at', 'desc') 
+        ->where('user_id', $userId)
         ->limit(3) 
         ->get();
 
