@@ -339,6 +339,44 @@
         </div>
     </div>
 
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="bg-solitude-blue border-radius-6px p-45px lg-p-30px mb-25px">
+                        {{-- <span class="fs-19 alt-font text-dark-gray fw-700 mb-20px d-inline-block">Maliyetine Ev</span> --}}
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Business planning</a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Market research</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Business consulting</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Audience analysis</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <h3>Profile Bilgilerini Güncelleme</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor quis nisl tincidunt bibendum eget vel turpis.</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <h3>Firma Bilgilerini Güncelleme</h3>
+                            <p>Suspendisse potenti. Sed viverra, orci ac porta luctus, turpis nisi laoreet odio, eget posuere sapien felis et erat.</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            <h3>Business consulting</h3>
+                            <p>Morbi lacinia, nunc at placerat consequat, odio mauris vestibulum magna, eget lacinia arcu arcu ac est.</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                            <h3>Audience analysis</h3>
+                            <p>Praesent blandit, libero id faucibus fermentum, justo arcu interdum dolor, nec pharetra mi nunc at erat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 @endsection
 
 

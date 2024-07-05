@@ -1016,7 +1016,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
     // ChangePassword Controller Rotasının İzinleri
     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
-        Route::get('/sifre/guncelleme', [InstitutionalChangePasswordController::class, "edit"])->name('password.edit');
+        Route::get('/sifre-guncelleme', [InstitutionalChangePasswordController::class, "edit"])->name('password.edit');
         Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
     });
 
