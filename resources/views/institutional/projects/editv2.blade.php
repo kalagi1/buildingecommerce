@@ -26,6 +26,7 @@
     @endif
     <div class="content">
         <h2 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">İlanı Güncelle</h2>
+        
         <div class="breadcrumb  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             <span>Emlak</span>
         </div>
@@ -160,7 +161,7 @@
                                         <label for="">Başlangıç Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
                                         </div>
@@ -170,7 +171,7 @@
                                         <label for="">Bitiş Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->project_end_date) ? $tempData->project_end_date : ''}}" class="project_end_date" onchange="changeData(this.value,'project_end_date')" onkeyup="changeData(this.value,'project_end_date')">
                                         </div>
