@@ -131,7 +131,7 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
                                 <option value="">Güncellemek İstediğiniz Alanı Seçin</option>
                                 {
                                     formJsonData.map((typeData) => {
-                                        if(!typeData.className.includes('project-disabled')){
+                                        if(!typeData?.className?.includes('project-disabled')){
                                             if(typeData.type != "file"){
                                                 return(
                                                     <option value={typeData.name}>{typeData.label}</option>

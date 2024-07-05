@@ -32,6 +32,7 @@ function CreateHousing(props) {
     const [selectedBlock,setSelectedBlock] = useState(0);
     const [selectedRoom,setSelectedRoom] = useState(0);
     const [anotherBlockErrors,setAnotherBlockErrors] = useState(0);
+    const [selectedTypesTitles,setSelectedTypesTitles] = useState([]);
     const [user,setUser] = useState({});
     const setProjectDataFunc = (key,value) => {
         setProjectData({
@@ -324,6 +325,22 @@ function CreateHousing(props) {
                         }
                     }
                 }
+
+                if(slug == "gunluk-kiralik" && !formDataHousing?.className?.split(' ').find(((classx) => classx == "daily-rent-disabled")) && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-show-project-sale")){
+                    if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                        if(formDataHousing.required){
+                            if(blocks.length < 1){
+                                console.log(formDataHousing);
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }else{
+                                if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] || (blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] && blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name] == 'Seçiniz')){
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }
+                            }
+                            
+                        }
+                    }
+                }
             })
         }
         
@@ -505,9 +522,9 @@ function CreateHousing(props) {
             <ToastContainer/>
             {
                 step == 1 ? 
-                    <TypeList2 setSlug={setSlug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
+                    <TypeList2 setSelectedTypesTitles={setSelectedTypesTitles} selectedTypesTitles={selectedTypesTitles} setSlug={setSlug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <HousingForm user={user} slug={slug} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <HousingForm user={user} slug={slug} anotherBlockErrors={anotherBlockErrors} selectedTypesTitles={selectedTypesTitles} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} selectedTypes={selectedTypes} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSectionHousing/>
             }

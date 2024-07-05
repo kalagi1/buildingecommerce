@@ -334,345 +334,671 @@ const setPayDecStatus = (index,value) => {
 }
 
     return(
-        <Modal
-            open={open}
-            onClose={() => {setOpen(false);setSelectedId(null);}}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-                     {loading ? (
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-                    <i className="fa fa-spinner fa-spin" style={{fontSize: '24px'}}></i>
-                </div>
-            ) : (
-            <Box sx={style}>
-                <div style={{display:'flex',justifyContent:'space-between'}}>
-                    <Typography variant="h4" gutterBottom>
-                        Ödeme Planı ve Alıcı Bilgileri
-                    </Typography>
-                    <button onClick={save} className='all_selected_button' > 
-                        <i className='fa fa-lock mx-2'></i> 
-                        <span>Kaydet</span> 
-                        <div className={saveLoading ? "" : 'd-none'}>
-                            <i className={'fa fa-spinner loading-icon ml-2'}></i>
+        <>
+        <div className={'payment-modal '+(open ? "" : "d-none")}>
+            <div className='payment-modal-bg'></div>
+            <div className="payment-modal-content">
+                <div className="pop-up-top-gradient">
+                    <div className="close-icon"><i className='fa fa-times'></i></div>
+                    <div className="jc-center">
+                        <div className="icons">
+                            <div className="icon">
+                                <i className='fa fa-receipt'></i>
+                            </div>
+                            <div className="icon">
+                                <img src="https://i.hizliresim.com/7evaytd.png" alt="" />
+                            </div>
                         </div>
-                    </button>
-                </div> 
-                
-                <div>
-       
-                <Grid container spacing={3}>
-                    <Grid item xs={6} md={6}>
-                        <TextField
-                            fullWidth
-                            label="Alıcı Adı"
-                            name="name"
-                            value={data.name}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="Alıcı Email Adresi"
-                            name="email"
-                            value={data.email}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="Alıcı Telefon Numarası"
-                            name="phone"
-                            value={data.phone}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <FormControl fullWidth margin="normal">
-                            <label htmlFor="">Komşumu Gör</label>
-                            
-                            <FormControlLabel control={<Switch onChange={() => {setData({...data,show_neighbour : !data.show_neighbour})}} checked={data.show_neighbour} />} label="Açık" />
-                        </FormControl>
-                         <FormControl fullWidth margin="normal">
-                            <label htmlFor="">Kapora Ödendi</label>
-                            
-                            <FormControlLabel control={<Switch onChange={() => {setData({...data,down_payment : !data.down_payment})}} checked={data.down_payment} />} label="Evet" />
-                        </FormControl>
-                        <TextField
-                            fullWidth
-                            label="Kapora Bedeli"
-                            name="down_payment_price"
-                            value={dotNumberFormat(data.down_payment_price)}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <TextField
-                            type='date'
-                            fullWidth
-                            label="Kapora Ödenme Tarihi"
-                            name="deposit_date"
-                            value={data.deposit_date}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="Kapora Açıklaması"
-                            name="down_payment_price_description"
-                            value={data.down_payment_price_description}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                         <FormControl fullWidth margin="normal">
-                            <label htmlFor="">Peşinat Ödendi</label>
-                            
-                            <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
-                        </FormControl>
-                        <TextField
-                            fullWidth
-                            type='date'
-                            label="Peşinat Ödenme Tarihi"
-                            name="advance_date"
-                            value={data.advance_date}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="Peşinat Açıklaması"
-                            name="advance_date_description"
-                            value={data.advance_date_description}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
-                    </Grid>
-                    <Grid item xs={6} md={6}>
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel id="attributes-label">Satın Alma Türü</InputLabel>
-                            <Select
-                                labelId="attributes-label"
-                                id="attributes"
-                                name="sale_type"
-                                value={data.sale_type}
+                        <div className='title'>
+                            <p>Ödeme Planı ve Alıcı Bilgileri</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="payment-modal-area">
+                    <div className="row">
+                        <div className="col-md-2">
+                            <div className="payment-modal-menu">
+                                <ul>
+                                    <li onClick={() => {document.querySelector('#user-information').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#user-information').classList.add('highlight'); setTimeout(function() {document.querySelector('#user-information').classList.remove('highlight');}, 300);}} className='active'><i className='fa fa-circle-dot'></i> Alıcı Bilgileri</li>
+                                    <li onClick={() => {document.querySelector('#sale-information').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#sale-information').classList.add('highlight'); setTimeout(function() {document.querySelector('#sale-information').classList.remove('highlight');}, 300);}}><i className='fa fa-circle-dot'></i> Satış Bilgileri</li>
+                                    <li onClick={() => {document.querySelector('#down-payment').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#down-payment').classList.add('highlight'); setTimeout(function() {document.querySelector('#down-payment').classList.remove('highlight');}, 300);}}><i className='fa fa-circle-dot'></i> Kapora</li>
+                                    <li onClick={() => {document.querySelector('#advance-sc').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#advance-sc').classList.add('highlight'); setTimeout(function() {document.querySelector('#advance-sc').classList.remove('highlight');}, 300);}}><i className='fa fa-circle-dot'></i> Peşinat</li>
+                                    <li onClick={() => {document.querySelector('#pay-decs').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#pay-decs').classList.add('highlight'); setTimeout(function() {document.querySelector('#pay-decs').classList.remove('highlight');}, 300);}}><i className='fa fa-circle-dot'></i> Ara Ödemeler</li>
+                                    <li onClick={() => {document.querySelector('#installment').scrollIntoView({ behavior: 'smooth' }); document.querySelector('#installment').classList.add('highlight'); setTimeout(function() {document.querySelector('#installment').classList.remove('highlight');}, 300);}}><i className='fa fa-circle-dot'></i> Taksitler</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-md-10">
+                            <div className="content-payment-modal p-2 scrollbar" id="style-2">
+                                <div className="card">
+                                    <div className="form-section" id='user-information'>
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label htmlFor="">Alıcı Adı</label>
+                                                    <input value={data.name} name='name' onChange={handleInputChange} type="text" className='form-control' />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label htmlFor="">Alıcı E-mail Adresi</label>
+                                                    <input value={data.email} name='email' onChange={handleInputChange} type="text" className='form-control' />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label htmlFor="">Alıcı Telefon Numarası</label>
+                                                    <input value={data.phone} name='phone' onChange={handleInputChange} type="text" className='form-control' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-section" id='sale-information'>
+                                    <div className="row">
+                                        <div className="col-md-4">
+                                            <div className="form-group">
+                                                <label htmlFor="">Satın Alma Türü</label>
+                                                <select value={data.sale_type} name='sale_type' onChange={handleInputChange} className='form-control' id="">
+                                                    <option value="1">Peşin Satış</option>
+                                                    <option value="2">Taksitli Satış</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="form-group">
+                                                <label htmlFor="">Satış Fiyatı</label>
+                                                <input value={dotNumberFormat(data.price)} name='price' onChange={handleInputChange} type="text" className='form-control' />
+                                            </div>
+                                        </div>
+                                        {
+                                            data.sale_type == 2 ? 
+                                                <>
+                                                    <div className="col-md-4">
+                                                        <div className="form-group">
+                                                            <label htmlFor="">Taksit Sayısı</label>
+                                                            <input type="text" name="installments" value={data.installments} onChange={handleInputChange} className='form-control' />
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            : ''
+                                        }
+                                        
+                                    </div>
+                                </div>
+                                <div className="form-section" id='down-payment'>
+                                    <div className="row">
+                                        <div className="col-md-2">
+                                            <div className="form-group">
+                                                <label htmlFor="">Kapora Ödendi</label>
+                                                <div>
+                                                    <FormControlLabel control={<Switch checked={data.down_payment} onChange={() => {setData({...data,down_payment : !data.down_payment})}} />} label="Evet" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-10">
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="">Kapora Tutarı</label>
+                                                        <input type="text" name="down_payment_price" value={dotNumberFormat(data.down_payment_price)} onChange={handleInputChange} className='form-control' />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="">Kapora Ödenme Tarihi</label>
+                                                        <input type="date" name="deposit_date" value={data.deposit_date} onChange={handleInputChange} className='form-control' />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <div className="form-group">
+                                                        <label htmlFor="">Kapora Açıklaması</label>
+                                                        <input type="text" name="down_payment_price_description" value={data.down_payment_price_description} onChange={handleInputChange} value={data.down_payment_price_description} className='form-control' />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {
+                                    data.sale_type == 2 ? 
+                                        <div className="form-section" id='advance-sc'>
+                                            <div className="row">
+                                                <div className="col-md-2">
+                                                    <div className="form-group">
+                                                        <label htmlFor="">Peşinat Ödendi</label>
+                                                        <div>
+                                                            <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-10">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <div className="form-group">
+                                                                <label htmlFor="">Peşinat Tutarı</label>
+                                                                <input type="text" name="advance"value={dotNumberFormat(data.advance)} onChange={handleInputChange}className='form-control' />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-4">
+                                                            <div className="form-group">
+                                                                <label htmlFor="">Peşinat Ödenme Tarihi</label>
+                                                                <input type="text" label="Peşinat Ödenme Tarihi" name="advance_date" value={data.advance_date} className='form-control' />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-4">
+                                                            <div className="form-group">
+                                                                <label htmlFor="">Peşinat Açıklaması</label>
+                                                                <input type="text" label="Peşinat Açıklaması" name="advance_date_description" value={data.advance_date_description} className='form-control' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    : ''
+                                }
+                                
+                                {
+                                    data.sale_type == 2 ? 
+                                        <div className="form-section" id='pay-decs'>
+                                            <FormControl fullWidth margin="normal">
+                                                <div className="dec-pay-area">
+                                                    <div className="top">
+                                                        <label style={{fontSize:'18px'}} htmlFor="">Ara Ödemeler</label>
+                                                        <button onClick={addPayDec} style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'0 5px'}} className="btn btn-primary add-pay-dec">
+                                                            <svg
+                                                                className="svg-inline--fa fa-plus"
+                                                                aria-hidden="true"
+                                                                focusable="false"
+                                                                data-prefix="fas"
+                                                                data-icon="plus"
+                                                                role="img"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 448 512"
+                                                                data-fa-i2svg=""
+                                                            >
+                                                                <path
+                                                                fill="currentColor"
+                                                                d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
+                                                                />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div className="pay-desc">
+                                                        {
+                                                            data?.pay_decs?.map((payDec,i) => {
+                                                                return(
+                                                                    <div className="pay-desc-item">
+                                                                        <div className="row" style={{ alignItems: "flex-end" }}>
+                                                                            <div className="flex-1">
+                                                                                <button onClick={() => {removePayDec(i)}} className="btn btn-primary remove-pay-dec">
+                                                                                    <svg
+                                                                                    className="svg-inline--fa fa-trash"
+                                                                                    aria-hidden="true"
+                                                                                    focusable="false"
+                                                                                    data-prefix="fas"
+                                                                                    data-icon="trash"
+                                                                                    role="img"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    viewBox="0 0 448 512"
+                                                                                    data-fa-i2svg=""
+                                                                                    >
+                                                                                        <path
+                                                                                            fill="currentColor"
+                                                                                            d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z"
+                                                                                        />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div className="flex-10">
+                                                                                <label htmlFor="">Ara Ödeme </label>
+                                                                                <input type="text" className="form-control" onChange={(e) => {setPayDecPrice(i,e.target.value)}} value={dotNumberFormat(payDec.price)} />
+                                                                            </div>
+                                                                            <div className="flex-10">
+                                                                                <label htmlFor="">Ara Ödeme Tarihi</label>
+                                                                                <input type="date" className="form-control" onChange={(e) => {setPayDecDate(i,e.target.value)}} value={payDec.date} />
+                                                                            </div>
+                                                                            <div style={{flex:'2'}}>
+                                                                                {
+                                                                                    payDec.status ? 
+                                                                                        <div onClick={() => {setPayDecStatus(i,false)}} className='add-button-payment mx-2'>
+                                                                                            <i className='fa fa-times'></i>
+                                                                                        </div>
+                                                                                    : 
+                                                                                        <div onClick={() => {setPayDecStatus(i,true)}} className='confirm-button-payment mx-2'>
+                                                                                            <i className='fa fa-check'></i>
+                                                                                        </div>
+                                                                                }
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+                                                        
+                                                    </div>
+                                                </div>
+                                            </FormControl>
+                                        </div>
+                                    : ''
+                                }
+                                {
+                                    data.sale_type == 2 ? 
+                                        <div className="form-section mt-2" id='installment'>
+                                            <div className='d-flex'>
+                                                <label style={{fontSize:'18px'}} htmlFor="">Taksitler ({installments.length})</label>
+                                                <span className='add-button-payment' style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'0 5px'}} onClick={() => {setInstallments([...installments,{}])}}><i className='fa fa-plus'></i></span>
+                                            </div>
+                                            <div className="pr-2 mt-2">
+                                                {
+                                                    installments.map((installment,i) => {
+                                                        return(
+                                                            <div key={i} className="row mb-2 mx-1" style={{alignItems:'flex-end'}}>
+                                                                <div className="col-md-1">
+                                                                    <div className="d-flex">
+                                                                        <div className='add-button-payment mx-2'>
+                                                                            {i + 1}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-2">
+                                                                    <label htmlFor="">Fiyat</label>
+                                                                    <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'price')}} value={dotNumberFormat(installment.price)} className='form-control' />
+                                                                </div>
+                                                                <div className="col-md-2">
+                                                                    <label htmlFor="">Tarih</label>
+                                                                    <input type="date" onChange={(e) => {setPaymentDate(i,e.target.value)}} value={installment.date} className='form-control' />
+                                                                </div>
+                                                                <div className="col-md-2">
+                                                                    <label htmlFor="">Ödeme Tarihi</label>
+                                                                    <input type="date" onChange={(e) => {setPaymentPaymentDate(i,e.target.value)}} value={installment.payment_date} className='form-control' />
+                                                                </div>
+                                                                <div className="col-md-2">
+                                                                    <label htmlFor="">Ödeme Yöntemi</label>
+                                                                    <select value={installment.paymentType} onChange={(e) => {console.log(e.target.value); setPaymentMethod(i,e.target.value)}} className='form-control' id="">
+                                                                        <option value="">Seçiniz</option>
+                                                                        <option value="Nakit">Nakit</option>
+                                                                        <option value="Çek">Çek</option>
+                                                                        <option value="Kredi Kartı">Kredi Kartı</option>
+                                                                        <option value="Diğer">Diğer</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="col-md-2">
+                                                                    <label htmlFor="">Açıklama</label>
+                                                                    <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'desc')}} value={installment.description} className='form-control' />
+                                                                </div>
+                                                                <div className="col-md-1 ">
+                                                                    <div className="d-flex">
+                                                                        {
+                                                                            installment.is_payment ? 
+                                                                                <div onClick={() => {setPaymentType(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                                    <i className='fa fa-times'></i>
+                                                                                </div>
+                                                                            : 
+                                                                                <div onClick={() => {setPaymentType(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                                    <i className='fa fa-check'></i>
+                                                                                </div>
+                                                                        }
+                                                                        
+                                                                        <span onClick={() => {deleteInstallment(i)}} className='add-button-payment'><i className='fa fa-minus'></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    : ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <Modal
+                open={false}
+                onClose={() => {setOpen(false);setSelectedId(null);}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                        {loading ? (
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+                        <i className="fa fa-spinner fa-spin" style={{fontSize: '24px'}}></i>
+                    </div>
+                ) : (
+                <Box sx={style}>
+                    <div style={{display:'flex',justifyContent:'space-between'}}>
+                        <Typography variant="h4" gutterBottom>
+                            Ödeme Planı ve Alıcı Bilgileri
+                        </Typography>
+                        <button onClick={save} className='all_selected_button' > 
+                            <i className='fa fa-lock mx-2'></i> 
+                            <span>Kaydet</span> 
+                            <div className={saveLoading ? "" : 'd-none'}>
+                                <i className={'fa fa-spinner loading-icon ml-2'}></i>
+                            </div>
+                        </button>
+                    </div> 
+                    
+                    <div>
+        
+                    <Grid container spacing={3}>
+                        <Grid item xs={6} md={6}>
+                            <TextField
+                                fullWidth
+                                label="Alıcı Adı"
+                                name="name"
+                                value={data.name}
                                 onChange={handleInputChange}
-                                label="Attributes"
-                            >
-                                <MenuItem value="1">Peşin Satış</MenuItem>
-                                <MenuItem value="2">Taksitli Satış</MenuItem>
-                            {/* Diğer atributlar burada eklenebilir */}
-                            </Select>
-                        </FormControl>
-                        <TextField
-                            fullWidth
-                            label="Satış Fiyatı"
-                            name="price"
-                            value={dotNumberFormat(data.price)}
-                            onChange={handleInputChange}
-                            margin="normal"
-                        />
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Alıcı Email Adresi"
+                                name="email"
+                                value={data.email}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Alıcı Telefon Numarası"
+                                name="phone"
+                                value={data.phone}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <FormControl fullWidth margin="normal">
+                                <label htmlFor="">Komşumu Gör</label>
+                                
+                                <FormControlLabel control={<Switch onChange={() => {setData({...data,show_neighbour : !data.show_neighbour})}} checked={data.show_neighbour} />} label="Açık" />
+                            </FormControl>
+                            <FormControl fullWidth margin="normal">
+                                <label htmlFor="">Kapora Ödendi</label>
+                                
+                                <FormControlLabel control={<Switch onChange={() => {setData({...data,down_payment : !data.down_payment})}} checked={data.down_payment} />} label="Evet" />
+                            </FormControl>
+                            <TextField
+                                fullWidth
+                                label="Kapora Bedeli"
+                                name="down_payment_price"
+                                value={dotNumberFormat(data.down_payment_price)}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <TextField
+                                type='date'
+                                fullWidth
+                                label="Kapora Ödenme Tarihi"
+                                name="deposit_date"
+                                value={data.deposit_date}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Kapora Açıklaması"
+                                name="down_payment_price_description"
+                                value={data.down_payment_price_description}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <FormControl fullWidth margin="normal">
+                                <label htmlFor="">Peşinat Ödendi</label>
+                                
+                                <FormControlLabel control={<Switch onChange={() => {setData({...data,advance_payment : !data.advance_payment})}} checked={data.advance_payment} />} label="Evet" />
+                            </FormControl>
+                            <TextField
+                                fullWidth
+                                type='date'
+                                label="Peşinat Ödenme Tarihi"
+                                name="advance_date"
+                                value={data.advance_date}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Peşinat Açıklaması"
+                                name="advance_date_description"
+                                value={data.advance_date_description}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={6} md={6}>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel id="attributes-label">Satın Alma Türü</InputLabel>
+                                <Select
+                                    labelId="attributes-label"
+                                    id="attributes"
+                                    name="sale_type"
+                                    value={data.sale_type}
+                                    onChange={handleInputChange}
+                                    label="Attributes"
+                                >
+                                    <MenuItem value="1">Peşin Satış</MenuItem>
+                                    <MenuItem value="2">Taksitli Satış</MenuItem>
+                                {/* Diğer atributlar burada eklenebilir */}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                fullWidth
+                                label="Satış Fiyatı"
+                                name="price"
+                                value={dotNumberFormat(data.price)}
+                                onChange={handleInputChange}
+                                margin="normal"
+                            />
+                            {
+                                data.sale_type == 2 ? 
+                                    <>
+                                        <TextField
+                                            fullWidth
+                                            label="Peşinat"
+                                            name="advance"
+                                            value={dotNumberFormat(data.advance)}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            type="text"
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Taksit Sayısı"
+                                            name="installments"
+                                            value={data.installments}
+                                            onChange={handleInputChange}
+                                            margin="normal"
+                                            type="text"
+                                        />
+                                    </>
+                                : ''
+                            }
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            
                         {
                             data.sale_type == 2 ? 
-                                <>
-                                    <TextField
-                                        fullWidth
-                                        label="Peşinat"
-                                        name="advance"
-                                        value={dotNumberFormat(data.advance)}
-                                        onChange={handleInputChange}
-                                        margin="normal"
-                                        type="text"
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        label="Taksit Sayısı"
-                                        name="installments"
-                                        value={data.installments}
-                                        onChange={handleInputChange}
-                                        margin="normal"
-                                        type="text"
-                                    />
-                                </>
+                                <FormControl fullWidth margin="normal">
+                                    <div className="dec-pay-area">
+                                        <div className="top">
+                                            <h4>Ara Ödemeler</h4>
+                                            <button onClick={addPayDec} className="btn btn-primary add-pay-dec">
+                                                <svg
+                                                    className="svg-inline--fa fa-plus"
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="plus"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 448 512"
+                                                    data-fa-i2svg=""
+                                                >
+                                                    <path
+                                                    fill="currentColor"
+                                                    d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div className="pay-desc">
+                                            {
+                                                data?.pay_decs?.map((payDec,i) => {
+                                                    return(
+                                                        <div className="pay-desc-item">
+                                                            <div className="row" style={{ alignItems: "flex-end" }}>
+                                                                <div className="flex-1">
+                                                                    <button onClick={() => {removePayDec(i)}} className="btn btn-primary remove-pay-dec">
+                                                                        <svg
+                                                                        className="svg-inline--fa fa-trash"
+                                                                        aria-hidden="true"
+                                                                        focusable="false"
+                                                                        data-prefix="fas"
+                                                                        data-icon="trash"
+                                                                        role="img"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 448 512"
+                                                                        data-fa-i2svg=""
+                                                                        >
+                                                                            <path
+                                                                                fill="currentColor"
+                                                                                d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z"
+                                                                            />
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                                <div className="flex-10">
+                                                                    <label htmlFor="">Ara Ödeme </label>
+                                                                    <input type="text" className="form-control" onChange={(e) => {setPayDecPrice(i,e.target.value)}} value={dotNumberFormat(payDec.price)} />
+                                                                </div>
+                                                                <div className="flex-10">
+                                                                    <label htmlFor="">Ara Ödeme Tarihi</label>
+                                                                    <input type="date" className="form-control" onChange={(e) => {setPayDecDate(i,e.target.value)}} value={payDec.date} />
+                                                                </div>
+                                                                <div style={{flex:'2'}}>
+                                                                    {
+                                                                        payDec.status ? 
+                                                                            <div onClick={() => {setPayDecStatus(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                                <i className='fa fa-times'></i>
+                                                                            </div>
+                                                                        : 
+                                                                            <div onClick={() => {setPayDecStatus(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                                <i className='fa fa-check'></i>
+                                                                            </div>
+                                                                    }
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                </FormControl>
                             : ''
                         }
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={12}>
-                        
-                    {
-                        data.sale_type == 2 ? 
-                            <FormControl fullWidth margin="normal">
-                                <div className="dec-pay-area">
-                                    <div className="top">
-                                        <h4>Ara Ödemeler</h4>
-                                        <button onClick={addPayDec} className="btn btn-primary add-pay-dec">
-                                            <svg
-                                                className="svg-inline--fa fa-plus"
-                                                aria-hidden="true"
-                                                focusable="false"
-                                                data-prefix="fas"
-                                                data-icon="plus"
-                                                role="img"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 448 512"
-                                                data-fa-i2svg=""
-                                            >
-                                                <path
-                                                fill="currentColor"
-                                                d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div className="pay-desc">
+                
+                        <div className="form-group">
+                            <label htmlFor="">Taksit Başlangıç Tarihi</label>
+                            <div className="input-with-save-button">
+                                <input value={startDate} onChange={(e) => {setStartDate(e.target.value)}} type="date" className='form-control' />
+                                <span onClick={() => {startDateConfirmFunc()}}><i className='fa fa-check'></i></span>    
+                            </div>
+                        </div>
+                        <div className="installments">
+                            <div className='d-flex'>
+                                <h4 className='mb-0'>Taksitler ({installments.length})</h4>
+                                <span className='add-button-payment' onClick={() => {setInstallments([...installments,{}])}}><i className='fa fa-plus'></i></span>
+                            </div>
+                            {
+                                startDateConfirm ? 
+                                    <ReactSortable multiDrag swap list={installments} setList={setInstallments}>
                                         {
-                                            data?.pay_decs?.map((payDec,i) => {
+                                            installments.map((installment,i) => {
                                                 return(
-                                                    <div className="pay-desc-item">
-                                                        <div className="row" style={{ alignItems: "flex-end" }}>
-                                                            <div className="flex-1">
-                                                                <button onClick={() => {removePayDec(i)}} className="btn btn-primary remove-pay-dec">
-                                                                    <svg
-                                                                    className="svg-inline--fa fa-trash"
-                                                                    aria-hidden="true"
-                                                                    focusable="false"
-                                                                    data-prefix="fas"
-                                                                    data-icon="trash"
-                                                                    role="img"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 448 512"
-                                                                    data-fa-i2svg=""
-                                                                    >
-                                                                        <path
-                                                                            fill="currentColor"
-                                                                            d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM394.8 466.1C393.2 492.3 372.3 512 346.9 512H101.1C75.75 512 54.77 492.3 53.19 466.1L31.1 128H416L394.8 466.1z"
-                                                                        />
-                                                                    </svg>
-                                                                </button>
+                                                    <div key={i} className="row mb-2" style={{alignItems:'flex-end'}}>
+                                                        <div className="col-md-1">
+                                                            <div className="d-flex">
+                                                                <span className='add-button-payment' style={{cursor:'pointer',display:'flex',justifyContent:'center',alignItems:'center'}}><i class="fa fa-arrows-up-down-left-right"></i></span>
+                                                                <div className='add-button-payment mx-2'>
+                                                                    {i + 1}
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-10">
-                                                                <label htmlFor="">Ara Ödeme </label>
-                                                                <input type="text" className="form-control" onChange={(e) => {setPayDecPrice(i,e.target.value)}} value={dotNumberFormat(payDec.price)} />
-                                                            </div>
-                                                            <div className="flex-10">
-                                                                <label htmlFor="">Ara Ödeme Tarihi</label>
-                                                                <input type="date" className="form-control" onChange={(e) => {setPayDecDate(i,e.target.value)}} value={payDec.date} />
-                                                            </div>
-                                                            <div style={{flex:'2'}}>
+                                                        </div>
+                                                        <div className="col-md-2">
+                                                            <label htmlFor="">Fiyat</label>
+                                                            <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'price')}} value={dotNumberFormat(installment.price)} className='form-control' />
+                                                        </div>
+                                                        <div className="col-md-2">
+                                                            <label htmlFor="">Tarih</label>
+                                                            <input type="date" onChange={(e) => {setPaymentDate(i,e.target.value)}} value={installment.date} className='form-control' />
+                                                        </div>
+                                                        <div className="col-md-2">
+                                                            <label htmlFor="">Ödeme Tarihi</label>
+                                                            <input type="date" onChange={(e) => {setPaymentPaymentDate(i,e.target.value)}} value={installment.payment_date} className='form-control' />
+                                                        </div>
+                                                        <div className="col-md-2">
+                                                            <label htmlFor="">Ödeme Yöntemi</label>
+                                                            <select value={installment.paymentType} onChange={(e) => {console.log(e.target.value); setPaymentMethod(i,e.target.value)}} className='form-control' id="">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="Nakit">Nakit</option>
+                                                                <option value="Çek">Çek</option>
+                                                                <option value="Kredi Kartı">Kredi Kartı</option>
+                                                                <option value="Diğer">Diğer</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="col-md-2">
+                                                            <label htmlFor="">Açıklama</label>
+                                                            <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'desc')}} value={installment.description} className='form-control' />
+                                                        </div>
+                                                        <div className="col-md-1">
+                                                            <div className="d-flex">
                                                                 {
-                                                                    payDec.status ? 
-                                                                        <div onClick={() => {setPayDecStatus(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                    installment.is_payment ? 
+                                                                        <div onClick={() => {setPaymentType(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
                                                                             <i className='fa fa-times'></i>
                                                                         </div>
                                                                     : 
-                                                                        <div onClick={() => {setPayDecStatus(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
+                                                                        <div onClick={() => {setPaymentType(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
                                                                             <i className='fa fa-check'></i>
                                                                         </div>
                                                                 }
                                                                 
+                                                                <span onClick={() => {deleteInstallment(i)}} className='add-button-payment'><i className='fa fa-minus'></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 )
                                             })
                                         }
-                                        
+                                    </ReactSortable>
+                                    
+                                : 
+                                    <div>
+                                        <div className='alert alert-danger mt-3'>
+                                            Taksit başlangıç tarihi girilmeden taksitleri listeleyemezsiniz
+                                        </div>
                                     </div>
-                                </div>
-                            </FormControl>
-                        : ''
-                    }
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                    </Grid>
-                </Grid>
-               
-                    <div className="form-group">
-                        <label htmlFor="">Taksit Başlangıç Tarihi</label>
-                        <div className="input-with-save-button">
-                            <input value={startDate} onChange={(e) => {setStartDate(e.target.value)}} type="date" className='form-control' />
-                            <span onClick={() => {startDateConfirmFunc()}}><i className='fa fa-check'></i></span>    
-                        </div>
-                    </div>
-                    <div className="installments">
-                        <div className='d-flex'>
-                            <h4 className='mb-0'>Taksitler ({installments.length})</h4>
-                            <span className='add-button-payment' onClick={() => {setInstallments([...installments,{}])}}><i className='fa fa-plus'></i></span>
-                        </div>
-                        {
-                            startDateConfirm ? 
-                                <ReactSortable multiDrag swap list={installments} setList={setInstallments}>
-                                    {
-                                        installments.map((installment,i) => {
-                                            return(
-                                                <div key={i} className="row mb-2" style={{alignItems:'flex-end'}}>
-                                                    <div className="col-md-1">
-                                                        <div className="d-flex">
-                                                            <span className='add-button-payment' style={{cursor:'pointer',display:'flex',justifyContent:'center',alignItems:'center'}}><i class="fa fa-arrows-up-down-left-right"></i></span>
-                                                            <div className='add-button-payment mx-2'>
-                                                                {i + 1}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <label htmlFor="">Fiyat</label>
-                                                        <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'price')}} value={dotNumberFormat(installment.price)} className='form-control' />
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <label htmlFor="">Tarih</label>
-                                                        <input type="date" onChange={(e) => {setPaymentDate(i,e.target.value)}} value={installment.date} className='form-control' />
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <label htmlFor="">Ödeme Tarihi</label>
-                                                        <input type="date" onChange={(e) => {setPaymentPaymentDate(i,e.target.value)}} value={installment.payment_date} className='form-control' />
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <label htmlFor="">Ödeme Yöntemi</label>
-                                                        <select value={installment.paymentType} onChange={(e) => {console.log(e.target.value); setPaymentMethod(i,e.target.value)}} className='form-control' id="">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="Nakit">Nakit</option>
-                                                            <option value="Çek">Çek</option>
-                                                            <option value="Kredi Kartı">Kredi Kartı</option>
-                                                            <option value="Diğer">Diğer</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="col-md-2">
-                                                        <label htmlFor="">Açıklama</label>
-                                                        <input type="text" onChange={(e) => {setPaymentPrice(i,e.target.value,'desc')}} value={installment.description} className='form-control' />
-                                                    </div>
-                                                    <div className="col-md-1">
-                                                        <div className="d-flex">
-                                                            {
-                                                                installment.is_payment ? 
-                                                                    <div onClick={() => {setPaymentType(i,false)}} className='add-button-payment mx-2' style={{cursor:'pointer'}}>
-                                                                        <i className='fa fa-times'></i>
-                                                                    </div>
-                                                                : 
-                                                                    <div onClick={() => {setPaymentType(i,true)}} className='confirm-button-payment mx-2' style={{cursor:'pointer'}}>
-                                                                        <i className='fa fa-check'></i>
-                                                                    </div>
-                                                            }
-                                                            
-                                                            <span onClick={() => {deleteInstallment(i)}} className='add-button-payment'><i className='fa fa-minus'></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </ReactSortable>
-                                
-                            : 
-                                <div>
-                                    <div className='alert alert-danger mt-3'>
-                                        Taksit başlangıç tarihi girilmeden taksitleri listeleyemezsiniz
-                                    </div>
-                                </div>
-                        }
-                        
-                    </div>    
-                </div>             
-            </Box>
-            )}
+                            }
+                            
+                        </div>    
+                    </div>             
+                </Box>
+                )}
 
-        </Modal>
+            </Modal>
+        </> 
     )
 }
 export default PaymentModal

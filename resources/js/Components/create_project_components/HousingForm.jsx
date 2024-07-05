@@ -12,7 +12,7 @@ import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
 import HousingRoom from './HousingRoom';
-function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function HousingForm({selectedTypesTitles,user,slug,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -29,8 +29,6 @@ function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBloc
             setProjectDataFunc('project_title',projectTitle)
         }
     }
-
-    console.log(zoom);
 
     const dotNumberFormat = (number) => {
         if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
@@ -133,6 +131,19 @@ function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBloc
     return(
         <div>
             <div className="card p-4">
+                <ul className='adv-breadcrumb'>
+                    <li><i className='fa fa-home'></i></li>
+                    {
+                        selectedTypesTitles.map((selectedTypeTitle) => {
+                            return(
+                                <>
+                                    <li>{selectedTypeTitle} </li>
+                                    <li><i className='fa fa-chevron-right'></i></li>
+                                </>
+                            )
+                        })
+                    }
+                </ul>
                 <div className="form-group">
                     <label htmlFor="">İlan Başlığı <span className="required">*</span></label>
                     <div className="max-character-input">
@@ -234,15 +245,15 @@ function HousingForm({user,slug,anotherBlockErrors,selectedBlock,setSelectedBloc
                         ) : <></>
                     }
                 </div>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="İlan Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
+                <FileUpload requiredType={['png','jpeg','gif','jpg']} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
+                <FileUpload requiredType={['png','jpeg','gif','jpg']} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="İlan Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
                 {
                     slug != "gunluk-kiralik" ? 
                         <>
-                            <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Tapu Belgesi / Noter Sözleşmesi" multiple={false}/>
+                            <FileUpload requiredType={'pdf'} accept={"application/pdf"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Tapu Belgesi / Noter Sözleşmesi" multiple={false}/>
                             {
                                 user.type != "1" ? 
-                                    <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
+                                    <FileUpload requiredType={['pdf']} accept={"application/pdf"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
                                 : ''
                             }
                         </>

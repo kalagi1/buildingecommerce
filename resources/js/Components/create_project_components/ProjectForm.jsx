@@ -11,7 +11,7 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
-function ProjectForm({errorMessages,slug,selectedTypes,formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function ProjectForm({selectedTypesTitles,errorMessages,slug,selectedTypes,formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -185,6 +185,19 @@ function ProjectForm({errorMessages,slug,selectedTypes,formDataHousing,anotherBl
     return(
         <div>
             <div className="card p-4">
+                <ul className='adv-breadcrumb'>
+                    <li><i className='fa fa-home'></i></li>
+                    {
+                        selectedTypesTitles.map((selectedTypeTitle) => {
+                            return(
+                                <>
+                                    <li>{selectedTypeTitle} </li>
+                                    <li><i className='fa fa-chevron-right'></i></li>
+                                </>
+                            )
+                        })
+                    }
+                </ul>
                 <div className="form-group">
                     <label htmlFor="">Proje Adı <span className="required">*</span></label>
                     <div className="max-character-input">
@@ -377,10 +390,10 @@ function ProjectForm({errorMessages,slug,selectedTypes,formDataHousing,anotherBl
                         ) : <></>
                     }
                 </div>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
-                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
+                <FileUpload requiredType={["png","gif","jpeg","jpg"]} accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
+                <FileUpload requiredType={["pdf"]} accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
                 <FinishArea allErrors={allErrors} projectData={projectData} setProjectDataFunc={setProjectDataFunc} createProject={createProject}/>
             </div>
         </div>
