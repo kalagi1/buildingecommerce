@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../define/variables';
-function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes}) {
+function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes,setSelectedTypesTitles,selectedTypesTitles}) {
     const [loadingOrder,setLoadingOrder] = useState(null);
     const [loadingOrderStatusId,setLoadingOrderStatusId] = useState(null);
 
@@ -58,6 +58,21 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
         
     }
 
+    const setHousingTypeTitles = (housingTypeTitle,order) => {
+        var tempHousingTypeParents = [];
+
+        for(var i = 0; i <= order; i++){
+            if(i == order){
+                tempHousingTypeParents.push(housingTypeTitle);
+            }else{
+                tempHousingTypeParents.push(selectedTypesTitles[i]);
+            }
+        }
+        
+        setSelectedTypesTitles(tempHousingTypeParents)
+        
+    }
+
 
     return(
         <div>
@@ -69,7 +84,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                 {
                                     housingTypes[0].map((housingType) => {
                                         return(
-                                            <li onClick={() => {setHousingTypeParent(housingType.id,0)}} className={selectedTypes[0] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,0);setHousingTypeTitles(housingType.title,0)}} className={selectedTypes[0] == housingType.id ? "selected" : ""}>
                                                 {housingType?.title}
                                                 {
                                                     loadingOrder && loadingOrder == 0 && loadingOrderStatusId && loadingOrderStatusId == housingType.id ?
@@ -91,7 +106,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                 {
                                     housingTypes[1]?.map((housingType) => {
                                         return(
-                                            <li onClick={() => {setHousingTypeParent(housingType.id,1);setSlug(housingType.slug)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,1);setSlug(housingType.slug);setHousingTypeTitles(housingType.title,1)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
                                                 {housingType?.title}
                                                 {
                                                     loadingOrder && loadingOrder == 1 && loadingOrderStatusId && housingType.id == loadingOrderStatusId ?
@@ -113,7 +128,7 @@ function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelect
                                 {
                                     housingTypes[2]?.map((housingType) => {
                                         return(
-                                            <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
+                                            <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,2);setHousingTypeTitles(housingType?.housing_type?.title,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
                                                 {housingType?.housing_type?.title}
                                             </li>
                                         )

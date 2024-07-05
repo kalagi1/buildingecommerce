@@ -12,8 +12,11 @@ import {
 import {
     Box,
     Button,
+    FormControl,
+    FormControlLabel,
     ListItemIcon,
     MenuItem,
+    Switch,
     Typography,
     lighten,
 } from '@mui/material';
@@ -51,6 +54,7 @@ const HousingList = ({ projectId }) => {
     const [updateSingleImageModalOpen, setSingleUpdateImageModalOpen] = useState(false);
     const [updatePayDecModalOpen, setUpdatePayDecModalOpen] = useState(false);
     const [sumCartQts, setSumCartQts] = useState([]);
+    const [installments,setInstallments] = useState([]);
     const [solds, setSolds] = useState([]);
     const [selectedRoomsTemp,setSelectedRoomsTemp] = useState([]);
     const [selectedRoomsTemp2,setSelectedRoomsTemp2] = useState([]);
@@ -1997,10 +2001,8 @@ const HousingList = ({ projectId }) => {
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
             <SaleModal getLastCount={getLastCount} reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}
             selectedId={selectedId}  selectedData={selectedData} setSelectedId={setSelectedId}  solds={solds}   />   
-            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} 
-            setOpen={setPaymentModalOpen} getLastCount={getLastCount} reloadData={reloadData2} roomOrder={selectedRoomOrder} datat={selectedSaleData} setSelectedData={setSelectedData}
+            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen} getLastCount={getLastCount} reloadData={reloadData2} roomOrder={selectedRoomOrder} datat={selectedSaleData} setSelectedData={setSelectedData}/>   
             
-            />   
         </>
     );
 };

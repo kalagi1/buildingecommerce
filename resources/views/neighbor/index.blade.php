@@ -1,5 +1,5 @@
-@extends('client.layouts.masterPanel')
 
+@extends('client.layouts.masterPanel')
 @section('content')
   
     <div class="content">

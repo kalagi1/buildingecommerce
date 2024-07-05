@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller {
     public function index() {
         $users = User::with( 'role' )->where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->orderBy("order","asc")->get();
-        return view( 'institutional.users.index', compact( 'users' ) );
+        return view( 'client.panel.users.index', compact( 'users' ) );
     }
 
     public function getTaxDocument() {
@@ -84,7 +84,7 @@ class UserController extends Controller {
     public function create() {
         $userLog = User::where( 'id', auth()->user()->id )->with( 'plan.subscriptionPlan', 'parent' )->first();
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
-        return view( 'institutional.users.create', compact( 'roles', 'userLog' ) );
+        return view( 'client.panel.users.create', compact( 'roles', 'userLog' ) );
     }
 
     public function store( Request $request ) {
@@ -158,7 +158,7 @@ class UserController extends Controller {
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
         $subUser = User::findOrFail( $id );
         // Kullanıcıyı bulun veya hata döndürün
-        return view( 'institutional.users.edit', compact( 'subUser', 'roles' ) );
+        return view( 'client.panel.users.edit', compact( 'subUser', 'roles' ) );
     }
 
     public function update( Request $request, $id ) {

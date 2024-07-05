@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
             "client.layouts.partials.footer",
             "client.layouts.partials.footerPanel",
             "client.layouts.partials.cart_icon",
-            "client.client-panel*"
+            "client.panel*"
         ], function ($view) {
             $cachedData = Cache::remember('client_view_data', now()->addHours(1), function () {
                 return [
