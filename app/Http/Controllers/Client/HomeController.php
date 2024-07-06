@@ -32,6 +32,10 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
 
+    public function kesfet(){
+        return view("client.kesfet");
+    }
+    
     public function updateBrandStatus(Request $request)
     {
         $brandId = $request->input('brandId');

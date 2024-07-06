@@ -341,7 +341,8 @@
             }
         }
     </style>
-    <!-- Google Tag Manager -->
+    <link rel="stylesheet" href="{{ asset('css/map.css') }}">
+
     <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];

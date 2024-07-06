@@ -15,7 +15,6 @@
             </li>
         </ul>
     </div>
-
     <section>
         <div class="single homes-content details mb-30">
 
@@ -42,6 +41,7 @@
 
                                                 <span data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
                                                     aria-expanded="true" data-bs-reference="parent"
+                                                    class="ellipsisDiv"
                                                     style="margin: 10px;cursor:pointer">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                                 </span>
@@ -70,6 +70,74 @@
                                         </li>
 
                                     </ul>
+                                </div>
+                                
+                                    <!-- Silme Modalı -->
+                                    <div class="modal fade" id="silModal{{ $collection->id }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="silModalLabel{{ $collection->id }}">Silme
+                                                        İşlemini Onayla</h5>
+                                                    <button class="btn p-1" type="button" data-bs-dismiss="modal"
+                                                        aria-label="Kapat">
+                                                        <span class="fas fa-times fs-9"></span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="text-body-tertiary lh-lg mb-0">Bu koleksiyonu silmek
+                                                        istediğinizden emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form
+                                                        action="{{ route('institutional.collection.delete', ['id' => $collection->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-primary" type="submit">Sil</button>
+                                                        <button class="btn btn-outline-primary" type="button"
+                                                            data-bs-dismiss="modal">İptal</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="modal fade" id="editCollectionModal{{ $collection->id }}" tabindex="-1"
+                                    aria-labelledby="editCollectionModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editCollectionModalLabel">Düzenle</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form
+                                                    action="{{ route('institutional.collection.edit', ['id' => $collection->id]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-3">
+                                                        <label for="collectionName" class="form-label">
+                                                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                                Portföy Adı:
+                                                            @else
+                                                                Koleksiyon Adı:
+                                                            @endif
+                                                        </label>
+                                                        <input type="text" class="form-control" id="collectionName"
+                                                            name="collectionName" value="{{ $collection->name }}"
+                                                            required>
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 @if (count($collection->links))
                                     <div class="collection-content">
@@ -172,7 +240,7 @@
                                                 </g>
                                             </g>
                                             <defs>
-                                                <clipPath id="clip0_1750_971">
+                                                <clipPath id="clip0_1750_971">  
                                                     <rect width="1440" height="1577" fill="white"
                                                         transform="translate(-1100 -1183)"></rect>
                                                 </clipPath>
@@ -323,7 +391,8 @@
             font-size: 11px;
             font-weight: 600;
             flex: 1;
-            width: calc(100% - 100px);
+            cursor: pointer;
+            width: 100%;
         }
 
         .collection-owner {
@@ -474,6 +543,36 @@
 
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<!-- jQuery CDN -->
+
+<script>
+    $(document).ready(function() {
+        // Üç nokta butonlarına tıklama işlevselliği ekleme
+        $('.ellipsisDiv').click(function() {
+            // Tıklanan üç nokta butonunun bir sonraki kardeşi (dropdown menüsü)
+            var dropdownMenu = $(this).next('.dropdown-menu');
+
+            // Dropdown menüsünü açma/kapama
+            dropdownMenu.toggleClass('show');
+        });
+
+        // Sayfa dışına tıklanınca dropdown menüleri kapatma
+        $(document).click(function(event) {
+            // Tıklanan element üç nokta butonu değilse
+            if (!$(event.target).closest('.fa.fa-ellipsis-h').length) {
+                // Tüm dropdown menüleri kapat
+                $('.dropdown-menu').removeClass('show');
+            }
+        });
+
+        // Dropdown menüsüne tıklanınca menüyü kapatma
+        $('.dropdown-menu').click(function(event) {
+            event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
+        });
+    });
+</script>
+
     <script>
         $(".copyLinkButton").click(function() {
             var url = $(this).data("url");
@@ -536,4 +635,5 @@
             });
         });
     </script>
+    
 @endsection

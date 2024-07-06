@@ -130,7 +130,7 @@
                         </a>
                     </div>
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="{{route('sharer.index.view')}}" class="homes-img">
+                        <a href="{{ route('sharer.index.view') }}" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -147,13 +147,13 @@
                     </div>
 
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="{{route('real.estate.index2')}}" class="homes-img">
+                        <a href="{{ route('real.estate.index2') }}" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img loading="lazy" src="{{ asset('images/sat-kirala.png') }}"
-                                                alt="Al Sat Acil" class="img-responsive brand-image-pp"
+                                            <img loading="lazy" src="{{ asset('images/sat-kirala.png') }}" alt="Al Sat Acil"
+                                                class="img-responsive brand-image-pp"
                                                 style="border:5px solid blue;object-fit:contain;">
                                             <span style="font-size:9px !important;border:none !important">Sat Kirala</span>
                                         </div>
@@ -162,7 +162,7 @@
                             </div>
                         </a>
                     </div>
-                    
+
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
@@ -202,6 +202,7 @@
         </div>
     </section>
 
+
     <section class="container justify-content-center mt-4">
 
         <div class="special-button-content row">
@@ -217,6 +218,79 @@
             @endforeach
         </div>
     </section>
+
+    {{-- <section class=" mt-5 section-full  overflow-hide graph-slide-image" style="background-image:url(images/bg/map.png);">
+        <div class="section-content">
+            <div class="container p-t80 p-b80" style="background: ghostwhite ;">
+                <div class="map-animation-block clearfix p-b30">
+                    <div class="map-animation-right text-white aos-init aos-animate" data-aos="fade-left">
+                        <h2>Explore the World</h2>
+                        <p>The best place for elit, sed do eiusmod tempor dolor sit amet, conse ctetur adipiscing elit, sed
+                            do eiusmod tempor incididunt ut labore et lorna aliquatd minimam, quis nostrud exercitation oris
+                            nisi ut aliquip.
+                        </p>
+                        <div class="bg-all">
+                            <a href="listings-full-grid.html" class="btn btn-outline-light mt-2">View All</a>
+                        </div>
+                    </div>
+                    <div class="map-animation-left">
+                        <div class="map-marker-block aos-init aos-animate" data-aos="fade-right">
+                            <img src="{{ asset('3d-map.png') }}" alt="" class="map-bg">
+                            <div class="map-marker-position position-1">
+                                <div class="map-marker  vert-move1">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-2 scale-75">
+                                <div class="map-marker vert-move2">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-3 scale-75">
+                                <div class="map-marker  vert-move2">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-4 scale-50">
+                                <div class="map-marker  vert-move2">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-5 scale-50">
+                                <div class="map-marker vert-move1">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-6 scale-50">
+                                <div class="map-marker  vert-move2">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                            <div class="map-marker-position position-7 scale-50">
+                                <div class="map-marker vert-move1">
+                                    <div class="map-pin bg-secondry"><img src="{{ asset('10.png') }}" alt="">
+                                    </div>
+                                    <div class="pin-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
 
 
     @if ($dashboardProjects->isNotEmpty())
@@ -262,12 +336,13 @@
                                 <h2>Emlak İlanları</h2>
                             </div>
                             <div class="">
-                            <a href="http://buildingecommerce.test/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
-                                    class="w-100">
-                                    Tümünü Gör
-                                </button>
-                            </a>
+                                <a href="http://buildingecommerce.test/kategori/emlak-ilanlari" style="font-size: 11px;">
+                                    <button
+                                        style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                                        class="w-100">
+                                        Tümünü Gör
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -543,8 +618,8 @@
 
             page++;
             var url = "{{ route('load-more-housings') }}?page=" + page;
-  
-            
+
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
@@ -625,6 +700,7 @@
 @endsection
 
 @section('styles')
+
     <style>
         .profile-initial {
             font-size: 20px;

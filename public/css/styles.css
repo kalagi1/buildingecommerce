@@ -24461,7 +24461,7 @@ form label.error {
     border: 1px solid #ccc;
     cursor: pointer;
     padding: 0;
-    color: #fa2964;
+    color: #EA2B2E;
     width: 20px;
     height: 20px;
     color: #fff;
@@ -24553,15 +24553,6 @@ form label.error {
 
 .modal-footer {
     border-top: 0 !important;
-}
-
-.btn {
-    height: 40px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    margin: 0 auto;
 }
 
 .see-my-neighbor {
