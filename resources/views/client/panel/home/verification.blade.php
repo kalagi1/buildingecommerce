@@ -39,7 +39,7 @@
                                                             @if ($user->corporate_account_note)
                                                                 <div style="color: red">
                                                                     <i class="fa fa-exclamation" aria-hidden="true"></i>
-                                                                    Admin Notu: {{ $user->corporate_account_note }}
+                                                                    Emlak Sepette Yönetiminden Uyarı: {{ $user->corporate_account_note }}
                                                                 </div>
                                                             @endif
                                                         @else
@@ -90,7 +90,8 @@
                                                 <label for="sicil_belgesi" class="attachment">
                                                     <div class="row btn-file">
                                                         <div class="btn-file__preview"></div>
-                                                        <div class="btn-file__actions">
+                                                        <div
+                                                            class="btn-file__actions {{ auth()->user()->record_document_approve ? ' greenBorder' : '' }}">
                                                             <div class="btn-file__actions__item col-xs-12 text-center">
                                                                 <div class="btn-file__actions__item--shadow">
                                                                     <i class="fa fa-plus fa-lg fa-fw"
@@ -101,8 +102,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input name="file" name="sicil_belgesi" type="file" id="sicil_belgesi"
-                                                        class="{{ auth()->user()->record_document_approve ? ' green-border' : '' }}"
+                                                    <input name="sicil_belgesi" type="file" id="sicil_belgesi"
+                                                        class="{{ auth()->user()->record_document_approve ? ' greenBorder' : '' }}"
                                                         accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->record_document_approve == 0 ? ' ' : null }}>
 
                                                 </label>
@@ -127,7 +128,8 @@
                                                 <label for="vergi_levhasi" class="attachment">
                                                     <div class="row btn-file">
                                                         <div class="btn-file__preview"></div>
-                                                        <div class="btn-file__actions">
+                                                        <div
+                                                            class="btn-file__actions  {{ auth()->user()->tax_document_approve ? ' greenBorder' : '' }}">
                                                             <div class="btn-file__actions__item col-xs-12 text-center">
                                                                 <div class="btn-file__actions__item--shadow">
                                                                     <i class="fa fa-plus fa-lg fa-fw"
@@ -139,7 +141,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="file" name="vergi_levhasi" id="vergi_levhasi"
-                                                        class="form-control {{ auth()->user()->tax_document_approve ? ' green-border' : '' }}"
+                                                        class="form-control {{ auth()->user()->tax_document_approve ? ' greenBorder' : '' }}"
                                                         accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->tax_document_approve ? ' ' : null }} />
                                                 </label>
 
@@ -166,7 +168,8 @@
                                                     <label for="kimlik_belgesi" class="attachment">
                                                         <div class="row btn-file">
                                                             <div class="btn-file__preview"></div>
-                                                            <div class="btn-file__actions">
+                                                            <div
+                                                                class="btn-file__actions {{ auth()->user()->identity_document_approve ? ' greenBorder' : '' }}">
                                                                 <div class="btn-file__actions__item col-xs-12 text-center">
                                                                     <div class="btn-file__actions__item--shadow">
                                                                         <i class="fa fa-plus fa-lg fa-fw"
@@ -178,7 +181,7 @@
                                                             </div>
                                                         </div>
                                                         <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
-                                                            class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
+                                                            class="form-control {{ auth()->user()->identity_document_approve ? ' greenBorder' : '' }}"
                                                             accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
                                                     </label>
                                                 </div>
@@ -204,7 +207,8 @@
                                                     <label for="kimlik_belgesi" class="attachment">
                                                         <div class="row btn-file">
                                                             <div class="btn-file__preview"></div>
-                                                            <div class="btn-file__actions">
+                                                            <div
+                                                                class="btn-file__actions  {{ auth()->user()->identity_document_approve ? ' greenBorder' : '' }}">
                                                                 <div class="btn-file__actions__item col-xs-12 text-center">
                                                                     <div class="btn-file__actions__item--shadow">
                                                                         <i class="fa fa-plus fa-lg fa-fw"
@@ -216,7 +220,7 @@
                                                             </div>
                                                         </div>
                                                         <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
-                                                            class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
+                                                            class="form-control {{ auth()->user()->identity_document_approve ? ' greenBorder' : '' }}"
                                                             accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
                                                     </label>
                                                 </div>
@@ -245,7 +249,8 @@
                                                     <label for="insaat_belgesi" class="attachment">
                                                         <div class="row btn-file">
                                                             <div class="btn-file__preview"></div>
-                                                            <div class="btn-file__actions">
+                                                            <div
+                                                                class="btn-file__actions {{ auth()->user()->company_document_approve ? ' greenBorder' : '' }}">
                                                                 <div class="btn-file__actions__item col-xs-12 text-center">
                                                                     <div class="btn-file__actions__item--shadow">
                                                                         <i class="fa fa-plus fa-lg fa-fw"
@@ -257,7 +262,7 @@
                                                             </div>
                                                         </div>
                                                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
-                                                            class="form-control {{ auth()->user()->company_document_approve ? ' green-border' : '' }}"
+                                                            class="form-control {{ auth()->user()->company_document_approve ? ' greenBorder' : '' }}"
                                                             accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->company_document_approve == 0 ? ' ' : null }} />
                                                     </label>
                                                 </div>
@@ -283,7 +288,8 @@
                                                 <label for="approve_website" class="attachment">
                                                     <div class="row btn-file">
                                                         <div class="btn-file__preview"></div>
-                                                        <div class="btn-file__actions">
+                                                        <div
+                                                            class="btn-file__actions {{ auth()->user()->approve_website_approve ? ' greenBorder' : '' }}">
                                                             <div class="btn-file__actions__item col-xs-12 text-center">
                                                                 <div class="btn-file__actions__item--shadow">
                                                                     <i class="fa fa-plus fa-lg fa-fw"
@@ -295,7 +301,7 @@
                                                         </div>
                                                     </div>
                                                     <input type="file" name="approve_website" id="approve_website"
-                                                        class="form-control {{ auth()->user()->approve_website_approve ? ' green-border' : '' }}"
+                                                        class="form-control {{ auth()->user()->approve_website_approve ? ' greenBorder' : '' }}"
                                                         accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->approve_website_approve == 0 ? ' ' : null }} />
                                                 </label>
                                             </div>
@@ -477,9 +483,22 @@
             border-bottom: 1px dashed #d3e0e9;
         }
 
+        .greenBorder .btn-file__actions__item {
+
+            border-top: 1px dashed green;
+            border-left: 1px dashed green;
+            border-bottom: 1px dashed green;
+        }
+
         .btn-file__actions__item:first-child {
             border-top-left-radius: 35px;
             border-bottom-left-radius: 35px;
+        }
+
+        .greenBorder .btn-file__actions__item:last-child {
+            border-top-right-radius: 35px;
+            border-bottom-right-radius: 35px;
+            border-right: 1px dashed green;
         }
 
         .btn-file__actions__item:last-child {
@@ -503,6 +522,7 @@
             display: inline-block;
             position: relative;
             z-index: 1;
+            font-size: 13px
         }
 
         .btn-file__actions__item--shadow::before {
