@@ -789,8 +789,6 @@ class ProjectController extends Controller
             } else {
                 $query = Housing::with('images', "city", "county");
 
-                return $housingTypeParentSlug;
-
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
@@ -798,6 +796,7 @@ class ProjectController extends Controller
                 if ($housingType) {
                     $query->where('housing_type_id', $housingType);
                 }
+                return $housingType;
                 if ($opt) {
                     $query->where('step2_slug', $opt);
                 }
