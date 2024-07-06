@@ -789,6 +789,8 @@ class ProjectController extends Controller
             } else {
                 $query = Housing::with('images', "city", "county");
 
+                return $housingTypeParentSlug;
+
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
                 }
