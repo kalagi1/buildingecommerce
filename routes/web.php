@@ -881,8 +881,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
 
-    Route::get('emlak-kulup-hesap-dogrulama', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
-    Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
+    Route::get('emlak-kulup-basvurusu-yap', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('emlak-kulup-basvurunuz-alindi', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 

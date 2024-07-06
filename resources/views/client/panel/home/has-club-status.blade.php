@@ -2,22 +2,45 @@
 
 
 @section('content')
-    <div class="content">
-        <div class="row">
-            <div class="col-md-12">
+<div class="table-breadcrumb">
+    <ul>
+        <li>
+            Hesabım
+        </li>
+        <li>
+            Emlak Kulüp Başvurunuz Alındı
+        </li>
+    </ul>
+</div>
 
-                <div class="toast show" style="width: 100%" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Emlak Sepette | Emlak Kulüp Başvurunuz Alındı</strong>
-                    </div>
-                    <div class="toast-body"> Üyelik başvurunuz alındı. Bilgileriniz incelendikten sonra hesabınız aktive
-                        edilecek.
+<section>
+    <div class="row justify-content-center">
+        <div class="col-12 col-xxl-11">
+            <div class="card border-light-subtle shadow-sm">
+                <div class="row g-0">
+                    <div class="col-12 col-md-12 d-flex align-items-center justify-content-center ">
+                        <div class="col-12 col-lg-11 col-xl-10">
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-5 mt-5">
+                                            <h2 class="h4 text-center"> Emlak Sepette | Emlak Kulüp Başvurunuz Alındı</h2>
+                                            <p class="text-body-tertiary text-center">Üyelik başvurunuz alındı. Bilgileriniz incelendikten sonra hesabınız aktive
+                                                edilecek.
+                                            </p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+</section>
 @endsection
 
 

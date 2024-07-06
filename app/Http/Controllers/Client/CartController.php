@@ -415,7 +415,7 @@ class CartController extends Controller
                         $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                     }
 
-                    if ($collection->user_id != Auth::user()->id) {
+                    if ($collection && $collection->user_id != Auth::user()->id) {
                         $sales_rate_club = null;
                         // Başlangıçta boş veya null değer
 
