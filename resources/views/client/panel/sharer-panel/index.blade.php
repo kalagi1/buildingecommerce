@@ -39,6 +39,7 @@
                                             </button></li>
                                         <li>
                                             <div style="margin-left: 10px">
+
                                                 <span data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
                                                     aria-expanded="true" data-bs-reference="parent"
                                                     style="margin: 10px;cursor:pointer">
@@ -195,10 +196,10 @@
                         <div class="col-12 col-lg-6 text-center text-lg-start">
                             <h2 class="h4 text-center">Takipçilerine ilham ver! Doğru evi
                                 bulmalarına aracı ol!</h2>
-                            <h3 class="fs-6 fw-normal text-secondary text-center m-0">Sosyal medya hesaplarının ne kadar popüler olduğu fark
+                            <h3 class="fs-6 fw-normal text-secondary text-center m-0">Sosyal medya hesaplarının ne kadar
+                                popüler olduğu fark
                                 etmeksizin paylaşımlarında hepsini değerlendir, satış nereden gelir bilinmez!
-                            </h3><a
-                                class="btn btn-lg btn-primary mt-5" href="{{ url('/') }}">Paylaş Kazan</a>
+                            </h3><a class="btn btn-lg btn-primary mt-5" href="{{ url('/') }}">Paylaş Kazan</a>
                         </div>
                     </div>
                 @endif
@@ -207,42 +208,7 @@
         </div>
     </section>
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-    <script>
-        $(".copyLinkButton").click(function() {
-            var url = $(this).data("url");
-            var tempInput = document.createElement('input');
-            tempInput.value = url;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            $(this).children(".copyLinkSuccessMessage").html("Panoya Kopyalandı");
-
-        });
-
-        function toggleBrandStatus(collectionID, element) {
-            const status = element.checked ? 1 : 0;
-
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('update.collection.status') }}',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    collectionID: collectionID,
-                    status: status
-                },
-                success: function(response) {
-                    console.log(response);
-
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        }
-    </script>
 @endsection
 
 
@@ -504,5 +470,70 @@
             justify-content: center;
         }
     </style>
-    </style>
+@endsection
+
+
+@section('scripts')
+    <script>
+        $(".copyLinkButton").click(function() {
+            var url = $(this).data("url");
+            var tempInput = document.createElement('input');
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            $(this).children(".copyLinkSuccessMessage").html("Panoya Kopyalandı");
+
+        });
+
+        function toggleBrandStatus(collectionID, element) {
+            const status = element.checked ? 1 : 0;
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('update.collection.status') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    collectionID: collectionID,
+                    status: status
+                },
+                success: function(response) {
+                    console.log(response);
+
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Üç nokta butonlarına tıklama işlevselliği ekleme
+            $('.fa.fa-ellipsis-h').click(function() {
+                // Tıklanan üç nokta butonunun bir sonraki kardeşi (dropdown menüsü)
+                var dropdownMenu = $(this).next('.dropdown-menu');
+
+                // Dropdown menüsünü açma/kapama
+                dropdownMenu.toggleClass('show');
+            });
+
+            // Sayfa dışına tıklanınca dropdown menüleri kapatma
+            $(document).click(function(event) {
+                // Tıklanan element üç nokta butonu değilse
+                if (!$(event.target).closest('.fa.fa-ellipsis-h').length) {
+                    // Tüm dropdown menüleri kapat
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // Dropdown menüsüne tıklanınca menüyü kapatma
+            $('.dropdown-menu').click(function(event) {
+                event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
+            });
+        });
+    </script>
 @endsection
