@@ -690,7 +690,6 @@ class ProjectController extends Controller
             }
         }
 
-
         if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
             $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
         }
@@ -796,7 +795,6 @@ class ProjectController extends Controller
                 if ($housingType) {
                     $query->where('housing_type_id', $housingType);
                 }
-                return $housingType;
                 if ($opt) {
                     $query->where('step2_slug', $opt);
                 }
@@ -805,6 +803,7 @@ class ProjectController extends Controller
                     $query->where('housing_status_id', $slug);
                 });
 
+                return $query->toSql();
 
                 $secondhandHousings = $query->get();
             }
