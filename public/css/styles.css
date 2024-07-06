@@ -24811,11 +24811,6 @@ form label.error {
 
 .leaflet-div-icon:after,
 .map-marker:after {
-    background-color: #fff;
-    border-radius: 50%;
-    bottom: 0;
-    -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
     content: '';
     left: 0;
     position: absolute;

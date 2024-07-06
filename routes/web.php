@@ -868,11 +868,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
-    Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
-    Route::get('waiting', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
+    Route::get('belge-yukleme', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('bekleyiniz', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
 
 
-    Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
+    Route::get('telefon-dogrulama', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
     Route::put('phone-verification/phone/update', [DashboardController::class, 'phoneUpdate'])
@@ -881,7 +881,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
 
-    Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('emlak-kulup-hesap-dogrulama', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
     Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
