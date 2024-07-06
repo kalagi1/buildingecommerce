@@ -803,7 +803,6 @@ class ProjectController extends Controller
                     $query->where('housing_status_id', $slug);
                 });
 
-                return $query->toSql();
 
                 $secondhandHousings = $query->get();
             }
