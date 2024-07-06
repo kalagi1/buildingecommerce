@@ -13,7 +13,8 @@ class CheckHasClubAccount {
     private $whiteRoutelist =
     [
         'institutional.sharer.index',
-        'institutional.sharer.earnings'
+        'institutional.sharer.earnings',
+        'corporate-has-club-verification'
         ];
 
     /**

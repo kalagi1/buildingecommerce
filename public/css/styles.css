@@ -24557,6 +24557,11 @@ form label.error {
 
 .btn {
     height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    margin: 0 auto;
 }
 
 .see-my-neighbor {
