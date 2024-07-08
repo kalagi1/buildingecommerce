@@ -19,6 +19,7 @@ use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\Filter;
+use App\Models\ProjectHousing;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1045,10 +1046,53 @@ class HomeController extends Controller
         );
 
         $term = $request->input('searchTerm');
+        $housingOrder = null;
+        $projectIdNumber =null;
+        $project = null;
+        $projects = null;
+
+
+        if (strpos($term, '-') !== false) {
+            $parts = explode('-', $term);
+    
+            $projectId = (int)$parts[0];
+            $housingOrder = (int)$parts[1];
+    
+            
+            $projectIdNumber = $projectId - 1000000;    
+            $project = Project::where("id", $projectIdNumber)->first();        
+        }else{
+          $projects =  Project::where('status', 1)
+                    ->where(function ($query) use ($term) {
+                        $query->where('project_title', 'LIKE', "%{$term}%")
+                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%")
+                            ->orWhere('id', '=', (int)$term - 1000000)
+                            ->orWhereHas('city', function ($query) use ($term) {
+                                $query->where('title', 'LIKE', "%{$term}%");
+                            })
+                            ->orWhereHas('county', function ($query) use ($term) {
+                                $query->where('ilce_title', 'LIKE', "%{$term}%");
+                            });
+                    })->where('projects.status',1)
+                    
+                    ->get()
+                    ->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'photo' => $item->image,
+                            'name' => $item->project_title,
+                            'slug' => $item->slug,
+                        ];
+                    });
+        }
 
         return response()->json(
             [
-                'project_housings' => [],
+                'housingOrder' => $housingOrder,
+                'projectIdNumber' => $projectIdNumber,
+                "project" => $project,
                 'housings' => Housing::with(['city', 'county'])
                     ->where('status', 1)
                     ->where(function ($query) use ($term) {
@@ -1076,30 +1120,7 @@ class HomeController extends Controller
 
 
 
-                'projects' => Project::where('status', 1)
-                    ->where(function ($query) use ($term) {
-                        $query->where('project_title', 'LIKE', "%{$term}%")
-                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
-                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
-                            ->orWhere('description', 'LIKE', "%{$term}%")
-                            ->orWhere('id', '=', (int)$term - 1000000)
-                            ->orWhereHas('city', function ($query) use ($term) {
-                                $query->where('title', 'LIKE', "%{$term}%");
-                            })
-                            ->orWhereHas('county', function ($query) use ($term) {
-                                $query->where('ilce_title', 'LIKE', "%{$term}%");
-                            });
-                    })->where('projects.status',1)
-                    
-                    ->get()
-                    ->map(function ($item) {
-                        return [
-                            'id' => $item->id,
-                            'photo' => $item->image,
-                            'name' => $item->project_title,
-                            'slug' => $item->slug,
-                        ];
-                    }),
+                'projects' => $projects,
 
                 'merchants' => User::where('type', '2')->where("corporate_account_status", "1")->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
@@ -1342,25 +1363,49 @@ class HomeController extends Controller
                 ]);
             }
         }
-        if (is_numeric($term)) {
-            // Eğer $term bir sayıya karşılık geliyorsa, ilgili projeyi bul
-            $project = Project::find((int)$term - 1000000);
 
-            // Proje bulunduysa ve slug değeri varsa, yönlendirme yap
+        if (strpos($term, '-') !== false) {
+            // Terimi tire işaretinden (-) ayırın
+            $parts = explode('-', $term);
+        
+            if (count($parts) == 2 && is_numeric($parts[0]) && is_numeric($parts[1])) {
+                $projectId = (int)$parts[0];
+                $housingOrder = (int)$parts[1];
+        
+                // Proje bulunuyor mu kontrol edin
+                $project = Project::find($projectId - 1000000);
+        
+                if ($project && $project->slug) {
+                    // İlgili yönlendirmeyi yapın
+                    return redirect()->route('project.housings.detail', [
+                        'projectSlug' => $project->slug,
+                        'projectID' => $projectId,
+                        'housingOrder' => $housingOrder  // Konut sırasını da iletebilirsiniz
+                    ]);
+                }
+            }
+        } else {
+            // "-" işareti bulunmuyorsa, sadece tek bir proje ID'si olduğunu varsayabilirsiniz
+            $projectId = (int)$term;
+        
+            // Proje bulunuyor mu kontrol edin
+            $project = Project::find($projectId - 1000000);
+        
             if ($project && $project->slug) {
+                // İlgili yönlendirmeyi yapın
                 return redirect()->route('project.detail', [
                     'slug' => $project->slug,
-                    'id' => (int)$term
+                    'id' => $projectId
                 ]);
             }
         }
-
+        
 
         $housings = Housing::select(
             'housings.step1_slug',
             'housings.step2_slug',
-            \DB::raw('COUNT(DISTINCT housings.id) as total_count'),
-            \DB::raw('COUNT(*) as count')
+            DB::raw('COUNT(DISTINCT housings.id) as total_count'),
+            DB::raw('COUNT(*) as count')
         )
 
             ->with(['city', 'county'])

@@ -12,6 +12,7 @@ use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class HousingController extends Controller {
     public function getDashboardStatuses() {
@@ -86,94 +87,79 @@ class HousingController extends Controller {
     }
 
 
-    public function getMyHousings(){
-        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 1 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
+    public function getMyHousings(Request $request)
+    {
+        $user = auth()->guard('api')->user();
+        
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+    
+        $userId = $user->parent_id ? $user->parent_id : $user->id;
+    
+        $orderBy = $request->input('orderByHousings');
+        
+        $query = Housing::with('city', 'county', 'neighborhood')
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->select(
+                'housings.id',
+                'housings.title AS housing_title',
+                'housings.status AS status',
+                'housings.address',
+                'housings.created_at',
+                'housing_types.title as housing_type',
+                'housing_types.slug',
+                'housings.city_id',
+                'housings.county_id',
+                'housings.neighborhood_id',
+                'housing_types.form_json',
+                DB::raw('JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) as price')
+            )
+            ->where('user_id', $userId);
 
-        $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 0 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
+            if (isset($orderBy)) {
+                if ($orderBy === 'asc-date') {
+                    $query->orderBy('housings.created_at', 'asc');
+                } elseif ($orderBy === 'desc-date') {
+                    $query->orderBy('housings.created_at', 'desc');
+                } elseif ($orderBy === 'asc-price') {
+                    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) asc');
+                } elseif ($orderBy === 'desc-price') {
+                    $query->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS UNSIGNED) desc');
+                }
+            }else{
+                $query->orderBy('housings.created_at', 'desc');
 
-        $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 3 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 2 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        return json_encode([
+            }
+        
+      
+    
+        $housingTypes = $query->get()->toArray();
+    
+        $activeHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 1;
+        }));
+    
+        $inactiveHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 0;
+        }));
+    
+        $disabledHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 3;
+        }));
+    
+        $pendingHousingTypes = array_values(array_filter($housingTypes, function ($housing) {
+            return $housing['status'] == 2;
+        }));
+    
+        return response()->json([
             "pendingHousingTypes" => $pendingHousingTypes,
             "disabledHousingTypes" => $disabledHousingTypes,
             "inactiveHousingTypes" => $inactiveHousingTypes,
             "activeHousingTypes" => $activeHousingTypes,
         ]);
     }
+    
 
 
     public function sendComment( Request $request, $id ) {

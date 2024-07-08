@@ -34,6 +34,8 @@ use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
 use App\Http\Controllers\Institutional\ProjectController as ControllersInstitutionalProjectController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+use App\Http\Controllers\Api\Institutional\InfoController;
+use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +135,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
+
+        Route::Delete('/notifications', [InfoController::class, 'destroyAll']);
+        Route::Delete('/housing-favorite', [InstitutionalHousingController::class, 'destroyAllFavorite']);
+        Route::Delete('/project-favorite', [InstitutionalProjectController::class, 'destroyAllFavorite']);
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');

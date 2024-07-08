@@ -80,6 +80,10 @@ class Project extends Model {
         return $this->belongsToMany( User::class, 'project_favorites', 'project_id', 'user_id' );
     }
 
+    public function sharerLinks() {
+        return $this->hasMany(ShareLink::class, 'item_id', 'id')->where('item_type', 1);
+    }
+    
     public function housingStatus() {
         return $this->hasMany( ProjectHousingType::class, 'project_id', 'id' );
     }

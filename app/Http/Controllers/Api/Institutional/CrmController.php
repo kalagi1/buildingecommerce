@@ -220,8 +220,7 @@ class CrmController extends Controller
         }
     }//End
 
-    public function getAssignedProjectDetails($userId)
-    {
+    public function getAssignedProjectDetails($userId){
         try {
             // Belirli kullanıcının atanmış projelerini getir
             $assignedProjects = DB::table('project_assigment')->where('user_id', $userId)->pluck('project_id');
@@ -279,5 +278,18 @@ class CrmController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }//End
+
+    public function addUser(Request $request){
+           // Create a new user
+           $user = new AssignedUser();
+           $user->name      = $request->name;
+           $user->email     = $request->email;
+           $user->phone     = $request->phone;
+           $user->job_title = $request->job_title;
+           $user->save();
+
+           return response()->json(['message' => 'User added successfully', 'data' => $user], 201);
+
     }//End
 }
