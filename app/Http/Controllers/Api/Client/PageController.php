@@ -122,52 +122,23 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        // Order'ı bulmaya çalışıyoruz
-        $order = CartOrder::with("user", "store")->where('id', $id)->first();
-    
-        // Eğer order bulunamazsa hata döndürüyoruz
-        if (!$order) {
-            return response()->json([
-                "error" => "Order not found."
-            ], 404);
-        }
-    
-        // Order'ın cart'ını decode ediyoruz ve hata kontrolü yapıyoruz
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
-        if (json_last_error() !== JSON_ERROR_NONE || !isset($orderCart['type']) || !isset($orderCart['item']['id'])) {
-            return response()->json([
-                "error" => "Invalid order cart data."
-            ], 400);
-        }
-    
         $housing = null;
         $project = null;
-    
-        // Housing veya Project'i bulmaya çalışıyoruz
+
         if ($orderCart['type'] == 'housing') {
             $housing = Housing::where('id', $orderCart['item']['id'])->first();
-            if (!$housing) {
-                return response()->json([
-                    "error" => "Housing item not found."
-                ], 404);
-            }
         } else {
             $project = Project::where('id', $orderCart['item']['id'])->first();
-            if (!$project) {
-                return response()->json([
-                    "error" => "Project item not found."
-                ], 404);
-            }
         }
-    
-        // Başarılı durumda yanıt döndürüyoruz
         return response()->json([
             "order" => $order,
             "housing" => $housing,
             "project" => $project
         ]);
     }
-    
+
     public function index($slug)
     {
         $pageInfo = Page::where('slug', $slug)->first();
