@@ -273,6 +273,21 @@
                                     </div>
                                 @endif
 
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <span class="collection-show-count ml-3"><i
+                                            class="fa fa-eye" style="margin-right: 5px"></i>
+                                        {{ count($collection->clicks) }}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button style="width:100%;font-size:10px;padding:8px 0"
+                                        class="badge badge-phoenix fs-10 badge-phoenix-warning"
+                                        type="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
+                                    </button>
+                                    </div>
+                                </div>
+
                             </div>
                         @endforeach
                     </div>
