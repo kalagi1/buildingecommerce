@@ -69,18 +69,29 @@ function decode_id($encryptedId)
 {
     $key = env('APP_KEY');
     $cipher = 'aes-256-cbc';
-    $c = base62_decode($encryptedId);
-    $c = base64_decode($c);
+
+    // Decode the encrypted ID
+    $decoded = base64_decode(base62_decode($encryptedId));
+
+    // Extract IV and HMAC from the decoded string
     $ivlen = openssl_cipher_iv_length($cipher);
-    $iv = substr($c, 0, $ivlen);
-    $hmac = substr($c, $ivlen, $sha2len=32);
-    $ciphertext_raw = substr($c, $ivlen+$sha2len);
-    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+    $iv = substr($decoded, 0, $ivlen);
+    $hmac = substr($decoded, $ivlen, 32);
+    $ciphertext_raw = substr($decoded, $ivlen + 32);
+
+    // Verify the HMAC to ensure integrity
     $calcmac = hash_hmac('sha256', $ciphertext_raw, $key, true);
-    if (hash_equals($hmac, $calcmac)) {
-        return $original_plaintext;
+    if (!hash_equals($hmac, $calcmac)) {
+        return null; // HMAC validation failed
     }
-    return null;
+
+    // Decrypt the ciphertext
+    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+    if ($original_plaintext === false) {
+        return null; // Decryption failed
+    }
+
+    return $original_plaintext;
 }
 
 
