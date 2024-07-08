@@ -19,13 +19,32 @@ if (!function_exists('checkIfUserCanAddToCart')) {
         return true; // Return false if user is not logged in
     }
 }
-function hash_id($id) {
-    return Crypt::encryptString($id);
+function hash_id($id)
+{
+    // Convert the ID to an integer
+    $idInt = (int) $id;
+
+    // Get the current timestamp
+    $timestamp = time();
+
+    // Multiply the ID by the timestamp
+    $hashed = $idInt * $timestamp;
+
+    return $hashed;
 }
 
-function decode_id($hashedId) {
-    return Crypt::decryptString($hashedId);
+function decode_id($hashedId)
+{
+    // Retrieve the timestamp from the hashed ID
+    $timestamp = $hashedId % time();
+
+    // Calculate the original ID
+    $originalId = $hashedId / $timestamp;
+
+    // Return the original ID
+    return $originalId;
 }
+
 
 
 if (!function_exists('checkIfUserCanAddToProject')) {
