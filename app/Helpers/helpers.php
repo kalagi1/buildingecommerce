@@ -20,15 +20,19 @@ if (!function_exists('checkIfUserCanAddToCart')) {
         return true; // Return false if user is not logged in
     }
 }
+
 function hash_id($id)
 {
-    // ID'yi şifreleyin
-    $encrypted = Crypt::encryptString($id);
+    // Encrypt the ID (you can skip this step if not encrypting)
+    $encrypted = encrypt($id); // Replace with your encryption method if needed
 
-    // Şifrelenmiş veriyi base64_encode ile kodlayın
-    $base64Encoded = base64_encode($encrypted);
+    // Hash the encrypted value with SHA-256
+    $hashed = hash('sha256', $encrypted);
 
-    // Kodlanmış veriyi 15-30 karakter arasında sınırlandırın
+    // Encode to base64
+    $base64Encoded = base64_encode($hashed);
+
+    // Truncate the encoded string to 15-30 characters
     $length = rand(15, 30);
     $truncated = Str::limit($base64Encoded, $length, '');
 
@@ -38,20 +42,21 @@ function hash_id($id)
 function decode_id($hashedId)
 {
     try {
-        // Kesilen veriyi base64_decode ile çözün
+        // Decode the base64-encoded string
         $base64Decoded = base64_decode($hashedId);
 
-        // Şifrelenmiş veriyi çözün
-        $decrypted = Crypt::decryptString($base64Decoded);
+        // Hash the decoded value with SHA-256
+        $hashed = hash('sha256', $base64Decoded);
+
+        // Decrypt the hashed value (replace with your decryption method if needed)
+        $decrypted = decrypt($hashed); // Replace with your decryption method
 
         return $decrypted;
-    } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-        abort(404);
     } catch (\Exception $e) {
-        // Eğer base64_decode sırasında bir hata oluşursa 404'e yönlendir
         abort(404);
     }
 }
+
 
 if (!function_exists('checkIfUserCanAddToProject')) {
     function checkIfUserCanAddToProject($projectId)
