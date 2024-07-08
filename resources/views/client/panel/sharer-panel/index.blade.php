@@ -475,7 +475,7 @@
         .collection-images img {
             border: 1px solid #e6e6e6;
             border-radius: 4px;
-            width: 33%;
+            width: 33.3%;
             height: 100px;
             /* margin-right: 10px; */
             object-fit: cover;
