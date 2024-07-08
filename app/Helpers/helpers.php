@@ -21,28 +21,21 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 }
 function hash_id($id)
 {
-    // Convert the ID to an integer
-    $idInt = (int) $id;
+    // Convert the ID to a string
+    $idString = (string) $id;
 
-    // Get the current timestamp
-    $timestamp = time();
-
-    // Multiply the ID by the timestamp
-    $hashed = $idInt * $timestamp;
+    // Generate a secure hash using SHA-256
+    $hashed = hash('sha256', $idString);
 
     return $hashed;
 }
 
 function decode_id($hashedId)
 {
-    // Retrieve the timestamp from the hashed ID
-    $timestamp = $hashedId % time();
+    // This function does not decode the hash back to the original ID
+    // Instead, it simply returns the hashed ID as is, since hash functions are one-way.
 
-    // Calculate the original ID
-    $originalId = $hashedId / $timestamp;
-
-    // Return the original ID
-    return $originalId;
+    return $hashedId;
 }
 
 
