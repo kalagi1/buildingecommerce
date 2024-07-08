@@ -24,9 +24,7 @@
                         @foreach ($collections as $collection)
                             <div class="collection">
                                 <div class="collection-head">
-                                    <div> {{ $collection->name }} Koleksiyonu <span class="collection-show-count ml-3"><i
-                                                class="fa fa-eye" style="margin-right: 5px"></i>
-                                            {{ count($collection->clicks) }}</span></div>
+                                    <div> {{ $collection->name }} Koleksiyonu</div>
                                     <ul class="collection-actions">
                                         <li> <button>
                                                 <span class="copyLinkButton"
@@ -44,9 +42,11 @@
                                                     style="margin: 10px;cursor:pointer">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                                 </span>
-                                                <ul class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                                <ul class="dropdown-menu dropdown-menu-end"
+                                                    data-popper-placement="bottom-end">
                                                     <li>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#silModal{{ $collection->id }}">
+                                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#silModal{{ $collection->id }}">
                                                             <i class="fas fa-trash-alt"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföyü
@@ -56,7 +56,8 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editCollectionModal{{ $collection->id }}">
+                                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#editCollectionModal{{ $collection->id }}">
                                                             <i class="fas fa-edit"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföy
@@ -66,25 +67,21 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                            İlanları Düzenle
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
                                                             <i class="fas fa-eye"></i>
                                                             Koleksiyonu Önizle
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        <a class="dropdown-item"
+                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
                                                             <i class="fas fa-share-alt"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                
+
                                                 <script>
                                                     function copyLinkAndShare(link) {
                                                         window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
@@ -230,7 +227,7 @@
 
 
 
-                                        </div> --}} 
+                                        </div> --}}
 
                                     </div>
                                 @else
@@ -276,14 +273,18 @@
                                 <div class="row align-items-center mb-3">
                                     <div class="col-md-8">
                                         <span class="collection-show-count ml-3" style="font-size:12px"><i
-                                            class="fa fa-eye" style="margin-right: 5px"></i>
-                                        {{ count($collection->clicks) }} Görüntülenme</span>
+                                                class="fa fa-eye" style="margin-right: 5px"></i>
+                                            {{ count($collection->clicks) }} Görüntülenme</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:20px !important;color:white"
-                                        type="button">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
-                                    </button>
+                                        <a
+                                            href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
+                                            <button
+                                                style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:20px !important;color:white"
+                                                type="button">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
+
+                                            </button> </a>
                                     </div>
                                 </div>
 
@@ -473,26 +474,27 @@
 
         .collection-images img {
             border: 1px solid #e6e6e6;
-    border-radius: 4px;
-    width: 50%;
-    height: 100px;
-    /* margin-right: 10px; */
-    object-fit: cover;
+            border-radius: 4px;
+            width: 50%;
+            height: 100px;
+            /* margin-right: 10px; */
+            object-fit: cover;
         }
 
         .collection-content {
             display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 20px;
-    height: 100%;
-    padding-right: 20px;
-    margin-bottom: 10px;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            height: 100%;
+            padding-right: 20px;
+            margin-bottom: 10px;
         }
+
         .collection-content .collection-images {
-    display: flex;
-    flex-wrap: wrap;
-}
+            display: flex;
+            flex-wrap: wrap;
+        }
 
 
         .collection-content .collection-navigation {
