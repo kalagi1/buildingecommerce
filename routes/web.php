@@ -1070,12 +1070,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateStoreBanner'])->group(function () {
-        Route::get('/reklam-gorseli/olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
+        Route::get('/reklam-gorselleri-olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
         Route::post('/reklam-gorselleri', [StoreBannerController::class, 'store'])->name('storeBanners.store');
     });
 
     Route::middleware(['checkPermission:GetStoreBannerById'])->group(function () {
-        Route::get('/store-banners/{storeBanner}/edit', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
+        Route::get('/reklam-gorseli-duzenle/{storeBanner}', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
     });
 
     Route::middleware(['checkPermission:UpdateStoreBanner'])->group(function () {

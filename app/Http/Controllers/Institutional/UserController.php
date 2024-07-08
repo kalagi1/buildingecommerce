@@ -159,7 +159,7 @@ class UserController extends Controller {
     
 
     public function edit( $hashedId ) {
-        $userId = Crypt::decryptString($hashedId);
+        $userId = decode_id($hashedId);
         $user = User::findOrFail($userId);
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
         $subUser = User::findOrFail( $userId );
@@ -168,7 +168,7 @@ class UserController extends Controller {
     }
 
     public function update( Request $request, $hashedId ) {
-        $userId = Crypt::decryptString($hashedId);
+        $userId = decode_id($hashedId);
 
         $rules = [
             'name' => 'required|string|max:255',
@@ -219,7 +219,7 @@ class UserController extends Controller {
     }
 
     public function destroy( $hashedId ) {
-        $userId = Crypt::decryptString( $hashedId );
+        $userId = decode_id( $hashedId );
         $user = User::findOrFail( $userId );
         // Kullanıcıyı bulun veya hata döndürün
         $user->delete();

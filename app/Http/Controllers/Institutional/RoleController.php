@@ -114,7 +114,7 @@ class RoleController extends Controller
 
     public function edit($hashedId)
     {
-        $roleId = Crypt::decryptString($hashedId);
+        $roleId = decode_id($hashedId);
 
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $role = Role::where('id', $roleId)->with('rolePermissions.permissions')->first();
@@ -233,7 +233,7 @@ class RoleController extends Controller
 
     public function update(UpdateRoleRequest $request, $hashedId)
     {
-        $roleId = Crypt::decryptString($hashedId);
+        $roleId = decode_id($hashedId);
 
         $permissions = $request->input('permissions');
         $role = Role::where("id", $roleId)->first();
@@ -258,7 +258,7 @@ class RoleController extends Controller
 
     public function destroy( $hashedId)
     {
-        $roleId = Crypt::decryptString($hashedId);
+        $roleId = decode_id($hashedId);
         $role = Role::where("id", $roleId)->first();
 
         $role->delete();
