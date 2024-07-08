@@ -74,7 +74,7 @@
                                                         </a></li>
                                                         <li><a  class="dropdown-item" 
                                                             href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
-                                                            WHATSAPPTA PAYLAŞ
+                                                            Whatsapp'ta Paylaş
                                                         </a></li>
                                                 </ul>
                                                 <script>
