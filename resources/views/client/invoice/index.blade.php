@@ -158,7 +158,7 @@
                                                     </li>
                                                     <li><strong>Ödeme Şekli:</strong> EFT/HAVALE</li>
                                                     <li><strong>Web Adresi:</strong> <a
-                                                            href="http://buildingecommerce.test">http://buildingecommerce.test</a>
+                                                            href="http://127.0.0.1:8000">http://127.0.0.1:8000</a>
                                                     </li>
 
                                                 </ul>

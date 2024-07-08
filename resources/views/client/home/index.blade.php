@@ -114,7 +114,7 @@
                 </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="http://buildingecommerce.test/kategori/al-sat-acil" class="homes-img">
+                        <a href="http://127.0.0.1:8000/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -300,7 +300,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="http://buildingecommerce.test/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="http://127.0.0.1:8000/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -336,7 +336,7 @@
                                 <h2>Emlak İlanları</h2>
                             </div>
                             <div class="">
-                                <a href="http://buildingecommerce.test/kategori/emlak-ilanlari" style="font-size: 11px;">
+                                <a href="http://127.0.0.1:8000/kategori/emlak-ilanlari" style="font-size: 11px;">
                                     <button
                                         style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                                         class="w-100">

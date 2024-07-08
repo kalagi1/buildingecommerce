@@ -10,6 +10,7 @@ use App\Models\Chat;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller {
     public function index() {
@@ -87,7 +88,7 @@ class UserController extends Controller {
         return view( 'client.panel.users.create', compact( 'roles', 'userLog' ) );
     }
 
-    public function store( Request $request ) {
+    public function store(Request $request) {
         $messages = [
             'name.required' => 'İsim alanı zorunludur.',
             'mobile_phone.required' => 'Cep no alanı zorunludur.',
@@ -100,9 +101,8 @@ class UserController extends Controller {
             'password.min' => 'Şifre en az 3 karakterden oluşmalıdır.',
             'type.required' => 'Tip alanı zorunludur.',
             'title.required' => 'Unvan alanı zorunludur.',
-
         ];
-
+    
         $rules = [
             'name' => 'required|string|max:255',
             'mobile_phone' => 'required',
@@ -110,53 +110,59 @@ class UserController extends Controller {
             'password' => 'required|min:3',
             'type' => 'required',
             'title' => 'required',
-
         ];
-
-        $validatedData = $request->validate( $rules, $messages );
-        $mainUser = User::where( 'id', auth()->user()->parent_id ?? auth()->user()->id )->with( 'plan' )->first();
-        $countUser = UserPlan::where( 'user_id', $mainUser->id )->first();
-        $users = User::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
+    
+        $validatedData = $request->validate($rules, $messages);
+        $mainUser = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->with('plan')->first();
+        $countUser = UserPlan::where('user_id', $mainUser->id)->first();
+        $users = User::where('parent_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         $userCount = User::all();
         $lastUser = User::latest()->first();
-
+    
         $user = new User();
-        $user->name = $validatedData[ 'name' ];
-        $user->title = $validatedData[ 'title' ];
-
-        $user->email = $validatedData[ 'email' ];
-        $user->mobile_phone = $validatedData[ 'mobile_phone' ];
-
+        $user->name = $validatedData['name'];
+        $user->title = $validatedData['title'];
+        $user->email = $validatedData['email'];
+        $user->mobile_phone = $validatedData['mobile_phone'];
         $user->profile_image = 'indir.png';
-        $user->password = bcrypt( $validatedData[ 'password' ] );
-        // Şifreyi şifreleyin
-        $user->type = $validatedData[ 'type' ];
-        $user->status =0;
+        $user->password = bcrypt($validatedData['password']);
+        $user->type = $validatedData['type'];
+        $user->status = 0;
         $user->corporate_account_status = 1;
-        $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
-        $user->code = $lastUser->id + auth()->user()->id  + 1000000;
+        $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
+        $user->code = $lastUser->id + auth()->user()->id + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
-
+    
         $user->save();
-
-        if ( $user->save() ) {
+    
+        if ($user->save()) {
             $countUser->user_limit = $countUser->user_limit - 1;
             $countUser->save();
         }
-
-        Chat::create( [
+    
+        Chat::create([
             'user_id' => $user->id
-        ] );
-
-        session()->flash( 'success', 'Kullanıcı başarıyla oluşturuldu.' );
-
-        return redirect()->route( 'institutional.users.index' );
-
+        ]);
+    
+        // Count children of the user's parent
+        $parent_id = auth()->user()->parent_id ?? auth()->user()->id;
+        $childrenCount = User::where('parent_id', $parent_id)->count();
+    
+        // Assign order to the newly created user
+        $user->order = $childrenCount + 1;
+        $user->save();
+    
+        session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
+    
+        return redirect()->route('institutional.users.index');
     }
+    
 
-    public function edit( $id ) {
+    public function edit( $hashedId ) {
+        $userId = Crypt::decryptString($hashedId);
+        $user = User::findOrFail($userId);
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
-        $subUser = User::findOrFail( $id );
+        $subUser = User::findOrFail( $userId );
         // Kullanıcıyı bulun veya hata döndürün
         return view( 'client.panel.users.edit', compact( 'subUser', 'roles' ) );
     }
@@ -223,11 +229,19 @@ class UserController extends Controller {
         return redirect()->route('institutional.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
-    public function updateUserOrder(Request $request){
-        foreach ($request->input('orders') as $key => $order) {
-            User::where('id', $order['id'])->update(['order' => $key +1]);
+    public function updateUserOrder(Request $request) {
+        $validated = $request->validate([
+            'orders' => 'required|array',
+            'orders.*.id' => 'required|integer|exists:users,id',
+            'orders.*.order' => 'required|integer',
+        ]);
+    
+        foreach ($validated['orders'] as $key => $order) {
+            User::where('id', $order['id'])->update(['order' => $key + 1]);
         }
-
+    
         return response()->json(['message' => 'Order updated successfully']);
-    }//End
+    }
+    
+    
 }

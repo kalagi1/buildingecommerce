@@ -17243,7 +17243,7 @@ a.button {
     margin-bottom: 0;
     font-family: 'Montserrat', sans-serif;
     color: #666;
-    font-size: 14.5px;
+    font-size: 12px;
 }
 
 .inner-pages .checkboxes label span {
@@ -17268,7 +17268,7 @@ a.button {
     margin-right: 10px;
     position: absolute;
     left: 0;
-    top: 3px;
+    top: -2px;
     background-color: #fff;
     border: 2px solid #d0d0d0;
     border-radius: 2px;

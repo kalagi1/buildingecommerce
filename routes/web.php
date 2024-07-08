@@ -955,15 +955,14 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/kampanyalar', [InstitutionalOfferController::class, 'index'])->name('offers.index');
     });
 
-    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('institutional.users.update.order');
-    // User Controller İzin Kontrolleri
+    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('users.update.order');
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
-        Route::get('/kullanici/olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
+        Route::get('/alt-kullanici-olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
         Route::post('/kullanicilar', [InstitutionalUserController::class, 'store'])->name('users.store');
     });
 
     Route::middleware(['checkPermission:GetUserById'])->group(function () {
-        Route::get('/kullanici/{user}/duzenleme', [InstitutionalUserController::class, 'edit'])->name('users.edit');
+        Route::get('/alt-kullanici-duzenle/{user}', [InstitutionalUserController::class, 'edit'])->name('users.edit');
     });
 
     Route::middleware(['checkPermission:UpdateUser'])->group(function () {
@@ -971,7 +970,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:GetUsers'])->group(function () {
-        Route::get('/kullanicilar', [InstitutionalUserController::class, 'index'])->name('users.index');
+        Route::get('/alt-kullanicilari-listele', [InstitutionalUserController::class, 'index'])->name('users.index');
     });
 
     Route::middleware(['checkPermission:DeleteUser'])->group(function () {
