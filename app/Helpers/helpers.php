@@ -3,7 +3,6 @@
 // app/Helpers/helpers.php
 
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
 
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
@@ -20,28 +19,12 @@ if (!function_exists('checkIfUserCanAddToCart')) {
         return true; // Return false if user is not logged in
     }
 }
-
-function hash_id($id)
-{
-    // Convert the ID to a string
-    $idString = (string) $id;
-
-    // Generate a secure hash using SHA-256
-    $hashed = hash('sha256', $idString);
-
-    // Make the hashed value URL friendly
-    $urlFriendlyId = Str::random(10) . '-' . substr($hashed, 0, 20);
-
-    return $urlFriendlyId;
+function hash_id($id) {
+    return Crypt::encryptString($id);
 }
 
-function decode_id($hashedId)
-{
-    // URL uyumlu kimlikten SHA-256 hash'i çıkar
-    $hashed = substr($hashedId, strpos($hashedId, '-') + 1);
-
-    // Orjinal ID'yi döndür
-    return $hashed;
+function decode_id($hashedId) {
+    return Crypt::decryptString($hashedId);
 }
 
 
