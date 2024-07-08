@@ -138,7 +138,7 @@
                                                         istediğinizden emin misiniz?</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form action="{{ route('institutional.users.destroy', $user->id) }}"
+                                                    <form action="{{ route('institutional.users.destroy', hash_id($user->id)) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')

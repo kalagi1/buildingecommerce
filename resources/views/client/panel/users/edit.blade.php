@@ -17,7 +17,7 @@
 
             <div class="container">
                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                    action="{{ route('institutional.users.update', $subUser->id) }}" enctype="multipart/form-data">
+                    action="{{ route('institutional.users.update', hash_id($subUser->id)) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

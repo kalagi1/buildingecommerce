@@ -23771,6 +23771,7 @@ a.btn_1 {
     border-color: #eee;
     padding: 0 1rem;
     border-radius: 0 !important;
+    height:40px;
 }
 
 @media screen and (max-width: 991px) {

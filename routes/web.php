@@ -978,12 +978,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateRole'])->group(function () {
-        Route::get('/rol/olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+        Route::get('/kullanici-tipi-olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
         Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
     });
 
     Route::middleware(['checkPermission:GetRoleById'])->group(function () {
-        Route::get('/rol/{role}/duzenleme', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        Route::get('/kullanici-tipi-duzenle/{role}', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
     });
 
     // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
