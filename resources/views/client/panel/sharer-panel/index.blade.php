@@ -273,15 +273,14 @@
                                     </div>
                                 @endif
 
-                                <div class="row align-items-center">
+                                <div class="row align-items-center mb-3">
                                     <div class="col-md-8">
                                         <span class="collection-show-count ml-3"><i
                                             class="fa fa-eye" style="margin-right: 5px"></i>
-                                        {{ count($collection->clicks) }}</span>
+                                        {{ count($collection->clicks) }} Görüntülenme</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="width:100%;font-size:10px;padding:8px 0"
-                                        class="badge badge-phoenix fs-10 badge-phoenix-warning"
+                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:10px"
                                         type="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
                                     </button>
@@ -483,10 +482,12 @@
 
         .collection-content {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    height: 100%;
+    padding-right: 20px;
+    margin-bottom: 10px;
         }
         .collection-content .collection-images {
     display: flex;
@@ -568,11 +569,10 @@
         }
 
         .collection-show-count {
-            color: black;
+            color: #ea2a28;
             font-size: 13px;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
     </style>
 @endsection
