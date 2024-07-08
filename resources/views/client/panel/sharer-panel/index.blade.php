@@ -275,12 +275,12 @@
 
                                 <div class="row align-items-center mb-3">
                                     <div class="col-md-8">
-                                        <span class="collection-show-count ml-3"><i
+                                        <span class="collection-show-count ml-3" style="font-size:12px"><i
                                             class="fa fa-eye" style="margin-right: 5px"></i>
                                         {{ count($collection->clicks) }} Görüntülenme</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:10px"
+                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:10px;color:white"
                                         type="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
                                     </button>
