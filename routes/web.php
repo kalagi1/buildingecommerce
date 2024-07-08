@@ -943,6 +943,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
     Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
     Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+    Route::post('/delete_situation_multiple', [TempOrderController::class, 'deleteSituationMultiple'])->name('delete.situation.multiple');
+    Route::post('/delete_gallery_multiple', [TempOrderController::class, 'deleteGalleryMultiple'])->name('delete.gallery.multiple');
 
 
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {

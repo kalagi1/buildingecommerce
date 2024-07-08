@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\Institutional\CartController;
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 
 use App\Http\Controllers\Api\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\Api\Institutional\ReturnController;
 use App\Http\Controllers\Api\Institutional\SharerController;
 use App\Http\Controllers\Api\Institutional\UserController;
 use App\Http\Controllers\Api\InstitutionalClubController;
@@ -61,6 +62,7 @@ Route::get('/project_housings/{projectId}', [ProjectController::class, 'getRooms
 Route::apiResource('project', ProjectController::class);
 Route::apiResource('housing', HousingController::class);
 Route::apiResource('brand', BrandController::class);
+Route::apiResource('return', ReturnController::class);
 Route::get('get_full_projects', [ProjectController::class, "getFullProjects"]);
 Route::post('login', [AuthController::class, "login"]);
 Route::post('register', [AuthController::class, "register"]);

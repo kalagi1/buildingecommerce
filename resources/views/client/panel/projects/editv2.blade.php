@@ -310,9 +310,17 @@
                                                     <i class="fa fa-trash"></i>
                                                 </div>
                                             </div>
+                                            <div class="project-image-button-select">
+                                                <input type="checkbox" name="" id="">
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
+                            </div>
+                            <div class="project-multi-select d-none">
+                                <button class="multi-select">
+                                    Seçilen Fotoğrafları Sil
+                                </button>
                             </div>
                         </div>
                         <span class="section-title-form mt-4 housing_after_step">Vaziyet & Kat Planı</span>
@@ -349,9 +357,18 @@
                                                     <i class="fa fa-trash"></i>
                                                 </div>
                                             </div>
+                                            <div class="situation-image-button-select">
+                                                <input type="checkbox" name="" id="">
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
+                            </div>
+
+                            <div class="situation-multi-select d-none">
+                                <button class="multi-select">
+                                    Seçilen Fotoğrafları Sil
+                                </button>
                             </div>
                         </div>
                         <div class="second-area-finish">
@@ -389,6 +406,129 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
 
     <script>
+        var selectedSituationsx = [];
+        const handler = {
+            set(target, property, value) {
+                console.log(`${property} değişti: ${value}`);
+                if(selectedSituationsx.includes(value)){
+                    const index = selectedSituationsx.indexOf(value);
+                    if (index > -1) {
+                        selectedSituationsx.splice(index, 1);
+                    }
+                }else{
+                    selectedSituationsx.push(value);
+                }
+                
+                $('.situation-multi-select').removeClass('d-none')
+                $('.situation_imagex .bg-image').removeClass('d-block') 
+                $('.situation-image-button-select').removeClass('d-none')
+                if(selectedSituationsx.length > 0){
+                    for(var i = 0 ; i < selectedSituationsx.length; i++){
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').find('.bg-image').addClass('d-block') 
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').find('.situation-image-button-select').addClass('d-block') 
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]')
+                    }
+                }else{
+                    $('.situation-multi-select').addClass('d-none')
+                }
+            }
+        };
+
+        var selectedGalleriesx = [];
+        const handler2 = {
+            set(target, property, value) {
+                console.log(`${property} değişti: ${value}`);
+                if(selectedGalleriesx.includes(value)){
+                    const index = selectedGalleriesx.indexOf(value);
+                    if (index > -1) {
+                        selectedGalleriesx.splice(index, 1);
+                    }
+                }else{
+                    selectedGalleriesx.push(value);
+                }
+                $('.project-multi-select').removeClass('d-none')
+                $('.project_imagex .bg-image').removeClass('d-block') 
+                $('.projet-image-button-select').removeClass('d-none')
+                if(selectedGalleriesx.length > 0){
+                    for(var i = 0 ; i < selectedGalleriesx.length; i++){
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').find('.bg-image').addClass('d-block') 
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').find('.project-image-button-select').addClass('d-block') 
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]')
+                    }
+                }else{
+                    $('.project-multi-select').addClass('d-none')
+                }
+            }
+        };
+
+        var csrfToken = "{{ csrf_token() }}";
+        $('.situation-multi-select').click(function(){
+            console.log(selectedSituationsx)
+            var formData = new FormData();
+            for(var i = 0; i < selectedSituationsx.length; i++){
+                formData.append('selected_situations['+i+']',selectedSituationsx[i]);
+            }
+            formData.append('item_type',3);
+            formData.append('_token',csrfToken);
+            $.ajax({
+                type: "POST",
+                url: "{{URL::to('/')}}/hesabim/delete_situation_multiple", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    for(var i = 0 ; i < selectedSituationsx.length; i++){
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').remove();
+                    }
+                },
+                error: function() {
+                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                    alert("Dosya yüklenemedi.");
+                }
+            });
+        })
+
+        $('.project-multi-select').click(function(){
+            console.log(selectedGalleriesx)
+            var formData = new FormData();
+            for(var i = 0; i < selectedGalleriesx.length; i++){
+                formData.append('selected_galleries['+i+']',selectedGalleriesx[i]);
+            }
+            formData.append('item_type',3);
+            formData.append('_token',csrfToken);
+            $.ajax({
+                type: "POST",
+                url: "{{URL::to('/')}}/hesabim/delete_gallery_multiple", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    for(var i = 0 ; i < selectedGalleriesx.length; i++){
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').remove();
+                    }
+                },
+                error: function() {
+                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                    alert("Dosya yüklenemedi.");
+                }
+            });
+        })
+
+        let selectedSituations = new Proxy([], handler);
+        $('.situation_imagex .situation-image-button-select input').change(function(){
+            var imageName = $(this).closest('.situation_imagex').attr('order');
+            selectedSituations.push(imageName);
+            console.log(selectedSituations);
+        })
+
+        let selectedGalleries = new Proxy([], handler2);
+        $('.project_imagex .project-image-button-select input').change(function(){
+            var imageName = $(this).closest('.project_imagex').attr('order');
+            selectedGalleries.push(imageName);
+            console.log(selectedSituations);
+        })
+       
+
         const toolbarOptions = [
             ['bold', 'italic', 'underline'], 
             [{ 'align': [] }],       // toggled buttons
@@ -628,6 +768,9 @@
                                             <i class="fa fa-trash"></i>
                                         </div>
                                     </div>
+                                    <div class="situation-image-button-select">
+                                        <input type="checkbox" name="" id="">
+                                    </div>
                                 </div>
                             `
                             
@@ -651,6 +794,12 @@
                                 });
                             })
                         }
+
+                        $('.situation_imagex .situation-image-button-select input').change(function(){
+                            var imageName = $(this).closest('.situation_imagex').attr('order');
+                            selectedSituations.push(imageName);
+                            console.log(selectedSituations);
+                        })
                     },
                     error: function() {
                         // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
@@ -2100,14 +2249,22 @@
                         $('.project-gallery-bar').css('width',((count + response.length) * 100 / 40)+'%')
                         // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]);
-                            var imageButtons = $('<div>').attr('class','image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
-                            imageButtons.append(imageButtonsIcon)
-                            imageDiv.append(image);
-                            imageDiv.append(imageButtons);
-                            $('.photos').append(imageDiv);
+                            
+                            var htmlx = `
+                                <div class="project_imagex" order="${response[i]}">
+                                    <div class="bg-image"></div>
+                                    <img src="{{URL::to('/')}}/project_images/${response[i]}" alt="">
+                                    <div class="image-buttons">
+                                        <div class="image-button">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="project-image-button-select">
+                                        <input type="checkbox" name="" id="">
+                                    </div>
+                                </div>
+                            `
+                            $('.photos').append(htmlx);
 
                             $('.project_imagex .image-buttons').click(function(){
                                 var thisx = $(this);
@@ -2128,6 +2285,12 @@
                                 });
                             })
                         }
+
+                        $('.project_imagex .project-image-button-select input').change(function(){
+                            var imageName = $(this).closest('.project_imagex').attr('order');
+                            selectedGalleries.push(imageName);
+                            console.log(selectedSituations);
+                        })
 
                         // Resmi okuyun
                         reader.readAsDataURL(input.files[0]);
