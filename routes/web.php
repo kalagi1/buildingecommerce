@@ -848,7 +848,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
     Route::get('/estate_club_users', [EstateClubController::class, "index"])->name('estate.club.users');
-    Route::get('/coupons', [EstateClubController::class, "coupons"])->name('estate.coupons');
+    Route::get('/coupons', [EstateClubController::class, "coupkoleksiyonlarimons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [EstateClubController::class, "createCoupon"])->name('estate.create.coupon');
     Route::post('/create_coupon/{user_id}', [EstateClubController::class, "createCouponStore"])->name('estate.create.coupon.store');
     Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class, "editCoupon"])->name('estate.edit.coupon');

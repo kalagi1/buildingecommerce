@@ -278,7 +278,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <a
-                                            href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
+                                            href="{{ route('institutional.sharer.links.index', ['id' => hash_id($collection->id)]) }}">
                                             <button
                                                 style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:20px !important;color:white"
                                                 type="button">
