@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="http://127.0.0.1:8000/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'http://127.0.0.1:8000/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -1560,7 +1560,7 @@
     });
     $('.slick-lancers').slick({
         infinite: false,
-        slidesToShow: 12.5,
+        slidesToShow: 10,
         slidesToScroll: 5,
         dots: false,
         arrows: false,
@@ -1584,8 +1584,8 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 4.5,
-                slidesToScroll: 5,
+                slidesToShow:4,
+                slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
@@ -2022,7 +2022,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -2216,7 +2216,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

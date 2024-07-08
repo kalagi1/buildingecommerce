@@ -1226,7 +1226,7 @@
     });
     $('.slick-lancers').slick({
         infinite: false,
-        slidesToShow: 12.5,
+        slidesToShow: 10,
         slidesToScroll: 5,
         dots: false,
         arrows: false,
@@ -1250,8 +1250,8 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 4.5,
-                slidesToScroll: 5,
+                slidesToShow:4,
+                slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
@@ -1646,7 +1646,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1840,7 +1840,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

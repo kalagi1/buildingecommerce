@@ -152,6 +152,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
+    ->name('club.dashboard2');
+
+Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+    ->name('club.dashboard');
+
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
@@ -159,7 +165,7 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
+
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
 Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
 
@@ -945,6 +951,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
     Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
     Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+    Route::post('/delete_situation_multiple', [TempOrderController::class, 'deleteSituationMultiple'])->name('delete.situation.multiple');
+    Route::post('/delete_gallery_multiple', [TempOrderController::class, 'deleteGalleryMultiple'])->name('delete.gallery.multiple');
 
 
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
@@ -1198,9 +1206,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
     Route::get('user-projects/{userId}',[CrmController::class,'getUserProjects']);
 
-Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
-Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
-Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+    Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
+    Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
+    Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+
+    Route::post('add-user', [CrmController::class, 'addUser']);
 
 });
 

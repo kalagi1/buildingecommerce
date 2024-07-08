@@ -60,6 +60,7 @@
     <header>
         <div>
             <img style="width: 100px;opacity: .65;float: left;" src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701198728.png" alt="">
+
             <h5 style="float: left;">{{$project->project_title}} {{$roomOrder}} Nolu Konut</h5>
         </div>
     </header>

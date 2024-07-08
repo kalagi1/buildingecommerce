@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://buildingecommerce.test'),
+    'url' => env('APP_URL', 'https://emlaksepette.com'),
 
     'asset_url' => env('ASSET_URL'),
 

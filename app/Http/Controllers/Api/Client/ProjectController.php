@@ -218,18 +218,43 @@ class ProjectController extends Controller
         ]);
     }
 
+
+
     public function getMyProjects(Request $request)
     {
-        $userId = auth()->guard('api')->user()->id;
+        $user = auth()->guard('api')->user();
 
-        $fullProjectsCount = Project::where('user_id', $userId)->where('status', $request->input('status'))->count();
+        if (!$user) {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 401); // Return a 401 Unauthorized response
+        }
 
-        $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))->where('user_id', $userId)
-            ->with("housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
-            ->orderByDesc('created_at')
+        $userId = $user->id;
+
+        $orderBy = $request->input('order', 'desc');
+
+        $fullProjectsCount = Project::where('user_id', $userId)
             ->where('status', $request->input('status'))
-            ->take($request->input('take'))
-            ->skip($request->input('start'))
+            ->count();
+
+        $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))
+            ->where('user_id', $userId)
+            ->with([
+                "housingType", 
+                "county", 
+                "city", 
+                "neighbourhood", 
+                "standOut", 
+                "standOut.dopingPricePaymentWait", 
+                'standOut.dopingPricePaymentCancel', 
+                'favorites', // Ensure favorites relationship is loaded
+                'sharerLinks' // Ensure sharerLinks relationship is loaded
+            ])
+            ->orderBy('created_at',$orderBy)
+            ->where('status', $request->input('status'))
+            ->take($request->input('take', 10)) // Default take to 10 if not provided
+            ->skip($request->input('start', 0)) // Default skip to 0 if not provided
             ->get();
 
         $userProjectIds = $projects->pluck('id');
@@ -237,16 +262,25 @@ class ProjectController extends Controller
         $projectCounts = $this->getProjectCounts($userProjectIds, '1');
         $paymentPendingCounts = $this->getProjectCounts($userProjectIds, '0');
 
-
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
 
+        // Add favorite counts to each project
+        $projects = $projects->map(function ($project) {
+            $project->favorite_count = $project->favorites->count();
+            $project->sharer_links_count = $project->sharerLinks->count();
+            return $project;
+        });
 
-        return json_encode([
+        return response()->json([
             "data" => $projects,
+            "total_projects_count" => $fullProjectsCount,
             "total_projects_count" => $fullProjectsCount
         ]);
     }
+
+    
+    
 
     protected function getProjectCounts($userProjectIds, $status)
     {

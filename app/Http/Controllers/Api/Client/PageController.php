@@ -122,7 +122,7 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        $order = CartOrder::with("user", "store")->where('id', $id)->first();
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
         $housing = null;
         $project = null;
