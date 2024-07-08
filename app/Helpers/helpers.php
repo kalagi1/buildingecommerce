@@ -26,8 +26,13 @@ function hash_id($id)
 
 function decode_id($hashedId)
 {
-    return Crypt::decryptString($hashedId);
+    try {
+        return Crypt::decryptString($hashedId);
+    } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+        abort(404);
+    }
 }
+
 
 if (!function_exists('checkIfUserCanAddToProject')) {
     function checkIfUserCanAddToProject($projectId)
