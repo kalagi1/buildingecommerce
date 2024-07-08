@@ -280,7 +280,7 @@
                                         {{ count($collection->clicks) }} Görüntülenme</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:10px;color:white"
+                                        <button style="width:100%;font-size:10px;padding:8px 0;background-color:#ea2a28;border:1px solid #ea2a28;border-radius:20px !important;color:white"
                                         type="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i> Koleksiyonu Düzenle
                                     </button>
