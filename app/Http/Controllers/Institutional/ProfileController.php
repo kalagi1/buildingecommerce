@@ -376,7 +376,7 @@ class ProfileController extends Controller
 
            $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 
-        return  view("institutional.home.has-club-status");
+        return  view("client.panel.home.has-club-status");
     }
 
 }

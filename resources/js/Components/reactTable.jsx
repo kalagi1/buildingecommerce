@@ -522,7 +522,7 @@ function ReactTable(props) {
                       </TableCell>
                       <TableCell>
                         <a
-                          href={`https://emlaksepette.com/hesabim/projects/${row.id}/housings_v2`}
+                          href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/housings_v2`}
                           class="badge badge-phoenix badge-phoenix-success"
                         >
                           İlanları Düzenle
@@ -532,13 +532,13 @@ function ReactTable(props) {
                         <div className="d-flex">
                           <a
                             class="badge badge-phoenix badge-phoenix-warning"
-                            href={`https://emlaksepette.com/hesabim/projects/${row.id}/logs`}
+                            href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/logs`}
                           >
                             İşlem Kayıtları
                           </a>
                           <a
                             class="badge badge-phoenix badge-phoenix-success mx-3"
-                            href={`https://emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}
+                            href={`https://test.emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}
                           >
                             Genel Düzenleme
                           </a>

@@ -298,21 +298,21 @@
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
                                             value="{{ old('email', $userDetail->email) }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="mobile_phone">Cep Numarası</label>
                                         <input name="mobile_phone" class="form-control" id="mobile_phone"
                                             type="number"
                                             value="{{ old('mobile_phone', $userDetail->mobile_phone) }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     @if ($userDetail->type != '1')
                                         <div class="col-md-12">
                                             <label class="form-label" for="phone">İş Numarası</label>
                                             <input name="phone" class="form-control" id="phone" type="number"
                                                 value="{{ old('phone', $userDetail->phone) }}" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                     @endif
                                     <div class="col-md-12">
@@ -320,7 +320,7 @@
                                             bırakın)</label>
                                         <input name="password" class="form-control" id="password" type="password"
                                             value="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
@@ -340,7 +340,7 @@
                                         <label class="form-label" for="name">Firma Adı</label>
                                         <input name="name" class="form-control" id="name" type="text"
                                             value="{{ old('name', $userDetail->username) }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
 
 

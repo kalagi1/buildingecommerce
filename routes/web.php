@@ -116,6 +116,8 @@ use App\Http\Controllers\GoogleSheetsController;
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
@@ -874,11 +876,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
-    Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
-    Route::get('waiting', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
+    Route::get('belge-yukleme', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('bekleyiniz', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
 
 
-    Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
+    Route::get('telefon-dogrulama', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
     Route::put('phone-verification/phone/update', [DashboardController::class, 'phoneUpdate'])
@@ -887,8 +889,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
 
-    Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
-    Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
+    Route::get('emlak-kulup-basvurusu-yap', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('emlak-kulup-basvurunuz-alindi', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 
@@ -961,15 +963,14 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/kampanyalar', [InstitutionalOfferController::class, 'index'])->name('offers.index');
     });
 
-    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('institutional.users.update.order');
-    // User Controller İzin Kontrolleri
+    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('users.update.order');
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
-        Route::get('/kullanici/olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
+        Route::get('/alt-kullanici-olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
         Route::post('/kullanicilar', [InstitutionalUserController::class, 'store'])->name('users.store');
     });
 
     Route::middleware(['checkPermission:GetUserById'])->group(function () {
-        Route::get('/kullanici/{user}/duzenleme', [InstitutionalUserController::class, 'edit'])->name('users.edit');
+        Route::get('/alt-kullanici-duzenle/{user}', [InstitutionalUserController::class, 'edit'])->name('users.edit');
     });
 
     Route::middleware(['checkPermission:UpdateUser'])->group(function () {
@@ -977,7 +978,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:GetUsers'])->group(function () {
-        Route::get('/kullanicilar', [InstitutionalUserController::class, 'index'])->name('users.index');
+        Route::get('/alt-kullanicilari-listele', [InstitutionalUserController::class, 'index'])->name('users.index');
     });
 
     Route::middleware(['checkPermission:DeleteUser'])->group(function () {
@@ -985,12 +986,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateRole'])->group(function () {
-        Route::get('/rol/olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+        Route::get('/kullanici-tipi-olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
         Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
     });
 
     Route::middleware(['checkPermission:GetRoleById'])->group(function () {
-        Route::get('/rol/{role}/duzenleme', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        Route::get('/kullanici-tipi-duzenle/{role}', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
     });
 
     // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
@@ -1024,12 +1025,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
     // ChangePassword Controller Rotasının İzinleri
     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
-        Route::get('/sifre/guncelleme', [InstitutionalChangePasswordController::class, "edit"])->name('password.edit');
+        Route::get('/sifre-guncelleme', [InstitutionalChangePasswordController::class, "edit"])->name('password.edit');
         Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
     });
 
     Route::get('/', [DashboardController::class, "index"])->name("index");
-
+    
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
@@ -1077,12 +1078,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateStoreBanner'])->group(function () {
-        Route::get('/reklam-gorseli/olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
+        Route::get('/reklam-gorselleri-olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
         Route::post('/reklam-gorselleri', [StoreBannerController::class, 'store'])->name('storeBanners.store');
     });
 
     Route::middleware(['checkPermission:GetStoreBannerById'])->group(function () {
-        Route::get('/store-banners/{storeBanner}/edit', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
+        Route::get('/reklam-gorseli-duzenle/{storeBanner}', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
     });
 
     Route::middleware(['checkPermission:UpdateStoreBanner'])->group(function () {

@@ -33,7 +33,7 @@
                                             <label class="form-label" for="project_title">Project Title</label>
                                             <input name="project_title" class="form-control" id="project_title"
                                                 type="text" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="address">Address</label>
@@ -93,13 +93,13 @@
                                                     <label class="form-label" for="validationCustom01">Title</label>
                                                     <input name="title" class="form-control" id="validationCustom01"
                                                         type="text" value="" required="">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <label class="form-label" for="validationCustom02">Room count</label>
                                                     <input name="room_count" class="form-control" id="validationCustom02"
                                                         type="text" value="" required="">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <label class="form-label" for="validationCustom01">Square
@@ -107,13 +107,13 @@
                                                     <input name="square_meter" class="form-control"
                                                         id="validationCustom01" type="text" value=""
                                                         required="">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <label class="form-label" for="price">Price</label>
                                                     <input name="price" class="form-control" id="price"
                                                         type="text" value="" required="">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                             </form>
                                         </div>
