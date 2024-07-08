@@ -44,10 +44,10 @@
                                                     style="margin: 10px;cursor:pointer">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                                 </span>
-                                                <ul class="dropdown-menu dropdown-menu-end"
-                                                    data-popper-placement="bottom-end">
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#silModal{{ $collection->id }}">
+                                                <ul class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                                    <li>
+                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#silModal{{ $collection->id }}">
+                                                            <i class="fas fa-trash-alt"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföyü
                                                             @else
@@ -55,28 +55,36 @@
                                                             @endif Sil
                                                         </a>
                                                     </li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#editCollectionModal{{ $collection->id }}">
+                                                    <li>
+                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editCollectionModal{{ $collection->id }}">
+                                                            <i class="fas fa-edit"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföy
                                                             @else
                                                                 Koleksiyon
-                                                            @endif
-                                                            Adını Düzenle
-                                                        </a></li>
-                                                    <li><a  class="dropdown-item" 
-                                                            href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
+                                                            @endif Adını Düzenle
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                             İlanları Düzenle
-                                                        </a></li>
-                                                    <li><a  class="dropdown-item" 
-                                                            href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                            <i class="fas fa-eye"></i>
                                                             Koleksiyonu Önizle
-                                                        </a></li>
-                                                        <li><a  class="dropdown-item" 
-                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                            <i class="fas fa-share-alt"></i>
                                                             Whatsapp'ta Paylaş
-                                                        </a></li>
+                                                        </a>
+                                                    </li>
                                                 </ul>
+                                                
                                                 <script>
                                                     function copyLinkAndShare(link) {
                                                         window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
