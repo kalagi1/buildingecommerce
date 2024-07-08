@@ -22,24 +22,65 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 }
 function hash_id($id)
 {
-    // Convert the ID to a string
-    $idString = (string) $id;
-
-    // Generate a secure hash using SHA-256
-    $hashed = hash('sha256', $idString);
-
-    // Make the hashed value URL friendly
-    $urlFriendlyId = Str::random(20) . '-' . substr($hashed, 0, 20);
-
-    return $urlFriendlyId;
+    $key = env('APP_KEY'); // Laravel'in APP_KEY değeri
+    $cipher = 'aes-256-cbc';
+    $ivlen = openssl_cipher_iv_length($cipher);
+    $iv = openssl_random_pseudo_bytes($ivlen);
+    $ciphertext_raw = openssl_encrypt($id, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+    $hmac = hash_hmac('sha256', $ciphertext_raw, $key, true);
+    $ciphertext = base64_encode($iv . $hmac . $ciphertext_raw);
+    // Base62 Encode
+    return Str::limit(base62_encode($ciphertext), 20, '');
 }
-function decode_id($hashedId)
+function base62_encode($data) {
+    $outstring = '';
+    $base = 62;
+    $index = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $input = unpack('C*', $data);
+    $input = array_values($input);
+    while ($count = count($input)) {
+        $div = 0;
+        $newlen = 0;
+        for ($i = 0; $i != $count; ++$i) {
+            $div = $div * 256 + $input[$i];
+            if ($div >= $base) {
+                $input[$newlen++] = (int)($div / $base);
+                $div = $div % $base;
+            } else if ($newlen > 0) {
+                $input[$newlen++] = 0;
+            }
+        }
+        $count = $newlen;
+        $outstring = $index[$div] . $outstring;
+    }
+    return $outstring;
+}
+function base62_decode($data) {
+    $outstring = 0;
+    $base = 62;
+    $index = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $input = str_split($data);
+    foreach ($input as $char) {
+        $outstring = $outstring * $base + strpos($index, $char);
+    }
+    return pack('H*', base_convert($outstring, 10, 16));
+}
+function decode_id($encryptedId)
 {
-    // URL uyumlu kimlikten SHA-256 hash'i çıkar
-    $hashed = substr($hashedId, strpos($hashedId, '-') + 1);
-
-    // Orjinal ID'yi döndür
-    return $hashed;
+    $key = env('APP_KEY');
+    $cipher = 'aes-256-cbc';
+    $c = base62_decode($encryptedId);
+    $c = base64_decode($c);
+    $ivlen = openssl_cipher_iv_length($cipher);
+    $iv = substr($c, 0, $ivlen);
+    $hmac = substr($c, $ivlen, $sha2len=32);
+    $ciphertext_raw = substr($c, $ivlen+$sha2len);
+    $original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, OPENSSL_RAW_DATA, $iv);
+    $calcmac = hash_hmac('sha256', $ciphertext_raw, $key, true);
+    if (hash_equals($hmac, $calcmac)) {
+        return $original_plaintext;
+    }
+    return null;
 }
 
 
