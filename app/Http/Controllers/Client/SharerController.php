@@ -350,6 +350,7 @@ class SharerController extends Controller
 
     public function showLinks($hashedId)
     {
+        return $hashedId;
         $collectionId = decode_id($hashedId);
 
         $collection = Collection::where('id', $collectionId)->first();
