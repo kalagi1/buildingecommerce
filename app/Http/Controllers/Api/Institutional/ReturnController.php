@@ -83,14 +83,18 @@ class ReturnController extends Controller
                 $refund->save();
             }
     
-            return json_encode([
+            echo  json_encode([
                 "status" => true
             ]);
+
+            exit();
         }catch(Throwable $e){
-            return json_encode([
+            echo json_encode([
                 "status" => false,
                 "message" => $e->getMessage()
             ]);
+
+            exit();
         }
     }
 }
