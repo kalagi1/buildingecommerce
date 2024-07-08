@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class RoleController extends Controller
 {
@@ -111,10 +112,12 @@ class RoleController extends Controller
     }
 
 
-    public function edit(Role $role)
+    public function edit($hashedId)
     {
+        $roleId = decode_id($hashedId);
+
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        $role = Role::where('id', $role->id)->with('rolePermissions.permissions')->first();
+        $role = Role::where('id', $roleId)->with('rolePermissions.permissions')->first();
         $mainRole = Role::where('id', '2')->with('rolePermissions.permissions')->first();
         $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
 
@@ -228,9 +231,12 @@ class RoleController extends Controller
         return redirect()->route('institutional.roles.index')->with('success', 'Role created successfully');
     }
 
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, $hashedId)
     {
+        $roleId = decode_id($hashedId);
+
         $permissions = $request->input('permissions');
+        $role = Role::where("id", $roleId)->first();
 
         $role->update([
             'name' => $request->input('name'),
@@ -250,8 +256,11 @@ class RoleController extends Controller
         return redirect()->route('institutional.roles.index')->with('success', 'Role updated successfully');
     }
 
-    public function destroy(Role $role)
+    public function destroy( $hashedId)
     {
+        $roleId = decode_id($hashedId);
+        $role = Role::where("id", $roleId)->first();
+
         $role->delete();
         return redirect()->route('institutional.roles.index')->with('success', 'Role deleted successfully');
     }

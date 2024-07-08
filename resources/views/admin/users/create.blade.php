@@ -37,19 +37,19 @@
                                 <label class="form-label" for="name">İsim Soyisim</label>
                                 <input name="name" class="form-control" id="name" type="text" value=""
                                     required="">
-                                <div class="valid-feedback">Looks good!</div>
+                                <div class="valid-feedback">İyi Görünüyor !</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="email">Email</label>
                                 <input name="email" class="form-control" id="email" type="email" value=""
                                     required="">
-                                <div class="valid-feedback">Looks good!</div>
+                                <div class="valid-feedback">İyi Görünüyor !</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="password">Şifre</label>
                                 <input name="password" class="form-control" id="password" type="password" value=""
                                     required="">
-                                <div class="valid-feedback">Looks good!</div>
+                                <div class="valid-feedback">İyi Görünüyor !</div>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>

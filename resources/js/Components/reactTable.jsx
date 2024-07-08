@@ -266,7 +266,7 @@ function ReactTable(props) {
       setLoading(true);
       axios
         .get(
-          "http://127.0.0.1:8000/react/my_projects?status=" +
+          "https://test.emlaksepette.com/react/my_projects?status=" +
             tabIndex +
             "&start=0&take=" +
             rowPerPage
@@ -287,7 +287,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
+        `https://test.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -303,7 +303,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
+        `https://test.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -330,7 +330,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "http://127.0.0.1:8000/react/my_projects?status=" +
+                  "https://test.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -400,7 +400,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "http://127.0.0.1:8000/react/my_projects?status=" +
+                  "https://test.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -522,7 +522,7 @@ function ReactTable(props) {
                       </TableCell>
                       <TableCell>
                         <a
-                          href={`https://emlaksepette.com/hesabim/projects/${row.id}/housings_v2`}
+                          href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/housings_v2`}
                           class="badge badge-phoenix badge-phoenix-success"
                         >
                           İlanları Düzenle
@@ -532,13 +532,13 @@ function ReactTable(props) {
                         <div className="d-flex">
                           <a
                             class="badge badge-phoenix badge-phoenix-warning"
-                            href={`https://emlaksepette.com/hesabim/projects/${row.id}/logs`}
+                            href={`https://test.emlaksepette.com/hesabim/projects/${row.id}/logs`}
                           >
                             İşlem Kayıtları
                           </a>
                           <a
                             class="badge badge-phoenix badge-phoenix-success mx-3"
-                            href={`https://emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}
+                            href={`https://test.emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}
                           >
                             Genel Düzenleme
                           </a>
@@ -700,10 +700,10 @@ function ReactTable(props) {
       >
         <ul className="popover-project-actions">
           <li>
-            <a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
+            <a href={`https://test.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
-          <li><a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
-          <li><a href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li><a href={`https://test.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li><a href={`https://test.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
           <li>
             {selectedRow?.status == 2 ? (
               <span className="badge badge-phoenix badge-phoenix-warning">

@@ -54,32 +54,32 @@
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
                                             value="{{ $subUser->name }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">Unvan</label>
                                         <input name="title" class="form-control"  value="{{ $subUser->title }}" id="title" type="text" value=""
                                             required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
                                             value="{{  $subUser->email}}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="phone">Cep No</label>
                                         <input name="mobile_phone" class="form-control" id="phone" type="number"
                                             value="{{ $subUser->mobile_phone }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="password">Şifre (Değiştirmek istemiyorsanız boş
                                             bırakın)</label>
                                         <input name="password" class="form-control" id="password" type="password"
                                             value="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
