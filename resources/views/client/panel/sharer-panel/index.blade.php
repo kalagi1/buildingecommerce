@@ -451,11 +451,11 @@
 
         .collection-images img {
             border: 1px solid #e6e6e6;
-            border-radius: 4px;
-            width: 50px;
-            height: 100px;
-            margin-right: 10px;
-            object-fit: cover;
+    border-radius: 4px;
+    width: 50%;
+    height: 100px;
+    /* margin-right: 10px; */
+    object-fit: cover;
         }
 
         .collection-content {
@@ -465,10 +465,11 @@
             padding: 20px;
             height: 100%;
         }
-
         .collection-content .collection-images {
-            display: flex;
-        }
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
         .collection-content .collection-navigation {
             display: flex;
