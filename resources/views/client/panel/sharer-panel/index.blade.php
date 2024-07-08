@@ -162,7 +162,7 @@
                                 @if (count($collection->links))
                                     <div class="collection-content">
                                         <div class="collection-images">
-                                            @foreach ($collection->links->take(4) as $link)
+                                            @foreach ($collection->links->take(6) as $link)
                                                 @php
                                                     $projectFirstImage = null;
                                                     if ($link->item_type == 1) {
@@ -475,7 +475,7 @@
         .collection-images img {
             border: 1px solid #e6e6e6;
             border-radius: 4px;
-            width: 50%;
+            width: 33%;
             height: 100px;
             /* margin-right: 10px; */
             object-fit: cover;
