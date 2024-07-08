@@ -64,15 +64,15 @@
                                                             @endif
                                                             Adını Düzenle
                                                         </a></li>
-                                                    <li><a
+                                                    <li><a  class="dropdown-item" 
                                                             href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
                                                             İlanları Düzenle
                                                         </a></li>
-                                                    <li><a
+                                                    <li><a  class="dropdown-item" 
                                                             href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
                                                             Koleksiyonu Önizle
                                                         </a></li>
-                                                        <li><a
+                                                        <li><a  class="dropdown-item" 
                                                             href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
                                                             WHATSAPPTA PAYLAŞ
                                                         </a></li>
