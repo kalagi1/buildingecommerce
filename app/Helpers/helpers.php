@@ -3,6 +3,7 @@
 // app/Helpers/helpers.php
 
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
@@ -21,18 +22,36 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 }
 function hash_id($id)
 {
-    return Crypt::encryptString($id);
+    // ID'yi şifreleyin
+    $encrypted = Crypt::encryptString($id);
+
+    // Şifrelenmiş veriyi base64_encode ile kodlayın
+    $base64Encoded = base64_encode($encrypted);
+
+    // Kodlanmış veriyi 15-30 karakter arasında sınırlandırın
+    $length = rand(15, 30);
+    $truncated = Str::limit($base64Encoded, $length, '');
+
+    return $truncated;
 }
 
 function decode_id($hashedId)
 {
     try {
-        return Crypt::decryptString($hashedId);
+        // Kesilen veriyi base64_decode ile çözün
+        $base64Decoded = base64_decode($hashedId);
+
+        // Şifrelenmiş veriyi çözün
+        $decrypted = Crypt::decryptString($base64Decoded);
+
+        return $decrypted;
     } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+        abort(404);
+    } catch (\Exception $e) {
+        // Eğer base64_decode sırasında bir hata oluşursa 404'e yönlendir
         abort(404);
     }
 }
-
 
 if (!function_exists('checkIfUserCanAddToProject')) {
     function checkIfUserCanAddToProject($projectId)
