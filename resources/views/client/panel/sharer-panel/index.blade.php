@@ -40,8 +40,7 @@
                                             <div style="margin-left: 10px">
 
                                                 <span data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
-                                                    aria-expanded="true" data-bs-reference="parent"
-                                                    class="ellipsisDiv"
+                                                    aria-expanded="true" data-bs-reference="parent" class="ellipsisDiv"
                                                     style="margin: 10px;cursor:pointer">
                                                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                                 </span>
@@ -65,44 +64,61 @@
                                                             @endif
                                                             Adını Düzenle
                                                         </a></li>
+                                                    <li><a
+                                                            href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}">
+                                                            İlanları Düzenle
+                                                        </a></li>
+                                                    <li><a
+                                                            href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                            Koleksiyonu Önizle
+                                                        </a></li>
+                                                        <li><a
+                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                            WHATSAPPTA PAYLAŞ
+                                                        </a></li>
                                                 </ul>
+                                                <script>
+                                                    function copyLinkAndShare(link) {
+                                                        window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
+                                                    }
+                                                </script>
                                             </div>
                                         </li>
 
                                     </ul>
                                 </div>
-                                
-                                    <!-- Silme Modalı -->
-                                    <div class="modal fade" id="silModal{{ $collection->id }}" tabindex="-1"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="silModalLabel{{ $collection->id }}">Silme
-                                                        İşlemini Onayla</h5>
-                                                    <button class="btn p-1" type="button" data-bs-dismiss="modal"
-                                                        aria-label="Kapat">
-                                                        <span class="fas fa-times fs-9"></span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="text-body-tertiary lh-lg mb-0">Bu koleksiyonu silmek
-                                                        istediğinizden emin misiniz?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form
-                                                        action="{{ route('institutional.collection.delete', ['id' => $collection->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-primary" type="submit">Sil</button>
-                                                        <button class="btn btn-outline-primary" type="button"
-                                                            data-bs-dismiss="modal">İptal</button>
-                                                    </form>
-                                                </div>
+
+                                <!-- Silme Modalı -->
+                                <div class="modal fade" id="silModal{{ $collection->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="silModalLabel{{ $collection->id }}">Silme
+                                                    İşlemini Onayla</h5>
+                                                <button class="btn p-1" type="button" data-bs-dismiss="modal"
+                                                    aria-label="Kapat">
+                                                    <span class="fas fa-times fs-9"></span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-body-tertiary lh-lg mb-0">Bu koleksiyonu silmek
+                                                    istediğinizden emin misiniz?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form
+                                                    action="{{ route('institutional.collection.delete', ['id' => $collection->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-primary" type="submit">Sil</button>
+                                                    <button class="btn btn-outline-primary" type="button"
+                                                        data-bs-dismiss="modal">İptal</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
                                 <div class="modal fade" id="editCollectionModal{{ $collection->id }}" tabindex="-1"
                                     aria-labelledby="editCollectionModalLabel" aria-hidden="true">
@@ -128,8 +144,7 @@
                                                             @endif
                                                         </label>
                                                         <input type="text" class="form-control" id="collectionName"
-                                                            name="collectionName" value="{{ $collection->name }}"
-                                                            required>
+                                                            name="collectionName" value="{{ $collection->name }}" required>
                                                     </div>
 
                                                     <button type="submit" class="btn btn-primary">Güncelle</button>
@@ -163,7 +178,7 @@
                                                     alt="product-image">
                                             @endforeach
                                         </div>
-                                        <div class="col-md-5 p-0 m-0">
+                                        {{-- <div class="col-md-5 p-0 m-0">
                                             <div class="col-md-12">
                                                 <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
                                                     class="text-decoration-none">
@@ -179,7 +194,8 @@
                                                     class="text-decoration-none" target="_blank" style="width: 100%">
 
                                                     <button style="width:100%;font-size:10px;padding:8px 0"
-                                                        class="badge badge-phoenix fs-10 badge-phoenix-info" type="button">
+                                                        class="badge badge-phoenix fs-10 badge-phoenix-info"
+                                                        type="button">
                                                         <i class="fa fa-eye" aria-hidden="true"></i> ÖNİZLE
                                                     </button>
                                                 </a>
@@ -201,16 +217,12 @@
                                             </div>
 
                                             <!-- Add this script at the end of your HTML body or after Bootstrap's JavaScript files -->
-                                            <script>
-                                                function copyLinkAndShare(link) {
-                                                    window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                }
-                                            </script>
+                                          
 
 
 
 
-                                        </div>
+                                        </div> --}} 
 
                                     </div>
                                 @else
@@ -240,7 +252,7 @@
                                                 </g>
                                             </g>
                                             <defs>
-                                                <clipPath id="clip0_1750_971">  
+                                                <clipPath id="clip0_1750_971">
                                                     <rect width="1440" height="1577" fill="white"
                                                         transform="translate(-1100 -1183)"></rect>
                                                 </clipPath>
@@ -543,35 +555,37 @@
 
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- jQuery CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <!-- jQuery CDN -->
 
-<script>
-    $(document).ready(function() {
-        // Üç nokta butonlarına tıklama işlevselliği ekleme
-        $('.ellipsisDiv').click(function() {
-            // Tıklanan üç nokta butonunun bir sonraki kardeşi (dropdown menüsü)
-            var dropdownMenu = $(this).next('.dropdown-menu');
+    <script>
+        $(document).ready(function() {
+            // Üç nokta butonlarına tıklama işlevselliği ekleme
+            $('.ellipsisDiv').click(function() {
+                // Tıklanan üç nokta butonunun bir sonraki kardeşi (dropdown menüsü)
+                var dropdownMenu = $(this).next('.dropdown-menu');
 
-            // Dropdown menüsünü açma/kapama
-            dropdownMenu.toggleClass('show');
+                // Dropdown menüsünü açma/kapama
+                dropdownMenu.toggleClass('show');
+            });
+
+            // Sayfa dışına tıklanınca dropdown menüleri kapatma
+            $(document).click(function(event) {
+                // Tıklanan element üç nokta butonu değilse
+                if (!$(event.target).closest('.fa.fa-ellipsis-h').length) {
+                    // Tüm dropdown menüleri kapat
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // Dropdown menüsüne tıklanınca menüyü kapatma
+            $('.dropdown-menu').click(function(event) {
+                event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
+            });
         });
-
-        // Sayfa dışına tıklanınca dropdown menüleri kapatma
-        $(document).click(function(event) {
-            // Tıklanan element üç nokta butonu değilse
-            if (!$(event.target).closest('.fa.fa-ellipsis-h').length) {
-                // Tüm dropdown menüleri kapat
-                $('.dropdown-menu').removeClass('show');
-            }
-        });
-
-        // Dropdown menüsüne tıklanınca menüyü kapatma
-        $('.dropdown-menu').click(function(event) {
-            event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
-        });
-    });
-</script>
+    </script>
 
     <script>
         $(".copyLinkButton").click(function() {
@@ -635,5 +649,4 @@
             });
         });
     </script>
-    
 @endsection
