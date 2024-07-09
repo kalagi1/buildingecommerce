@@ -833,7 +833,7 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
-    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/proje-ilanlarim', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
     Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
