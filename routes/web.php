@@ -122,7 +122,7 @@ Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.inde
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
-Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
+Route::post('/komsumu-gor-odeme-sayfasi', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
 Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
 Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
 Route::post('/neighbor/payment', [NeighborViewController::class, 'initiate3DPayment'])->name('neighbor.3d.pay');
