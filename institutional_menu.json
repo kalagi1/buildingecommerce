@@ -156,13 +156,13 @@
         "url": "#nv-shopping",
         "activePath": [
             "/hesabim/sattiklarim*",
-            "/hesabim/aldiklarim"
+            "/hesabim/siparislerim"
         ],
         "subMenu": [{
-                "text": "Aldıklarım",
+                "text": "Siparişlerim",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
-                "activePath": "/hesabim/aldiklarim"
+                "activePath": "/hesabim/siparislerim"
             },
             {
                 "text": "Sattıklarım",

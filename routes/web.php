@@ -186,7 +186,7 @@ Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay/{active?}
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
-Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
+Route::get('/odeme-yap', [PayController::class, 'index'])->name('payment.index');
 Route::post('/reservation/dekot/file/upload', [ReservationController::class, 'dekontfileUpload'])->name('reservation.dekont.file.upload');
 Route::get('/reservation/pay/success/{reservation}', [ReservationController::class, 'paySuccess'])->name('reservation.pay.success');
 Route::post('/reservation/sessions', [ReservationController::class, "addsessions"])->name('reservation.sessions');
@@ -1124,10 +1124,10 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/kiraladiklarim', [DashboardController::class, 'getMyReservations'])->name('myreservations');
 
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
-        Route::get('/aldiklarim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
-        Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
+        Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
