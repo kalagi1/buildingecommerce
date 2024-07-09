@@ -836,10 +836,30 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
 
         //sıfırdan crm rotaları
+
+        //satış danışmanlarını listele ve proje atama
         Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
         Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
 
-        Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+        //danisman_id değerine göre müşterilerin listelenmesi
+        Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+        Route::get('/musteri/bilgileri/{id}',[InstitutionalCrmController::class,'getMusteriBilgileri']);
+        Route::get('/musteri/gecmis/aramalari/{id}',[InstitutionalCrmController::class,'musteriGecmisAramalari']);
+
+        //favoriye eklenen müşteri
+        Route::post('/toggle-favorite/{id}', [InstitutionalCrmController::class, 'toggleFavorite'])->name('toggle-favorite');
+        Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
+
+        //yeni armakaydı ve müşteri bilgileri isteği
+        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
+        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
+          
+
+        Route::get('fullcalender', [InstitutionalCrmController::class, 'calender']);
+Route::post('fullcalenderAjax', [InstitutionalCrmController::class, 'ajax']);
+
+        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');

@@ -55,6 +55,8 @@
                                             data-sort="userType">Kullanıcı Tipi</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userType">Unvan</th>
+                                            <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="userType">Proje Atanma Yetkisi</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
                                         <th>İşlemler</th>
@@ -74,6 +76,13 @@
                                             <td>
                                                 <span class="badge bg-warning"> {{ $user->title }}</span>
 
+                                            </td>
+                                            <td>
+                                                @if ($user->project_authority == "on")
+                                                    <span class="badge bg-success">Proje Atanabilir</span>
+                                                @else
+                                                    <span class="badge bg-danger">Proje Atanamaz</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($user->status == 1)

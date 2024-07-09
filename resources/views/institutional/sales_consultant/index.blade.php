@@ -1,7 +1,7 @@
 @extends('institutional.layouts.master')
 @section('content')
 <div class="content">
-    <div class="text-header">
+    <div class="text-header" style="border-radius: 18px;">
         <h2 class="sales-consultants-heading">Satış Danışmanları Listesi</h2>
     </div>
     <table id="example" class="display" style="width:100%">
@@ -136,8 +136,9 @@
         }
         .text-header{
             padding: 20px;
-            margin: 50px;
+            margin: 40px;
             background-color: white;
+            border-radius: 18px !important;
         }
     </style>
 

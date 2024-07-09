@@ -71,7 +71,7 @@
                                     <div class="col-md-12">
                                         <label class="form-label" for="phone">Cep No</label>
                                         <input name="mobile_phone" class="form-control" id="phone" type="number"
-                                            value="{{ $subUser->mobile_phone }}" required="">
+                                            value="{{ $subUser->mobile_phone }}" >
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
@@ -80,6 +80,13 @@
                                         <input name="password" class="form-control" id="password" type="password"
                                             value="">
                                         <div class="valid-feedback">Looks good!</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="status"></label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="project_authority" checked onchange="toggleProjectAuthorityLabel()">
+                                            <label class="form-check-label" id="projectAuthorityLabel" for="flexSwitchCheckChecked">Proje Atama Yetkisi Verildi</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
@@ -125,3 +132,15 @@
 
     </div>
 @endsection
+
+<script>
+    function toggleProjectAuthorityLabel() {
+        var checkbox = document.getElementById("flexSwitchCheckChecked");
+        var label = document.getElementById("projectAuthorityLabel");
+        if (checkbox.checked) {
+            label.textContent = "Proje Atama Yetkisi Verildi";
+        } else {
+            label.textContent = "Proje Atama Yetkisi Ver";
+        }
+    }
+</script>
