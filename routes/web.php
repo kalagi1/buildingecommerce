@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\CrmController as AdminCrmController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -254,6 +255,8 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
     //arandı mı
@@ -833,7 +836,34 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
-    Route::get('/proje-ilanlarim', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+
+        //sıfırdan crm rotaları
+
+        //satış danışmanlarını listele ve proje atama
+        Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+        Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
+
+        //danisman_id değerine göre müşterilerin listelenmesi
+        Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+        Route::get('/musteri/bilgileri/{id}',[InstitutionalCrmController::class,'getMusteriBilgileri']);
+        Route::get('/musteri/gecmis/aramalari/{id}',[InstitutionalCrmController::class,'musteriGecmisAramalari']);
+
+        //favoriye eklenen müşteri
+        Route::post('/toggle-favorite/{id}', [InstitutionalCrmController::class, 'toggleFavorite'])->name('toggle-favorite');
+        Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
+
+        //yeni armakaydı ve müşteri bilgileri isteği
+        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
+        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
+          
+
+        Route::get('fullcalender', [InstitutionalCrmController::class, 'calender']);
+Route::post('fullcalenderAjax', [InstitutionalCrmController::class, 'ajax']);
+
+        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+
+    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
     Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');

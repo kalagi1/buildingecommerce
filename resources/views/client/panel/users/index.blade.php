@@ -39,7 +39,7 @@
                                 <line x1="12" y1="2" x2="12" y2="22"></line>
                             </svg></li>
                         <li style="width: 5%;">{{ $user->order }}</li>
-                        <li style="width: 55%; align-items: flex-start;">
+                        <li style="width: 35%; align-items: flex-start;">
                             <div>
                                 <p class="project-table-content-title">{{ $user->name }}</p>
                                 <span>{{ $user->email }}</span>
@@ -56,6 +56,9 @@
                             @else
                                 <span class="text-danger ">Hesap Engellendi</span>
                             @endif
+                        </li>
+                        <li style="width: 20%;">
+                            @if ($user->project_authority == "on") <span class="badge bg-success">Proje Atanabilir</span> @else <span class="badge bg-danger">Proje Atanamaz</span> @endif
                         </li>
                         <li style="width: 5%;"><span class="project-table-content-actions-button"
                                 data-toggle="popover-{{ $user->id }}"><i class="fa fa-chevron-down"></i></span>
