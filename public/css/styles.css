@@ -24453,10 +24453,11 @@ form label.error {
 }
 
 .popover-project-actions ul {
-    display: block
+    display: block !important;
 }
 .popover-project-actions ul li{
     text-align: start !important;
+    align-items: start !important;
 
 }
 .inner-pages .property-form-group .dz-message {

@@ -228,7 +228,7 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('institutional.roles.index')->with('success', 'Role created successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla oluşturuldu');
     }
 
     public function update(UpdateRoleRequest $request, $hashedId)
@@ -253,7 +253,7 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('institutional.roles.index')->with('success', 'Role updated successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla güncellendi');
     }
 
     public function destroy( $hashedId)
@@ -262,6 +262,6 @@ class RoleController extends Controller
         $role = Role::where("id", $roleId)->first();
 
         $role->delete();
-        return redirect()->route('institutional.roles.index')->with('success', 'Role deleted successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla silindi');
     }
 }

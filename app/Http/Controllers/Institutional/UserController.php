@@ -235,7 +235,7 @@ class UserController extends Controller {
     public function updateUserOrder(Request $request) {
         $validated = $request->validate([
             'orders' => 'required|array',
-            'orders.*.id' => 'required|integer|exists:users, id',
+            'orders.*.id' => 'required|integer|exists:users,id', // Remove any spaces around 'id'
             'orders.*.order' => 'required|integer',
         ]);
     
@@ -243,7 +243,7 @@ class UserController extends Controller {
             User::where('id', $order['id'])->update(['order' => $key + 1]);
         }
     
-        return response()->json(['message' => 'Order updated successfully' ] );
+        return response()->json(['message' => 'Order updated successfully']);
     }
-
+    
 }

@@ -6,17 +6,21 @@
             abort(403, 'Bu sayfaya erişim yetkiniz yok.');
         @endphp
     @endif
-    <div class="table-breadcrumb">
-        <ul>
-            <li>
-                Hesabım
-            </li>
-            <li>
-                Kullanıcı Tiplerinin Listele
-            </li>
-        </ul>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>Hesabım</li>
+                <li>Kullanıcı Tiplerini Listele</li>
+            </ul>
+        </div>
+        @if (in_array('CreateRole', $userPermissions))
+            <a class="btn btn-primary px-5" href="{{ route('institutional.roles.create') }}">
+                <i class="fa fa-plus me-2 mr-2"></i>Yeni Ekle
+            </a>
+        @endif
     </div>
     <section>
+
         @foreach ($roles as $key => $role)
             <div class="project-table-content">
                 <ul>
@@ -41,7 +45,7 @@
                             </li>
                         @endif
                         @if (in_array('DeleteRole', $userPermissions))
-                            <li><a data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}">Sil</a>
+                            <li data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}">Sil
                             </li>
                         @endif
                     </ul>
@@ -108,4 +112,12 @@
             });
         });
     </script>
+@endsection
+
+@section('styles')
+    <style>
+        .table-breadcrumb {
+            margin-bottom: 0 !important
+        }
+    </style>
 @endsection
