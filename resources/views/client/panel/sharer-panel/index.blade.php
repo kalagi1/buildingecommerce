@@ -47,7 +47,7 @@
                                                     <li>
                                                         <a class="dropdown-item" data-bs-toggle="modal"
                                                             data-bs-target="#silModal{{ $collection->id }}">
-                                                            <i class="fas fa-trash-alt"></i>
+                                                            <i class="fas fa-trash-alt mr-2"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföyü
                                                             @else
@@ -58,7 +58,7 @@
                                                     <li>
                                                         <a class="dropdown-item" data-bs-toggle="modal"
                                                             data-bs-target="#editCollectionModal{{ $collection->id }}">
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="fas fa-edit mr-2"></i>
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
                                                                 Portföy
                                                             @else
@@ -69,14 +69,14 @@
                                                     <li>
                                                         <a class="dropdown-item"
                                                             href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
-                                                            <i class="fas fa-eye"></i>
+                                                            <i class="fas fa-eye mr-2"></i>
                                                             Koleksiyonu Önizle
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item"
                                                             href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
-                                                            <i class="fas fa-share-alt"></i>
+                                                            <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
