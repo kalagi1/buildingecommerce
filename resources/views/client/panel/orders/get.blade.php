@@ -27,7 +27,7 @@
         <div id="user-list-table-body">
             <div class="spinner-border text-danger" role="status">
                 <span class="visually-hidden"></span>
-              </div>
+            </div>
             @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
 
             {{-- @foreach ($cartOrders as $order)
@@ -278,15 +278,8 @@
             margin-bottom: 0 !important
         }
 
-        .visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) {
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
+        .visually-hidden {
+            overflow: hidden !important;
+        }
     </style>
 @endsection
