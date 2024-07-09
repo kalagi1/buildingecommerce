@@ -9,8 +9,8 @@ function EndSectionHousing(props) {
                             <div className="icon"><i className="fa fa-thumbs-up"></i></div>
                             <div className="text">Başarıyla ilan eklediniz</div>
                             <div className="text">
-                                <a href="/institutional/konutlar" className="btn btn-info">Mağazama Git</a>
-                                <a href="/institutional/create_housing_v3" className="btn btn-info mx-2">Yeni İlan Ekle</a>
+                                <a href="/hesabim/konutlar" className="btn btn-info">Mağazama Git</a>
+                                <a href="/hesabim/create_housing_v3" className="btn btn-info mx-2">Yeni İlan Ekle</a>
                             </div>
                         </div>
                     </div>

@@ -18,6 +18,7 @@ use App\Models\HousingTypeParentConnection;
 use App\Models\Installment;
 use App\Models\Institution;
 use App\Models\Invoice;
+use App\Models\ProjectFavorite;
 use App\Models\Neighborhood;
 use App\Models\Offer;
 use App\Models\PaymentSetting;
@@ -176,10 +177,12 @@ class ProjectController extends Controller
         $roomValidationsMessages = [];
 
         foreach ($housingTypeInputs as $input) {
-            if (!str_contains($input->className, 'project-disabled')) {
-                if ($input->required) {
-                    $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
-                    $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
+            if($input && isset($input->className) && $input->className){
+                if (!str_contains($input->className, 'project-disabled')) {
+                    if ($input->required) {
+                        $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
+                        $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
+                    }
                 }
             }
         }
@@ -878,24 +881,26 @@ class ProjectController extends Controller
         }
         foreach ($housingTypeInputs as $input) {
             if(isset($input) && isset($input->type) && $input->type){
-                if ($input->type == "checkbox-group") {
-                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                if($input && isset($input->className) && $input->className){
+                    if ($input->type == "checkbox-group") {
+                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                            }
+                        } else {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                            }
                         }
                     } else {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                        }
-                    }
-                } else {
-                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                        }
-                    } else {
-                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                            }
+                        } else {
+                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                                $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
+                            }
                         }
                     }
                 }
@@ -1673,4 +1678,25 @@ class ProjectController extends Controller
         $pdf = Pdf::loadView('institutional.payment_plan.pdf',compact('cartOrder','project','roomOrder','roomPrice','installmentPrice','advance','installments','paidPrice','remainingPayment','payDecs','payDecCount','paidPayDecs','paymentSetting'));
         return $pdf->download($project->project_title.' '.$roomOrder.' Nolu Konut Ödeme Detayı.pdf');
     }
+
+    public function destroyAllFavorite()
+    {
+        // Giriş yapmış kullanıcının ID'sini alın
+        $userId = auth()->guard()->user()->id;
+
+        // Kullanıcının favorilerini silin
+        $deleted = ProjectFavorite::where('user_id', $userId)->delete();
+
+        if ($deleted) {
+            return response()->json([
+                'message' => 'Tüm favoriler başarıyla silindi.',
+                'deleted_count' => $deleted
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Silinecek favori bulunamadı.'
+            ], 404);
+        }
+    }
+    
 }

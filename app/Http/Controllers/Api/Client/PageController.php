@@ -122,7 +122,7 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        $order = CartOrder::with("user", "store")->where('id', $id)->first();
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
         $housing = null;
         $project = null;
@@ -251,7 +251,7 @@ class PageController extends Controller
 
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
-        $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
+        $collections = Collection::with('links.project',"links.housing", "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         foreach ($items as $item) {
 
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();

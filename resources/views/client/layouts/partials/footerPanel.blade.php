@@ -270,7 +270,7 @@
 
 
 <!-- ARCHIVES JS -->
-<script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
+<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
     integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w=="
@@ -278,12 +278,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
     integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"
     integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
     integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -306,7 +306,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/js/lightcase.min.js"
     integrity="sha512-i+A2/k3mB4TtIRp6fyk8Q+xzJqKusi0bvFgCIfDtdJT1tDEMqYvKo60q3bvp6LzGIeS6BahqN4AklwwxbdSaog=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/search.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/search.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
     integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -323,10 +323,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
     integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/range.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/range.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1226,7 +1226,7 @@
     });
     $('.slick-lancers').slick({
         infinite: false,
-        slidesToShow: 12.5,
+        slidesToShow: 10,
         slidesToScroll: 5,
         dots: false,
         arrows: false,
@@ -1250,8 +1250,8 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 4.5,
-                slidesToScroll: 5,
+                slidesToShow:4,
+                slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
@@ -2031,7 +2031,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@vite('resources/js/app.jsx')
+<script src="{{URL::to('/')}}/build/assets/app-d4f7b924.js"></script>
+
+{{-- @vite('resources/js/app.jsx') --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>

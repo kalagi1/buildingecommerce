@@ -1,4 +1,3 @@
-
 @extends('client.layouts.masterPanel')
 
 @section('content')

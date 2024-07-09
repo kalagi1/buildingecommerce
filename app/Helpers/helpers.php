@@ -2,6 +2,8 @@
 
 // app/Helpers/helpers.php
 
+use Illuminate\Support\Facades\Crypt;
+
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
     {
@@ -17,22 +19,28 @@ if (!function_exists('checkIfUserCanAddToCart')) {
         return true; // Return false if user is not logged in
     }
 }
+function hash_id($id)
+{
+    return Crypt::encryptString($id);
+}
 
-
+function decode_id($hashedId)
+{
+    return Crypt::decryptString($hashedId);
+}
 
 if (!function_exists('checkIfUserCanAddToProject')) {
     function checkIfUserCanAddToProject($projectId)
     {
         $user = auth()->user();
 
-      
         if ($user) {
 
             $exists = $user->Projects()->where('id', $projectId)->exists();
-            return !$exists; 
+            return !$exists;
         }
 
-        return true; 
+        return true;
     }
 }
 
@@ -43,11 +51,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
         if ($user) {
             $exists = $user->projects()
-                           ->where('id', $projectId)
-                           ->whereHas('housings', function($query) use ($keyIndex) {
-                               $query->where('room_order', $keyIndex);
-                           })
-                           ->exists();
+                ->where('id', $projectId)
+                ->whereHas('housings', function ($query) use ($keyIndex) {
+                    $query->where('room_order', $keyIndex);
+                })
+                ->exists();
             return !$exists;
         }
 

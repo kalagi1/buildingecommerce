@@ -35,7 +35,7 @@
                                             <label class="form-label" for="title">Başlık</label>
                                             <input name="title" class="form-control" id="title"
                                                 type="text" value="{{ old('title', $brand->title) }}" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="logo">Logo</label>

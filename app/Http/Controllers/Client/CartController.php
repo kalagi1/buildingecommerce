@@ -327,7 +327,7 @@ class CartController extends Controller
                 $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                 foreach ($rates as $key => $rate) {
-                    if ($user->corporate_type == $rate->institution->name) {
+                    if ($user->corporate_type == $rate->institution->name || $user->type == 1 && $rate->institution->name == "Diğer") {
                         $share_percent_earn =  $rate->default_deposit_rate;
                         $share_percent_balance = 1.0 - $share_percent_earn;
                     }
@@ -415,7 +415,7 @@ class CartController extends Controller
                         $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                     }
 
-                    if ($collection->user_id != Auth::user()->id) {
+                    if ($collection && $collection->user_id != Auth::user()->id) {
                         $sales_rate_club = null;
                         // Başlangıçta boş veya null değer
 
@@ -456,7 +456,7 @@ class CartController extends Controller
                         $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                         foreach ($rates as $key => $rate) {
-                            if ($user->corporate_type == $rate->institution->name) {
+                            if ($user->corporate_type == $rate->institution->name || $user->type == 1 && $rate->institution->name == "Diğer") {
                                 $share_percent_earn =  $rate->default_deposit_rate;
                                 $share_percent_balance = 1.0 - $share_percent_earn;
                             }
@@ -495,7 +495,7 @@ class CartController extends Controller
                     $rates = Rate::where('housing_id', $cart['item']['id'])->get();
 
                     foreach ($rates as $key => $rate) {
-                        if ($user->corporate_type == $rate->institution->name) {
+                        if ($user->corporate_type == $rate->institution->name || $user->type == 1 && $rate->institution->name == "Diğer") {
                             $share_percent_earn =  $rate->default_deposit_rate;
                             $share_percent_balance = 1.0 - $share_percent_earn;
                         }

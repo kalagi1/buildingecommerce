@@ -54,19 +54,19 @@
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
                                             value="{{ $subUser->name }}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">Unvan</label>
                                         <input name="title" class="form-control"  value="{{ $subUser->title }}" id="title" type="text" value=""
                                             required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
                                             value="{{  $subUser->email}}" required="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="phone">Cep No</label>
@@ -79,7 +79,14 @@
                                             bırakın)</label>
                                         <input name="password" class="form-control" id="password" type="password"
                                             value="">
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="valid-feedback">İyi Görünüyor !</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="status"></label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="project_authority" checked onchange="toggleProjectAuthorityLabel()">
+                                            <label class="form-check-label" id="projectAuthorityLabel" for="flexSwitchCheckChecked">Proje Atama Yetkisi Verildi</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="status"></label>

@@ -83,7 +83,7 @@
                                         @if ($user->corporate_account_note)
                                             <div style="color: red">
                                                 <i class="fa fa-exclamation" aria-hidden="true"></i>
-                                                Admin Notu: {{ $user->corporate_account_note }}
+                                                Emlak Sepette Yönetiminden Uyarı: {{ $user->corporate_account_note }}
                                             </div>
                                         @endif
                                     @else

@@ -727,7 +727,7 @@ class AuthController extends Controller
         $userId = auth()->guard("api")->user()->id;
 
         // Kullanıcıya ait bildirimleri al
-        $notifications = DocumentNotification::where('user_id', $userId)->get();
+        $notifications = DocumentNotification::where('owner_id', $userId)->get();
     
         // Bildirimleri JSON formatında döndür
         return response()->json($notifications);

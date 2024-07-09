@@ -3,7 +3,7 @@ import { ReactSortable } from 'react-sortablejs';
 import { toast } from 'react-toastify';
 
 
-function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
+function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors,requiredType}) {
     const inputRef = useRef();
     const [uploadingOrder,setUploadingOrder] = useState([[]]);
     const [imageLoading,setImageLoading] = useState(false);
@@ -25,10 +25,17 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 if ((lastImageCount + files.length) <= 40) {
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
-    
                         if (file.size > maxSize) {
                             toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük dosyalar yükleyin.`);
                             continue; // Büyük dosyayı yükleme, sonraki dosyaya geç
+                        }
+
+                        if(requiredType){
+                            var splitFile = file.type.split('/');
+                            if(!requiredType.includes(splitFile[splitFile.length - 1])){
+                                toast.error("Dosya tipi "+requiredType.join(',')+" olmalıdır")
+                                continue; // Büyük dosyayı yükleme, sonraki dosyaya geç
+                            }
                         }
     
                         tempImages2.push(file);
@@ -70,6 +77,24 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 const file = event.target.files[0];
                 const reader = new FileReader();
     
+                if (file) {
+                    console.log(file.type);
+                    if (file.size > maxSize) {
+                        toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük bir dosya seçin.`);
+                        return; // Büyük dosya seçildiği için işlemi sonlandır
+                    }
+                    reader.readAsDataURL(file);
+                }
+
+                if(requiredType){
+                    var splitFile = file.type.split('/');
+                    if(!requiredType.includes(splitFile[splitFile.length - 1])){
+                        toast.error("Dosya tipi "+requiredType.join(',')+" olmalıdır")
+                        return; // Büyük dosya seçildiği için işlemi sonlandır
+                    }
+                }
+
+                
                 reader.onload = () => {
                     setProjectData({
                         ...projectData,
@@ -77,18 +102,20 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         [fileName]: file
                     });
                 };
-    
-                if (file) {
-                    if (file.size > maxSize) {
-                        toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük bir dosya seçin.`);
-                        return; // Büyük dosya seçildiği için işlemi sonlandır
-                    }
-                    reader.readAsDataURL(file);
-                }
             }
         } else {
             const file = event.target.files[0];
-            setProjectDataFunc(fileName, file);
+            if(requiredType){
+                var splitFile = file.type.split('/');
+                if(!requiredType.includes(splitFile[splitFile.length - 1])){
+                    toast.error("Dosya tipi "+requiredType.join(',')+" olmalıdır")
+                }else{  
+                    setProjectDataFunc(fileName, file);
+                }
+            }else{
+                setProjectDataFunc(fileName, file);
+            }
+            
         }
     };
 
