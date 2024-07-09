@@ -1155,6 +1155,8 @@ Route::post('fullcalenderAjax', [InstitutionalCrmController::class, 'ajax']);
 
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
         Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::post('/orders/filter', [ClientPanelProfileController::class, 'filter'])->name('orders.filter');
+
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');

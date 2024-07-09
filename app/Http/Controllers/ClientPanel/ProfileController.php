@@ -33,8 +33,37 @@ class ProfileController extends Controller
         ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
             return view('client.panel.orders.get', compact('cartOrders'));
 
+    }
+
+
+    public function filter(Request $request)
+    {
+        $query = CartOrder::with('store', 'refund',"invoice");
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'like', "%$search%")
+                  ->orWhereHas('store', function($q) use ($search) {
+                      $q->where('name', 'like', "%$search%");
+                  });
+            });
+        }
+
+        if ($request->has('startDate') && !empty($request->startDate)) {
+            $query->whereDate('created_at', '>=', $request->startDate);
+        }
+
+        if ($request->has('endDate') && !empty($request->endDate)) {
+            $query->whereDate('created_at', '<=', $request->endDate);
+        }
+
+        $cartOrders = $query->get();
+
+        return response()->json([
+            'html' => view('client.panel.orders_list', compact('cartOrders'))->render()
+        ]);
     
-        
     }
 
     public function orderDetail($hashedId)
