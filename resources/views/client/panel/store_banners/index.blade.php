@@ -14,7 +14,7 @@
 <section>
     <div class="container p-0 m-0">
         <div class="alert alert-info" role="alert">
-            Görsellerin sırasını değiştirmek için sürükle-bırak yapabilirsiniz.
+            Görsellerin sırasını değiştirmek için sürükle-bırak yapabilirsiniz. Reklam görselleriniz mağazanızda belirlediğiniz sırada görünecektir.
         </div>
         <div id="grid-container" class="row">
             @foreach ($storeBanners as $key => $banner)

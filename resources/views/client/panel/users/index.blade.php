@@ -22,7 +22,7 @@
     </div>
     <section>
         <div class="alert alert-info">
-            Alt kullanıcıları sürükleyip bırakarak sıralayabilirsiniz. Bu sıralama mağazanızda belirlediğiniz sırada görünecektir.
+            Alt kullanıcıları sürükleyip bırakarak sıralayabilirsiniz. Alt kullanıcılarınız mağazanızda belirlediğiniz sırada görünecektir.
         </div>
         <div id="user-list-table-body">
             @foreach ($users as $key => $user)
