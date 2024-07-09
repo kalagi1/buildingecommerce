@@ -70,27 +70,27 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
-                                                <span class="badge bg-warning"> {{ $user->role->name }}</span>
+                                                <span class="text-warning"> {{ $user->role->name }}</span>
 
                                             </td>
                                             <td>
-                                                <span class="badge bg-warning"> {{ $user->title }}</span>
+                                                <span class="text-warning"> {{ $user->title }}</span>
 
                                             </td>
                                             <td>
                                                 @if ($user->project_authority == "on")
-                                                    <span class="badge bg-success">Proje Atanabilir</span>
+                                                    <span class="text-success">Proje Atanabilir</span>
                                                 @else
-                                                    <span class="badge bg-danger">Proje Atanamaz</span>
+                                                    <span class="text-danger">Proje Atanamaz</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($user->status == 1)
-                                                    <span class="badge bg-success">Hesap Doğrulandı</span>
+                                                    <span class="text-success">Hesap Doğrulandı</span>
                                                 @elseif($user->status == 0)
-                                                    <span class="badge bg-warning">Hesap Doğrulanmadı</span>
+                                                    <span class="text-warning">Hesap Doğrulanmadı</span>
                                                 @else
-                                                    <span class="badge bg-danger">Hesap Engellendi</span>
+                                                    <span class="text-danger">Hesap Engellendi</span>
                                                 @endif
                                             </td>
 
