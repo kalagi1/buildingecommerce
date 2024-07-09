@@ -30,6 +30,7 @@ class NeighborViewController extends Controller
             $userId = Auth::id(); // Kullanıcının user_id'sini al
             $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project'])
                 ->where('user_id', $userId)
+                ->orderByDesc("id")
                 ->get();
 
             return view('client.panel.neighbor.index', compact('neighborViews'));
