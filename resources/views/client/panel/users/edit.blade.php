@@ -91,6 +91,13 @@
                         <div class="valid-feedback">İyi Görünüyor !</div>
                     </div>
                     <div class="col-md-12 mb-3">
+                        <label class="form-label" for="status"></label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="project_authority" checked onchange="toggleProjectAuthorityLabel()">
+                            <label class="form-check-label" id="projectAuthorityLabel" for="flexSwitchCheckChecked">Proje Atama Yetkisi Verildi</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
                         <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
                         <select name="type" class="form-select" id="validationCustom04" required="">
                             @foreach ($roles as $item)
@@ -118,4 +125,19 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    function toggleProjectAuthorityLabel() {
+        var checkbox = document.getElementById("flexSwitchCheckChecked");
+        var label = document.getElementById("projectAuthorityLabel");
+        if (checkbox.checked) {
+            label.textContent = "Proje Atama Yetkisi Verildi";
+        } else {
+            label.textContent = "Proje Atama Yetkisi Ver";
+        }
+    }
+</script>
+    
 @endsection

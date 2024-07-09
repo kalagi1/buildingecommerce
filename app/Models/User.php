@@ -116,6 +116,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'user_id')->where("status","1")->where("deleted_at",null);
     }
 
+    public function projectAssigments()
+    {
+        return $this->belongsToMany(Project::class, 'project_assigment', 'user_id', 'project_id');
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);

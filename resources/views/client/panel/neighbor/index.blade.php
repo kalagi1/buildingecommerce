@@ -1,65 +1,89 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <div class="table-breadcrumb">
-            <ul>
-                <li>Hesabım</li>
-                <li> Komşumu Gör Listesi
-                </li>
-            </ul>
-        </div>
-    </div>
-    <section>
-        <div class="alert alert-info">
-            Satın aldığınız komşu bilgileri aşağıdaki tabloda listeleniyor.
-        </div>
-        <div id="user-list-table-body">
-            @foreach ($neighborViews as $key => $neighborView)
-                @php
-                    $cart = json_decode($neighborView->order->cart, true);
-                    $statusText = $neighborView->status == 1 ? 'Ödeme onaylandı' : 'Ödeme onayı bekleniyor';
-                @endphp
-                <div class="project-table-content user-item">
-                    <ul>
-                        <li style="width: 5%;">{{ $key +1 }}</li>
-                        <li>Komşu İsmi: {{ $neighborView->owner->name }}</li>
-                        <li>Komşu Cep No: {{ $neighborView->owner->mobile_phone }}</li>
-                        <li>Proje: {{ $neighborView->project->project_title }} {{ $cart['item']['housing'] }} No'lu İlan</li>
-                        <li>{{ $statusText }} (250 TL)</li>
-                        <li>
-                            <a href="{{ $cart['type'] == 'housing'
-                                    ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                    : route('project.housings.detail', [
-                                        'projectSlug' =>
-                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                        'housingOrder' => $cart['item']['housing'],
-                                    ]) }}">
-                                <div class="mobile">İlanı Gör</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            @endforeach
-        </div>
-    </section>
-@endsection
+  
+    <div class="content">
+        <nav class="mb-3 mt-3" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="#!">Emlak Sepette</a></li>
+                <li class="breadcrumb-item active">Sahibini Gör</li>
+            </ol>
+        </nav>
 
+        @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+        @endif
+
+        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="no">
+                                #
+                            </th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">
+                                Mülk Sahibi Adı</th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">
+                                Mülk Sahibi Telefonu
+                            </th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
+                                Proje Adı</th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
+                                Proje No </th>
+
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
+                                    İlanı Görüntüle </th>
+                        </tr>
+                    </thead>
+                    <tbody class="list" id="order-table-body">
+                        @foreach($neighborViews as $neighborView)
+                        @php
+                            $cart = json_decode($neighborView->order->cart, true);
+                        @endphp
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $neighborView->owner->name }}</td>
+                            <td>{{ $neighborView->owner->phone }}</td>
+                            <td>{{ $neighborView->project->project_title }}</td>
+                            <td>{{ $cart['item']['housing'] }}</td>
+                            <td>
+                                <a
+                                    href="{{ $cart['type'] == 'housing'
+                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                        : route('project.housings.detail', [
+                                            'projectSlug' =>
+                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                            'housingOrder' => $cart['item']['housing'],
+                                        ]) }}">
+                                    <div class="mobile">İlanı Gör</div>
+                                </a>
+
+                            </td>
+                          
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+           
+    </div>
+@endsection
 
 @section('scripts')
 @endsection
 
-@section('styles')
+@section('css')
     <style>
-        .table-breadcrumb {
-            margin-bottom: 0 !important
-        }
-
         @media(max-width: 768px) {
             .mobile-shadow {
                 background: white;
@@ -216,7 +240,7 @@
             align-items: center;
             font-size: 11px;
             color: #2a2a2a;
-
+            
             margin-bottom: 20px;
         }
 
@@ -360,7 +384,7 @@
 
         #orders-container .order .order-header .order-header-info {
             color: #666;
-
+            
             font-size: 13px;
             display: flex;
         }
@@ -502,7 +526,9 @@
             margin-right: 7px;
         }
 
-        #orders-container .order .order-item .order-item-status strong {}
+        #orders-container .order .order-item .order-item-status strong {
+            
+        }
 
         #orders-container .order .order-item .order-item-status .at_collection_point,
         #orders-container .order .order-item .order-item-status .az_at_collection_point,
@@ -1150,7 +1176,7 @@
         #orders-container .countdown .title {
             color: #fff;
             font-size: 10px;
-
+            
             align-self: center;
             margin-bottom: 4px;
         }
