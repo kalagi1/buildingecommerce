@@ -24435,6 +24435,30 @@ form label.error {
     line-height: 25px;
 }
 
+.project-table-content {
+    position: relative;
+}
+
+.border-r-3 {
+    border-radius: 3px !important;
+}
+
+.popover-project-actions {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 3px;
+    right: 0
+}
+
+.popover-project-actions ul {
+    display: block
+}
+.popover-project-actions ul li{
+    text-align: start !important;
+
+}
 .inner-pages .property-form-group .dz-message {
     background: #fff none repeat scroll 0 0;
     border: 2px dashed #1ABC9C;
