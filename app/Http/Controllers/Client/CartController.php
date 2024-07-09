@@ -622,7 +622,7 @@ class CartController extends Controller
                         $saleType = $project->step2_slug;
                     }
 
-                    if ($collection->user->corporate_type == 'Emlak Ofisi') {
+                    if (isset($collection) && isset($collection->user) && $collection->user->corporate_type == 'Emlak Ofisi') {
                         $sharedAmount_balance = $newAmount * $share_percent;
                     } else {
                         $sharedAmount_balance = $request->input('payableAmount') * $share_percent;
