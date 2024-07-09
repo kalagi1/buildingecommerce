@@ -161,7 +161,7 @@
                                 </div>
                                 @if (count($collection->links))
                                     <div class="collection-content">
-                                        <div class="collection-images">
+                                        <div class="collection-images mt-3">
                                             @foreach ($collection->links->take(6) as $link)
                                                 @php
                                                     $projectFirstImage = null;
