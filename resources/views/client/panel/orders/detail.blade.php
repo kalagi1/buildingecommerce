@@ -1273,7 +1273,11 @@
             margin-bottom: 20px;
         }
         .order-header-image {
-            width: 25px;
+            width: 30px;
+            height:30px;
+            display:flex;
+            align-items:center;
+            justify-content: : center;
     margin-right: 10px;
     color: white;
     background-color: black;
