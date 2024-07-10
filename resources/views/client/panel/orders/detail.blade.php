@@ -1296,6 +1296,9 @@
             display: flex;
             align-items: center;
         }
+        .status p {
+            margin-bottom: 0 !important;
+        }
         .status img {
             width: 20px;
             margin-right: 5px;
