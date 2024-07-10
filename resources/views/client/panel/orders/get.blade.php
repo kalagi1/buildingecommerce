@@ -25,7 +25,7 @@
         </div>
 
         <div id="user-list-table-body">
-            <div class="spinner-border text-danger" role="status">
+            <div class="spinner-border text-danger d-none" role="status">
                 <span class="visually-hidden"></span>
             </div>
             @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
@@ -182,6 +182,7 @@
             });
 
             function filterOrders() {
+                $(".spinner-border").removeClass("d-none");
                 var searchInput = $('#searchInput').val();
                 var startDate = $('#startDate').val();
                 var endDate = $('#endDate').val();
@@ -196,6 +197,8 @@
                         endDate: endDate
                     },
                     success: function(response) {
+                        $(".spinner-border").addClass("d-none");
+
                         $('#user-list-table-body').html(response.html);
                     },
                     error: function(xhr) {
@@ -280,6 +283,17 @@
 
         .visually-hidden {
             overflow: hidden !important;
+        }
+
+        #filterButton {
+            height: 40px;
+        }
+
+        .spinner-border.text-danger {
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            left: 50%;
         }
     </style>
 @endsection
