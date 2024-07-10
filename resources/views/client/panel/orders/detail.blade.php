@@ -194,7 +194,7 @@
                             if ($order->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->user->profile_image))) {
                                 $profileImage = url('storage/profile_images/' . $order->user->profile_image);
                             } else {
-                                $profileImage = url('images/indir.jpeg');
+                                $profileImage = url('storage/profile_images/indir.png');
                             }
                         @endphp
                         <div class="event">
@@ -219,7 +219,7 @@
                             if ($order->store->profile_image && file_exists(public_path('storage/profile_images/' . $order->store->profile_image))) {
                                 $storeImage = url('storage/profile_images/' . $order->store->profile_image);
                             } else {
-                                $storeImage = url('images/indir.jpeg');
+                                $storeImage = url('storage/profile_images/indir.png');
                             }
                         @endphp
                         <div class="detail">

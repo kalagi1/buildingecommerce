@@ -41,7 +41,7 @@
                                 @else
                                     @php
                                         $imagePath = 'profile_images/' . $subUser->profile_image;
-                                        $defaultImage = '/indir.jpeg';
+                                        $defaultImage = 'storage/profile_images/indir.png';
                                     @endphp
 
                                     @if (Storage::disk('public')->exists($imagePath))
