@@ -61,15 +61,16 @@
             <div class="order-detail-content mt-3">
                 <div class="order-details">
                     <div class="order-header">
-                        <img src="https://img.icons8.com/ios-filled/50/000000/buy.png" alt="Delivery Icon">
+                        <img src="https://img.icons8.com/ios-filled/50/FFFFFF/buy.png" alt="Delivery Icon">
                         <h3>#{{ $order->id }} Nolu Sipariş Detayı</h3>
                     </div>
+                    
                     <div class="order-status">
                         <div class="status">
-                            <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Status Icon">
+                            {{-- <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Status Icon"> --}}
                             <p>
                                 @if ($order->refund != null)
-                                    @if ($order->refund->status == 2)
+                                    @if ($order->refund->status == 2)   
                                         İADE TALEBİ REDDEDİLDİ
                                     @elseif($order->refund->status == 1)
                                         İADE TALEBİ ONAYLANDI
@@ -1270,8 +1271,11 @@
             margin-bottom: 20px;
         }
         .order-header img {
-            width: 30px;
-            margin-right: 10px;
+            width: 25px;
+    margin-right: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 50%;
         }
         .order-header h3 {
             margin: 0;
