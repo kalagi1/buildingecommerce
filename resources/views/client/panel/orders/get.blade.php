@@ -27,7 +27,7 @@
                     </svg>Filtrele</button>
             </div>
         </div>
-        <div class="spinBorder text-danger d-none" role="status">
+        <div class="spinBorder text-danger d-none mb-5" role="status">
             <svg class="spinner" width="35px" height="35px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                 <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
              </svg>
