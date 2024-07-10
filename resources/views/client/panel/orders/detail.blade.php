@@ -191,47 +191,45 @@
                     <div class="timeline">
                         <h3>Alıcı Bilgileri</h3>
                         @php
-                            if ($order->user->profile_image) {
+                            if ($order->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->user->profile_image))) {
                                 $profileImage = url('storage/profile_images/' . $order->user->profile_image);
                             } else {
-                                $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
-                                $profileImage = $initial;
+                                $profileImage = url('images/indir.jpeg');
                             }
                         @endphp
                         <div class="event">
-                            <span class="brand"><img src="{{ $profileImage }}" alt="Brand Logo"> {{ $order->user->name }}
-                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png"
-                                    alt="Verified Icon" width="15"></span>
-
+                            <span class="brand">
+                                <img src="{{ $profileImage }}" alt="Profile Image">
+                                {{ $order->user->name }}
+                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png" alt="Verified Icon" width="15">
+                            </span>
                         </div>
                         <div class="event">
                             <p>Telefon</p>
-                            <p>{{ $order->user->phone }}a</p>
+                            <p>{{ $order->user->phone }}</p>
                         </div>
                         <div class="event">
                             <p>E-Posta</p>
-                            <p> {{ $order->user->phone }}</p>
+                            <p>{{ $order->user->email }}</p>
                         </div>
                     </div>
                     <div class="shipment">
                         <h3>Satıcı Bilgileri</h3>
+                        @php
+                            if ($order->store->profile_image && file_exists(public_path('storage/profile_images/' . $order->store->profile_image))) {
+                                $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                            } else {
+                                $storeImage = url('images/indir.jpeg');
+                            }
+                        @endphp
                         <div class="detail">
-
-                            @php
-                                if ($order->store->profile_image) {
-                                    $storeImage = url('storage/profile_images/' . $order->store->profile_image);
-                                } else {
-                                    $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
-                                    $storeImage = $initial;
-                                }
-                            @endphp
-                            <div class="event">
-                                <span class="brand"><img src="{{ $storeImage }}" alt="Brand Logo">
-                                    {{ $order->store->name }}
-                                    <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png"
-                                        alt="Verified Icon" width="15"></span>
-
-                            </div>
+                            <span class="brand">
+                                <img src="{{ $storeImage }}" alt="Store Image">
+                                {{ $order->store->name }}
+                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png" alt="Verified Icon" width="15">
+                            </span>
+                        </div>
+                        <div class="detail">
                             <p>Telefon</p>
                             <p>
                                 @if (isset($order->store->phone))
@@ -243,13 +241,9 @@
                                 @endif
                             </p>
                         </div>
-                        <div class="event">
+                        <div class="detail">
                             <p>E-Posta</p>
-                            <p> {{ $order->store->phone }}</p>
-                        </div>
-                        <div class="detail tracking">
-                            <input type="text" value="{{ $order->id }}" readonly>
-                            <button onclick="copyTrackingNumber()">Sipariş No Kopyala</button>
+                            <p>{{ $order->store->email }}</p>
                         </div>
                     </div>
                 </div>
