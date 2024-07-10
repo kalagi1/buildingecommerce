@@ -146,3 +146,25 @@
         </div>
     </div>
 @endforeach
+
+
+<script>
+    // Toggle popovers
+    $(document).on('click', '.project-table-content-actions-button', function() {
+        var targetId = $(this).data('toggle');
+        var $popover = $('#' + targetId);
+
+        // Hide other popovers
+        $('.popover-project-actions').not($popover).addClass('d-none');
+
+        // Toggle current popover
+        $popover.toggleClass('d-none');
+    });
+
+    // Close popover when clicking outside
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.project-table-content').length) {
+            $('.popover-project-actions').addClass('d-none');
+        }
+    });
+</script>
