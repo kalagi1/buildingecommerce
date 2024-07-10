@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 //MRT Imports
 import {
@@ -1910,8 +1910,212 @@ const HousingList = ({ projectId }) => {
         }
     });
 
+    const [refs, setRefs] = useState([]);
+    const ref2 = useRef();
+
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const divs = containerRef.current.querySelectorAll('.scrollable');
+        const newRefs = Array.from(divs).map((_, index) => React.createRef());
+        setRefs(newRefs);
+    
+        
+    
+        newRefs.forEach((ref, index) => {
+            console.log(ref);
+          if (ref.current) {
+            ref.current.addEventListener('scroll', handleScroll);
+          }
+        });
+    
+      }, [data]);
+
+    const handleScroll = (e) => {
+        const scrollLeft = e.target.scrollLeft;
+        refs.forEach((ref, index) => {
+            if (ref.current && ref.current !== e.target) {
+                ref.current.scrollLeft = scrollLeft;
+                ref2.current.scrollLeft = scrollLeft;
+            }
+        });
+    };
+
     return (
         <>
+        
+            
+            <div className="table-breadcrumb">
+                <ul>
+                    <li><i className="fa fa-home"></i></li>
+                    <li>Ofisim</li>
+                    <li>{project.project_title} Adlı Projenin Konutları</li>
+                </ul>
+            </div>
+
+            <div className="project-housings-table-head">
+                <div className="pinned-left">
+                    <span><input type="checkbox" /></span>
+                    <span>No</span>
+                </div>
+                <div className="center-scroll" ref={ref2} onScroll={handleScroll} id='style-x'>
+                    <span>İlan Görseli</span>
+                    <span style={{width:'23%'}}>İlan Başlığı</span>
+                    <span style={{width:'15%'}}>Fiyat</span>
+                    <span>Taksitli Fiyat</span>
+                    <span>Taksit Sayısı</span>
+                    <span>Peşinat</span>
+                    <span>Ara Ödemeler</span>
+                    <span>Hisse Sayısı</span>
+                    <span>M² Net</span>
+                    <span>M² Brüt</span>
+                    <span>Oda Sayısı</span>
+                    <span>Bulunduğu Kat</span>
+                    <span>Satış Durumu</span>
+                </div>
+                <div className="pinned-right">
+                    <span>İşlemler</span>
+                </div>
+            </div>
+            <div ref={containerRef}>
+                {
+                    data.map((row,index) => {
+                        var soldx = solds.find((sold) => {
+                            var soldJson = JSON.parse(sold.cart);
+                            if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                return sold
+                            }
+                        })
+
+                        if(soldx){
+                            return(
+                                <div className="project-housings-table-row" style={{background : row['off_sale[]'] != "[]" ? "rgb(240 173 78 / 20%)" : "#fff"}}>
+                                    <div className="sold-area">
+                                        <div className="sold-area2">
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                        </div>
+                                        <div className='customer-info'>
+                                            Alıcı Adı soyadı : {soldx.full_name}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Alıcı Telefon Numarası : {soldx.phone}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Satış Tipi : {soldx.is_swap == 0 ? "Peşin Satış" : "Taksitli Satış"}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Satış Fiyatı : {soldx.is_swap == 0 ? dotNumberFormat(row['price[]']) : dotNumberFormat(row['installments-price[]'])} ₺
+                                        </div>
+                                    </div>
+                                    <div className="pinned-left">
+                                        <span><input disabled type="checkbox" /></span>
+                                        <span>{getLastCount() + index + 1}</span>
+                                    </div>
+                                    <div className="center-scroll scrollable" id='style-x' ref={refs[index]} onScroll={handleScroll}>
+                                        <span className='table-row-image'><img src={frontEndUrl + 'project_housing_images/' + row['image[]']} alt="" /></span>
+                                        <span style={{width:'23%'}}>{row['advertise_title[]']}</span>
+                                        <span style={{width:'15%'}}>{dotNumberFormat(row['price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments-price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments[]'])}</span>
+                                        <span>{dotNumberFormat(row['advance[]'])}₺</span>
+                                        <span>
+                                            <p onClick={() => { setSelectedSingleItem(getLastCount() + index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row,getLastCount() + index + 1); }} className="pay-decs-button">
+                                                <p>Ara ödemeleri güncelle</p>
+                                                <p>{parseInt(row['pay-dec-count' + (getLastCount() + index + 1)]) > 0 ? row['pay-dec-count' + (getLastCount() + index + 1)] : 0} Ara Ödeme</p>
+                                            </p>
+                                        </span>
+                                        <span>{row['number_of_shares[]']}</span>
+                                        <span>{row['squaremeters[]']}m²</span>
+                                        <span>{row['m2gross[]']}m²</span>
+                                        <span>{row['room_count[]']}</span>
+                                        <span>{row['floor_location[]']}</span>
+                                        <span>
+                                            {
+                                                soldx ? 
+                                                    <p className='sale-text'>
+                                                        Satıldı
+                                                    </p>  
+                                                : 
+                                                    row['off_sale[]'] == "[]" ?
+                                                        <p className='sale-open-text'>Satışa Açık</p>
+                                                    :   <p className='sale-close-text'>Satışa Kapalı</p>
+                                            }
+                                            {}
+                                        </span>
+                                    </div>
+                                    <div className="pinned-right">
+                                        <span className="project-table-content-actions-button" >
+                                            <i className="fa fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        }else{
+                            return(
+                                <div className="project-housings-table-row" style={{background : row['off_sale[]'] != "[]" ? "rgb(240 173 78 / 20%)" : "#fff"}}>
+                                    <div className="pinned-left">
+                                        <span><input type="checkbox" /></span>
+                                        <span>{getLastCount() + index + 1}</span>
+                                    </div>
+                                    <div className="center-scroll scrollable" id='style-x' ref={refs[index]} onScroll={handleScroll}>
+                                        <span className='table-row-image'><img src={frontEndUrl + 'project_housing_images/' + row['image[]']} alt="" /></span>
+                                        <span style={{width:'23%'}}>{row['advertise_title[]']}</span>
+                                        <span style={{width:'15%'}}>{dotNumberFormat(row['price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments-price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments[]'])}</span>
+                                        <span>{dotNumberFormat(row['advance[]'])}₺</span>
+                                        <span>
+                                            <p onClick={() => { setSelectedSingleItem(getLastCount() + index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row,getLastCount() + index + 1); }} className="pay-decs-button">
+                                                <p>Ara ödemeleri güncelle</p>
+                                                <p>{parseInt(row['pay-dec-count' + (getLastCount() + index + 1)]) > 0 ? row['pay-dec-count' + (getLastCount() + index + 1)] : 0} Ara Ödeme</p>
+                                            </p>
+                                        </span>
+                                        <span>{row['number_of_shares[]']}</span>
+                                        <span>{row['squaremeters[]']}m²</span>
+                                        <span>{row['m2gross[]']}m²</span>
+                                        <span>{row['room_count[]']}</span>
+                                        <span>{row['floor_location[]']}</span>
+                                        <span>
+                                            {
+                                                soldx ? 
+                                                    <p className='sale-text'>
+                                                        Satıldı
+                                                    </p>  
+                                                : 
+                                                    row['off_sale[]'] == "[]" ?
+                                                        <p className='sale-open-text'>Satışa Açık</p>
+                                                    :   <p className='sale-close-text'>Satışa Kapalı</p>
+                                            }
+                                            {}
+                                        </span>
+                                    </div>
+                                    <div className="pinned-right">
+                                        <span className="project-table-content-actions-button" >
+                                            <i className="fa fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        
+                    })
+                }
+            </div>
+            
             {
                 haveBlocks ? 
                     <div class="tabs">
@@ -1990,8 +2194,8 @@ const HousingList = ({ projectId }) => {
                         </div>
                     </div>
             }
-            
 
+            
             <CustomEdit reloadData={reloadData} selectedRoomsTemp={selectedRoomsTemp} open={customEditOpen} setOpen={setCustomEditOpen} project={project}/>
             <MaterialReactTable table={table} />
             <ImageChange saveSingleHousing={saveImageSingle} saveHousing={saveImageMultiple} data={changeData} setData={setChangeData} open={updateSingleImageModalOpen} selectedType={selectedType} setOpen={setSingleUpdateImageModalOpen} />
