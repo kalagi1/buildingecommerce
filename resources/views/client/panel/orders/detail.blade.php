@@ -61,18 +61,23 @@
             <div class="order-detail-content mt-3">
                 <div class="order-details">
                     <div class="order-header">
-                        
-                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                        
+
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000"
+                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+
                         <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Detayı</h3>
                     </div>
-                    
+
                     <div class="order-status">
                         <div class="status">
                             {{-- <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Status Icon"> --}}
                             <p>
                                 @if ($order->refund != null)
-                                    @if ($order->refund->status == 2)   
+                                    @if ($order->refund->status == 2)
                                         İADE TALEBİ REDDEDİLDİ
                                     @elseif($order->refund->status == 1)
                                         İADE TALEBİ ONAYLANDI
@@ -94,18 +99,24 @@
                         </div>
                     </div>
                     <div class="progress-bar" style="background-color: #eee;">
-                        <div class="progress" style="background-color: 
-                            @if($order->status == 2 || ($order->refund && $order->refund->status == 2)) 
-                                #f44336;
-                            @elseif($order->status == 1 || ($order->refund && $order->refund->status == 1) || ($order->refund && $order->refund->status == 3)) 
+                        <div class="progress"
+                            style="background-color: 
+                            @if ($order->status == 2 || ($order->refund && $order->refund->status == 2)) #f44336;
+                                width: 100%;
+                            @elseif(
+                                $order->status == 1 ||
+                                    ($order->refund && $order->refund->status == 1) ||
+                                    ($order->refund && $order->refund->status == 3)) 
                                 #4CAF50;
+                                width: 100%;
                             @else 
                                 #FF9800;
-                            @endif
-                            width: 70%;"></div>
+                                width: 70%; @endif
+                            ">
+                        </div>
                     </div>
                 </div>
-            
+
                 {{-- @if ($order->refund != null)
                     <div class="order-status-container mt-3"
                         style="background-color:
@@ -232,9 +243,8 @@
                         }
                     @endphp
                     <div class="row py-3 px-3">
-                        <div class="col-3 col-sm-auto"><label class="cursor-pointer avatar avatar-3xl"
-                                for="avatarFile"><img class="rounded-circle" src="{{ $profileImage }}"
-                                    alt=""></label>
+                        <div class="col-3 col-sm-auto"><label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
+                                    class="rounded-circle" src="{{ $profileImage }}" alt=""></label>
                         </div>
                         <div class="col-md-3">
                             <p>İsim Soyisim</p>
@@ -278,8 +288,8 @@
                         <div class="col-3 col-sm-auto">
                             <a target="_blank"
                                 href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
-                                class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
-                                    class="rounded-circle" src="{{ $storeImage }}" alt=""></a>
+                                class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
+                                    src="{{ $storeImage }}" alt=""></a>
                         </div>
                         <div class="col-md-3">
                             <p>İsim Soyisim</p>
@@ -361,7 +371,8 @@
             </div>
             <div class="card p-3">
                 <div>
-                    <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i class="fa fa-angle-left"></i>
+                    <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i
+                            class="fa fa-angle-left"></i>
                         Geri
                         Dön</a>
                 </div>
@@ -551,8 +562,8 @@
                             <div class="col-3 col-sm-auto">
                                 <a target="_blank"
                                     href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
-                                    class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
-                                        class="rounded-circle" src="{{ $storeImage }}" alt=""></a>
+                                    class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
+                                        src="{{ $storeImage }}" alt=""></a>
                             </div>
                             <div class="col-md-3">
                                 <p>İsim Soyisim</p>
@@ -719,15 +730,15 @@
                                         '0' =>
                                             '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                         '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </svg>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
                                         '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                     ][$order->status] !!}
                                 </span>
 
@@ -790,8 +801,7 @@
                                     <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
                                 @endif
 
-                                <div class="modal fade modal-xl" id="exampleModal" tabindex="-1"
-                                    aria-hidden="true">
+                                <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             {{-- <div class="modal-header">
@@ -802,12 +812,9 @@
 
 
 
-                                                <div class="card theme-wizard mb-5"
-                                                    data-theme-wizard="data-theme-wizard">
-                                                    <div
-                                                        class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
-                                                        <ul class="nav justify-content-between nav-wizard"
-                                                            role="tablist">
+                                                <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+                                                    <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
+                                                        <ul class="nav justify-content-between nav-wizard" role="tablist">
                                                             <li class="nav-item" role="presentation"><a
                                                                     class="nav-link active fw-semibold"
                                                                     href="#bootstrap-wizard-validation-tab1"
@@ -817,8 +824,7 @@
                                                                             class="nav-item-circle-parent"><span
                                                                                 class="nav-item-circle"><svg
                                                                                     class="svg-inline--fa fa-lock"
-                                                                                    aria-hidden="true"
-                                                                                    focusable="false"
+                                                                                    aria-hidden="true" focusable="false"
                                                                                     data-prefix="fas" data-icon="lock"
                                                                                     role="img"
                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -835,14 +841,12 @@
                                                                     class="nav-link fw-semibold"
                                                                     href="#bootstrap-wizard-validation-tab2"
                                                                     data-bs-toggle="tab" data-wizard-step="2"
-                                                                    aria-selected="false" tabindex="-1"
-                                                                    role="tab">
+                                                                    aria-selected="false" tabindex="-1" role="tab">
                                                                     <div class="text-center d-inline-block"><span
                                                                             class="nav-item-circle-parent"><span
                                                                                 class="nav-item-circle"><svg
                                                                                     class="svg-inline--fa fa-user"
-                                                                                    aria-hidden="true"
-                                                                                    focusable="false"
+                                                                                    aria-hidden="true" focusable="false"
                                                                                     data-prefix="fas" data-icon="user"
                                                                                     role="img"
                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -860,17 +864,14 @@
                                                                     class="nav-link fw-semibold"
                                                                     href="#bootstrap-wizard-validation-tab3"
                                                                     data-bs-toggle="tab" data-wizard-step="3"
-                                                                    aria-selected="false" tabindex="-1"
-                                                                    role="tab">
+                                                                    aria-selected="false" tabindex="-1" role="tab">
                                                                     <div class="text-center d-inline-block"><span
                                                                             class="nav-item-circle-parent"><span
                                                                                 class="nav-item-circle"><svg
                                                                                     class="svg-inline--fa fa-file-lines"
-                                                                                    aria-hidden="true"
-                                                                                    focusable="false"
+                                                                                    aria-hidden="true" focusable="false"
                                                                                     data-prefix="fas"
-                                                                                    data-icon="file-lines"
-                                                                                    role="img"
+                                                                                    data-icon="file-lines" role="img"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     viewBox="0 0 384 512"
                                                                                     data-fa-i2svg="">
@@ -885,16 +886,14 @@
                                                                     class="nav-link fw-semibold"
                                                                     href="#bootstrap-wizard-validation-tab4"
                                                                     data-bs-toggle="tab" data-wizard-step="4"
-                                                                    aria-selected="false" tabindex="-1"
-                                                                    role="tab">
+                                                                    aria-selected="false" tabindex="-1" role="tab">
                                                                     <div class="text-center d-inline-block"><span
                                                                             class="nav-item-circle-parent"><span
                                                                                 class="nav-item-circle"><svg
                                                                                     class="svg-inline--fa fa-check"
-                                                                                    aria-hidden="true"
-                                                                                    focusable="false"
-                                                                                    data-prefix="fas"
-                                                                                    data-icon="check" role="img"
+                                                                                    aria-hidden="true" focusable="false"
+                                                                                    data-prefix="fas" data-icon="check"
+                                                                                    role="img"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     viewBox="0 0 448 512"
                                                                                     data-fa-i2svg="">
@@ -949,9 +948,8 @@
                                                             <div class="tab-pane" role="tabpanel"
                                                                 aria-labelledby="bootstrap-wizard-validation-tab2"
                                                                 id="bootstrap-wizard-validation-tab2">
-                                                                <form class="needs-validation"
-                                                                    id="wizardValidationForm2" novalidate="novalidate"
-                                                                    data-wizard-form="2">
+                                                                <form class="needs-validation" id="wizardValidationForm2"
+                                                                    novalidate="novalidate" data-wizard-form="2">
                                                                     @csrf
 
 
@@ -1088,8 +1086,8 @@
                                                                 data-fa-transform="shrink-3" aria-hidden="true"
                                                                 focusable="false" data-prefix="fas"
                                                                 data-icon="chevron-left" role="img"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 320 512" data-fa-i2svg=""
+                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
+                                                                data-fa-i2svg=""
                                                                 style="transform-origin: 0.3125em 0.5em;">
                                                                 <g transform="translate(160 256)">
                                                                     <g
@@ -1257,9 +1255,10 @@
             margin-bottom: 20px;
         }
 
-        .table-breadcrumb{
+        .table-breadcrumb {
             margin-bottom: 0
         }
+
         .order-details {
             background-color: #fff;
             border-radius: 10px;
@@ -1267,42 +1266,50 @@
             max-width: 100%;
             width: 100%;
         }
+
         .order-header {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
         }
+
         .order-header-image {
             width: 30px;
-            height:30px;
-            display:flex;
-            align-items:center;
+            height: 30px;
+            display: flex;
+            align-items: center;
             justify-content: center;
             margin-right: 10px;
             color: white;
             background-color: black;
             border-radius: 50%;
         }
+
         .order-header h3 {
             margin: 0;
         }
+
         .order-status {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin: 20px 0;
         }
+
         .status {
             display: flex;
             align-items: center;
         }
+
         .status p {
             margin-bottom: 0 !important;
         }
+
         .status img {
             width: 20px;
             margin-right: 5px;
         }
+
         .progress-bar {
             height: 8px;
             border-radius: 5px;
@@ -1310,11 +1317,15 @@
             overflow: hidden;
             position: relative;
         }
+
         .progress {
             height: 100%;
-            background-color: #f44336; /* Default color */
-            width: 70%; /* Change this value to reflect progress */
+            background-color: #f44336;
+            /* Default color */
+            width: 70%;
+            /* Change this value to reflect progress */
         }
+
         .order-status-container {
             display: flex;
             align-items: center;
@@ -1323,10 +1334,12 @@
             color: white;
             margin-top: 10px;
         }
+
         .order-status-container .left {
             display: flex;
             align-items: center;
         }
+
         .order-status-container .left i {
             margin-right: 5px;
         }
