@@ -72,6 +72,8 @@
 
                         if (response.html.trim() === '') {
                             $('#user-list-table-body').html('<ul><li>Sonuç bulunamadı</li></ul>');
+                            $(".spinner-border").addClass("d-none");
+
                         } else if ($('#user-list-table-body').find('ul').length === 0) {
                             $(".spinner-border").addClass("d-none");
                         }
