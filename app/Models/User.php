@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function owners()
     {
-        return $this->hasMany(HousingComment::class, 'owner_id');
+        return $this->hasMany(HousingComment::class, 'owner_id')->where("status", "1");
     }
 
     public function role()
