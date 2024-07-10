@@ -855,12 +855,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         //yeni armakaydı ve müşteri bilgileri isteği
         // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
         Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
+        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
         Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
-          
-
-        Route::get('fullcalender', [InstitutionalCrmController::class, 'calender']);
-Route::post('fullcalenderAjax', [InstitutionalCrmController::class, 'ajax']);
-
+      
+        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
+        
         // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');

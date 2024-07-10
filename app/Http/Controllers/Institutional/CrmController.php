@@ -44,8 +44,40 @@ class CrmController extends Controller
     }//End
 
     public function consultantCustomerList(){
-        // $customers = DB::table('assigned_users')->where('danisman_id',Auth::id())->get(); // Yeni Müşteriler
+        // $customers = DB::table('assigned_users')->where('danisman_id',Auth::id())->get(); // Yeni Müşteriler //arama kaydı olmayanları listele sorguyu güncelle
+
+        // $tum_musteriler = DB::table('assigned_users')
+
         $customers = DB::table('assigned_users')->get(); //Tüm Müşteriler
+
+        $tum_musteriler = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->select(
+                'assigned_users.*',
+                'customer_calls.meet_type as gorusme_turu',
+                'customer_calls.conclusion as gorusme_sonucu',
+                'customer_calls.gorusme_durumu as gorusme_durumu'
+            )
+            ->whereNotNull('customer_calls.meet_type')
+            ->orWhereNotNull('customer_calls.conclusion')
+            ->orWhereNotNull('customer_calls.gorusme_durumu')
+            // ->where('danisman_id',Auth::id())
+            ->get();
+
+
+            $tum_musterilerCount = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->select(
+                'assigned_users.*',
+                'customer_calls.meet_type as gorusme_turu',
+                'customer_calls.conclusion as gorusme_sonucu',
+                'customer_calls.gorusme_durumu as gorusme_durumu'
+            )
+            ->whereNotNull('customer_calls.meet_type')
+            ->orWhereNotNull('customer_calls.conclusion')
+            ->orWhereNotNull('customer_calls.gorusme_durumu')
+            // ->where('danisman_id',Auth::id())
+            ->count();   
         $customerCount = DB::table('assigned_users')->count(); //Tüm Müşteriler
         $favoriteCustomers = DB::table('favorite_customers')
            ->where('favorite_customers.danisman_id', Auth::id())
@@ -121,7 +153,7 @@ class CrmController extends Controller
                 $danismanRenkler[$danisman->id] = $renkler[$index % count($renkler)];
             }
 
-        return view('client.panel.crm.consultantCustomerList',compact('customers','favoriteCustomers','customerCount','favoriteCustomerCount','geri_donus_yapilacak_musteriler','geri_donus_yapilacak_musterilerCount','randevular','randevuCount','danismanRenkler','danismanlar'));
+        return view('client.panel.crm.consultantCustomerList',compact('customers','favoriteCustomers','customerCount','favoriteCustomerCount','geri_donus_yapilacak_musteriler','geri_donus_yapilacak_musterilerCount','randevular','randevuCount','danismanRenkler','danismanlar','tum_musteriler','tum_musterilerCount'));
     }//End
 
     public function getMusteriBilgileri($id){
@@ -223,4 +255,31 @@ class CrmController extends Controller
         return response()->json(['success' => true]);
     }//End
 
+    public function addNewCustomer(Request $request){
+        // print_r($request->all());die;    
+
+        $addedCustomer = DB::table('assigned_users')->insert([
+            'danisman_id'       => Auth::id(),
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'phone'             => $request->phone,
+            'province'          => $request->province,
+            'project_name'      => $request->ilgilendigi_proje,
+            'job_title'         => $request->job_title,
+            'konut_tercihi'     => $request->konut_tercihi,
+            'varlik_yonetimi'   => $request->varlik_yonetimi,
+            'musteri_butcesi'   => $request->musteri_butcesi,
+            'ilgilendigi_bolge' => $request->ilgilendigi_bolge,
+            'created_at'        => now(),
+        ]);
+
+        if($addedCustomer){
+            return response()->json(['success' => true, 'message' => 'Müşteri Başarıyla eklendi']);
+        }else{
+            return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
+        }
+
+
+
+    }//End
 }

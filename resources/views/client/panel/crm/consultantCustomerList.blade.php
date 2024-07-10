@@ -13,7 +13,7 @@
                 <span>Dönüş Yapılacak Müşteriler ({{$geri_donus_yapilacak_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="all-customers-btn">
-                <span>Tüm Müşteriler ({{$customerCount}})</span>
+                <span>Tüm Müşteriler ({{$tum_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="favorite-customers-btn">
                 <span>Favori Müşteriler ({{$favoriteCustomerCount}})</span>
@@ -25,6 +25,7 @@
     
         {{-- yeni Müşteriler --}}
         <div class="text-header" id="yeniMusteriler">      
+            <button id="btnMusteriEkle" data-bs-toggle="modal" data-bs-target="#musteriEklemeModal">Yeni Müşteri Ekle</button>
             <table id="example" class="display" style="width:100%">
                 <thead>
                     <tr>
@@ -72,7 +73,6 @@
                                 </a>
                             </td>
                         </tr>                    
-                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-          {{-- Tüm Müşteriler --}}
+        {{-- Tüm Müşteriler --}}
         <div class="container"id="tumMusteriler" style="display: none;">
             <div class="text-header"  >      
                 <table id="tumMusterilerTable" class="display" style="width:100%">
@@ -141,28 +141,31 @@
                             <th>Tarih</th>
                             <th>Ad Soyad</th>
                             <th>Telefon</th>
-                            <th>E-posta</th>
-                            <th>Meslek</th>
-                            <th>Şehir</th>
                             <th>İlgilendiği Proje</th>
+                            <th>Görüşme Türü</th>
+                            <th>Görüşme Sonucu</th>
+                            <th>Görüşme  Durumu</th>
                             {{-- <th>Danışman</th> --}}
                             <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($customers as $index => $item)
+                        @foreach($tum_musteriler as $index => $item)
                             <tr >
                                 <td>{{$index + 1 }}</td>
                                 <td>{{$item->created_at}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->job_title}}</td>
-                                <td>{{$item->province}}</td>
                                 <td>{{$item->project_name}}</td>
+                                <td>{{$item->gorusme_turu}}</td>
+                                <td>{{$item->gorusme_sonucu}}</td>
+                                <td>{{$item->gorusme_durumu}}</td>
                                 <td class="action-buttons">
                                     <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
                                     <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
+                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" 
+                                        data-bs-target="#newCallsModal"><i class="fas fa-plus"></i>
+                                    </button>
                                     <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
                                         <button class="whatsapp-btn" title="WhatsApp Web"><i class="fab fa-whatsapp"></i></button>
                                     </a>
@@ -220,42 +223,26 @@
 
         {{-- Randevular --}}
         <div class="container" id="randevular" style="display: none">   
+
             {{-- Navbar benzeri danışman listesi --}}
-            {{-- <div class="navbar mb-4 mt-1">
+            <div class="navbar mb-4 mt-1">
                 <div class="container">
                     <ul class="nav">
                         @foreach($danismanlar as $danisman)
                         <li class="nav-item" style="margin-left:10px !important;">
+                            {{-- <span>{{ $danisman->name }}</span>
+                            <span class="danisman-color" style="background-color: {{ $danismanRenkler[$danisman->id] }};"></span> --}}
+
                             <button type="button" class="btnDanisman" 
-                            style="background-color: {{ $danismanRenkler[$danisman['id']] }};width:100% !important; padding:10px !important;
-                                border-color: {{ $danismanRenkler[$danisman['id']] }};"
+                            style="background-color: {{ $danismanRenkler[$danisman->id] }};width:100% !important; padding:10px !important;
+                                border-color: {{ $danismanRenkler[$danisman->id] }};"
                             disabled    
-                            >{{ $danisman['name'] }}</button>
+                            >{{ $danisman->name }}</button>
                         </li>
                         @endforeach
                     </ul>
                 </div>
-            </div> --}}
-
-            {{-- Navbar benzeri danışman listesi --}}
-<div class="navbar mb-4 mt-1">
-    <div class="container">
-        <ul class="nav">
-            @foreach($danismanlar as $danisman)
-            <li class="nav-item" style="margin-left:10px !important;">
-                {{-- <span>{{ $danisman->name }}</span>
-                <span class="danisman-color" style="background-color: {{ $danismanRenkler[$danisman->id] }};"></span> --}}
-
-                <button type="button" class="btnDanisman" 
-                style="background-color: {{ $danismanRenkler[$danisman->id] }};width:100% !important; padding:10px !important;
-                    border-color: {{ $danismanRenkler[$danisman->id] }};"
-                disabled    
-                >{{ $danisman->name }}</button>
-            </li>
-            @endforeach
-        </ul>
-    </div>
-</div>
+            </div>
                  <div class="text-header">
                     <div id='calendar'></div>
                 </div>
@@ -264,137 +251,137 @@
 
         <!-- #userModal -->
         <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fs-2" id="exampleModalLabel">Kişi Kartı</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="text-header" style="margin-bottom: 0px;padding:10px 20px;background-color:transparent;">
-                    <p class="sales-consultants-heading">Müşteri Bilgileri</p>
-                </div>
-                <div class="modal-body">                                  
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-2" id="exampleModalLabel">Kişi Kartı</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="text-header" style="margin-bottom: 0px;padding:10px 20px;background-color:transparent;">
+                        <p class="sales-consultants-heading">Müşteri Bilgileri</p>
+                    </div>
+                    <div class="modal-body">                                  
 
-                        <div class="row mt-3 customerInfo" style="margin-right:0px; ">
-                            <div class="col-md-6">
-                                <p><strong>Ad Soyad:</strong>  <span id="user-modal-name"></span> </p>
-                                <p><strong>E-mail:</strong>  <span id="user-modal-email"></span></p>
-                                <p><strong>Telefon:</strong>  <span id="user-modal-phone"></span></p>
-                            </div> 
-                            <div class="col-md-6">
-                                <p><strong>Şehir:</strong>  <span id="user-modal-province"></span></p>
-                                <p><strong>İlgilendiği Proje:</strong>  <span id="user-modal-ilgilendigi-proje"></span></p>
-                                <p><strong>Meslek:</strong>  <span id="user-modal-job-title"></span></p>
+                            <div class="row mt-3 customerInfo" style="margin-right:0px; ">
+                                <div class="col-md-6">
+                                    <p><strong>Ad Soyad:</strong>  <span id="user-modal-name"></span> </p>
+                                    <p><strong>E-mail:</strong>  <span id="user-modal-email"></span></p>
+                                    <p><strong>Telefon:</strong>  <span id="user-modal-phone"></span></p>
+                                </div> 
+                                <div class="col-md-6">
+                                    <p><strong>Şehir:</strong>  <span id="user-modal-province"></span></p>
+                                    <p><strong>İlgilendiği Proje:</strong>  <span id="user-modal-ilgilendigi-proje"></span></p>
+                                    <p><strong>Meslek:</strong>  <span id="user-modal-job-title"></span></p>
+                                </div>
                             </div>
-                        </div>
-                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
-                                <div style="width: 100%">
-                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Konut Tercihi</label>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input " type="checkbox" id="checkbox1" value="Projeden Konut" style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox1" >Projeden Konut</label>
+                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                    <div style="width: 100%">
+                                        <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Konut Tercihi</label>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input " type="checkbox" id="checkbox1" value="Projeden Konut" style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox1" >Projeden Konut</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2" value="Hazır Konut"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox2">Hazır Konut</label>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox2" value="Hazır Konut"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox2">Hazır Konut</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                                
-                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
-                                <div style="width: 100%">
-                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Varlık Yönetimi</label>
-                                    <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input " type="checkbox" id="checkbox3" value="Yatırım" style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox3">Yatırım</label>
+                                    
+                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                    <div style="width: 100%">
+                                        <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Varlık Yönetimi</label>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input " type="checkbox" id="checkbox3" value="Yatırım" style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox3">Yatırım</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox4" value="Oturum"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox4">Oturum</label>
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox4" value="Oturum"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox4">Oturum</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox5" value="Yatırım/Oturum"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox5">Yatırım/Oturum</label>
+                                            <div class="col-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox5" value="Yatırım/Oturum"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox5">Yatırım/Oturum</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
-                                <div style="width: 100%">
-                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Müşterinin Bütçesi</label>
-                                    <div class="row mt-3">
-                                        <div class="col-md-4 mt-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input " type="checkbox" id="checkbox6" value="0-500.000" style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox6">0-500.000</label>
+                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                    <div style="width: 100%">
+                                        <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Müşterinin Bütçesi</label>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input " type="checkbox" id="checkbox6" value="0-500.000" style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox6">0-500.000</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mt-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox7" value="500.000-1.000.000"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox7">500.000-1.000.000</label>
+                                            <div class="col-md-4 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox7" value="500.000-1.000.000"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox7">500.000-1.000.000</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mt-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox8" value="2.000.000-4.000.000"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox8">2.000.000-4.000.000</label>
+                                            <div class="col-md-4 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox8" value="2.000.000-4.000.000"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox8">2.000.000-4.000.000</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mt-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox9" value="4.000.000-6.000.000"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox9">4.000.000-6.000.000</label>
+                                            <div class="col-md-4 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox9" value="4.000.000-6.000.000"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox9">4.000.000-6.000.000</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mt-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox10" value="6.000.000 ve üzeri"  style="border-radius: 50%">
-                                                <label class="form-check-label ml-5" for="checkbox10">6.000.000 ve üzeri</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                
-                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
-                                <div style="width: 100%">
-                                    <label for="exampleFormControlTextarea1" class="form-label mb-3 checkbox-title" style="color:#000000 !important;">Müşterinin İlgilendiği Bölge</label>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                               <select name="ilgilendigi_bolge" id="" class="form-control">
-                                                <option value="">Seçiniz</option>
-                                                <option value="Marmara">Marmara</option>
-                                                <option value="Doğu Anadolu">Doğu Anadolu</option>
-                                                <option value="İç Anadolu">İç Anadolu</option>
-                                                <option value="Karadeniz">Karadeniz</option>
-                                                <option value="Akdeniz">Akdeniz</option>
-                                                <option value="Trakya">Trakya</option>
-                                               </select>
+                                            <div class="col-md-4 mt-1">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="checkbox10" value="6.000.000 ve üzeri"  style="border-radius: 50%">
+                                                    <label class="form-check-label ml-5" for="checkbox10">6.000.000 ve üzeri</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                </div>                     
-             </div>    
+                                    
+                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                    <div style="width: 100%">
+                                        <label for="exampleFormControlTextarea1" class="form-label mb-3 checkbox-title" style="color:#2b2b2bf5 !important;">Müşterinin İlgilendiği Bölge</label>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                <select name="ilgilendigi_bolge" id="" class="form-control">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="Marmara">Marmara</option>
+                                                    <option value="Doğu Anadolu">Doğu Anadolu</option>
+                                                    <option value="İç Anadolu">İç Anadolu</option>
+                                                    <option value="Karadeniz">Karadeniz</option>
+                                                    <option value="Akdeniz">Akdeniz</option>
+                                                    <option value="Trakya">Trakya</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                    </div>                     
+                </div>    
+                </div>
             </div>
-        </div>
         </div>
 
         <!-- #pastConversationsModal -->
@@ -447,7 +434,7 @@
                                 
                                         <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                             <div style="width: 100%">
-                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Konut Tercihi</label>
+                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Konut Tercihi</label>
                                                 <div class="row mt-3">
                                                     <div class="col-md-6">
                                                         <div class="form-check">
@@ -467,7 +454,7 @@
                                             
                                         <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                             <div style="width: 100%">
-                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Varlık Yönetimi</label>
+                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Varlık Yönetimi</label>
                                                 <div class="row mt-3">
                                                     <div class="col-md-3">
                                                         <div class="form-check">
@@ -493,7 +480,7 @@
 
                                         <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                             <div style="width: 100%">
-                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Müşterinin Bütçesi</label>
+                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Müşterinin Bütçesi</label>
                                                 <div class="row mt-3">
                                                     <div class="col-md-6 mt-1">
                                                         <div class="form-check" style="padding-left: 0.25rem;">
@@ -531,7 +518,7 @@
                                             
                                         <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                             <div style="width: 100%">
-                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#000000 !important;">Müşterinin İlgilendiği Bölge</label>
+                                                <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Müşterinin İlgilendiği Bölge</label>
                                                 <div class="row mt-3">
                                                     <div class="col-md-12">
                                                         <div class="form-check" style="padding-left: 0px !important;">
@@ -655,6 +642,149 @@
                         </div>      
                     </div>                     
                     </div>                           
+                </div>
+            </div>
+        </div>
+
+        {{-- #musteriEklemeModal --}}
+        <div class="modal fade" id="musteriEklemeModal" tabindex="-1" aria-labelledby="musteriEklemeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-2" id="musteriEklemeModalLabel">Müşteri Ekle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="text-header" style="margin-bottom: 0px;padding:10px 20px;background-color:transparent;">
+                        <p class="sales-consultants-heading">Müşteri Bilgileri Giriniz</p>
+                    </div>
+                    <div class="modal-body">   
+                        <form id="musteriEklemeForm"> 
+                             @csrf
+                            <div class="row mt-3 customerInfo" style="margin-right:0px; ">
+                                <div class="col-md-12">
+                                    <input type="text" name="name" placeholder="Ad Soyad" class="inputMusteriEkle">
+                                    <input type="text" name="email" placeholder="E-mail" class="inputMusteriEkle">
+                                    <input type="text" name="phone" placeholder="Telefon" class="inputMusteriEkle">
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" name="province" placeholder="Şehir" class="inputMusteriEkle">
+                                    <input type="text" name="ilgilendigi_proje" placeholder="İlgilendiği Proje" class="inputMusteriEkle">
+                                    <input type="text" name="job_title" placeholder="Meslek" class="inputMusteriEkle">
+                                </div>
+                            </div>
+                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                <div style="width: 100%">
+                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Konut Tercihi</label>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="konutProjeden" name="konut_tercihi" value="Projeden Konut" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="konutProjeden">Projeden Konut</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="konutHazir" name="konut_tercihi" value="Hazır Konut" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="konutHazir">Hazır Konut</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                <div style="width: 100%">
+                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Varlık Yönetimi</label>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="varlikYatirim" name="varlik_yonetimi" value="Yatırım" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="varlikYatirim">Yatırım</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="varlikOturum" name="varlik_yonetimi" value="Oturum" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="varlikOturum">Oturum</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="varlikYatirimOturum" name="varlik_yonetimi" value="Yatırım/Oturum" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="varlikYatirimOturum">Yatırım/Oturum</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                <div style="width: 100%">
+                                    <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Müşterinin Bütçesi</label>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 mt-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="butce1" name="musteri_butcesi" value="0-500.000" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="butce1">0-500.000</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="butce2" name="musteri_butcesi" value="500.000-1.000.000" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="butce2">500.000-1.000.000</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="butce3" name="musteri_butcesi" value="2.000.000-4.000.000" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="butce3">2.000.000-4.000.000</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="butce4" name="musteri_butcesi" value="4.000.000-6.000.000" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="butce4">4.000.000-6.000.000</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="butce5" name="musteri_butcesi" value="6.000.000 ve üzeri" style="border-radius: 50%">
+                                                <label class="form-check-label ml-5" for="butce5">6.000.000 ve üzeri</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+        
+                                    
+                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                    <div style="width: 100%">
+                                        <label for="exampleFormControlTextarea1" class="form-label mb-3 checkbox-title" style="color:#2b2b2bf5 !important;">Müşterinin İlgilendiği Bölge</label>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                <select name="ilgilendigi_bolge" id="" class="form-control">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="Marmara">Marmara</option>
+                                                    <option value="Doğu Anadolu">Doğu Anadolu</option>
+                                                    <option value="İç Anadolu">İç Anadolu</option>
+                                                    <option value="Karadeniz">Karadeniz</option>
+                                                    <option value="Akdeniz">Akdeniz</option>
+                                                    <option value="Trakya">Trakya</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-12 mt-5 d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" style="width: 15%; border-radius: 4px !important;" data-bs-dismiss="modal">Kapat</button>
+                                    <button class="btnSubmit" type="submit"  data-bs-dismiss="modal" style="width: 15%;margin-right:10px;">Kaydet</button>
+                                </div>     
+                            </form>    
+                    </div>                     
+                </div>    
                 </div>
             </div>
         </div>
@@ -975,6 +1105,40 @@
                         });
                     });
             });
+
+            // #musteriEklemeModal için
+            $(document).ready(function() {
+                $('#musteriEklemeForm').on('submit', function(e) {
+                    e.preventDefault(); // Formun varsayılan gönderim işlemini engelle
+
+                    // Form verilerini topla
+                    var formData = $(this).serialize();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/hesabim/danisman/musteri/ekleme', 
+                        data: formData,
+                        success: function(response) {
+                            // Başarılı AJAX isteği sonrasında yapılacak işlemler
+                            Swal.fire({
+                                title: 'Başarılı!',
+                                text: 'Müşteri başarıyla eklendi!',
+                                icon: 'success',
+                                confirmButtonText: 'Tamam'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $('#musteriEklemeModal').modal('hide'); 
+                                }
+                            });
+                        },
+                        error: function(response) {
+                            // Hatalı AJAX isteği sonrasında yapılacak işlemler
+                            alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                        }
+                    });
+                });
+            });
+
     </script>
 
     {{-- sayfalar arası geçiş Butonları --}}
@@ -1787,6 +1951,21 @@
 
     {{-- btn css --}}
     <style>
+        .inputMusteriEkle{
+            display: block;
+            width: 100%;
+            padding: 1rem 1rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.45rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            margin-bottom: 9px;
+        }
 
         .btn {
             width: 17%;
@@ -1798,6 +1977,19 @@
             background-color: #333;
             color: white;
             /* display: flex; */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #btnMusteriEkle{
+            margin: 5px 8px 20px 0px;
+            float: inline-end;
+            border-radius: 6px !important;
+            width: 17%;
+            font-size: 10px !important;
+            padding: 10px 2px;
+            background-color: #333;
+            color: white;
             flex-direction: column;
             align-items: center;
         }
@@ -1820,7 +2012,7 @@
             background-color: #25D366; /* WhatsApp yeşil rengi */
             border: none;
             color: white;
-            padding: 10px 13px;
+            padding: 8px 11px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
@@ -1829,6 +2021,10 @@
             cursor: pointer;
             border-radius: 18% !important;
             transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn i {
+            font-size: 14px; 
         }
 
         .whatsapp-btn:hover {
