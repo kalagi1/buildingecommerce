@@ -69,7 +69,7 @@
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                         </svg>
 
-                        <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Detayı</h3>
+                        <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Durumu</h3>
                     </div>
 
                     <div class="order-status">
@@ -716,46 +716,6 @@
                 </div>
 
 
-                <div class="col-12 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title mb-4">Sipariş Durumu</h3>
-                            <h6 class="mb-2"></h6>
-                            <div class="order_status">
-
-                                <span class="text-success">
-
-                                    {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
-                                    {!! [
-                                        '0' =>
-                                            '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
-                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
-                                    ][$order->status] !!}
-                                </span>
-
-
-
-                            </div>
-
-                            {{-- <h6 class="mb-2">Fulfillment status</h6><select class="form-select"
-                                aria-label="delivery type">
-                                <option value="cod">Unfulfilled</option>
-                                <option value="card">Fulfilled</option>
-                                <option value="paypal">Pending</option>
-                            </select> --}}
-                        </div>
-                    </div>
-                </div>
-
                 @if (Auth::check() && Auth::user()->id == $order->store->id)
                     <div class="col-12">
                         <div class="card">
@@ -786,7 +746,7 @@
                             </div>
                         </div>
                     </div>
-                @else
+                @elseif ($order->status == "1")
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -1139,8 +1099,9 @@
                             </div>
                         </div>
                     </div>
+                    @endif
             </div>
-            @endif
+       
 
 
 
