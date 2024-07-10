@@ -187,6 +187,70 @@
                     @endif
                 @endif
 
+                <div class="order-container">
+                    <div class="timeline">
+                        <h3>Alıcı Bilgileri</h3>
+                        @php
+                            if ($order->user->profile_image) {
+                                $profileImage = url('storage/profile_images/' . $order->user->profile_image);
+                            } else {
+                                $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
+                                $profileImage = $initial;
+                            }
+                        @endphp
+                        <div class="event">
+                            <span class="brand"><img src="{{ $profileImage }}" alt="Brand Logo"> {{ $order->user->name }}
+                                <img src="{{ $profileImage }}" alt="Verified Icon" width="15"></span>
+                            <label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
+                                    src="{{ $profileImage }}" alt=""></label>
+                        </div>
+                        <div class="event">
+                            <p>Telefon</p>
+                            <p>{{ $order->user->phone }}a</p>
+                        </div>
+                        <div class="event">
+                            <p>E-Posta</p>
+                            <p> {{ $order->user->phone }}</p>
+                        </div>
+                    </div>
+                    <div class="shipment">
+                        <h3>Satıcı Bilgileri</h3>
+                        <div class="detail">
+
+                            @php
+                                if ($order->store->profile_image) {
+                                    $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                                } else {
+                                    $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
+                                    $storeImage = $initial;
+                                }
+                            @endphp <span class="brand"><img src="{{ $storeImage }}" alt="Brand Logo">
+                                {{ $order->store->name }} <img src="{{ $storeImage }}" alt="Verified Icon"
+                                    width="15"></span>
+                            <label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
+                                    src="{{ $storeImage }}" alt=""></label>
+                        </div>
+                        <div class="detail">
+                            <p>Telefon</p>
+                            <p>    @if (isset($order->store->phone))
+                                {{ $order->store->phone }}
+                            @elseif(isset($order->store->mobile_phone))
+                                {{ $order->store->mobile_phone }}
+                            @else
+                               Yok
+                            @endif</p>
+                        </div>
+                        <div class="event">
+                            <p>E-Posta</p>
+                            <p> {{ $order->store->phone }}</p>
+                        </div>
+                        <div class="detail tracking">
+                            <input type="text" value="{{$order->id}}" readonly>
+                            <button onclick="copyTrackingNumber()">Sipariş No Kopyala</button>
+                        </div>
+                    </div>
+                </div>
+                {{--                 
                 <div class="order-detail-inner mt-3 px-3 py-3">
                     <div class="row">
                         <div class="col-md-4 text-center">
@@ -221,103 +285,10 @@
                                 {{ $order->key }}
                             </a>
                         </div>
-                        {{-- <div class="col-md-3">
-                            <p>Ödeme Yöntemi</p>
-                            <span><strong>Havale/Eft</strong></span>
-                        </div> --}}
                     </div>
-                </div>
+                </div> --}}
 
 
-                <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
-                    <div class="title">
-                        <i class="fa fa-user"></i>
-                        <h4>Alıcı Bilgileri</h4>
-                    </div>
-                    @php
-                        if ($order->user->profile_image) {
-                            $profileImage = url('storage/profile_images/' . $order->user->profile_image);
-                        } else {
-                            $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
-                            $profileImage = $initial;
-                        }
-                    @endphp
-                    <div class="row py-3 px-3">
-                        <div class="col-3 col-sm-auto"><label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
-                                    class="rounded-circle" src="{{ $profileImage }}" alt=""></label>
-                        </div>
-                        <div class="col-md-3">
-                            <p>İsim Soyisim</p>
-                            <span><strong class="d-flex" style="align-items: center;">
-                                    {{ $order->user->name }}</span></strong>
-                        </div>
-
-                        <div class="col-md-3">
-                            <p>Telefon</p>
-                            <span><strong class="d-flex" style="align-items: center;">
-                                    {{ $order->user->phone }}</span></strong>
-                        </div>
-
-                        <div class="col-md-3">
-                            <p>E-Posta</p>
-                            <span><strong class="d-flex" style="align-items: center;">
-                                    {{ $order->user->email }}</span></strong>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
-                    <div class="title">
-                        <i class="fa fa-user"></i>
-                        <h4>Satıcı Bilgileri</h4>
-                    </div>
-
-
-                    @php
-                        if ($order->store->profile_image) {
-                            $storeImage = url('storage/profile_images/' . $order->store->profile_image);
-                        } else {
-                            $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
-                            $storeImage = $initial;
-                        }
-                        //    dd($storeImage)
-                    @endphp
-
-                    <div class="row py-3 px-3">
-                        <div class="col-3 col-sm-auto">
-                            <a target="_blank"
-                                href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
-                                class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
-                                    src="{{ $storeImage }}" alt=""></a>
-                        </div>
-                        <div class="col-md-3">
-                            <p>İsim Soyisim</p>
-                            <span><strong class="d-flex" style="align-items: center;">
-                                    {{ $order->store->name }}</span></strong>
-                        </div>
-
-                        <div class="col-md-3">
-                            <p>Telefon</p>
-                            <span><strong class="d-flex" style="align-items: center;">
-                                    @if (isset($order->store->phone))
-                                        {{ $order->store->phone }}
-                                    @elseif(isset($order->store->mobile_phone))
-                                        {{ $order->store->mobile_phone }}
-                                    @else
-                                        Telefon bilgisi bulunamadı
-                                    @endif
-                            </span></strong>
-                        </div>
-
-                        <div class="col-md-3">
-                            <p>E-Posta</p>
-                            <span class="word-wrap"><strong class="d-flex " style="align-items: center;">
-                                    {{ $order->store->email }}</span></strong>
-                        </div>
-
-                    </div>
-                </div>
 
                 <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                     <div class="title">
@@ -1159,8 +1130,6 @@
                 "cart_order_id": "{{ $order->id }}"
             };
 
-            console.log(formData);
-            // AJAX isteğiyle sunucuya form verilerini gönder
             $.ajax({
                 type: "POST",
                 url: "{{ route('institutional.order.refund') }}",
@@ -1197,6 +1166,14 @@
 
             // Formatlanmış İBAN'ı input değerine ata
             input.value = formattedIBAN.trim();
+        }
+    </script>   
+     <script>
+        function copyTrackingNumber() {
+            var copyText = document.querySelector('.tracking input');
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+            document.execCommand("copy");
         }
     </script>
 @endsection
@@ -1303,6 +1280,66 @@
 
         .order-status-container .left i {
             margin-right: 5px;
+        }
+
+        .order-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .timeline,
+        .shipment {
+            width: 45%;
+        }
+        .timeline h3,
+        .shipment h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .timeline .event,
+        .shipment .detail {
+            margin-bottom: 10px;
+        }
+        .event time {
+            display: block;
+            font-size: 14px;
+            color: #666;
+        }
+        .event p {
+            margin: 5px 0;
+        }
+        .event .brand img {
+            width: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .shipment .detail img {
+            width: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .shipment .tracking {
+            display: flex;
+            align-items: center;
+        }
+        .shipment .tracking input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100%;
+            margin-right: 10px;
+        }
+        .shipment .tracking button {
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
         }
     </style>
 @endsection
