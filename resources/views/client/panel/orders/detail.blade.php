@@ -101,7 +101,7 @@
                     <div class="progress-bar" style="background-color: #eee;">
                         <div class="progress"
                             style="background-color: 
-                            @if ($order->status == 2 || ($order->refund && $order->refund->status == 2)) #f44336;
+                            @if ($order->status == 2) #f44336;
                                 width: 100%;
                             @elseif(
                                 $order->status == 1 ||
@@ -654,7 +654,7 @@
                 <div class="col-12">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h3 class="card-title mb-4">Özet</h3>
+                            <h3 class="card-title mb-4">Sipariş Özeti</h3>
                             <div>
                                 <!-- Ödeme Yöntemi -->
                                 <div class="d-flex justify-content-between">
