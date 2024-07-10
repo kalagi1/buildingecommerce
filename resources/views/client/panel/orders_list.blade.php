@@ -147,25 +147,69 @@
     </div>
 @endforeach
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#filterButton').on('click', function() {
+                filterOrders();
+            });
 
-<script>
-    // Toggle popovers
-    $(document).on('click', '.project-table-content-actions-button', function() {
-        var targetId = $(this).data('toggle');
-        var $popover = $('#' + targetId);
+            $('#searchInput').on('input', function() {
+                filterOrders();
+            });
 
-        // Hide other popovers
-        $('.popover-project-actions').not($popover).addClass('d-none');
+            function filterOrders() {
+                // $(".spinBorder").removeClass("d-none");
 
-        // Toggle current popover
-        $popover.toggleClass('d-none');
-    });
+                var searchInput = $('#searchInput').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
 
-    // Close popover when clicking outside
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('.project-table-content').length) {
-            $('.popover-project-actions').addClass('d-none');
-        }
-    });
-</script>
+                $.ajax({
+                    url: "{{ route('institutional.orders.filter') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        search: searchInput,
+                        startDate: startDate,
+                        endDate: endDate
+                    },
+                    success: function(response) {
+                        $('#user-list-table-body').html(response.html);
+
+                        if (response.html.trim() === '') {
+                            $('#user-list-table-body').html('<ul><li>Sonuç bulunamadı</li></ul>');
+                            // $(".spinner-border").addClass("d-none");
+
+                        } else if ($('#user-list-table-body').find('ul').length === 0) {
+                            // $(".spinner-border").addClass("d-none");
+                        }
+                    },
+                    error: function(xhr) {
+                        $(".spinBorder").addClass("d-none");
+                    }
+                });
+            }
+
+            // Toggle popovers
+            $(document).on('click', '.project-table-content-actions-button', function() {
+                var targetId = $(this).data('toggle');
+                var $popover = $('#' + targetId);
+
+                // Hide other popovers
+                $('.popover-project-actions').not($popover).addClass('d-none');
+
+                // Toggle current popover
+                $popover.toggleClass('d-none');
+            });
+
+            // Close popover when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.project-table-content').length) {
+                    $('.popover-project-actions').addClass('d-none');
+                }
+            });
+        });
+    </script>
+@endsection
+
