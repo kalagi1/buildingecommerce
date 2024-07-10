@@ -30876,6 +30876,7 @@ a {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px !important;
+    border:none !important;
 }
 
 .badge-phoenix-warning {
