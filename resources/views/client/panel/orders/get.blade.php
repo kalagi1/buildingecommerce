@@ -165,9 +165,6 @@
             transform: translateX(-50%);
         }
 
-        .popover-project-actions {
-            display: none;
-        }
 
         .project-table-content-actions-button {
             cursor: pointer;
