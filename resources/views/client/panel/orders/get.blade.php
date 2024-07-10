@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <div class="table-breadcrumb">
             <ul>
                 <li>Hesabım</li>
@@ -15,7 +15,7 @@
         </div>
 
         <!-- Filter Section -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-5">
             <input type="text" id="searchInput" class="form-control w-25" placeholder="Siparişlerde Ara...">
             <div class="d-flex align-items-center">
                 <input type="date" id="startDate" class="form-control mr-3">

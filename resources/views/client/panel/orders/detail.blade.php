@@ -43,7 +43,7 @@
         $indirim_yuzdesi_formatli = number_format($indirim_yuzdesi, 2, ',', '.') . '%';
     @endphp
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <div class="table-breadcrumb">
             <ul>
                 <li>Hesabım</li>
@@ -58,7 +58,7 @@
 
     <div class="row g-5 gy-7">
         <div class="col-12 col-xl-8 col-xxl-9">
-            <div class="order-detail-content mt-3">
+            <div class="order-detail-content">
                 <div class="order-details">
                     <div class="order-header">
 
