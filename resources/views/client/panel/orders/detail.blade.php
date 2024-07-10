@@ -200,9 +200,9 @@
                         @endphp
                         <div class="event">
                             <span class="brand"><img src="{{ $profileImage }}" alt="Brand Logo"> {{ $order->user->name }}
-                                <img src="{{ $profileImage }}" alt="Verified Icon" width="15"></span>
-                            <label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
-                                    src="{{ $profileImage }}" alt=""></label>
+                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png"
+                                    alt="Verified Icon" width="15"></span>
+
                         </div>
                         <div class="event">
                             <p>Telefon</p>
@@ -224,28 +224,31 @@
                                     $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
                                     $storeImage = $initial;
                                 }
-                            @endphp <span class="brand"><img src="{{ $storeImage }}" alt="Brand Logo">
-                                {{ $order->store->name }} <img src="{{ $storeImage }}" alt="Verified Icon"
-                                    width="15"></span>
-                            <label class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
-                                    src="{{ $storeImage }}" alt=""></label>
-                        </div>
-                        <div class="detail">
+                            @endphp
+                            <div class="event">
+                                <span class="brand"><img src="{{ $storeImage }}" alt="Brand Logo">
+                                    {{ $order->store->name }}
+                                    <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png"
+                                        alt="Verified Icon" width="15"></span>
+
+                            </div>
                             <p>Telefon</p>
-                            <p>    @if (isset($order->store->phone))
-                                {{ $order->store->phone }}
-                            @elseif(isset($order->store->mobile_phone))
-                                {{ $order->store->mobile_phone }}
-                            @else
-                               Yok
-                            @endif</p>
+                            <p>
+                                @if (isset($order->store->phone))
+                                    {{ $order->store->phone }}
+                                @elseif(isset($order->store->mobile_phone))
+                                    {{ $order->store->mobile_phone }}
+                                @else
+                                    Yok
+                                @endif
+                            </p>
                         </div>
                         <div class="event">
                             <p>E-Posta</p>
                             <p> {{ $order->store->phone }}</p>
                         </div>
                         <div class="detail tracking">
-                            <input type="text" value="{{$order->id}}" readonly>
+                            <input type="text" value="{{ $order->id }}" readonly>
                             <button onclick="copyTrackingNumber()">Sipariş No Kopyala</button>
                         </div>
                     </div>
@@ -342,8 +345,7 @@
             </div>
             <div class="card p-3">
                 <div>
-                    <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i
-                            class="fa fa-angle-left"></i>
+                    <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i class="fa fa-angle-left"></i>
                         Geri
                         Dön</a>
                 </div>
@@ -1167,8 +1169,8 @@
             // Formatlanmış İBAN'ı input değerine ata
             input.value = formattedIBAN.trim();
         }
-    </script>   
-     <script>
+    </script>
+    <script>
         function copyTrackingNumber() {
             var copyText = document.querySelector('.tracking input');
             copyText.select();
@@ -1292,41 +1294,50 @@
             display: flex;
             justify-content: space-between;
         }
+
         .timeline,
         .shipment {
             width: 45%;
         }
+
         .timeline h3,
         .shipment h3 {
             margin-bottom: 10px;
             font-size: 18px;
         }
+
         .timeline .event,
         .shipment .detail {
             margin-bottom: 10px;
         }
+
         .event time {
             display: block;
             font-size: 14px;
             color: #666;
         }
+
         .event p {
             margin: 5px 0;
         }
+
         .event .brand img {
             width: 20px;
             vertical-align: middle;
             margin-right: 5px;
         }
+
         .shipment .detail img {
             width: 30px;
             vertical-align: middle;
             margin-right: 10px;
         }
+
         .shipment .tracking {
             display: flex;
             align-items: center;
         }
+
         .shipment .tracking input {
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -1334,6 +1345,7 @@
             width: 100%;
             margin-right: 10px;
         }
+
         .shipment .tracking button {
             background-color: #ddd;
             border: none;
