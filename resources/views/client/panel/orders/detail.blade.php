@@ -64,7 +64,7 @@
                         
                             <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         
-                        <h3>#{{ $order->id }} Nolu Sipariş Detayı</h3>
+                        <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Detayı</h3>
                     </div>
                     
                     <div class="order-status">
