@@ -59,29 +59,57 @@
     <div class="row g-5 gy-7">
         <div class="col-12 col-xl-8 col-xxl-9">
             <div class="order-detail-content mt-3">
-                <h5>#{{ $order->id }} Nolu Sipariş Detayı</h5>
                 <div class="order-details">
                     <div class="order-header">
-                        <img src="https://img.icons8.com/ios-filled/50/000000/delivery.png" alt="Delivery Icon">
-                        <h3>Be patient, package on deliver!</h3>
+                        <img src="https://img.icons8.com/ios-filled/50/000000/buy.png" alt="Delivery Icon">
+                        <h3>#{{ $order->id }} Nolu Sipariş Detayı</h3>
                     </div>
-                    <div class="order-locations">
-                        <div class="location">
-                            <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Location Icon">
-                            <p>Malang, Indonesia</p>
-                        </div>
-                        <div class="location">
-                            <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Location Icon">
-                            <p>Emir's House, Indonesia</p>
+                    <div class="order-status">
+                        <div class="status">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Status Icon">
+                            <p>
+                                @if ($order->refund != null)
+                                    @if ($order->refund->status == 2)
+                                        İADE TALEBİ REDDEDİLDİ
+                                    @elseif($order->refund->status == 1)
+                                        İADE TALEBİ ONAYLANDI
+                                    @elseif($order->refund->status == 3)
+                                        İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
+                                    @else
+                                        İADE TALEBİ İÇİN ONAY BEKLENİYOR
+                                    @endif
+                                @else
+                                    @if ($order->status == 2)
+                                        ÖDEME REDDEDİLDİ
+                                    @elseif($order->status == 1)
+                                        ÖDEME ONAYLANDI
+                                    @else
+                                        ÖDEME ONAYI BEKLENİYOR
+                                    @endif
+                                @endif
+                            </p>
                         </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress"></div>
+                    <div class="progress-bar" style="background-color: #eee;">
+                        <div class="progress" style="background-color: 
+                            @if($order->status == 2 || ($order->refund && $order->refund->status == 2)) 
+                                #f44336;
+                            @elseif($order->status == 1 || ($order->refund && $order->refund->status == 1) || ($order->refund && $order->refund->status == 3)) 
+                                #4CAF50;
+                            @else 
+                                #FF9800;
+                            @endif
+                            width: 70%;"></div>
                     </div>
                 </div>
-                @if ($order->refund != null)
+            
+                {{-- @if ($order->refund != null)
                     <div class="order-status-container mt-3"
-                        style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)   @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
+                        style="background-color:
+                            @if ($order->refund->status == 2) #f44336; 
+                            @elseif($order->refund->status == 1 || $order->refund->status == 3) #4CAF50; 
+                            @else #FF9800; 
+                            @endif">
                         <div class="left">
                             <i class="fa fa-check"></i>
                             <span>
@@ -99,7 +127,11 @@
                     </div>
                 @else
                     <div class="order-status-container mt-3"
-                        style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
+                        style="background-color:
+                            @if ($order->status == 2) #f44336; 
+                            @elseif($order->status == 1) #4CAF50; 
+                            @else #FF9800; 
+                            @endif">
                         <div class="left">
                             <i class="fa fa-check"></i>
                             <span>
@@ -113,8 +145,7 @@
                             </span>
                         </div>
                     </div>
-                @endif
-
+                @endif --}}
 
                 @if ($order->reference)
                     @if ($order->store_id == Auth::user()->id)
@@ -1229,8 +1260,9 @@
         .order-details {
             background-color: #fff;
             border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            max-width: 100%;
+            max-width: 600px;
             width: 100%;
         }
         .order-header {
@@ -1245,16 +1277,17 @@
         .order-header h3 {
             margin: 0;
         }
-        .order-locations {
+        .order-status {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             margin: 20px 0;
         }
-        .location {
+        .status {
             display: flex;
             align-items: center;
         }
-        .location img {
+        .status img {
             width: 20px;
             margin-right: 5px;
         }
@@ -1267,8 +1300,23 @@
         }
         .progress {
             height: 100%;
-            background-color: #f44336;
+            background-color: #f44336; /* Default color */
             width: 70%; /* Change this value to reflect progress */
+        }
+        .order-status-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            margin-top: 10px;
+        }
+        .order-status-container .left {
+            display: flex;
+            align-items: center;
+        }
+        .order-status-container .left i {
+            margin-right: 5px;
         }
     </style>
 @endsection
