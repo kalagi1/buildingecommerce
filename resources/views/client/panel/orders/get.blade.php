@@ -11,7 +11,7 @@
     </div>
     <section>
         <div class="alert alert-info">
-            Emlak Sepette yaptığınız tüm satın alım işlemlerine aşağıdaki alandan ulaşabilirsiniz.
+            Emlak Sepette platformunda yaptığınız tüm satın alım işlemlerine aşağıdaki alandan ulaşabilirsiniz.
         </div>
 
         <!-- Filter Section -->
@@ -29,11 +29,12 @@
         </div>
         <div class="spinBorder text-danger d-none mb-5" role="status">
             <svg class="spinner" width="35px" height="35px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-             </svg>
+                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
+                    r="30"></circle>
+            </svg>
         </div>
         <div id="user-list-table-body">
-        
+
             @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
         </div>
     </section>
@@ -68,7 +69,12 @@
                     },
                     success: function(response) {
                         $('#user-list-table-body').html(response.html);
-                        $(".spinBorder").addClass("d-none");
+
+                        if (response.html.trim() === '') {
+                            $('#user-list-table-body').html('<ul><li>Sonuç bulunamadı</li></ul>');
+                        } else if ($('#user-list-table-body').find('ul').length === 0) {
+                            $(".spinner-border").addClass("d-none");
+                        }
                     },
                     error: function(xhr) {
                         $(".spinBorder").addClass("d-none");
@@ -166,95 +172,112 @@
         }
 
         .spinner {
-  -webkit-animation: rotator 1.4s linear infinite;
-          animation: rotator 1.4s linear infinite;
-}
+            -webkit-animation: rotator 1.4s linear infinite;
+            animation: rotator 1.4s linear infinite;
+        }
 
-@-webkit-keyframes rotator {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(270deg);
-  }
-}
+        @-webkit-keyframes rotator {
+            0% {
+                transform: rotate(0deg);
+            }
 
-@keyframes rotator {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(270deg);
-  }
-}
-.path {
-  stroke-dasharray: 187;
-  stroke-dashoffset: 0;
-  transform-origin: center;
-  -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
-          animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
-}
+            100% {
+                transform: rotate(270deg);
+            }
+        }
 
-@-webkit-keyframes colors {
-  0% {
-    stroke: #DE3E35;
-  }
-  25% {
-    stroke: #DE3E35;
-  }
-  50% {
-    stroke: #DE3E35;
-  }
-  75% {
-    stroke: #DE3E35;
-  }
-  100% {
-    stroke: #DE3E35;
-  }
-}
+        @keyframes rotator {
+            0% {
+                transform: rotate(0deg);
+            }
 
-@keyframes colors {
-  0% {
-    stroke: #DE3E35;
-  }
-  25% {
-    stroke: #DE3E35;
-  }
-  50% {
-    stroke: #DE3E35;
-  }
-  75% {
-    stroke: #DE3E35;
-  }
-  100% {
-    stroke: #DE3E35;
-  }
-}
-@-webkit-keyframes dash {
-  0% {
-    stroke-dashoffset: 187;
-  }
-  50% {
-    stroke-dashoffset: 46.75;
-    transform: rotate(135deg);
-  }
-  100% {
-    stroke-dashoffset: 187;
-    transform: rotate(450deg);
-  }
-}
-@keyframes dash {
-  0% {
-    stroke-dashoffset: 187;
-  }
-  50% {
-    stroke-dashoffset: 46.75;
-    transform: rotate(135deg);
-  }
-  100% {
-    stroke-dashoffset: 187;
-    transform: rotate(450deg);
-  }
-}
+            100% {
+                transform: rotate(270deg);
+            }
+        }
+
+        .path {
+            stroke-dasharray: 187;
+            stroke-dashoffset: 0;
+            transform-origin: center;
+            -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+            animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+        }
+
+        @-webkit-keyframes colors {
+            0% {
+                stroke: #DE3E35;
+            }
+
+            25% {
+                stroke: #DE3E35;
+            }
+
+            50% {
+                stroke: #DE3E35;
+            }
+
+            75% {
+                stroke: #DE3E35;
+            }
+
+            100% {
+                stroke: #DE3E35;
+            }
+        }
+
+        @keyframes colors {
+            0% {
+                stroke: #DE3E35;
+            }
+
+            25% {
+                stroke: #DE3E35;
+            }
+
+            50% {
+                stroke: #DE3E35;
+            }
+
+            75% {
+                stroke: #DE3E35;
+            }
+
+            100% {
+                stroke: #DE3E35;
+            }
+        }
+
+        @-webkit-keyframes dash {
+            0% {
+                stroke-dashoffset: 187;
+            }
+
+            50% {
+                stroke-dashoffset: 46.75;
+                transform: rotate(135deg);
+            }
+
+            100% {
+                stroke-dashoffset: 187;
+                transform: rotate(450deg);
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 187;
+            }
+
+            50% {
+                stroke-dashoffset: 46.75;
+                transform: rotate(135deg);
+            }
+
+            100% {
+                stroke-dashoffset: 187;
+                transform: rotate(450deg);
+            }
+        }
     </style>
 @endsection
