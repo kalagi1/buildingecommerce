@@ -27,11 +27,13 @@
                     </svg>Filtrele</button>
             </div>
         </div>
-
+        <div class="spinBorder text-danger d-none" role="status">
+            <svg class="spinner" width="35px" height="35px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+             </svg>
+        </div>
         <div id="user-list-table-body">
-            <div class="spinner-border text-danger d-none" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+        
             @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
         </div>
     </section>
@@ -49,7 +51,7 @@
             });
 
             function filterOrders() {
-                $(".spinner-border").removeClass("d-none");
+                $(".spinBorder").removeClass("d-none");
 
                 var searchInput = $('#searchInput').val();
                 var startDate = $('#startDate').val();
@@ -65,12 +67,11 @@
                         endDate: endDate
                     },
                     success: function(response) {
-                        $(".spinner-border").addClass("d-none");
                         $('#user-list-table-body').html(response.html);
+                        $(".spinBorder").addClass("d-none");
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText);
-                        $(".spinner-border").addClass("d-none");
+                        $(".spinBorder").addClass("d-none");
                     }
                 });
             }
@@ -148,7 +149,7 @@
             align-items: center;
         }
 
-        .spinner-border.text-danger {
+        .spinBorder.text-danger {
             margin: 0 auto;
             text-align: center;
             position: absolute;
@@ -163,5 +164,97 @@
         .project-table-content-actions-button {
             cursor: pointer;
         }
+
+        .spinner {
+  -webkit-animation: rotator 1.4s linear infinite;
+          animation: rotator 1.4s linear infinite;
+}
+
+@-webkit-keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+          animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+}
+
+@-webkit-keyframes colors {
+  0% {
+    stroke: #DE3E35;
+  }
+  25% {
+    stroke: #DE3E35;
+  }
+  50% {
+    stroke: #DE3E35;
+  }
+  75% {
+    stroke: #DE3E35;
+  }
+  100% {
+    stroke: #DE3E35;
+  }
+}
+
+@keyframes colors {
+  0% {
+    stroke: #DE3E35;
+  }
+  25% {
+    stroke: #DE3E35;
+  }
+  50% {
+    stroke: #DE3E35;
+  }
+  75% {
+    stroke: #DE3E35;
+  }
+  100% {
+    stroke: #DE3E35;
+  }
+}
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}
     </style>
 @endsection
