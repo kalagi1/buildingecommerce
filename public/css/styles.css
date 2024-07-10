@@ -30879,6 +30879,10 @@ a {
     border:none !important;
 }
 
+.card-body{
+    padding:0 !important;
+}
+
 .badge-phoenix-warning {
 
     width: 100%;
