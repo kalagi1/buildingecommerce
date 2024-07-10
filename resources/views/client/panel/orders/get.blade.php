@@ -27,12 +27,12 @@
                     </svg>Filtrele</button>
             </div>
         </div>
-        <div class="spinBorder text-danger d-none mb-5" role="status">
+        {{-- <div class="spinBorder text-danger d-none mb-5" role="status">
             <svg class="spinner" width="35px" height="35px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                 <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33"
                     r="30"></circle>
             </svg>
-        </div>
+        </div> --}}
         <div id="user-list-table-body">
 
             @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
@@ -52,7 +52,7 @@
             });
 
             function filterOrders() {
-                $(".spinBorder").removeClass("d-none");
+                // $(".spinBorder").removeClass("d-none");
 
                 var searchInput = $('#searchInput').val();
                 var startDate = $('#startDate').val();
@@ -72,10 +72,10 @@
 
                         if (response.html.trim() === '') {
                             $('#user-list-table-body').html('<ul><li>Sonuç bulunamadı</li></ul>');
-                            $(".spinner-border").addClass("d-none");
+                            // $(".spinner-border").addClass("d-none");
 
                         } else if ($('#user-list-table-body').find('ul').length === 0) {
-                            $(".spinner-border").addClass("d-none");
+                            // $(".spinner-border").addClass("d-none");
                         }
                     },
                     error: function(xhr) {
