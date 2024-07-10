@@ -88,9 +88,9 @@
                                     @endif
                                 @else
                                     @if ($order->status == 2)
-                                        ÖDEME REDDEDİLDİ
+                                        SİPARİŞ REDDEDİLDİ
                                     @elseif($order->status == 1)
-                                        ÖDEME ONAYLANDI
+                                        SİPARİŞ ONAYLANDI
                                     @else
                                         ÖDEME ONAYI BEKLENİYOR
                                     @endif
@@ -746,7 +746,7 @@
                             </div>
                         </div>
                     </div>
-                @elseif ($order->status == "1")
+                @elseif ($order->status == '1')
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -1099,9 +1099,9 @@
                             </div>
                         </div>
                     </div>
-                    @endif
+                @endif
             </div>
-       
+
 
 
 
