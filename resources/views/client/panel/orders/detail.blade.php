@@ -533,7 +533,9 @@
                     </div>
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h3 class="card-title mb-4">Alıcı Bilgileri</h3>
+                            <h3 class="card-title mb-4">Alıcı Bilgileri <img
+                                    src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                    alt="Verified Icon" class="verifiedIcon"></h3>
                             <div class="event">
                                 <span class="brand">
                                     <img src="{{ $order->user->profile_image &&
@@ -542,8 +544,7 @@
                                         : url('storage/profile_images/indir.png') }}"
                                         alt="Profile Image">
                                     {{ $order->user->name }}
-                                    <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
-                                        alt="Verified Icon" class="verifiedIcon">
+
                                 </span>
                             </div>
                             <div class="event">
@@ -556,7 +557,9 @@
                     </div>
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h3 class="card-title mb-4">Satıcı Bilgileri</h3>
+                            <h3 class="card-title mb-4">Satıcı Bilgileri <img
+                                    src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                    alt="Verified Icon" class="verifiedIcon"></h3>
                             <div class="event">
                                 <span class="brand">
                                     <img src="{{ $order->store->profile_image &&
@@ -565,8 +568,6 @@
                                         : url('storage/profile_images/indir.png') }}"
                                         alt="Store Image">
                                     {{ $order->store->name }}
-                                    <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
-                                        alt="Verified Icon" class="verifiedIcon">
                                 </span>
                             </div>
                             <div class="event">
@@ -584,7 +585,7 @@
                         </div>
                     </div>
                 </div>
-              
+
 
 
                 @if (Auth::check() && Auth::user()->id == $order->store->id)
