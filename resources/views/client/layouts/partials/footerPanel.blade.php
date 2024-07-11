@@ -1226,7 +1226,7 @@
     });
     $('.slick-lancers').slick({
         infinite: false,
-        slidesToShow: 12.5,
+        slidesToShow: 10,
         slidesToScroll: 5,
         dots: false,
         arrows: false,
@@ -1250,8 +1250,8 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 4.5,
-                slidesToScroll: 5,
+                slidesToShow:4,
+                slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
@@ -1646,7 +1646,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://buildingecommerce.test/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1840,7 +1840,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://buildingecommerce.test/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
@@ -2031,7 +2031,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@vite('resources/js/app.jsx')
+<script src="{{URL::to('/')}}/build/assets/app-4570bcdf.js"></script>
+
+{{-- @vite('resources/js/app.jsx') --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>

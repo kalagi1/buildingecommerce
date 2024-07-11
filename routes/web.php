@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\CrmController as AdminCrmController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -116,11 +117,13 @@ use App\Http\Controllers\GoogleSheetsController;
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
-Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
+Route::post('/komsumu-gor-odeme-sayfasi', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
 Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
 Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
 Route::post('/neighbor/payment', [NeighborViewController::class, 'initiate3DPayment'])->name('neighbor.3d.pay');
@@ -150,6 +153,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
+    ->name('club.dashboard2');
+
+Route::get('/magaza/{parentSlug?}/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])
+    ->name('club.dashboard');
+
 Route::get('/proje/{slug}/{id}/detay', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
@@ -157,7 +166,7 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
+
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
 Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
 
@@ -178,7 +187,7 @@ Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay/{active?}
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
-Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
+Route::get('/odeme-yap', [PayController::class, 'index'])->name('payment.index');
 Route::post('/reservation/dekot/file/upload', [ReservationController::class, 'dekontfileUpload'])->name('reservation.dekont.file.upload');
 Route::get('/reservation/pay/success/{reservation}', [ReservationController::class, 'paySuccess'])->name('reservation.pay.success');
 Route::post('/reservation/sessions', [ReservationController::class, "addsessions"])->name('reservation.sessions');
@@ -246,6 +255,8 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
     //arandı mı
@@ -825,6 +836,32 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+
+        //sıfırdan crm rotaları
+
+        //satış danışmanlarını listele ve proje atama
+        Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+        Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
+
+        //danisman_id değerine göre müşterilerin listelenmesi
+        Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+        Route::get('/musteri/bilgileri/{id}',[InstitutionalCrmController::class,'getMusteriBilgileri']);
+        Route::get('/musteri/gecmis/aramalari/{id}',[InstitutionalCrmController::class,'musteriGecmisAramalari']);
+
+        //favoriye eklenen müşteri
+        Route::post('/toggle-favorite/{id}', [InstitutionalCrmController::class, 'toggleFavorite'])->name('toggle-favorite');
+        Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
+
+        //yeni armakaydı ve müşteri bilgileri isteği
+        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
+        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
+        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
+      
+        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
+        
+        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
@@ -840,7 +877,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
     Route::get('/estate_club_users', [EstateClubController::class, "index"])->name('estate.club.users');
-    Route::get('/coupons', [EstateClubController::class, "coupons"])->name('estate.coupons');
+    Route::get('/coupons', [EstateClubController::class, "coupkoleksiyonlarimons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [EstateClubController::class, "createCoupon"])->name('estate.create.coupon');
     Route::post('/create_coupon/{user_id}', [EstateClubController::class, "createCouponStore"])->name('estate.create.coupon.store');
     Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class, "editCoupon"])->name('estate.edit.coupon');
@@ -868,11 +905,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
-    Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
-    Route::get('waiting', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
+    Route::get('belge-yukleme', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('bekleyiniz', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
 
 
-    Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
+    Route::get('telefon-dogrulama', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
         ->name('phone.generateVerificationCode');
     Route::put('phone-verification/phone/update', [DashboardController::class, 'phoneUpdate'])
@@ -881,8 +918,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
 
-    Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
-    Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
+    Route::get('emlak-kulup-basvurusu-yap', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('emlak-kulup-basvurunuz-alindi', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 
@@ -943,6 +980,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
     Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
     Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+    Route::post('/delete_situation_multiple', [TempOrderController::class, 'deleteSituationMultiple'])->name('delete.situation.multiple');
+    Route::post('/delete_gallery_multiple', [TempOrderController::class, 'deleteGalleryMultiple'])->name('delete.gallery.multiple');
 
 
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
@@ -953,15 +992,14 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/kampanyalar', [InstitutionalOfferController::class, 'index'])->name('offers.index');
     });
 
-    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('institutional.users.update.order');
-    // User Controller İzin Kontrolleri
+    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('users.update.order');
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
-        Route::get('/kullanici/olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
+        Route::get('/alt-kullanici-olustur', [InstitutionalUserController::class, 'create'])->name('users.create');
         Route::post('/kullanicilar', [InstitutionalUserController::class, 'store'])->name('users.store');
     });
 
     Route::middleware(['checkPermission:GetUserById'])->group(function () {
-        Route::get('/kullanici/{user}/duzenleme', [InstitutionalUserController::class, 'edit'])->name('users.edit');
+        Route::get('/alt-kullanici-duzenle/{user}', [InstitutionalUserController::class, 'edit'])->name('users.edit');
     });
 
     Route::middleware(['checkPermission:UpdateUser'])->group(function () {
@@ -969,7 +1007,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:GetUsers'])->group(function () {
-        Route::get('/kullanicilar', [InstitutionalUserController::class, 'index'])->name('users.index');
+        Route::get('/alt-kullanicilari-listele', [InstitutionalUserController::class, 'index'])->name('users.index');
     });
 
     Route::middleware(['checkPermission:DeleteUser'])->group(function () {
@@ -977,12 +1015,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateRole'])->group(function () {
-        Route::get('/rol/olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+        Route::get('/kullanici-tipi-olustur', [InstitutionalRoleController::class, 'create'])->name('roles.create');
         Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
     });
 
     Route::middleware(['checkPermission:GetRoleById'])->group(function () {
-        Route::get('/rol/{role}/duzenleme', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        Route::get('/kullanici-tipi-duzenle/{role}', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
     });
 
     // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
@@ -1076,12 +1114,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:CreateStoreBanner'])->group(function () {
-        Route::get('/reklam-gorseli/olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
+        Route::get('/reklam-gorselleri-olustur', [StoreBannerController::class, 'create'])->name('storeBanners.create');
         Route::post('/reklam-gorselleri', [StoreBannerController::class, 'store'])->name('storeBanners.store');
     });
 
     Route::middleware(['checkPermission:GetStoreBannerById'])->group(function () {
-        Route::get('/store-banners/{storeBanner}/edit', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
+        Route::get('/reklam-gorseli-duzenle/{storeBanner}', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
     });
 
     Route::middleware(['checkPermission:UpdateStoreBanner'])->group(function () {
@@ -1122,10 +1160,12 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/kiraladiklarim', [DashboardController::class, 'getMyReservations'])->name('myreservations');
 
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
-        Route::get('/aldiklarim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::post('/orders/filter', [ClientPanelProfileController::class, 'filter'])->name('orders.filter');
+
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
-        Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
+        Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
@@ -1204,9 +1244,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
     Route::get('user-projects/{userId}',[CrmController::class,'getUserProjects']);
 
-Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
-Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
-Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+    Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
+    Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
+    Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
+
+    Route::post('add-user', [CrmController::class, 'addUser']);
 
 });
 

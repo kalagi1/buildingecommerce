@@ -59,7 +59,8 @@
 <body>
     <header>
         <div>
-            <img style="width: 100px;opacity: .65;float: left;" src="http://buildingecommerce.test/storage/profile_images/profile_image_1701198728.png" alt="">
+            <img style="width: 100px;opacity: .65;float: left;" src="https://private.emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="">
+
             <h5 style="float: left;">{{$project->project_title}} {{$roomOrder}} Nolu Konut</h5>
         </div>
     </header>

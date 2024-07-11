@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\StoreBanner; // Eğer kullanılacaksa StoreBanner modelini ekleyin
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -48,13 +49,20 @@ class StoreBannerController extends Controller
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerları başarıyla oluşturuldu.');
     }
 
-    public function edit(StoreBanner $storeBanner)
+    public function edit($hashedId)
     {
+        $storeBannerId = decode_id($hashedId);
+        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
+       
+
         return view('client.panel.store_banners.edit', compact('storeBanner'));
     }
 
-    public function update(Request $request, StoreBanner $storeBanner)
+    public function update(Request $request, $hashedId)
     {
+        $storeBannerId = decode_id($hashedId);
+        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
+
         $request->validate([
             'image' => 'image',
         ]);
@@ -71,8 +79,11 @@ class StoreBannerController extends Controller
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerı başarıyla güncellendi.');
     }
 
-    public function destroy(StoreBanner $storeBanner)
+    public function destroy($hashedId)
     {
+        $storeBannerId = decode_id($hashedId);
+        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
+
         if ($storeBanner->image) {
             Storage::delete('store_banners/' . $storeBanner->image);
         }

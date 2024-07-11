@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function owners()
     {
-        return $this->hasMany(HousingComment::class, 'owner_id');
+        return $this->hasMany(HousingComment::class, 'owner_id')->where("status", "1");
     }
 
     public function role()
@@ -114,6 +114,11 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->hasMany(Project::class, 'user_id')->where("status","1")->where("deleted_at",null);
+    }
+
+    public function projectAssigments()
+    {
+        return $this->belongsToMany(Project::class, 'project_assigment', 'user_id', 'project_id');
     }
 
     public function city()

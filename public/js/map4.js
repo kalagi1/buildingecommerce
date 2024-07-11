@@ -3,11 +3,11 @@ $(document).ready(function () {
 
 	if ($('#map-leaflet').length) {
 		var map = L.map('map-leaflet', {
-			zoom: 9,
+			zoom: 5,
 			maxZoom: 20,
 			tap: false,
 			gestureHandling: true,
-			center: [40.90, -73.90]
+            center: [39.9334, 32.8597] // Türkiye'nin yaklaşık coğrafi merkezi olan Ankara koordinatları
 		});
 
 		var marker_cluster = L.markerClusterGroup();

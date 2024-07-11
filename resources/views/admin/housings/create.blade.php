@@ -33,7 +33,7 @@
                                             <label class="form-label" for="validationCustom01">Başlık</label>
                                             <input name="title" class="form-control" id="validationCustom01"
                                                 type="text" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Hangi Marka Adına Ekliyorsun</label>

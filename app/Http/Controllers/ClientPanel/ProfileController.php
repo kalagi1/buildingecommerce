@@ -16,30 +16,60 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\CartOrderRefund;
-use App\Models\ReservationRefund; 
+use App\Models\ReservationRefund;
 
 class ProfileController extends Controller
 {
-    public function getReservations() {
+    public function getReservations()
+    {
         $housingReservations = Reservation::with("user", "housing")
-        ->where("user_id",auth()->user()->id)
-        ->get();
+            ->where("user_id", auth()->user()->id)
+            ->get();
 
         return view('client.client-panel.profile.reservations', compact('housingReservations'));
     }
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
-        ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
-            return view('client.panel.orders.get', compact('cartOrders'));
-
-    
-        
+            ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
+        return view('client.panel.orders.get', compact('cartOrders'));
     }
 
-    public function orderDetail($id)
+
+    public function filter(Request $request)
     {
-        $order = CartOrder::where('id', $id)->first();
+        $query = CartOrder::with('store', 'refund', "invoice");
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%$search%")
+                    ->orWhereHas('store', function ($q) use ($search) {
+                        $q->where('name', 'like', "%$search%");
+                    });
+            });
+        }
+
+        if ($request->has('startDate') && !empty($request->startDate)) {
+            $query->whereDate('created_at', '>=', $request->startDate);
+        }
+
+        if ($request->has('endDate') && !empty($request->endDate)) {
+            $query->whereDate('created_at', '<=', $request->endDate);
+        }
+
+        $cartOrders = $query->get();
+
+        return response()->json([
+            'html' => view('client.panel.orders_list', compact('cartOrders'))->render()
+        ]);
+    }
+
+    public function orderDetail($hashedId)
+    {
+        $cartOrderId = decode_id($hashedId);
+
+        $order = CartOrder::where('id', $cartOrderId)->first();
 
         return view('client.panel.orders.detail', compact('order'));
     }
@@ -121,13 +151,12 @@ class ProfileController extends Controller
         }
     }
 
-  
+
     public function cartOrderDetail(CartOrder $order)
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
-        
-        return view('client.panel.orders.get', compact('cartOrders'));
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id", $order->id)->with("invoice")->orderBy("id", "desc")->get();
 
+        return view('client.panel.orders.get', compact('cartOrders'));
     }
 
 
@@ -190,7 +219,8 @@ class ProfileController extends Controller
 
     public function upgradeProfile(Request $request, $id)
     {
-        $request->validate(['id' => $id],
+        $request->validate(
+            ['id' => $id],
             [
                 'id' =>
                 [
@@ -213,13 +243,14 @@ class ProfileController extends Controller
         }
 
         $data =
-            ['subscription_plan_id' => $plan->id,
-            'housing_limit' => $before->housing_limit + $plan->housing_limit,
-            'user_id' => auth()->user()->id,
-            'subscription_plan_id' => $id,
-            'project_limit' => 0,
-            'user_limit' => 0,
-        ];
+            [
+                'subscription_plan_id' => $plan->id,
+                'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                'user_id' => auth()->user()->id,
+                'subscription_plan_id' => $id,
+                'project_limit' => 0,
+                'user_limit' => 0,
+            ];
 
         DB::beginTransaction();
         UpgradeLog::create(
@@ -248,7 +279,7 @@ class ProfileController extends Controller
     }
 
 
-    public function refund(Request $request) 
+    public function refund(Request $request)
     {
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
@@ -256,13 +287,13 @@ class ProfileController extends Controller
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'cart_order_id' =>'required',
+            'cart_order_id' => 'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-        
+
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = CartOrderRefund::where('cart_order_id', $validatedData['cart_order_id'])->first();
 
@@ -302,23 +333,23 @@ class ProfileController extends Controller
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
 
-    
 
-    public function reservationRefund(Request $request) 
-    {   
+
+    public function reservationRefund(Request $request)
+    {
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'reservation_id' =>'required',
+            'reservation_id' => 'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-        
+
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = ReservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
 
@@ -357,5 +388,4 @@ class ProfileController extends Controller
         // İade talebi başarıyla kaydedildi mesajını döndür
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
-
 }

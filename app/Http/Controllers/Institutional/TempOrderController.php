@@ -1276,4 +1276,48 @@ class TempOrderController extends Controller
             "status" => true
         ]);
     }
+
+    public function  deleteSituationMultiple(Request $request){
+        if($request->input('item_type') == "3"){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->situations as $image){
+                if(!in_array($image->situation,$request->input('selected_situations'))){
+                    array_push($newImages,$image);
+                }
+            }
+
+            $data->situations = $newImages;
+
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+
+            return TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        }
+    }
+
+    public function  deleteGalleryMultiple(Request $request){
+        if($request->input('item_type') == "3"){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->situations as $image){
+                if(!in_array($image->situation,$request->input('selected_galleries'))){
+                    array_push($newImages,$image);
+                }
+            }
+
+            $data->images = $newImages;
+
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+
+            return TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        }
+    }
 }
