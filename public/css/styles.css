@@ -31002,6 +31002,7 @@ a {
 
 .popover-project-actions li a{
     padding: 10px 20px !important;
+    width: 100% !important
 }
 
 .popover-project-actions li:last-child {
