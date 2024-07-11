@@ -187,66 +187,7 @@
                     @endif
                 @endif
 
-                <div class="order-container">
-                    <div class="timeline">
-                        <h3>Alıcı Bilgileri</h3>
-                        @php
-                            if ($order->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->user->profile_image))) {
-                                $profileImage = url('storage/profile_images/' . $order->user->profile_image);
-                            } else {
-                                $profileImage = url('storage/profile_images/indir.png');
-                            }
-                        @endphp
-                        <div class="event">
-                            <span class="brand">
-                                <img src="{{ $profileImage }}" alt="Profile Image">
-                                {{ $order->user->name }}
-                                <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png" alt="Verified Icon" class="verifiedIcon">
-                            </span>
-                        </div>
-                        <div class="event">
-                            <p>Telefon</p>
-                            <p>{{ $order->user->phone }}</p>
-                        </div>
-                        <div class="event">
-                            <p>E-Posta</p>
-                            <p>{{ $order->user->email }}</p>
-                        </div>
-                    </div>
-                    <div class="shipment">
-                        <h3>Satıcı Bilgileri</h3>
-                        @php
-                            if ($order->store->profile_image && file_exists(public_path('storage/profile_images/' . $order->store->profile_image))) {
-                                $storeImage = url('storage/profile_images/' . $order->store->profile_image);
-                            } else {
-                                $storeImage = url('storage/profile_images/indir.png');
-                            }
-                        @endphp
-                        <div class="detail">
-                            <span class="brand">
-                                <img src="{{ $storeImage }}" alt="Store Image">
-                                {{ $order->store->name }}
-                                <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png" alt="Verified Icon" class="verifiedIcon">
-                            </span>
-                        </div>
-                        <div class="detail">
-                            <p>Telefon</p>
-                            <p>
-                                @if (isset($order->store->phone))
-                                    {{ $order->store->phone }}
-                                @elseif(isset($order->store->mobile_phone))
-                                    {{ $order->store->mobile_phone }}
-                                @else
-                                    Yok
-                                @endif
-                            </p>
-                        </div>
-                        <div class="detail">
-                            <p>E-Posta</p>
-                            <p>{{ $order->store->email }}</p>
-                        </div>
-                    </div>
-                </div>
+
                 {{--                 
                 <div class="order-detail-inner mt-3 px-3 py-3">
                     <div class="row">
@@ -308,8 +249,8 @@
                                             <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                 style="object-fit: cover;width:100px;height:75px" alt="">
                                         @else
-                                            <img src="{{ $itemImage }}"
-                                                style="object-fit: cover;width:100px;height:75px" alt="Görsel">
+                                            <img src="{{ $itemImage }}" style="object-fit: cover;width:100px;height:75px"
+                                                alt="Görsel">
                                         @endif
 
                                     </div>
@@ -469,96 +410,6 @@
                     </div>
 
 
-                    <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
-                        <div class="title">
-                            <i class="fa fa-user"></i>
-                            <h4>Alıcı Bilgileri</h4>
-                        </div>
-                        @php
-                            if ($order->user->profile_image) {
-                                $profileImage = url('storage/profile_images/' . $order->user->profile_image);
-                            } else {
-                                $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
-                                $profileImage = $initial;
-                            }
-                        @endphp
-                        <div class="row py-3 px-3">
-                            <div class="col-3 col-sm-auto"><label class="cursor-pointer avatar avatar-3xl"
-                                    for="avatarFile"><img class="rounded-circle" src="{{ $profileImage }}"
-                                        alt=""></label>
-                            </div>
-                            <div class="col-md-3">
-                                <p>İsim Soyisim</p>
-                                <span><strong class="d-flex" style="align-items: center;">
-                                        {{ $order->user->name }}</span></strong>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p>Telefon</p>
-                                <span><strong class="d-flex" style="align-items: center;">
-                                        {{ $order->user->phone }}</span></strong>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p>E-Posta</p>
-                                <span><strong class="d-flex" style="align-items: center;">
-                                        {{ $order->user->email }}</span></strong>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
-                        <div class="title">
-                            <i class="fa fa-user"></i>
-                            <h4>Satıcı Bilgileri</h4>
-                        </div>
-
-
-                        @php
-                            if ($order->store->profile_image) {
-                                $storeImage = url('storage/profile_images/' . $order->store->profile_image);
-                            } else {
-                                $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
-                                $storeImage = $initial;
-                            }
-                            //    dd($storeImage)
-                        @endphp
-
-                        <div class="row py-3 px-3">
-                            <div class="col-3 col-sm-auto">
-                                <a target="_blank"
-                                    href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
-                                    class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img class="rounded-circle"
-                                        src="{{ $storeImage }}" alt=""></a>
-                            </div>
-                            <div class="col-md-3">
-                                <p>İsim Soyisim</p>
-                                <span><strong class="d-flex" style="align-items: center;">
-                                        {{ $order->store->name }}</span></strong>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p>Telefon</p>
-                                <span><strong class="d-flex" style="align-items: center;">
-                                        @if (isset($order->store->phone))
-                                            {{ $order->store->phone }}
-                                        @elseif(isset($order->store->mobile_phone))
-                                            {{ $order->store->mobile_phone }}
-                                        @else
-                                            Telefon bilgisi bulunamadı
-                                        @endif
-                                </span></strong>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p>E-Posta</p>
-                                <span class="word-wrap"><strong class="d-flex " style="align-items: center;">
-                                        {{ $order->store->email }}</span></strong>
-                            </div>
-
-                        </div>
-                    </div>
 
                     <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                         <div class="title">
@@ -680,7 +531,60 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3 class="card-title mb-4">Alıcı Bilgileri</h3>
+                            <div class="event">
+                                <span class="brand">
+                                    <img src="{{ $order->user->profile_image &&
+                                    file_exists(public_path('storage/profile_images/' . $order->user->profile_image))
+                                        ? url('storage/profile_images/' . $order->user->profile_image)
+                                        : url('storage/profile_images/indir.png') }}"
+                                        alt="Profile Image">
+                                    {{ $order->user->name }}
+                                    <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                        alt="Verified Icon" class="verifiedIcon">
+                                </span>
+                            </div>
+                            <div class="event">
+                                <p><i class="fa fa-phone"></i> {{ $order->user->mobile_phone }}</p>
+                            </div>
+                            <div class="event">
+                                <p><i class="fa fa-envelope"></i> {{ $order->user->email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3 class="card-title mb-4">Satıcı Bilgileri</h3>
+                            <div class="detail">
+                                <span class="brand">
+                                    <img src="{{ $order->store->profile_image &&
+                                    file_exists(public_path('storage/profile_images/' . $order->store->profile_image))
+                                        ? url('storage/profile_images/' . $order->store->profile_image)
+                                        : url('storage/profile_images/indir.png') }}"
+                                        alt="Store Image">
+                                    {{ $order->store->name }}
+                                    <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                        alt="Verified Icon" class="verifiedIcon">
+                                </span>
+                            </div>
+                            <div class="event">
+                                <p><i class="fa fa-phone"></i>
+                                    @if ($order->store->phone)
+                                        {{ $order->store->phone }}
+                                    @elseif($order->store->mobile_phone)
+                                        {{ $order->store->mobile_phone }}
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="event">
+                                <p><i class="fa fa-envelope"></i> {{ $order->store->email }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+              
 
 
                 @if (Auth::check() && Auth::user()->id == $order->store->id)
@@ -1299,10 +1203,6 @@
             font-size: 18px;
         }
 
-        .timeline .event,
-        .shipment .detail {
-            margin-bottom: 10px;
-        }
 
         .event time {
             display: block;
@@ -1347,7 +1247,7 @@
             cursor: pointer;
         }
 
-        .verifiedIcon{
+        .verifiedIcon {
             width: 15px !important;
             margin-left: 5px
         }
