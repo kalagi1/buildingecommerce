@@ -59,7 +59,7 @@
     <div class="row g-5 gy-7">
         <div class="col-12 col-xl-8 col-xxl-9">
             <div class="order-detail-content">
-                <div class="order-details">
+                <div class="order-details mb-3">
                     <div class="order-header">
 
                         <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000"
@@ -1281,7 +1281,6 @@
         .order-container {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
             max-width: 900px;
             width: 100%;
