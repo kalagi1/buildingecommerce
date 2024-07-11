@@ -27,8 +27,8 @@ class HousingController extends Controller {
         ->where( 'id', $housing->id )
         ->where( 'status', 1 )->first();
 
-        if ($housing && auth()->check()) {
-            $user = auth()->user();
+        if ($housing && auth()->guard()->check()) {
+            $user = auth()->guard()->user();
             $isFavorited = $housing->favorites()->where('user_id', $user->id)->exists();
             $housing->isFavoritedByUser = $isFavorited ? 1 : null;
         }
