@@ -31000,8 +31000,7 @@ a {
 }
 
 
-.popover-project-actions li {
-    border-bottom: 1px solid #C7BBBB;
+.popover-project-actions li a{
     padding: 10px 20px !important;
 }
 
