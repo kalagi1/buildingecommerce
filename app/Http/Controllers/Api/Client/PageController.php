@@ -122,7 +122,7 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        $order = CartOrder::with("user", "store","refund","county","city","neighbourhood")->where('id', $id)->first();
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
         $housing = null;
         $project = null;
@@ -140,15 +140,15 @@ class PageController extends Controller
         }
 
         if ($order) {
-            // Taksitli veya taksitsiz durumu eklemek
-            $order->is_installment = $order->is_swap ? 'Taksitli' : 'Taksitsiz';
-        }
+    // Taksitli veya taksitsiz durumu eklemek
+    $order->is_installment = $order->is_swap ? 'Taksitli' : 'Taksitsiz';
+}
         
 
         if ($orderCart['type'] == 'housing') {
-            $housing = Housing::where('id', $orderCart['item']['id'])->first();
+            $housing = Housing::with("county","city","neighbourhood")->where('id', $orderCart['item']['id'])->first();
         } else {
-            $project = Project::where('id', $orderCart['item']['id'])->first();
+            $project = Project::with("county","city","neighbourhood")->where('id', $orderCart['item']['id'])->first();
         }
         return response()->json([
             "order" => $order,
