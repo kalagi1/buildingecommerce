@@ -201,7 +201,7 @@
                             <span class="brand">
                                 <img src="{{ $profileImage }}" alt="Profile Image">
                                 {{ $order->user->name }}
-                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png" alt="Verified Icon" width="15">
+                                <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png" alt="Verified Icon" class="verifiedIcon">
                             </span>
                         </div>
                         <div class="event">
@@ -226,7 +226,7 @@
                             <span class="brand">
                                 <img src="{{ $storeImage }}" alt="Store Image">
                                 {{ $order->store->name }}
-                                <img src="https://img.icons8.com/ios-filled/50/000000/verified-account.png" alt="Verified Icon" width="15">
+                                <img src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png" alt="Verified Icon" class="verifiedIcon">
                             </span>
                         </div>
                         <div class="detail">
@@ -1321,9 +1321,9 @@
         }
 
         .shipment .detail img {
-            width: 30px;
+            width: 20px;
             vertical-align: middle;
-            margin-right: 10px;
+            margin-right: 5px;
         }
 
         .shipment .tracking {
@@ -1345,6 +1345,11 @@
             border-radius: 5px;
             padding: 5px 10px;
             cursor: pointer;
+        }
+
+        .verifiedIcon{
+            width: 10px;
+            margin-left: 5px
         }
     </style>
 @endsection
