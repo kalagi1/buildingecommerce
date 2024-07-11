@@ -17,6 +17,9 @@ p {
     line-height: 26px;
 }
 
+.table-danger, .table-danger>td, .table-danger>th {
+    background-color: #f5c6cb !important;
+}
 .the-icons {}
 
 .project-single {
@@ -30967,6 +30970,8 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 200px;
+    padding: 0;
 }
 
 .project-table-content ul li p {
@@ -30996,9 +31001,8 @@ a {
 
 
 .popover-project-actions li {
-    padding: 5px 0;
     border-bottom: 1px solid #C7BBBB;
-    padding: 10px 20px;
+    padding: 10px 20px !important;
 }
 
 .popover-project-actions li:last-child {
