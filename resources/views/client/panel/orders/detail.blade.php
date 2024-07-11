@@ -1348,7 +1348,7 @@
         }
 
         .verifiedIcon{
-            width: 10px !important;
+            width: 15px !important;
             margin-left: 5px
         }
     </style>
