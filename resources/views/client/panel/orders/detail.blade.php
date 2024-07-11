@@ -557,7 +557,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Satıcı Bilgileri</h3>
-                            <div class="detail">
+                            <div class="event">
                                 <span class="brand">
                                     <img src="{{ $order->store->profile_image &&
                                     file_exists(public_path('storage/profile_images/' . $order->store->profile_image))
