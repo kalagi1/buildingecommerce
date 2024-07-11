@@ -171,7 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        App\Providers\ValidationServiceProvider::class,
     ])->toArray(),
 
     /*
