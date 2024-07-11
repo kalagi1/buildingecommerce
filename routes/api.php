@@ -62,7 +62,7 @@ Route::get('/real-estates', [RealEstateController::class, 'getRealEstates']);
 Route::get('/menu-list', [MenuController::class, 'getMenuList']);
 Route::get('/project_housings/{projectId}', [ProjectController::class, 'getRooms']);
 Route::apiResource('project', ProjectController::class);
-Route::apiResource('housing', HousingController::class);
+
 Route::apiResource('brand', BrandController::class);
 Route::apiResource('return', ReturnController::class);
 Route::get('get_full_projects', [ProjectController::class, "getFullProjects"]);
@@ -131,7 +131,7 @@ Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class,
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
+    Route::apiResource('housing', HousingController::class);
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
