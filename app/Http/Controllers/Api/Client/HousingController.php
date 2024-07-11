@@ -23,9 +23,13 @@ class HousingController extends Controller {
     }
 
     public function show( Housing $housing ) {
-        $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county','favorites')
+        $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county','user.housingFavorites')
         ->where( 'id', $housing->id )
         ->where( 'status', 1 )->first();
+
+        if ($housing) {
+            $housing->user->housingFavoritesStatus = $housing->user->housingFavorites->isNotEmpty() ? 1 : null;
+        }
 
         $housing->increment( 'views_count' );
         $housingSetting = ProjectHouseSetting::all();
