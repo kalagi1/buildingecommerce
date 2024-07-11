@@ -146,9 +146,9 @@ class PageController extends Controller
         
 
         if ($orderCart['type'] == 'housing') {
-            $housing = Housing::with("county","city","neighbourhood")->where('id', $orderCart['item']['id'])->first();
+            $housing = Housing::with("county","city")->where('id', $orderCart['item']['id'])->first();
         } else {
-            $project = Project::with("county","city","neighbourhood")->where('id', $orderCart['item']['id'])->first();
+            $project = Project::with("county","city")->where('id', $orderCart['item']['id'])->first();
         }
         return response()->json([
             "order" => $order,
