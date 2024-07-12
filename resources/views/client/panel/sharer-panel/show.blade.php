@@ -270,7 +270,7 @@
                         </li>
                         <li>
                             <a
-                                href="{{ $orderCart['type'] == 'housing'
+                                href="{{ $item['item_type'] == 'housing'
                                     ? route('housing.show', [
                                         'housingSlug' => $item['housing']->slug,
                                         'housingID' => $item['housing']->id + 2000000,
