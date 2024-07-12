@@ -246,11 +246,17 @@
                             @else
                                 @if (
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0') ||
-                                        ($item['action'] && $item['action'] == 'payment_await' && isset($item['share_price']['balance'])))
+                                        ($item['action'] && $item['action'] == 'payment_await'))
                                     <strong style="color: orange">
-                                        <span>Onay Bekleniyor:</span><br>
-                                        {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
-                                        ₺
+                                        <span>Onay Bekleniyor @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
+
                                     </strong>
                                 @elseif (
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1') ||
