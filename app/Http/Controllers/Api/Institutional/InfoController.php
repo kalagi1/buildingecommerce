@@ -29,21 +29,24 @@ class InfoController extends Controller
     }
 
     public function notificationDestroyById(Request $request)
-    {
-        $userId = auth()->guard()->user()->id;
-        $deleted = DocumentNotification::where('owner_id', $userId)
-        ->where('id', $request->input('id'))
-        ->delete();
-        
-        if ($deleted) {
-            return response()->json([
-                'message' => 'bildirim başarıyla silindi.',
-                'deleted_count' => $deleted
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Silinecek bildirim bulunamadı.'
-            ], 404);
+        {
+            $userId = $request->userId;
+            $notificationId = $request->id;
+            
+            $deleted = DocumentNotification::where('owner_id', $userId)
+                ->where('id', $notificationId)
+                ->delete(); 
+            
+            if ($deleted > 0) {
+                return response()->json([
+                    'message' => 'Bildirim başarıyla silindi.',
+                    'deleted_count' => $deleted
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Silinecek bildirim bulunamadı.'
+                ], 200);
+            }
         }
-    }
+
 }
