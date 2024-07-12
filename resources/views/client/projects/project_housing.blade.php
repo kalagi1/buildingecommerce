@@ -413,6 +413,7 @@
                                         </button>
                                     @elseif ($soldAndNotStatus2)
                                         <button class="btn second-btn" {!! $btnStyle !!}>
+                                            {{ dd($sold->status) }}
                                             @if ($sold->status == '0' && ($share_sale == '[]' || empty($share_sale)))
                                                 <span class="text">Rezerve Edildi</span>
                                             @elseif (

@@ -345,11 +345,12 @@ Sipariş Notu eklenmedi
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                                         <div class="col-md-12 p-0">
                                             <div class="file-drop-area">
-                                                <span class="fake-btn"> <i class="fa fa-cloud-upload"></i>Sözleşme Yükle</span>
+                                                <span class="fake-btn"> <i class="fa fa-cloud-upload"></i>Sözleşme
+                                                    Yükle</span>
                                                 <span class="file-msg">Yüklemek için buraya tıklayın</span>
                                                 <label class="form-label" for="image"> </label><br>
-                                                <input name="pdf_file" class="form-control file-input h-120" id="image"
-                                                    type="file" accept="image/*" required>
+                                                <input name="pdf_file" class="form-control file-input h-120"
+                                                    id="image" type="file" accept="image/*" required>
                                                 <div class="valid-feedback">İyi Görünüyor !</div>
                                             </div>
                                         </div>
