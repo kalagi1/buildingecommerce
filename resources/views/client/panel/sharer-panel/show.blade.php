@@ -266,7 +266,7 @@
                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                Sil</a>
+                                Koleksiyondan Kaldır</a>
 
                         </li>
                     </ul>
