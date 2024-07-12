@@ -279,6 +279,25 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $('.project-table-content-actions-button').on('click', function() {
+                var targetId = $(this).data('toggle');
+                var $popover = $('#' + targetId);
+
+                // Hide other popovers
+                $('.popover-project-actions').not($popover).addClass('d-none');
+
+                // Toggle current popover
+                $popover.toggleClass('d-none');
+            });
+
+            // Close popover when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.project-table-content').length) {
+                    $('.popover-project-actions').addClass('d-none');
+                }
+            });
+        });
+        $(document).ready(function() {
             $(".remove-from-collection").on("click", function() {
                 var button = $(this); // Tıklanan düğmeyi referans al
                 var itemType = button.data('type');
