@@ -191,19 +191,21 @@
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
 
+                                                            echo $discountedPrice;
+
 
                                             $total = $discountedPrice * 0.04 * $share_percent_earn;
 
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
-                                        <strong>
+                                        {{-- <strong>
                                             @if (strpos($earningAmount, '.') == false)
                                                 {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                             @else
                                                 {{ $earningAmount }} ₺
                                             @endif
 
-                                        </strong>
+                                        </strong> --}}
                                     @elseif ($item['item_type'] == 1)
                                         @php
                                             $estateProjectRate = $item['project']['club_rate'] / 100;
