@@ -164,7 +164,7 @@
     </div>
 @endforeach
 
-@section('scripts')
+{{-- @section('scripts')
     <script>
         $(document).ready(function() {
             $('#filterButton').on('click', function() {
@@ -228,4 +228,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}
