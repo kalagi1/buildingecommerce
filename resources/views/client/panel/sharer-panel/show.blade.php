@@ -260,12 +260,14 @@
                         ? $item['project']->id + 1000000 . '-' . $item['room_order']
                         : $item['housing']->id + 2000000 }}">
                     <ul>
-                        <li class="btn btn-info remove-from-collection btn-sm" style="float: right"
-                            data-collection="{{ $collection }}"
-                            data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
-                            data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
-                            @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                            Sil
+                        <li>
+                            <a class="btn btn-info remove-from-collection btn-sm" style="float: right"
+                                data-collection="{{ $collection }}"
+                                data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
+                                data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
+                                @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
+                                Sil</a>
+
                         </li>
                     </ul>
                 </div>
