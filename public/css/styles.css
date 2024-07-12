@@ -30975,6 +30975,7 @@ a {
     justify-content: center;
     text-align: center;
     padding: 0;
+    flex : 1
 }
 
 .project-table-content ul li p {

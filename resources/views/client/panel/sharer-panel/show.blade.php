@@ -438,20 +438,6 @@
             }
 
         }
-
-        .project-table-content ul {
-            display: flex;
-            justify-content: space-between;
-            /* Eşit dağılım */
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .project-table-content li {
-            flex: 1;
-            /* Her bir li'nin eşit genişlikte olmasını sağlar */
-            text-align: center;
-            /* İsterseniz metinleri ortalayabilirsiniz */
-        }
+        
     </style>
 @endsection
