@@ -132,7 +132,7 @@
 
                 @if ($order->reference)
                     @if ($order->store_id == Auth::user()->id)
-                        <div class="order-status-container mt-3" style="background-color : #1581f5 ">
+                        <div class="order-status-container mb-3" style="background-color : #1581f5 ">
                             <div class="left">
                                 <i class="fa fa-check"></i>
                                 <span>
