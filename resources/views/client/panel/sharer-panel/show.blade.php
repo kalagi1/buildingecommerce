@@ -68,7 +68,9 @@
                         @if ($item['item_type'] == 1)
                             {!! ' ' . $item['room_order'] . " No'lu Daire <br>" !!}
                         @endif
-                        {{-- <span style="font-size: 9px !important;font-weight:700">
+                    </li>
+                    <li>
+                        <span style="font-size: 9px !important;font-weight:700">
                             {{ isset($item['item_type']) && $item['item_type'] == 1
                                 ? $item['project']['city']['title'] .
                                     ' / ' .
@@ -79,7 +81,7 @@
                                     ? $item['housing']['city']['title']
                                     : 'City Not Available') }}
                             <br>
-                        </span> --}}
+                        </span> 
                     </li>
                     <li>
                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
