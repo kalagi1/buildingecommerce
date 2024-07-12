@@ -38,13 +38,18 @@ class ProfileController extends Controller
 
     public function filter(Request $request)
     {
-        $query = CartOrder::with('store', 'refund', "invoice");
+        $query = CartOrder::with('store', 'refund', "invoice", "user", "price", "bank");
 
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%$search%")
+                    ->where('amount', 'like', "%$search%")
+                    ->where('key', 'like', "%$search%")
                     ->orWhereHas('store', function ($q) use ($search) {
+                        $q->where('name', 'like', "%$search%");
+                    })
+                    ->orWhereHas('user', function ($q) use ($search) {
                         $q->where('name', 'like', "%$search%");
                     });
             });

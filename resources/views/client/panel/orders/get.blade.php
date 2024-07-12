@@ -42,7 +42,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('#filterButton').on('click', function() {
+            $('#filterButton').on('click', function() {     
                 filterOrders();
             });
 
