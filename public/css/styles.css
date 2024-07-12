@@ -30964,14 +30964,16 @@ a {
 .project-table-content ul {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .project-table-content ul li {
     font-size: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
+    text-align: center;
     padding: 0;
 }
 

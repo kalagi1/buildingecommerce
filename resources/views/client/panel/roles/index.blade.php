@@ -45,7 +45,9 @@
                             </li>
                         @endif
                         @if (in_array('DeleteRole', $userPermissions))
-                            <li data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}">Sil
+                            <li>
+                                <a data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}"> Sil</a>
+
                             </li>
                         @endif
                     </ul>

@@ -122,7 +122,7 @@
         .file-input {
             width: 100% !important;
             height: 220px !important;
-        }
+        }   
 
         .fa-cloud-upload {
             color: #1ABC9C;
