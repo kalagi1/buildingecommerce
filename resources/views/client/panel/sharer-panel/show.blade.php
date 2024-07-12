@@ -64,10 +64,10 @@
                     </li> --}}
                     <li>
                         {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
-                        {{-- <br>
+
                         @if ($item['item_type'] == 1)
-                            {!! $item['room_order'] . " No'lu Daire <br>" !!}
-                        @endif --}}
+                            {!! ' ' . $item['room_order'] . " No'lu Daire <br>" !!}
+                        @endif
                         {{-- <span style="font-size: 9px !important;font-weight:700">
                             {{ isset($item['item_type']) && $item['item_type'] == 1
                                 ? $item['project']['city']['title'] .
@@ -261,8 +261,7 @@
                         : $item['housing']->id + 2000000 }}">
                     <ul>
                         <li>
-                            <a class="remove-from-collection" 
-                                data-collection="{{ $collection }}"
+                            <a class="remove-from-collection" data-collection="{{ $collection }}"
                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
