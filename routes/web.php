@@ -1038,13 +1038,20 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
     });
 
+
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
+
+        Route::post('/bireysel/profil', [InstitutionalProfileController::class, "individualProfileUpdate"])->name('individual.profile.update');
+
         Route::get('/profil/duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
 
-        Route::put('/profile/phone', [InstitutionalProfileController::class, "editPhone"])->name('edit.phone');
+        Route::post('/profile/phone', [InstitutionalProfileController::class, "editPhone"])->name('edit.phone');
+        Route::post('/profile/image', [InstitutionalProfileController::class, "profileImage"])->name('profile.image');
+        Route::post('/profile/location', [InstitutionalProfileController::class, "locationUpdate"])->name('profile.location');
+        Route::post('/profile/company/update', [InstitutionalProfileController::class, "companyProfileUpdate"])->name('profile.company.update');
 
         Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
         Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
