@@ -244,7 +244,7 @@
                                     @endif
                                 </div>
                             @else
-                            {{ $item['action'] && $item['action'] == 'payment_await' }}
+                            {{isset($item['share_price']['balance']) }}
                                 @if (
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0') ||
                                         ($item['action'] && $item['action'] == 'payment_await' && isset($item['share_price']['balance'])))
