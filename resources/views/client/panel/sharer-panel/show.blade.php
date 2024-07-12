@@ -89,7 +89,6 @@
                                 1 Hisse Fiyatı
                             </span>
                         @endif
-                        {{ dd($item['action']) }}
                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
                                 <span style="color: green;">
@@ -145,7 +144,11 @@
                                 </span>
                             @endif
                         @else
-                            <span class="text-danger" style="font-weight: 700"> SATILDI</span>
+                            @if ($item['action'] && $item['action'] == 'payment_await')
+                                <span class="text-warning" style="font-weight: 700"> REZERVE EDİLDİ</span>
+                            @else
+                                <span class="text-danger" style="font-weight: 700"> SATILDI</span>
+                            @endif
                         @endif
                     </li>
                     <li>
@@ -187,12 +190,9 @@
                                                 isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
                                                     ? $discountedPrice
                                                     : (json_decode($item['housing']['housing_type_data'])->price[0]
-                                                        ? json_decode($item['housing']['housing_type_data'])
-                                                            ->price[0]
+                                                        ? json_decode($item['housing']['housing_type_data'])->price[0]
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
-
-
 
                                             $total = $discountedPrice * 0.02 * $share_percent_earn;
 
@@ -244,13 +244,19 @@
                                     @endif
                                 </div>
                             @else
-                                @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
+                                @if (isset($item['share_price']['balance']) &&
+                                        $item['share_price']['status'] == '0' &&
+                                        $item['action'] &&
+                                        $item['action'] == 'payment_await')
                                     <strong style="color: orange">
                                         <span>Onay Bekleniyor:</span><br>
                                         {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
                                         ₺
                                     </strong>
-                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
+                                @elseif (isset($item['share_price']['balance']) &&
+                                        $item['share_price']['status'] == '1' &&
+                                        $item['action'] &&
+                                        $item['action'] == 'sold')
                                     <strong style="color: green">
                                         <span>Komisyon Kazancınız:</span><br>
                                         {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
