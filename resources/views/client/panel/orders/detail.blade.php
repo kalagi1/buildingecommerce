@@ -147,13 +147,24 @@
                         <div class="order-item-title">
                             <h5>Sipariş Edilen Ürün Listesi
                             </h5>
-                            <span class="badge badge-danger">Unfulfilled</span>
+                            <span class="badge badge-danger">{{ $order->key }}</span>
                         </div>
-                        <button class="btn btn-link p-0"><i class="fa fa-chevron-down"></i></button>
                     </div>
-                    <p class="text-muted">Use this personalized guide to get your store up and running.</p>
                     <div class="order-item-body">
-                        <img src="https://via.placeholder.com/100" alt="Product Image">
+                        {{ dd(json_decode($order->cart)) }}
+                        @php
+                            $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
+                            $itemImage = isset($orderCartData['item']['image'])
+                                ? $orderCartData['item']['image']
+                                : null; // item özelliğine eriş
+                        @endphp
+                        @php($o = json_decode($order->cart))
+                        @if ($o->type == 'housing')
+                            <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
+                                style="object-fit: cover;width:100px;height:75px" alt="">
+                        @else
+                            <img src="{{ $itemImage }}" style="object-fit: cover;width:100px;height:75px" alt="Görsel">
+                        @endif
                         <div class="order-item-details">
                             <h5><strong>{{ json_decode($order->cart)->item->title }}
                                     <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}
