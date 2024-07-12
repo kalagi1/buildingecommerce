@@ -85,13 +85,13 @@
                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                             <span class="text-center w-100">
                                 1 Hisse Fiyatı
-                            </span><br>
+                            </span>
                         @endif
                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
                                 <span style="color: green;">
                                     {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                </span><br>
+                                </span>
                                 <del style="color: #e54242;">
 
                                     @if ($item['item_type'] == 1)
@@ -148,6 +148,8 @@
                     <li>
                         <span class="ml-auto text-success priceFont">
                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                            <span>Komisyon Miktarı:</span><br>
+
                                 @if ($item['item_type'] == 2)
                                     @php
 
@@ -269,7 +271,7 @@
 
                         </li>
                         <li>
-                            <a href="{{ $item['item_type'] == 'housing' 
+                            <a href="{{ $item['item_type'] != 1
                                 ? route('housing.show', [
                                     'housingSlug' => $item['housing']->slug,
                                     'housingID' => $item['housing']->id + 2000000,
