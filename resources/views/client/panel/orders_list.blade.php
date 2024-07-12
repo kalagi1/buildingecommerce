@@ -70,7 +70,7 @@
                     class="d-flex align-items-center text-body">
                     <div class="avatar avatar-m">
                         <img class="rounded-circle" src="{{ $storeImage }}" alt=""
-                            style="width:50px;height:50px">
+                            style="width:35px;height:35px">
                     </div>
                     <p style="margin-left: 10px">{{ $key && $key == "my-orders" ? $order->store->name : $order->user->name }}</p>
                 </a>
