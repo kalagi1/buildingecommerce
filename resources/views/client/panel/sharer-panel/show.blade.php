@@ -247,13 +247,12 @@
                             @endif
                         </span>
                     </li>
-                    <li>
-                        <span class="project-table-content-actions-button"
+                    <li> <span class="project-table-content-actions-button"
                             data-toggle="popover-{{ $item['item_type'] == 1
                                 ? $item['project']->id + 1000000 . '-' . $item['room_order']
-                                : $item['housing']->id + 2000000 }}">
-                            <i class="fa fa-chevron-down"></i>
-                        </span>
+                                : $item['housing']->id + 2000000 }}"><i
+                                class="fa fa-chevron-down"></i></span>
+
                     </li>
                 </ul>
                 <div class="popover-project-actions d-none"
@@ -266,38 +265,15 @@
                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                Koleksiyondan Kaldır
-                            </a>
+                                Koleksiyondan Kaldır</a>
+
                         </li>
                     </ul>
                 </div>
 
-
             </div>
         @endforeach
     </section>
-
-    <div class="modal fade" id="removeCollectionModal" tabindex="-1" role="dialog"
-        aria-labelledby="removeCollectionModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="removeCollectionModalLabel">Koleksiyondan Kaldır</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Bu öğeyi koleksiyondan kaldırmak istediğinize emin misiniz?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-danger" id="confirmRemove">Kaldır</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 @endsection
 
@@ -325,50 +301,41 @@
             });
         });
         $(document).ready(function() {
-            $('.remove-from-collection').on('click', function() {
+            $(".remove-from-collection").on("click", function() {
                 var button = $(this); // Tıklanan düğmeyi referans al
                 var itemType = button.data('type');
                 var itemId = button.data('id');
                 var projectId = button.data('project');
                 var collection = button.data('collection');
-                // Modalı aç
-                $('#removeCollectionModal').modal('show');
 
-                // Kaldır butonuna tıklama olayını ayarlayın
-                $('#confirmRemove').off('click').on('click', function() {
-                    // AJAX isteği ile öğeyi kaldır
-                    $.ajax({
-                        url: `/remove-from-collection`, // İlgili URL
-                        method: 'POST',
-                        data: {
-                            itemType: itemType,
-                            itemId: itemId,
-                            projectId: projectId,
-                            collection: collection,
-                            _token: '{{ csrf_token() }}'
-                            _token: '{{ csrf_token() }}' // CSRF token
-                        },
-                        success: function(response) {
-                            if (response.complete) {
-                                $('#removeCollectionModal').modal('hide');
-                                var redirectUrl = '/hesabim/koleksiyonlarim';
+                $.ajax({
+                    method: 'POST',
+                    url: '/remove-from-collection',
+                    data: {
+                        itemType: itemType,
+                        itemId: itemId,
+                        projectId: projectId,
+                        collection: collection,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.complete) {
 
-                                // Yönlendirme yap
-                                window.location.href = redirectUrl;
+                            var redirectUrl = '/hesabim/koleksiyonlarim';
 
-                            } else {
-                                location.reload();
-                            }
+                            // Yönlendirme yap
+                            window.location.href = redirectUrl;
 
-                        },
-                        error: function(error) {
-                            alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                        } else {
+                            location.reload();
                         }
-                    });
+                    },
+                    error: function(error) {
+                        console.error('Hata:', error);
+                    }
                 });
             });
         });
-
     </script>
 @endsection
 
