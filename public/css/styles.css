@@ -30870,7 +30870,9 @@ a {
     margin: 0;
     padding: 0;
 }
-
+.summary-padding{
+    padding: 20px;
+}
 .descriptionProject h3 {
     font-size: 1.17em !important;
 }

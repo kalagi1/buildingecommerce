@@ -1250,7 +1250,7 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow:4,
+                slidesToShow: 4,
                 slidesToScroll: 4,
                 dots: false,
                 arrows: false
@@ -2031,7 +2031,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-<script src="{{URL::to('/')}}/build/assets/app-4570bcdf.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-4570bcdf.js"></script>
 
 {{-- @vite('resources/js/app.jsx') --}}
 
@@ -2049,6 +2049,38 @@
             $(this).parent().children('.dropdown-menu').attr('data-bs-popper', 'static')
         }
     })
+</script>
+
+<script src="{{ asset('js/dropzone.js') }}"></script>
+
+<script>
+    var $fileInput = $('.file-input');
+    var $droparea = $('.file-drop-area');
+
+    // highlight drag area
+    $fileInput.on('dragenter focus click', function() {
+        $droparea.addClass('is-active');
+    });
+
+    // back to normal state
+    $fileInput.on('dragleave blur drop', function() {
+        $droparea.removeClass('is-active');
+    });
+
+    // change inner text
+    $fileInput.on('change', function() {
+        var filesCount = $(this)[0].files.length;
+        var $textContainer = $(this).prev();
+
+        if (filesCount === 1) {
+            // if single file is selected, show file name
+            var fileName = $(this).val().split('\\').pop();
+            $(".file-msg").text(fileName);
+        } else {
+            // otherwise show number of files
+            $(".file-msg").text(filesCount + ' dosya seçildi');
+        }
+    });
 </script>
 @yield('scripts')
 

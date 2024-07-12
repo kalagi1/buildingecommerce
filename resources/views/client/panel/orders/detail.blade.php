@@ -237,7 +237,7 @@ Sipariş Notu eklenmedi
 
                 <!-- Order Summary -->
                 <div class="col-12">
-                    <div class="card mb-3">
+                    <div class="card mb-3 summary-padding">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Sipariş Özeti</h3>
                             <div>
@@ -277,7 +277,7 @@ Sipariş Notu eklenmedi
                     </div>
 
                     <!-- Buyer Information -->
-                    <div class="card mb-3">
+                    <div class="card mb-3 summary-padding">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Alıcı Bilgileri <img
                                     src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
@@ -301,7 +301,7 @@ Sipariş Notu eklenmedi
                     </div>
 
                     <!-- Seller Information -->
-                    <div class="card mb-3">
+                    <div class="card mb-3 summary-padding">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Satıcı Bilgileri <img
                                     src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
@@ -328,9 +328,9 @@ Sipariş Notu eklenmedi
 
                 @if (Auth::check() && Auth::user()->id == $order->store->id)
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card summary-padding">
                             <div class="card-body">
-                                <h3 class="card-title mb-4">Sözleşme Ekleme</h3>
+                                <h3 class="card-title mb-4">Sözleşme Yükle</h3>
                                 <h6 class="mb-2"></h6>
                                 @if (isset($order->path))
                                     <a href="{{ asset($order->path) }}" target="_blank">
@@ -343,8 +343,15 @@ Sipariş Notu eklenmedi
                                         enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <div class="mb-3">
-                                            <input type="file" name="pdf_file" class="form-control">
+                                        <div class="col-md-12 p-0">
+                                            <div class="file-drop-area">
+                                                <span class="fake-btn"> <i class="fa fa-cloud-upload"></i>Sözleşme Yükle</span>
+                                                <span class="file-msg">Yüklemek için buraya tıklayın</span>
+                                                <label class="form-label" for="image"> </label><br>
+                                                <input name="pdf_file" class="form-control file-input h-120" id="image"
+                                                    type="file" accept="image/*" required>
+                                                <div class="valid-feedback">İyi Görünüyor !</div>
+                                            </div>
                                         </div>
                                         <button class="btn btn-success me-1 mb-1 mt-3" type="submit">Yükle</button>
                                     </form>
@@ -354,7 +361,7 @@ Sipariş Notu eklenmedi
                     </div>
                 @elseif ($order->status == '1')
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card summary-padding">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">İade Talebi</h3>
                                 <h6 class="mb-2"></h6>
@@ -1107,6 +1114,11 @@ Sipariş Notu eklenmedi
             border: 1px solid #e0e0e0;
             border-radius: 4px;
             padding: 8px;
+        }
+
+        .file-input,
+        .file-drop-area {
+            height: 120px !important
         }
     </style>
 @endsection
