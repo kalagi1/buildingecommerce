@@ -160,7 +160,7 @@
                                                 'housing_id',
                                                 $item['housing']['id'],
                                             )->get();
-                                            $user = User::where('id', $item['housing']['user_id'])->first();
+                                            $user = App\Models\User::where('id', $item['housing']['user_id'])->first();
 
                                             $share_percent_earn = null;
                                             $sales_rate_club = null;
