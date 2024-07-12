@@ -66,13 +66,14 @@
 
             <li class="sales_person align-middle white-space-nowrap">
                 <a target="_blank"
-                    href="{{ route('institutional.dashboard', ['slug' => $key && $key == "my-orders" ? $order->store->name : $order->user->name , 'userID' => $key && $key == "my-orders" ? $order->store->id : $order->user->id ]) }}"
+                    href="{{ route('institutional.dashboard', ['slug' => $key && $key == 'my-orders' ? $order->store->name : $order->user->name, 'userID' => $key && $key == 'my-orders' ? $order->store->id : $order->user->id]) }}"
                     class="d-flex align-items-center text-body">
                     <div class="avatar avatar-m">
                         <img class="rounded-circle" src="{{ $storeImage }}" alt=""
                             style="width:35px;height:35px">
                     </div>
-                    <p style="margin-left: 10px">{{ $key && $key == "my-orders" ? $order->store->name : $order->user->name }}</p>
+                    <p style="margin-left: 10px">
+                        {{ $key && $key == 'my-orders' ? $order->store->name : $order->user->name }}</p>
                 </a>
             </li>
 
@@ -147,7 +148,7 @@
             <ul>
                 @if ($order->invoice && $order->status == 1)
                     <li>
-                        <a href="{{ route('institutional.invoice.show', $order->id) }}">Faturayı Görüntüle</a>
+                        <a href="{{ route('institutional.invoice.show', hash_id($order->id)) }}">Faturayı Görüntüle</a>
                     </li>
                 @endif
                 <li>

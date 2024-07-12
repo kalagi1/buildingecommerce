@@ -1163,7 +1163,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::post('/orders/filter', [ClientPanelProfileController::class, 'filter'])->name('orders.filter');
 
-        Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
+        Route::get('/faturayi-goruntule/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');

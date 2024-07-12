@@ -152,7 +152,7 @@ class DashboardController extends Controller
             ->get();
 
     
-            return view( 'institutional.reservations.get', compact('refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
+            return view( 'client.panel.reservations.get', compact('refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
 
     public function cancelReservationRequest(Request $request, $id)
