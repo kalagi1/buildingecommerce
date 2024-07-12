@@ -98,7 +98,7 @@
                                         @break
 
                                         @case(1)
-                                            İADE TALEBİ ONAYLANDI
+                                            SİPARİŞ REDDEDİLDİ
                                         @break
 
                                         @case(3)
@@ -197,16 +197,16 @@
                         </div>
 
                         <div>
-                            @if ($order->invoice)
-                                <a href="{{ route('institutional.invoice.show', $order->id) }}"
-                                    class="btn btn-primary">Faturayı Görüntüle</a>
-                            @endif
+
                             <button class="btn btn-outline-primary">
                                 <a
                                     href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
                                     Gör</a>
                             </button>
-
+                            @if ($order->invoice)
+                                <a href="{{ route('institutional.invoice.show', $order->id) }}"
+                                    class="btn btn-primary">Faturayı Görüntüle</a>
+                            @endif
 
                         </div>
                     </div>
