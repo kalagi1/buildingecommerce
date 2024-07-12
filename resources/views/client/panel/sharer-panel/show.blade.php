@@ -150,6 +150,7 @@
                     <li>
                         <span class="ml-auto text-success priceFont">
                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                               <div class="text-dark" style="color:black">
                                 <span>Komisyon Miktarı:</span><br>
 
                                 @if ($item['item_type'] == 2)
@@ -224,6 +225,7 @@
                                         @endif ₺
                                     </strong>
                                 @endif
+                               </div>
                             @else
                                 @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                     <strong style="color: orange">
