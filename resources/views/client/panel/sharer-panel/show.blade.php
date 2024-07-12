@@ -192,9 +192,9 @@
                                                             ->daily_rent[0]);
 
 
-                                                            echo $discountedPrice;
+                                                            echo $sales_rate_club;
 
-                                            $total = $discountedPrice * 0.04 * $share_percent_earn;
+                                            $total = $discountedPrice * 0.02 * $share_percent_earn;
 
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
