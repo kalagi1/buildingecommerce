@@ -260,18 +260,29 @@
                                     </strong>
                                 @elseif (
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1') ||
-                                        (isset($item['share_price']['balance']) && $item['action'] && $item['action'] == 'sold'))
+                                        ($item['action'] && $item['action'] == 'sold'))
                                     <strong style="color: green">
-                                        <span>Komisyon Kazancınız:</span><br>
-                                        {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
-                                        ₺
+                                        <span>Komisyon Kazancınız @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span>
+                                        <br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
 
                                     </strong>
                                 @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                     <strong style="color: red">
-                                        <span>Kazancınız Reddedildi:</span><br>
-                                        {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
-                                        ₺
+                                        <span>Kazancınız Reddedildi @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
 
                                     </strong>
                                 @else
