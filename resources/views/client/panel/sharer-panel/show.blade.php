@@ -89,6 +89,7 @@
                                 1 Hisse Fiyatı
                             </span>
                         @endif
+                        {{ dd($item['action']) }}
                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
                                 <span style="color: green;">
