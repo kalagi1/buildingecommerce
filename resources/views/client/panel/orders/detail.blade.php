@@ -180,37 +180,36 @@
                         <div class="order-item-quantity">
                             <p class="text-muted">{{ number_format($o->item->price, 0, ',', '.') }}₺</p>
                         </div>
-                        @if ($order->invoice)
-                            <a href="{{ route('institutional.invoice.show', $order->id) }}"
-                                class="btn btn-primary">Faturayı Görüntüle</a>
-                        @endif
+
                     </div>
-                    @if ($isUserOwner)
-                        <div class="order-item-footer">
+                    <div class="order-item-footer">
 
 
-                            <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
-                                @if ($storeImage)
-                                    <img class="rounded-circle" src="{{ $storeImage }}" alt=""
-                                        style="width: 20px;height: 20px">
-                                @else
-                                    <span style="width: 20px;height: 20px">{{ $initial }}</span>
-                                @endif
-                                <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
-                                    {{ $userName }}</p>
-                            </div>
-
-                            <div>
-                                <button class="btn btn-outline-primary">
-                                    <a
-                                        href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
-                                        Gör</a>
-                                </button>
-
-
-                            </div>
+                        <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
+                            @if ($storeImage)
+                                <img class="rounded-circle" src="{{ $storeImage }}" alt=""
+                                    style="width: 20px;height: 20px">
+                            @else
+                                <span style="width: 20px;height: 20px">{{ $initial }}</span>
+                            @endif
+                            <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
+                                {{ $userName }}</p>
                         </div>
-                    @endif
+
+                        <div>
+                            @if ($order->invoice)
+                                <a href="{{ route('institutional.invoice.show', $order->id) }}"
+                                    class="btn btn-primary">Faturayı Görüntüle</a>
+                            @endif
+                            <button class="btn btn-outline-primary">
+                                <a
+                                    href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
+                                    Gör</a>
+                            </button>
+
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="order-detail-inner">
@@ -347,8 +346,7 @@ Sipariş Notu eklenmedi
                                         <div class="mb-3">
                                             <input type="file" name="pdf_file" class="form-control">
                                         </div>
-                                        <button class="btn btn-success me-1 mb-1 mt-3"
-                                            type="submit">Yükle</button>
+                                        <button class="btn btn-success me-1 mb-1 mt-3" type="submit">Yükle</button>
                                     </form>
                                 </div>
                             </div>
