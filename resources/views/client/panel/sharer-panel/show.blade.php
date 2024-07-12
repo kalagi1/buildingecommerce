@@ -268,6 +268,26 @@
                                 Koleksiyondan Kaldır</a>
 
                         </li>
+                        <li>
+                            <a
+                                href="{{ $orderCart['type'] == 'housing'
+                                    ? route('housing.show', [
+                                        'housingSlug' => $item['housing']->slug,
+                                        'housingID' => $item['housing']->id + 2000000,
+                                    ])
+                                    : route('project.housings.detail', [
+                                        'projectSlug' =>
+                                            optional(App\Models\Project::find($item['project']->id))->slug .
+                                            '-' .
+                                            optional(App\Models\Project::find$item['project']->id))->step2_slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($item['project']->id))->housingtype->slug,
+                                        'projectID' => optional(App\Models\Project::find($item['project']->id))->id + 1000000,
+                                        'housingOrder' =>  $item['room_order'],
+                                    ]) }}">İlanı
+                                Gör</a>
+
+                        </li>
                     </ul>
                 </div>
 
