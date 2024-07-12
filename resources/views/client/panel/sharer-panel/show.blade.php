@@ -182,12 +182,20 @@
                                             if ($sales_rate_club === null && count($rates) > 0) {
                                                 $sales_rate_club = $rates->last()->sales_rate_club;
                                             }
-                                            echo $share_percent_earn;
+                                            $discountedPrice =
+                                                isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                                                    ? $discountedPrice
+                                                    : (json_decode($item['housing']['housing_type_data'])->price[0]
+                                                        ? json_decode($item['housing']['housing_type_data'])
+                                                            ->discount_rate[0]
+                                                        : json_decode($item['housing']['housing_type_data'])
+                                                            ->daily_rent[0]);
+
+                                                            echo $discountedPrice;
 
                                             $total = $discountedPrice * 0.04 * $share_percent_earn;
 
                                             $earningAmount = $total * $sales_rate_club;
-                                            echo $earningAmount;
                                         @endphp
                                         <strong>
                                             @if (strpos($earningAmount, '.') == false)
