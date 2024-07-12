@@ -59,7 +59,7 @@
                             href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
                             <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                 alt="home-1" class="img-responsive"
-                                style="height: 40px !important;width: 40px !important; object-fit: cover;border-radius:50%">
+                                style="height: 40px !important;width: 40px !important; object-fit: cover;border-radius:50%;border: 1px solid #bebebe;">
                         </a>
                     </li>
                     <li>
@@ -81,7 +81,7 @@
                                     ? $item['housing']['city']['title']
                                     : 'City Not Available') }}
                             <br>
-                        </span> 
+                        </span>
                     </li>
                     <li>
                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -150,7 +150,7 @@
                     <li>
                         <span class="ml-auto text-success priceFont">
                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                            <span>Komisyon Miktarı:</span><br>
+                                <span>Komisyon Miktarı:</span><br>
 
                                 @if ($item['item_type'] == 2)
                                     @php
@@ -273,22 +273,26 @@
 
                         </li>
                         <li>
-                            <a href="{{ $item['item_type'] != 1
-                                ? route('housing.show', [
-                                    'housingSlug' => $item['housing']->slug,
-                                    'housingID' => $item['housing']->id + 2000000,
-                                ])
-                                : route('project.housings.detail', [
-                                    'projectSlug' => optional(App\Models\Project::find($item['project']->id))->slug . '-' .
-                                        optional(App\Models\Project::find($item['project']->id))->step2_slug . '-' .
-                                        optional(App\Models\Project::find($item['project']->id))->housingtype->slug,
-                                    'projectID' => optional(App\Models\Project::find($item['project']->id))->id + 1000000,
-                                    'housingOrder' => $item['room_order'],
-                                ]) }}">
+                            <a
+                                href="{{ $item['item_type'] != 1
+                                    ? route('housing.show', [
+                                        'housingSlug' => $item['housing']->slug,
+                                        'housingID' => $item['housing']->id + 2000000,
+                                    ])
+                                    : route('project.housings.detail', [
+                                        'projectSlug' =>
+                                            optional(App\Models\Project::find($item['project']->id))->slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($item['project']->id))->step2_slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($item['project']->id))->housingtype->slug,
+                                        'projectID' => optional(App\Models\Project::find($item['project']->id))->id + 1000000,
+                                        'housingOrder' => $item['room_order'],
+                                    ]) }}">
                                 İlanı Gör
                             </a>
                         </li>
-                        
+
                     </ul>
                 </div>
 
@@ -433,6 +437,21 @@
                 color: #666;
             }
 
+        }
+
+        .project-table-content ul {
+            display: flex;
+            justify-content: space-between;
+            /* Eşit dağılım */
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .project-table-content li {
+            flex: 1;
+            /* Her bir li'nin eşit genişlikte olmasını sağlar */
+            text-align: center;
+            /* İsterseniz metinleri ortalayabilirsiniz */
         }
     </style>
 @endsection
