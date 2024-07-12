@@ -143,7 +143,7 @@
 
                         </div>
                     @elseif($order->user_id == Auth::user()->id)
-                        <div class="order-status-container mt-3" style="background-color : #1581f5 ">
+                        <div class="order-status-container mb-3" style="background-color : #1581f5 ">
                             <div class="left">
                                 <i class="fa fa-check"></i>
                                 <span>
@@ -945,12 +945,13 @@
         }
 
         .order-status-container {
+            color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
             display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-            margin-top: 10px;
+            justify-content: space-between;
         }
 
         .order-status-container .left {
