@@ -194,9 +194,9 @@
 
 
                                             $total = $discountedPrice * 0.02 * $share_percent_earn;
-                                            echo $total;
 
                                             $earningAmount = $total * $sales_rate_club;
+                                            echo $earningAmount;
                                         @endphp
                                         {{-- <strong>
                                             @if (strpos($earningAmount, '.') == false)
