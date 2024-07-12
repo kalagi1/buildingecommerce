@@ -135,13 +135,6 @@
                                 '<span class=" fs-10 text-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                         ][$order->status] !!}
                     </span>
-                    @if ($order->invoice && $order->status == 1)
-                        <span class=" fs-10 text-success">
-                            <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                Faturayı Görüntüle
-                            </a>
-                        </span>
-                    @endif
                 </li>
             @endif
 

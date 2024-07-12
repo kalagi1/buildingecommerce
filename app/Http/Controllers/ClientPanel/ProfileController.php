@@ -58,11 +58,13 @@ class ProfileController extends Controller
             $query->whereDate('created_at', '<=', $request->endDate);
         }
 
-        if ($request->has("type") && $request->has("type") == "my-orders") {
-            $query->where('user_id', auth()->user()->id);
+        if (empty($request->startDate) && empty($request->endDate)) {
+            $query->orderBy("id", "desc");
         }
 
-        if ($request->has("type") && $request->has("type") == "my-sells") {
+        if ($request->has("key") && $request->has("key") == "my-orders") {
+            $query->where('user_id', auth()->user()->id);
+        } else if ($request->has("key") && $request->has("key") == "my-sells") {
             $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
             $userHousingIds = $user->housings->pluck('id')->toArray();
             $userProjectIds = $user->projects->pluck('id')->toArray();
