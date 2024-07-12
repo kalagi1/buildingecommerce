@@ -156,8 +156,8 @@
                         <img src="https://via.placeholder.com/100" alt="Product Image">
                         <div class="order-item-details">
                             <h5><strong>{{ json_decode($order->cart)->item->title }}
-                                <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}
-                                    No'lu Konut </strong></strong></h5>
+                                    <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}
+                                        No'lu Konut </strong></strong></h5>
                             <p class="text-muted">Macbook Air</p>
                             <p class="text-muted">Medium Black</p>
                         </div>
@@ -1015,6 +1015,8 @@
             width: 20px;
             vertical-align: middle;
             margin-right: 5px;
+            border-radius: 50%;
+            height: 20px;
         }
 
         .shipment .detail img {
