@@ -383,7 +383,7 @@ class SharerController extends Controller
                 $offSale = isset($housingTypeData['off_sale1']);
             }
 
-            if ($item->item_type == 1) {
+            if ($item->item_type == 1 || $item->item_type == 0) {
 
                 $userProjectIds = $sharer->projects->pluck('id');
                 $discount_amount = Offer::where('type', 'project')->where('project_id', $item->project->id)
