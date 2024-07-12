@@ -43,17 +43,18 @@ class ProfileController extends Controller
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('id', 'like', "%$search%")
-                    ->where('amount', 'like', "%$search%")
-                    ->where('key', 'like', "%$search%")
-                    ->orWhereHas('store', function ($q) use ($search) {
-                        $q->where('name', 'like', "%$search%");
-                    })
-                    ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('name', 'like', "%$search%");
-                    });
+                $q->orWhere('id', 'like', "%$search%")
+                  ->orWhere('amount', 'like', "%$search%")
+                  ->orWhere('key', 'like', "%$search%")
+                  ->orWhereHas('store', function ($q) use ($search) {
+                      $q->where('name', 'like', "%$search%");
+                  })
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('name', 'like', "%$search%");
+                  });
             });
         }
+        
 
         if ($request->has('startDate') && !empty($request->startDate)) {
             $query->whereDate('created_at', '>=', $request->startDate);
