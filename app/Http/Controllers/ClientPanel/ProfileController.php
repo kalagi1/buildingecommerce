@@ -69,7 +69,7 @@ class ProfileController extends Controller
     {
         $cartOrderId = decode_id($hashedId);
 
-        $order = CartOrder::where('id', $cartOrderId)->first();
+        $order = CartOrder::with("store")->where('id', $cartOrderId)->first();
 
         return view('client.panel.orders.detail', compact('order'));
     }
