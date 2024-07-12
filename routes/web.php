@@ -1139,7 +1139,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
         Route::get('/create_housing_v2', [InstitutionalHousingController::class, 'createV2'])->name('housing.create.v2');
-        Route::get('/create_housing_v3', [InstitutionalHousingController::class, 'createV3'])->name('housing.create.v3');
+        Route::get('/emlak-ilani-ekle', [InstitutionalHousingController::class, 'createV3'])->name('housing.create.v3');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
         Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
