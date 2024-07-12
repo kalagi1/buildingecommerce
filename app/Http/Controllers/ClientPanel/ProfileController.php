@@ -62,31 +62,28 @@ class ProfileController extends Controller
             $query->orderBy("id", "desc");
         }
 
-        if ($request->has("key") && $request->has("key") == "my-orders") {
-            $query->where('user_id', auth()->user()->id);
-        } else if ($request->has("key") && $request->has("key") == "my-sells") {
-            $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
-            $userHousingIds = $user->housings->pluck('id')->toArray();
-            $userProjectIds = $user->projects->pluck('id')->toArray();
-
-            if ($userProjectIds) {
-                $query->where(function ($query) use ($userProjectIds) {
-                    $query->whereIn(
-                        DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
-                        $userProjectIds
-                    );
-                })->where("is_disabled", NULL);
-            }
-
-            if ($userHousingIds) {
-                $query->where(function ($query) use ($userHousingIds) {
-                    $query->whereIn(
-                        DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
-                        $userHousingIds
-                    );
-                })->where("is_disabled", NULL);
+        if ($request->has("key")) {
+            if ($request->key == "my-orders") {
+                $query->where('user_id', auth()->user()->id);
+            } elseif ($request->key == "my-sells") {
+                $user = User::with("projects", "housings")->find(Auth::user()->id);
+                $userHousingIds = $user->housings->pluck('id')->toArray();
+                $userProjectIds = $user->projects->pluck('id')->toArray();
+        
+                // Merge housing and project IDs
+                $mergedIds = array_merge($userProjectIds, $userHousingIds);
+        
+                if (!empty($mergedIds)) {
+                    $query->where(function ($query) use ($mergedIds) {
+                        $query->whereIn(
+                            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                            $mergedIds
+                        );
+                    })->where("is_disabled", NULL);
+                }
             }
         }
+        
 
         $cartOrders = $query->get();
 
