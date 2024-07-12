@@ -192,7 +192,7 @@
                                                             ->daily_rent[0]);
 
 
-                                                            echo $share_percent_earn;
+                                                            echo $discountedPrice;
 
                                             $total = $discountedPrice * 0.04 * $share_percent_earn;
 
