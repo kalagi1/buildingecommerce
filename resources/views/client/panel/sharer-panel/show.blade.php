@@ -277,6 +277,8 @@
 @endsection
 
 @section('scripts')
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.project-table-content-actions-button').on('click', function() {
