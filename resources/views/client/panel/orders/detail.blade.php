@@ -204,7 +204,7 @@
                                     Gör</a>
                             </button>
                             @if ($order->invoice)
-                                <a href="{{ route('institutional.invoice.show', $order->id) }}"
+                                <a href="{{ route('institutional.invoice.show', hash_id($order->id)) }}"
                                     class="btn btn-primary">Faturayı Görüntüle</a>
                             @endif
 
