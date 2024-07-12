@@ -1011,7 +1011,7 @@
             margin: 5px 0;
         }
 
-        .event .brand img {
+        .event img {
             width: 20px;
             vertical-align: middle;
             margin-right: 5px;
