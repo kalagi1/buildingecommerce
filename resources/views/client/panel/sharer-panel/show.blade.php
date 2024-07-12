@@ -48,7 +48,7 @@
             @endphp
             <div class="project-table-content">
                 <ul>
-                    <li >
+                    <li>
                         #{{ $item['item_type'] == 1
                             ? $item['project']->id + 1000000 . '-' . $item['room_order']
                             : $item['housing']->id + 2000000 }}
@@ -247,16 +247,18 @@
                             @endif
                         </span>
                     </li>
-                    <li span class="project-table-content-actions-button"
+                    <li> <span class="project-table-content-actions-button"
                             data-toggle="popover-{{ $item['item_type'] == 1
-                            ? $item['project']->id + 1000000 . '-' . $item['room_order']
-                            : $item['housing']->id + 2000000 }}"><i class="fa fa-chevron-down"></i></span>
+                                ? $item['project']->id + 1000000 . '-' . $item['room_order']
+                                : $item['housing']->id + 2000000 }}"><i
+                                class="fa fa-chevron-down"></i></span>
 
                     </li>
                 </ul>
-                <div class="popover-project-actions d-none" id="popover-{{$item['item_type'] == 1
-                            ? $item['project']->id + 1000000 . '-' . $item['room_order']
-                            : $item['housing']->id + 2000000}}">
+                <div class="popover-project-actions d-none"
+                    id="popover-{{ $item['item_type'] == 1
+                        ? $item['project']->id + 1000000 . '-' . $item['room_order']
+                        : $item['housing']->id + 2000000 }}">
                     <ul>
                         <li class="btn btn-info remove-from-collection btn-sm" style="float: right"
                             data-collection="{{ $collection }}"
@@ -269,15 +271,12 @@
                 </div>
 
             </div>
-
-        
         @endforeach
     </section>
 
 @endsection
 
 @section('scripts')
-
     <script>
         $(document).ready(function() {
             $(".remove-from-collection").on("click", function() {
