@@ -261,7 +261,7 @@
                         : $item['housing']->id + 2000000 }}">
                     <ul>
                         <li>
-                            <a class="btn btn-info remove-from-collection btn-sm" style="float: right"
+                            <a class="remove-from-collection" 
                                 data-collection="{{ $collection }}"
                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
