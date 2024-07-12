@@ -187,7 +187,7 @@
                                                     ? $discountedPrice
                                                     : (json_decode($item['housing']['housing_type_data'])->price[0]
                                                         ? json_decode($item['housing']['housing_type_data'])
-                                                            ->discount_rate[0]
+                                                            ->price[0]
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
 
