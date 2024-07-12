@@ -58,9 +58,7 @@ class ProfileController extends Controller
             $query->whereDate('created_at', '<=', $request->endDate);
         }
 
-        if (empty($request->startDate) && empty($request->endDate)) {
-            $query->orderBy("id", "desc");
-        }
+        $query->orderBy("id", "desc");
 
         if ($request->has("key")) {
             if ($request->key == "my-orders") {
@@ -69,10 +67,10 @@ class ProfileController extends Controller
                 $user = User::with("projects", "housings")->find(Auth::user()->id);
                 $userHousingIds = $user->housings->pluck('id')->toArray();
                 $userProjectIds = $user->projects->pluck('id')->toArray();
-        
+
                 // Merge housing and project IDs
                 $mergedIds = array_merge($userProjectIds, $userHousingIds);
-        
+
                 if (!empty($mergedIds)) {
                     $query->where(function ($query) use ($mergedIds) {
                         $query->whereIn(
@@ -83,12 +81,13 @@ class ProfileController extends Controller
                 }
             }
         }
-        
+
 
         $cartOrders = $query->get();
+        $key = $request->key;
 
         return response()->json([
-            'html' => view('client.panel.orders_list', compact('cartOrders'))->render()
+            'html' => view('client.panel.orders_list', compact('cartOrders', 'key'))->render()
         ]);
     }
 

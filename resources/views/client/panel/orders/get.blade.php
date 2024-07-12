@@ -20,11 +20,10 @@
             <div class="d-flex align-items-center">
                 <input type="date" id="startDate" class="form-control mr-3">
                 <input type="date" id="endDate" class="form-control">
-                <button id="filterButton" class="btn btn-outline-primary ml-3">
-                    <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                    </svg>Filtrele</button>
+                <button id="filterButton" class="btn btn-outline-primary ml-3">Filtrele</button>
+                <button id="clearButton" class="btn btn-outline-secondary ml-2">
+                    Temizle
+                </button>
             </div>
         </div>
         {{-- <div class="spinBorder text-danger d-none mb-5" role="status">
@@ -35,7 +34,7 @@
         </div> --}}
         <div id="user-list-table-body">
 
-            @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
+            @include('client.panel.orders_list', ['cartOrders' => $cartOrders,  "key" => "my-orders"])
         </div>
     </section>
 @endsection
@@ -50,7 +49,12 @@
             $('#searchInput').on('input', function() {
                 filterOrders();
             });
-
+            $('#clearButton').on('click', function() {
+                $('#searchInput').val('');
+                $('#startDate').val('');
+                $('#endDate').val('');
+                filterOrders(); // Optionally refresh results after clearing
+            });
             function filterOrders() {
                 // $(".spinBorder").removeClass("d-none");
 
@@ -151,9 +155,10 @@
             overflow: hidden !important;
         }
 
-        #filterButton {
+        #filterButton,
+        #clearButton {
             justify-content: center;
-            height: 40px;
+            height: 30px;
             display: flex;
             align-items: center;
         }

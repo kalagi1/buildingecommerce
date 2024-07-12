@@ -25,11 +25,14 @@
                         fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                         <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
                     </svg>Filtrele</button>
+                <button id="clearButton" class="btn btn-outline-secondary ml-2">
+                    Temizle
+                </button>
             </div>
         </div>
         <div id="user-list-table-body">
 
-            @include('client.panel.orders_list', ['cartOrders' => $cartOrders])
+            @include('client.panel.orders_list', ['cartOrders' => $cartOrders, 'key' => 'my-sells'])
         </div>
     </section>
 @endsection
@@ -43,6 +46,12 @@
 
             $('#searchInput').on('input', function() {
                 filterOrders();
+            });
+            $('#clearButton').on('click', function() {
+                $('#searchInput').val('');
+                $('#startDate').val('');
+                $('#endDate').val('');
+                filterOrders(); // Optionally refresh results after clearing
             });
 
             function filterOrders() {
@@ -60,7 +69,7 @@
                         search: searchInput,
                         startDate: startDate,
                         endDate: endDate,
-                         key: "my-sells"
+                        key: "my-sells"
                     },
                     success: function(response) {
                         $('#user-list-table-body').html(response.html);
@@ -145,9 +154,10 @@
             overflow: hidden !important;
         }
 
-        #filterButton {
+        #filterButton,
+        #clearButton {
             justify-content: center;
-            height: 40px;
+            height: 30px;
             display: flex;
             align-items: center;
         }

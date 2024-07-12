@@ -58,7 +58,6 @@
                         $initial = $order->store->name ? sultoupper(subsul($order->store->name, 0, 1)) : '';
                         $storeImage = $initial;
                     }
-                
                 }
 
             @endphp
@@ -67,10 +66,13 @@
 
             <li class="sales_person align-middle white-space-nowrap">
                 <a target="_blank"
-                    href="{{ route('institutional.dashboard', ['slug' => $order->store ? $order->store->name : $order->user->name, 'userID' => $order->store ? $order->store->id : $order->user->id]) }}"
+                    href="{{ route('institutional.dashboard', ['slug' => $key && $key == "my-orders" ? $order->store->name : $order->user->name , 'userID' => $key && $key == "my-orders" ? $order->store->id : $order->user->id ]) }}"
                     class="d-flex align-items-center text-body">
                     <div class="avatar avatar-m">
-                        <img class="rounded-circle" src="{{ $storeImage }}" alt="" style="width:50px;height:50px"></div>
+                        <img class="rounded-circle" src="{{ $storeImage }}" alt=""
+                            style="width:50px;height:50px">
+                    </div>
+                    <p style="margin-left: 10px">{{ $key && $key == "my-orders" ? $order->store->name : $order->user->name }}</p>
                 </a>
             </li>
 
