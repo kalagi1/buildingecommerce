@@ -58,6 +58,34 @@ class ProfileController extends Controller
             $query->whereDate('created_at', '<=', $request->endDate);
         }
 
+        if ($request->has("type") && $request->has("type") == "my-orders") {
+            $query->where('user_id', auth()->user()->id);
+        }
+
+        if ($request->has("type") && $request->has("type") == "my-sells") {
+            $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
+            $userHousingIds = $user->housings->pluck('id')->toArray();
+            $userProjectIds = $user->projects->pluck('id')->toArray();
+
+            if ($userProjectIds) {
+                $query->where(function ($query) use ($userProjectIds) {
+                    $query->whereIn(
+                        DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                        $userProjectIds
+                    );
+                })->where("is_disabled", NULL);
+            }
+
+            if ($userHousingIds) {
+                $query->where(function ($query) use ($userHousingIds) {
+                    $query->whereIn(
+                        DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                        $userHousingIds
+                    );
+                })->where("is_disabled", NULL);
+            }
+        }
+
         $cartOrders = $query->get();
 
         return response()->json([

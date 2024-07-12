@@ -44,21 +44,33 @@
         <ul>
             @php
                 $orderCart = json_decode($order->cart, true);
-                if ($order->store->profile_image) {
-                    $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                if (Auth::check() && Auth::user()->id == $order->store->id) {
+                    if ($order->user->profile_image) {
+                        $storeImage = url('storage/profile_images/' . $order->user->profile_image);
+                    } else {
+                        $initial = $order->user->name ? sultoupper(subsul($order->user->name, 0, 1)) : '';
+                        $storeImage = $initial;
+                    }
                 } else {
-                    $initial = $order->store->name ? sultoupper(subsul($order->store->name, 0, 1)) : '';
-                    $storeImage = $initial;
+                    if ($order->store->profile_image) {
+                        $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                    } else {
+                        $initial = $order->store->name ? sultoupper(subsul($order->store->name, 0, 1)) : '';
+                        $storeImage = $initial;
+                    }
+                
                 }
+
             @endphp
 
             <li class="no"><span>#{{ $order->id }}</span></li>
 
             <li class="sales_person align-middle white-space-nowrap">
                 <a target="_blank"
-                    href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
+                    href="{{ route('institutional.dashboard', ['slug' => $order->store ? $order->store->name : $order->user->name, 'userID' => $order->store ? $order->store->id : $order->user->id]) }}"
                     class="d-flex align-items-center text-body">
-                    <div class="avatar avatar-m"><img class="rounded-circle" src="{{ $storeImage }}" alt=""></div>
+                    <div class="avatar avatar-m">
+                        <img class="rounded-circle" src="{{ $storeImage }}" alt="" style="width:50px;height:50px"></div>
                 </a>
             </li>
 
@@ -133,8 +145,8 @@
                 </li>
             @endif
 
-            <li><span class="project-table-content-actions-button"
-                    data-toggle="popover-{{ $order->id }}"><i class="fa fa-chevron-down"></i></span></li>
+            <li><span class="project-table-content-actions-button" data-toggle="popover-{{ $order->id }}"><i
+                        class="fa fa-chevron-down"></i></span></li>
         </ul>
         <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
             <ul>

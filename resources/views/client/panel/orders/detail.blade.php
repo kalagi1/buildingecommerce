@@ -55,6 +55,8 @@
         } else {
             $userName = json_decode(App\Models\Project::with('user')->find($item->id ?? 0))->user->name;
         }
+        $isStoreOwner = $order->store_id == Auth::user()->id;
+        $isUserOwner = $order->user_id == Auth::user()->id;
     @endphp
 
     <div class="d-flex justify-content-between align-items-center mb-5">
@@ -90,71 +92,62 @@
                         <div class="status">
                             <p>
                                 @if ($order->refund != null)
-                                    @if ($order->refund->status == 2)
-                                        İADE TALEBİ REDDEDİLDİ
-                                    @elseif($order->refund->status == 1)
-                                        İADE TALEBİ ONAYLANDI
-                                    @elseif($order->refund->status == 3)
-                                        İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
-                                    @else
-                                        İADE TALEBİ İÇİN ONAY BEKLENİYOR
-                                    @endif
+                                    @switch($order->refund->status)
+                                        @case(2)
+                                            İADE TALEBİ REDDEDİLDİ
+                                        @break
+
+                                        @case(1)
+                                            İADE TALEBİ ONAYLANDI
+                                        @break
+
+                                        @case(3)
+                                            İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
+                                        @break
+
+                                        @default
+                                            İADE TALEBİ İÇİN ONAY BEKLENİYOR
+                                    @endswitch
                                 @else
-                                    @if ($order->status == 2)
-                                        SİPARİŞ REDDEDİLDİ
-                                    @elseif($order->status == 1)
-                                        SİPARİŞ ONAYLANDI
-                                    @else
-                                        ÖDEME ONAYI BEKLENİYOR
-                                    @endif
+                                    @switch($order->status)
+                                        @case(2)
+                                            SİPARİŞ REDDEDİLDİ
+                                        @break
+
+                                        @case(1)
+                                            SİPARİŞ ONAYLANDI
+                                        @break
+
+                                        @default
+                                            ÖDEME ONAYI BEKLENİYOR
+                                    @endswitch
                                 @endif
                             </p>
                         </div>
                     </div>
-                    {{-- <div class="progress-bar" style="background-color: #eee;">
-                        <div class="progress"
-                            style="background-color: 
-                            @if ($order->status == 2) #f44336;
-                                width: 100%;
-                            @elseif(
-                                $order->status == 1 ||
-                                    ($order->refund && $order->refund->status == 1) ||
-                                    ($order->refund && $order->refund->status == 3)) 
-                                #4CAF50;
-                                width: 100%;
-                            @else 
-                                #FF9800;
-                                width: 70%; @endif
-                            ">
-                        </div>
-                    </div> --}}
                 </div>
 
                 @if ($order->reference)
-                    @if ($order->store_id == Auth::user()->id)
-                        <div class="order-status-container mb-3" style="background-color : #1581f5 ">
-                            <div class="left">
-                                <i class="fa fa-check"></i>
-                                <span>
-                                    Bu satış <strong>{{ $order->reference->name }}</strong> isimli çalışanızın
-                                    referansı ile gerçekleşmiştir.
-                                </span>
-                            </div>
+                    <div class="order-status-container mb-3" style="background-color: #1581f536">
+                        <div class="left">
+                            <i class="fa fa-check"></i>
+                            <span>
+                                @php
+                                    $referenceName = $order->reference->name;
 
+                                @endphp
+
+                                @if ($isStoreOwner)
+                                    Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
+                                    gerçekleşmiştir.
+                                @elseif ($isUserOwner)
+                                    Satış danışmanınız: <strong>{{ $referenceName }}</strong>
+                                @endif
+                            </span>
                         </div>
-                    @elseif($order->user_id == Auth::user()->id)
-                        <div class="order-status-container mb-3" style="background-color : #1581f5 ">
-                            <div class="left">
-                                <i class="fa fa-check"></i>
-                                <span>
-                                    Satış danışmanınız: <strong>{{ $order->reference->name }}</strong>
-
-                                </span>
-                            </div>
-
-                        </div>
-                    @endif
+                    </div>
                 @endif
+
 
                 <div class="order-item mb-3">
                     <div class="order-item-header">
@@ -166,68 +159,58 @@
                     </div>
                     <div class="order-item-body">
                         @php
-                            $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
-                            $itemImage = isset($orderCartData['item']['image'])
-                                ? $orderCartData['item']['image']
-                                : null; // item özelliğine eriş
+                            $o = json_decode($order->cart);
+                            $itemImage = $o->item->image ?? null;
                         @endphp
-                        @php($o = json_decode($order->cart))
+
                         @if ($o->type == 'housing')
-                            <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
+                            <img src="{{ asset('housing_images/' . optional(App\Models\Housing::find($o->item->id ?? 0)->housing_type_data)->image ?? null) }}"
                                 style="object-fit: cover;width:100px;height:75px" alt="">
                         @else
                             <img src="{{ $itemImage }}" style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                         @endif
+
                         <div class="order-item-details">
-                            <h5><strong>{{ json_decode($order->cart)->item->title }}
-                                    <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}
-                                        No'lu Konut </strong></strong></h5>
-                            <span class="badge badge-danger">İlan No: @if (json_decode($order->cart)->type == 'housing')
-                                    {{ $orderCart['item']['id'] + 2000000 }}
-                                @else
-                                    {{ optional(App\Models\Project::find(json_decode($order->cart)->item->id ?? 0))->id + 1000000 . '-' . json_decode($order->cart)->item->housing }}
-                                @endif
-                            </span>
-
+                            <h5><strong>{{ $o->item->title }}
+                                    {{ $o->type == 'project' ? $o->item->housing . ' No\'lu Konut' : '' }}</strong></h5>
+                            <span class="badge badge-danger">İlan No:
+                                {{ $o->type == 'housing' ? $o->item->id + 2000000 : optional(App\Models\Project::find($o->item->id ?? 0))->id + 1000000 . '-' . $o->item->housing }}</span>
                         </div>
+
                         <div class="order-item-quantity">
-                            <p class="text-muted">
-
-                                {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
-                            </p>
+                            <p class="text-muted">{{ number_format($o->item->price, 0, ',', '.') }}₺</p>
                         </div>
-
+                        @if ($order->invoice)
+                            <a href="{{ route('institutional.invoice.show', $order->id) }}"
+                                class="btn btn-primary">Faturayı Görüntüle</a>
+                        @endif
                     </div>
+                    @if ($isUserOwner)
+                        <div class="order-item-footer">
 
 
-                    <div class="order-item-footer">
+                            <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
+                                @if ($storeImage)
+                                    <img class="rounded-circle" src="{{ $storeImage }}" alt=""
+                                        style="width: 20px;height: 20px">
+                                @else
+                                    <span style="width: 20px;height: 20px">{{ $initial }}</span>
+                                @endif
+                                <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
+                                    {{ $userName }}</p>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-outline-primary">
+                                    <a
+                                        href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
+                                        Gör</a>
+                                </button>
 
 
-                        <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
-                            @if ($storeImage)
-                                <img class="rounded-circle" src="{{ $storeImage }}" alt=""
-                                    style="width: 20px;height: 20px">
-                            @else
-                                <span style="width: 20px;height: 20px">{{ $initial }}</span>
-                            @endif
-                            <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
-                                {{ $userName }}
-                            </p>
+                            </div>
                         </div>
-
-                        <div>
-                            <button class="btn btn-outline-primary">
-                                <a
-                                    href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">
-                                    Mağazayı Gör</a>
-                            </button>
-                            @if ($order->invoice)
-                                <a href="{{ route('institutional.invoice.show', $order->id) }}"
-                                    class="btn btn-primary">Faturayı Görüntüle</a>
-                            @endif
-                        </div>
-                    </div>
-
+                    @endif
                 </div>
 
                 <div class="order-detail-inner">
@@ -235,15 +218,14 @@
                         <i class="fa fa-edit"></i>
                         <h4>Sipariş Notları</h4>
                     </div>
-                    <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10"
-                        readonly>
-@if ($order->notes)
-{{ $order->notes }}@else{{ 'Sipariş Notu eklenmedi' }}
+                    <textarea class="form-control" style="height: 150px" readonly>
+                      @if ($order->notes)
+{!! $order->notes !!}
+@else
+Sipariş Notu eklenmedi
 @endif
-</textarea>
-
+                    </textarea>
                 </div>
-
 
 
 
@@ -254,67 +236,48 @@
 
             <div class="row ">
 
+                <!-- Order Summary -->
                 <div class="col-12">
                     <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Sipariş Özeti</h3>
                             <div>
-                                <!-- Ödeme Yöntemi -->
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
-                                    <p class="text-body-emphasis fw-semibold">
-                                        @if ($order->payment_result && $order->payment_result !== '')
-                                            Kredi Kartı
-                                        @else
-                                            EFT/Havale
-                                        @endif
-                                    </p>
-                                </div>
-
-                                <!-- İlan Fiyatı -->
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">İlan Fiyatı:</p>
-                                    <p class="text-body-emphasis fw-semibold">
-                                        {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
-                                    </p>
-                                </div>
-                                @if ($tam_tutar != $urun_fiyati)
+                                @foreach (['Ödeme Yöntemi', 'İlan Fiyatı', 'Kapora Oranı', 'Kapora Tutarı'] as $title)
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">İndirimli Fiyatı:</p>
+                                        <p class="text-body fw-semibold">{{ $title }}:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{ $tam_tutar_formatli }}
+                                            @switch($title)
+                                                @case('Ödeme Yöntemi')
+                                                    {{ $order->payment_result ? 'Kredi Kartı' : 'EFT/Havale' }}
+                                                @break
+
+                                                @case('İlan Fiyatı')
+                                                    {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
+                                                @break
+
+                                                @case('Kapora Oranı')
+                                                    %{{ $discount_percent }}
+                                                @break
+
+                                                @case('Kapora Tutarı')
+                                                    {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
+                                                @break
+                                            @endswitch
                                         </p>
                                     </div>
-                                @endif
+                                @endforeach
 
                                 @if (isset(json_decode($order->cart)->item->qt) && json_decode($order->cart)->item->qt > 1)
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Pay Adeti:</p>
-                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
-                                        </p>
+                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}</p>
                                     </div>
                                 @endif
-
-                                <!-- Kapora Oranı -->
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">Kapora Oranı:</p>
-                                    <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
-                                </div>
-
-
-                                <!-- Kapora Tutarı -->
-                                <div class="d-flex justify-content-between">
-                                    <p class="text-body fw-semibold">Kapora Tutarı:</p>
-                                    <p class="text-body-emphasis fw-semibold">
-                                        {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
-                                    </p>
-                                </div>
-
-
-
                             </div>
                         </div>
                     </div>
+
+                    <!-- Buyer Information -->
                     <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Alıcı Bilgileri <img
@@ -322,19 +285,13 @@
                                     alt="Verified Icon" class="verifiedIcon"></h3>
                             <div class="event">
                                 <ul class="list-group">
-                                    <li class="list-group-item"> <img
-                                            src="{{ $order->user->profile_image &&
-                                            file_exists(public_path('storage/profile_images/' . $order->user->profile_image))
-                                                ? url('storage/profile_images/' . $order->user->profile_image)
-                                                : url('storage/profile_images/indir.png') }}"
+                                    <li class="list-group-item">
+                                        <img src="{{ $order->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->user->profile_image)) ? url('storage/profile_images/' . $order->user->profile_image) : url('storage/profile_images/indir.png') }}"
                                             alt="Store Image">
-                                        {{ $order->user->name }}</li>
+                                        {{ $order->user->name }}
+                                    </li>
                                     <li class="list-group-item"><i class="fa fa-phone"></i>
-                                        @if ($order->user->phone)
-                                            {{ $order->user->phone }}
-                                        @elseif($order->user->mobile_phone)
-                                            {{ $order->user->mobile_phone }}
-                                        @endif
+                                        {{ $order->user->phone ?: $order->user->mobile_phone }}
                                     </li>
                                     <li class="list-group-item"><i class="fa fa-envelope"></i>
                                         {{ $order->user->email }}
@@ -343,6 +300,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Seller Information -->
                     <div class="card mb-3">
                         <div class="card-body">
                             <h3 class="card-title mb-4">Satıcı Bilgileri <img
@@ -350,19 +309,13 @@
                                     alt="Verified Icon" class="verifiedIcon"></h3>
                             <div class="event">
                                 <ul class="list-group">
-                                    <li class="list-group-item"> <img
-                                            src="{{ $order->store->profile_image &&
-                                            file_exists(public_path('storage/profile_images/' . $order->store->profile_image))
-                                                ? url('storage/profile_images/' . $order->store->profile_image)
-                                                : url('storage/profile_images/indir.png') }}"
+                                    <li class="list-group-item">
+                                        <img src="{{ $order->store->profile_image && file_exists(public_path('storage/profile_images/' . $order->store->profile_image)) ? url('storage/profile_images/' . $order->store->profile_image) : url('storage/profile_images/indir.png') }}"
                                             alt="Store Image">
-                                        {{ $order->store->name }}</li>
+                                        {{ $order->store->name }}
+                                    </li>
                                     <li class="list-group-item"><i class="fa fa-phone"></i>
-                                        @if ($order->store->phone)
-                                            {{ $order->store->phone }}
-                                        @elseif($order->store->mobile_phone)
-                                            {{ $order->store->mobile_phone }}
-                                        @endif
+                                        {{ $order->store->phone ?: $order->store->mobile_phone }}
                                     </li>
                                     <li class="list-group-item"><i class="fa fa-envelope"></i>
                                         {{ $order->store->email }}
@@ -372,7 +325,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
                 @if (Auth::check() && Auth::user()->id == $order->store->id)
@@ -385,8 +337,6 @@
                                     <a href="{{ asset($order->path) }}" target="_blank">
                                         <i class="fa fa-file"></i> Dosyayı Görüntüle
                                     </a>
-                                @else
-                                    <p>PDF dosyası bulunamadı.</p>
                                 @endif
 
                                 <div class="order_status mt-3">
@@ -397,7 +347,7 @@
                                         <div class="mb-3">
                                             <input type="file" name="pdf_file" class="form-control">
                                         </div>
-                                        <button class="btn btn-phoenix-success me-1 mb-1 mt-3"
+                                        <button class="btn btn-success me-1 mb-1 mt-3"
                                             type="submit">Yükle</button>
                                     </form>
                                 </div>
@@ -945,7 +895,7 @@
         }
 
         .order-status-container {
-            color: #fff;
+            color: black;
             border-radius: 10px;
             padding: 20px;
             max-width: 900px;

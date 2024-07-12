@@ -65,7 +65,8 @@
                         _token: "{{ csrf_token() }}",
                         search: searchInput,
                         startDate: startDate,
-                        endDate: endDate
+                        endDate: endDate,
+                        key: "my-orders"
                     },
                     success: function(response) {
                         $('#user-list-table-body').html(response.html);
