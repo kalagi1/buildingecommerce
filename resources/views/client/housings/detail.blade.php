@@ -305,7 +305,7 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (count($labels) <= 0) 
+                                            @if (count($labels) <= 0)
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
                                                         @if (count($val) > 1)
@@ -600,14 +600,13 @@
                                                 </div>
                                             @else
                                                 @if ($sold[0]->status != '1')
-                                                <div class="col-md-12 col-12 p-0 ml-3">
-                                                    <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                        style="color:#EA2B2E !important;cursor: pointer; ">
-                                                        Pazarlık Yap <i class="fa fa-handshake"></i>
-                                                    </a>
-                                                </div>
+                                                    <div class="col-md-12 col-12 p-0 ml-3">
+                                                        <a data-bs-toggle="modal" data-bs-target="#bidModal"
+                                                            style="color:#EA2B2E !important;cursor: pointer; ">
+                                                            Pazarlık Yap <i class="fa fa-handshake"></i>
+                                                        </a>
+                                                    </div>
                                                 @endif
-                                               
                                             @endif
                                         </div>
 
@@ -713,49 +712,53 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (isset(json_decode($housing->housing_type_data)->swap[0]))
-                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                    <div class="add-to-collection-button-wrapper">
-                                        <div class="add-to-collection-button">
 
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#F0F0F0" />
-                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                    <rect width="1440" height="1577"
-                                                        transform="translate(-1100 -1183)" fill="white" />
-                                                    <g id="Group 6131">
-                                                        <g id="Frame 21409">
-                                                            <g id="Group 6385">
-                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#FEF4EB" />
-                                                                <g id="Group 2664">
-                                                                    <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#F27A1A" />
-                                                                    <g id="Group 72">
-                                                                        <path d="M16 11V21M11 16H21" stroke="white"
-                                                                            stroke-width="2" stroke-linecap="round" />
+
+                            @if ($sold[0]->status != '1')
+                                @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
+
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#F0F0F0" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#FEF4EB" />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#F27A1A" />
+                                                                        <g id="Group 72">
+                                                                            <path d="M16 11V21M11 16H21" stroke="white"
+                                                                                stroke-width="2" stroke-linecap="round" />
+                                                                        </g>
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1750_971">
-                                                        <rect width="1440" height="1577" fill="white"
-                                                            transform="translate(-1100 -1183)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
 
-                                            @if ($sold[0]->status != '1')
                                                 <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
-                                            @endif
+
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
-                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                </div>
+                                @endif
                             @endif
                         @endif
 
