@@ -112,7 +112,7 @@
                 <div class="section-title mb-3 mobileSectionTitle">
                     <h2>Popüler İnşaat Markaları</h2>
                 </div>
-                <div class="slick-lancers">
+                <div class="slick-lancers" style="height: 95px">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                         <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
