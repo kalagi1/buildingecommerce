@@ -105,7 +105,7 @@
         </div>
     </section>
 
-    <section class="featured  home18 bg-white mb-5" style="height: 100px">
+    <section class="featured  home18 bg-white mb-3">
         <div class="container">
 
             <div class="portfolio ">
@@ -203,7 +203,7 @@
     </section>
 
 
-    <section class="container justify-content-center mt-4">
+    <section class="container justify-content-center">
 
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
@@ -294,7 +294,7 @@
 
 
     @if ($dashboardProjects->isNotEmpty())
-        <section class="popular-places home18 mb-3 mt-5">
+        <section class="popular-places home18 mb-3 mt-3">
             <div class="container">
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
