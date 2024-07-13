@@ -161,7 +161,11 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
     };
 
     return(
-        <div className='card pt-0 p-3 mt-3'  style={{position:'relative'}}>
+        <>
+        <div class="section-title mt-5">
+        <h2>İlan Özellikleri </h2>
+      </div>
+        <div className='card p-4'  style={{position:'relative'}}>
             <div  id='housing-forms'>
                 {
                     anotherBlockErrors.length > 0 ?
@@ -853,7 +857,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                 }
             </div>
             
-        </div>
+        </div></>
     )
 }
 export default HousingRoom

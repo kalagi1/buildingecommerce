@@ -113,7 +113,7 @@ use App\Http\Controllers\GoogleSheetsController;
  */
 
 
- Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
@@ -837,30 +837,30 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
 
-        //sıfırdan crm rotaları
+    //sıfırdan crm rotaları
 
-        //satış danışmanlarını listele ve proje atama
-        Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
-        Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
+    //satış danışmanlarını listele ve proje atama
+    Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+    Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
 
-        //danisman_id değerine göre müşterilerin listelenmesi
-        Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
-        Route::get('/musteri/bilgileri/{id}',[InstitutionalCrmController::class,'getMusteriBilgileri']);
-        Route::get('/musteri/gecmis/aramalari/{id}',[InstitutionalCrmController::class,'musteriGecmisAramalari']);
+    //danisman_id değerine göre müşterilerin listelenmesi
+    Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+    Route::get('/musteri/bilgileri/{id}', [InstitutionalCrmController::class, 'getMusteriBilgileri']);
+    Route::get('/musteri/gecmis/aramalari/{id}', [InstitutionalCrmController::class, 'musteriGecmisAramalari']);
 
-        //favoriye eklenen müşteri
-        Route::post('/toggle-favorite/{id}', [InstitutionalCrmController::class, 'toggleFavorite'])->name('toggle-favorite');
-        Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
+    //favoriye eklenen müşteri
+    Route::post('/toggle-favorite/{id}', [InstitutionalCrmController::class, 'toggleFavorite'])->name('toggle-favorite');
+    Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
 
-        //yeni armakaydı ve müşteri bilgileri isteği
-        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
-        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
-        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
-        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
-      
-        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
-        
-        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+    //yeni armakaydı ve müşteri bilgileri isteği
+    // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+    Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class, 'newCallCustomerInfo']);
+    Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class, 'newCustomerInfo']);
+    Route::post('/setRating', [InstitutionalCrmController::class, 'setRating'])->name('setRating');
+
+    Route::post('/danisman/musteri/ekleme', [InstitutionalCrmController::class, 'addNewCustomer']);
+
+    // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
@@ -1066,7 +1066,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::get('/', [DashboardController::class, "index"])->name("index");
-    
+
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
@@ -1139,7 +1139,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
         Route::get('/create_housing_v2', [InstitutionalHousingController::class, 'createV2'])->name('housing.create.v2');
-        Route::get('/create_housing_v3', [InstitutionalHousingController::class, 'createV3'])->name('housing.create.v3');
+        Route::get('/emlak-ilani-ekle', [InstitutionalHousingController::class, 'createV3'])->name('housing.create.v3');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
         Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
@@ -1226,30 +1226,29 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/get_installments/{projectId}/{roomOrder}', [ApiProjectController::class, "getInstallments"]);
     Route::post('/preview', [ApiProjectController::class, "getPreview"]);
     Route::get('/get_project_housings_list/{projectId}', [ApiProjectController::class, "getHousingsByProjectId"]);
-    Route::get('/get_sale_closes/{project_id}',[ApiProjectController::class,"getSaleCloses"]);
-    Route::get('/render_pdf/{project_id}/{room_order}',[ApiProjectController::class,"renderPdf"]);
-    Route::get('/get_sale/{project_id}/{room_order}',[ApiProjectController::class,"getSale"]);
+    Route::get('/get_sale_closes/{project_id}', [ApiProjectController::class, "getSaleCloses"]);
+    Route::get('/render_pdf/{project_id}/{room_order}', [ApiProjectController::class, "renderPdf"]);
+    Route::get('/get_sale/{project_id}/{room_order}', [ApiProjectController::class, "getSale"]);
     Route::apiResource('customer', CrmController::class);
 
-    Route::post('new-call-record',[CrmController::class,'newCallRecord']);
-    Route::post('new-appointment',[CrmController::class,'newAppointment']);
-    Route::get('fetch-customers/{customerId}',[CrmController::class,'fetchCustomers']);
-    Route::get('all-appointments',[CrmController::class,'allAppointments']);
+    Route::post('new-call-record', [CrmController::class, 'newCallRecord']);
+    Route::post('new-appointment', [CrmController::class, 'newAppointment']);
+    Route::get('fetch-customers/{customerId}', [CrmController::class, 'fetchCustomers']);
+    Route::get('all-appointments', [CrmController::class, 'allAppointments']);
     Route::get('/appointments/{date}', [CrmController::class, 'getByDate']);
-    Route::get('getbycustomer/{id}',[CrmController::class,'getByCustomer']);
-    Route::get('getbyproject/{id}',[CrmController::class,'getByProject']);
-    Route::get('/get_current_user',[ApiInstitutionalUserController::class,"getCurrentUser"]);
-    Route::get('fetch-users',[CrmController::class,'getAllUsers']);
-    Route::get('fetch-projects',[CrmController::class,'getAllProjects']);
-    Route::post('project_assignment',[CrmController::class,'addProjectAssigment']);
-    Route::get('user-projects/{userId}',[CrmController::class,'getUserProjects']);
+    Route::get('getbycustomer/{id}', [CrmController::class, 'getByCustomer']);
+    Route::get('getbyproject/{id}', [CrmController::class, 'getByProject']);
+    Route::get('/get_current_user', [ApiInstitutionalUserController::class, "getCurrentUser"]);
+    Route::get('fetch-users', [CrmController::class, 'getAllUsers']);
+    Route::get('fetch-projects', [CrmController::class, 'getAllProjects']);
+    Route::post('project_assignment', [CrmController::class, 'addProjectAssigment']);
+    Route::get('user-projects/{userId}', [CrmController::class, 'getUserProjects']);
 
     Route::get('/project_assignment/{userId}', [CrmController::class, 'getAssignedProjectDetails']);
     Route::get('fetch-project-assigments', [CrmController::class, 'fetchProjectAssigments']);
     Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
 
     Route::post('add-user', [CrmController::class, 'addUser']);
-
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
