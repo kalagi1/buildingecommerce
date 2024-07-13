@@ -599,12 +599,15 @@
                                                     </a>
                                                 </div>
                                             @else
+                                                @if ($sold[0]->status != '1')
                                                 <div class="col-md-12 col-12 p-0 ml-3">
                                                     <a data-bs-toggle="modal" data-bs-target="#bidModal"
                                                         style="color:#EA2B2E !important;cursor: pointer; ">
                                                         Pazarlık Yap <i class="fa fa-handshake"></i>
                                                     </a>
                                                 </div>
+                                                @endif
+                                               
                                             @endif
                                         </div>
 
@@ -746,7 +749,9 @@
                                                 </defs>
                                             </svg>
 
-                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            @if ($sold[0]->status != '1')
+                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            @endif
                                         </div>
                                         <i class="fa fa-caret-right"></i>
                                     </div>
