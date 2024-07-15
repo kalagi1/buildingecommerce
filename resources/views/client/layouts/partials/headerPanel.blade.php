@@ -494,7 +494,7 @@
             @foreach ($adBanners as $adBanner)
                 <div class="home-top-banner d-xl-block d-none d-lg-block"
                     style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    <img src="https://emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
                 </div>
             @endforeach
         </div>
