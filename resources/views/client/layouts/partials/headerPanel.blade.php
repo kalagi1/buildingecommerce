@@ -1128,7 +1128,7 @@
         <div class="clearfix"></div>
 
         <div id="preloader">
-            <div id="status">
+            <div id="statusPreloader">
                 <div class="status-mes"></div>
             </div>
         </div>

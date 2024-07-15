@@ -29,9 +29,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
             setCheckedItems(newItems);
         }
     }
-
-    console.log(checkedItems);
-
     const blockDataSet = (blockIndex,keyx,value) => {
         var newDatas = blocks.map((block,key) => {
             if(blockIndex == key){

@@ -137,8 +137,6 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
         }
     }
 
-    console.log(checkedItems);
-    
 
     const blockCheckboxDataSet = (blockIndex,keyx,value,isChecked) => {
         var newDatas = blocks.map((block,key) => {

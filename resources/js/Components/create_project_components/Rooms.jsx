@@ -210,8 +210,6 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
         }
     }
 
-    console.log(checkedItems);
-
     return(
         <div className='card p-3 mt-3'  style={{position:'relative'}}>
             <div  id='housing-forms'>

@@ -1,17 +1,16 @@
-import { Alert, FormControl, Switch } from "@mui/material";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Alert } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import EditorToolbar, { modules, formats } from "./QuilToolbar";
-import BlockRooms from "./BlockRooms";
-import Rooms from "./Rooms";
 import axios from "axios";
-import { baseUrl } from "../../define/variables";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { fromAddress, setDefaults } from "react-geocode";
+import EditorToolbar, { modules, formats } from "./QuilToolbar";
+import HousingRoom from "./HousingRoom";
 import FileUpload from "./FileUpload";
 import FinishArea from "./FinishArea";
-import HousingRoom from "./HousingRoom";
+import { baseUrl } from "../../define/variables";
+
 function HousingForm({
   selectedTypesTitles,
   user,
@@ -39,18 +38,30 @@ function HousingForm({
   const [counties, setCounties] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [map, setMap] = useState(null);
-  const [zoom, setZoom] = useState(3);
-  const mapRef = useRef();
-  const [center, setCenter] = useState({
-    lat: 37.874641,
-    lng: 32.493156,
-  });
+  const [zoom, setZoom] = useState(5);
+  const [center, setCenter] = useState({ lat: 39.0, lng: 35.0 }); // Coordinates for Turkey's center
   const [selectedLocation, setSelectedLocation] = useState({});
-  const setProjectTitle = (projectTitle) => {
-    if (projectTitle.length <= 70) {
-      setProjectDataFunc("project_title", projectTitle);
-    }
-  };
+  const mapRef = useRef();
+
+  useEffect(() => {
+    axios.get(`${baseUrl}cities`).then((res) => setCities(res.data.data));
+
+    setDefaults({
+      key: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
+      language: "en",
+      region: "es",
+    });
+  }, []);
+
+  const fetchCounties = (cityId) =>
+    axios
+      .get(`${baseUrl}counties?city_id=${cityId}`)
+      .then((res) => setCounties(res.data.data));
+
+  const fetchNeighborhoods = (countyId) =>
+    axios
+      .get(`${baseUrl}neighborhoods?county_id=${countyId}`)
+      .then((res) => setNeighborhoods(res.data.data));
 
   const dotNumberFormat = (number) => {
     if (
@@ -89,6 +100,67 @@ function HousingForm({
     });
   }, []);
 
+  const getCounties = (cityId) => {
+    axios.get(baseUrl + "counties?city_id=" + cityId).then((res) => {
+      setCounties(res.data.data);
+    });
+  };
+
+  const getNeighborhoods = (countyId) => {
+    axios.get(baseUrl + "neighborhoods?county_id=" + countyId).then((res) => {
+      setNeighborhoods(res.data.data);
+    });
+  };
+
+  const label = { inputProps: { "aria-label": "Switch demo" } };
+
+  const containerStyle = {
+    width: "100%",
+    height: "400px",
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
+    language: "tr",
+  });
+
+  useEffect(() => {
+    setProjectDataFunc(
+      "coordinates",
+      selectedLocation.lat + "-" + selectedLocation.lng
+    );
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setZoom(6);
+    }, 2000);
+  }, []);
+
+  const onMapLoad = useCallback(
+    (map) => {
+      map.setCenter(center);
+      map.setZoom(5);
+      map.addListener("click", (e) => {
+        if (zoom == 12) {
+          const lat = e.latLng.lat();
+          const lng = e.latLng.lng();
+          setSelectedLocation({ lat, lng });
+        } else {
+          alert("Lütfen il,ilçe ve mahalle seçimini tamamlayınız.");
+        }
+      });
+      setMap(map);
+    },
+    [
+      center,
+      projectData.city_id,
+      projectData.county_id,
+      projectData.neighborhood_id,
+    ]
+  );
+
   const setGeolocation = (cityId, countyId = null, neighborhoodId = null) => {
     var cityTemp = cities.find((city) => {
       return city.id == cityId;
@@ -121,47 +193,26 @@ function HousingForm({
       .catch(console.error);
   };
 
-  const getCounties = (cityId) => {
-    axios.get(baseUrl + "counties?city_id=" + cityId).then((res) => {
-      setCounties(res.data.data);
-    });
+  const checkLocationWithinBounds = (location) => {
+    const cityBounds = {
+      north: 42.0,
+      south: 36.0,
+      east: 45.0,
+      west: 25.0,
+    };
+
+    return (
+      location.lat >= cityBounds.south &&
+      location.lat <= cityBounds.north &&
+      location.lng >= cityBounds.west &&
+      location.lng <= cityBounds.east
+    );
   };
-
-  const getNeighborhoods = (countyId) => {
-    axios.get(baseUrl + "neighborhoods?county_id=" + countyId).then((res) => {
-      setNeighborhoods(res.data.data);
-    });
-  };
-
-  const label = { inputProps: { "aria-label": "Switch demo" } };
-
-  const containerStyle = {
-    width: "100%",
-    height: "400px",
-  };
-
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
-    language: "tr",
-  });
-
-  const onLoad = useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-    map.addListener("click", (e) => {
-      const lat = e.latLng.lat();
-      const lng = e.latLng.lng();
-      setSelectedLocation({ lat, lng });
-    });
-    setMap(map);
-  }, []);
 
   useEffect(() => {
     setProjectDataFunc(
       "coordinates",
-      selectedLocation.lat + "-" + selectedLocation.lng
+      `${selectedLocation.lat}-${selectedLocation.lng}`
     );
   }, [selectedLocation]);
 
@@ -171,30 +222,28 @@ function HousingForm({
 
   useEffect(() => {
     setTimeout(() => {
-      setZoom(6);
+      setZoom(5);
     }, 2000);
   }, []);
 
   return (
     <div>
-      <div class="section-title mt-5">
+      <div className="section-title mt-5">
         <h2>Kategori </h2>
       </div>
       <div className="card p-4 adv-flex">
         <ul className="adv-breadcrumb">
           <li className="fa fa-home"></li>
-          {selectedTypesTitles.map((selectedTypeTitle, index) => {
-            return (
-              <React.Fragment key={index}>
-                <li>{selectedTypeTitle}</li>
-                {index < selectedTypesTitles.length - 1 && (
-                  <li>
-                    <i className="fa fa-chevron-right"></i>
-                  </li>
-                )}
-              </React.Fragment>
-            );
-          })}
+          {selectedTypesTitles.map((title, index) => (
+            <React.Fragment key={index}>
+              <li>{title}</li>
+              {index < selectedTypesTitles.length - 1 && (
+                <li>
+                  <i className="fa fa-chevron-right"></i>
+                </li>
+              )}
+            </React.Fragment>
+          ))}
         </ul>
         <button
           className="btn btn-link"
@@ -204,17 +253,17 @@ function HousingForm({
           Değiştir
         </button>
       </div>
-      <div class="section-title mt-5">
+      <div className="section-title mt-5">
         <h2>İlan Detayları </h2>
       </div>
       <div className="card p-4">
-        <div class="add-classified-note mb-3">
+        <div className="add-classified-note mb-3">
           Kişisel verilerin korunması hakkında detaylı bilgiye{" "}
           <a href="https://emlaksepette.com/sayfa/kvkk-politikasi">buradan</a>{" "}
           ulaşabilirsiniz.
         </div>
         <div className="form-group">
-          <label htmlFor="">
+          <label htmlFor="project_title">
             İlan Başlığı <span className="required">*</span>
           </label>
           <div className="max-character-input">
@@ -223,29 +272,23 @@ function HousingForm({
                 <input
                   id="project_title"
                   value={projectData.project_title}
-                  onChange={(e) => {
-                    setProjectTitle(e.target.value);
-                  }}
+                  onChange={(e) => setProjectTitle(e.target.value)}
                   type="text"
-                  className={
-                    "form-control advert_title " +
-                    (allErrors.includes("project_title") ? "error-border" : "")
-                  }
+                  className={`form-control advert_title ${
+                    allErrors.includes("project_title") ? "error-border" : ""
+                  }`}
                 />
               </div>
               <div className="col-md-2">
-                <label className="max-character" htmlFor="">
-                  {projectData.project_title
-                    ? projectData.project_title.length
-                    : 0}
-                  /70
+                <label className="max-character">
+                  {projectData.project_title?.length || 0}/70
                 </label>
               </div>
             </div>
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="">
+          <label htmlFor="description">
             İlan Açıklaması <span className="required">*</span>
           </label>
           <EditorToolbar />
@@ -253,9 +296,7 @@ function HousingForm({
             theme="snow"
             value={projectData.description}
             id="description"
-            onChange={(e) => {
-              setProjectDataFunc("description", e);
-            }}
+            onChange={(e) => setProjectDataFunc("description", e)}
             modules={modules}
             formats={formats}
             className={allErrors.includes("description") ? "error-border" : ""}
@@ -263,214 +304,204 @@ function HousingForm({
         </div>
       </div>
 
-      <div>
-        <HousingRoom
-          slug={slug}
-          anotherBlockErrors={anotherBlockErrors}
-          selectedBlock={selectedBlock}
-          setSelectedBlock={setSelectedBlock}
-          selectedRoom={selectedRoom}
-          setSelectedRoom={setSelectedRoom}
-          selectedHousingType={selectedHousingType}
-          allErrors={allErrors}
-          blocks={blocks}
-          setBlocks={setBlocks}
-          roomCount={roomCount}
-          setRoomCount={setRoomCount}
-        />
+      <HousingRoom
+        slug={slug}
+        anotherBlockErrors={anotherBlockErrors}
+        selectedBlock={selectedBlock}
+        setSelectedBlock={setSelectedBlock}
+        selectedRoom={selectedRoom}
+        setSelectedRoom={setSelectedRoom}
+        selectedHousingType={selectedHousingType}
+        allErrors={allErrors}
+        blocks={blocks}
+        setBlocks={setBlocks}
+        roomCount={roomCount}
+        setRoomCount={setRoomCount}
+      />
+
+      <div className="section-title mt-5">
+        <h2>Adres Bilgileri</h2>
       </div>
-
-      <div>
-        <div class="section-title mt-5">
-          <h2>Adres Bilgileri</h2>
-        </div>
-        <div className="card p-4">
-          <div className="row">
-            <div className="col-md-4">
-              <label for="">
-                İl <span className="required">*</span>
-              </label>
-              <select
-                value={projectData.city_id}
-                onChange={(e) => {
-                  setGeolocation(e.target.value);
-                  setProjectDataFunc("city_id", e.target.value);
-                  getCounties(e.target.value);
-                }}
-                name="city_id"
-                id="city_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("city_id") ? "error-border" : "")
-                }
-              >
-                <option value="">İl Seç</option>
-                {cities.map((city) => {
-                  return <option value={city.id}>{city.title}</option>;
-                })}
-              </select>
-            </div>
-            <div className="col-md-4">
-              <label for="">
-                İlçe <span className="required">*</span>
-              </label>
-              <select
-                value={projectData.county_id}
-                onChange={(e) => {
-                  setGeolocation(projectData.city_id, e.target.value);
-                  setProjectDataFunc("county_id", e.target.value);
-                  getNeighborhoods(e.target.value);
-                }}
-                name="county_id"
-                id="county_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("city_id") ? "error-border" : "")
-                }
-              >
-                <option value="">İlçe Seç</option>
-                {counties.map((county) => {
-                  return (
-                    <option value={county.ilce_key}>{county.ilce_title}</option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="col-md-4">
-              <label for="">
-                Mahalle <span className="required">*</span>
-              </label>
-              <select
-                onChange={(e) => {
-                  setGeolocation(
-                    projectData.city_id,
-                    projectData.county_id,
-                    e.target.value
-                  );
-                  setProjectDataFunc("neighbourhood_id", e.target.value);
-                }}
-                name="neighbourhood_id"
-                id="neighbourhood_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("neighbourhood_id") ? "error-border" : "")
-                }
-              >
-                <option value="">Mahalle Seç</option>
-                {neighborhoods.map((neighborhood) => {
-                  return (
-                    <option value={neighborhood.mahalle_id}>
-                      {neighborhood.mahalle_title}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+      <div className="card p-4">
+        <div className="row">
+          <div className="col-md-4">
+            <label htmlFor="city_id">
+              İl <span className="required">*</span>
+            </label>
+            <select
+              value={projectData.city_id}
+              onChange={(e) => {
+                setGeolocation(e.target.value);
+                setProjectDataFunc("city_id", e.target.value);
+                fetchCounties(e.target.value);
+              }}
+              name="city_id"
+              id="city_id"
+              className={`form-control ${
+                allErrors.includes("city_id") ? "error-border" : ""
+              }`}
+            >
+              <option value="">İl Seç</option>
+              {cities.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.title}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="row mt-3 p-4">
-            {allErrors.includes("coordinates") ? (
-              <Alert severity="error" style={{ width: "100%",  }} className="mb-3">Harita üzerine bir konum seçin</Alert>
-            ) : (
-              ""
-            )}
-            {isLoaded ? (
-              <GoogleMap
-                zoom={zoom}
-                id="map"
-                ref={mapRef}
-                mapContainerStyle={containerStyle}
-                center={center}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-                options={{
-                  gestureHandling: "greedy",
-                }}
-              >
-                {/* Child components, such as markers, info windows, etc. */}
-                {selectedLocation && <Marker position={selectedLocation} />}
-              </GoogleMap>
-            ) : (
-              <></>
-            )}
+          <div className="col-md-4">
+            <label htmlFor="county_id">
+              İlçe <span className="required">*</span>
+            </label>
+            <select
+              value={projectData.county_id}
+              onChange={(e) => {
+                setGeolocation(projectData.city_id, e.target.value);
+                setProjectDataFunc("county_id", e.target.value);
+                fetchNeighborhoods(e.target.value);
+              }}
+              name="county_id"
+              id="county_id"
+              className={`form-control ${
+                allErrors.includes("county_id") ? "error-border" : ""
+              }`}
+            >
+              <option value="">İlçe Seç</option>
+              {counties.map((county) => (
+                <option key={county.ilce_key} value={county.ilce_key}>
+                  {county.ilce_title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-4">
+            <label htmlFor="neighbourhood_id">
+              Mahalle <span className="required">*</span>
+            </label>
+            <select
+              onChange={(e) => {
+                setGeolocation(
+                  projectData.city_id,
+                  projectData.county_id,
+                  e.target.value
+                );
+                setProjectDataFunc("neighborhood_id", e.target.value);
+              }}
+              name="neighborhood_id"
+              id="neighbourhood_id"
+              className={`form-control ${
+                allErrors.includes("neighborhood_id") ? "error-border" : ""
+              }`}
+            >
+              <option value="">Mahalle Seç</option>
+              {neighborhoods.map((neighborhood) => (
+                <option
+                  key={neighborhood.mahalle_id}
+                  value={neighborhood.mahalle_id}
+                >
+                  {neighborhood.mahalle_title}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
-        <div class="section-title mt-5">
-          <h2>Kapak Fotoğrafı</h2>
-        </div>
-        <FileUpload
-          requiredType={["png", "jpeg", "gif", "jpg"]}
-          accept={"image/png, image/gif, image/jpeg"}
-          projectData={projectData}
-          setProjectData={setProjectData}
-          allErrors={allErrors}
-          fileName={"cover_image"}
-          setProjectDataFunc={setProjectDataFunc}
-          multiple={false}
-        />
-        <div class="section-title mt-5">
-          <h2>İlan Galerisi</h2>
-        </div>
-        <FileUpload
-          requiredType={["png", "jpeg", "gif", "jpg"]}
-          accept={"image/png, image/gif, image/jpeg"}
-          projectData={projectData}
-          setProjectData={setProjectData}
-          allErrors={allErrors}
-          fileName={"gallery"}
-          setProjectDataFunc={setProjectDataFunc}
-          multiple={true}
-        />
-
-        {slug != "gunluk-kiralik" ? (
-          <>
-            <div class="section-title mt-5">
-              <h2>Tapu Belgesi / Noter Sözleşmesi</h2>
-            </div>
-            <FileUpload
-              requiredType={"pdf"}
-              accept={"application/pdf"}
-              projectData={projectData}
-              document={1}
-              setProjectData={setProjectData}
-              fileName={"document"}
-              allErrors={allErrors}
-              setProjectDataFunc={setProjectDataFunc}
-              title="Tapu Belgesi / Noter Sözleşmesi"
-              multiple={false}
-            />
-            {user.type != "1" ? (
-              <>
-                <div class="section-title mt-5">
-                  <h2>Yetki Belgesi</h2>
-                </div>
-                <FileUpload
-                  requiredType={["pdf"]}
-                  accept={"application/pdf"}
-                  projectData={projectData}
-                  document={1}
-                  setProjectData={setProjectData}
-                  fileName={"authority_certificate"}
-                  allErrors={allErrors}
-                  setProjectDataFunc={setProjectDataFunc}
-                  title="Yetki Belgesi"
-                  multiple={false}
-                />
-              </>
-            ) : (
-              ""
-            )}
-          </>
+        {isLoaded ? (
+          <div className="mt-4">
+            <GoogleMap
+              mapContainerStyle={{ height: "300px", width: "100%" }}
+              center={center}
+              zoom={zoom}
+              onLoad={onMapLoad}
+              onUnmount={onUnmount}
+              ref={mapRef}
+            >
+              {selectedLocation.lat && (
+                <Marker position={selectedLocation} draggable />
+              )}
+            </GoogleMap>
+          </div>
         ) : (
-          ""
+          <div className="loading-spinner">Harita Yükleniyor...</div>
         )}
-        <FinishArea
-          projectData={projectData}
-          setProjectDataFunc={setProjectDataFunc}
-          allErrors={allErrors}
-          createProject={createProject}
-        />
       </div>
+
+      <div class="section-title mt-5">
+        <h2>Kapak Fotoğrafı</h2>
+      </div>
+      <FileUpload
+        requiredType={["png", "jpeg", "gif", "jpg"]}
+        accept={"image/png, image/gif, image/jpeg"}
+        projectData={projectData}
+        setProjectData={setProjectData}
+        allErrors={allErrors}
+        fileName={"cover_image"}
+        setProjectDataFunc={setProjectDataFunc}
+        multiple={false}
+      />
+      <div class="section-title mt-5">
+        <h2>İlan Galerisi</h2>
+      </div>
+      <FileUpload
+        requiredType={["png", "jpeg", "gif", "jpg"]}
+        accept={"image/png, image/gif, image/jpeg"}
+        projectData={projectData}
+        setProjectData={setProjectData}
+        allErrors={allErrors}
+        fileName={"gallery"}
+        setProjectDataFunc={setProjectDataFunc}
+        multiple={true}
+      />
+
+      {slug != "gunluk-kiralik" ? (
+        <>
+          <div class="section-title mt-5">
+            <h2>Tapu Belgesi / Noter Sözleşmesi</h2>
+          </div>
+          <FileUpload
+            requiredType={"pdf"}
+            accept={"application/pdf"}
+            projectData={projectData}
+            document={1}
+            setProjectData={setProjectData}
+            fileName={"document"}
+            allErrors={allErrors}
+            setProjectDataFunc={setProjectDataFunc}
+            title="Tapu Belgesi / Noter Sözleşmesi"
+            multiple={false}
+          />
+          {user.type != "1" ? (
+            <>
+              <div class="section-title mt-5">
+                <h2>Yetki Belgesi</h2>
+              </div>
+              <FileUpload
+                requiredType={["pdf"]}
+                accept={"application/pdf"}
+                projectData={projectData}
+                document={1}
+                setProjectData={setProjectData}
+                fileName={"authority_certificate"}
+                allErrors={allErrors}
+                setProjectDataFunc={setProjectDataFunc}
+                title="Yetki Belgesi"
+                multiple={false}
+              />
+            </>
+          ) : (
+            ""
+          )}
+        </>
+      ) : (
+        ""
+      )}
+      <FinishArea
+        projectData={projectData}
+        setProjectDataFunc={setProjectDataFunc}
+        allErrors={allErrors}
+        createProject={createProject}
+      />
     </div>
   );
 }
+
 export default HousingForm;

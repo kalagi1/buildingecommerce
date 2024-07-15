@@ -207,7 +207,6 @@
                                                                 class="mobilePriceStyle">1 Gece</span>
                                                         @else
 
-                                                            {{dd($housing,"asd")}}
                                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                             ₺
                                                         @endif

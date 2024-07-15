@@ -139,7 +139,6 @@ function CreateHousing(props) {
                         ]
                       ) {
                         if (!boolCheck) {
-                          console.log(formDataHousing.name);
                           var elementDesc = document.getElementById(
                             formDataHousing.name.replace("[]", "")
                           );
@@ -361,7 +360,6 @@ function CreateHousing(props) {
           ) {
             if (formDataHousing.required) {
               if (blocks.length < 1) {
-                console.log(formDataHousing);
                 tempErrors.push(formDataHousing.name.replace("[]", ""));
               } else {
                 if (
@@ -404,7 +402,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -459,7 +456,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -503,7 +499,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -546,7 +541,6 @@ function CreateHousing(props) {
           ) {
             if (formDataHousing.required) {
               if (blocks.length < 1) {
-                console.log(formDataHousing);
                 tempErrors.push(formDataHousing.name.replace("[]", ""));
               } else {
                 if (
