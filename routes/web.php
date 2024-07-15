@@ -255,7 +255,7 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
-
+ 
 
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
@@ -836,6 +836,7 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
         //sıfırdan crm rotaları
 
@@ -859,8 +860,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
       
         Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
-        
-        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+   
+        //crm admin dashboard
+        Route::get('/admin/dashboard',[InstitutionalCrmController::class,'adminDashboard'])->name('admin.dashboard');
+        Route::get('/danisman/dashboard',[InstitutionalCrmController::class,'danismanDashboard'])->name('danisman.dashboard');
+                
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');

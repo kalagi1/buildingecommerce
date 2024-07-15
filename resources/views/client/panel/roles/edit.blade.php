@@ -18,7 +18,7 @@
         <div class="single homes-content details mb-30">
 
             <div class="container">
-                <form action="{{ route('institutional.roles.update', $role->id) }}" method="POST">
+                <form action="{{ route('institutional.roles.update', hash_id($role->id)) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
