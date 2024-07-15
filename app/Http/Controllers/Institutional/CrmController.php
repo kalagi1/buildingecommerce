@@ -339,20 +339,18 @@ class CrmController extends Controller
         ->count();
 
         // $favoriteCustomers = DB::table('favorite_customers')->where('danisman_id',Auth::id())->count();
-
         $favoriteCustomers = DB::table('favorite_customers')->count();
 
 
         //dönüş yapılacak müşteriler için danışman filtrelemesi yap canlıya alınca
         $currentDate = now()->toDateString();
-        // Fetch customer IDs for appointments with 'sonraki_gorusme_turu'
+      
         $appointmentCustomerIds = DB::table('appointments')
             ->whereNotNull('sonraki_gorusme_turu')
             // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
             ->pluck('customer_id')
             ->toArray();
 
-        // Fetch customer IDs for customer calls with 'gorusme_durumu' as 'Ulaşılamadı'
         $callCustomerIds = DB::table('customer_calls')
             ->where('gorusme_durumu', 'Ulaşılamadı')
             ->whereDate('meeting_date', $currentDate)
@@ -375,17 +373,17 @@ class CrmController extends Controller
         if ($danisman) {
             $topCaller = DB::table('users')
                 ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
-                ->first(['name']);
+                ->first(['name','profile_image']);
+
         }        
 
-        
         $uniqueUserIds = DB::table('project_assigment')
         ->select('user_id')
         ->distinct()
         ->pluck('user_id');
 
-        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get();
-
+        // $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get();
+        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get(['id', 'name', 'profile_image']);
           // Her danışmanın olumlu müşteri sayısını al
         $olumluMusteriSayilari = [];
         foreach ($satisDanismanlari as $item) {
@@ -395,12 +393,39 @@ class CrmController extends Controller
                 ->count();
         }
 
+           // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
+        $danismanVerileri = [];
+        foreach ($satisDanismanlari as $data) {
+            $aramaSayisi = DB::table('customer_calls')
+                ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                ->count();
+
+            $musteriSayisi = DB::table('assigned_users')
+                ->where('danisman_id', $data->id)
+                ->count();
+
+            $donusYapilanMusteri = DB::table('customer_calls')
+                ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                ->whereDate('meeting_date', $currentDate)
+                ->where('gorusme_durumu', 'Olumlu')
+                ->count();
+
+            $danismanVerileri[$data->id] = [
+                'arama_sayisi' => $aramaSayisi,
+                'musteri_sayisi' => $musteriSayisi,
+                'donus_yapilan_musteri' => $donusYapilanMusteri,
+            ];
+        }
+
         $totalSales = 121445;
         $villaSales =121445;
         $apartmentSales = 121445;
         $landSales =121445;
+
+
         return view('client.panel.crm.danisman_dashboard', compact('totalSales', 'villaSales', 'apartmentSales', 'landSales','totalCustomers',
-        'positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount','topCaller','danisman','satisDanismanlari','olumluMusteriSayilari'));
+        'positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount','topCaller','danisman','satisDanismanlari',
+        'olumluMusteriSayilari','danismanVerileri'));
     }//End
 
     public function adminDashboard(){
@@ -447,6 +472,7 @@ class CrmController extends Controller
                 ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
                 ->first(['name']);
         }        
+        // print_r($topCaller);die;
 
         $uniqueUserIds = DB::table('project_assigment')
         ->select('user_id')
@@ -465,6 +491,30 @@ class CrmController extends Controller
             }
             // print_r($olumluMusteriSayilari);die;
 
+                   // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
+    $danismanVerileri = [];
+    foreach ($satisDanismanlari as $data) {
+        $aramaSayisi = DB::table('customer_calls')
+            ->where('gorusmeyi_yapan_kisi_id', $data->id)
+            ->count();
+
+        $musteriSayisi = DB::table('assigned_users')
+            ->where('danisman_id', $data->id)
+            ->count();
+
+        $donusYapilanMusteri = DB::table('customer_calls')
+            ->where('gorusmeyi_yapan_kisi_id', $data->id)
+            ->whereDate('meeting_date', $currentDate)
+            ->where('gorusme_durumu', 'Olumlu')
+            ->count();
+
+        $danismanVerileri[$data->id] = [
+            'arama_sayisi' => $aramaSayisi,
+            'musteri_sayisi' => $musteriSayisi,
+            'donus_yapilan_musteri' => $donusYapilanMusteri,
+        ];
+    }    
+
         $totalSales = 121445;
         $villaSales =121445;
         $apartmentSales = 121445;
@@ -478,6 +528,6 @@ class CrmController extends Controller
 
         return view('client.panel.crm.admin_dashboard', compact('individualSales', 'companySales', 'consultantSales', 'labels','totalSales', 'villaSales', 
         'apartmentSales', 'landSales','totalCustomers','positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount',
-        'topCaller','danisman','satisDanismanlari','olumluMusteriSayilari'));
+        'topCaller','danisman','satisDanismanlari','olumluMusteriSayilari','danismanVerileri'));
     }
 }

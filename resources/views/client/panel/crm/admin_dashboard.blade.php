@@ -157,6 +157,8 @@
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
                                     <img src="{{ asset('woman.png') }}" class="danismanImg">
+                                    {{-- <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center">{{$danisman->total_calls}}</p>
@@ -205,7 +207,8 @@
                                     <div class="cardDanismanList">
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
-                                                <img src="{{ asset('woman.png') }}" class="danismanListImg">
+                                                <img src="{{asset('woman.png')}}" class="danismanImg">
+                                            {{-- <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
@@ -221,19 +224,19 @@
                                                     <div class="col-6 border-top">
                                                         <div class="stat-item">
                                                             <span>Arama Sayısı</span>
-                                                            <h3>1234567</h3>
+                                                            <h3>{{ $danismanVerileri[$danisman->id]['arama_sayisi'] }}</h3>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 border-right border-top">
                                                         <div class="stat-item">
                                                             <span>Müşteri Sayısı</span>
-                                                            <h3>14777</h3>
+                                                            <h3>{{ $danismanVerileri[$danisman->id]['musteri_sayisi'] }}</h3>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 border-top">
                                                         <div class="stat-item">
                                                             <span>Dönüş Yapılan Müşteri</span>
-                                                            <h3>147825</h3>
+                                                            <h3>{{ $danismanVerileri[$danisman->id]['donus_yapilan_musteri'] }}</h3>
                                                         </div>
                                                     </div>
                                                 </div>
