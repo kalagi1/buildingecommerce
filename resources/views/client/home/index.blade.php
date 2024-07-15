@@ -105,16 +105,16 @@
         </div>
     </section>
 
-    <section class="featured  home18 bg-white mb-5" style="height: 100px">
+    <section class="featured  home18 bg-white mb-3">
         <div class="container">
 
             <div class="portfolio ">
                 <div class="section-title mb-3 mobileSectionTitle">
                     <h2>Popüler İnşaat Markaları</h2>
                 </div>
-                <div class="slick-lancers">
+                <div class="slick-lancers" style="height: 95px">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
+                        <a href="http://127.0.0.1:8000/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -203,7 +203,7 @@
     </section>
 
 
-    <section class="container justify-content-center mt-4">
+    <section class="container justify-content-center">
 
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
@@ -294,13 +294,13 @@
 
 
     @if ($dashboardProjects->isNotEmpty())
-        <section class="popular-places home18 mb-3 mt-5">
+        <section class="popular-places home18 mb-3 mt-3">
             <div class="container">
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="https://private.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="http://127.0.0.1:8000/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -334,7 +334,7 @@
                             <h2>Emlak İlanları</h2>
                         </div>
                         <div>
-                            <a href="https://private.emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                            <a href="http://127.0.0.1:8000/kategori/emlak-ilanlari" style="font-size: 11px;">
                                 <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                                     class="w-100">
                                     Tümünü Gör

@@ -22,7 +22,8 @@
     </div>
     <section>
         <div class="alert alert-info">
-            Alt kullanıcıları sürükleyip bırakarak sıralayabilirsiniz. Alt kullanıcılarınız mağazanızda belirlediğiniz sırada görünecektir.
+            Alt kullanıcıları sürükleyip bırakarak sıralayabilirsiniz. Alt kullanıcılarınız mağazanızda belirlediğiniz
+            sırada görünecektir.
         </div>
         <div id="user-list-table-body">
             @foreach ($users as $key => $user)
@@ -58,7 +59,11 @@
                             @endif
                         </li>
                         <li style="width: 20%;">
-                            @if ($user->project_authority == "on") <span class="text-success">Proje Atanabilir</span> @else <span class="text-danger">Proje Atanamaz</span> @endif
+                            @if ($user->project_authority == 'on')
+                                <span class="text-success">Proje Atanabilir</span>
+                            @else
+                                <span class="text-danger">Proje Atanamaz</span>
+                            @endif
                         </li>
                         <li style="width: 5%;"><span class="project-table-content-actions-button"
                                 data-toggle="popover-{{ $user->id }}"><i class="fa fa-chevron-down"></i></span>
@@ -75,7 +80,9 @@
                                 </li>
                             @endif
                             @if (in_array('DeleteUser', $userPermissions))
-                                <li data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}">Sil
+                                <li>
+                                    <a data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}"> Sil</a>
+
                                 </li>
                             @endif
                         </ul>

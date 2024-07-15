@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://private.emlaksepette.com'),
+    'url' => env('APP_URL', 'http://127.0.0.1:8000'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -171,7 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        App\Providers\ValidationServiceProvider::class,
     ])->toArray(),
 
     /*

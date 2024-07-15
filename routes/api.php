@@ -137,6 +137,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
 
         Route::Delete('/notifications', [InfoController::class, 'destroyAll']);
+        Route::delete('/notification/delete', [InfoController::class, "notificationDestroyById"])->name('notificationDestroyById');
         Route::Delete('/housing-favorite', [InstitutionalHousingController::class, 'destroyAllFavorite']);
         Route::Delete('/project-favorite', [InstitutionalProjectController::class, 'destroyAllFavorite']);
 

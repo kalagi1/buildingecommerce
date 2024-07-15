@@ -127,10 +127,28 @@ class PageController extends Controller
         $housing = null;
         $project = null;
 
+        if ($order) {
+            // Payment result değerine göre ödeme yöntemini belirle
+            if ($order->payment_result) {
+                $paymentMethod = 'Kredi Kartı';
+            } else {
+                $paymentMethod = 'EFT / Havale';
+            }
+        
+            // $order değişkenine yeni bir alan ekleyerek ödeme yöntemini atayabiliriz
+            $order->payment_method = $paymentMethod;
+        }
+
+        if ($order) {
+    // Taksitli veya taksitsiz durumu eklemek
+    $order->is_installment = $order->is_swap ? 'Taksitli' : 'Taksitsiz';
+}
+        
+
         if ($orderCart['type'] == 'housing') {
-            $housing = Housing::where('id', $orderCart['item']['id'])->first();
+            $housing = Housing::with("county","city")->where('id', $orderCart['item']['id'])->first();
         } else {
-            $project = Project::where('id', $orderCart['item']['id'])->first();
+            $project = Project::with("county","city")->where('id', $orderCart['item']['id'])->first();
         }
         return response()->json([
             "order" => $order,

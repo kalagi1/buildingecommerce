@@ -255,7 +255,7 @@ class HousingController extends Controller
     {
         $housing = HousingComment::all();
         return view('admin.housings.comments', ['housing' => $housing]);
-        //
+        
     }
 
     public function approveComment(Request $request, $id)

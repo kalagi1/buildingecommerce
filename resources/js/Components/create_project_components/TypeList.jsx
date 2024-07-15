@@ -174,7 +174,7 @@ function TypeList({setSlug,setSelectedHousingType,setSelectedTypes,selectedTypes
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button onClick={() => {nextStep(2)}} class="btn btn-info">
+                                    <button onClick={() => {nextStep}} class="btn btn-info">
                                         Devam
                                     </button>
                                 </div>

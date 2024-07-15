@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://private.emlaksepette.com/" />
+        <meta property="og:url"content="http://127.0.0.1:8000/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'http://127.0.0.1:8000/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -108,6 +108,84 @@
             cursor: pointer;
         }
 
+        .dz-message {
+            background: #fff none repeat scroll 0 0;
+            border: 2px dashed #1ABC9C;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .h-120{
+            height: 120px !important;
+        }
+
+        .file-input {
+            width: 100% !important;
+            height: 220px !important;
+        }   
+
+        .fa-cloud-upload {
+            color: #1ABC9C;
+            display: block;
+            font-size: 50px;
+            margin-bottom: 0px;
+            margin-top: 20px;
+
+        }
+
+        .file-drop-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+            padding: 25px;
+            height: 220px;
+            border: 2px dashed #1ABC9C;
+            border-radius: 3px;
+            transition: 0.2s;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .file-drop-area.is-active {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .fake-btn {
+            flex-shrink: 0;
+            border-radius: 3px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+        }
+
+        .file-msg {
+            font-size: small;
+            font-weight: 300;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .file-input:focus {
+            outline: none;
+        }
         .box::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
             background-color: #F5F5F5;

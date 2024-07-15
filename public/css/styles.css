@@ -17,6 +17,9 @@ p {
     line-height: 26px;
 }
 
+.table-danger, .table-danger>td, .table-danger>th {
+    background-color: #f5c6cb !important;
+}
 .the-icons {}
 
 .project-single {
@@ -23781,7 +23784,7 @@ a.btn_1 {
     border-color: #eee;
     padding: 0 1rem;
     border-radius: 0 !important;
-    height: 40px;
+    height: 35px;
 }
 
 @media screen and (max-width: 991px) {
@@ -30867,7 +30870,9 @@ a {
     margin: 0;
     padding: 0;
 }
-
+.summary-padding{
+    padding: 20px;
+}
 .descriptionProject h3 {
     font-size: 1.17em !important;
 }
@@ -30875,7 +30880,7 @@ a {
 .card {
     background-color: #fff;
     border-radius: 10px;
-    padding: 20px !important;
+    /* padding: 20px !important; */
     border:none !important;
 }
 
@@ -30959,14 +30964,18 @@ a {
 .project-table-content ul {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .project-table-content ul li {
     font-size: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
+    text-align: center;
+    padding: 0;
+    flex : 1
 }
 
 .project-table-content ul li p {
@@ -30995,10 +31004,9 @@ a {
 }
 
 
-.popover-project-actions li {
-    padding: 5px 0;
-    border-bottom: 1px solid #C7BBBB;
-    padding: 10px 20px;
+.popover-project-actions li a{
+    padding: 10px 20px !important;
+    width: 100% !important
 }
 
 .popover-project-actions li:last-child {
