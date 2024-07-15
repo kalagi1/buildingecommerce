@@ -333,7 +333,7 @@
                       type: "GET",
                       dataType: "json",
                       success: function(data) {
-                        console.log(data);
+                        
                           var cityName = data.address.province; // Şehir ismini alın
                           $('#cities option').map((key,item) => {
                             if($('#cities option').eq(key).html() == cityName.toUpperCase()){

@@ -598,7 +598,7 @@ $(document).ready(function() {
                 type: "GET",
                 url: "{{ route('get-districts', ['city_id' => '__cityId__']) }}".replace('__cityId__', cityId), // cityId parametresini rotaya ekliyoruz
                 success: function(data) {
-                    console.log(data);
+                    
                     if(data) {
                         $('#district').html('<option value="">İlçe Seçiniz</option>');
                         $.each(data, function(index, district) {

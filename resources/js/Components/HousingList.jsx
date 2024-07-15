@@ -137,7 +137,7 @@ const HousingList = ({ projectId }) => {
         })
     }
 
-    // console.log(data);
+    // 
 
     const savePayDecSelectedHousing = () => {
         axios.post(baseUrl + 'save_pay_dec', {

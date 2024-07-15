@@ -602,7 +602,7 @@
                 type: 'GET',
                 url: '/get-tax-office/' + selectedCity,
                 success: function(data) {
-                    console.log(data);
+                    
                     var taxOffice = $('#taxOffice');
                     taxOffice.empty();
                     $.each(data, function(index, office) {

@@ -21,7 +21,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                 defaultValuues.push({});
                 formData.map((data) => {
                     if(data?.className?.includes('project-default-checked')){
-                        console.log(data);
+                        
                         checkedItemsTemp.push({
                             roomOrder : i,
                             name : data?.name?.replace("[]", "")
@@ -251,7 +251,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                             }
                                             if(!data?.className?.includes('only-not-show-project')){
                                                 if(data.type == "text"){
-                                                    console.log(data);
+                                                    
                                                     return(
                                                         <div className={"form-group "+(isX ? "d-none" : "")}>
                                                             <label className='font-bold' htmlFor="">
@@ -778,7 +778,7 @@ function Rooms({slug,formDataHousing,allErrors,anotherBlockErrors,selectedBlock,
                                                     isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
                                                 }
                                                 if(isX){
-                                                    console.log(data);
+                                                    
                                                 }
                                                 if(data.type == "text"){
                                                     return(
