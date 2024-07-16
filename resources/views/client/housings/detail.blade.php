@@ -601,7 +601,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($sold && $sold[0]->status != '1')
+                                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                                     <div class="col-md-12 col-12 p-0 ml-3">
                                                         <a data-bs-toggle="modal" data-bs-target="#bidModal"
                                                             style="color:#EA2B2E !important;cursor: pointer; ">
@@ -667,7 +667,7 @@
 
 
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                                @if ( $sold &&  $sold[0]->status != '1')
+                                @if ((isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
                                         data-id="{{ $housing->id }}">
                                         <div class="add-to-collection-button-wrapper">
@@ -719,7 +719,7 @@
                                 @endif
                             @endif
 
-                            @if ( $sold &&  $sold[0]->status != '1')
+                            @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                 @if (isset(json_decode($housing->housing_type_data)->swap[0]))
                                     <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                         <div class="add-to-collection-button-wrapper">
