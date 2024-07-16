@@ -184,7 +184,7 @@
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                @if ($sold && $sold[0]->status != '1')
+                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                 <div class="button-effect-div favorite-move">
                                     <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
                                         <i class="fa fa-heart-o"></i>
