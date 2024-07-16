@@ -39,6 +39,7 @@
         "material-react-table": "^2.12.1",
         "moment": "^2.30.1",
         "moment-timezone": "^0.5.45",
+        "puppeteer": "^22.13.0",
         "qs": "^6.12.1",
         "react": "^18.2.0",
         "react-big-calendar": "^1.13.0",

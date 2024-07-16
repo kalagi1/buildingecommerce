@@ -792,8 +792,12 @@ function CreateHousing(props) {
           projectData={projectData}
           setProjectDataFunc={setProjectDataFunc}
           allErrors={allErrors}
+          prevStep={prevStep}
+          selectedTypes={selectedTypes}
+          blocks={blocks}
           createProject={createProject}
           finishCreateHousing={finishCreateHousing}
+          fillFormData={fillFormData}
         />
       ) : (
         <EndSectionHousing />
