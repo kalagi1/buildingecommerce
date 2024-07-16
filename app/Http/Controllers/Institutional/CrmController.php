@@ -110,8 +110,6 @@ class CrmController extends Controller
         // Combine unique customer IDs from both queries
         $uniqueCustomerIds = array_unique(array_merge($appointmentCustomerIds, $callCustomerIds));
 
-        // print_r($uniqueCustomerIds);die;
-
         // Fetch customers from assigned_users table using the combined customer IDs
         $geri_donus_yapilacak_musteriler = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
@@ -119,12 +117,9 @@ class CrmController extends Controller
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
         ->whereIn('id', $uniqueCustomerIds)
-        ->count();
-
-    
+        ->count();   
 
         // $randevular = DB::table('appointments')->get();
-        // Bugünün tarihini al
         $today = Carbon::today()->toDateString();
 
         // appointments tablosundan bugünün tarihindeki randevuları say
@@ -152,8 +147,13 @@ class CrmController extends Controller
             foreach ($danismanlar as $index => $danisman) {
                 $danismanRenkler[$danisman->id] = $renkler[$index % count($renkler)];
             }
+            
+            $danismanProjeleri = DB::table('project_assigment')
+                ->join('projects','project_assigment.project_id','projects.id')
+                ->select('projects.project_title as project_title','projects.id as projectId')
+                ->get();
 
-        return view('client.panel.crm.consultantCustomerList',compact('customers','favoriteCustomers','customerCount','favoriteCustomerCount','geri_donus_yapilacak_musteriler','geri_donus_yapilacak_musterilerCount','randevular','randevuCount','danismanRenkler','danismanlar','tum_musteriler','tum_musterilerCount'));
+        return view('client.panel.crm.consultantCustomerList',compact('customers','favoriteCustomers','customerCount','favoriteCustomerCount','geri_donus_yapilacak_musteriler','geri_donus_yapilacak_musterilerCount','randevular','randevuCount','danismanRenkler','danismanlar','tum_musteriler','tum_musterilerCount','danismanProjeleri'));
     }//End
 
     public function getMusteriBilgileri($id){
@@ -256,30 +256,278 @@ class CrmController extends Controller
     }//End
 
     public function addNewCustomer(Request $request){
-        // print_r($request->all());die;    
+        $existingCustomer = DB::table('assigned_users')
+            ->where('name', $request->name)
+            ->where('phone', $request->phone)
+            ->first();
 
-        $addedCustomer = DB::table('assigned_users')->insert([
-            'danisman_id'       => Auth::id(),
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'phone'             => $request->phone,
-            'province'          => $request->province,
-            'project_name'      => $request->ilgilendigi_proje,
-            'job_title'         => $request->job_title,
-            'konut_tercihi'     => $request->konut_tercihi,
-            'varlik_yonetimi'   => $request->varlik_yonetimi,
-            'musteri_butcesi'   => $request->musteri_butcesi,
-            'ilgilendigi_bolge' => $request->ilgilendigi_bolge,
-            'created_at'        => now(),
-        ]);
+        // if ($existingCustomer) {
+        //     return response()->json(['success' => false, 'message' => 'Bu müşteri zaten kayıtlı.']);
+        // }
 
-        if($addedCustomer){
-            return response()->json(['success' => true, 'message' => 'Müşteri Başarıyla eklendi']);
+        if($existingCustomer){
+            if($existingCustomer->project_name != $request->ilgilendigi_proje){
+                $addedCustomer = DB::table('assigned_users')->insert([
+                    'paremt_id'         => $existingCustomer->id,
+                    'danisman_id'       => Auth::id(),
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'phone'             => $request->phone,
+                    'province'          => $request->province,
+                    'project_name'      => $request->ilgilendigi_proje,
+                    'job_title'         => $request->job_title,
+                    'konut_tercihi'     => $request->konut_tercihi,
+                    'varlik_yonetimi'   => $request->varlik_yonetimi,
+                    'musteri_butcesi'   => $request->musteri_butcesi,
+                    'ilgilendigi_bolge' => $request->ilgilendigi_bolge,
+                    'created_at'        => now(),
+                ]);
+        
+                if($addedCustomer){
+                    return response()->json(['success' => true, 'message' => 'Müşteri Başarıyla eklendi']);
+                }else{
+                    return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
+                }
+            }else{
+                return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
+            }
         }else{
-            return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
+            $addedCustomer = DB::table('assigned_users')->insert([
+                'danisman_id'       => Auth::id(),
+                'name'              => $request->name,
+                'email'             => $request->email,
+                'phone'             => $request->phone,
+                'province'          => $request->province,
+                'project_name'      => $request->ilgilendigi_proje,
+                'job_title'         => $request->job_title,
+                'konut_tercihi'     => $request->konut_tercihi,
+                'varlik_yonetimi'   => $request->varlik_yonetimi,
+                'musteri_butcesi'   => $request->musteri_butcesi,
+                'ilgilendigi_bolge' => $request->ilgilendigi_bolge,
+                'created_at'        => now(),
+            ]);
+
+            if($addedCustomer){
+                return response()->json(['success' => true, 'message' => 'Müşteri Başarıyla eklendi']);
+            }else{
+                return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
+            }
         }
 
 
+        
+      
+
+   
 
     }//End
+
+    public function danismanDashboard(){
+
+        // $totalCustomers = DB::table('assigned_users')->where('danisman_id',Auth::id())->count(); //Tüm Müşteriler
+        $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
+
+        // $positiveCustomersCount = DB::table('customer_calls')
+        // ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
+        // ->where('danisman_id',Auth::id())
+        // ->where('customer_calls.gorusme_durumu', 'Olumlu')
+        // ->count();
+
+        $positiveCustomersCount = DB::table('customer_calls')
+        ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
+        ->where('customer_calls.gorusme_durumu', 'Olumlu')
+        ->count();
+
+        // $favoriteCustomers = DB::table('favorite_customers')->where('danisman_id',Auth::id())->count();
+        $favoriteCustomers = DB::table('favorite_customers')->count();
+
+
+        //dönüş yapılacak müşteriler için danışman filtrelemesi yap canlıya alınca
+        $currentDate = now()->toDateString();
+      
+        $appointmentCustomerIds = DB::table('appointments')
+            ->whereNotNull('sonraki_gorusme_turu')
+            // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
+            ->pluck('customer_id')
+            ->toArray();
+
+        $callCustomerIds = DB::table('customer_calls')
+            ->where('gorusme_durumu', 'Ulaşılamadı')
+            ->whereDate('meeting_date', $currentDate)
+            ->pluck('customer_id')
+            ->toArray();
+
+        $uniqueCustomerIds = array_unique(array_merge($appointmentCustomerIds, $callCustomerIds));
+
+
+        $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
+        ->whereIn('id', $uniqueCustomerIds)
+        ->count();   
+
+        $danisman = DB::table('customer_calls')
+            ->select('customer_calls.gorusmeyi_yapan_kisi_id', DB::raw('count(*) as total_calls'))
+            ->groupBy('customer_calls.gorusmeyi_yapan_kisi_id')
+            ->orderByDesc('total_calls')
+            ->first();
+
+        if ($danisman) {
+            $topCaller = DB::table('users')
+                ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
+                ->first(['name','profile_image']);
+
+        }        
+
+        $uniqueUserIds = DB::table('project_assigment')
+        ->select('user_id')
+        ->distinct()
+        ->pluck('user_id');
+
+        // $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get();
+        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get(['id', 'name', 'profile_image']);
+          // Her danışmanın olumlu müşteri sayısını al
+        $olumluMusteriSayilari = [];
+        foreach ($satisDanismanlari as $item) {
+            $olumluMusteriSayilari[$item->id] = DB::table('customer_calls')
+                ->where('customer_calls.gorusmeyi_yapan_kisi_id', $item->id)
+                ->where('customer_calls.gorusme_durumu', 'Olumlu')
+                ->count();
+        }
+
+           // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
+        $danismanVerileri = [];
+        foreach ($satisDanismanlari as $data) {
+            $aramaSayisi = DB::table('customer_calls')
+                ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                ->count();
+
+            $musteriSayisi = DB::table('assigned_users')
+                ->where('danisman_id', $data->id)
+                ->count();
+
+            $donusYapilanMusteri = DB::table('customer_calls')
+                ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                ->whereDate('meeting_date', $currentDate)
+                ->where('gorusme_durumu', 'Olumlu')
+                ->count();
+
+            $danismanVerileri[$data->id] = [
+                'arama_sayisi' => $aramaSayisi,
+                'musteri_sayisi' => $musteriSayisi,
+                'donus_yapilan_musteri' => $donusYapilanMusteri,
+            ];
+        }
+
+        $totalSales = 121445;
+        $villaSales =121445;
+        $apartmentSales = 121445;
+        $landSales =121445;
+
+
+        return view('client.panel.crm.danisman_dashboard', compact('totalSales', 'villaSales', 'apartmentSales', 'landSales','totalCustomers',
+        'positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount','topCaller','danisman','satisDanismanlari',
+        'olumluMusteriSayilari','danismanVerileri'));
+    }//End
+
+    public function adminDashboard(){
+
+        $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
+
+        $positiveCustomersCount = DB::table('customer_calls')
+        ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
+        ->where('customer_calls.gorusme_durumu', 'Olumlu')
+        ->count();
+
+        $favoriteCustomers = DB::table('favorite_customers')->count();
+
+        $currentDate = now()->toDateString();
+        // Fetch customer IDs for appointments with 'sonraki_gorusme_turu'
+        $appointmentCustomerIds = DB::table('appointments')
+            ->whereNotNull('sonraki_gorusme_turu')
+            // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
+            ->pluck('customer_id')
+            ->toArray();
+
+        // Fetch customer IDs for customer calls with 'gorusme_durumu' as 'Ulaşılamadı'
+        $callCustomerIds = DB::table('customer_calls')
+            ->where('gorusme_durumu', 'Ulaşılamadı')
+            ->whereDate('meeting_date', $currentDate)
+            ->pluck('customer_id')
+            ->toArray();
+
+        $uniqueCustomerIds = array_unique(array_merge($appointmentCustomerIds, $callCustomerIds));
+
+        $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
+        ->whereIn('id', $uniqueCustomerIds)
+        ->count();   
+
+
+        $danisman = DB::table('customer_calls')
+        ->select('customer_calls.gorusmeyi_yapan_kisi_id', DB::raw('count(*) as total_calls'))
+        ->groupBy('customer_calls.gorusmeyi_yapan_kisi_id')
+        ->orderByDesc('total_calls')
+        ->first();
+
+        if ($danisman) {
+            $topCaller = DB::table('users')
+                ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
+                ->first(['name']);
+        }        
+        // print_r($topCaller);die;
+
+        $uniqueUserIds = DB::table('project_assigment')
+        ->select('user_id')
+        ->distinct()
+        ->pluck('user_id');
+
+        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get();
+
+          // Her danışmanın olumlu müşteri sayısını al
+            $olumluMusteriSayilari = [];
+            foreach ($satisDanismanlari as $item) {
+                $olumluMusteriSayilari[$item->id] = DB::table('customer_calls')
+                    ->where('customer_calls.gorusmeyi_yapan_kisi_id', $item->id)
+                    ->where('customer_calls.gorusme_durumu', 'Olumlu')
+                    ->count();
+            }
+            // print_r($olumluMusteriSayilari);die;
+
+                   // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
+    $danismanVerileri = [];
+    foreach ($satisDanismanlari as $data) {
+        $aramaSayisi = DB::table('customer_calls')
+            ->where('gorusmeyi_yapan_kisi_id', $data->id)
+            ->count();
+
+        $musteriSayisi = DB::table('assigned_users')
+            ->where('danisman_id', $data->id)
+            ->count();
+
+        $donusYapilanMusteri = DB::table('customer_calls')
+            ->where('gorusmeyi_yapan_kisi_id', $data->id)
+            ->whereDate('meeting_date', $currentDate)
+            ->where('gorusme_durumu', 'Olumlu')
+            ->count();
+
+        $danismanVerileri[$data->id] = [
+            'arama_sayisi' => $aramaSayisi,
+            'musteri_sayisi' => $musteriSayisi,
+            'donus_yapilan_musteri' => $donusYapilanMusteri,
+        ];
+    }    
+
+        $totalSales = 121445;
+        $villaSales =121445;
+        $apartmentSales = 121445;
+        $landSales =121445;
+
+            // Örnek veriler
+        $individualSales = [10, 20, 30, 40, 50, 60, 70];
+        $companySales = [5, 15, 25, 35, 45, 55, 65];
+        $consultantSales = [2, 12, 22, 32, 42, 52, 62];
+        $labels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz'];
+
+        return view('client.panel.crm.admin_dashboard', compact('individualSales', 'companySales', 'consultantSales', 'labels','totalSales', 'villaSales', 
+        'apartmentSales', 'landSales','totalCustomers','positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount',
+        'topCaller','danisman','satisDanismanlari','olumluMusteriSayilari','danismanVerileri'));
+    }
 }

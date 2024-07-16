@@ -35,11 +35,13 @@ function CreateProject(props) {
             [key] : value
         });
     }
-    const nextStep = (stepOrder) => {
-        setStep(stepOrder);
-    }
-
-
+    const prevStep = () => {
+        setStep(step - 1);
+      };
+      const nextStep = () => {
+        setStep(step + 1);
+    
+      };
     function getCoords(elem) { // crossbrowser version
         var box = elem.getBoundingClientRect();
     

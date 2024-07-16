@@ -224,7 +224,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
 
     return(
         <div>
-            <span className="section-title mt-4 housing_after_step">{title}</span>
+            {/* <span className="section-title mt-4 housing_after_step">{title}</span> */}
             <div  onDrop={handleDrop} onDragOver={handleDragOver} className="cover-photo-full card py-2 px-5 housing_after_step">
                 <input accept={accept} ref={inputRef} multiple={multiple} onChange={fileUpload} type="file" name="cover-image" className="cover_image d-none"/>
                 <div onClick={() => {inputRef.current.click();}} id={fileName}  className={"upload-container col-md-4 col-xl-3 cover-photo-area "+(allErrors.includes(fileName) ? "error-border" : "")}>
@@ -240,7 +240,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         projectData[fileName] ?
                             <div class="cover-document">
                                 <div class="has_file">
-                                    <span class="d-block">Dosya Eklediniz</span>                      <a class="btn btn-info" href="https://private.emlaksepette.com/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
+                                    <span class="d-block">Dosya Eklediniz</span>                      <a class="btn btn-info" href="http://127.0.0.1:8000/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
 
                                 </div>
                             </div>
