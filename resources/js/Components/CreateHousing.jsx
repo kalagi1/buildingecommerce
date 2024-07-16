@@ -8,6 +8,7 @@ import { Box, LinearProgress, Modal, Typography } from "@mui/material";
 import TypeList2 from "./create_project_components/TypeList2";
 import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
+import PreviewHousing from "./create_project_components/PreviewHousing";
 
 function CreateHousing(props) {
   const [step, setStep] = useState(1);
@@ -15,6 +16,8 @@ function CreateHousing(props) {
   const [loading, setLoading] = useState(0);
   const [housingTypes, setHousingTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [fillFormData, setFillFormData] = useState([]);
+
   const [projectData, setProjectData] = useState({});
   const [selectedHousingType, setSelectedHousingType] = useState({});
   const [haveBlocks, setHaveBlocks] = useState(false);
@@ -615,7 +618,6 @@ function CreateHousing(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      setLoadingModal(true);
       const formData = new FormData();
 
       Object.keys(projectData).forEach((key) => {
@@ -668,25 +670,32 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];
-      axios
-        .post(baseUrl + "create_housing", formData, {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data;`,
-          },
-        })
-        .then((res) => {
-          if (res.status) {
-            setStep(3);
-            setLoadingModal(false);
-          }
-        })
-        .catch((error) => {
-          toast.error(error);
-        });
+      setFillFormData(formData)
+      setStep(3);
     }
   };
+
+  function finishCreateHousing() {
+    setLoadingModal(true);
+    axios
+      .post(baseUrl + "create_housing", fillFormData, {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data;`,
+        },
+      })
+      .then((res) => {
+        if (res.status) {
+          setStep(4);
+          setLoadingModal(false);
+          setFillFormData(null);
+        }
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  }
 
   const style = {
     position: "absolute",
@@ -701,8 +710,8 @@ function CreateHousing(props) {
 
   function LinearProgressWithLabel(props) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', mr: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ width: "100%", mr: 1 }}>
           <LinearProgress variant="determinate" {...props} />
         </Box>
         <Box sx={{ minWidth: 35 }}>
@@ -727,6 +736,7 @@ function CreateHousing(props) {
   };
   const nextStep = () => {
     setStep(step + 1);
+    console.log(step);
   };
   return (
     <>
@@ -765,6 +775,7 @@ function CreateHousing(props) {
           setSelectedRoom={setSelectedRoom}
           allErrors={allErrors}
           createProject={createProject}
+          nextStep={nextStep}
           selectedHousingType={selectedHousingType}
           blocks={blocks}
           setBlocks={setBlocks}
@@ -775,6 +786,14 @@ function CreateHousing(props) {
           setProjectData={setProjectData}
           projectData={projectData}
           setProjectDataFunc={setProjectDataFunc}
+        />
+      ) : step == 3 ? (
+        <PreviewHousing
+          projectData={projectData}
+          setProjectDataFunc={setProjectDataFunc}
+          allErrors={allErrors}
+          createProject={createProject}
+          finishCreateHousing={finishCreateHousing}
         />
       ) : (
         <EndSectionHousing />

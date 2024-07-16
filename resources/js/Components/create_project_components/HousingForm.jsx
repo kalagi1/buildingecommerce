@@ -11,13 +11,12 @@ import FileUpload from "./FileUpload";
 import FinishArea from "./FinishArea";
 import { baseUrl } from "../../define/variables";
 import { FALSE } from "sass";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function HousingForm({
   selectedTypesTitles,
   user,
   slug,
   prevStep,
+  nextStep,
   anotherBlockErrors,
   selectedBlock,
   setSelectedBlock,
@@ -40,6 +39,8 @@ function HousingForm({
   const [counties, setCounties] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [map, setMap] = useState(null);
+  const [error, setError] = useState(null);
+
   const [isShow, setIsShow] = useState(false);
   const [bounds, setBounds] = useState(null); // State for bounds
 
@@ -138,12 +139,6 @@ function HousingForm({
     language: "tr",
   });
 
-  useEffect(() => {
-    setProjectDataFunc(
-      "coordinates",
-      selectedLocation.lat + "-" + selectedLocation.lng
-    );
-  }, [selectedLocation]);
   const setGeolocation = (cityId, countyId = null, neighborhoodId = null) => {
     const cityTemp = cities.find((city) => city.id == cityId);
     const countyTemp = counties.find((county) => county.ilce_key == countyId);
@@ -261,12 +256,14 @@ function HousingForm({
             map: mapRef.current,
             title: "Selected Location",
           });
+          setError(null);
         } else {
           console.log("Outside bounds or outside Turkey:", latLng);
-          toast.error(" Türkiye sınırları içinde bir nokta seçiniz.");
+          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
         }
+        setError(null);
       } else {
-        toast.error("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
       }
     };
 
@@ -285,6 +282,8 @@ function HousingForm({
   }, [mapRef.current, bounds]);
 
   useEffect(() => {
+    console.log("dsaads");
+    console.log(projectData);
     setProjectDataFunc(
       "coordinates",
       `${selectedLocation.lat}-${selectedLocation.lng}`
@@ -348,7 +347,9 @@ function HousingForm({
                   <input
                     id="project_title"
                     value={projectData.project_title}
-                    onChange={(e) => setProjectTitle(e.target.value)}
+                    onChange={(e) =>
+                      setProjectDataFunc("project_title", e.target.value)
+                    }
                     type="text"
                     className={`form-control advert_title ${
                       allErrors.includes("project_title") ? "error-border" : ""
@@ -463,12 +464,12 @@ function HousingForm({
                     projectData.county_id,
                     e.target.value
                   );
-                  setProjectDataFunc("neighborhood_id", e.target.value);
+                  setProjectDataFunc("neighbourhood_id", e.target.value);
                 }}
-                name="neighborhood_id"
+                name="neighbourhood_id"
                 id="neighbourhood_id"
                 className={`form-control ${
-                  allErrors.includes("neighborhood_id") ? "error-border" : ""
+                  allErrors.includes("neighbourhood_id") ? "error-border" : ""
                 }`}
               >
                 <option value="">Mahalle Seç</option>
@@ -483,6 +484,28 @@ function HousingForm({
               </select>
             </div>
           </div>
+          {allErrors.includes("coordinates") ? (
+            <Alert
+              severity="error"
+              className="mt-3"
+              style={{ alignItems: "center" }}
+            >
+              Harita üzerine bir konum seçin
+            </Alert>
+          ) : (
+            ""
+          )}
+          {error ? (
+            <Alert
+              severity="error"
+              className="mt-3"
+              style={{ alignItems: "center" }}
+            >
+              {error}
+            </Alert>
+          ) : (
+            ""
+          )}
           {isLoaded ? (
             <div className="mt-4">
               <GoogleMap
@@ -577,9 +600,9 @@ function HousingForm({
           setProjectDataFunc={setProjectDataFunc}
           allErrors={allErrors}
           createProject={createProject}
+          nextStep={nextStep}
         />
       </div>
-      <ToastContainer />
     </>
   );
 }

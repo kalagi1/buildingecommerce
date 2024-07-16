@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-function FinishArea({createProject,projectData,setProjectDataFunc,allErrors,nextStep }) {
+function PreviewHousing({createProject,projectData,setProjectDataFunc,allErrors,finishCreateHousing}) {
     const [open,setOpen] = useState(false);
     const style = {
         position: 'absolute',
@@ -24,7 +24,7 @@ function FinishArea({createProject,projectData,setProjectDataFunc,allErrors,next
                     </label>
                 </div>
                 <div className="finish-button" style={{float:'right',margin:'0'}}>
-                    <button onClick={createProject} className="btn btn-info">
+                    <button onClick={finishCreateHousing} className="btn btn-info">
                         Devam
                     </button>
                 </div>
@@ -80,4 +80,4 @@ function FinishArea({createProject,projectData,setProjectDataFunc,allErrors,next
         </div>
     )
 }
-export default FinishArea
+export default PreviewHousing
