@@ -86,14 +86,14 @@
                         <input class="" type="radio" name="sellTypeRadio" id="kendim-satmak"
                             value="kendim-satmak">
                         <label class="form-check-label" for="kendim-satmak">
-                            İlanımı kendim satmak istiyorum
+                            İlanımı kendim yayınlamak istiyorum.
                         </label>
                     </div>
                     <div class="form-check mt-3"  style="display:flex !important">
                         <input class="" type="radio" name="sellTypeRadio" id="paylasimli-sistem"
                             value="paylasimli-sistem">
                         <label class="form-check-label" for="paylasimli-sistem">
-                            Profesyonel paylaşımlı emlak sistemi ile satmak istiyorum
+                            İlanlarımı profesyonel bir emlak sistemi ile yayınlamak istiyorum.
                         </label>
                     </div>
                 </div>
