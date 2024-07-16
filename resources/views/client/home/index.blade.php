@@ -329,24 +329,6 @@
                     </div>
                 </div>
 
-                
-
-                <div class="col-md-3 col-12 text-end">
-                    <div class="featured-heads mb-3">
-                        <div class="section-title">
-                            <h2>Emlak İlanları</h2>
-                        </div>
-                        <div>
-                            <a href="http://127.0.0.1:8000/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
-                                    class="w-100">
-                                    Tümünü Gör
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
             <div class="portfolio col-xl-12">
                 <div class="job_clientSlide">
