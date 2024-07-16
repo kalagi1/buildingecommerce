@@ -184,7 +184,7 @@
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                @if ($sold[0]->status != '1')
+                                @if ($sold && $sold[0]->status != '1')
                                 <div class="button-effect-div favorite-move">
                                     <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
                                         <i class="fa fa-heart-o"></i>
@@ -507,7 +507,7 @@
                                     <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
-                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                @if ( $sold &&  $sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                         <h4
                                                             style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
@@ -601,7 +601,7 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                @if ($sold[0]->status != '1')
+                                                @if ($sold && $sold[0]->status != '1')
                                                     <div class="col-md-12 col-12 p-0 ml-3">
                                                         <a data-bs-toggle="modal" data-bs-target="#bidModal"
                                                             style="color:#EA2B2E !important;cursor: pointer; ">
@@ -625,7 +625,7 @@
                                                     @php
                                                         $buttonStyle = '';
                                                         $buttonText = '';
-                                                        if ($sold[0]->status == '0') {
+                                                        if ($sold && $sold[0]->status == '0') {
                                                             $buttonStyle =
                                                                 'background: orange !important; width: 100%; color: white;';
                                                             $buttonText = 'Rezerve Edildi';
@@ -667,7 +667,7 @@
 
 
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                                @if ($sold[0]->status != '1')
+                                @if ( $sold &&  $sold[0]->status != '1')
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
                                         data-id="{{ $housing->id }}">
                                         <div class="add-to-collection-button-wrapper">
@@ -719,7 +719,7 @@
                                 @endif
                             @endif
 
-                            @if ($sold[0]->status != '1')
+                            @if ( $sold &&  $sold[0]->status != '1')
                                 @if (isset(json_decode($housing->housing_type_data)->swap[0]))
                                     <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                         <div class="add-to-collection-button-wrapper">
@@ -1379,7 +1379,7 @@
                                                                     </svg></a>
                                                             </button>
                                                         </div>
-                                                        @if ($sold[0]->status != '1')
+                                                        @if ($sold && $sold[0]->status != '1')
                                                             <div class="button-effect toggle-favorite"
                                                                 data-housing-id={{ $housing->id }}>
                                                                 <i class="fa fa-heart-o"></i>
