@@ -47,6 +47,7 @@ function CreateHousing(props) {
   };
 
   useEffect(() => {
+    
     axios.get(baseUrl + "get_current_user").then((res) => {
       setUser(res.data.user);
     });
@@ -705,13 +706,14 @@ function CreateHousing(props) {
             setLoadingModalOpen(false);
             setStep(4);
             setFillFormData(null);
-          }, 500); // Close modal after a short delay
+          }, 500); 
         }
       })
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
         toast.error(error.message);
+
       });
   };
 
@@ -754,6 +756,16 @@ function CreateHousing(props) {
   };
   const nextStep = () => {
     setStep(step + 1);
+    if (step == 1) {
+      setBlocks([
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]);
+      setProjectData([]);
+    }
   };
   return (
     <>
