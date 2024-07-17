@@ -32,6 +32,10 @@
   overflow-y: auto;
 }
 
+.area-listx {
+  overflow-y: auto;
+}
+
 .adv-flex {
   display: flex;
   justify-content: space-between;
@@ -1069,11 +1073,13 @@ div#toolbar span button {
   list-style: none;
 }
 
-.area-list li.selected {
+.area-list li.selected,
+.area-listx li.selected {
   background-color: #dedede;
 }
 
-.area-list ul li.selected:before {
+.area-list ul li.selected:before,
+.area-listx ul li.selected:before {
   content: "";
   position: absolute;
   top: 3px;

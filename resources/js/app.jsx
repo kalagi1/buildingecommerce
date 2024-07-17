@@ -16,7 +16,7 @@ var slashs = currentURL.split('/');
 
 
 
-if(slashs[slashs.length - 1] == "create_project_v3"){
+if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateProject />, document.getElementById('react_render_area'));
     }

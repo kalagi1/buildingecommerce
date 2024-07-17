@@ -2031,9 +2031,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-e23d08ee.js"></script>
+{{-- <script src="{{ URL::to('/') }}/build/assets/app-e23d08ee.js"></script> --}}
 
-{{-- @vite('resources/js/app.jsx') --}}
+@vite('resources/js/app.jsx')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>

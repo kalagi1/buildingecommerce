@@ -31094,7 +31094,9 @@ li::after {
 .icon-area {
     padding: 5px 20px;
 }
-
+.bottom-housing-area{
+    left: calc(17% + 15.875rem) !important; 
+}
 .icon-input input {
     background: transparent;
     border: none;
@@ -31104,6 +31106,111 @@ li::after {
     width: 100%;
 }
 
+.icon-area svg{
+    height: 1em;
+    color: white;
+}
+
+.border-container .icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    color: #95afc0;
+    opacity: 0.55;
+}
+
+.load-area {
+    position: fixed;
+    top: 0;
+    width: 50%;
+    height: 70px;
+    background: #e54242;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 9999;
+    left: 25%;
+}
+
+.progress {
+    margin: 10px 10px;
+    height: 20px;
+    background: #fff;
+}
+
+.progress-bar {
+    background: #333;
+}
+
+.load-area span {
+    display: block;
+    text-align: center;
+    color: #fff;
+    margin: 10px 0;
+}
+
+.bottom-housing-area {
+    position: fixed;
+    bottom: 0;
+    height: 120px;
+    background: #e54242;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    z-index: 9999;
+    margin: 0 auto;
+    left: 25%;
+    padding: 0 20px;
+}
+.button-white2 {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: .25rem;
+}
+
+.button-white2 input {
+    width: 50px;
+    height: 30px;
+    float: right;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    text-align: right;
+}
+
+.button-white2 span {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.mbpx-10 {
+    margin-bottom: 10px;
+}
+
+.show-houing-order {
+    padding: 8px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.button-white {
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: .25rem;
+    cursor: pointer;
+}
 .icon-area {
     width: 40px;
     height: 30px;
@@ -31111,6 +31218,8 @@ li::after {
     justify-content: center;
     align-items: center;
     font-size: 17px;
+    padding: 0 10px;
+    background: #e54242;
 }
 
 .upload-container {

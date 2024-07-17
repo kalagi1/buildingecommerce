@@ -337,7 +337,7 @@ function HousingForm({
         </div>
         <div className="card p-4">
           <div className="add-classified-note mb-3">
-            Kişisel verilerin korunması hakkında detaylı bilgiye{" "}
+            Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma yükümlülüğü metnine {" "}
             <a
               href="https://emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"

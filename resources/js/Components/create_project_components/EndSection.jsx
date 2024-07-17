@@ -10,7 +10,7 @@ function EndSection(props) {
                             <div className="text">Başarıyla ilan eklediniz</div>
                             <div className="text">
                                 <a href="/hesabim/react_projects" className="btn btn-info">Mağazama Git</a>
-                                <a href="/hesabim/create_project_v3" className="btn btn-info mx-2">Yeni Proje Ekle</a>
+                                <a href="/hesabim/proje-ilani-ekle" className="btn btn-info mx-2">Yeni Proje Ekle</a>
                             </div>
                         </div>
                     </div>
