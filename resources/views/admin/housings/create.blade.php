@@ -67,7 +67,7 @@
 
                                         <div class="col-md-6">
                                             <label class="form-label" for="status">Durum</label>
-                                            <select name="status" id="status" class="form-select"
+                                            <select name="status" class="form-select"
                                                 aria-label="Default select example">
                                                 <option selected="">Konut durumunu seçiniz:</option>
                                                 @foreach ($housing_status as $status)

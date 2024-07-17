@@ -29,9 +29,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
             setCheckedItems(newItems);
         }
     }
-
-    console.log(checkedItems);
-
     const blockDataSet = (blockIndex,keyx,value) => {
         var newDatas = blocks.map((block,key) => {
             if(blockIndex == key){
@@ -196,7 +193,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                 isX = !checkedItems.find((checkedItem) => { return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
                                             }
                                             if(data.type == "text"){
-                                                console.log(data.className,data);
                                                 return(
                                                     <div className={"form-group "+(isX ? "d-none" : "")}>
                                                         <label className='font-bold' htmlFor="">
@@ -486,7 +482,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
 
                                     if(slug == "kiralik" && !data?.className?.split(' ').find(((classx) => classx == "rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
-                                            console.log(data);
+                                            
                                             if(data.type == "text"){
                                                 return(
                                                     <div className={"form-group "+(isX ? "d-none" : "")}>
@@ -717,7 +713,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
 
                                     if(slug == "gunluk-kiralik" && !data?.className?.split(' ').find(((classx) => classx == "daily-rent-disabled")) && !data?.className?.includes("only-show-project-rent") && !data?.className?.includes("only-show-project-daliy-rent") && !data?.className?.includes("only-show-project-sale")){
                                         if(!data?.className?.split(' ').includes("disabled-housing") && !data?.className?.split(' ').includes("cover-image-by-housing-type")){
-                                            console.log(data);
+                                            
                                             if(data.type == "text"){
                                                 return(
                                                     <div className={"form-group "+(isX ? "d-none" : "")}>

@@ -20,56 +20,60 @@ function TypeList({setSlug,setSelectedHousingType,setSelectedTypes,selectedTypes
 
     const setHousingStatus = (statusId) => {
         setSelectedTypes([
-            statusId
+            statusId,
+            null, // Clear the second selection
+            null, // Clear the third selection
+            null  // Clear the fourth selection
         ]);
+        setSelectedTypesTitles([statusId]); // Update titles accordingly
     }
-
-    const setHousingTypeParent = (housingTypeId,order) => {
+    
+    const setHousingTypeParent = (housingTypeId, order) => {
         var tempHousingTypeParents = [];
-
-        for(var i = 0; i <= order; i++){
-            if(i == order){
+    
+        for (var i = 0; i <= order; i++) {
+            if (i === order) {
                 tempHousingTypeParents.push(housingTypeId);
-            }else{
+            } else {
                 tempHousingTypeParents.push(selectedTypes[i]);
             }
         }
+    
         setLoadingOrder(order);
         setLoadingOrderStatusId(housingTypeId);
-        setSelectedTypes(tempHousingTypeParents)
-        if(order == 2){
-            axios.get(baseUrl+'housing_types_end?parent_id='+housingTypeId).then((res) => {
-                var tempHousingTypeParents = [];
-                for(var i = 0; i <= order; i++){
-                    if(i == order){
-                        tempHousingTypeParents.push(res.data.data);
-                    }else{
-                        tempHousingTypeParents.push(housingTypes[i]);
-                    }
+        setSelectedTypes(tempHousingTypeParents);
+    
+        // Clear selections for further cards when setting a parent type
+        if (order < 2) {
+            setSelectedTypes((prev) => {
+                const updated = [...prev];
+                for (let i = order + 1; i < updated.length; i++) {
+                    updated[i] = null;
                 }
-                setLoadingOrder(null);
-                setLoadingOrderStatusId(null);
-                setHousingTypes(tempHousingTypeParents);
-            })
-        }else{
-            axios.get(baseUrl+'housing_types?parent_id='+housingTypeId).then((res) => {
-                var tempHousingTypeParents = [];
-                for(var i = 0; i <= order; i++){
-                    if(i == order){
-                        tempHousingTypeParents.push(res.data.data);
-                    }else{
-                        tempHousingTypeParents.push(housingTypes[i]);
-                    }
-                }
-                
-                setLoadingOrder(null);
-                setLoadingOrderStatusId(null);
-                setHousingTypes(tempHousingTypeParents);
-            })
+                return updated;
+            });
         }
-        
+    
+        const fetchHousingTypes = order === 2 
+            ? `housing_types_end?parent_id=${housingTypeId}` 
+            : `housing_types?parent_id=${housingTypeId}`;
+    
+        axios.get(baseUrl + fetchHousingTypes).then((res) => {
+            var tempHousingTypeParents = [];
+            for (var i = 0; i <= order; i++) {
+                if (i === order) {
+                    tempHousingTypeParents.push(res.data.data);
+                } else {
+                    tempHousingTypeParents.push(housingTypes[i]);
+                }
+            }
+    
+            setLoadingOrder(null);
+            setLoadingOrderStatusId(null);
+            setHousingTypes(tempHousingTypeParents);
+        });
     }
-
+    
     const setHousingTypeTitles = (housingTypeTitle,order) => {
         var tempHousingTypeParents = [];
 
@@ -103,7 +107,7 @@ function TypeList({setSlug,setSelectedHousingType,setSelectedTypes,selectedTypes
                     </ul>
                 </div>
                 {
-                    selectedTypes[0] ? 
+                    selectedTypes[0] && housingTypeTitle ? 
                         <div className="area-list active">
                             <ul>
                                 {

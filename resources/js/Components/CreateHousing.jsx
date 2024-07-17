@@ -8,13 +8,17 @@ import { Box, LinearProgress, Modal, Typography } from "@mui/material";
 import TypeList2 from "./create_project_components/TypeList2";
 import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
+import PreviewHousing from "./create_project_components/PreviewHousing";
+import LoadingModal from './LoadingModal';
 
 function CreateHousing(props) {
-  const [step, setStep] = useState(1);
-  const [loadingModal, setLoadingModal] = useState(false);
+  const [step, setStep] = useState(4);
   const [loading, setLoading] = useState(0);
   const [housingTypes, setHousingTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [fillFormData, setFillFormData] = useState([]);
+  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
+
   const [projectData, setProjectData] = useState({});
   const [selectedHousingType, setSelectedHousingType] = useState({});
   const [haveBlocks, setHaveBlocks] = useState(false);
@@ -139,7 +143,6 @@ function CreateHousing(props) {
                         ]
                       ) {
                         if (!boolCheck) {
-                          console.log(formDataHousing.name);
                           var elementDesc = document.getElementById(
                             formDataHousing.name.replace("[]", "")
                           );
@@ -361,7 +364,6 @@ function CreateHousing(props) {
           ) {
             if (formDataHousing.required) {
               if (blocks.length < 1) {
-                console.log(formDataHousing);
                 tempErrors.push(formDataHousing.name.replace("[]", ""));
               } else {
                 if (
@@ -404,7 +406,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -459,7 +460,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -503,7 +503,6 @@ function CreateHousing(props) {
             ) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
-                  console.log(formDataHousing);
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
                 } else {
                   if (
@@ -546,7 +545,6 @@ function CreateHousing(props) {
           ) {
             if (formDataHousing.required) {
               if (blocks.length < 1) {
-                console.log(formDataHousing);
                 tempErrors.push(formDataHousing.name.replace("[]", ""));
               } else {
                 if (
@@ -621,7 +619,6 @@ function CreateHousing(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      setLoadingModal(true);
       const formData = new FormData();
 
       Object.keys(projectData).forEach((key) => {
@@ -674,24 +671,46 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];
-      axios
-        .post(baseUrl + "create_housing", formData, {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data;`,
-          },
-        })
-        .then((res) => {
-          if (res.status) {
-            setStep(3);
-            setLoadingModal(false);
-          }
-        })
-        .catch((error) => {
-          toast.error(error);
-        });
+      setFillFormData(formData)
+      setStep(3);
     }
+  };
+  const [progress, setProgress] = useState(0);
+
+  const finishCreateHousing = () => {
+    setLoadingModalOpen(true);
+    setProgress(0);
+    let progressInterval;
+
+    // Start the progress bar increment
+    progressInterval = setInterval(() => {
+      setProgress((prev) => (prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90));
+    }, 500); // Increase progress every half a second
+
+    axios
+      .post(baseUrl + "create_housing", fillFormData, {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data;`,
+        },
+      })
+      .then((res) => {
+        if (res.status) {
+          clearInterval(progressInterval);
+          setProgress(100);
+          setTimeout(() => {
+            setLoadingModalOpen(false);
+            setStep(4);
+            setFillFormData(null);
+          }, 500); // Close modal after a short delay
+        }
+      })
+      .catch((error) => {
+        clearInterval(progressInterval);
+        setLoadingModalOpen(false);
+        toast.error(error.message);
+      });
   };
 
   const style = {
@@ -707,8 +726,8 @@ function CreateHousing(props) {
 
   function LinearProgressWithLabel(props) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', mr: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ width: "100%", mr: 1 }}>
           <LinearProgress variant="determinate" {...props} />
         </Box>
         <Box sx={{ minWidth: 35 }}>
@@ -733,6 +752,7 @@ function CreateHousing(props) {
   };
   const nextStep = () => {
     setStep(step + 1);
+    console.log(step);
   };
   return (
     <>
@@ -771,6 +791,7 @@ function CreateHousing(props) {
           setSelectedRoom={setSelectedRoom}
           allErrors={allErrors}
           createProject={createProject}
+          nextStep={nextStep}
           selectedHousingType={selectedHousingType}
           blocks={blocks}
           setBlocks={setBlocks}
@@ -782,11 +803,23 @@ function CreateHousing(props) {
           projectData={projectData}
           setProjectDataFunc={setProjectDataFunc}
         />
+      ) : step == 3 ? (
+        <PreviewHousing
+          projectData={projectData}
+          setProjectDataFunc={setProjectDataFunc}
+          allErrors={allErrors}
+          prevStep={prevStep}
+          selectedTypes={selectedTypes}
+          blocks={blocks}
+          createProject={createProject}
+          finishCreateHousing={finishCreateHousing}
+          fillFormData={fillFormData}
+        />
       ) : (
         <EndSectionHousing />
       )}
 
-      <Modal
+      {/* <Modal
         open={loadingModal}
         onClose={() => {
           setLoadingModal(false);
@@ -801,7 +834,9 @@ function CreateHousing(props) {
           </p>
           <LinearProgressWithLabel value={1} />
         </Box>
-      </Modal>
+      </Modal> */}
+      <LoadingModal open={loadingModalOpen} progress={progress} />
+
       <ToastContainer />
     </>
   );

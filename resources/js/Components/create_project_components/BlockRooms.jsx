@@ -40,7 +40,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                 formData.map((data) => {
                     defaultValuues.push({});
                     if(data?.className?.includes('project-default-checked')){
-                        console.log(data);
+                        
                         checkedItemsTemp.push({
                             roomOrder : i,
                             name : data?.name?.replace("[]", "")
@@ -137,8 +137,6 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
         }
     }
 
-    console.log(checkedItems);
-    
 
     const blockCheckboxDataSet = (blockIndex,keyx,value,isChecked) => {
         var newDatas = blocks.map((block,key) => {
@@ -835,7 +833,7 @@ function BlockRooms({slug,selectedTypes,formDataHousing,anotherBlockErrors,selec
                                                 isX = !checkedItems.find((checkedItem) => {console.log(checkedItem); return checkedItem.roomOrder == 0 && checkedItem.name == data?.className?.split('--if-show-checked-')[1];})
                                             }
                                             if(isX){
-                                                console.log(data);
+                                                
                                             }
                                             if(data.type == "text"){
                                                 return(

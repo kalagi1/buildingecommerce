@@ -118,6 +118,7 @@ Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebo
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+Route::post('/preview-housing', [HomeController::class, "previewHousing"])->name('previewHousing');
 
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
