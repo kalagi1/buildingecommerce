@@ -342,7 +342,7 @@ function HousingForm({
           <div className="add-classified-note mb-3">
             Kişisel verilerin korunması hakkında detaylı bilgiye{" "}
             <a
-              href="https://emlaksepette.com/sayfa/kvkk-politikasi"
+              href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"
             >
               buradan
@@ -363,7 +363,7 @@ function HousingForm({
                       setProjectDataFunc("project_title", e.target.value)
                     }
                     type="text"
-                    className={`form-control advert_title ${
+                    className={`form-control ilan_baslik ${
                       allErrors.includes("project_title") ? "error-border" : ""
                     }`}
                   />

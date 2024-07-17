@@ -114,7 +114,7 @@
                 </div>
                 <div class="slick-lancers" style="height: 95px">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="http://127.0.0.1:8000/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -300,7 +300,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="http://127.0.0.1:8000/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://private.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -328,21 +328,7 @@
                         <h2>Popüler Gayrimenkul Markaları</h2>
                     </div>
                 </div>
-                <div class="col-md-3 col-12 text-end">
-                    <div class="featured-heads mb-3">
-                        <div class="section-title">
-                            <h2>Emlak İlanları</h2>
-                        </div>
-                        <div>
-                            <a href="http://127.0.0.1:8000/kategori/emlak-ilanlari" style="font-size: 11px;">
-                                <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
-                                    class="w-100">
-                                    Tümünü Gör
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="portfolio col-xl-12">
                 <div class="job_clientSlide">
@@ -388,11 +374,25 @@
     <!-- END SECTION RECENTLY PROPERTIES -->
 
 
-
+   
 
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
             <div class="container">
+                <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
+                    <div class="section-title">
+                        <h2>Emlak İlanları</h2>
+                    </div>
+                    <a href="https://private.emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                            class="w-100">
+                            Tümünü Gör
+                        </button>
+                    </a>
+                </div>
+
+               
+                
                 <div class="mobile-show">
                     <div id="housingMobileRow">
                         @forelse ($housings->take(4) as $housing)

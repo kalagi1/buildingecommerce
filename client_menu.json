@@ -17,6 +17,24 @@
     "activePath": "/hesabim/estate_club_users"
 },
 {
+    "id": "crm",
+    "label": "CRM",
+    "icon": "users",
+    "text": "Crm Admin Modülü",
+    "key": "crmAdmin",
+    "url": "institutional.admin.dashboard",
+    "activePath": "/hesabim/admin/dashboard" 
+},
+{
+    "id": "crm",
+    "label": "CRM",
+    "icon": "users",
+    "text": "Crm Danışman Modülü",
+    "key": "crmDanisman",
+    "url": "institutional.danisman.dashboard",
+    "activePath": "/hesabim/danisman/dashboard" 
+},
+{
     "id": "neighbors",
     "label": "Komşumu Gör",
     "icon": "eye",

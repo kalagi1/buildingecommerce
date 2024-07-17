@@ -513,6 +513,10 @@ class ProjectController extends Controller
         $neighborhoodSlug = null;
         $neighborhoodID = null;
 
+        $detachedHoliday = null;
+       
+
+      
 
         if ($deneme && $deneme == "al-sat-acil") {
             $slug = "al-sat-acil";
@@ -661,7 +665,11 @@ class ProjectController extends Controller
                     // Housing status, type and parent type checks
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
-
+              
+                    if($housingTypeParent && $housingTypeParent->slug == 'mustakil-tatil'){
+                        $detachedHoliday = 1;
+                    }
+                    
                     if (!empty($housingTypeSlugName)) {
                         $housingType = HousingType::where('slug', $paramValue)->first();
                     }
@@ -1282,7 +1290,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-        return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term'));
+        return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term','detachedHoliday'));
     }
 
     public function allProjects($slug)

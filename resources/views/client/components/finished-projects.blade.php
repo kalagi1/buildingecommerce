@@ -150,13 +150,13 @@
                                         @else
                                             @if ($sold && $sold[0]->status != '2')
                                                 <button class="btn mobileBtn second-btn CartBtn" disabled
-                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                    @if ( $sold && $sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                 @else 
                                 style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
-                                                    @if ($sold[0]->status == '0')
+                                                    @if ($sold && $sold[0]->status == '0')
                                                         <span class="text">Rezerve Edildi</span>
                                                     @else
                                                         <span class="text">Satıldı</span>
@@ -185,7 +185,7 @@
                                         @endif
                                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                             @if ($sold)
-                                                @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                @if ($sold && $sold[0]->status != '1' && $sold[0]->status != '0')
                                                     {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                     ₺
                                                 @endif
@@ -413,7 +413,7 @@
                                                                 @endif
                                                                 @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                     @if ($sold)
-                                                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                        @if ($sold &&  $sold[0]->status != '1' && $sold[0]->status != '0')
                                                                             {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                             ₺
                                                                         @endif

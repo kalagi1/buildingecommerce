@@ -100,7 +100,7 @@
                                             <span style="color:#e54242; font-weight:600">
                                                 @if (getHouse($project, 'off_sale[]', $housingId)->value == '[]')
                                                     @if ($sold)
-                                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                        @if ($sold &&  $sold[0]->status != '1' && $sold[0]->status != '0')
                                                             {{ number_format(getHouse($project, 'price[]', $housingId)->value - $projectDiscountAmount, 0, ',', '.') }}
                                                             ₺
                                                         @endif
@@ -200,7 +200,7 @@
                                                 @endif
 
                                                 @if ($sold)
-                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                    @if ($sold && $sold[0]->status != '1' && $sold[0]->status != '0')
                                                         @if ($housing->step2_slug == 'gunluk-kiralik')
                                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                             ₺ <span style="font-size:11px; color:Red"

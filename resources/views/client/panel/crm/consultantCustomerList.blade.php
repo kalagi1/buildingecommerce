@@ -48,14 +48,15 @@
                             <td>{{$item->created_at}}</td>
                             <td>{{$item->name}}</td>
                             <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-
                             <td>{{$item->email}}</td>
                             <td>{{$item->job_title}}</td>
                             <td>{{$item->province}}</td>
                             <td>{{$item->project_name}}</td>
                             <td class="action-buttons">
                                 <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
-                                <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
+                                @if ($item->parent_id)
+                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
+                                @endif
                                 {{-- <button class="action-btn" title="Randevular" data-bs-toggle="modal" data-bs-target="#appointmentsModal{{$index}}"><i class="fas fa-handshake"></i></button> --}}
                                 @php
                                         $isFavorited = DB::table('favorite_customers')
@@ -659,7 +660,7 @@
                     </div>
                     <div class="modal-body">   
                         <form id="musteriEklemeForm"> 
-                             @csrf
+                            @csrf
                             <div class="row mt-3 customerInfo" style="margin-right:0px; ">
                                 <div class="col-md-12">
                                     <input type="text" name="name" placeholder="Ad Soyad" class="inputMusteriEkle">
@@ -667,9 +668,14 @@
                                     <input type="text" name="phone" placeholder="Telefon" class="inputMusteriEkle">
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" name="province" placeholder="Şehir" class="inputMusteriEkle">
-                                    <input type="text" name="ilgilendigi_proje" placeholder="İlgilendiği Proje" class="inputMusteriEkle">
                                     <input type="text" name="job_title" placeholder="Meslek" class="inputMusteriEkle">
+                                    <input type="text" name="province" placeholder="Şehir" class="inputMusteriEkle">
+                                    <select name="ilgilendigi_bolge" id="" class="form-control" style="1px solid rgb(199 198 198);border-radius:5px !important;">
+                                        <option value="0">Seçiniz</option>
+                                        @foreach ($danismanProjeleri as $item)
+                                            <option value="{{$item->projectId}}">{{$item->project_title}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="row mt-2 customerInfo" style="padding:20px 30px;">
@@ -691,7 +697,6 @@
                                     </div>
                                 </div>
                             </div>
-        
                             <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                 <div style="width: 100%">
                                     <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Varlık Yönetimi</label>
@@ -717,7 +722,6 @@
                                     </div>
                                 </div>
                             </div>
-        
                             <div class="row mt-2 customerInfo" style="padding:20px 30px;">
                                 <div style="width: 100%">
                                     <label for="exampleFormControlTextarea1" class="form-label checkbox-title mb-3" style="color:#2b2b2bf5 !important;">Müşterinin Bütçesi</label>
@@ -755,15 +759,12 @@
                                     </div>
                                 </div>
                             </div>
-        
-        
-                                    
-                                <div class="row mt-2 customerInfo" style="padding:20px 30px;">
-                                    <div style="width: 100%">
-                                        <label for="exampleFormControlTextarea1" class="form-label mb-3 checkbox-title" style="color:#2b2b2bf5 !important;">Müşterinin İlgilendiği Bölge</label>
-                                        <div class="row mt-3">
-                                            <div class="col-md-6">
-                                                <div class="form-check">
+                            <div class="row mt-2 customerInfo" style="padding:20px 30px;">
+                                <div style="width: 100%">
+                                    <label for="exampleFormControlTextarea1" class="form-label mb-3 checkbox-title" style="color:#2b2b2bf5 !important;">Müşterinin İlgilendiği Bölge</label>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
                                                 <select name="ilgilendigi_bolge" id="" class="form-control">
                                                     <option value="">Seçiniz</option>
                                                     <option value="Marmara">Marmara</option>
@@ -773,21 +774,21 @@
                                                     <option value="Akdeniz">Akdeniz</option>
                                                     <option value="Trakya">Trakya</option>
                                                 </select>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
-                                <div class="col-12 mt-5 d-flex justify-content-between">
-                                    <button type="button" class="btn btn-secondary" style="width: 15%; border-radius: 4px !important;" data-bs-dismiss="modal">Kapat</button>
-                                    <button class="btnSubmit" type="submit"  data-bs-dismiss="modal" style="width: 15%;margin-right:10px;">Kaydet</button>
-                                </div>     
-                            </form>    
+                                </div>
+                            </div> 
+                            <div class="col-12 mt-5 d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" style="width: 15%; border-radius: 4px !important;" data-bs-dismiss="modal">Kapat</button>
+                                <button class="btnSubmit" type="submit" data-bs-dismiss="modal" style="width: 15%;margin-right:10px;">Kaydet</button>
+                            </div>     
+                        </form>    
                     </div>                     
                 </div>    
-                </div>
             </div>
         </div>
+
       
 @endsection    
 
@@ -1473,6 +1474,12 @@
             overflow-y: auto; /* Dikey kaydırma */
             overflow-x: hidden; /* Yatay kaydırmayı gizle */
         }
+
+        .modal-body {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
     </style>
 
     {{-- yıldızların css --}}

@@ -1,3 +1,13 @@
+<a id="scrollToTopBtn" class="fa fa-angle-double-up" style="display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 40px;
+    color: #007bff;
+    cursor: pointer;
+    z-index: 1000;
+    transition: color 0.3s;"
+    onclick="scrollToTop()"></a>
 <footer class="first-footer">
     <div class="top-footer">
         <div class="container">
@@ -380,6 +390,27 @@
         });
     }
 </script>
+
+<script>
+    // Sayfa kaydırıldığında butonu göster/gizle
+    window.onscroll = function() {
+        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+
+    // Sayfanın en üstüne kaydır
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Yumuşak kaydırma için
+        });
+    }
+</script>
+
 
 <script>
     $(document).ready(function() {
@@ -1676,7 +1707,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1894,7 +1925,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

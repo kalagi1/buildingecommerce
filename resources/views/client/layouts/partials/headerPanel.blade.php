@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="http://127.0.0.1:8000/" />
+        <meta property="og:url"content="https://private.emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'http://127.0.0.1:8000/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -494,7 +494,7 @@
             @foreach ($adBanners as $adBanner)
                 <div class="home-top-banner d-xl-block d-none d-lg-block"
                     style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    <img src="https://private.emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
                 </div>
             @endforeach
         </div>

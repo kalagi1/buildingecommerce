@@ -12,7 +12,7 @@
 
 @section('scripts')
     <script>
-        $('.advert_title').keyup(function() {
+        $('.ilan_baslik').keyup(function() {
             if ($(this).val().length > 70) {
                 $(this).val($(this).val().substring(0, 70))
             } else {
