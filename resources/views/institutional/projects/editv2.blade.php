@@ -98,7 +98,7 @@
                                     <div class="input col-md-10">
                                         <input type="text"
                                             value="{{ isset($tempData->project_title) ? $tempData->project_title : '' }}"
-                                            name="name" class="form-control advert_title">
+                                            name="name" class="form-control ilan_baslik">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="max-character"
@@ -2858,7 +2858,7 @@
             listChange();
         })
 
-        $('.advert_title').keyup(function() {
+        $('.ilan_baslik').keyup(function() {
             if ($(this).val().length > 70) {
                 $(this).val($(this).val().substring(0, 70))
             } else {

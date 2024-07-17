@@ -363,7 +363,7 @@ function HousingForm({
                       setProjectDataFunc("project_title", e.target.value)
                     }
                     type="text"
-                    className={`form-control advert_title ${
+                    className={`form-control ilan_baslik ${
                       allErrors.includes("project_title") ? "error-border" : ""
                     }`}
                   />

@@ -386,7 +386,7 @@ const HousingList = ({ projectId }) => {
                     },
                     {
                         accessorFn: (row) => `${row['advertise_title[]']}`, //accessorFn used to join multiple data into a single cell
-                        id: 'advert_title[]', //id is still required when using accessorFn instead of accessorKey
+                        id: 'ilan_baslik[]', //id is still required when using accessorFn instead of accessorKey
                         header: 'İlan Başlığı',
                         enableColumnFilterModes: false,
                         enableColumnFilter: false,
@@ -1655,7 +1655,7 @@ const HousingList = ({ projectId }) => {
                 }
             })
             if(soldx){
-                if(data.cell.column.id === 'advert_title[]'){
+                if(data.cell.column.id === 'ilan_baslik[]'){
                     return({
                         //conditionally style pinned columns
                         colSpan : 15,

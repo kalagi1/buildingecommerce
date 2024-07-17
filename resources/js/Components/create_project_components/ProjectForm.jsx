@@ -203,7 +203,7 @@ function ProjectForm({selectedTypesTitles,errorMessages,slug,selectedTypes,formD
                     <div className="max-character-input">
                         <div className="row" style={{alignItems:'center'}}>
                             <div className="input col-md-10">
-                                <input id='project_title' value={projectData.project_title} onChange={(e) => {setProjectTitle(e.target.value)}} type="text" className={'form-control advert_title '+(allErrors.includes('project_title') ? "error-border" : "")} />
+                                <input id='project_title' value={projectData.project_title} onChange={(e) => {setProjectTitle(e.target.value)}} type="text" className={'form-control ilan_baslik '+(allErrors.includes('project_title') ? "error-border" : "")} />
                             </div>
                             <div className="col-md-2">
                                 <label className="max-character" htmlFor="">{projectData.project_title ? projectData.project_title.length : 0}/70</label>
