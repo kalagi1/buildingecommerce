@@ -666,7 +666,7 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
               
-                    if($housingTypeParent->slug == 'mustakil-tatil'){
+                    if($housingTypeParent && $housingTypeParent->slug == 'mustakil-tatil'){
                         $detachedHoliday = 1;
                     }
                     
