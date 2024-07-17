@@ -1194,6 +1194,10 @@ div#toolbar span button {
   width: 37.5%;
 }
 
+.progress-line .step-counter-title {
+  margin-top: 15px;
+}
+
 .progress-line.step3 ol:before {
   width: 62.5%;
 }

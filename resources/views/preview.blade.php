@@ -62,7 +62,7 @@
 
 
 
-                            <div class="listingDetailsSliderNav mt-3">
+                            <div class="listingDetailsSliderNav mt-3 d-flex">
                                 {{-- Kapak Görseli --}}
                                 <div class="item active" style="margin: 10px; cursor: pointer">
                                     <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">

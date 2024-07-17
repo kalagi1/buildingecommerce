@@ -9,14 +9,15 @@ import TypeList2 from "./create_project_components/TypeList2";
 import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
+import LoadingModal from './LoadingModal';
 
 function CreateHousing(props) {
-  const [step, setStep] = useState(1);
-  const [loadingModal, setLoadingModal] = useState(false);
+  const [step, setStep] = useState(4);
   const [loading, setLoading] = useState(0);
   const [housingTypes, setHousingTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [fillFormData, setFillFormData] = useState([]);
+  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
 
   const [projectData, setProjectData] = useState({});
   const [selectedHousingType, setSelectedHousingType] = useState({});
@@ -674,9 +675,18 @@ function CreateHousing(props) {
       setStep(3);
     }
   };
+  const [progress, setProgress] = useState(0);
 
-  function finishCreateHousing() {
-    setLoadingModal(true);
+  const finishCreateHousing = () => {
+    setLoadingModalOpen(true);
+    setProgress(0);
+    let progressInterval;
+
+    // Start the progress bar increment
+    progressInterval = setInterval(() => {
+      setProgress((prev) => (prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90));
+    }, 500); // Increase progress every half a second
+
     axios
       .post(baseUrl + "create_housing", fillFormData, {
         headers: {
@@ -687,15 +697,21 @@ function CreateHousing(props) {
       })
       .then((res) => {
         if (res.status) {
-          setStep(4);
-          setLoadingModal(false);
-          setFillFormData(null);
+          clearInterval(progressInterval);
+          setProgress(100);
+          setTimeout(() => {
+            setLoadingModalOpen(false);
+            setStep(4);
+            setFillFormData(null);
+          }, 500); // Close modal after a short delay
         }
       })
       .catch((error) => {
-        toast.error(error);
+        clearInterval(progressInterval);
+        setLoadingModalOpen(false);
+        toast.error(error.message);
       });
-  }
+  };
 
   const style = {
     position: "absolute",
@@ -803,7 +819,7 @@ function CreateHousing(props) {
         <EndSectionHousing />
       )}
 
-      <Modal
+      {/* <Modal
         open={loadingModal}
         onClose={() => {
           setLoadingModal(false);
@@ -818,7 +834,9 @@ function CreateHousing(props) {
           </p>
           <LinearProgressWithLabel value={1} />
         </Box>
-      </Modal>
+      </Modal> */}
+      <LoadingModal open={loadingModalOpen} progress={progress} />
+
       <ToastContainer />
     </>
   );
