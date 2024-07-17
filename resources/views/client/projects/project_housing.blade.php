@@ -173,9 +173,10 @@
                         @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']) ||
                                 isset($projectHousingsList[$housingOrder]['ong_kira[]']))
                             <div class="gainStyle"
-                                style="width: 100%; justify-content: center;align-items:center;display:flex">
+                                style="width: 100%; justify-content: center;align-items:center;display:flex;flex-direction: column;">
 
                                 @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
+                                <div>
                                     <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
                                         fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
@@ -183,12 +184,13 @@
                                     </svg>
                                     <strong style="font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
                                     <span style="font-size:13px;margin-left:4px">
-                                        %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
+                                        %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span></div>
                                 @endif
 
 
 
                                 @if (isset($projectHousingsList[$housingOrder]['ong_kira[]']))
+                                <div>
                                     <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
                                         fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
@@ -196,7 +198,7 @@
                                     </svg>
                                     <strong style="font-size:13px;"> Öngörülen Kira Getirisi: </strong>
                                     <span style="font-size:13px;margin-left:4px">
-                                        %{{ $projectHousingsList[$housingOrder]['ong_kira[]'] }}</span>
+                                        %{{ $projectHousingsList[$housingOrder]['ong_kira[]'] }}</span></div>
                                 @endif
 
                             </div>
