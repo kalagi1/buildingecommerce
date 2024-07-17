@@ -601,6 +601,9 @@
                                                     </a>
                                                 </div>
                                             @else
+                                                @if (Auth::check())
+                                                    
+                                                
                                                 @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                                     <div class="col-md-12 col-12 p-0 ml-3">
                                                         <a data-bs-toggle="modal" data-bs-target="#bidModal"
@@ -608,6 +611,7 @@
                                                             Pazarlık Yap <i class="fa fa-handshake"></i>
                                                         </a>
                                                     </div>
+                                                @endif
                                                 @endif
                                             @endif
                                         </div>
