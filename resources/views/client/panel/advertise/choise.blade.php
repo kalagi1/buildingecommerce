@@ -15,65 +15,16 @@
             <div class="row">
                 @if (in_array('CreateProject', $userPermissions))
                     <div class="col-lg-6 col-md-12 col-12">
-                        <div class="group-icon">
-                            <div class="box-icons d-flex">
-                                <div class="images">
-                                    <img src="{{ URL::to('/') }}/proje.png" alt="images">
-                                </div>
-                                <div class="contents">
-                                    <div class="title-icon fs-30 lh-45 fw-7 text-color-2">Proje İlanı Ekle</div>
-                                    <p class="font-2 text-color-2"> Kendi proje ilanınızı ekleyin ve hayalinizdeki projenizi
-                                        paylaşın. Binlerce kişiye ulaşın!
-                                    </p>
-                                </div>
-                            </div>
-                            @if (in_array('CreateProject', $userPermissions))
-                                <div class="button-footer center">
-                                    <a class="sc-button" href="{{ route('institutional.project.create.v3') }}">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                            class="css-i6dzq1">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="12" y1="8" x2="12" y2="16"></line>
-                                            <line x1="8" y1="12" x2="16" y2="12"></line>
-                                        </svg>
-                                        <span>Proje İlanı Ekle</span>
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
+                        <a href="{{ route('institutional.project.create.v3') }}"> <img
+                                src="{{ asset('proje-ilani-ekle.png') }}" alt="">
+                        </a>
                     </div>
                 @endif
                 <div class="col-lg-6 col-md-12 col-12">
-                    <div class="group-icon">
-                        <div class="box-icons d-flex">
-                            <div class="images">
-                                <img src="{{ URL::to('/') }}/emlak.png" alt="images">
-                            </div>
-                            <div class="contents">
-                                <div class="title-icon fs-30 lh-45 fw-7 text-color-2">Emlak İlanı Ekle</div>
-                                <p class="font-2 text-color-2"> Kendi emlak ilanınızı ekleyin ve ev, daire veya arsa
-                                    satışınızı
-                                    hızlandırın. Hemen ilan verin!</p>
-                            </div>
-                        </div>
-                        <div class="button-footer center">
-                            @if (in_array('CreateHousing', $userPermissions))
-                                <a class="sc-button" href="{{ route('institutional.housing.create.v3') }}">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                        class="css-i6dzq1">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                                    </svg>
-                                    <span>Emlak İlanı Ekle</span>
-                                </a>
-                            @endif
-
-
-                        </div>
-                    </div>
+                    <a href="{{ route('institutional.housing.create.v3') }}"> <img src="{{ asset('emlak-ilani-ekle.png') }}"
+                            alt="">
+                    </a>
+            
                 </div>
             </div>
         </div>

@@ -77,6 +77,18 @@ function HousingForm({
       .get(`${baseUrl}neighborhoods?county_id=${countyId}`)
       .then((res) => setNeighborhoods(res.data.data));
 
+  useEffect(() => {
+    if (projectData.city_id) {
+      fetchCounties(projectData.cityId);
+      
+    }
+  }, [projectData.cityId]);
+
+  useEffect(() => {
+    if (projectData.countyId) {
+      fetchNeighborhoods(projectData.countyId);
+    }
+  }, [projectData.countyId]);
   const dotNumberFormat = (number) => {
     if (
       number

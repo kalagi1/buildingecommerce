@@ -9,7 +9,7 @@ import TypeList2 from "./create_project_components/TypeList2";
 import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
-import LoadingModal from './LoadingModal';
+import LoadingModal from "./LoadingModal";
 
 function CreateHousing(props) {
   const [step, setStep] = useState(1);
@@ -671,7 +671,7 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];
-      setFillFormData(formData)
+      setFillFormData(formData);
       setStep(3);
     }
   };
@@ -684,7 +684,9 @@ function CreateHousing(props) {
 
     // Start the progress bar increment
     progressInterval = setInterval(() => {
-      setProgress((prev) => (prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90));
+      setProgress((prev) =>
+        prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
+      );
     }, 500); // Increase progress every half a second
 
     axios
@@ -752,16 +754,39 @@ function CreateHousing(props) {
   };
   const nextStep = () => {
     setStep(step + 1);
-    console.log(step);
   };
   return (
     <>
-      {/* <div className="table-breadcrumb">
-        <ul>
-          <li>Hesabım</li>
-          <li>Emlak İlanı Ekle</li>
-        </ul>
-      </div> */}
+      {step == 1 ? (
+        <div className="table-breadcrumb">
+          <ul>
+            <li>Emlak İlanı Ekle</li>
+            <li>Adım Adım Kategori Seç</li>
+          </ul>
+        </div>
+      ) : step == 2 ? (
+        <div className="table-breadcrumb">
+          <ul>
+            <li>Emlak İlanı Ekle</li>
+
+            <li>İlan Detayları</li>
+          </ul>
+        </div>
+      ) : step == 3 ? (
+        <div className="table-breadcrumb">
+          <ul>
+            <li>Emlak İlanı Ekle</li>
+
+            <li>Önizleme</li>
+          </ul>
+        </div>
+      ) : (
+        <div className="table-breadcrumb">
+          <ul>
+            <li>Tebrikler</li>
+          </ul>
+        </div>
+      )}
       <TopCreateProjectNavigator step={step} setStep={setStep} />
 
       {step == 1 ? (
