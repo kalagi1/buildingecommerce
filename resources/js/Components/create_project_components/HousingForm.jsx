@@ -79,16 +79,15 @@ function HousingForm({
 
   useEffect(() => {
     if (projectData.city_id) {
-      fetchCounties(projectData.cityId);
-      
+      fetchCounties(projectData.city_id);
     }
-  }, [projectData.cityId]);
+  }, [projectData.city_id]);
 
   useEffect(() => {
-    if (projectData.countyId) {
-      fetchNeighborhoods(projectData.countyId);
+    if (projectData.county_id) {
+      fetchNeighborhoods(projectData.county_id);
     }
-  }, [projectData.countyId]);
+  }, [projectData.county_id]);
   const dotNumberFormat = (number) => {
     if (
       number
@@ -294,8 +293,6 @@ function HousingForm({
   }, [mapRef.current, bounds]);
 
   useEffect(() => {
-    console.log("dsaads");
-    console.log(projectData);
     setProjectDataFunc(
       "coordinates",
       `${selectedLocation.lat}-${selectedLocation.lng}`
@@ -342,7 +339,7 @@ function HousingForm({
           <div className="add-classified-note mb-3">
             Kişisel verilerin korunması hakkında detaylı bilgiye{" "}
             <a
-              href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
+              href="https://emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"
             >
               buradan
@@ -478,6 +475,8 @@ function HousingForm({
                   );
                   setProjectDataFunc("neighbourhood_id", e.target.value);
                 }}
+                value={projectData.neighbourhood_id}
+
                 name="neighbourhood_id"
                 id="neighbourhood_id"
                 className={`form-control ${
@@ -523,9 +522,13 @@ function HousingForm({
               <GoogleMap
                 mapContainerStyle={{ height: "300px", width: "100%" }}
                 center={center}
+                id='map'
                 zoom={zoom}
                 onLoad={onMapLoad}
                 onUnmount={onUnmount}
+                options={{
+                  gestureHandling: "greedy"
+              }}
                 ref={mapRef}
               >
                 {selectedLocation.lat && (
