@@ -12,7 +12,7 @@ import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from './LoadingModal';
 
 function CreateHousing(props) {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(0);
   const [housingTypes, setHousingTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
