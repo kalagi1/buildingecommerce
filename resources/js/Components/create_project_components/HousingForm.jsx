@@ -363,6 +363,7 @@ function HousingForm({
                     className={`form-control ilan_baslik ${
                       allErrors.includes("project_title") ? "error-border" : ""
                     }`}
+                    maxLength={70}
                   />
                 </div>
                 <div className="col-md-2">
