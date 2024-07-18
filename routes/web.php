@@ -1097,7 +1097,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
     Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
     Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
-    Route::get('/create_project_v3', [InstitutionalProjectController::class, "createV3"])->name('project.create.v3');
+    Route::get('/proje-ilani-ekle', [InstitutionalProjectController::class, "createV3"])->name('project.create.v3');
     Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
