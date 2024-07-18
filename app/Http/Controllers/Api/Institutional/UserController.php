@@ -255,7 +255,7 @@ class UserController extends Controller
 
             $user->save();
 
-            if ($user->save()) {
+            if ($countUser && $user->save()) {
                 $countUser->user_limit = $countUser->user_limit - 1;
                 $countUser->save();
             }
