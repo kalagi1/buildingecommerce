@@ -141,7 +141,7 @@
         
         <div class="row mb-3" style="margin-left:0px; ">
             <div class="col-md-6 bestDiv">
-                <h5>En İyi Danışmanlar</h5><hr>
+                <h5>En Çok Satış Yapan Danışmanlar</h5><hr>
                 <canvas id="salesChart"></canvas>
             </div>
             <div class="col-md-5  bestDiv" >
@@ -161,8 +161,9 @@
 
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
-                                <p class="text-center">{{$danisman->total_calls}}</p>
-                                <button class="btnDanisman">Profili Gör</button>
+                                <p class="text-center" style="  background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
+                                    {{$danisman->total_calls}} Arama</p>
+                                {{-- <button class="btnDanisman">Profili Gör</button> --}}
                             </div>
                         </div>                       
                     </div>
@@ -175,9 +176,12 @@
                                 <div class="text-center" style="border-radius: 55%">
                                     <img src="{{asset('man.jpg')}}" class="danismanImg">
                                 </div>
-                                <p class="text-center">Tuna Melet</p>
-                                <p class="text-center">756</p>
-                                <button class="btnDanisman ">Profili Gör</button>
+                                <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '-' }}</p>
+                                <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
+                                    {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '0' }} Adet Satış
+                                </p>
+                                
+                                {{-- <button class="btnDanisman ">Profili Gör</button> --}}
                             </div>
                         </div>
                     </div>
@@ -185,17 +189,30 @@
             </div>
         </div>
 
-        <div class="row">
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-        </div>
+        @php
+            $awards = App\Models\Award::latest()->take(3)->get();
+            $allInactive = $awards->every(function ($award) {
+                return $award->status == 0;
+            });
+        @endphp
+        
+        @if(!$allInactive)
+            <div class="row">
+                @foreach($awards as $award)
+                    @if($award->status == 1)
+                        <div class="col-md-4">
+                            <div style="position: relative;">
+                                <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 30%; left: 55%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%;">
+                                <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
+                                <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        @endif   
+        
         
         <div id="danismanCarousel" class="row bestDiv mb-3 carousel slide" style="padding: 0px 20px 40px 0px" data-ride="carousel">
             <div class="carousel-inner" style="border: none;">
@@ -207,18 +224,18 @@
                                     <div class="cardDanismanList">
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
-                                                <img src="{{asset('woman.png')}}" class="danismanImg">
+                                                <img src="{{asset('woman.png')}}" class="danismanListImg">
                                             {{-- <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
-                                            <p class="text-center" style="color: #8b8b8b">#000000</p>
+                                            <p class="text-center" style="color: #8b8b8b">#{{$danisman->code}}</p>
                                             <div class="stats-section mt-4">
                                                 <div class="row">
                                                     <div class="col-6 border-right border-top">
                                                         <div class="stat-item">
-                                                            <span>Toplam Satış</span>
-                                                            <h3>1.234.567 ₺</h3>
+                                                            <span>Toplam Satış Adedi</span>
+                                                            <h3>  <h3>{{ $danismanVerileri[$danisman->id]['satis_sayisi'] }}</h3></h3>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 border-top">
@@ -270,18 +287,18 @@
                     <tbody>
                         <tr>
                             <td><span class="icon-circle red-circle mr-4"></span> <span>Bireysel Satış İstatistikleri</span></td>
-                            <td>544</td>
-                            <td><span class="badge badge-success">%23</span></td>
+                            <td>{{$sharerIndividualCount}}</td>
+                           
+                        </tr>                        
+                        <tr>
+                            <td><span class="icon-circle orange-circle mr-4"></span> <span>Danışman Satış İstatistikleri</span></td>
+                            <td>{{$sharerEstateCount}}</td>
+                           
                         </tr>
                         <tr>
                             <td><span class="icon-circle blue-circle mr-4"></span> <span>Şirket Satış İstatistikleri</span></td>
-                            <td>12413</td>
-                            <td><span class="badge badge-success">%10</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="icon-circle orange-circle mr-4"></span> <span>Danışman Satış İstatistikleri</span></td>
-                            <td>1234</td>
-                            <td><span class="badge badge-danger">%5</span></td>
+                            <td>{{$sirket_satis_sayisi}}</td>
+                            
                         </tr>
                     </tbody>
                 </table>
@@ -290,7 +307,7 @@
 
         <div class="row">
             <div class="col-md-12 bestDiv">
-                <h5>Satışlar</h5><hr>
+                <h5>Tüm Satışlar</h5><hr>
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="">
                         <tr>
@@ -300,398 +317,369 @@
                             <th>Ödeme Şekli</th>
                             <th>Ödeme Durumu</th>
                             <th>Tarih </th>
-                            <th>Kazancım </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Abuzer Kömürcü</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Testere Necmi</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Deve Tuncay</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                       
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Seyfo Dayı</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Memati Baş</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                      
+                        @foreach ($satisDanismanlari as $danisman)
+                            @foreach ($danismanVerileri[$danisman->id]['satis_detaylari'] as $satisDetayi)
+                                @php
+                                    $cart = json_decode(($satisDetayi->cart));
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {{-- <img src="{{ asset($danisman->profile_image ?: 'default_profile.png') }}" alt="" style="width: 30px; height: 30px" class="rounded-circle" /> --}}
+                                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                            <p class="fw-bold ml-5">{{ $danisman->name }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if(isset($cart->type->housing))
+                                            {{ $cart->item->id + 2000000 }}
+                                        @else
+                                            {{ $cart->item->id + 1000000 }}
+                                        @endif
+                                    </td>
+                                   
+                                    <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">{{ $satisDetayi->amount }}</span></td>
+                                    <td>
+                                        @if($satisDetayi->is_swap == 0)
+                                            Peşin
+                                        @else
+                                            @if(isset($cart->item->taksitSayisi))
+                                            {{ $cart->item->taksitSayisi }} Ay Taksit
+                                            @else
+                                            Taksit
+                                            @endif                          
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($satisDetayi->status == 1)
+                                            <button class="btn btn-success btnOdemeDurumu"> Ödeme Yapıldı </button>
+                                        @elseif ($satisDetayi->status == 0)
+                                            <button class="btn btn-warning btnOdemeDurumu"> Bekleniyor</button>
+                                        @else
+                                            <button class="btn btn-warning btnOdemeDurumu"> Siprariş İptal </button>
+                                        @endif
+                                    </td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($satisDetayi->created_at)) }}</td>                                   
+                                </tr>
+                            @endforeach
+                        @endforeach
                     </tbody>
                 </table>
-            </div>
-         
+            </div>         
         </div>
     </div>    
     
 @endsection
 
 @section('styles')
-<style>
-      .carousel-control-prev , .carousel-control-next{
-        width: 6% !important;
-    } 
+    <style>
+        .carousel-control-prev , .carousel-control-next{
+            width: 6% !important;
+        } 
 
-    #canvas22 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-    #canvas23 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-
-    .confetti {
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        opacity: 0.7;
+        #canvas22 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        #canvas23 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
-        .visibility {
-        opacity: 0;
-        transition-delay: 3s;
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0.7;
+            }
+
+            .visibility {
+            opacity: 0;
+            transition-delay: 3s;
+            }
+
+            .visibility:hover {
+            transition-delay: 0s;
+            opacity: 1;
+            }
+
+    </style>
+
+    <style>
+        .icon-circle {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .red-circle {
+            background-color: #EA2B2E;
+        }
+        .blue-circle {
+            background-color: rgb(32, 32, 157);
+        }
+        .orange-circle {
+            background-color: rgb(254, 182, 49);
+        }
+        .stats-table {
+            border: 1px solid #c9c6c6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stats-table h4 {
+            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
         }
 
-        .visibility:hover {
-        transition-delay: 0s;
-        opacity: 1;
+        #istatistik span{
+            float: left;
         }
 
-</style>
 
-<style>
-    .icon-circle {
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
-    .red-circle {
-        background-color: #EA2B2E;
-    }
-    .blue-circle {
-        background-color: rgb(32, 32, 157);
-    }
-    .orange-circle {
-        background-color: rgb(254, 182, 49);
-    }
-    .stats-table {
-        border: 1px solid #c9c6c6;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
-    .stats-table h4 {
-        background: linear-gradient(to top, #EA2B2E, #84181A) !important;
-        color: white;
-        padding: 15px;
-        border-radius: 10px 10px 0 0;
-    }
+        
+    </style>
 
-    #istatistik span{
-        float: left;
-    }
+    <style>
+        .medal-icon {
+            font-size: 27px;
+            line-height: 0; /* Ensures the icon doesn't affect the vertical alignment */
+            margin-right: 120px;
+        }
 
+        .cardGift {
+            width: 100%;
+            height: 55%;
+            border-radius: 10px;
+            background: linear-gradient(332deg, #EA2B2E, #84181A 50%, #ffffff 50%);
+            flex-direction: column; /* İçerikleri dikey yönde hizalar */
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+            position: relative;
+        }
+        .card-headerGift {
+            display: flex;
+            justify-content: space-between;
+            color: #000;
+            background: white;
+        }
 
-     
-</style>
+        .icon {
+            font-size: 24px;
+        }
 
-<style>
-    .medal-icon {
-        font-size: 27px;
-        line-height: 0; /* Ensures the icon doesn't affect the vertical alignment */
-        margin-right: 120px;
-    }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-    .cardGift {
-        width: 100%;
-        height: 55%;
-        border-radius: 10px;
-        background: linear-gradient(332deg, #EA2B2E, #84181A 50%, #ffffff 50%);
-        flex-direction: column; /* İçerikleri dikey yönde hizalar */
-        justify-content: center;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        color: #ffffff;
-        position: relative;
-    }
-    .card-headerGift {
-        display: flex;
-        justify-content: space-between;
-        color: #000;
-        background: white;
-    }
+        .menu {
+            font-size: 24px;
+            top: -60px;
+            right: -118px;
+        }
 
-    .icon {
-        font-size: 24px;
-    }
+        .card-bodyGift {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .title {
-        font-size: 18px;
-        font-weight: bold;
-    }
+        .main-gift {
+            position: relative;
+            top: -131px;
+            left: -101px;
+            width: 100px;
+        }
 
-    .menu {
-        font-size: 24px;
-        top: -60px;
-        right: -118px;
-    }
+        .small-gift {
+            width: 50px;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
 
-    .card-bodyGift {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .text {
+            font-size: 16px;
+        }
 
-    .main-gift {
-        position: relative;
-        top: -131px;
-        left: -101px;
-        width: 100px;
-    }
+        .reward {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 
-    .small-gift {
-        width: 50px;
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-    }
+    <style>
+        .btnOdemeDurumu{
+            border-radius: 8px !important;
+            padding: 5px !important;
+            
+        }
+        .table {
+            border-top: 2px solid #ccc;
+        }
 
-    .text {
-        font-size: 16px;
-    }
+        .table tbody tr {
+            border: none;
+        }
 
-    .reward {
-        font-size: 24px;
-        font-weight: bold;
-    }
-</style>
+        .table thead {
+            border-bottom: 2px solid #ccc;
+        }
 
-<style>
-    .btnOdemeDurumu{
-        border-radius: 8px !important;
-        padding: 5px !important;
-           
-    }
-    .table {
-        border-top: 2px solid #ccc;
-    }
+        .table thead th {
+            border: none;
+        }
 
-    .table tbody tr {
-        border: none;
-    }
+        .table td, .table th {
+            border: none !important;
+        }
+        .chart-container {
+            margin-bottom: 20px; /* Mesafe */
+            border-radius: 10px; /* Köşe yuvarlama */
+            border: 1px solid #ccc; /* Kenar çizgisi */
+            padding: 10px; /* İçerik boşluğu */
+            background: rgb(255, 255, 255);
+            text-align: center;
+        }
+        .card {
+            padding: 1px !important;
+            background-color: #fff !important;
+            border-radius: 10px;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+            width: 95%;
+            box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+        }
 
-    .table thead {
-        border-bottom: 2px solid #ccc;
-    }
+        .l-bg-red {
+            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            color: #fff;
+        }
 
-    .table thead th {
-        border: none;
-    }
+        .card .card-statistic-3 .card-icon {
+            text-align: center;
+            line-height: 50px;
+            margin-right: 15px; /* Sağa boşluk verildi */
+            color: #000;
+            /* opacity: 0.1; */
+            font-size: 40px;
+            background-color: white;
+            border-radius: 50%;
+        }
 
-    .table td, .table th {
-        border: none !important;
-    }
-    .chart-container {
-        margin-bottom: 20px; /* Mesafe */
-        border-radius: 10px; /* Köşe yuvarlama */
-        border: 1px solid #ccc; /* Kenar çizgisi */
-        padding: 10px; /* İçerik boşluğu */
-        background: rgb(255, 255, 255);
-        text-align: center;
-    }
-    .card {
-        padding: 1px !important;
-        background-color: #fff !important;
-        border-radius: 10px;
-        border: none;
-        position: relative;
-        margin-bottom: 30px;
-        width: 95%;
-        box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
-    }
+        .divSvg{
+            background-color: #ffffff;
+            padding: 11px;
+            border-radius: 55%;
+            margin: 5px;
+        }
+        .danismanImg{
+            max-width: 54%;
+            height: 100px;
+            border-radius: 45%;
+        }
+        .danismanListImg{
+            max-width: 54%;
+            height: 100px;
+            border-radius: 45%;
+            position: relative;
+            top: -18px;
+            border-top: 1px solid #EA2B2E;
+        }
 
-    .l-bg-red {
-        background: linear-gradient(to top, #EA2B2E, #84181A) !important;
-        color: #fff;
-    }
+        .cardDanisman{
+            padding: 20px;
+            border: 1px solid rgb(206, 206, 206);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .cardDanismanList{
+            padding: 0px 20px;
+            border-top: 1px solid #EA2B2E; /* Top border color */
+            border-bottom: 1px solid #EA2B2E; /* Bottom border color */
+            border-left: 1px solid #84181A; /* Left border color */
+            border-right: 1px solid #84181A; 
+            border-radius: 10px;
+            text-align: center;
+            width: 110%;
+        }
+        .btnDanisman{
+            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            color: #ffffff;
+            border-color: #EA2B2E !important;
+            padding: 5px 25px;
+            border-radius: 6px !important; 
+            margin-top:5px;
+        }
+        p{
+            margin:-5px !important;
+        }
+    
+        .bestDiv{
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid rgb(206, 206, 206);
+            border-radius: 15px;
+            margin: 10px;
+        }
 
-    .card .card-statistic-3 .card-icon {
-        text-align: center;
-        line-height: 50px;
-        margin-right: 15px; /* Sağa boşluk verildi */
-        color: #000;
-        /* opacity: 0.1; */
-        font-size: 40px;
-        background-color: white;
-        border-radius: 50%;
-    }
+        .cardDanismanList .stats-section {
+            margin-top: 20px;
+            padding-top: 20px;
+        }
 
-    .divSvg{
-        background-color: #ffffff;
-        padding: 11px;
-        border-radius: 55%;
-        margin: 5px;
-    }
-    .danismanImg{
-        max-width: 54%;
-        height: 100px;
-        border-radius: 45%;
-    }
-    .danismanListImg{
-        max-width: 54%;
-        height: 100px;
-        border-radius: 45%;
-        position: relative;
-        top: -18px;
-        border-top: 1px solid #EA2B2E;
-    }
+        .cardDanismanList .stats-section .col-6{
+            padding: 10px;
+        }
 
-    .cardDanisman{
-        padding: 20px;
-        border: 1px solid rgb(206, 206, 206);
-        border-radius: 10px;
-        text-align: center;
-    }
-    .cardDanismanList{
-        padding: 0px 20px;
-        border-top: 1px solid #EA2B2E; /* Top border color */
-        border-bottom: 1px solid #EA2B2E; /* Bottom border color */
-        border-left: 1px solid #84181A; /* Left border color */
-        border-right: 1px solid #84181A; 
-        border-radius: 10px;
-        text-align: center;
-        width: 110%;
-    }
-    .btnDanisman{
-        background: linear-gradient(to top, #EA2B2E, #84181A) !important;
-        color: #ffffff;
-        border-color: #EA2B2E !important;
-        padding: 5px 25px;
-        border-radius: 6px !important; 
-        margin-top:5px;
-    }
-    p{
-        margin:-5px !important;
-    }
- 
-    .bestDiv{
-        background-color: #ffffff;
-        padding: 20px;
-        border: 1px solid rgb(206, 206, 206);
-        border-radius: 15px;
-        margin: 10px;
-    }
+        .cardDanismanList .stats-section .border-right{
+            border-right: 1px solid #ddd;
+        }
 
-    .cardDanismanList .stats-section {
-        margin-top: 20px;
-        padding-top: 20px;
-    }
+        .cardDanismanList .stats-section .border-top{
+            border-top: 1px solid #ddd;
+        }
 
-    .cardDanismanList .stats-section .col-6{
-        padding: 10px;
-    }
+        .cardDanismanList .stat-item {
+            text-align: center;
+            margin-bottom: 15px;
+        }
 
-    .cardDanismanList .stats-section .border-right{
-        border-right: 1px solid #ddd;
-    }
+        .cardDanismanList .stat-item span {
+            white-space: nowrap;
+            color: #797979;
+            font-size: 9px !important; 
+        }
 
-    .cardDanismanList .stats-section .border-top{
-        border-top: 1px solid #ddd;
-    }
+        .cardDanismanList .stat-item h3 {
+            color: #1b1b1b;
+            font-size: 13px !important; 
+            margin: 5px 0 0;
+        }
+        .cardDanismanList .stat-item:not(:last-child) {
+            border-bottom: 1px solid #ddd; /* Add bottom border to all but last item */
+        }
 
-    .cardDanismanList .stat-item {
-        text-align: center;
-        margin-bottom: 15px;
-    }
-
-    .cardDanismanList .stat-item span {
-        white-space: nowrap;
-        color: #797979;
-        font-size: 9px !important; 
-    }
-
-    .cardDanismanList .stat-item h3 {
-        color: #1b1b1b;
-        font-size: 13px !important; 
-        margin: 5px 0 0;
-    }
-    .cardDanismanList .stat-item:not(:last-child) {
-        border-bottom: 1px solid #ddd; /* Add bottom border to all but last item */
-    }
-
-</style>
+    </style>
 
 @endsection
 
@@ -705,149 +693,48 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-{{-- <script>
-    const canvas22 = document.getElementById("canvas22");
-    const ctx = canvas22.getContext("2d");
-
-    canvas22.width = canvas22.offsetWidth;
-    canvas22.height = canvas22.offsetHeight;
-
-    const confettiColors = [
-        "#f44336",
-        "#e91e63",
-        "#9c27b0",
-        "#673ab7",
-        "#3f51b5",
-        "#2196f3",
-        "#03a9f4",
-        "#00bcd4",
-        "#009688",
-        "#4caf50",
-        "#8bc34a",
-        "#cddc39",
-        "#ffeb3b",
-        "#ffc107",
-        "#ff9800",
-        "#ff5722",
-        "#795548"
-    ];
-
-    class Confetti {
-        constructor() {
-            this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-            this.size = Math.random() * 10 + 5;
-            this.x = Math.random() * canvas22.width;
-            this.y = Math.random() * -canvas22.height; // Konfetilerin yukarıdan fırlatılması için negatif y koordinatı
-            this.rotation = Math.random() * 360;
-            this.rotationSpeed = Math.random() * 4 - 2;
-            this.speed = Math.random() * 4 + 1;
-            this.horizontalDrift = Math.random() * 4 - 2; // Yatay yönde rastgele bir hız
-        }
-
-        update() {
-            this.y += this.speed;
-            this.x += this.horizontalDrift;
-            this.rotation += this.rotationSpeed;
-
-            if (this.y > canvas22.height + this.size || this.x < -this.size || this.x > canvas22.width + this.size) {
-                // Konfetinin ekrandan çıkması durumunda yeniden konumlandır
-                this.y = Math.random() * -canvas22.height;
-                this.x = Math.random() * canvas22.width;
-            }
-        }
-
-        draw(ctx) {
-            ctx.save();
-            ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
-            ctx.rotate((this.rotation * Math.PI) / 180);
-
-            ctx.beginPath();
-            ctx.moveTo(-this.size / 2, -this.size / 2);
-            ctx.lineTo(this.size / 2, -this.size / 2);
-            ctx.lineTo(this.size / 2, this.size / 2);
-            ctx.lineTo(-this.size / 2, this.size / 2);
-            ctx.closePath();
-
-            ctx.fillStyle = this.color;
-            ctx.fill();
-
-            ctx.restore();
-        }
-    }
-
-    const confettis = [];
-    const maxConfettis = 1000;
-
-    function createConfetti(amount) {
-        for (let i = 0; i < amount; i++) {
-            const confetti = new Confetti();
-            confettis.push(confetti);
-        }
-    }
-
-    createConfetti(20);
-
-    function animateConfetti() {
-        ctx.clearRect(0, 0, canvas22.width, canvas22.height);
-
-        for (let i = 0; i < confettis.length; i++) {
-            const confetti = confettis[i];
-            confetti.update();
-            if (confetti.y > canvas22.height + confetti.size || confetti.x < -confetti.size || confetti.x > canvas22.width + confetti.size) {
-                confettis.splice(i, 1);
-                i--;
-                continue;
-            }
-
-            confetti.draw(ctx);
-        }
-
-        requestAnimationFrame(animateConfetti);
-    }
-
-    animateConfetti();
-
-</script> --}}
-
-
 
 <script>
+    // PHP'den gelen verileri JavaScript'e geçirin
+    var labels = @json($labels);
+    var satis_sayilari = @json($satis_sayilari);
+
     const ctx = document.getElementById('salesChart2').getContext('2d');
     const salesChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: {!! json_encode($labels) !!},
+            labels: labels, // Bireysel, Danışman ve Şirket Satış etiketleri
             datasets: [{
-                label: 'Bireysel Satış',
-                data: {!! json_encode($individualSales) !!},
-                borderColor: '#EA2B2E',
-                backgroundColor:'#EA2B2E',
-                fill: false,
-                  tension: 0.4,  // Bu, çizgileri daha yumuşak hale getirir
-                    cubicInterpolationMode: 'monotone'
-            }, {
-                label: 'Şirket Satış',
-                data: {!! json_encode($companySales) !!},
-                borderColor: 'blue',
-                backgroundColor:'blue',
-                fill: false,
-                  tension: 0.4,  // Bu, çizgileri daha yumuşak hale getirir
-                    cubicInterpolationMode: 'monotone'
-            }, {
-                label: 'Danışman Satış',
-                data: {!! json_encode($consultantSales) !!},
-                borderColor: 'orange',
-                backgroundColor:'orange',
-                fill: false,
-                  tension: 0.4,  // Bu, çizgileri daha yumuşak hale getirir
-                    cubicInterpolationMode: 'monotone'
+                label: 'Satış Sayısı',
+                data: satis_sayilari, // Satış sayıları
+                backgroundColor: [
+                    '#EA2B2E', // Bireysel Satış rengi
+                    'blue',    // Danışman Satış rengi
+                    'orange'   // Şirket Satış rengi
+                ],
+                borderColor: [
+                    '#EA2B2E',
+                    'blue',
+                    'orange'
+                ],
+                borderWidth: 1
             }]
         },
         options: {
             responsive: true,
             scales: {
                 x: {
-                    type: 'category'
+                    type: 'category',
+                    title: {
+                        display: true,
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Satış Sayısı'
+                    }
                 }
             }
         }
@@ -859,13 +746,14 @@
         // Canvas elementini seçin
         var ctx = document.getElementById('salesChart').getContext('2d');
         var labels = @json($satisDanismanlari->pluck('name'));
-        var data = @json(array_values($olumluMusteriSayilari));
+        var data = @json(array_column($danismanVerileri, 'satis_sayisi'));
+
 
         // Veri seti tanımlayın
         var salesData = {
             labels: labels,
             datasets: [{
-                label: 'Olumlu Müşteri Sayıları',
+                label: 'Danışman Satış Adetleri',//Danışman Satış Adetleri
                 data: data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

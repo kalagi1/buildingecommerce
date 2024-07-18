@@ -866,7 +866,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/admin/dashboard',[InstitutionalCrmController::class,'adminDashboard'])->name('admin.dashboard');
         Route::get('/danisman/dashboard',[InstitutionalCrmController::class,'danismanDashboard'])->name('danisman.dashboard');
                 
-
+        //crm admini odul ekleme
+        Route::get('/crm/admin/odul',[InstitutionalCrmController::class,'adminOdulEkle'])->name('crm.admin.odul');
+        Route::post('/crm/admin/odul/ekle',[InstitutionalCrmController::class,'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
+        Route::get('/awards/{id}/edit',[InstitutionalCrmController::class,'awardEdit'])->name('crm.award.edit');
+        Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
