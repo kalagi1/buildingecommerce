@@ -110,7 +110,7 @@ class CrmController extends Controller
          $currentDate = now()->toDateString();
         // Fetch customer IDs for appointments with 'sonraki_gorusme_turu'
         $appointmentCustomerIds = DB::table('appointments')
-            ->whereNotNull('sonraki_gorusme_turu')
+            ->where('sonraki_gorusme_turu','Telefon')
             // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
             ->pluck('customer_id')
             ->toArray();
@@ -245,13 +245,18 @@ class CrmController extends Controller
 
         ]);
 
-        Appointment::create([
-            'customer_id'      => $request->customer_id2,
-            'appointment_date' => $request->randevu_tarihi,
-            'appointment_info' => $request->randevu_notu,
-        ]);
+        if($request->gorusme_sonucu == 'Randevu (Zoom)' || $request->gorusme_sonucu == 'Randevu (Yüz Yüze)' || 
+           $request->sonraki_gorusme_turu == 'Randevu (Yüz Yüze)' || $request->sonraki_gorusme_turu == 'Randevu (Zoom)'){
 
-        if($request->sonraki_gorusme_tarihi && $request->sonraki_gorusme_turu){
+            Appointment::create([
+                'customer_id'      => $request->customer_id2,
+                'appointment_date' => $request->sonraki_gorusme_tarihi,
+                'appointment_info' => $request->randevu_notu,
+            ]);
+        }
+
+
+        if($request->sonraki_gorusme_turu == 'Telefon'){
             Appointment::create([
                 'customer_id'            => $request->customer_id2,
                 'sonraki_gorusme_tarihi' => $request->sonraki_gorusme_tarihi,

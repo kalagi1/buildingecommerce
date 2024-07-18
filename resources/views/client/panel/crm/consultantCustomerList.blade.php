@@ -618,15 +618,10 @@
                                             <select class="form-select" name="sonraki_gorusme_turu" aria-label="Default select example" style="1px solid rgb(199 198 198);border-radius:5px !important;">
                                                 <option selected>Seçiniz</option>
                                                 <option value="Telefon">Telefon</option>
-                                                <option value="Randevu (Zomm)">Radenvu (Zomm)</option>
+                                                <option value="Randevu (Zomm)">Randevu (Zoom)</option>
                                                 <option value=">Randevu (Yüz Yüze)">Randevu (Yüz Yüze)</option>                                                   
                                             </select>
                                         </div>
-
-                                        {{-- <div class="mt-3 mb-3">
-                                            <label class="mb-3" for="randevu">Randevu Tarihi</label>
-                                            <input type="datetime-local" name="randevu_tarihi" id="randevu" class="form-control datepicker" style="border-radius: 5px !important;">
-                                        </div>                                                 --}}
                                         
                                         <div class="mt-3 mb-3">
                                             <label class="mb-3" for="note">Randevu Notu</label>
@@ -1003,40 +998,6 @@
             function addNewCall(itemId) {
                  // Modal içeriğini sıfırla
                 resetModalContent();
-                fetch('/hesabim/musteri/bilgileri/' + itemId)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Modal içine verileri yaz
-                            document.getElementById('new-call-modal-name').innerText = data.name;
-                            document.getElementById('new-call-modal-email').innerText = data.email;
-                            document.getElementById('new-call-modal-phone').innerText = data.phone.replace('p:+', '');
-                            document.getElementById('new-call-modal-province').innerText = data.province;
-                            document.getElementById('new-call-modal-ilgilendigi-proje').innerText = data.project_name;
-                            document.getElementById('new-call-modal-job-title').innerText = data.job_title;
-                        
-                                    // Checkbox değerlerini ayarlama
-                            document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
-                            document.getElementById('checkbox12').checked  = data.konut_tercihi.includes('Hazır Konut');
-                            document.getElementById('checkbox13').checked  = data.varlik_yonetimi.includes('Yatırım');
-                            document.getElementById('checkbox14').checked  = data.varlik_yonetimi.includes('Oturum');
-                            document.getElementById('checkbox15').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
-                            document.getElementById('checkbox16').checked  = data.musteri_butcesi.includes('0-500.000');
-                            document.getElementById('checkbox17').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
-                            document.getElementById('checkbox18').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
-                            document.getElementById('checkbox19').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
-                            document.getElementById('checkbox20').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
-
-                            document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
-
-                            $('#customer_id2').val(data.id);
-                            // Gizli input alanına customer_id değerini ekle
-                            document.getElementById('customer_id2').value = data.id;
-
-                            // Modalı aç
-                            $('#newCallsModal').modal('show');
-                        })
-                        .catch(error => console.error('Error:', error));
-                }
                 function resetModalContent() {
                     document.getElementById('new-call-modal-name').innerText = '';
                     document.getElementById('new-call-modal-email').innerText = '';
@@ -1063,15 +1024,47 @@
                     // Gizli input alanını temizle
                     document.getElementById('customer_id2').value = '';
                 }
+                fetch('/hesabim/musteri/bilgileri/' + itemId)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(JSON.stringify(data))
+                        document.getElementById('customer_id2').value = data.id;
+                  
+                        // Modal içine verileri yaz
+                            document.getElementById('new-call-modal-name').innerText = data.name;
+                            document.getElementById('new-call-modal-email').innerText = data.email;
+                            document.getElementById('new-call-modal-phone').innerText = data.phone.replace('p:+', '');
+                            document.getElementById('new-call-modal-province').innerText = data.province;
+                            document.getElementById('new-call-modal-ilgilendigi-proje').innerText = data.project_name;
+                            document.getElementById('new-call-modal-job-title').innerText = data.job_title;
+                        
+                                    // Checkbox değerlerini ayarlama
+                            document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
+                            document.getElementById('checkbox12').checked  = data.konut_tercihi.includes('Hazır Konut');
+                            document.getElementById('checkbox13').checked  = data.varlik_yonetimi.includes('Yatırım');
+                            document.getElementById('checkbox14').checked  = data.varlik_yonetimi.includes('Oturum');
+                            document.getElementById('checkbox15').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
+                            document.getElementById('checkbox16').checked  = data.musteri_butcesi.includes('0-500.000');
+                            document.getElementById('checkbox17').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
+                            document.getElementById('checkbox18').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
+                            document.getElementById('checkbox19').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
+                            document.getElementById('checkbox20').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
+
+                            document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
+                       
+
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
 
                 document.addEventListener('DOMContentLoaded', function () {
                     $('#newCallsModal form').off('submit').on('submit', function (e) {
+                  
                         e.preventDefault();
-
                         var formData = new FormData(this);
-                        var customerId = document.getElementById('customer_id2').value;
-                        formData.append('customer_id2', customerId);
-
+                        // var customerId = document.getElementById('customer_id2').value;
+                        // formData.append('customer_id2xx', customerId);
+        
                         fetch('/hesabim/arama/kaydi/musteri/bilgisi/ekle', {
                             method: 'POST',
                             body: formData,
@@ -1085,7 +1078,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Başarılı',
-                                    text: data.message // Burada `response.message` yerine `data.message` kullanın
+                                    text: data.message 
                                 }).then(() => {
                                     $('#newCallsModal').modal('hide');
 
