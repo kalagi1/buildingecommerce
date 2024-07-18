@@ -325,13 +325,14 @@
                             @foreach ($danismanVerileri[$danisman->id]['satis_detaylari'] as $satisDetayi)
                                 @php
                                     $cart = json_decode(($satisDetayi->cart));
+                                    $musteri = App\Models\user::find($satisDetayi->user_id);
                                 @endphp
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ asset($danisman->profile_image ?: 'default_profile.png') }}" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                            <img src="{{ asset($musteri->profile_image ?: 'default_profile.png') }}" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
                                             {{-- <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" /> --}}
-                                            <p class="fw-bold ml-5">{{ $danisman->name }}</p>
+                                            <p class="fw-bold ml-5">{{ $musteri->name }}</p>
                                         </div>
                                     </td>
                                     <td>
