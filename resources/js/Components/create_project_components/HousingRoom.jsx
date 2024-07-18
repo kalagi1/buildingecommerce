@@ -722,7 +722,7 @@ function HousingRoom({
                     var isX = null;
                     if (data?.className?.includes("--if-show-checked-")) {
                       isX = !checkedItems.find((checkedItem) => {
-                        console.log(checkedItem);
+                        
                         return (
                           checkedItem.roomOrder == 0 &&
                           checkedItem.name ==
@@ -1589,7 +1589,7 @@ function HousingRoom({
                     var isX = null;
                     if (data?.className?.includes("--if-show-checked-")) {
                       isX = !checkedItems.find((checkedItem) => {
-                        console.log(checkedItem);
+                        
                         return (
                           checkedItem.roomOrder == 0 &&
                           checkedItem.name ==

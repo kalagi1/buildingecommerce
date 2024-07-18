@@ -146,13 +146,6 @@ function ProjectForm({
     });
   }, []);
 
- 
-  useEffect(() => {
-    setTimeout(() => {
-      mapRef?.setZoom(6);
-      setZoom(6);
-    }, 1000);
-  }, [fullEnded]);
 
   const handleSwitchChange = (event) => {
     console.log("Switch clicked");
@@ -237,6 +230,9 @@ function ProjectForm({
     },
     [center, zoom]
   );
+  useEffect(() => {
+    isShowRef.current = isShow;
+  }, [isShow]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -699,7 +695,7 @@ function ProjectForm({
       </div>
 
       <div className={fullEnded ? "" : "d-none"}>
-      <div className="section-title mt-5">
+        <div className="section-title mt-5">
           <h2>Adres Bilgileri</h2>
         </div>
         <div className="card p-4">
@@ -721,7 +717,7 @@ function ProjectForm({
                   allErrors.includes("city_id") ? "error-border" : ""
                 }`}
               >
-               <option value="">İl Seç</option>
+                <option value="">İl Seç</option>
                 {cities.map((city) => {
                   return <option value={city.id}>{city.title}</option>;
                 })}
@@ -766,7 +762,6 @@ function ProjectForm({
                   setProjectDataFunc("neighbourhood_id", e.target.value);
                 }}
                 value={projectData.neighbourhood_id}
-
                 name="neighbourhood_id"
                 id="neighbourhood_id"
                 className={`form-control ${
@@ -810,17 +805,17 @@ function ProjectForm({
           {isLoaded ? (
             <div className="mt-4">
               <GoogleMap
-               zoom={zoom}
-               id="map"
-               mapContainerStyle={containerStyle}
-               center={center}
-               onLoad={onLoad}
-               ref={mapRef}
-               onUnmount={onUnmount}
-               options={{
-                 gestureHandling: "greedy",
-               }}
-               mapTypeControlOptions={mapTypeControlOptions}
+                zoom={zoom}
+                id="map"
+                mapContainerStyle={containerStyle}
+                center={center}
+                onLoad={onLoad}
+                ref={mapRef}
+                onUnmount={onUnmount}
+                options={{
+                  gestureHandling: "greedy",
+                }}
+                mapTypeControlOptions={mapTypeControlOptions}
               >
                 {selectedLocation.lat && (
                   <Marker position={selectedLocation} draggable />
@@ -830,6 +825,9 @@ function ProjectForm({
           ) : (
             <div className="loading-spinner">Harita Yükleniyor...</div>
           )}
+        </div>
+        <div className="section-title mt-5">
+          <h2>Kapak Fotoğrafı</h2>
         </div>
         <FileUpload
           requiredType={["png", "gif", "jpeg", "jpg"]}
@@ -842,6 +840,9 @@ function ProjectForm({
           setProjectDataFunc={setProjectDataFunc}
           multiple={false}
         />
+        <div className="section-title mt-5">
+          <h2>İlan Galerisi</h2>
+        </div>
         <FileUpload
           requiredType={["png", "gif", "jpeg", "jpg"]}
           accept={"image/png, image/gif, image/jpeg"}
@@ -853,6 +854,10 @@ function ProjectForm({
           setProjectDataFunc={setProjectDataFunc}
           multiple={true}
         />
+
+        <div className="section-title mt-5">
+          <h2>Vaziyet & Kat Planı</h2>
+        </div>
         <FileUpload
           requiredType={["png", "gif", "jpeg", "jpg"]}
           accept={"image/png, image/gif, image/jpeg"}
@@ -864,6 +869,9 @@ function ProjectForm({
           title="Vaziyet & Kat Planı"
           multiple={true}
         />
+        <div className="section-title mt-5">
+          <h2>Ruhsat Belgesi / Tapu Belgesi</h2>
+        </div>
         <FileUpload
           requiredType={["pdf"]}
           accept={"*"}
