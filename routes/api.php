@@ -113,6 +113,7 @@ Route::post('/pay', [ClientPayController::class, 'pay']);
 Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
 Route::post('add_project_to_favorites/{housingId}', [FavoriteController::class, 'addProjectHousingToFavorites']);
+Route::delete('/favorites/delete', [FavoriteController::class, 'deleteFavorites']);
 
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
