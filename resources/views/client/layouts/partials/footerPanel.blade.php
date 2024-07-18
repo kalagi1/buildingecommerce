@@ -2032,7 +2032,7 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{ URL::to('/') }}/build/assets/app-9f00dc00.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-ad9052bd.js"></script>
 
 
 @vite('resources/js/app.jsx')
