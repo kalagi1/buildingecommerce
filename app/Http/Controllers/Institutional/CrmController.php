@@ -565,7 +565,7 @@ class CrmController extends Controller
         if ($danisman) {
             $topCaller = DB::table('users')
                 ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
-                ->first(['name']);
+                ->first(['name','profile_image']);
         }        
         // print_r($topCaller);die;
 
