@@ -112,6 +112,7 @@ use App\Http\Controllers\GoogleSheetsController;
 |
  */
 
+Route::post('/preview-project', [HomeController::class, "previewProject"])->name('previewProject');
 
 Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
@@ -256,7 +257,7 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
- 
+
 
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
@@ -837,7 +838,7 @@ Route::put('/housing/{id}/update-price', [ClientHousingController::class, 'updat
 Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::class, 'updatePrice'])->name('project.update.price');
 
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
-        // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
+    // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
     //sıfırdan crm rotaları
 
@@ -855,23 +856,23 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
 
 
-        //yeni armakaydı ve müşteri bilgileri isteği
-        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
-        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
-        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
-        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
-      
-        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
-   
-        //crm admin dashboard
-        Route::get('/admin/dashboard',[InstitutionalCrmController::class,'adminDashboard'])->name('admin.dashboard');
-        Route::get('/danisman/dashboard',[InstitutionalCrmController::class,'danismanDashboard'])->name('danisman.dashboard');
-                
-        //crm admini odul ekleme
-        Route::get('/crm/admin/odul',[InstitutionalCrmController::class,'adminOdulEkle'])->name('crm.admin.odul');
-        Route::post('/crm/admin/odul/ekle',[InstitutionalCrmController::class,'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
-        Route::get('/awards/{id}/edit',[InstitutionalCrmController::class,'awardEdit'])->name('crm.award.edit');
-        Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
+    //yeni armakaydı ve müşteri bilgileri isteği
+    // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+    Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class, 'newCallCustomerInfo']);
+    Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class, 'newCustomerInfo']);
+    Route::post('/setRating', [InstitutionalCrmController::class, 'setRating'])->name('setRating');
+
+    Route::post('/danisman/musteri/ekleme', [InstitutionalCrmController::class, 'addNewCustomer']);
+
+    //crm admin dashboard
+    Route::get('/admin/dashboard', [InstitutionalCrmController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/danisman/dashboard', [InstitutionalCrmController::class, 'danismanDashboard'])->name('danisman.dashboard');
+
+    //crm admini odul ekleme
+    Route::get('/crm/admin/odul', [InstitutionalCrmController::class, 'adminOdulEkle'])->name('crm.admin.odul');
+    Route::post('/crm/admin/odul/ekle', [InstitutionalCrmController::class, 'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
+    Route::get('/awards/{id}/edit', [InstitutionalCrmController::class, 'awardEdit'])->name('crm.award.edit');
+    Route::post('/awards/{id}', [InstitutionalCrmController::class, 'awardUpdate'])->name('crm.award.update');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');

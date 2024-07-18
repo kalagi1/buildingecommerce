@@ -140,7 +140,105 @@ class HomeController extends Controller
         }
         return view("preview", compact("fillFormData", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
     }
+    public function previewProject(Request $request)
+    {
 
+        $fillFormData = $request->input('fillFormData');
+        $projectData = $request->input('projectData');
+        $selectedTypes = $request->input('selectedTypes');
+        $blocks = $request->input("blocks");
+        $roomCount = 0;
+      
+    
+
+        $housingTypeParent1 = null;
+        $housingTypeParent2 = null;
+        $labels = [];
+
+        if (isset($selectedTypes) && count($selectedTypes) >= 3) {
+            $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
+            $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[1]);
+            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[2]);
+
+            if ($housingTypeParentConnection && isset($blocks)) {
+                $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
+
+                if ($housingType) {
+                    $formJsonItems = json_decode($housingType->form_json, true) ?? [];
+
+                    foreach ($blocks as $block) {
+                        if (!empty($block['rooms'])) {
+                            foreach ($block['rooms'] as $room) {
+                                foreach ($room as $key => $value) {
+                                    foreach ($formJsonItems as $formJsonItem) {
+                                        if (is_array($formJsonItem) && isset($formJsonItem['name'])) {
+                                            $formJsonItemName = rtrim($formJsonItem['name'], '[]');
+                                            $keyWithoutLastCharacter = rtrim($key, '1');
+
+                                            // Normalize the key to match the form JSON item name
+                                            $keyNormalized = rtrim($key, '[]');
+
+
+                                            if ($formJsonItemName == $keyNormalized) {
+                                                if (isset($formJsonItem['label']) && !empty($value)) {
+                                                    $labels[$formJsonItem['label']] = $value;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $city = null;
+        $county = null;
+        $neighbour = null;
+
+        if (isset($projectData)) {
+            if (isset($projectData['city_id'])) {
+                $city = City::where("id", $projectData['city_id'])->firstOrFail();
+            }
+            if (isset($projectData['county_id'])) {
+                $county = District::where("ilce_key", $projectData['county_id'])->firstOrFail();
+            }
+            if (isset($projectData['neighbour_id'])) {
+                $neighbour = Neighborhood::where('mahalle_key', $projectData['neighbourhood_id'])->firstOrFail();
+            }
+        }
+
+        // Retrieve the latest housing data
+        $latestHousing = Housing::latest('id')->first();
+        $newHousingId = 0;
+
+        if ($latestHousing) {
+            $newHousingId = $latestHousing->id + 2000000;
+        }
+
+        $user = null;
+
+        if (Auth::check()) {
+            $user = User::where("id", auth()->user()->id)->firstOrFail();
+        }
+        // Check if cover_image is a string
+        if (is_string($projectData['cover_image'])) {
+            $coverImageBinary = base64_encode(file_get_contents($projectData['cover_image']));
+            $projectData['cover_image_imagex'] = "data:image/jpeg;base64," . $coverImageBinary;
+        }
+
+        // Process gallery images
+        foreach ($projectData['gallery_imagesx'] as &$imagePath) {
+            if (is_string($imagePath)) {
+                $imageBinary = base64_encode(file_get_contents($imagePath));
+                $imagePath = "data:image/jpeg;base64," . $imageBinary;
+            }
+        }
+        return view("preview-project", compact("fillFormData", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
+    }
 
     public function updateBrandStatus(Request $request)
     {
