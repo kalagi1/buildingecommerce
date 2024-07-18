@@ -148,7 +148,7 @@
                 <h5>En İyi Danışmanlar</h5><hr>
                 <div class="row">
                     <canvas id="canvas22"></canvas>
-
+{{-- {{dd($topCaller)}} --}}
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Arama Yapan</div>
@@ -156,14 +156,13 @@
                                 <hr style="clear: both;">
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
-                                    <img src="{{ asset('woman.png') }}" class="danismanImg">
-                                    {{-- <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                    {{-- <img src="{{ asset('woman.png') }}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
 
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center" style="  background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
                                     {{$danisman->total_calls}} Arama</p>
-                                {{-- <button class="btnDanisman">Profili Gör</button> --}}
                             </div>
                         </div>                       
                     </div>
@@ -174,7 +173,9 @@
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    <img src="{{asset('man.jpg')}}" class="danismanImg">
+                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '-' }}</p>
                                 <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
@@ -224,8 +225,8 @@
                                     <div class="cardDanismanList">
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
-                                                <img src="{{asset('woman.png')}}" class="danismanListImg">
-                                            {{-- <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                                {{-- <img src="{{asset('woman.png')}}" class="danismanListImg"> --}}
+                                            <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg">
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
@@ -328,8 +329,8 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            {{-- <img src="{{ asset($danisman->profile_image ?: 'default_profile.png') }}" alt="" style="width: 30px; height: 30px" class="rounded-circle" /> --}}
-                                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                            <img src="{{ asset($danisman->profile_image ?: 'default_profile.png') }}" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                            {{-- <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" /> --}}
                                             <p class="fw-bold ml-5">{{ $danisman->name }}</p>
                                         </div>
                                     </td>
@@ -347,9 +348,9 @@
                                             Peşin
                                         @else
                                             @if(isset($cart->item->taksitSayisi))
-                                            {{ $cart->item->taksitSayisi }} Ay Taksit
+                                                {{ $cart->item->taksitSayisi }} Ay Taksit
                                             @else
-                                            Taksit
+                                                Taksit
                                             @endif                          
                                         @endif
                                     </td>

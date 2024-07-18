@@ -154,8 +154,8 @@
                                 <hr style="clear: both;">
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
-                                    <img src="{{asset('woman.png')}}" class="danismanImg">
-                                    {{-- <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                    {{-- <img src="{{asset('woman.png')}}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
@@ -172,7 +172,9 @@
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    <img src="{{asset('man.jpg')}}" class="danismanImg">
+                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
                                 <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
@@ -219,8 +221,8 @@
                                     <div class="cardDanismanList">
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
-                                                <img src="{{ asset('woman.png') }}" class="danismanListImg">
-                                                {{-- <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                                {{-- <img src="{{ asset('woman.png') }}" class="danismanListImg"> --}}
+                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ) }}" class="danismanListImg">
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
@@ -300,11 +302,15 @@
                             @foreach ($danismanSatislari as $authSale)
                                 @php
                                     $cart = json_decode(($authSale->cart));
+                                    $danisman =App\Models\User::find( $authSale->user_id);
                                 @endphp
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                             <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                             {{-- <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                              --}}
+                                            <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" style="width: 30px; height: 30px" class="rounded-circle">
+
                                             <p class="fw-bold ml-5">{{ $authSale->reference_id }}</p>
                                         </div>
                                     </td>
