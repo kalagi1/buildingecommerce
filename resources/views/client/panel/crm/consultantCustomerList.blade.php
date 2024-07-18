@@ -244,9 +244,10 @@
                     </ul>
                 </div>
             </div>
-                 <div class="text-header">
-                    <div id='calendar'></div>
-                </div>
+
+            <div class="text-header">
+                <div id='calendar'></div>
+            </div>
                 
         </div>   
 
@@ -865,6 +866,10 @@
                         });
                     });
                 }
+            });
+            $('#appointments-btn').on('click', function(event) {
+                $('#randevular').show();
+                calendar.fullCalendar('render');
             });
         });
     </script>

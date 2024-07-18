@@ -141,7 +141,7 @@
         
         <div class="row mb-3" style="margin-left:0px; ">
             <div class="col-md-6 bestDiv">
-                <h5>En İyi Danışmanlar</h5><hr>
+                <h5>Olumlu Müşteri Sayıları</h5><hr>
                 <canvas id="salesChart"></canvas>
             </div>
             <div class="col-md-5  bestDiv" >
@@ -158,8 +158,9 @@
                                     {{-- <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
-                                <p class="text-center">{{$danisman->total_calls}}</p>
-                                <button class="btnDanisman">Profili Gör</button>
+                                <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
+                                    {{$danisman->total_calls}} Arama
+                                </p>
                             </div>
                         </div>
                         
@@ -173,9 +174,10 @@
                                 <div class="text-center" style="border-radius: 55%">
                                     <img src="{{asset('man.jpg')}}" class="danismanImg">
                                 </div>
-                                <p class="text-center">Tuna Melet</p>
-                                <p class="text-center">756</p>
-                                <button class="btnDanisman ">Profili Gör</button>
+                                <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
+                                <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
+                                    {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '' }} Adet Satış
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -183,17 +185,29 @@
             </div>
         </div>
 
-        <div class="row">
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <img src="{{asset('odul.jpeg')}}" alt="">
-                </div>
-        </div>
+        @php
+            $awards = App\Models\Award::latest()->take(3)->get();
+            $allInactive = $awards->every(function ($award) {
+                return $award->status == 0;
+            });
+        @endphp
+        
+        @if(!$allInactive)
+            <div class="row">
+                @foreach($awards as $award)
+                    @if($award->status == 1)
+                        <div class="col-md-4">
+                            <div style="position: relative;">
+                                <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 30%; left: 55%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%;">
+                                <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
+                                <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        @endif   
 
         <div id="danismanCarousel" class="row bestDiv mb-3 carousel slide" style="padding: 0px 20px 40px 0px" data-ride="carousel">
             <div class="carousel-inner" style="border: none;">
@@ -210,13 +224,13 @@
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
-                                            <p class="text-center" style="color: #8b8b8b">#000000</p>
+                                            <p class="text-center" style="color: #8b8b8b">#{{$danisman->code}}</p>
                                             <div class="stats-section mt-4">
                                                 <div class="row">
                                                     <div class="col-6 border-right border-top">
                                                         <div class="stat-item">
-                                                            <span>Toplam Satış</span>
-                                                            <h3>1.234.567 ₺</h3>
+                                                            <span>Toplam Satış Adedi</span>
+                                                            <h3>{{ $danismanVerileri[$danisman->id]['satis_sayisi'] }}</h3>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 border-top">
@@ -268,7 +282,7 @@
 
         <div class="row">
             <div class="col-md-12 bestDiv">
-                <h5>Satışlar</h5><hr>
+                <h5>Satışlarım</h5><hr>
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="">
                         <tr>
@@ -282,319 +296,293 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Abuzer Kömürcü</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Testere Necmi</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Deve Tuncay</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                       
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Seyfo Dayı</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                        <p class="fw-bold  ml-5">Memati Baş</p>
-                                </div>
-                            </td>
-                            <td>#75485 </td>
-                            <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">Active</span></td>
-                            <td>Senior</td>
-                            <td><button class="btn btn-success btnOdemeDurumu">Ödendi</button></td>
-                            <td>27/05/2027</td>
-                            <td>124.154</td>
-                        </tr>
-                      
+                        @if ($danismanSatislari->isNotEmpty())
+                            @foreach ($danismanSatislari as $authSale)
+                                @php
+                                    $cart = json_decode(($authSale->cart));
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                             <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                            <p class="fw-bold ml-5">{{ $authSale->reference_id }}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if(isset($cart->type->housing))
+                                            {{ $cart->item->id + 2000000 }}
+                                        @else
+                                            {{ $cart->item->id + 1000000 }}
+                                        @endif
+                                    </td>
+                                    <td><span class="badge badge-success rounded-pill d-inline" style="font-size: 10px">{{ $authSale->amount }}</span></td>
+                                    <td>
+                                        @if($authSale->is_swap == 0)
+                                            Peşin
+                                        @else
+                                            @if(isset($cart->item->taksitSayisi))
+                                                {{ $cart->item->taksitSayisi }} Ay Taksit
+                                            @else
+                                                Taksit
+                                            @endif                          
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($authSale->status == 1)
+                                            <button class="btn btn-success btnOdemeDurumu"> Ödeme Yapıldı </button>
+                                        @elseif ($authSale->status == 0)
+                                            <button class="btn btn-warning btnOdemeDurumu"> Bekleniyor</button>
+                                        @else
+                                            <button class="btn btn-warning btnOdemeDurumu"> Sipariş İptal </button>
+                                        @endif
+                                    </td>
+                                    <td>{{ date('d-m-Y H:i:s', strtotime($authSale->created_at)) }}</td>
+                                    <td>{{ number_format($satisKazanc[$authSale->id], 2) }} TL</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="7">Henüz Satışınız Bulunmamaktadır...</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
-         
         </div>
-        
+            
     </div>    
     
 @endsection
 
 @section('styles')
 
-<style>
-    .carousel-control-prev , .carousel-control-next{
-        width: 6% !important;
-    } 
-    .medal-icon {
-        font-size: 27px;
-        line-height: 0; /* Ensures the icon doesn't affect the vertical alignment */
-        margin-right: 120px;
-    }
+    <style>
+        .carousel-control-prev , .carousel-control-next{
+            width: 6% !important;
+        } 
+        .medal-icon {
+            font-size: 27px;
+            line-height: 0; /* Ensures the icon doesn't affect the vertical alignment */
+            margin-right: 120px;
+        }
 
-    .cardGift {
-        width: 100%;
-        height: 55%;
-        border-radius: 10px;
-        background: linear-gradient(332deg, #EA2B2E, #84181A 50%, #ffffff 50%);
-        flex-direction: column; /* İçerikleri dikey yönde hizalar */
-        justify-content: center;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        color: #ffffff;
-        position: relative;
-    }
-    .card-headerGift {
-        display: flex;
-        justify-content: space-between;
-        color: #000;
-        background: white;
-    }
+        .cardGift {
+            width: 100%;
+            height: 55%;
+            border-radius: 10px;
+            background: linear-gradient(332deg, #EA2B2E, #84181A 50%, #ffffff 50%);
+            flex-direction: column; /* İçerikleri dikey yönde hizalar */
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+            position: relative;
+        }
+        .card-headerGift {
+            display: flex;
+            justify-content: space-between;
+            color: #000;
+            background: white;
+        }
 
-    .icon {
-        font-size: 24px;
-    }
+        .icon {
+            font-size: 24px;
+        }
 
-    .title {
-        font-size: 18px;
-        font-weight: bold;
-    }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-    .menu {
-        font-size: 24px;
-        top: -60px;
-        right: -118px;
-    }
+        .menu {
+            font-size: 24px;
+            top: -60px;
+            right: -118px;
+        }
 
-    .card-bodyGift {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .card-bodyGift {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .main-gift {
-        position: relative;
-        top: -131px;
-        left: -101px;
-        width: 100px;
-    }
+        .main-gift {
+            position: relative;
+            top: -131px;
+            left: -101px;
+            width: 100px;
+        }
 
-    .small-gift {
-        width: 50px;
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-    }
+        .small-gift {
+            width: 50px;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
 
-    .text {
-        font-size: 16px;
-    }
+        .text {
+            font-size: 16px;
+        }
 
-    .reward {
-        font-size: 24px;
-        font-weight: bold;
-    }
-</style>
+        .reward {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 
-<style>
-    .btnOdemeDurumu{
-        border-radius: 8px !important;
-        padding: 5px !important;
-           
-    }
-    .table {
-        border-top: 2px solid #ccc;
-    }
+    <style>
+        .btnOdemeDurumu{
+            border-radius: 8px !important;
+            padding: 5px !important;
+            
+        }
+        .table {
+            border-top: 2px solid #ccc;
+        }
 
-    .table tbody tr {
-        border: none;
-    }
+        .table tbody tr {
+            border: none;
+        }
 
-    .table thead {
-        border-bottom: 2px solid #ccc;
-    }
+        .table thead {
+            border-bottom: 2px solid #ccc;
+        }
 
-    .table thead th {
-        border: none;
-    }
+        .table thead th {
+            border: none;
+        }
 
-    .table td, .table th {
-        border: none !important;
-    }
-    .chart-container {
-        margin-bottom: 20px; /* Mesafe */
-        border-radius: 10px; /* Köşe yuvarlama */
-        border: 1px solid #ccc; /* Kenar çizgisi */
-        padding: 10px; /* İçerik boşluğu */
-        background: rgb(255, 255, 255);
-        text-align: center;
-    }
-    .card {
-        padding: 1px !important;
-        background-color: #fff !important;
-        border-radius: 10px;
-        border: none;
-        position: relative;
-        margin-bottom: 30px;
-        width: 95%;
-        box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
-    }
+        .table td, .table th {
+            border: none !important;
+        }
+        .chart-container {
+            margin-bottom: 20px; /* Mesafe */
+            border-radius: 10px; /* Köşe yuvarlama */
+            border: 1px solid #ccc; /* Kenar çizgisi */
+            padding: 10px; /* İçerik boşluğu */
+            background: rgb(255, 255, 255);
+            text-align: center;
+        }
+        .card {
+            padding: 1px !important;
+            background-color: #fff !important;
+            border-radius: 10px;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+            width: 95%;
+            box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+        }
 
-    .l-bg-red {
-        background: linear-gradient(to top, #EA2B2E, #84181A) !important;
-        color: #fff;
-    }
+        .l-bg-red {
+            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            color: #fff;
+        }
 
-    .card .card-statistic-3 .card-icon {
-        text-align: center;
-        line-height: 50px;
-        margin-right: 15px; /* Sağa boşluk verildi */
-        color: #000;
-        /* opacity: 0.1; */
-        font-size: 40px;
-        background-color: white;
-        border-radius: 50%;
-    }
+        .card .card-statistic-3 .card-icon {
+            text-align: center;
+            line-height: 50px;
+            margin-right: 15px; /* Sağa boşluk verildi */
+            color: #000;
+            /* opacity: 0.1; */
+            font-size: 40px;
+            background-color: white;
+            border-radius: 50%;
+        }
 
-    .divSvg{
-        background-color: #ffffff;
-        padding: 11px;
-        border-radius: 55%;
-        margin: 5px;
-    }
-    .danismanImg{
-        max-width: 54%;
-        height: 100px;
-        border-radius: 45%;
-    }
-    .danismanListImg{
-        max-width: 54%;
-        height: 100px;
-        border-radius: 45%;
-        position: relative;
-        top: -18px;
-        border-top: 1px solid #EA2B2E;
-    }
+        .divSvg{
+            background-color: #ffffff;
+            padding: 11px;
+            border-radius: 55%;
+            margin: 5px;
+        }
+        .danismanImg{
+            max-width: 54%;
+            height: 100px;
+            border-radius: 45%;
+        }
+        .danismanListImg{
+            max-width: 54%;
+            height: 100px;
+            border-radius: 45%;
+            position: relative;
+            top: -18px;
+            border-top: 1px solid #EA2B2E;
+        }
 
-    .cardDanisman{
-        padding: 20px;
-        border: 1px solid rgb(206, 206, 206);
-        border-radius: 10px;
-        text-align: center;
-    }
-    .cardDanismanList{
-        padding: 0px 20px;
-        border-top: 1px solid #EA2B2E; /* Top border color */
-        border-bottom: 1px solid #EA2B2E; /* Bottom border color */
-        border-left: 1px solid #84181A; /* Left border color */
-        border-right: 1px solid #84181A; 
-        border-radius: 10px;
-        text-align: center;
-        width: 110%;
-    }
-    .btnDanisman{
-        background: linear-gradient(to top, #EA2B2E, #84181A) !important;
-        color: #ffffff;
-        border-color: #EA2B2E !important;
-        padding: 5px 25px;
-        border-radius: 6px !important; 
-        margin-top:5px;
-    }
-    p{
-        margin:-5px !important;
-    }
- 
-    .bestDiv{
-        background-color: #ffffff;
-        padding: 20px;
-        border: 1px solid rgb(206, 206, 206);
-        border-radius: 15px;
-        margin: 10px;
-    }
+        .cardDanisman{
+            padding: 20px;
+            border: 1px solid rgb(206, 206, 206);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .cardDanismanList{
+            padding: 0px 20px;
+            border-top: 1px solid #EA2B2E; /* Top border color */
+            border-bottom: 1px solid #EA2B2E; /* Bottom border color */
+            border-left: 1px solid #84181A; /* Left border color */
+            border-right: 1px solid #84181A; 
+            border-radius: 10px;
+            text-align: center;
+            width: 110%;
+        }
+        .btnDanisman{
+            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            color: #ffffff;
+            border-color: #EA2B2E !important;
+            padding: 5px 25px;
+            border-radius: 6px !important; 
+            margin-top:5px;
+        }
+        p{
+            margin:-5px !important;
+        }
+    
+        .bestDiv{
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid rgb(206, 206, 206);
+            border-radius: 15px;
+            margin: 10px;
+        }
 
-    .cardDanismanList .stats-section {
-        margin-top: 20px;
-        padding-top: 20px;
-    }
+        .cardDanismanList .stats-section {
+            margin-top: 20px;
+            padding-top: 20px;
+        }
 
-    .cardDanismanList .stats-section .col-6{
-        padding: 10px;
-    }
+        .cardDanismanList .stats-section .col-6{
+            padding: 10px;
+        }
 
-    .cardDanismanList .stats-section .border-right{
-        border-right: 1px solid #ddd;
-    }
+        .cardDanismanList .stats-section .border-right{
+            border-right: 1px solid #ddd;
+        }
 
-    .cardDanismanList .stats-section .border-top{
-        border-top: 1px solid #ddd;
-    }
+        .cardDanismanList .stats-section .border-top{
+            border-top: 1px solid #ddd;
+        }
 
-    .cardDanismanList .stat-item {
-        text-align: center;
-        margin-bottom: 15px;
-    }
+        .cardDanismanList .stat-item {
+            text-align: center;
+            margin-bottom: 15px;
+        }
 
-    .cardDanismanList .stat-item span {
-        white-space: nowrap;
-        color: #797979;
-        font-size: 9px !important; 
-    }
+        .cardDanismanList .stat-item span {
+            white-space: nowrap;
+            color: #797979;
+            font-size: 9px !important; 
+        }
 
-    .cardDanismanList .stat-item h3 {
-        color: #1b1b1b;
-        font-size: 13px !important; 
-        margin: 5px 0 0;
-    }
-    .cardDanismanList .stat-item:not(:last-child) {
-        border-bottom: 1px solid #ddd; /* Add bottom border to all but last item */
-    }
+        .cardDanismanList .stat-item h3 {
+            color: #1b1b1b;
+            font-size: 13px !important; 
+            margin: 5px 0 0;
+        }
+        .cardDanismanList .stat-item:not(:last-child) {
+            border-bottom: 1px solid #ddd; /* Add bottom border to all but last item */
+        }
 
-</style>
+    </style>
 @endsection
 @section('scripts')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -611,7 +599,7 @@
         // Toplam satışlar için pasta grafik
         var totalSalesData = google.visualization.arrayToDataTable([
             ['Satış Türü', 'Miktar'],
-            ['Toplam Kazancım', {{$totalSales}}]
+            ['Toplam Kazancım', {{$totalKazanc}}]
         ]);
 
         var totalSalesOptions = {
@@ -629,18 +617,17 @@
         // Satış türleri için pasta grafik
         var salesTypeData = google.visualization.arrayToDataTable([
             ['Satış Türü', 'Miktar'],
-            ['Villa', {{$villaSales}}],
-            ['Apartman', {{$apartmentSales}}],
-            ['Arsa', {{$landSales}}]
+            ['Peşin Satış', {{$pesinSatisSayisi}}],
+            ['Taksitli Satış', {{$taksitliSatisSayisi}}]
         ]);
 
         var salesTypeOptions = {
-           title:'Satışlarım',
+           title:'Satış Türü',
             pieSliceText: 'value',
             slices: {
                 0: { color: '#EA2B2E' }, // Kırmızı tonu
                 1: { color: '#FF8E90' }, // Kırmızı tonu
-                2: { color: '#F9C4C4' }  // Kırmızı tonu
+                //2: { color: '#F9C4C4' }  // Kırmızı tonu
             }
         };
 
