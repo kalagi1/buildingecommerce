@@ -41,12 +41,17 @@ function ProjectForm({
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [map, setMap] = useState(null);
   const [fullEnded, setFullEnded] = useState(false);
-  const [zoom, setZoom] = useState(4);
-  const [mapRef, setMapRef] = useState();
-  const [center, setCenter] = useState({
-    lat: 37.874641,
-    lng: 32.493156,
-  });
+  const [zoom, setZoom] = useState(5);
+  const mapRef = useRef(null);
+
+  const [center, setCenter] = useState({ lat: 39.0, lng: 35.0 }); // Coordinates for Turkey's center
+  const [error, setError] = useState(null);
+  const [isShow, setIsShow] = useState(false);
+  const isShowRef = useRef(isShow);
+  const rectangleRef = useRef(null);
+  const clickListenerRef = useRef(null);
+  const markerRef = useRef(null);
+  const [bounds, setBounds] = useState(null); // State for bounds
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -141,46 +146,22 @@ function ProjectForm({
     });
   }, []);
 
-  const setGeolocation = (cityId, countyId = null, neighborhoodId = null) => {
-    var cityTemp = cities.find((city) => {
-      return city.id == cityId;
-    });
-
-    if (cityId && !countyId && !neighborhoodId) {
-      setZoom(8);
-    } else if (cityId && countyId && !neighborhoodId) {
-      setZoom(10);
-    } else {
-      setZoom(12);
-    }
-
-    var countyTemp = counties.find((county) => {
-      return county.ilce_key == countyId;
-    });
-    var neighborhoodTemp = neighborhoods.find((neighborhood) => {
-      return neighborhood.mahalle_id == neighborhoodId;
-    });
-    fromAddress(
-      cityTemp.title +
-        " " +
-        countyTemp?.ilce_title +
-        " " +
-        neighborhoodTemp?.mahalle_title
-    )
-      .then(({ results }) => {
-        setCenter(results[0].geometry.location);
-      })
-      .catch(console.error);
-  };
-
+ 
   useEffect(() => {
     setTimeout(() => {
       mapRef?.setZoom(6);
-      console.log("qwe");
       setZoom(6);
     }, 1000);
   }, [fullEnded]);
 
+  const handleSwitchChange = (event) => {
+    console.log("Switch clicked");
+    console.log("Current haveBlocks value:", haveBlocks);
+    setHaveBlocks(event.target.checked);
+    if (!event.target.checked) {
+      setBlocks([]);
+    }
+  };
   const getCounties = (cityId) => {
     axios.get(baseUrl + "counties?city_id=" + cityId).then((res) => {
       setCounties(res.data.data);
@@ -200,18 +181,124 @@ function ProjectForm({
     height: "400px",
   };
 
-  const onLoad = useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-    map.addListener("click", (e) => {
-      const lat = e.latLng.lat();
-      const lng = e.latLng.lng();
-      setSelectedLocation({ lat, lng });
-    });
-    setMapRef(map);
-    setMap(map);
-  }, []);
+  const setGeolocation = (cityId, countyId = null, neighborhoodId = null) => {
+    const cityTemp = cities.find((city) => city.id == cityId);
+    const countyTemp = counties.find((county) => county.ilce_key == countyId);
+    const neighborhoodTemp = neighborhoods.find(
+      (neighborhood) => neighborhood.mahalle_id == neighborhoodId
+    );
+
+    console.log("City:", cityTemp);
+    console.log("County:", countyTemp);
+    console.log("Neighborhood:", neighborhoodTemp);
+
+    if (cityId) {
+      setZoom(8);
+    }
+
+    if (countyId) {
+      setZoom(10);
+    }
+
+    fromAddress(
+      `${cityTemp.title} ${countyTemp?.ilce_title || ""} ${
+        neighborhoodTemp?.mahalle_title || ""
+      }`
+    )
+      .then(({ results }) => {
+        console.log("Geolocation Results:", results);
+
+        if (neighborhoodTemp) {
+          setIsShow(true);
+          setZoom(12);
+          console.log("Neighborhood exists, isShow set to true");
+        } else {
+          setIsShow(false);
+          console.log("Neighborhood does not exist, isShow set to false");
+        }
+
+        setCenter(results[0].geometry.location);
+        console.log("Map Center:", results[0].geometry.location);
+
+        // Define bounds based on the geolocation results
+        const northeast = results[0].geometry.bounds.northeast;
+        const southwest = results[0].geometry.bounds.southwest;
+        const bounds = new google.maps.LatLngBounds(southwest, northeast);
+        setBounds(bounds);
+      })
+      .catch(console.error);
+  };
+
+  const onLoad = useCallback(
+    (map) => {
+      mapRef.current = map;
+      map.setCenter(center);
+      map.setZoom(zoom);
+    },
+    [center, zoom]
+  );
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handleClick = (e) => {
+      const latLng = e.latLng;
+      const lat = latLng.lat();
+      const lng = latLng.lng();
+      console.log("Map clicked:", latLng);
+
+      // Check if the clicked location is within Turkey's boundaries
+      const isWithinTurkey =
+        lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
+
+      if (isShowRef.current) {
+        console.log("Clicked LatLng:", latLng);
+
+        if (isWithinTurkey) {
+          console.log("Inside bounds:", latLng);
+          setSelectedLocation({ lat, lng });
+
+          if (markerRef.current) {
+            markerRef.current.setMap(null);
+          }
+
+          markerRef.current = new google.maps.Marker({
+            position: { lat, lng },
+            map: mapRef.current,
+            title: "Selected Location",
+          });
+          setError(null);
+        } else {
+          console.log("Outside bounds or outside Turkey:", latLng);
+          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
+        }
+        setError(null);
+      } else {
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+      }
+    };
+
+    // Remove previous listener
+    if (clickListenerRef.current) {
+      google.maps.event.removeListener(clickListenerRef.current);
+    }
+
+    // Add new listener
+    clickListenerRef.current = map.addListener("click", handleClick);
+
+    return () => {
+      // Clean up listener on component unmount or if map changes
+      google.maps.event.removeListener(clickListenerRef.current);
+    };
+  }, [mapRef.current, bounds]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.setCenter(center);
+      mapRef.current.setZoom(zoom);
+    }
+  }, [center, zoom]);
 
   useEffect(() => {
     setProjectDataFunc(
@@ -549,18 +636,20 @@ function ProjectForm({
         <h2>Bu Projede Bloklar Var Mı? </h2>
       </div>
       <div className="card p-3 mb-4 mt-4">
-        <label htmlFor="">
-          <Switch
-            {...label}
-            defaultChecked={false}
-            onChange={() => {
-              setHaveBlocks(!haveBlocks);
-              setBlocks([]);
-            }}
-            checked={haveBlocks}
-          />
-          Evet
-        </label>
+        <div className="switch-container">
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={haveBlocks}
+              onChange={() => {
+                setHaveBlocks(!haveBlocks);
+                setBlocks([]);
+              }}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span>Evet</span>
+        </div>
       </div>
 
       <div className="mb-3">
@@ -610,11 +699,13 @@ function ProjectForm({
       </div>
 
       <div className={fullEnded ? "" : "d-none"}>
-        <span className="section-title">Adres Bilgileri</span>
-        <div className="card">
-          <div className="row px-5 py-4">
+      <div className="section-title mt-5">
+          <h2>Adres Bilgileri</h2>
+        </div>
+        <div className="card p-4">
+          <div className="row">
             <div className="col-md-4">
-              <label for="">
+              <label htmlFor="city_id">
                 İl <span className="required">*</span>
               </label>
               <select
@@ -626,19 +717,18 @@ function ProjectForm({
                 }}
                 name="city_id"
                 id="city_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("city_id") ? "error-border" : "")
-                }
+                className={`form-control ${
+                  allErrors.includes("city_id") ? "error-border" : ""
+                }`}
               >
-                <option value="">İl Seç</option>
+               <option value="">İl Seç</option>
                 {cities.map((city) => {
                   return <option value={city.id}>{city.title}</option>;
                 })}
               </select>
             </div>
             <div className="col-md-4">
-              <label for="">
+              <label htmlFor="county_id">
                 İlçe <span className="required">*</span>
               </label>
               <select
@@ -650,21 +740,20 @@ function ProjectForm({
                 }}
                 name="county_id"
                 id="county_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("city_id") ? "error-border" : "")
-                }
+                className={`form-control ${
+                  allErrors.includes("county_id") ? "error-border" : ""
+                }`}
               >
                 <option value="">İlçe Seç</option>
-                {counties.map((county) => {
-                  return (
-                    <option value={county.ilce_key}>{county.ilce_title}</option>
-                  );
-                })}
+                {counties.map((county) => (
+                  <option key={county.ilce_key} value={county.ilce_key}>
+                    {county.ilce_title}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="col-md-4">
-              <label for="">
+              <label htmlFor="neighbourhood_id">
                 Mahalle <span className="required">*</span>
               </label>
               <select
@@ -676,51 +765,72 @@ function ProjectForm({
                   );
                   setProjectDataFunc("neighbourhood_id", e.target.value);
                 }}
+                value={projectData.neighbourhood_id}
+
                 name="neighbourhood_id"
                 id="neighbourhood_id"
-                className={
-                  "form-control " +
-                  (allErrors.includes("neighbourhood_id") ? "error-border" : "")
-                }
+                className={`form-control ${
+                  allErrors.includes("neighbourhood_id") ? "error-border" : ""
+                }`}
               >
                 <option value="">Mahalle Seç</option>
-                {neighborhoods.map((neighborhood) => {
-                  return (
-                    <option value={neighborhood.mahalle_id}>
-                      {neighborhood.mahalle_title}
-                    </option>
-                  );
-                })}
+                {neighborhoods.map((neighborhood) => (
+                  <option
+                    key={neighborhood.mahalle_id}
+                    value={neighborhood.mahalle_id}
+                  >
+                    {neighborhood.mahalle_title}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
-        </div>
-        <div>
           {allErrors.includes("coordinates") ? (
-            <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+            <Alert
+              severity="error"
+              className="mt-3"
+              style={{ alignItems: "center" }}
+            >
+              Harita üzerine bir konum seçin
+            </Alert>
+          ) : (
+            ""
+          )}
+          {error ? (
+            <Alert
+              severity="error"
+              className="mt-3"
+              style={{ alignItems: "center" }}
+            >
+              {error}
+            </Alert>
           ) : (
             ""
           )}
           {isLoaded ? (
-            <GoogleMap
-              zoom={zoom}
-              id="map"
-              mapContainerStyle={containerStyle}
-              center={center}
-              onLoad={onLoad}
-              ref={mapRef}
-              onUnmount={onUnmount}
-              options={{
-                gestureHandling: "greedy",
-              }}
-              mapTypeControlOptions={mapTypeControlOptions}
-            >
-              {/* Child components, such as markers, info windows, etc. */}
-              {selectedLocation && <Marker position={selectedLocation} />}
-            </GoogleMap>
+            <div className="mt-4">
+              <GoogleMap
+               zoom={zoom}
+               id="map"
+               mapContainerStyle={containerStyle}
+               center={center}
+               onLoad={onLoad}
+               ref={mapRef}
+               onUnmount={onUnmount}
+               options={{
+                 gestureHandling: "greedy",
+               }}
+               mapTypeControlOptions={mapTypeControlOptions}
+              >
+                {selectedLocation.lat && (
+                  <Marker position={selectedLocation} draggable />
+                )}
+              </GoogleMap>
+            </div>
           ) : (
-            <></>
+            <div className="loading-spinner">Harita Yükleniyor...</div>
           )}
+        </div>
         </div>
         <FileUpload
           requiredType={["png", "gif", "jpeg", "jpg"]}
