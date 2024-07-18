@@ -143,7 +143,7 @@ class FavoriteController extends Controller
         }
         if (!empty($housingIds)) {
             ProjectFavorite::where('user_id', $user->id)
-                ->whereIn('housing_id', $projectIds)
+                ->whereIn('housing_id', $housingIds)
                 ->delete();
         }
         return response()->json([
