@@ -135,19 +135,19 @@ class FavoriteController extends Controller
         }
 
         // request'ten favori id'lerini alın
-        $housingFavoriteIds = $request->input('housing_favorite_ids', []);
-        $projectFavoriteIds = $request->input('project_favorite_ids', []);
+        $housingIds = $request->input('housing_ids', []);
+        $projectIds = $request->input('project_ids', []);
 
         // Kullanıcının belirli favori konutlarını ve projelerini sil
-        if (!empty($housingFavoriteIds)) {
+        if (!empty($housingIds)) {
             HousingFavorite::where('user_id', $user->id)
-                ->whereIn('id', $housingFavoriteIds)
+                ->whereIn('housing_id', $housingIds)
                 ->delete();
         }
 
-        if (!empty($projectFavoriteIds)) {
+        if (!empty($projectIds)) {
             ProjectFavorite::where('user_id', $user->id)
-                ->whereIn('id', $projectFavoriteIds)
+                ->whereIn('project_id', $projectIds)
                 ->delete();
         }
 
