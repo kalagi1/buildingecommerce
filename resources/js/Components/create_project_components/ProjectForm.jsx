@@ -831,7 +831,6 @@ function ProjectForm({
             <div className="loading-spinner">Harita Yükleniyor...</div>
           )}
         </div>
-        </div>
         <FileUpload
           requiredType={["png", "gif", "jpeg", "jpg"]}
           accept={"image/png, image/gif, image/jpeg"}
