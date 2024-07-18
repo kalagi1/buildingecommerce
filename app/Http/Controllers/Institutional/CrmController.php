@@ -7,6 +7,8 @@ use App\Models\Appointment;
 use App\Models\AssignedUser;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Award;
+use App\Models\CartOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -383,7 +385,7 @@ class CrmController extends Controller
         ->pluck('user_id');
 
         // $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get();
-        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get(['id', 'name', 'profile_image']);
+        $satisDanismanlari = User::whereIn('id', $uniqueUserIds)->get(['id', 'name', 'profile_image','code']);
           // Her danışmanın olumlu müşteri sayısını al
         $olumluMusteriSayilari = [];
         foreach ($satisDanismanlari as $item) {
@@ -393,8 +395,11 @@ class CrmController extends Controller
                 ->count();
         }
 
-           // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
-        $danismanVerileri = [];
+         
+           $danismanVerileri = [];
+           $maxSatisSayisi = 0;
+           $enCokSatisYapan = null;
+
         foreach ($satisDanismanlari as $data) {
             $aramaSayisi = DB::table('customer_calls')
                 ->where('gorusmeyi_yapan_kisi_id', $data->id)
@@ -410,22 +415,112 @@ class CrmController extends Controller
                 ->where('gorusme_durumu', 'Olumlu')
                 ->count();
 
+            $satisSayisi = DB::table('cart_orders')
+                ->where('reference_id',$data->id)
+                ->where('status','1')
+                ->count();   
+            
+              
+
             $danismanVerileri[$data->id] = [
                 'arama_sayisi' => $aramaSayisi,
                 'musteri_sayisi' => $musteriSayisi,
                 'donus_yapilan_musteri' => $donusYapilanMusteri,
+                'satis_sayisi'          => $satisSayisi
             ];
+
+            if ($satisSayisi > $maxSatisSayisi) {
+                $maxSatisSayisi = $satisSayisi;
+                $enCokSatisYapan = $data;
+                $enCokSatisYapan->satis_sayisi = $satisSayisi;
+            }
         }
 
-        $totalSales = 121445;
-        $villaSales =121445;
-        $apartmentSales = 121445;
-        $landSales =121445;
 
+        $danismanSatislari = DB::table('cart_orders')
+            ->where('reference_id', Auth::id())
+            ->where('status', '1')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
-        return view('client.panel.crm.danisman_dashboard', compact('totalSales', 'villaSales', 'apartmentSales', 'landSales','totalCustomers',
-        'positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount','topCaller','danisman','satisDanismanlari',
-        'olumluMusteriSayilari','danismanVerileri'));
+            
+        
+        $currentMonth = null;
+        $komisyonIndex = 0;
+        $totalKazanc = 0;
+        $satisKazanc = [];
+
+        $pesinSatislar = [];
+        $taksitliSatislar = [];
+
+        $pesinSatisSayisi = 0;
+        $taksitliSatisSayisi = 0;
+        
+        foreach ($danismanSatislari as $satis) {
+            $cart = json_decode($satis->cart);
+
+            if ($satis->is_swap == 0) {
+                $pesinSatislar[] = $satis;
+                $pesinSatisSayisi++;
+            } else {
+                $taksitliSatislar[] = $satis;
+                $taksitliSatisSayisi++;
+            }
+
+            if($satis->is_swap == 0){
+                $price = $cart->item->price;
+                $satisMonth = Carbon::parse($satis->created_at)->format('Y-m');
+            
+                if ($currentMonth !== $satisMonth) {
+                    $currentMonth = $satisMonth;
+                    $komisyonIndex = 0;
+                }
+            
+                if ($komisyonIndex == 0) {
+                    $komisyon = 0.005;
+                } elseif ($komisyonIndex == 1) {
+                    $komisyon = 0.007;
+                } elseif ($komisyonIndex == 2) {
+                    $komisyon = 0.01;
+                } else {
+                    $komisyon = 0.02;
+                }
+            
+                $kazanc = $price * $komisyon;
+                $totalKazanc += $kazanc;
+                $satisKazanc[$satis->id] = $kazanc;
+                $komisyonIndex++;
+            }else{
+                $price = $cart->item->pesinat;
+                $satisMonth = Carbon::parse($satis->created_at)->format('Y-m');
+            
+                if ($currentMonth !== $satisMonth) {
+                    $currentMonth = $satisMonth;
+                    $komisyonIndex = 0;
+                }
+            
+                if ($komisyonIndex == 0) {
+                    $komisyon = 0.005;
+                } elseif ($komisyonIndex == 1) {
+                    $komisyon = 0.007;
+                } elseif ($komisyonIndex == 2) {
+                    $komisyon = 0.01;
+                } else {
+                    $komisyon = 0.02;
+                }
+            
+                $kazanc = $price * $komisyon;
+                $totalKazanc += $kazanc;
+                $satisKazanc[$satis->id] = $kazanc;
+                $komisyonIndex++;
+            }          
+        }
+
+        $awards = Award::latest()->take(3)->get();        
+
+        return view('client.panel.crm.danisman_dashboard', compact('totalCustomers','positiveCustomersCount','favoriteCustomers',
+            'geri_donus_yapilacak_musterilerCount','topCaller','danisman','satisDanismanlari', 'olumluMusteriSayilari','danismanVerileri','enCokSatisYapan',
+            'danismanSatislari','awards','satisKazanc','totalKazanc','taksitliSatisSayisi','pesinSatisSayisi'));
     }//End
 
     public function adminDashboard(){
@@ -489,45 +584,137 @@ class CrmController extends Controller
                     ->where('customer_calls.gorusme_durumu', 'Olumlu')
                     ->count();
             }
-            // print_r($olumluMusteriSayilari);die;
 
-                   // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
-    $danismanVerileri = [];
-    foreach ($satisDanismanlari as $data) {
-        $aramaSayisi = DB::table('customer_calls')
-            ->where('gorusmeyi_yapan_kisi_id', $data->id)
-            ->count();
+            // Her danışmanın arama sayısı, müşteri sayısı ve dönüş yapılan müşteri sayısını al
+            $danismanVerileri = [];
+            $maxSatisSayisi = 0;
+            $enCokSatisYapan = null;
 
-        $musteriSayisi = DB::table('assigned_users')
-            ->where('danisman_id', $data->id)
-            ->count();
+            foreach ($satisDanismanlari as $data) {
+                $aramaSayisi = DB::table('customer_calls')
+                    ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                    ->count();
 
-        $donusYapilanMusteri = DB::table('customer_calls')
-            ->where('gorusmeyi_yapan_kisi_id', $data->id)
-            ->whereDate('meeting_date', $currentDate)
-            ->where('gorusme_durumu', 'Olumlu')
-            ->count();
+                $musteriSayisi = DB::table('assigned_users')
+                    ->where('danisman_id', $data->id)
+                    ->count();
 
-        $danismanVerileri[$data->id] = [
-            'arama_sayisi' => $aramaSayisi,
-            'musteri_sayisi' => $musteriSayisi,
-            'donus_yapilan_musteri' => $donusYapilanMusteri,
-        ];
-    }    
+                $donusYapilanMusteri = DB::table('customer_calls')
+                    ->where('gorusmeyi_yapan_kisi_id', $data->id)
+                    ->whereDate('meeting_date', $currentDate)
+                    ->where('gorusme_durumu', 'Olumlu')
+                    ->count();
 
-        $totalSales = 121445;
-        $villaSales =121445;
-        $apartmentSales = 121445;
-        $landSales =121445;
+                $satisSayisi = DB::table('cart_orders')
+                    ->where('reference_id',$data->id)
+                    ->where('status','1')
+                    ->count();  
 
-            // Örnek veriler
-        $individualSales = [10, 20, 30, 40, 50, 60, 70];
-        $companySales = [5, 15, 25, 35, 45, 55, 65];
-        $consultantSales = [2, 12, 22, 32, 42, 52, 62];
-        $labels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz'];
+                $satisDetaylari = DB::table('cart_orders')
+                    ->where('reference_id', $data->id)
+                    ->where('status','1')
+                    ->get();  
 
-        return view('client.panel.crm.admin_dashboard', compact('individualSales', 'companySales', 'consultantSales', 'labels','totalSales', 'villaSales', 
-        'apartmentSales', 'landSales','totalCustomers','positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount',
-        'topCaller','danisman','satisDanismanlari','olumluMusteriSayilari','danismanVerileri'));
-    }
+                $danismanVerileri[$data->id] = [
+                    'arama_sayisi'          => $aramaSayisi,
+                    'musteri_sayisi'        => $musteriSayisi,
+                    'donus_yapilan_musteri' => $donusYapilanMusteri,
+                    'satis_sayisi'          => $satisSayisi,
+                    'satis_detaylari'       => $satisDetaylari
+                ];
+
+                if ($satisSayisi > $maxSatisSayisi) {
+                    $maxSatisSayisi = $satisSayisi;
+                    $enCokSatisYapan = $data;
+                    $enCokSatisYapan->satis_sayisi = $satisSayisi;
+                }
+
+            }    
+
+
+    $bireysel_satislar = DB::table('cart_orders')->whereNull('reference_id')->where('status','1')->count();
+
+    $danismanlarin_toplam_satis_sayisi = DB::table('cart_orders')->whereNotNull('reference_id')->where('status','1')->count();
+
+    $sirket_satis_sayisi = $bireysel_satislar + $danismanlarin_toplam_satis_sayisi;
+
+    $sharerIndividualCount = CartOrder::join('sharer_prices','sharer_prices.cart_id','=','cart_orders.id')
+        ->join('users','users.id','=','sharer_prices.user_id')->where('users.type',1)->count();
+
+    $sharerEstateCount =     CartOrder::join('sharer_prices','sharer_prices.cart_id','=','cart_orders.id')
+        ->join('users','users.id','=','sharer_prices.user_id')->where('users.type','!=',1)->count();
+    
+
+    $labels = ['Emlak Kulüp Aracılığıyla Satış', 'Emlak Firmaları Aracılığıyla Satış', 'Şirket Satış'];
+    $satis_sayilari = [$sharerIndividualCount, $sharerEstateCount, $sirket_satis_sayisi];
+
+    $awards = Award::latest()->take(3)->get();
+
+        return view('client.panel.crm.admin_dashboard', compact('labels','totalCustomers','positiveCustomersCount','favoriteCustomers','geri_donus_yapilacak_musterilerCount',
+            'topCaller','danisman','satisDanismanlari','olumluMusteriSayilari','danismanVerileri','enCokSatisYapan','bireysel_satislar','danismanlarin_toplam_satis_sayisi'
+            ,'sirket_satis_sayisi','satis_sayilari','labels','awards','sharerIndividualCount','sharerEstateCount'));
+    }//End
+
+    public function adminOdulEkle(){
+        $awards = Award::orderBy('created_at', 'desc')->get();
+
+        return view('client.panel.crm.admin_odul_ekle',compact('awards'));
+    }//End
+
+    public function adminOdulEklePost(Request $request){
+       
+           // Ödül resminin yüklendiği kısmı kontrol edin ve saklayın
+           if ($request->hasFile('award_image')) {
+                $image = $request->file('award_image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('awards'), $imageName);
+            } else {
+                $imageName = 'default_award.png'; // Varsayılan resim dosyası
+            }
+     
+            // Veritabanına kaydetme işlemi
+            $award = new Award();
+            $award->award_image     = $imageName;
+            $award->title           = $request->input('title');
+            $award->award_name      = $request->input('award_name');
+            $award->status          = $request->has('status');
+            $award->ekleyen_user_id = Auth::id();
+            $award->created_at      = now();
+            $award->updated_at      = now();
+            $award->save();
+            
+
+            return redirect()->back()->with('success','Ödül Başarıyla Eklendi.');
+    }//End
+
+    public function awardEdit($id){
+        $award = Award::findOrFail($id);
+        return response()->json($award);
+    }//End
+
+    public function awardUpdate(Request $request, $id){
+        $award = Award::findOrFail($id);
+        
+        // Validation
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'award_name' => 'required|string|max:255',
+            'award_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        
+        // Update fields
+        $award->title = $request->input('title');
+        $award->award_name = $request->input('award_name');
+        $award->status = $request->has('status') ? 1 : 0;
+
+        // Handle file upload
+        if ($request->hasFile('award_image')) {
+            $imagePath = $request->file('award_image')->store('award_images', 'public');
+            $award->award_image = $imagePath;
+        }
+
+        $award->save();
+
+        return response()->json(['message' => 'Ödül başarıyla güncellendi']);
+    }//End
 }
