@@ -133,24 +133,19 @@ class FavoriteController extends Controller
                 'message' => "Giriş Yapınız"
             ]);
         }
-
         // request'ten favori id'lerini alın
         $housingIds = $request->input('housing_ids', []);
-        $projectIds = $request->input('project_ids', []);
-
         // Kullanıcının belirli favori konutlarını ve projelerini sil
         if (!empty($housingIds)) {
             HousingFavorite::where('user_id', $user->id)
                 ->whereIn('housing_id', $housingIds)
                 ->delete();
         }
-
-        if (!empty($projectIds)) {
+        if (!empty($housingIds)) {
             ProjectFavorite::where('user_id', $user->id)
-                ->whereIn('project_id', $projectIds)
+                ->whereIn('housing_id', $projectIds)
                 ->delete();
         }
-
         return response()->json([
             'status' => "deleted",
             'message' => "Seçilen favoriler silindi."
