@@ -50,8 +50,21 @@ class CrmController extends Controller
 
         // $tum_musteriler = DB::table('assigned_users')
 
-        $customers = DB::table('assigned_users')->get(); //Tüm Müşteriler
+        // $customers = DB::table('assigned_users')->get(); //Tüm Müşteriler
 
+        $customers = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->whereNull('customer_calls.customer_id')
+            ->select('assigned_users.*')
+            ->get();
+
+            $customerCount = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->whereNull('customer_calls.customer_id')
+            ->select('assigned_users.*')
+            ->count();   
+
+      
         $tum_musteriler = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->select(
@@ -80,7 +93,7 @@ class CrmController extends Controller
             ->orWhereNotNull('customer_calls.gorusme_durumu')
             // ->where('danisman_id',Auth::id())
             ->count();   
-        $customerCount = DB::table('assigned_users')->count(); //Tüm Müşteriler
+        // $customerCount = DB::table('assigned_users')->count(); //Tüm Müşteriler
         $favoriteCustomers = DB::table('favorite_customers')
            ->where('favorite_customers.danisman_id', Auth::id())
            ->join('assigned_users', 'favorite_customers.customer_id', '=', 'assigned_users.id')
