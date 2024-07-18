@@ -17,5 +17,9 @@ class CartPrice extends Model
     public function reservation() {
         return $this->belongsTo( Reservation::class, 'reservation_id', 'id' );
     }
+
+    public function user() {
+        return $this->belongsTo( User::class, 'user_id', 'id' );
+    }
     
 }
