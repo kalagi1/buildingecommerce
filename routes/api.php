@@ -37,6 +37,7 @@ use App\Http\Controllers\Institutional\UserController as InstitutionalUserContro
 use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Api\Client\NeighborViewController;
+use App\Http\Controllers\Api\SupportController as ApiSupportController;
 
 
 /*
@@ -133,6 +134,10 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('support', [ApiSupportController::class, 'index']);
+    Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
+        
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/neighbor-view', [NeighborViewController::class, 'index']);
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
