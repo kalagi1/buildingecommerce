@@ -154,8 +154,8 @@
                                 <hr style="clear: both;">
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
-                                    <img src="{{asset('woman.png')}}" class="danismanImg">
-                                    {{-- <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                    {{-- <img src="{{asset('woman.png')}}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
@@ -172,7 +172,9 @@
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    <img src="{{asset('man.jpg')}}" class="danismanImg">
+                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
+                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
                                 <p class="text-center" style="background: linear-gradient(to top, #EA2B2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
@@ -219,8 +221,8 @@
                                     <div class="cardDanismanList">
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
-                                                <img src="{{ asset('woman.png') }}" class="danismanListImg">
-                                                {{-- <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ?: 'woman.png') }}" class="danismanListImg"> --}}
+                                                {{-- <img src="{{ asset('woman.png') }}" class="danismanListImg"> --}}
+                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ) }}" class="danismanListImg">
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
@@ -300,12 +302,16 @@
                             @foreach ($danismanSatislari as $authSale)
                                 @php
                                     $cart = json_decode(($authSale->cart));
+                                    $musteri =App\Models\User::find( $authSale->user_id);
                                 @endphp
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                             <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
-                                            <p class="fw-bold ml-5">{{ $authSale->reference_id }}</p>
+                                             {{-- <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 30px; height: 30px" class="rounded-circle" />
+                                              --}}
+                                            <img src="{{ asset('storage/profile_images/' . $musteri->profile_image ?: 'woman.png') }}" style="width: 30px; height: 30px" class="rounded-circle">
+
+                                            <p class="fw-bold ml-5">{{ $musteri->name }}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -591,97 +597,103 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-        // Toplam satışlar için pasta grafik
-        var totalSalesData = google.visualization.arrayToDataTable([
-            ['Satış Türü', 'Miktar'],
-            ['Toplam Kazancım', {{$totalKazanc}}]
-        ]);
-
-        var totalSalesOptions = {
-           title:'Toplam Satış',
-            
-            pieSliceText: 'value',
-            slices: {
-                0: { color: '#EA2B2E' } // Kırmızı tonu
-            }
-        };
-
-        var totalSalesChart = new google.visualization.PieChart(document.getElementById('totalSalesPieChart'));
-        totalSalesChart.draw(totalSalesData, totalSalesOptions);
-
-        // Satış türleri için pasta grafik
-        var salesTypeData = google.visualization.arrayToDataTable([
-            ['Satış Türü', 'Miktar'],
-            ['Peşin Satış', {{$pesinSatisSayisi}}],
-            ['Taksitli Satış', {{$taksitliSatisSayisi}}]
-        ]);
-
-        var salesTypeOptions = {
-           title:'Satış Türü',
-            pieSliceText: 'value',
-            slices: {
-                0: { color: '#EA2B2E' }, // Kırmızı tonu
-                1: { color: '#FF8E90' }, // Kırmızı tonu
-                //2: { color: '#F9C4C4' }  // Kırmızı tonu
-            }
-        };
-
-        var salesTypeChart = new google.visualization.PieChart(document.getElementById('salesTypePieChart'));
-        salesTypeChart.draw(salesTypeData, salesTypeOptions);
-    }
-</script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+  
+        function drawCharts() {
+            // PHP değişkenlerinin doğru şekilde geldiğini kontrol edin ve gerekirse sıfır olarak ayarlayın
+            var totalKazanc = {{ isset($totalKazanc) ? $totalKazanc : 0 }};
+            var pesinSatisSayisi = {{ isset($pesinSatisSayisi) ? $pesinSatisSayisi : 0 }};
+            var taksitliSatisSayisi = {{ isset($taksitliSatisSayisi) ? $taksitliSatisSayisi : 0 }};
+  
+            // Toplam satışlar için pasta grafik verisi
+            var totalSalesData = google.visualization.arrayToDataTable([
+                ['Satış Türü', 'Miktar'],
+                ['Toplam Kazancım', totalKazanc]
+            ]);
+  
+            var totalSalesOptions = {
+               title:'Toplam Satış',
+                pieSliceText: 'value',
+                slices: {
+                    0: { color: '#EA2B2E' } // Kırmızı tonu
+                }
+            };
+  
+            var totalSalesChart = new google.visualization.PieChart(document.getElementById('totalSalesPieChart'));
+            totalSalesChart.draw(totalSalesData, totalSalesOptions);
+  
+            // Satış türleri için pasta grafik verisi
+            var salesTypeData = google.visualization.arrayToDataTable([
+                ['Satış Türü', 'Miktar'],
+                ['Peşin Satış', pesinSatisSayisi],
+                ['Taksitli Satış', taksitliSatisSayisi]
+            ]);
+  
+            var salesTypeOptions = {
+               title:'Satış Türü',
+                pieSliceText: 'value',
+                slices: {
+                    0: { color: '#EA2B2E' }, // Kırmızı tonu
+                    1: { color: '#FF8E90' }  // Kırmızı tonu
+                }
+            };
+  
+            var salesTypeChart = new google.visualization.PieChart(document.getElementById('salesTypePieChart'));
+            salesTypeChart.draw(salesTypeData, salesTypeOptions);
+        }
+      </script>
+    
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Canvas elementini seçin
-    var ctx = document.getElementById('salesChart').getContext('2d');
-    var labels = @json($satisDanismanlari->pluck('name'));
-    var data = @json(array_values($olumluMusteriSayilari));
+    document.addEventListener("DOMContentLoaded", function() {
+        // Canvas elementini seçin
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var labels = @json($satisDanismanlari->pluck('name'));
+        var data = @json(array_values($olumluMusteriSayilari));
 
-    // Veri seti tanımlayın
-    var salesData = {
-        labels: labels,
-        datasets: [{
-            label: 'Olumlu Müşteri Sayıları',
-            data: data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-            ],
-            borderWidth: 1
-        }]
-    };
+         // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
+         if (data.length === 0) {
+            data = Array(labels.length).fill(0);
+        }
 
-    // Grafik ayarlarını tanımlayın
-    var salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: salesData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        var salesData = {
+            labels: labels,
+            datasets: [{
+                label: 'Olumlu Müşteri Sayıları',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Grafik ayarlarını tanımlayın
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: salesData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
+        });
     });
-});
-
-
 </script>
 
 @endsection

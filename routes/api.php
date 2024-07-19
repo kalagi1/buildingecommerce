@@ -113,7 +113,7 @@ Route::post('/pay', [ClientPayController::class, 'pay']);
 Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
 Route::post('add_project_to_favorites/{housingId}', [FavoriteController::class, 'addProjectHousingToFavorites']);
-Route::delete('/favorites/delete', [FavoriteController::class, 'deleteFavorites']);
+
 
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
@@ -141,6 +141,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('/notification/delete', [InfoController::class, "notificationDestroyById"])->name('notificationDestroyById');
         Route::Delete('/housing-favorite', [InstitutionalHousingController::class, 'destroyAllFavorite']);
         Route::Delete('/project-favorite', [InstitutionalProjectController::class, 'destroyAllFavorite']);
+
+        Route::delete('/favorites/delete', [FavoriteController::class, 'deleteFavorites']);
+        Route::delete('/sub-users', [UserController::class, 'deleteSubUsers']);
+        Route::delete('/rol-users', [InstitutionalRoleController::class, 'userType']);
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');

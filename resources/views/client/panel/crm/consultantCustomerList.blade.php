@@ -13,7 +13,7 @@
                 <span>Dönüş Yapılacak Müşteriler ({{$geri_donus_yapilacak_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="all-customers-btn">
-                <span>Tüm Müşteriler ({{$tum_musterilerCount}})</span>
+                <span> Müşteriler ({{$tum_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="favorite-customers-btn">
                 <span>Favori Müşteriler ({{$favoriteCustomerCount}})</span>
@@ -231,14 +231,10 @@
                     <ul class="nav">
                         @foreach($danismanlar as $danisman)
                         <li class="nav-item" style="margin-left:10px !important;">
-                            {{-- <span>{{ $danisman->name }}</span>
-                            <span class="danisman-color" style="background-color: {{ $danismanRenkler[$danisman->id] }};"></span> --}}
-
                             <button type="button" class="btnDanisman" 
                             style="background-color: {{ $danismanRenkler[$danisman->id] }};width:100% !important; padding:10px !important;
                                 border-color: {{ $danismanRenkler[$danisman->id] }};"
-                            disabled    
-                            >{{ $danisman->name }}</button>
+                            disabled>{{ $danisman->name }}</button>
                         </li>
                         @endforeach
                     </ul>
@@ -618,15 +614,10 @@
                                             <select class="form-select" name="sonraki_gorusme_turu" aria-label="Default select example" style="1px solid rgb(199 198 198);border-radius:5px !important;">
                                                 <option selected>Seçiniz</option>
                                                 <option value="Telefon">Telefon</option>
-                                                <option value="Randevu (Zomm)">Radenvu (Zomm)</option>
+                                                <option value="Randevu (Zomm)">Randevu (Zoom)</option>
                                                 <option value=">Randevu (Yüz Yüze)">Randevu (Yüz Yüze)</option>                                                   
                                             </select>
                                         </div>
-
-                                        {{-- <div class="mt-3 mb-3">
-                                            <label class="mb-3" for="randevu">Randevu Tarihi</label>
-                                            <input type="datetime-local" name="randevu_tarihi" id="randevu" class="form-control datepicker" style="border-radius: 5px !important;">
-                                        </div>                                                 --}}
                                         
                                         <div class="mt-3 mb-3">
                                             <label class="mb-3" for="note">Randevu Notu</label>
@@ -828,7 +819,8 @@
                         info: "{{ $randevu->appointment_info }}",
                         start: "{{ $randevu->appointment_date }}", // Tarih ve saat birleşik olarak gösterilebilir
                         allDay: false, // Tüm gün etkinliği olmadığını belirtmek için false yapın
-                        danisman_id: "{{ $randevu->danisman_id }}" // Danışman ID'si
+                        danisman_id: "{{ $randevu->danisman_id }}" ,
+                        next_meeting_type: "{{ $randevu->sonraki_gorusme_turu }}"
                     },
                     @endforeach
                 ],
@@ -849,15 +841,22 @@
                     // Click işlemi
                     element.click(function() {
                         // Swal ile detay gösterme
+
+                        var meetingTypeText = '';
+                        if (event.next_meeting_type === 'Telefon') {
+                            meetingTypeText = '<p>Görüşme Türü:<strong class="strongCss"> Telefon</strong></p>';
+                        }
+
                         Swal.fire({
                             title: 'Randevu Detayları',
                             html: `
-                                    <div style="text-align: left;">
-                                        <p>Tarih ve Saat:<strong class="strongCss">${moment(event.start).format('DD-MM-YYYY HH:mm')}</strong></p>
-                                        <p>Danışman:<strong class="strongCss"> ${event.title}</strong></p>
-                                        <p>Randevu Bilgisi:<strong class="strongCss"> ${event.info}</strong></p>
-                                    </div>
-                                `,
+                                <div style="text-align: left;border: 1px solid #c3c3c3;padding: 19px;border-radius: 10px;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                                    <p>Tarih ve Saat:<strong class="strongCss">${moment(event.start).format('DD-MM-YYYY HH:mm')}</strong></p>
+                                    <p>Danışman:<strong class="strongCss"> ${event.title}</strong></p>
+                                    <p>Randevu Bilgisi:<strong class="strongCss"> ${event.info}</strong></p>
+                                    ${meetingTypeText}
+                                </div>
+                            `,
                             icon: 'info',
                             confirmButtonText: 'Tamam',
                             customClass: {
@@ -1003,40 +1002,6 @@
             function addNewCall(itemId) {
                  // Modal içeriğini sıfırla
                 resetModalContent();
-                fetch('/hesabim/musteri/bilgileri/' + itemId)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Modal içine verileri yaz
-                            document.getElementById('new-call-modal-name').innerText = data.name;
-                            document.getElementById('new-call-modal-email').innerText = data.email;
-                            document.getElementById('new-call-modal-phone').innerText = data.phone.replace('p:+', '');
-                            document.getElementById('new-call-modal-province').innerText = data.province;
-                            document.getElementById('new-call-modal-ilgilendigi-proje').innerText = data.project_name;
-                            document.getElementById('new-call-modal-job-title').innerText = data.job_title;
-                        
-                                    // Checkbox değerlerini ayarlama
-                            document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
-                            document.getElementById('checkbox12').checked  = data.konut_tercihi.includes('Hazır Konut');
-                            document.getElementById('checkbox13').checked  = data.varlik_yonetimi.includes('Yatırım');
-                            document.getElementById('checkbox14').checked  = data.varlik_yonetimi.includes('Oturum');
-                            document.getElementById('checkbox15').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
-                            document.getElementById('checkbox16').checked  = data.musteri_butcesi.includes('0-500.000');
-                            document.getElementById('checkbox17').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
-                            document.getElementById('checkbox18').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
-                            document.getElementById('checkbox19').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
-                            document.getElementById('checkbox20').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
-
-                            document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
-
-                            $('#customer_id2').val(data.id);
-                            // Gizli input alanına customer_id değerini ekle
-                            document.getElementById('customer_id2').value = data.id;
-
-                            // Modalı aç
-                            $('#newCallsModal').modal('show');
-                        })
-                        .catch(error => console.error('Error:', error));
-                }
                 function resetModalContent() {
                     document.getElementById('new-call-modal-name').innerText = '';
                     document.getElementById('new-call-modal-email').innerText = '';
@@ -1063,15 +1028,47 @@
                     // Gizli input alanını temizle
                     document.getElementById('customer_id2').value = '';
                 }
+                fetch('/hesabim/musteri/bilgileri/' + itemId)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(JSON.stringify(data))
+                        document.getElementById('customer_id2').value = data.id;
+                  
+                        // Modal içine verileri yaz
+                            document.getElementById('new-call-modal-name').innerText = data.name;
+                            document.getElementById('new-call-modal-email').innerText = data.email;
+                            document.getElementById('new-call-modal-phone').innerText = data.phone.replace('p:+', '');
+                            document.getElementById('new-call-modal-province').innerText = data.province;
+                            document.getElementById('new-call-modal-ilgilendigi-proje').innerText = data.project_name;
+                            document.getElementById('new-call-modal-job-title').innerText = data.job_title;
+                        
+                                    // Checkbox değerlerini ayarlama
+                            document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
+                            document.getElementById('checkbox12').checked  = data.konut_tercihi.includes('Hazır Konut');
+                            document.getElementById('checkbox13').checked  = data.varlik_yonetimi.includes('Yatırım');
+                            document.getElementById('checkbox14').checked  = data.varlik_yonetimi.includes('Oturum');
+                            document.getElementById('checkbox15').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
+                            document.getElementById('checkbox16').checked  = data.musteri_butcesi.includes('0-500.000');
+                            document.getElementById('checkbox17').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
+                            document.getElementById('checkbox18').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
+                            document.getElementById('checkbox19').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
+                            document.getElementById('checkbox20').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
+
+                            document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
+                       
+
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
 
                 document.addEventListener('DOMContentLoaded', function () {
                     $('#newCallsModal form').off('submit').on('submit', function (e) {
+                  
                         e.preventDefault();
-
                         var formData = new FormData(this);
-                        var customerId = document.getElementById('customer_id2').value;
-                        formData.append('customer_id2', customerId);
-
+                        // var customerId = document.getElementById('customer_id2').value;
+                        // formData.append('customer_id2xx', customerId);
+        
                         fetch('/hesabim/arama/kaydi/musteri/bilgisi/ekle', {
                             method: 'POST',
                             body: formData,
@@ -1085,7 +1082,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Başarılı',
-                                    text: data.message // Burada `response.message` yerine `data.message` kullanın
+                                    text: data.message 
                                 }).then(() => {
                                     $('#newCallsModal').modal('hide');
 
@@ -1152,7 +1149,7 @@
         $(document).ready(function() {
             $('#all-customers-btn').on('click', function(event) {
              
-                $('#page-header-title').text('Tüm Müşteriler');
+                $('#page-header-title').text('Müşteriler');
                 $('#tumMusteriler').show(); 
                 $('#yeniMusteriler').hide();
                 $('#favoriMusteriler').hide(); 

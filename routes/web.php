@@ -843,11 +843,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     //sıfırdan crm rotaları
 
     //satış danışmanlarını listele ve proje atama
-    Route::get('/salesConsultantList', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+    Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
 
     //danisman_id değerine göre müşterilerin listelenmesi
-    Route::get('/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+    Route::get('/crm/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
     Route::get('/musteri/bilgileri/{id}', [InstitutionalCrmController::class, 'getMusteriBilgileri']);
     Route::get('/musteri/gecmis/aramalari/{id}', [InstitutionalCrmController::class, 'musteriGecmisAramalari']);
 
@@ -856,23 +856,25 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/check-favorite/{id}', [InstitutionalCrmController::class, 'checkFavorite'])->name('check-favorite');
 
 
-    //yeni armakaydı ve müşteri bilgileri isteği
-    // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
-    Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class, 'newCallCustomerInfo']);
-    Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class, 'newCustomerInfo']);
-    Route::post('/setRating', [InstitutionalCrmController::class, 'setRating'])->name('setRating');
 
-    Route::post('/danisman/musteri/ekleme', [InstitutionalCrmController::class, 'addNewCustomer']);
+        //yeni armakaydı ve müşteri bilgileri isteği
+        // Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo'])->name('new.call.customer.info');
+        Route::post('/arama/kaydi/musteri/bilgisi/ekle', [InstitutionalCrmController::class,'newCallCustomerInfo']);
+        Route::post('/arama/kaydi/musteri/ekle', [InstitutionalCrmController::class,'newCustomerInfo']);
+        Route::post('/setRating', [InstitutionalCrmController::class,'setRating'])->name('setRating');
+      
+        Route::post('/danisman/musteri/ekleme',[InstitutionalCrmController::class,'addNewCustomer']);
+   
+        //crm admin dashboard
+        Route::get('/crm/admin/dashboard',[InstitutionalCrmController::class,'adminDashboard'])->name('admin.dashboard');
+        Route::get('/crm/danisman/dashboard',[InstitutionalCrmController::class,'danismanDashboard'])->name('danisman.dashboard');
+                
+        //crm admini odul ekleme
+        Route::get('/crm/admin/odul',[InstitutionalCrmController::class,'adminOdulEkle'])->name('crm.admin.odul');
+        Route::post('/crm/admin/odul/ekle',[InstitutionalCrmController::class,'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
+        Route::get('/awards/{id}/edit',[InstitutionalCrmController::class,'awardEdit'])->name('crm.award.edit');
+        Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
 
-    //crm admin dashboard
-    Route::get('/admin/dashboard', [InstitutionalCrmController::class, 'adminDashboard'])->name('admin.dashboard');
-    Route::get('/danisman/dashboard', [InstitutionalCrmController::class, 'danismanDashboard'])->name('danisman.dashboard');
-
-    //crm admini odul ekleme
-    Route::get('/crm/admin/odul', [InstitutionalCrmController::class, 'adminOdulEkle'])->name('crm.admin.odul');
-    Route::post('/crm/admin/odul/ekle', [InstitutionalCrmController::class, 'adminOdulEklePost'])->name('crm.admin.odul.ekle.post');
-    Route::get('/awards/{id}/edit', [InstitutionalCrmController::class, 'awardEdit'])->name('crm.award.edit');
-    Route::post('/awards/{id}', [InstitutionalCrmController::class, 'awardUpdate'])->name('crm.award.update');
 
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');

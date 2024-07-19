@@ -353,6 +353,30 @@ class UserController extends Controller
         ]);
     }
 
+
+    public function deleteSubUsers(Request $request)
+    {
+
+        $userIds = $request->input('user_ids',[]);
+        
+         $deletedRows = User::whereIn('user_id', $userIds)->where('parent_id', auth()->user()->id)->delete();
+
+         if ($deletedRows === 0) {
+             return response()->json([
+                 'status' => "no_sub_users",
+                 'message' => "Bu parent_id ile alt kullanıcı bulunamadı."
+             ]);
+         }
+ 
+         return response()->json([
+             'status' => "deleted",
+             'message' => "Alt kullanıcılar başarıyla silindi.",
+             'deleted_count' => $deletedRows
+         ]);
+
+
+    }
+
     public function getCurrentUser()
     {
         $user = User::where('id', auth()->user()->id)->first();

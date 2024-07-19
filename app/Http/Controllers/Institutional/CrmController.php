@@ -50,8 +50,21 @@ class CrmController extends Controller
 
         // $tum_musteriler = DB::table('assigned_users')
 
-        $customers = DB::table('assigned_users')->get(); //Tüm Müşteriler
+        // $customers = DB::table('assigned_users')->get(); //Tüm Müşteriler
 
+        $customers = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->whereNull('customer_calls.customer_id')
+            ->select('assigned_users.*')
+            ->get();
+
+            $customerCount = DB::table('assigned_users')
+            ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
+            ->whereNull('customer_calls.customer_id')
+            ->select('assigned_users.*')
+            ->count();   
+
+      
         $tum_musteriler = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->select(
@@ -63,9 +76,9 @@ class CrmController extends Controller
             ->whereNotNull('customer_calls.meet_type')
             ->orWhereNotNull('customer_calls.conclusion')
             ->orWhereNotNull('customer_calls.gorusme_durumu')
-            // ->where('danisman_id',Auth::id())
+            ->where('danisman_id',Auth::id())
             ->get();
-
+   
 
             $tum_musterilerCount = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
@@ -78,9 +91,10 @@ class CrmController extends Controller
             ->whereNotNull('customer_calls.meet_type')
             ->orWhereNotNull('customer_calls.conclusion')
             ->orWhereNotNull('customer_calls.gorusme_durumu')
-            // ->where('danisman_id',Auth::id())
+            ->where('danisman_id',Auth::id())
             ->count();   
-        $customerCount = DB::table('assigned_users')->count(); //Tüm Müşteriler
+
+      
         $favoriteCustomers = DB::table('favorite_customers')
            ->where('favorite_customers.danisman_id', Auth::id())
            ->join('assigned_users', 'favorite_customers.customer_id', '=', 'assigned_users.id')
@@ -97,14 +111,15 @@ class CrmController extends Controller
          $currentDate = now()->toDateString();
         // Fetch customer IDs for appointments with 'sonraki_gorusme_turu'
         $appointmentCustomerIds = DB::table('appointments')
-            ->whereNotNull('sonraki_gorusme_turu')
-            // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
+            ->where('sonraki_gorusme_turu','Telefon')
+            ->whereDate('sonraki_gorusme_tarihi', $currentDate)
             ->pluck('customer_id')
             ->toArray();
 
         // Fetch customer IDs for customer calls with 'gorusme_durumu' as 'Ulaşılamadı'
         $callCustomerIds = DB::table('customer_calls')
             ->where('gorusme_durumu', 'Ulaşılamadı')
+            ->where('gorusmeyi_yapan_kisi_id',Auth::id())
             ->whereDate('meeting_date', $currentDate)
             ->pluck('customer_id')
             ->toArray();
@@ -118,8 +133,8 @@ class CrmController extends Controller
             ->get();
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
-        ->whereIn('id', $uniqueCustomerIds)
-        ->count();   
+            ->whereIn('id', $uniqueCustomerIds)
+            ->count();   
 
         // $randevular = DB::table('appointments')->get();
         $today = Carbon::today()->toDateString();
@@ -232,13 +247,18 @@ class CrmController extends Controller
 
         ]);
 
-        Appointment::create([
-            'customer_id'      => $request->customer_id2,
-            'appointment_date' => $request->randevu_tarihi,
-            'appointment_info' => $request->randevu_notu,
-        ]);
+        if($request->gorusme_sonucu == 'Randevu (Zoom)' || $request->gorusme_sonucu == 'Randevu (Yüz Yüze)' || 
+           $request->sonraki_gorusme_turu == 'Randevu (Yüz Yüze)' || $request->sonraki_gorusme_turu == 'Randevu (Zoom)'){
 
-        if($request->sonraki_gorusme_tarihi && $request->sonraki_gorusme_turu){
+            Appointment::create([
+                'customer_id'      => $request->customer_id2,
+                'appointment_date' => $request->sonraki_gorusme_tarihi,
+                'appointment_info' => $request->randevu_notu,
+            ]);
+        }
+
+
+        if($request->sonraki_gorusme_turu == 'Telefon'){
             Appointment::create([
                 'customer_id'            => $request->customer_id2,
                 'sonraki_gorusme_tarihi' => $request->sonraki_gorusme_tarihi,
@@ -329,19 +349,19 @@ class CrmController extends Controller
         // $totalCustomers = DB::table('assigned_users')->where('danisman_id',Auth::id())->count(); //Tüm Müşteriler
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
-        // $positiveCustomersCount = DB::table('customer_calls')
-        // ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
-        // ->where('danisman_id',Auth::id())
-        // ->where('customer_calls.gorusme_durumu', 'Olumlu')
-        // ->count();
-
         $positiveCustomersCount = DB::table('customer_calls')
         ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
+        ->where('danisman_id',Auth::id())
         ->where('customer_calls.gorusme_durumu', 'Olumlu')
         ->count();
 
-        // $favoriteCustomers = DB::table('favorite_customers')->where('danisman_id',Auth::id())->count();
-        $favoriteCustomers = DB::table('favorite_customers')->count();
+        // $positiveCustomersCount = DB::table('customer_calls')
+        // ->join('assigned_users', 'customer_calls.customer_id', '=', 'assigned_users.id')
+        // ->where('customer_calls.gorusme_durumu', 'Olumlu')
+        // ->count();
+
+        $favoriteCustomers = DB::table('favorite_customers')->where('danisman_id',Auth::id())->count();
+        // $favoriteCustomers = DB::table('favorite_customers')->count();
 
 
         //dönüş yapılacak müşteriler için danışman filtrelemesi yap canlıya alınca
@@ -349,7 +369,7 @@ class CrmController extends Controller
       
         $appointmentCustomerIds = DB::table('appointments')
             ->whereNotNull('sonraki_gorusme_turu')
-            // ->whereDate('sonraki_gorusme_tarihi', $currentDate)
+             ->whereDate('sonraki_gorusme_tarihi', $currentDate)
             ->pluck('customer_id')
             ->toArray();
 
@@ -565,7 +585,7 @@ class CrmController extends Controller
         if ($danisman) {
             $topCaller = DB::table('users')
                 ->where('id', $danisman->gorusmeyi_yapan_kisi_id)
-                ->first(['name']);
+                ->first(['name','profile_image']);
         }        
         // print_r($topCaller);die;
 
