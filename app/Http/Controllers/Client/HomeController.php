@@ -150,6 +150,7 @@ class HomeController extends Controller
         $selectedTypes = $request->input('selectedTypes');
         $blocks = $request->input("blocks");
         $totalRoomCount = $request->input("totalRoomCount");
+        $haveBlocks = $request->input("haveBlocks");
         $roomCount = 0;
         if (isset($blocks) && is_array($blocks)) {
             foreach ($blocks as $block) {
@@ -160,7 +161,7 @@ class HomeController extends Controller
 
         $housingTypeParent1 = null;
         $housingTypeParent2 = null;
-        $housingType= null;
+        $housingType = null;
         $labels = [];
 
         if (isset($selectedTypes) && count($selectedTypes) >= 3) {
@@ -170,7 +171,7 @@ class HomeController extends Controller
 
             if ($housingTypeParentConnection && isset($blocks)) {
                 $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
-             
+
 
                 if ($housingType) {
                     $formJsonItems = json_decode($housingType->form_json, true) ?? [];
@@ -248,8 +249,8 @@ class HomeController extends Controller
         }
 
         $projectListItems = ProjectListItem::where('housing_type_id', $housingType->id)->get();
-    
-        return view("preview-project", compact("fillFormData","projectListItems","roomCount","totalRoomCount", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
+
+        return view("preview-project", compact("fillFormData", "projectListItems", "haveBlocks", "roomCount", "totalRoomCount", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
     }
 
     public function updateBrandStatus(Request $request)

@@ -12,6 +12,7 @@ import { Box, LinearProgress, Modal, Typography } from "@mui/material";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
+import LoadingModal from "./LoadingModal";
 
 function CreateProject(props) {
   const [step, setStep] = React.useState(1);
@@ -32,6 +33,8 @@ function CreateProject(props) {
   const [errorMessages, setErrorMessages] = React.useState([]);
   const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
   const [fillFormData, setFillFormData] = useState([]);
+  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const setProjectDataFunc = (key, value) => {
     setProjectData({
@@ -605,7 +608,6 @@ function CreateProject(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      
       const formData = new FormData();
 
       Object.keys(projectData).forEach((key) => {
@@ -636,10 +638,20 @@ function CreateProject(props) {
     }
   };
 
-  const finishCreateProject  = () => {
-    
+  const finishCreateProject = () => {
+    setLoadingModalOpen(true);
+    setProgress(0);
+    let progressInterval;
+
+    // Start the progress bar increment
+    progressInterval = setInterval(() => {
+      setProgress((prev) =>
+        prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
+      );
+    }, 500); // Increase progress every half a second
+
     axios
-      .post(baseUrl + "create_project", formData, {
+      .post(baseUrl + "create_project", fillFormData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -693,18 +705,21 @@ function CreateProject(props) {
           });
 
           Promise.all(requestPromises).then(() => {
-           
-            setLoading(totalRoomCount());
-          
+            clearInterval(progressInterval);
+            setProgress(100);
             setTimeout(() => {
-              setLoadingModal(false);
+              setLoadingModalOpen(false);
               setStep(4);
               setFillFormData(null);
-            }, 500); 
+            }, 500);
           });
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        clearInterval(progressInterval);
+        setLoadingModalOpen(false);
+        toast.error(error.message);
+      });
   };
 
   const style = {
@@ -776,7 +791,7 @@ function CreateProject(props) {
       )}
 
       <TopCreateProjectNavigator step={step} setStep={setStep} />
-      <Modal
+      {/* <Modal
         open={loadingModal}
         onClose={() => {
           setLoadingModal(false);
@@ -792,7 +807,10 @@ function CreateProject(props) {
           </p>
           <LinearProgressWithLabel value={(loading * 100) / totalRoomCount()} />
         </Box>
-      </Modal>
+      </Modal> */}
+
+      <LoadingModal open={loadingModalOpen} progress={progress} />
+
       <ToastContainer />
       {step == 1 ? (
         <TypeList
@@ -843,6 +861,7 @@ function CreateProject(props) {
           allErrors={allErrors}
           prevStep={prevStep}
           selectedTypes={selectedTypes}
+          haveBlocks={haveBlocks}
           blocks={blocks}
           totalRoomCount={totalRoomCount}
           roomCount={roomCount}
