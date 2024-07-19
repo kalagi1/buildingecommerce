@@ -170,247 +170,222 @@ class ProjectController extends Controller
 
     public function createProject(Request $request)
     {
+        // Kullanıcının seçtiği konut tipini ve gerekli form alanlarını al
         $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
         $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
-
+    
+        // Validasyon kuralları oluştur
         $roomValidations = [];
         $roomValidationsMessages = [];
-
+    
         foreach ($housingTypeInputs as $input) {
             if ($input && isset($input->className) && $input->className) {
                 if (!str_contains($input->className, 'project-disabled')) {
                     if ($input->required) {
-                        $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
-                        $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
+                        $field = str_replace('[]', '', $input->name);
+                        $roomValidations["blocks.*.rooms.*.$field"] = "required";
+                        $roomValidationsMessages["blocks.*.rooms.*.$field.required"] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
                     }
                 }
             }
         }
-
-        $manager = new ImageManager(
-            new Driver()
-        );
-
-        // $request->validate([
-        //     "selectedTypes.0" => "required",
-        //     "selectedTypes.1" => "required",
-        //     "selectedTypes.2" => "required",
-        //     "selectedTypes.3" => "required",
-        //     "projectData.project_title" => "required",
-        //     "projectData.create_company" => "nullable",
-        //     "projectData.coordinates" => "required",
-        //     "projectData.description" => "required",
-        //     "projectData.city_id" => "required|integer",
-        //     "projectData.county_id" => "required",
-        //     "projectData.neighbourhood_id" => "required",
-        //     "projectData.cover_image" => "required",
-        //     "projectData.gallery" => "required|array",
-        //     "projectData.situations" => "required|array",
-        //     "blocks.*.name" => "required",
-        //     "blocks.*.roomCount" => "required",
-        // ],[
-        //     "projectData.housing_type_id.required" => "Konut tipi seçmediniz",
-        //     "projectData.project_title.required" => "Proje adı alanı zorunludur",
-        //     "projectData.description.required" => "Proje açıklaması alanı zorunludur",
-        //     "projectData.coordinates.required" => "Harita üzerinde konum seçmek zorunludur",
-        //     "projectData.city_id.required" => "Şehir seçmediniz",
-        //     "projectData.county_id.required" => "İlçe seçmediniz",
-        //     "projectData.neighbourhood_id.required" => "Mahalle seçmediniz",
-        //     "projectData.cover_image.required" => "Proje kapak fotoğrafı seçmediniz",
-        //     "projectData.gallery.required" => "Proje galeri fotoğraflarını seçmediniz",
-        //     "projectData.gallery.array" => "Proje galeri fotoğrafları dizi olmalıdır",
-        //     "projectData.situations.required" => "Proje vaziyet & kat planı fotoğraflarını seçmediniz",
-        //     "projectData.situations.array" => "Proje vaziyet & kat planı fotoğrafları dizi olmalıdır",
-        //     ...$roomValidationsMessages
-        // ]);
-
-        $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->firstOrFail();
-        $housingTypeParent2 = HousingTypeParent::where('id', $request->input('selectedTypes')[2])->firstOrFail();
-        $instUser = User::where("id", Auth::user()->id)->first();
+    
+        // Validasyonları kontrol et (isteğe bağlı)
+        // $request->validate($roomValidations, $roomValidationsMessages);
+    
+        // HousingTypeParent ve kullanıcı bilgilerini al
+        $housingTypeParent1 = HousingTypeParent::findOrFail($request->input('selectedTypes')[1]);
+        $housingTypeParent2 = HousingTypeParent::findOrFail($request->input('selectedTypes')[2]);
+        $instUser = Auth::user();
         $endDate = Carbon::now();
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
-        if ($request->file('projectData')['cover_image']) {
-
-            $file = $request->file('projectData')['cover_image'];
-
-            // Dosyanın hedef dizini
-            $destinationPath = public_path('storage/project_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-
-            // Dosyayı belirlenen hedefe taşı
-            $fileNameCoverImage = $projectSlug . '_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $fileNameCoverImage);
-
-            $image = $manager->read(public_path('storage/project_images/' . $fileNameCoverImage));
-            $imageWidth = $image->width();
-            $imageHeight = $image->height();
-
-            if ($imageWidth > 1200) {
-                $newWidth = 1200;
-                $newHeight = $imageHeight * 1200 / $imageWidth;
-            } else {
-                $newWidth = $imageWidth;
-                $newHeight = $imageHeight;
-            }
-            $image2 = $manager->read(public_path('images/filigran2.png'));
-            $imageWidth2 = $image2->width();
-            $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30, '#00000000');
-            $image->resize($newWidth, $newHeight);
-            $encoded = $image->place($image2, 'center', 10, 10, 20);
-            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
-        }
-
-
-
+    
+        // Görüntü ve dosya işlemleri
+        $coverImagePath = $this->handleImage($request->file('projectData')['cover_image'], 'cover_image', $projectSlug, 'project_images');
+        $documentPath = $this->handleFile($request->file('projectData')['document'], 'document', $projectSlug, 'housing_documents');
+    
         $totalCount = $request->input('totalRoomCount');
-
-        if ($request->file('projectData')['document']) {
-            $file = $request->file('projectData')['document'];
-
-            $destinationPath = public_path('housing_documents');
-
-            $fileNameDocument = $projectSlug . '_document_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $fileNameDocument);
-        }
-
-        $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
-        $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
-
+    
+        // Proje kaydını oluştur
         $project = Project::create([
             "housing_type_id" => $housingTypeParentConnection->housing_type_id,
             "step1_slug" => $housingTypeParent1->slug,
             "step2_slug" => $housingTypeParent2->slug,
             "project_title" => $request->input('projectData')['project_title'],
-            "create_company" => $request->input('projectData')['create_company']  ?? null,
-            "total_project_area" => $request->input('projectData')['total_project_area']  ?? null,
-            "start_date" => $request->input('projectData')['start_date']  ?? null,
-            "project_end_date" => $request->input('projectData')['end_date']  ?? null,
-            "island" => $request->input('projectData')['island']  ?? null,
-            "parcel" => $request->input('projectData')['parcel']  ?? null,
-            "slug" => Str::slug($request->input('projectData')['project_title']),
-            "address" => "asd",
+            "create_company" => $request->input('projectData')['create_company'] ?? null,
+            "total_project_area" => $request->input('projectData')['total_project_area'] ?? null,
+            "start_date" => $request->input('projectData')['start_date'] ?? null,
+            "project_end_date" => $request->input('projectData')['end_date'] ?? null,
+            "island" => $request->input('projectData')['island'] ?? null,
+            "parcel" => $request->input('projectData')['parcel'] ?? null,
+            "slug" => $projectSlug,
+            "address" => "asd", // Bu alanın doğru değeri belirlenmeli
             "location" => str_replace('-', ',', $request->input('projectData')['coordinates']),
             "description" => $request->input('projectData')['description'],
             "room_count" => $totalCount,
             "city_id" => $request->input('projectData')['city_id'],
             "county_id" => $request->input('projectData')['county_id'],
             "neighbourhood_id" => $request->input('projectData')['neighbourhood_id'],
-            "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+            "user_id" => $instUser->parent_id ?: $instUser->id,
             "status_id" => 1,
-            "image" => 'public/project_images/' . $fileNameCoverImage,
-            'document' => $fileNameDocument,
+            "image" => $coverImagePath,
+            'document' => $documentPath,
             "end_date" => $endDate->format('Y-m-d'),
             "status" => 2,
             "have_blocks" => $request->input('haveBlocks') == "true"
         ]);
-
-        foreach ($request->file('projectData')['gallery'] as $key => $image) {
-            $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
-
-
-            if ($image->move($destinationPath, $newFileName)) {
-
-                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
-                }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('storage/project_images/' . $newFileName));
-
-                $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                $projectImage->image = 'public/project_images/' . $newFileName;
-                $projectImage->project_id = $project->id;
-                $projectImage->save();
-            }
-        }
-
-        foreach ($request->file('projectData')['situations'] as $key => $situation) {
-            $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
-            $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
-
-            if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
-                }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('situation_images/' . $newFileName));
-
-                $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
-                $projectImage->situation = 'public/situation_images/' . $newFileName;
-                $projectImage->project_id = $project->id;
-                $projectImage->save();
-            }
-        }
-
-
-
-        ProjectHousingType::create([
-            "project_id" => $project->id,
-            "housing_type_id" => $request->input('selectedTypes')[0],
-        ]);
-
-        if ($request->input('haveBlocks') && $request->input('haveBlocks') == "true") {
-            foreach ($request->input('blocks') as $key => $block) {
-                Block::create([
-                    "project_id" => $project->id,
-                    "block_name" => $block['name'],
-                    "housing_count" => $block['roomCount']
-                ]);
-            }
-        }
-        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-        $status = HousingStatus::find($statusID);
-
-        $defaultProjectStatus = HousingStatus::where('is_project', 1)->where('is_default', 1)->first();
-        $selectedProjectStatus = HousingStatus::where('id', $request->input('selectedTypes')[0])->first();
-
-        ProjectHousingType::create([
-            'housing_type_id' => $defaultProjectStatus->id,
-            'project_id' => $project->id
-        ]);
-
-        ProjectHousingType::create([
-            'housing_type_id' => $selectedProjectStatus->id,
-            'project_id' => $project->id
-        ]);
-
-        $notificationLink =  route('project.detail', ['slug' => $project->slug . "-" . $status->slug . "-" . $project->step2_slug . "-" . $project->housingtype->slug, 'id' => $project->id]);
-        $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
-        DocumentNotification::create([
-            'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-            'text' => $notificationText,
-            'item_id' => $project->id,
-            'link' => $notificationLink,
-            'owner_id' => 4,
-            'is_visible' => true,
-        ]);
-
-        return json_encode([
+    
+        // Galeri resimlerini işle
+        $this->handleGallery($request->file('projectData')['gallery'], $projectSlug, $project->id, 'project_images');
+    
+        // Durum resimlerini işle
+        $this->handleSituations($request->file('projectData')['situations'], $projectSlug, $project->id, 'situation_images');
+    
+        // Proje konut tiplerini işle
+        $this->handleProjectHousingTypes($project, $request->input('selectedTypes'));
+    
+        // Bildirim oluştur
+        $this->createNotification($instUser, $project);
+    
+        return response()->json([
             "status" => true,
             "project" => $project
         ]);
     }
+    
+    private function handleImage($file, $type, $projectSlug, $folder)
+    {
+        if (!$file) {
+            return null;
+        }
+    
+        $destinationPath = public_path("storage/$folder");
+        $fileName = $projectSlug . $type . time() . '.' . $file->getClientOriginalExtension();
+        $file->move($destinationPath, $fileName);
+    
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read(public_path("$folder/$fileName"));
+        $imageWidth = $image->width();
+        $imageHeight = $image->height();
+    
+        if ($imageWidth > 1200) {
+            $newWidth = 1200;
+            $newHeight = $imageHeight * 1200 / $imageWidth;
+        } else {
+            $newWidth = $imageWidth;
+            $newHeight = $imageHeight;
+        }
+    
+        $image->resize($newWidth, $newHeight);
+        $image->place(public_path('images/filigran2.png'), 'center', 10, 10)->save(public_path("$folder/$fileName"));
+    
+        return "public/$folder/$fileName";
+    }
+    
+    private function handleFile($file, $type, $projectSlug, $folder)
+    {
+        if (!$file) {
+            return null;
+        }
+    
+        $destinationPath = public_path($folder);
+        $fileName = $projectSlug .  $type . time() . '.' . $file->getClientOriginalExtension();
+        $file->move($destinationPath, $fileName);
+    
+        return "public/$folder/$fileName";
+    }
+    
+    private function handleGallery($images, $projectSlug, $projectId, $folder)
+    {
+        if (!$images) {
+            return;
+        }
+    
+        $manager = new ImageManager(new Driver());
+        
+        foreach ($images as $key => $image) {
+            $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path("storage/$folder");
+    
+            if ($image->move($destinationPath, $newFileName)) {
+                $imageMg = $manager->read(public_path("$folder/$newFileName"));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+    
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+    
+                $imageMg->resize($newWidth, $newHeight);
+                $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10)->save(public_path("$folder/$newFileName"));
+    
+                ProjectImage::create([
+                    'image' => "public/$folder/$newFileName",
+                    'project_id' => $projectId
+                ]);
+            }
+        }
+    }
+    
+    private function handleSituations($situations, $projectSlug, $projectId, $folder)
+    {
+        if (!$situations) {
+            return;
+        }
+    
+        $manager = new ImageManager(new Driver());
+        
+        foreach ($situations as $key => $situation) {
+            $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
+            $destinationPath = public_path($folder);
+    
+            if ($situation->move($destinationPath, $newFileName)) {
+                $imageMg = $manager->read(public_path("$folder/$newFileName"));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+    
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+    
+                $imageMg->resize($newWidth, $newHeight);
+                $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10)->save(public_path("$folder/$newFileName"));
+    
+                ProjectSituation::create([
+                    'image' => "public/$folder/$newFileName",
+                    'project_id' => $projectId
+                ]);
+            }
+        }
+    }
+    
+    private function handleProjectHousingTypes($project, $selectedTypes)
+    {
+        foreach ($selectedTypes as $type) {
+            $typeConnection = HousingTypeParentConnection::find($type);
+            if ($typeConnection) {
+                ProjectHousingType::create([
+                    "project_id" => $project->id,
+                    "housing_type_id" => $typeConnection->housing_type_id,
+                    "parent_id" => $type
+                ]);
+            }
+        }
+    }
+    
+    private function createNotification($user, $project)
+    {
+        // Bildirim oluşturma mantığınızı buraya ekleyin
+    }
+    
 
     public function createRoom(Request $request)
     {

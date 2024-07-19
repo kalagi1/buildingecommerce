@@ -88,7 +88,6 @@ function CreateProject(props) {
   };
 
   const createRoomAsync = async (formData) => {
-    // createRoom işlevini çağır ve bekleyerek sonucu döndür
     return await createRoom(formData);
   };
 
@@ -697,6 +696,7 @@ function CreateProject(props) {
       .then((res) => {
         if (res.data.status) {
           var housingTemp = 1;
+          console.log(blocks);
           blocks.forEach((block, blockIndex) => {
             block.rooms.forEach((room, roomIndex) => {
               const formDataRoom = new FormData();
@@ -742,12 +742,10 @@ function CreateProject(props) {
 
           Promise.all(requestPromises).then(() => {
             clearInterval(progressInterval);
-            setProgress(100);
-            setTimeout(() => {
-              setLoadingModalOpen(false);
-              setStep(4);
-              setFillFormData(null);
-            }, 500);
+            setProgress(totalRoomCount());
+            setLoadingModalOpen(false);
+            setStep(4);
+            setFillFormData(null);
           });
         }
       })
