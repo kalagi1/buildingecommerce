@@ -1115,11 +1115,13 @@
                                     justify-content: center; align-items: center; text-decoration: none;  box-sizing: border-box; letter-spacing: 0.18px;" id="crm-menu">
                                     CRM
                                     <ul class="dropdown-menu">
+                                        @if ($currentUser->parent_id == 106)
                                             <li><a href="{{route('institutional.crm.danisman.musteri.listesi')}}">Danışman Müşterileri</a></li>
                                             <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Dashboard</a></li>
+                                        @endif    
                                         @if ($currentUser->id == 106)
                                             <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Danışman Projeleri</a></li>
-                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Projeleri</a></li>
+                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Dashboard</a></li>
                                         @endif
                                     </ul>
                                 </li>
