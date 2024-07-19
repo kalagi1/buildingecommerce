@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="http://127.0.0.1:8000/bids/270" method="POST">
+                                    <form action="https://private.emlaksepette.com/bids/270" method="POST">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">
                                         <div class="form-group">
@@ -153,7 +153,7 @@
                                 <div class="modal-body">
                                     <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
                                     <form id="price-update-form" method="POST"
-                                        action="http://127.0.0.1:8000/housing/270/update-price"
+                                        action="https://private.emlaksepette.com/housing/270/update-price"
                                         onsubmit="return false;">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">
@@ -228,7 +228,7 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="http://127.0.0.1:8000/form-kaydet" method="POST"
+                                    <form action="https://private.emlaksepette.com/form-kaydet" method="POST"
                                         enctype="multipart/form-data" id="takasFormu" novalidate="novalidate">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">
