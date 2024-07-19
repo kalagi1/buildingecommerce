@@ -643,51 +643,53 @@
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Canvas elementini seçin
-    var ctx = document.getElementById('salesChart').getContext('2d');
-    var labels = @json($satisDanismanlari->pluck('name'));
-    var data = @json(array_values($olumluMusteriSayilari));
+    document.addEventListener("DOMContentLoaded", function() {
+        // Canvas elementini seçin
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var labels = @json($satisDanismanlari->pluck('name'));
+        var data = @json(array_values($olumluMusteriSayilari));
 
-    // Veri seti tanımlayın
-    var salesData = {
-        labels: labels,
-        datasets: [{
-            label: 'Olumlu Müşteri Sayıları',
-            data: data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-            ],
-            borderWidth: 1
-        }]
-    };
+         // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
+         if (data.length === 0) {
+            data = Array(labels.length).fill(0);
+        }
+        
+        var salesData = {
+            labels: labels,
+            datasets: [{
+                label: 'Olumlu Müşteri Sayıları',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        };
 
-    // Grafik ayarlarını tanımlayın
-    var salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: salesData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Grafik ayarlarını tanımlayın
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: salesData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
+        });
     });
-});
-
-
 </script>
 
 @endsection

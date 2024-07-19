@@ -23,7 +23,7 @@
     "text": "Crm Admin Modülü",
     "key": "crmAdmin",
     "url": "institutional.admin.dashboard",
-    "activePath": "/hesabim/admin/dashboard" 
+    "activePath": "/hesabim/crm/admin/dashboard" 
 },
 {
     "id": "crm",
@@ -32,7 +32,7 @@
     "text": "Crm Danışman Modülü",
     "key": "crmDanisman",
     "url": "institutional.danisman.dashboard",
-    "activePath": "/hesabim/danisman/dashboard" 
+    "activePath": "/hesabim/crm/danisman/dashboard" 
 },
 {
     "id": "neighbors",
