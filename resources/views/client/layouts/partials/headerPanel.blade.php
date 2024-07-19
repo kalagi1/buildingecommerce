@@ -80,8 +80,8 @@
     </script>
     <style>
         .table td {
-    display: table-cell !important;
-}
+            display: table-cell !important;
+        }
         .notification-card.unread {
             background-color: #eff2f6;
         }
@@ -283,7 +283,6 @@
             color: #d63031;
         }
 
-
         .gry {
             background-color: #F4F4F4;
         }
@@ -292,7 +291,6 @@
             color: black;
             padding: 10px
         }
-
 
         .cont {
             position: absolute;
@@ -432,6 +430,39 @@
             .button-container .icon {
                 font-size: 18px;
             }
+        }
+    </style>
+
+    {{-- crm css --}}
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: 10px 0;
+            margin-top: 5px;
+            width: 200px;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li {
+            padding: 20px 28px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #f5f5f5;
+        }
+
+        #crm-menu:hover .dropdown-menu {
+            display: block;
         }
     </style>
     <!-- Google Tag Manager -->
@@ -1057,12 +1088,10 @@
 
                                                     </li>
                                                 @endif
-                                            @endforeach
+                                            @endforeach                                        
                                         </ul>
-                                    @endif
-                                </li>
-
-
+                                    @endif                                 
+                                </li>                           
 
                                 @if (!$hasVisibleMenus)
                                     <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
@@ -1077,11 +1106,27 @@
                                 @endif
                             @endforeach
 
+                            @php
+                                $currentUser = Auth::user();
+                            @endphp
+                            
+                            @if ($currentUser->id == 106 || $currentUser->parent_id == 106)
+                                <li  class="navbar-vertical-label" style="font-weight: 600;color: #333;font-size: 12px;line-height: 34px;padding: 0; display: flex;cursor: pointer;
+                                    justify-content: center; align-items: center; text-decoration: none;  box-sizing: border-box; letter-spacing: 0.18px;" id="crm-menu">
+                                    CRM
+                                    <ul class="dropdown-menu">
+                                            <li><a href="{{route('institutional.crm.danisman.musteri.listesi')}}">Danışman Müşterileri</a></li>
+                                            <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Dashboard</a></li>
+                                        @if ($currentUser->id == 106)
+                                            <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Danışman Projeleri</a></li>
+                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Projeleri</a></li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            @endif                        
                         </ul>
                     </nav>
                 </div>
-
-
             </div>
 
 
