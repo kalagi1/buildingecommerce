@@ -337,14 +337,26 @@ class RoleController extends Controller
     public function userType(Request $request)
     {
     
-        $roleIds = $request->input('role_ids', []);
+          // Gelen role ID'lerini al
+          $roleIds = $request->input('role_ids', []);
 
-        if (empty($roleIds)) {
-            return response()->json(['success' => false, 'message' => 'No roles selected for deletion']);
-        }
-        Role::whereIn('id', $roleIds)->delete();
-
-        return response()->json(['success' => true, 'message' => 'Selected roles deleted successfully']);
+          // Role ID'lerinin boş olup olmadığını kontrol et
+          if (empty($roleIds)) {
+              return response()->json(['success' => false, 'message' => 'No roles selected for deletion']);
+          }
+  
+          // Role ID'lerinin gerçekten mevcut olup olmadığını kontrol et
+          $rolesCount = Role::whereIn('id', $roleIds)->count();
+  
+          if ($rolesCount === 0) {
+              return response()->json(['success' => false, 'message' => 'No roles found with the provided IDs']);
+          }
+  
+          // Role'leri sil
+          Role::whereIn('id', $roleIds)->delete();
+  
+          return response()->json(['success' => true, 'message' => 'Selected roles deleted successfully']);
+      
     }
 
 
