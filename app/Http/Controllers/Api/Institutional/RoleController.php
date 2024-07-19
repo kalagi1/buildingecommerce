@@ -326,10 +326,26 @@ class RoleController extends Controller
         return response()->json(['success' => true, 'message' => 'Role updated successfully']);
         
     }
+
     public function destroy(Role $role)
     {   
         $role->delete();
         return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
        
     }
+
+    public function userType(Request $request)
+    {
+    
+        $roleIds = $request->input('role_ids', []);
+
+        if (empty($roleIds)) {
+            return response()->json(['success' => false, 'message' => 'No roles selected for deletion']);
+        }
+        Role::whereIn('id', $roleIds)->delete();
+
+        return response()->json(['success' => true, 'message' => 'Selected roles deleted successfully']);
+    }
+
+
 }
