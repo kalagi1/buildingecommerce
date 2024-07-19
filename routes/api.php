@@ -36,6 +36,8 @@ use App\Http\Controllers\Institutional\ProjectController as ControllersInstituti
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
+use App\Http\Controllers\Api\Client\NeighborViewController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -132,7 +134,7 @@ Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class,
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
+    Route::get('/neighbor-view', [NeighborViewController::class, 'index']);
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
