@@ -255,7 +255,6 @@ function HousingForm({
         console.log("Clicked LatLng:", latLng);
 
         if (isWithinTurkey) {
-          console.log("Inside bounds:", latLng);
           setSelectedLocation({ lat, lng });
 
           if (markerRef.current) {

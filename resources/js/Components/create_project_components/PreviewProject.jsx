@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 
 function PreviewProject({
   createProject,
@@ -17,6 +19,7 @@ function PreviewProject({
   selectedTypes
 }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [htmlContent, setHtmlContent] = useState("");
   const style = {
     position: "absolute",
@@ -31,7 +34,6 @@ function PreviewProject({
   };
 
   const fetchPreview = async () => {
-
     try {
       const response = await axios.post("/preview-project", {
         fillFormData,
@@ -45,6 +47,8 @@ function PreviewProject({
       setHtmlContent(response.data);
     } catch (error) {
       console.error("Error fetching preview:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,24 +72,44 @@ function PreviewProject({
         >
           <div
             className="finish-button"
-            style={{ float: "left", marginRight: "10px", }}
+            style={{ float: "left", marginRight: "10px" }}
           >
-            <button onClick={prevStep} style={{ backgroundColor : "#274abb", display:'inline-block',fontWeight:'400',color:'white',textAlign:'center',verticalAlign:'middle',border:'1px solid transparent',padding:'.375rem .91rem',fontSize:'11px',width:'110%' }}>
+            <button
+              onClick={prevStep}
+              style={{
+                backgroundColor: "#274abb",
+                display: "inline-block",
+                fontWeight: "400",
+                color: "white",
+                textAlign: "center",
+                verticalAlign: "middle",
+                border: "1px solid transparent",
+                padding: ".375rem .91rem",
+                fontSize: "11px",
+                width: "110%"
+              }}
+            >
               Düzenle
             </button>
           </div>
           <div
             className="finish-button"
-            style={{ float: "right" , marginLeft: "10px"}}
+            style={{ float: "right", marginLeft: "10px" }}
           >
             <button onClick={finishCreateProject} className="btn btn-info">
               Devam Et
             </button>
           </div>
         </div>
-      
       </div>
-      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      {loading ? (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <CircularProgress />
+          <p>Önizleme yükleniyor...</p>
+        </div>
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      )}
       <Modal
         open={open}
         onClose={() => {

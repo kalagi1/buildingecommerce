@@ -35,41 +35,106 @@ function Rooms({
   const [payDecOpen, setPayDecOpen] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectedAccordion, setSelectedAccordion] = useState("");
+  const [formGenerated, setFormGenerated] = useState(false); // Yeni state
+  const [updatedRoomCount, setUpdatedRoomCount] = useState(0); // Güncellenmiş oda sayısı
 
-  const setRoomCountFunc = (event) => {
+  // Formu oluşturma fonksiyonu
+  const setRoomCountFunc = () => {
     if (roomCount > 0) {
-      var defaultValuues = [];
-      var checkedItemsTemp = [];
-      for (var i = 0; i < roomCount; i++) {
-        defaultValuues.push({});
-        formData.map((data) => {
+      const newDefaultValues = [];
+      const newCheckedItemsTemp = [];
+
+      for (let i = 0; i < roomCount; i++) {
+        if (!newDefaultValues[i]) newDefaultValues[i] = {};
+
+        formData.forEach((data) => {
           if (data?.className?.includes("project-default-checked")) {
-            checkedItemsTemp.push({
+            newCheckedItemsTemp.push({
               roomOrder: i,
               name: data?.name?.replace("[]", ""),
             });
 
-            if (defaultValuues[i]) {
-              defaultValuues[i][data?.name] = [data?.values[0]?.value];
-            } else {
-              defaultValuues.push({
-                [data?.name]: [data?.values[0]?.value],
-              });
-            }
+            newDefaultValues[i][data?.name] = [data?.values[0]?.value];
           }
         });
       }
-      setCheckedItems([...checkedItems, ...checkedItemsTemp]);
-      setBlocks([
-        {
-          name: "none",
-          roomCount: roomCount,
-          rooms: defaultValuues,
-        },
-      ]);
 
+      setCheckedItems([...checkedItems, ...newCheckedItemsTemp]);
+
+      // Güncellenmiş form verilerini oluştur
+      const updatedBlocks = [...blocks];
+      if (blocks.length > 0) {
+        // Oda sayısını arttır
+        if (roomCount > blocks[0].roomCount) {
+          for (let i = blocks[0].roomCount; i < roomCount; i++) {
+            updatedBlocks[0].rooms.push({});
+          }
+        }
+        // Oda sayısını azalt
+        else if (roomCount < blocks[0].roomCount) {
+          updatedBlocks[0].rooms = updatedBlocks[0].rooms.slice(0, roomCount);
+        }
+      } else {
+        updatedBlocks.push({
+          name: "none",
+          roomCount,
+          rooms: newDefaultValues,
+        });
+      }
+
+      setBlocks(updatedBlocks);
       setSelectedBlock(0);
       setSelectedRoom(0);
+      setFormGenerated(true); // Form oluşturuldu, butonu gizle
+      setUpdatedRoomCount(roomCount); // Güncellenmiş oda sayısını ayarla
+    } else {
+      toast.error("Lütfen geçerli bir konut sayısı giriniz");
+    }
+  };
+
+  // Oda sayısını güncelleme fonksiyonu
+  const updateRoomCount = () => {
+    if (updatedRoomCount > 0) {
+      const newDefaultValues = [];
+      const newCheckedItemsTemp = [];
+
+      for (let i = 0; i < updatedRoomCount; i++) {
+        if (!newDefaultValues[i]) newDefaultValues[i] = {};
+
+        formData.forEach((data) => {
+          if (data?.className?.includes("project-default-checked")) {
+            newCheckedItemsTemp.push({
+              roomOrder: i,
+              name: data?.name?.replace("[]", ""),
+            });
+
+            newDefaultValues[i][data?.name] = [data?.values[0]?.value];
+          }
+        });
+      }
+
+      setCheckedItems([...checkedItems, ...newCheckedItemsTemp]);
+
+      // Güncellenmiş form verilerini oluştur
+      const updatedBlocks = [...blocks];
+      if (blocks.length > 0) {
+        // Oda sayısını arttır
+        if (updatedRoomCount > blocks[0].roomCount) {
+          for (let i = blocks[0].roomCount; i < updatedRoomCount; i++) {
+            updatedBlocks[0].rooms.push({});
+          }
+        }
+        // Oda sayısını azalt
+        else if (updatedRoomCount < blocks[0].roomCount) {
+          updatedBlocks[0].rooms = updatedBlocks[0].rooms.slice(
+            0,
+            updatedRoomCount
+          );
+        }
+        updatedBlocks[0].roomCount = updatedRoomCount; // Oda sayısını güncelle
+      }
+
+      setBlocks(updatedBlocks);
     } else {
       toast.error("Lütfen geçerli bir konut sayısı giriniz");
     }
@@ -97,8 +162,6 @@ function Rooms({
         return block;
       }
     });
-
-    console.log(newDatas);
 
     var newErrors = validationErrors.filter(
       (validationError) => validationError != keyx
@@ -247,34 +310,60 @@ function Rooms({
       <div className="section-title mt-5">
         <h2>Projedeki İlan Sayısı</h2>
       </div>
-      <div className="card p-3 mt-3">
-        <div className="d-flex">
-          <input
-            type="number"
-            min={0}
-            style={{ width: "150px" }}
-            name=""
-            className="form-control"
-            value={roomCount == 0 ? "" : roomCount}
-            onChange={(e) => {
-              setRoomCount(e.target.value);
-            }}
-            id=""
-          />
-          <span
-            id="generate_tabs"
-            style={{
-              width: "130px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onClick={setRoomCountFunc}
-            className="mx-2 d-flex btn btn-primary has_blocks-close"
-          >
-            Formu Oluştur
-          </span>
+      {!formGenerated && ( // Form oluşturulmamışsa butonu göster
+        <div className="card p-3 mt-3">
+          <div className="d-flex">
+            <input
+              type="number"
+              min={0}
+              style={{ width: "150px" }}
+              className="form-control"
+              value={roomCount === 0 ? "" : roomCount}
+              onChange={(e) => setRoomCount(e.target.value)}
+            />
+            <span
+              id="generate_tabs"
+              style={{
+                width: "130px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onClick={setRoomCountFunc}
+              className="mx-2 d-flex btn btn-primary has_blocks-close"
+            >
+              Formu Oluştur
+            </span>
+          </div>
         </div>
-      </div>
+      )}
+
+      {formGenerated && ( // Form oluşturulmuşsa güncelleme input'u ve butonu göster
+        <div className="card p-3 mt-3">
+          <div className="d-flex">
+            <input
+              type="number"
+              min={0}
+              style={{ width: "150px" }}
+              className="form-control"
+              value={updatedRoomCount === 0 ? "" : updatedRoomCount}
+              onChange={(e) => setUpdatedRoomCount(e.target.value)}
+            />
+            <span
+              id="update_tabs"
+              style={{
+                width: "130px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onClick={updateRoomCount}
+              className="mx-2 d-flex btn btn-warning has_blocks-close"
+            >
+              Güncelle
+            </span>
+          </div>
+        </div>
+      )}
+
       {blocks.length > 0 && (
         <>
           <div className="section-title mt-5">
@@ -336,7 +425,6 @@ function Rooms({
                               data?.className?.includes("--if-show-checked-")
                             ) {
                               isX = !checkedItems.find((checkedItem) => {
-                                
                                 return (
                                   checkedItem.roomOrder == 0 &&
                                   checkedItem.name ==
@@ -975,7 +1063,6 @@ function Rooms({
                                 data?.className?.includes("--if-show-checked-")
                               ) {
                                 isX = !checkedItems.find((checkedItem) => {
-                                  
                                   return (
                                     checkedItem.roomOrder == 0 &&
                                     checkedItem.name ==
@@ -1609,7 +1696,6 @@ function Rooms({
                                 data?.className?.includes("--if-show-checked-")
                               ) {
                                 isX = !checkedItems.find((checkedItem) => {
-                                  
                                   return (
                                     checkedItem.roomOrder == 0 &&
                                     checkedItem.name ==
@@ -2232,7 +2318,6 @@ function Rooms({
                             "only-show-project-daliy-rent"
                           )
                         ) {
-                          console.log(slug);
                           if (!data?.className?.includes("project-disabled")) {
                             if (
                               !data?.className?.includes(
@@ -2244,7 +2329,6 @@ function Rooms({
                                 data?.className?.includes("--if-show-checked-")
                               ) {
                                 isX = !checkedItems.find((checkedItem) => {
-                                  
                                   return (
                                     checkedItem.roomOrder == 0 &&
                                     checkedItem.name ==

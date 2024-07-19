@@ -142,7 +142,6 @@ function CreateProject(props) {
         } else {
           var boolCheck = false;
           formDataHousing.forEach((formDataHousing, order) => {
-            console.log(formDataHousing);
             if (!formDataHousing?.className?.includes("project-disabled")) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
@@ -154,7 +153,6 @@ function CreateProject(props) {
                     ]
                   ) {
                     if (!boolCheck) {
-                      console.log(formDataHousing.name.replace("[]", ""));
                       var elementDesc = document.getElementById(
                         formDataHousing.name.replace("[]", "")
                       );
@@ -213,7 +211,23 @@ function CreateProject(props) {
                   behavior: "smooth", // Yumuşak kaydırma efekti için
                 });
               } else {
-                if (!projectData.county_id) {
+                if (
+                  !projectData.create_company ||
+                  !projectData.total_project_area ||
+                  !projectData.end_date ||
+                  !projectData.parcel ||
+                  !projectData.island ||
+                  !projectData.start_date
+                ) {
+                  var element = document.getElementById("projectGeneralForm");
+                  window.scrollTo({
+                    top:
+                      getCoords(element).top -
+                      document.getElementById("navbarDefault").offsetHeight -
+                      30,
+                    behavior: "smooth", // For smooth scrolling effect
+                  });
+                } else if (!projectData.county_id) {
                   var element = document.getElementById("county_id");
                   window.scrollTo({
                     top:
@@ -566,6 +580,28 @@ function CreateProject(props) {
       tempErrors.push("description");
     }
 
+    if (!projectData.create_company) {
+      tempErrors.push("create_company");
+    }
+
+    if (!projectData.total_project_area) {
+      tempErrors.push("total_project_area");
+    }
+
+    if (!projectData.end_date) {
+      tempErrors.push("end_date");
+    }
+
+    if (!projectData.parcel) {
+      tempErrors.push("parcel");
+    }
+    if (!projectData.island) {
+      tempErrors.push("island");
+    }
+    if (!projectData.start_date) {
+      tempErrors.push("start_date");
+    }
+
     if (!projectData.city_id) {
       tempErrors.push("city_id");
     }
@@ -718,7 +754,9 @@ function CreateProject(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error(error.message);
+        toast.error(
+          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+        );
       });
   };
 
