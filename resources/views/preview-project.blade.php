@@ -1104,27 +1104,6 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    İl-İlçe-Mahalle :
-                                                    <span class="det">
-                                                        @if (isset($city) || isset($county) || isset($neighbour))
-                                                            @if (isset($city))
-                                                                {{ strtoupper($city->title) }}
-                                                            @endif
-                                                            @if (isset($county))
-                                                                / {{ strtoupper($county->ilce_title) }}
-                                                            @endif
-                                                            @if (isset($neighbour))
-                                                                / {{ strtoupper($neighbour->mahalle_title) }}
-                                                            @endif
-                                                        @else
-                                                            Konum bilgisi yok
-                                                        @endif
-                                                    </span>
-
-                                                </td>
-                                            </tr>
                                             @if (isset($projectData['create_company']) && $projectData['create_company'])
                                                 <tr>
                                                     <td>
@@ -1270,6 +1249,22 @@
 
                         <div class="tab-pane properties-right list fade blog-info details mb-30  show active "
                             id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="button-tabs">
+                                <ul class="tabs">
+                                    @if (isset($blocks) && $haveBlocks)
+                                        @foreach ($blocks as $index => $block)
+                                            <li class="nav-item-block  @if ($index == 0) active @endif"
+                                                role="presentation">
+                                                <div class="tab-title">
+                                                    <span>{{ $block['name'] }}</span>
+                                                </div>
+                                            </li>
+                                        @endforeach
+
+                                    @endif
+
+                                </ul>
+                            </div>
 
                             @if (isset($blocks) && is_array($blocks) && isset($blocks[0]['rooms']))
                                 @php
@@ -1492,7 +1487,7 @@
                                                                         data-share="[&quot;Var&quot;]"
                                                                         data-number-share="12">
                                                                         <span class="IconContainer">
-                                                                            <img src="https://private.emlaksepette.com/sc.png"
+                                                                            <img src="http://127.0.0.1:8000/sc.png"
                                                                                 alt="">
                                                                         </span>
                                                                         <span class="text">Sepete Ekle</span>

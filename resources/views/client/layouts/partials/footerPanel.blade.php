@@ -2032,7 +2032,7 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{ URL::to('/') }}/build/assets/app-e8f6ee6b.js"></script>
+{{-- <script src="{{ URL::to('/') }}/build/assets/app-e8f6ee6b.js"></script> --}}
 
 
 

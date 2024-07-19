@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 function PreviewProject({
   createProject,
   projectData,
+  haveBlocks,
   setProjectDataFunc,
   allErrors,
   finishCreateProject,
@@ -38,6 +39,7 @@ function PreviewProject({
         selectedTypes,
         blocks,
         totalRoomCount,
+        haveBlocks,
         roomCount
       });
       setHtmlContent(response.data);
