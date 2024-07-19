@@ -143,7 +143,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::Delete('/project-favorite', [InstitutionalProjectController::class, 'destroyAllFavorite']);
 
         Route::delete('/favorites/delete', [FavoriteController::class, 'deleteFavorites']);
-        
+        Route::delete('/sub-users', [UserController::class, 'deleteSubUsers']);
+
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
             Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
