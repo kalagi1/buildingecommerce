@@ -89,8 +89,6 @@ function CreateProject(props) {
     return await createRoom(formData);
   };
 
-  console.log(errorMessages);
-
   const createProject = () => {
     var formDataHousing = JSON.parse(
       selectedHousingType?.housing_type?.form_json
@@ -638,7 +636,8 @@ function CreateProject(props) {
     }
   };
 
-  const finishCreateHousing = () => {
+  const finishCreateProject  = () => {
+    
     axios
       .post(baseUrl + "create_project", formData, {
         headers: {
@@ -694,9 +693,14 @@ function CreateProject(props) {
           });
 
           Promise.all(requestPromises).then(() => {
-            setStep(3);
+           
             setLoading(totalRoomCount());
-            setLoadingModal(false);
+          
+            setTimeout(() => {
+              setLoadingModal(false);
+              setStep(4);
+              setFillFormData(null);
+            }, 500); 
           });
         }
       })
@@ -840,8 +844,10 @@ function CreateProject(props) {
           prevStep={prevStep}
           selectedTypes={selectedTypes}
           blocks={blocks}
+          totalRoomCount={totalRoomCount}
+          roomCount={roomCount}
           createProject={createProject}
-          finishCreateHousing={finishCreateHousing}
+          finishCreateProject={finishCreateProject}
           fillFormData={fillFormData}
         />
       ) : (

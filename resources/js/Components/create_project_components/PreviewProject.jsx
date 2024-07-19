@@ -7,9 +7,11 @@ function PreviewProject({
   projectData,
   setProjectDataFunc,
   allErrors,
-  finishCreateHousing,
+  finishCreateProject,
   fillFormData,
   prevStep,
+  totalRoomCount,
+  roomCount,
   blocks,
   selectedTypes
 }) {
@@ -28,12 +30,15 @@ function PreviewProject({
   };
 
   const fetchPreview = async () => {
+
     try {
       const response = await axios.post("/preview-project", {
         fillFormData,
         projectData,
         selectedTypes,
-        blocks
+        blocks,
+        totalRoomCount,
+        roomCount
       });
       setHtmlContent(response.data);
     } catch (error) {
@@ -71,7 +76,7 @@ function PreviewProject({
             className="finish-button"
             style={{ float: "right" , marginLeft: "10px"}}
           >
-            <button onClick={finishCreateHousing} className="btn btn-info">
+            <button onClick={finishCreateProject} className="btn btn-info">
               Devam Et
             </button>
           </div>

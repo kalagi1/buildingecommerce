@@ -22,7 +22,9 @@ use App\Models\District;
 use App\Models\Filter;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Neighborhood;
+use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
+use App\Models\ProjectListItem;
 use App\Models\ShareLink;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
@@ -147,21 +149,28 @@ class HomeController extends Controller
         $projectData = $request->input('projectData');
         $selectedTypes = $request->input('selectedTypes');
         $blocks = $request->input("blocks");
+        $totalRoomCount = $request->input("totalRoomCount");
         $roomCount = 0;
-      
-    
+        if (isset($blocks) && is_array($blocks)) {
+            foreach ($blocks as $block) {
+                $roomCount += isset($block['roomCount']) ? (int) $block['roomCount'] : 0;
+            }
+        }
+
 
         $housingTypeParent1 = null;
         $housingTypeParent2 = null;
+        $housingType= null;
         $labels = [];
 
         if (isset($selectedTypes) && count($selectedTypes) >= 3) {
-            $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
-            $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[1]);
-            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[2]);
+            $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[1]);
+            $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[2]);
+            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[3]);
 
             if ($housingTypeParentConnection && isset($blocks)) {
                 $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
+             
 
                 if ($housingType) {
                     $formJsonItems = json_decode($housingType->form_json, true) ?? [];
@@ -206,8 +215,8 @@ class HomeController extends Controller
             if (isset($projectData['county_id'])) {
                 $county = District::where("ilce_key", $projectData['county_id'])->firstOrFail();
             }
-            if (isset($projectData['neighbour_id'])) {
-                $neighbour = Neighborhood::where('mahalle_key', $projectData['neighbourhood_id'])->firstOrFail();
+            if (isset($projectData['neighbourhood_id'])) {
+                $neighbour = Neighborhood::where('mahalle_id', $projectData['neighbourhood_id'])->firstOrFail();
             }
         }
 
@@ -237,7 +246,10 @@ class HomeController extends Controller
                 $imagePath = "data:image/jpeg;base64," . $imageBinary;
             }
         }
-        return view("preview-project", compact("fillFormData", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
+
+        $projectListItems = ProjectListItem::where('housing_type_id', $housingType->id)->get();
+    
+        return view("preview-project", compact("fillFormData","projectListItems","roomCount","totalRoomCount", "projectData", "city", "county", "neighbour", "newHousingId", "user", "housingTypeParent1", "housingTypeParent2", "blocks", "labels"));
     }
 
     public function updateBrandStatus(Request $request)

@@ -1386,6 +1386,47 @@ p{
   position: absolute;
   z-index: 0;
 }
+.button-effect-div .btn {
+  display: inline-block;
+  color: #fff;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding: 0;
+  margin-right: 15px;
+  border-radius: 3px;
+  margin-right: 10px !important;
+  width: 28px;
+  height: 28px !important;
+  line-height: 33px;
+  background: white;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  border: solid 1px #f0f0f0;
+  justify-content: center;
+}
+
+.button-effect-div {
+  opacity: 1;
+  display: flex;
+  visibility: visible;
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+  position: absolute;
+  text-align: left;
+  bottom: 0;
+  right: 0;
+  z-index: 33;
+  background: transparent;
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+  visibility: visible;
+  padding: 8px 0px;
+  border-radius: 20px 0 0 0;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  margin-bottom: 0.7rem;
+}
 
 .original-room-navigator {
   position: static;
