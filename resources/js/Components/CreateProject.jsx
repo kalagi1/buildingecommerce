@@ -9,6 +9,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Block } from "@mui/icons-material";
 import { Box, LinearProgress, Modal, Typography } from "@mui/material";
+import PreviewHousing from "./create_project_components/PreviewHousing";
+import PreveiwProject from "./create_project_components/PreviewProject";
+import PreviewProject from "./create_project_components/PreviewProject";
 
 function CreateProject(props) {
   const [step, setStep] = React.useState(1);
@@ -28,6 +31,8 @@ function CreateProject(props) {
   const [slug, setSlug] = React.useState("");
   const [errorMessages, setErrorMessages] = React.useState([]);
   const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
+  const [fillFormData, setFillFormData] = useState([]);
+
   const setProjectDataFunc = (key, value) => {
     setProjectData({
       ...projectData,
@@ -39,6 +44,10 @@ function CreateProject(props) {
   };
   const nextStep = () => {
     setStep(step + 1);
+    if (step == 1) {
+      setBlocks([]);
+      setProjectData([]);
+    }
   };
   function getCoords(elem) {
     // crossbrowser version
@@ -79,8 +88,6 @@ function CreateProject(props) {
     // createRoom işlevini çağır ve bekleyerek sonucu döndür
     return await createRoom(formData);
   };
-
-  console.log(errorMessages);
 
   const createProject = () => {
     var formDataHousing = JSON.parse(
@@ -598,7 +605,7 @@ function CreateProject(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      setLoadingModal(true);
+      
       const formData = new FormData();
 
       Object.keys(projectData).forEach((key) => {
@@ -624,69 +631,80 @@ function CreateProject(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];
-      axios
-        .post(baseUrl + "create_project", formData, {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data;`,
-          },
-        })
-        .then((res) => {
-          if (res.data.status) {
-            var housingTemp = 1;
-            blocks.forEach((block, blockIndex) => {
-              block.rooms.forEach((room, roomIndex) => {
-                const formDataRoom = new FormData();
-                formDataRoom.append("project_id", res.data.project.id);
-                formDataRoom.append("room_order", housingTemp);
-                Object.keys(room).forEach((key) => {
-                  if (key == "payDecs") {
-                    room.payDecs.forEach((payDec, payDecIndex) => {
-                      formDataRoom.append(
-                        `room[payDecs][${payDecIndex}][price]`,
-                        payDec.price
-                      );
-                      formDataRoom.append(
-                        `room[payDecs][${payDecIndex}][date]`,
-                        payDec.date
-                      );
-                    });
-                  } else {
-                    if (!key.includes("imagex")) {
-                      formDataRoom.append(
-                        `room[${key.replace("[]", "")}]`,
-                        room[key]
-                      );
-                    }
-                  }
-                });
-
-                const callCreateRoom = () => {
-                  return new Promise((resolve) => {
-                    setTimeout(async () => {
-                      const result = await createRoomAsync(formDataRoom);
-                      resolve(result);
-                    }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
-                  });
-                };
-
-                // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
-                requestPromises.push(callCreateRoom());
-
-                housingTemp++; // Oda sırasını arttırma
-              });
-            });
-
-            Promise.all(requestPromises).then(() => {
-              setStep(3);
-              setLoading(totalRoomCount());
-              setLoadingModal(false);
-            });
-          }
-        })
-        .catch((error) => {});
+      setFillFormData(formData);
+      setStep(3);
     }
+  };
+
+  const finishCreateProject  = () => {
+    
+    axios
+      .post(baseUrl + "create_project", formData, {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data;`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status) {
+          var housingTemp = 1;
+          blocks.forEach((block, blockIndex) => {
+            block.rooms.forEach((room, roomIndex) => {
+              const formDataRoom = new FormData();
+              formDataRoom.append("project_id", res.data.project.id);
+              formDataRoom.append("room_order", housingTemp);
+              Object.keys(room).forEach((key) => {
+                if (key == "payDecs") {
+                  room.payDecs.forEach((payDec, payDecIndex) => {
+                    formDataRoom.append(
+                      `room[payDecs][${payDecIndex}][price]`,
+                      payDec.price
+                    );
+                    formDataRoom.append(
+                      `room[payDecs][${payDecIndex}][date]`,
+                      payDec.date
+                    );
+                  });
+                } else {
+                  if (!key.includes("imagex")) {
+                    formDataRoom.append(
+                      `room[${key.replace("[]", "")}]`,
+                      room[key]
+                    );
+                  }
+                }
+              });
+
+              const callCreateRoom = () => {
+                return new Promise((resolve) => {
+                  setTimeout(async () => {
+                    const result = await createRoomAsync(formDataRoom);
+                    resolve(result);
+                  }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+                });
+              };
+
+              // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+              requestPromises.push(callCreateRoom());
+
+              housingTemp++; // Oda sırasını arttırma
+            });
+          });
+
+          Promise.all(requestPromises).then(() => {
+           
+            setLoading(totalRoomCount());
+          
+            setTimeout(() => {
+              setLoadingModal(false);
+              setStep(4);
+              setFillFormData(null);
+            }, 500); 
+          });
+        }
+      })
+      .catch((error) => {});
   };
 
   const style = {
@@ -817,6 +835,20 @@ function CreateProject(props) {
           setProjectData={setProjectData}
           projectData={projectData}
           setProjectDataFunc={setProjectDataFunc}
+        />
+      ) : step == 3 ? (
+        <PreviewProject
+          projectData={projectData}
+          setProjectDataFunc={setProjectDataFunc}
+          allErrors={allErrors}
+          prevStep={prevStep}
+          selectedTypes={selectedTypes}
+          blocks={blocks}
+          totalRoomCount={totalRoomCount}
+          roomCount={roomCount}
+          createProject={createProject}
+          finishCreateProject={finishCreateProject}
+          fillFormData={fillFormData}
         />
       ) : (
         <EndSection />

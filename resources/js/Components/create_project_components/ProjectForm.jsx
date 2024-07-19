@@ -65,7 +65,17 @@ function ProjectForm({
       setProjectDataFunc("project_title", projectTitle);
     }
   };
+  useEffect(() => {
+    if (projectData.city_id) {
+      getCounties(projectData.city_id);
+    }
+  }, [projectData.city_id]);
 
+  useEffect(() => {
+    if (projectData.county_id) {
+      getNeighborhoods(projectData.county_id);
+    }
+  }, [projectData.county_id]);
   useEffect(() => {
     var tempErrors = [];
     if (blocks.length > 0) {
@@ -299,7 +309,7 @@ function ProjectForm({
   useEffect(() => {
     setProjectDataFunc(
       "coordinates",
-      selectedLocation.lat + "-" + selectedLocation.lng
+      `${selectedLocation.lat}-${selectedLocation.lng}`
     );
   }, [selectedLocation]);
 

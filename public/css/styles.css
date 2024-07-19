@@ -31608,13 +31608,13 @@ li::after {
   left: 25%;
 }
 
-.progress {
+.load-area .progress {
   margin: 10px 10px;
   height: 20px;
   background: #fff;
 }
 
-.progress-bar {
+.load-area .progress-bar {
   background: #333;
 }
 

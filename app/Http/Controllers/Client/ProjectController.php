@@ -514,9 +514,9 @@ class ProjectController extends Controller
         $neighborhoodID = null;
 
         $detachedHoliday = null;
-       
 
-      
+
+
 
         if ($deneme && $deneme == "al-sat-acil") {
             $slug = "al-sat-acil";
@@ -602,7 +602,7 @@ class ProjectController extends Controller
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                 ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
-                ->whereNotNull('housings.owner_id') 
+                ->whereNotNull('housings.owner_id')
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
@@ -665,11 +665,11 @@ class ProjectController extends Controller
                     // Housing status, type and parent type checks
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
-              
-                    if($housingTypeParent && $housingTypeParent->slug == 'mustakil-tatil'){
+
+                    if ($housingTypeParent && $housingTypeParent->slug == 'mustakil-tatil') {
                         $detachedHoliday = 1;
                     }
-                    
+
                     if (!empty($housingTypeSlugName)) {
                         $housingType = HousingType::where('slug', $paramValue)->first();
                     }
@@ -706,7 +706,7 @@ class ProjectController extends Controller
         if ($slug) {
             if ($is_project) {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
-                
+
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
@@ -788,7 +788,7 @@ class ProjectController extends Controller
                         }
                     }
                 }
-                
+
                 $anotherProjects = $query->get();
                 $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
                     ->orderBy('id', 'asc')
@@ -907,7 +907,7 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('id', $housingType)->first();
         if ($projects) {
-            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil"||  $slug == "paylasimli-ilanlar") {
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil" ||  $slug == "paylasimli-ilanlar") {
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
                 $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
@@ -924,7 +924,7 @@ class ProjectController extends Controller
                             ->unique('filter_name') // filter_name değerine göre tekil olanları al
                             ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
                             ->toArray();
-                    }  else {
+                    } else {
                         $filtersDb = Filter::where('item_type', 1)
                             ->whereIn('housing_type_id', $uniqueHousingTypeIds)
                             ->get()
@@ -937,7 +937,7 @@ class ProjectController extends Controller
                     }
                 } else {
 
-                    if ($slug == "al-sat-acil" && !$housingTypeSlugName || $slug == "paylasimli-ilanlar" && !$housingTypeSlugName ) {
+                    if ($slug == "al-sat-acil" && !$housingTypeSlugName || $slug == "paylasimli-ilanlar" && !$housingTypeSlugName) {
                         $filtersDb = Filter::where('item_type', 1)
                             ->get()
                             ->where("is_sale", 1)
@@ -1290,7 +1290,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-        return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term','detachedHoliday'));
+        return view('client.all-projects.menu-list', compact('pageInfo', "neighborhoodTitle", "neighborhoodSlug", "countySlug", "countyTitle", "citySlug", "cityTitle", "cityID", "neighborhoodID", "countyID", 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type', 'term', 'detachedHoliday'));
     }
 
     public function allProjects($slug)
@@ -1460,7 +1460,7 @@ class ProjectController extends Controller
                 ->get()
                 ->keyBy("housing_id");
 
-         
+
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
             $selectedPage = $request->input('selected_page') ?? 0;
@@ -1484,30 +1484,30 @@ class ProjectController extends Controller
             $endIndex = $project->house_count + 20;
 
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
-            
+
             $sumCartOrderQt = DB::table('cart_orders')
-            ->select(
-                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
-            )
-            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->whereNotNull('cart->item->numbershare')
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get();
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+                )
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->whereNotNull('cart->item->numbershare')
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get();
 
 
-        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
-            ->mapWithKeys(function ($group) {
-                return [
-                    $group->first()->housing_id => [
-                        'housing_id' => $group->first()->housing_id,
-                        'qt_total' => $group->sum('qt'),
-                    ]
-                ];
-            })
-            ->all();
+            $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+                ->mapWithKeys(function ($group) {
+                    return [
+                        $group->first()->housing_id => [
+                            'housing_id' => $group->first()->housing_id,
+                            'qt_total' => $group->sum('qt'),
+                        ]
+                    ];
+                })
+                ->all();
 
 
             // Meta bilgi değişkeni tanımlanıyor
@@ -1701,7 +1701,7 @@ class ProjectController extends Controller
     //Mağazanın Alınan Tekliflerin listesi
     public function get_received_offers()
     {
-        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->orderBy("id","desc")->get();
+        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->orderBy("id", "desc")->get();
         return view('client.panel.project_offers.get_received_offers', compact('data'));
     } //End
 
