@@ -602,98 +602,129 @@
         google.charts.setOnLoadCallback(drawCharts);
   
         function drawCharts() {
-            // PHP değişkenlerinin doğru şekilde geldiğini kontrol edin ve gerekirse sıfır olarak ayarlayın
-            var totalKazanc = {{ isset($totalKazanc) ? $totalKazanc : 0 }};
-            var pesinSatisSayisi = {{ isset($pesinSatisSayisi) ? $pesinSatisSayisi : 0 }};
-            var taksitliSatisSayisi = {{ isset($taksitliSatisSayisi) ? $taksitliSatisSayisi : 0 }};
+            // PHP değişkenlerini JavaScript'e aktar
+            var totalKazanc = {{$totalKazanc ?? 0}};
+            var pesinSatisSayisi = {{$pesinSatisSayisi ?? 0}};
+            var taksitliSatisSayisi = {{$taksitliSatisSayisi ?? 0}};
   
-            // Toplam satışlar için pasta grafik verisi
-            var totalSalesData = google.visualization.arrayToDataTable([
-                ['Satış Türü', 'Miktar'],
-                ['Toplam Kazancım', totalKazanc]
-            ]);
+            // Toplam satışlar için pasta grafik verisi ve ayarları
+            var totalSalesData;
+            var totalSalesOptions;
   
-            var totalSalesOptions = {
-               title:'Toplam Satış',
-                pieSliceText: 'value',
-                slices: {
-                    0: { color: '#EA2B2E' } // Kırmızı tonu
-                }
-            };
+            if (totalKazanc === 0) {
+                totalSalesData = google.visualization.arrayToDataTable([
+                    ['Satış Türü', 'Miktar'],
+                    ['Satış Yok', 1] // Grafik 0 olarak gösterilecektir
+                ]);
+                totalSalesOptions = {
+                    title: 'Toplam Satış',
+                    pieSliceText: 'label',
+                    slices: {
+                        0: { color: '#e5e5e5', textStyle: {color: 'black'} } // Grafik rengi ghostwhite ve yazı rengi siyah
+                    }
+                };
+            } else {
+                totalSalesData = google.visualization.arrayToDataTable([
+                    ['Satış Türü', 'Miktar'],
+                    ['Toplam Kazancım', totalKazanc]
+                ]);
+                totalSalesOptions = {
+                    title: 'Toplam Satış',
+                    pieSliceText: 'value',
+                    slices: {
+                        0: { color: '#EA2B2E' } // Kırmızı tonu
+                    }
+                };
+            }
   
             var totalSalesChart = new google.visualization.PieChart(document.getElementById('totalSalesPieChart'));
             totalSalesChart.draw(totalSalesData, totalSalesOptions);
   
-            // Satış türleri için pasta grafik verisi
-            var salesTypeData = google.visualization.arrayToDataTable([
-                ['Satış Türü', 'Miktar'],
-                ['Peşin Satış', pesinSatisSayisi],
-                ['Taksitli Satış', taksitliSatisSayisi]
-            ]);
+            // Satış türleri için pasta grafik verisi ve ayarları
+            var salesTypeData;
+            var salesTypeOptions;
   
-            var salesTypeOptions = {
-               title:'Satış Türü',
-                pieSliceText: 'value',
-                slices: {
-                    0: { color: '#EA2B2E' }, // Kırmızı tonu
-                    1: { color: '#FF8E90' }  // Kırmızı tonu
-                }
-            };
+            if (pesinSatisSayisi === 0 && taksitliSatisSayisi === 0) {
+                salesTypeData = google.visualization.arrayToDataTable([
+                    ['Satış Türü', 'Miktar'],
+                    ['Satış Yok', 1] // Grafik 0 olarak gösterilecektir
+                ]);
+                salesTypeOptions = {
+                    title: 'Satış Türü',
+                    pieSliceText: 'label',
+                    slices: {
+                        0: { color: '#e5e5e5', textStyle: {color: 'black'} } // Grafik rengi ghostwhite ve yazı rengi siyah
+                    }
+                };
+            } else {
+                salesTypeData = google.visualization.arrayToDataTable([
+                    ['Satış Türü', 'Miktar'],
+                    ['Peşin Satış', pesinSatisSayisi],
+                    ['Taksitli Satış', taksitliSatisSayisi]
+                ]);
+                salesTypeOptions = {
+                    title: 'Satış Türü',
+                    pieSliceText: 'value',
+                    slices: {
+                        0: { color: '#EA2B2E' }, // Kırmızı tonu
+                        1: { color: '#FF8E90' }  // Kırmızı tonu
+                    }
+                };
+            }
   
             var salesTypeChart = new google.visualization.PieChart(document.getElementById('salesTypePieChart'));
             salesTypeChart.draw(salesTypeData, salesTypeOptions);
         }
-      </script>
-    
+    </script>
 
-<script>
+    <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Canvas elementini seçin
-        var ctx = document.getElementById('salesChart').getContext('2d');
-        var labels = @json($satisDanismanlari->pluck('name'));
-        var data = @json(array_values($olumluMusteriSayilari));
+    // Canvas elementini seçin
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var labels = @json($satisDanismanlari->pluck('name'));
+    var data = @json(array_values($olumluMusteriSayilari));
 
-         // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
-         if (data.length === 0) {
+        // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
+        if (data.length === 0) {
             data = Array(labels.length).fill(0);
         }
 
-        var salesData = {
-            labels: labels,
-            datasets: [{
-                label: 'Olumlu Müşteri Sayıları',
-                data: data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                ],
-                borderWidth: 1
-            }]
-        };
+    var salesData = {
+        labels: labels,
+        datasets: [{
+            label: 'Olumlu Müşteri Sayıları',
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+            ],
+            borderWidth: 1
+        }]
+    };
 
-        // Grafik ayarlarını tanımlayın
-        var salesChart = new Chart(ctx, {
-            type: 'bar',
-            data: salesData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    // Grafik ayarlarını tanımlayın
+    var salesChart = new Chart(ctx, {
+        type: 'bar',
+        data: salesData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
+        }
     });
-</script>
+    });
+    </script>
 
 @endsection
