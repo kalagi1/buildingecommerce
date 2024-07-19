@@ -1,6 +1,20 @@
 @extends('client.layouts.masterPanel')
 @section('content')
+
     <div class="content">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>
+                    Hesabım
+                </li>
+                <li>
+                    CRM
+                </li>
+                <li>
+                    Ödül Sistemi
+                </li>
+            </ul>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-container" style="background-color: white; padding: 20px; border-radius: 5px;">
