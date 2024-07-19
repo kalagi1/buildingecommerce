@@ -13,7 +13,7 @@
                 <span>Dönüş Yapılacak Müşteriler ({{$geri_donus_yapilacak_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="all-customers-btn">
-                <span>Tüm Müşteriler ({{$tum_musterilerCount}})</span>
+                <span> Müşteriler ({{$tum_musterilerCount}})</span>
             </a>
             <a href="#" class="btn" id="favorite-customers-btn">
                 <span>Favori Müşteriler ({{$favoriteCustomerCount}})</span>
@@ -1149,7 +1149,7 @@
         $(document).ready(function() {
             $('#all-customers-btn').on('click', function(event) {
              
-                $('#page-header-title').text('Tüm Müşteriler');
+                $('#page-header-title').text('Müşteriler');
                 $('#tumMusteriler').show(); 
                 $('#yeniMusteriler').hide();
                 $('#favoriMusteriler').hide(); 
