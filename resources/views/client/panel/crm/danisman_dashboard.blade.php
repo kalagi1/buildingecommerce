@@ -597,50 +597,54 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-        // Toplam satışlar için pasta grafik
-        var totalSalesData = google.visualization.arrayToDataTable([
-            ['Satış Türü', 'Miktar'],
-            ['Toplam Kazancım', {{$totalKazanc}}]
-        ]);
-
-        var totalSalesOptions = {
-           title:'Toplam Satış',
-            
-            pieSliceText: 'value',
-            slices: {
-                0: { color: '#EA2B2E' } // Kırmızı tonu
-            }
-        };
-
-        var totalSalesChart = new google.visualization.PieChart(document.getElementById('totalSalesPieChart'));
-        totalSalesChart.draw(totalSalesData, totalSalesOptions);
-
-        // Satış türleri için pasta grafik
-        var salesTypeData = google.visualization.arrayToDataTable([
-            ['Satış Türü', 'Miktar'],
-            ['Peşin Satış', {{$pesinSatisSayisi}}],
-            ['Taksitli Satış', {{$taksitliSatisSayisi}}]
-        ]);
-
-        var salesTypeOptions = {
-           title:'Satış Türü',
-            pieSliceText: 'value',
-            slices: {
-                0: { color: '#EA2B2E' }, // Kırmızı tonu
-                1: { color: '#FF8E90' }, // Kırmızı tonu
-                //2: { color: '#F9C4C4' }  // Kırmızı tonu
-            }
-        };
-
-        var salesTypeChart = new google.visualization.PieChart(document.getElementById('salesTypePieChart'));
-        salesTypeChart.draw(salesTypeData, salesTypeOptions);
-    }
-</script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+  
+        function drawCharts() {
+            // PHP değişkenlerinin doğru şekilde geldiğini kontrol edin ve gerekirse sıfır olarak ayarlayın
+            var totalKazanc = {{ isset($totalKazanc) ? $totalKazanc : 0 }};
+            var pesinSatisSayisi = {{ isset($pesinSatisSayisi) ? $pesinSatisSayisi : 0 }};
+            var taksitliSatisSayisi = {{ isset($taksitliSatisSayisi) ? $taksitliSatisSayisi : 0 }};
+  
+            // Toplam satışlar için pasta grafik verisi
+            var totalSalesData = google.visualization.arrayToDataTable([
+                ['Satış Türü', 'Miktar'],
+                ['Toplam Kazancım', totalKazanc]
+            ]);
+  
+            var totalSalesOptions = {
+               title:'Toplam Satış',
+                pieSliceText: 'value',
+                slices: {
+                    0: { color: '#EA2B2E' } // Kırmızı tonu
+                }
+            };
+  
+            var totalSalesChart = new google.visualization.PieChart(document.getElementById('totalSalesPieChart'));
+            totalSalesChart.draw(totalSalesData, totalSalesOptions);
+  
+            // Satış türleri için pasta grafik verisi
+            var salesTypeData = google.visualization.arrayToDataTable([
+                ['Satış Türü', 'Miktar'],
+                ['Peşin Satış', pesinSatisSayisi],
+                ['Taksitli Satış', taksitliSatisSayisi]
+            ]);
+  
+            var salesTypeOptions = {
+               title:'Satış Türü',
+                pieSliceText: 'value',
+                slices: {
+                    0: { color: '#EA2B2E' }, // Kırmızı tonu
+                    1: { color: '#FF8E90' }  // Kırmızı tonu
+                }
+            };
+  
+            var salesTypeChart = new google.visualization.PieChart(document.getElementById('salesTypePieChart'));
+            salesTypeChart.draw(salesTypeData, salesTypeOptions);
+        }
+      </script>
+    
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -653,7 +657,7 @@
          if (data.length === 0) {
             data = Array(labels.length).fill(0);
         }
-        
+
         var salesData = {
             labels: labels,
             datasets: [{
