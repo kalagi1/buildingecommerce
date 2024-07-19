@@ -697,9 +697,30 @@
 
 
 <script>
-    // PHP'den gelen verileri JavaScript'e geçirin
     var labels = @json($labels);
     var satis_sayilari = @json($satis_sayilari);
+
+    // Satış sayıları kontrolü
+    var allZero = satis_sayilari.every(value => value === 0);
+
+    if (allZero) {
+        // Tüm satış sayıları sıfırsa, "Veri Yok" mesajı ile grafik verisi oluşturun
+        labels = ["Veri Yok"];
+        satis_sayilari = [0];
+        backgroundColor = ["ghostwhite"];
+        borderColor = ["black"];
+    } else {
+        backgroundColor = [
+            '#EA2B2E', // Bireysel Satış rengi
+            'blue',    // Danışman Satış rengi
+            'orange'   // Şirket Satış rengi
+        ];
+        borderColor = [
+            '#EA2B2E',
+            'blue',
+            'orange'
+        ];
+    }
 
     const ctx = document.getElementById('salesChart2').getContext('2d');
     const salesChart = new Chart(ctx, {
@@ -709,16 +730,8 @@
             datasets: [{
                 label: 'Satış Sayısı',
                 data: satis_sayilari, // Satış sayıları
-                backgroundColor: [
-                    '#EA2B2E', // Bireysel Satış rengi
-                    'blue',    // Danışman Satış rengi
-                    'orange'   // Şirket Satış rengi
-                ],
-                borderColor: [
-                    '#EA2B2E',
-                    'blue',
-                    'orange'
-                ],
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1
             }]
         },
@@ -743,6 +756,7 @@
     });
 </script>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Canvas elementini seçin
@@ -750,7 +764,10 @@
         var labels = @json($satisDanismanlari->pluck('name'));
         var data = @json(array_column($danismanVerileri, 'satis_sayisi'));
 
-
+   // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
+        if (data.length === 0) {
+            data = Array(labels.length).fill(0);
+        }
         // Veri seti tanımlayın
         var salesData = {
             labels: labels,
