@@ -79,6 +79,14 @@
         gtag('config', 'G-FVHQEVC6S0');
     </script>
     <style>
+        #navigation ul li ul{
+            border-top:2px solid #ea2a28 !important;
+        }
+
+        #navigation ul li ul a:hover{
+            background-color: ghostwhite;
+        }
+
         .table td {
             display: table-cell !important;
         }
@@ -448,6 +456,8 @@
             margin-top: 5px;
             width: 200px;
             z-index: 1000;
+            border-top:2px solid #ea2a28;
+
         }
 
         .dropdown-menu li {
@@ -1122,10 +1132,11 @@
                                         @if ($currentUser->id == 106)
                                             <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Danışman Projeleri</a></li>
                                             <li><a href="{{route('institutional.admin.dashboard')}}">Admin Dashboard</a></li>
+                                            <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
                                         @endif
                                     </ul>
                                 </li>
-                            @endif                        
+                            @endif                         
                         </ul>
                     </nav>
                 </div>
