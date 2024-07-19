@@ -231,14 +231,10 @@
                     <ul class="nav">
                         @foreach($danismanlar as $danisman)
                         <li class="nav-item" style="margin-left:10px !important;">
-                            {{-- <span>{{ $danisman->name }}</span>
-                            <span class="danisman-color" style="background-color: {{ $danismanRenkler[$danisman->id] }};"></span> --}}
-
                             <button type="button" class="btnDanisman" 
                             style="background-color: {{ $danismanRenkler[$danisman->id] }};width:100% !important; padding:10px !important;
                                 border-color: {{ $danismanRenkler[$danisman->id] }};"
-                            disabled    
-                            >{{ $danisman->name }}</button>
+                            disabled>{{ $danisman->name }}</button>
                         </li>
                         @endforeach
                     </ul>
@@ -823,7 +819,8 @@
                         info: "{{ $randevu->appointment_info }}",
                         start: "{{ $randevu->appointment_date }}", // Tarih ve saat birleşik olarak gösterilebilir
                         allDay: false, // Tüm gün etkinliği olmadığını belirtmek için false yapın
-                        danisman_id: "{{ $randevu->danisman_id }}" // Danışman ID'si
+                        danisman_id: "{{ $randevu->danisman_id }}" ,
+                        next_meeting_type: "{{ $randevu->sonraki_gorusme_turu }}"
                     },
                     @endforeach
                 ],
@@ -844,15 +841,22 @@
                     // Click işlemi
                     element.click(function() {
                         // Swal ile detay gösterme
+
+                        var meetingTypeText = '';
+                        if (event.next_meeting_type === 'Telefon') {
+                            meetingTypeText = '<p>Görüşme Türü:<strong class="strongCss"> Telefon</strong></p>';
+                        }
+
                         Swal.fire({
                             title: 'Randevu Detayları',
                             html: `
-                                    <div style="text-align: left;">
-                                        <p>Tarih ve Saat:<strong class="strongCss">${moment(event.start).format('DD-MM-YYYY HH:mm')}</strong></p>
-                                        <p>Danışman:<strong class="strongCss"> ${event.title}</strong></p>
-                                        <p>Randevu Bilgisi:<strong class="strongCss"> ${event.info}</strong></p>
-                                    </div>
-                                `,
+                                <div style="text-align: left;border: 1px solid #c3c3c3;padding: 19px;border-radius: 10px;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                                    <p>Tarih ve Saat:<strong class="strongCss">${moment(event.start).format('DD-MM-YYYY HH:mm')}</strong></p>
+                                    <p>Danışman:<strong class="strongCss"> ${event.title}</strong></p>
+                                    <p>Randevu Bilgisi:<strong class="strongCss"> ${event.info}</strong></p>
+                                    ${meetingTypeText}
+                                </div>
+                            `,
                             icon: 'info',
                             confirmButtonText: 'Tamam',
                             customClass: {
