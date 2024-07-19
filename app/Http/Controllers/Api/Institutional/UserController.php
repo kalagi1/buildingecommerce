@@ -359,7 +359,7 @@ class UserController extends Controller
 
         $userIds = $request->input('user_ids',[]);
         
-         $deletedRows = User::whereIn('user_id', $userIds)->where('parent_id', auth()->user()->id)->delete();
+         $deletedRows = User::whereIn('id', $userIds)->where('parent_id', auth()->user()->id)->delete();
 
          if ($deletedRows === 0) {
              return response()->json([
