@@ -36,7 +36,7 @@ class SupportController extends Controller
          // İstek verilerini doğrulayın
          $validatedData = $request->validate([
             'category' => 'required|string|max:255',
-            'sendReason' => 'required|string|max:255',
+            'sendReason' => 'nullable|string|max:255',
             'description' => 'required|string',
             'file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // Dosya türü ve boyutunu kontrol edin
         ]);
