@@ -4,19 +4,15 @@
 <div class="content">
     <div class="table-breadcrumb">
         <ul>
-            <li>
-                Hesabım
-            </li>
-            <li>
-                CRM
-            </li>
-            <li>
-                Danışman Müşterileri
-            </li>
+            <li>Hesabım</li>
+            <li>CRM</li>
+            <li>Danışman Müşterileri</li>
         </ul>
     </div>
-    <div class="text-header-title">
-        <p class="sales-consultants-heading" id="page-header-title">Yeni Müşteriler</p>
+    <div style="justify-content: center; display:flex" >
+        <header class="page-header-title2 col-11" id="page-header-title">
+            Yeni Müşteriler
+        </header>
     </div>
    
         <div class="mb-3" role="group" aria-label="Basic example" style="text-align: center">
@@ -535,13 +531,13 @@
                                                     <div class="col-md-12">
                                                         <div class="form-check" style="padding-left: 0px !important;">
                                                         <select name="ilgilendigi_bolge" id="" class="form-control" style="1px solid rgb(199 198 198);border-radius:5px !important;">
-                                                            <option value="0">Seçiniz</option>
-                                                            <option value="0">Marmara</option>
-                                                            <option value="0">Doğu Anadolu</option>
-                                                            <option value="0">İç Anadolu</option>
-                                                            <option value="0">Karadeniz</option>
-                                                            <option value="0">Akdeniz</option>
-                                                            <option value="0">Trakya</option>
+                                                            <option value="">Seçiniz</option>
+                                                            <option value="Marmara">Marmara</option>
+                                                            <option value="Doğu Anadolu">Doğu Anadolu</option>
+                                                            <option value="İç Anadolu">İç Anadolu</option>
+                                                            <option value="Karadeniz">Karadeniz</option>
+                                                            <option value="Akdeniz">Akdeniz</option>
+                                                            <option value="Trakya">Trakya</option>
                                                         </select>
                                                         </div>
                                                     </div>
@@ -795,7 +791,8 @@
             </div>
         </div>
 
-      
+
+
 @endsection    
 
 @section('scripts')
@@ -935,83 +932,97 @@
         //usermodal için
             function fetchUserDetails(itemId) {
                 // AJAX isteği
+                resetModalContent();
+                function resetModalContent() {
+                    document.getElementById('new-call-modal-name').innerText = '';
+                    document.getElementById('new-call-modal-email').innerText = '';
+                    document.getElementById('new-call-modal-phone').innerText = '';
+                    document.getElementById('new-call-modal-province').innerText = '';
+                    document.getElementById('new-call-modal-ilgilendigi-proje').innerText = '';
+                    document.getElementById('new-call-modal-job-title').innerText = '';
+                    
+                        // Checkbox'ları temizle
+                    for (let i = 11; i <= 20; i++) {
+                        document.getElementById('checkbox' + i).checked = false;
+                    }
+
+
+                    // Gizli input alanını temizle
+                    document.getElementById('customer_id2').value = '';
+                }
+              
                 fetch('/hesabim/musteri/bilgileri/' + itemId)
                     .then(response => response.json())
                     .then(data => {
+                    console.log('data'+JSON.stringify(data))
                         // Modal içine verileri yaz                      
-                        document.getElementById('user-modal-name').innerText = data.name;
-                        document.getElementById('user-modal-email').innerText = data.email;
-                        document.getElementById('user-modal-phone').innerText = data.phone.replace('p:+', '');
-                        document.getElementById('user-modal-province').innerText = data.province;
+                        document.getElementById('user-modal-name').innerText              = data.name;
+                        document.getElementById('user-modal-email').innerText             = data.email;
+                        document.getElementById('user-modal-phone').innerText             = data.phone.replace('p:+9', '');
+                        document.getElementById('user-modal-province').innerText          = data.province;
                         document.getElementById('user-modal-ilgilendigi-proje').innerText = data.project_name;
-                        document.getElementById('user-modal-job-title').innerText = data.job_title;
+                        document.getElementById('user-modal-job-title').innerText         = data.job_title;
 
                                     // Checkbox değerlerini ayarlama
-                        document.getElementById('checkbox1').checked = data.konut_tercihi.includes('Projeden Konut');
-                        document.getElementById('checkbox2').checked = data.konut_tercihi.includes('Hazır Konut');
-                        document.getElementById('checkbox3').checked = data.varlik_yonetimi.includes('Yatırım');
-                        document.getElementById('checkbox4').checked = data.varlik_yonetimi.includes('Oturum');
-                        document.getElementById('checkbox5').checked = data.varlik_yonetimi.includes('Yatırım/Oturum');
-                        document.getElementById('checkbox6').checked = data.musteri_butcesi.includes('0-500.000');
-                        document.getElementById('checkbox7').checked = data.musteri_butcesi.includes('500.000-1.000.000');
-                        document.getElementById('checkbox8').checked = data.musteri_butcesi.includes('2.000.000-4.000.000');
-                        document.getElementById('checkbox9').checked = data.musteri_butcesi.includes('4.000.000-6.000.000');
+                        document.getElementById('checkbox1').checked  = data.konut_tercihi.includes('Projeden Konut');
+                        document.getElementById('checkbox2').checked  = data.konut_tercihi.includes('Hazır Konut');
+                        document.getElementById('checkbox3').checked  = data.varlik_yonetimi.includes('Yatırım');
+                        document.getElementById('checkbox4').checked  = data.varlik_yonetimi.includes('Oturum');
+                        document.getElementById('checkbox5').checked  = data.varlik_yonetimi.includes('Yatırım/Oturum');
+                        document.getElementById('checkbox6').checked  = data.musteri_butcesi.includes('0-500.000');
+                        document.getElementById('checkbox7').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
+                        document.getElementById('checkbox8').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
+                        document.getElementById('checkbox9').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
                         document.getElementById('checkbox10').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
 
                         document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
 
-                        document.getElementById('checkbox1').disabled = true;
-                        document.getElementById('checkbox2').disabled = true;
-                        document.getElementById('checkbox3').disabled = true;
-                        document.getElementById('checkbox4').disabled = true;
-                        document.getElementById('checkbox5').disabled = true;
-                        document.getElementById('checkbox6').disabled = true;
-                        document.getElementById('checkbox7').disabled = true;
-                        document.getElementById('checkbox8').disabled = true;
-                        document.getElementById('checkbox9').disabled = true;
-                        document.getElementById('checkbox10').disabled = true;
+                         // Checkbox'ları disable yap
+                        for (let i = 1; i <= 10; i++) {
+                            document.getElementById('checkbox' + i).disabled = true;
+                        }
+
 
                         $('select[name="ilgilendigi_bolge"]').val(data.ilgilendigi_bolge).prop('disabled', true);
-                        
-                        // Modalı aç
-                        $('#userModal').modal('show');
+
                     })
                     .catch(error => console.error('Error:', error));
             }
         //pastConversationsModal için
             function fetchCustomerCalls(itemId){
+                const modalBody = document.getElementById('past-conversations-body');
+
+                modalBody.innerHTML = ''; // Önce mevcut içeriği temizle
+
                 // AJAX isteği
                 fetch('/hesabim/musteri/gecmis/aramalari/' + itemId)
                 .then(response => response.json())
                 .then(data => {
-                    const modalBody = document.getElementById('past-conversations-body');
-                    modalBody.innerHTML = ''; // Önce mevcut içeriği temizle
 
                     if (data.message) {
                         // Eğer geçmiş görüşme kaydı yoksa mesaj göster
                        modalBody.innerHTML = '<p class="form-control" style="padding: 21px 0px 40px 30px !important;color: #333 !important;font-size: 12px !important;">Müşterinizin geçmiş arama kaydı bulunmamaktadır.</p>';
-                    } else {
-                         // Geçmiş görüşme kayıtlarını modal içine yaz
-                        data.forEach(conversation => {
-                             const conversationDiv = document.createElement('div');
-                             conversationDiv.classList.add('customerInfo', 'mb-3');
-                             conversationDiv.style.cssText = 'padding: 20px 30px !important;';
-                             conversationDiv.innerHTML = `
-                               <p>Görüşme Tarihi: <strong class="strongCss">${conversation.meeting_date}</strong></p>
-                               <p>Görüşme Sonucu: <strong class="strongCss">${conversation.conclusion}</strong></p>
-                               <p>Görüşme Türü:   <strong class="strongCss">${conversation.meet_type}</strong></p>
-                               <p>Görüşme Notu:   <strong class="strongCss">${conversation.note}</strong></p>
-                            `;
-                            modalBody.appendChild(conversationDiv);
-                    });
-                }
+                    } 
+                    else {
+                            // Geçmiş görüşme kayıtlarını modal içine yaz
+                            data.forEach(conversation => {
+                                const conversationDiv = document.createElement('div');
+                                conversationDiv.classList.add('customerInfo', 'mb-3');
+                                conversationDiv.style.cssText = 'padding: 20px 30px !important;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;';
+                                conversationDiv.innerHTML = `
+                                <p>Görüşme Tarihi: <strong class="strongCss">${conversation.meeting_date}</strong></p>
+                                <p>Görüşme Sonucu: <strong class="strongCss">${conversation.conclusion}</strong></p>
+                                <p>Görüşme Türü:   <strong class="strongCss">${conversation.meet_type}</strong></p>
+                                <p>Görüşme Notu:   <strong class="strongCss">${conversation.note}</strong></p>
+                                `;
+                                modalBody.appendChild(conversationDiv);
+                        });
+                    }
 
-                // Modalı aç
-                $('#pastConversationsModal').modal('show');
-                    })
-                .catch(error => console.error('Error:', error));
-            
+                })
+                .catch(error => console.error('Error:', error));            
             }
+
         // newCallModal için
             function addNewCall(itemId) {
                  // Modal içeriğini sıfırla
@@ -1025,16 +1036,9 @@
                     document.getElementById('new-call-modal-job-title').innerText = '';
                     
                     //Checkbox'ları temizle
-                    document.getElementById('checkbox11').checked = false;
-                    document.getElementById('checkbox12').checked = false;
-                    document.getElementById('checkbox13').checked = false;
-                    document.getElementById('checkbox14').checked = false;
-                    document.getElementById('checkbox15').checked = false;
-                    document.getElementById('checkbox16').checked = false;
-                    document.getElementById('checkbox17').checked = false;
-                    document.getElementById('checkbox18').checked = false;
-                    document.getElementById('checkbox19').checked = false;
-                    document.getElementById('checkbox20').checked = false;
+                    for (let i = 11; i <= 20; i++) {
+                        document.getElementById('checkbox' + i).checked = false;
+                    }
                     
                     // // Selectbox'ı temizle
                     // $('select[name="ilgilendigi_bolge"]').val('').prop('disabled', true);
@@ -1049,12 +1053,12 @@
                         document.getElementById('customer_id2').value = data.id;
                   
                         // Modal içine verileri yaz
-                            document.getElementById('new-call-modal-name').innerText = data.name;
-                            document.getElementById('new-call-modal-email').innerText = data.email;
-                            document.getElementById('new-call-modal-phone').innerText = data.phone.replace('p:+', '');
-                            document.getElementById('new-call-modal-province').innerText = data.province;
+                            document.getElementById('new-call-modal-name').innerText              = data.name;
+                            document.getElementById('new-call-modal-email').innerText             = data.email;
+                            document.getElementById('new-call-modal-phone').innerText             = data.phone.replace('p:+', '');
+                            document.getElementById('new-call-modal-province').innerText          = data.province;
                             document.getElementById('new-call-modal-ilgilendigi-proje').innerText = data.project_name;
-                            document.getElementById('new-call-modal-job-title').innerText = data.job_title;
+                            document.getElementById('new-call-modal-job-title').innerText         = data.job_title;
                         
                                     // Checkbox değerlerini ayarlama
                             document.getElementById('checkbox11').checked  = data.konut_tercihi.includes('Projeden Konut');
@@ -1066,7 +1070,7 @@
                             document.getElementById('checkbox17').checked  = data.musteri_butcesi.includes('500.000-1.000.000');
                             document.getElementById('checkbox18').checked  = data.musteri_butcesi.includes('2.000.000-4.000.000');
                             document.getElementById('checkbox19').checked  = data.musteri_butcesi.includes('4.000.000-6.000.000');
-                            document.getElementById('checkbox20').checked = data.musteri_butcesi.includes('6.000.000 ve üzeri');
+                            document.getElementById('checkbox20').checked  = data.musteri_butcesi.includes('6.000.000 ve üzeri');
 
                             document.querySelector('select[name="ilgilendigi_bolge"]').value = data.ilgilendigi_bolge;
                        
@@ -1868,6 +1872,15 @@
     </style>
 
     <style>
+        .page-header-title2{
+            background: linear-gradient(to top, #EA2B2E, #84181A);  
+            padding: 10px;
+            font-size: 18px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 40px;
+        }
         .swal-wide {
             width: 600px !important;
         }
