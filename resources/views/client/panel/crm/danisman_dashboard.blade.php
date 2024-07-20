@@ -1,6 +1,20 @@
 @extends('client.layouts.masterPanel')
 @section('content')
+
     <div class="content">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>
+                    Hesabım
+                </li>
+                <li>
+                    CRM
+                </li>
+                <li>
+                    Danışman Dashboard
+                </li>
+            </ul>
+        </div>
         <div class="row mb-3">
             <div class="col-xl-3 col-lg-3">
                 <div class="card l-bg-red">
