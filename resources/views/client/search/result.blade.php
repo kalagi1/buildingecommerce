@@ -128,10 +128,15 @@
                         <div class="container">
                             <div class="mobile-show">
                                 @foreach ($results['housings'] as $result)
-                                    @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
-)
+                                @php
+                                $discount_amount = optional(
+                                    App\Models\Offer::where('type', 'housing')
+                                    ->where('housing_id', $result['id'])
+                                    ->where('start_date', '<=', date('Y-m-d H:i:s'))
+                                    ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                    ->first()
+                                )->discount_amount ?? 0;
+                            @endphp
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
