@@ -34,9 +34,9 @@
         </div>
     
         {{-- yeni Müşteriler --}}
-        <div class="text-header" id="yeniMusteriler">      
+        <div class="text-header" id="yeniMusteriler" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;">      
             <button id="btnMusteriEkle" data-bs-toggle="modal" data-bs-target="#musteriEklemeModal">Yeni Müşteri Ekle</button>
-            <table id="example" class="display" style="width:100%">
+            <table id="example" class="display" style="width:100%;">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -91,7 +91,7 @@
 
         {{-- Geri Dönüş Yapılacak Müşteriler --}}
         <div class="container"id="geriDonusYapilacakMusteriler" style="display: none;">
-            <div class="text-header"  >      
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
                 <table id="geriDonusYapilacakMusterilerTable" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -144,7 +144,7 @@
 
         {{-- Tüm Müşteriler --}}
         <div class="container"id="tumMusteriler" style="display: none;">
-            <div class="text-header"  >      
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
                 <table id="tumMusterilerTable" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -190,7 +190,7 @@
 
         {{-- favori Müşteriler --}}
         <div class="container" id="favoriMusteriler" style="display: none">
-            <div class="text-header"  >      
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
                 <table id="favoriMusterilerTable" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -251,7 +251,7 @@
                 </div>
             </div>
 
-            <div class="text-header">
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;">
                 <div id='calendar'></div>
             </div>
                 
