@@ -53,7 +53,7 @@ class SupportController extends Controller
         $support = new Support();
         $support->user_id = Auth::id();
         $support->category = $validatedData['category'];
-        $support->send_reason = $validatedData['sendReason'];
+        $support->send_reason = $validatedData['sendReason'] ?? null;
         $support->description = $validatedData['description'];
         $support->file_path = $fileName; // Dosya yolunu kaydet
 
