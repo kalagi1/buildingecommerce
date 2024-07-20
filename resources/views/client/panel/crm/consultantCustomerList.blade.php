@@ -9,11 +9,11 @@
             <li>Danışman Müşterileri</li>
         </ul>
     </div>
-    <div style="justify-content: center; display:flex" >
+    {{-- <div style="justify-content: center; display:flex" >
         <header class="page-header-title2 col-11" id="page-header-title">
             Yeni Müşteriler
         </header>
-    </div>
+    </div> --}}
    
         <div class="mb-3" role="group" aria-label="Basic example" style="text-align: center">
             <a href="#" class="btn active" id="new-customers-btn">
