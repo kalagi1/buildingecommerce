@@ -683,6 +683,16 @@ class CrmController extends Controller
     }//End
 
     public function adminOdulEklePost(Request $request){
+
+        $request->validate([
+            'award_image' => 'nullable|file|mimes:png',
+            'title' => 'required|string|max:255',
+            'award_name' => 'required|string|max:255',
+            'status' => 'nullable|boolean',
+        ], [
+            'award_image.mimes' => 'Yalnızca PNG formatında dosyalar kabul edilmektedir.'
+        ]);
+    
        
            // Ödül resminin yüklendiği kısmı kontrol edin ve saklayın
            if ($request->hasFile('award_image')) {
@@ -702,8 +712,7 @@ class CrmController extends Controller
             $award->ekleyen_user_id = Auth::id();
             $award->created_at      = now();
             $award->updated_at      = now();
-            $award->save();
-            
+            $award->save();            
 
             return redirect()->back()->with('success','Ödül Başarıyla Eklendi.');
     }//End
