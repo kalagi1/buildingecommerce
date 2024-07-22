@@ -560,7 +560,7 @@
                                                                                 style="border-radius: 0 !important; display: grid; grid-template-columns: repeat({{ $numberOfShares }}, 1fr);">
                                                                                 @for ($i = 0; $i < $numberOfShares; $i++)
                                                                                     <div class="progress-bar"
-                                                                                        style="width: {{ $width }}%; border-left: {{ $i > 0 ? '1px solid #cbcbcb' : 'none' }};">
+                                                                                        style="width: {{ $width }}%; border-left: {{ $i > 0 ? '1px solid #cbcbcb' : 'none' }};background-color: #e9ecef !important;">
                                                                                     </div>
                                                                                 @endfor
                                                                             </div>

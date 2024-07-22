@@ -8,6 +8,8 @@ import {
   Tooltip,
 } from "@mui/material";
 
+let formData = [];
+
 function HousingRoom({
   slug,
   allErrors,
@@ -23,7 +25,12 @@ function HousingRoom({
   selectedHousingType,
 }) {
   const [validationErrors, setValidationErrors] = useState([]);
-  var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
+  if (selectedHousingType?.housing_type?.form_json) {
+    formData = JSON.parse(selectedHousingType.housing_type.form_json);
+  } else {
+    // Handle the case where form_json is undefined or null
+    console.warn("form_json is undefined or null");
+  }
   const [rendered, setRendered] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -171,7 +178,7 @@ function HousingRoom({
 
   return (
     <>
-      <div class="section-title mt-5">
+      <div className="section-title mt-5">
         <h2>İlan Özellikleri </h2>
       </div>
       <div className="card p-4" style={{ position: "relative" }}>
@@ -722,7 +729,6 @@ function HousingRoom({
                     var isX = null;
                     if (data?.className?.includes("--if-show-checked-")) {
                       isX = !checkedItems.find((checkedItem) => {
-                        
                         return (
                           checkedItem.roomOrder == 0 &&
                           checkedItem.name ==
@@ -1589,7 +1595,6 @@ function HousingRoom({
                     var isX = null;
                     if (data?.className?.includes("--if-show-checked-")) {
                       isX = !checkedItems.find((checkedItem) => {
-                        
                         return (
                           checkedItem.roomOrder == 0 &&
                           checkedItem.name ==

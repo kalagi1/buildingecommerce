@@ -312,16 +312,18 @@ function HousingForm({
         <div className="card p-4 adv-flex">
           <ul className="adv-breadcrumb">
             <li className="fa fa-home"></li>
-            {selectedTypesTitles.map((title, index) => (
-              <React.Fragment key={index}>
-                <li>{title}</li>
-                {index < selectedTypesTitles.length - 1 && (
-                  <li>
-                    <i className="fa fa-chevron-right"></i>
-                  </li>
-                )}
-              </React.Fragment>
-            ))}
+
+            {selectedTypesTitles &&
+              selectedTypesTitles.map((title, index) => (
+                <React.Fragment key={index}>
+                  <li>{title}</li>
+                  {index < selectedTypesTitles.length - 1 && (
+                    <li>
+                      <i className="fa fa-chevron-right"></i>
+                    </li>
+                  )}
+                </React.Fragment>
+              ))}
           </ul>
           <button
             className="btn btn-link"
@@ -336,7 +338,8 @@ function HousingForm({
         </div>
         <div className="card p-4">
           <div className="add-classified-note mb-3">
-            Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma yükümlülüğü metnine {" "}
+            Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
+            yükümlülüğü metnine{" "}
             <a
               href="https://emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"
@@ -476,7 +479,6 @@ function HousingForm({
                   setProjectDataFunc("neighbourhood_id", e.target.value);
                 }}
                 value={projectData.neighbourhood_id}
-
                 name="neighbourhood_id"
                 id="neighbourhood_id"
                 className={`form-control ${
@@ -522,13 +524,13 @@ function HousingForm({
               <GoogleMap
                 mapContainerStyle={{ height: "300px", width: "100%" }}
                 center={center}
-                id='map'
+                id="map"
                 zoom={zoom}
                 onLoad={onMapLoad}
                 onUnmount={onUnmount}
                 options={{
-                  gestureHandling: "greedy"
-              }}
+                  gestureHandling: "greedy",
+                }}
                 ref={mapRef}
               >
                 {selectedLocation.lat && (

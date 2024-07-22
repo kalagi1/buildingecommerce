@@ -667,24 +667,24 @@ function CreateProject(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-      let requestPromises = [];
+     
       setFillFormData(formData);
       setStep(3);
     }
   };
-
   const finishCreateProject = () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+    let requestPromises = [];
+    
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500); // Increase progress every half a second
-
+  
     axios
       .post(baseUrl + "create_project", fillFormData, {
         headers: {
@@ -696,14 +696,13 @@ function CreateProject(props) {
       .then((res) => {
         if (res.data.status) {
           var housingTemp = 1;
-          console.log(blocks);
           blocks.forEach((block, blockIndex) => {
             block.rooms.forEach((room, roomIndex) => {
               const formDataRoom = new FormData();
               formDataRoom.append("project_id", res.data.project.id);
               formDataRoom.append("room_order", housingTemp);
               Object.keys(room).forEach((key) => {
-                if (key == "payDecs") {
+                if (key === "payDecs") {
                   room.payDecs.forEach((payDec, payDecIndex) => {
                     formDataRoom.append(
                       `room[payDecs][${payDecIndex}][price]`,
@@ -723,41 +722,48 @@ function CreateProject(props) {
                   }
                 }
               });
-
+  
               const callCreateRoom = () => {
                 return new Promise((resolve) => {
                   setTimeout(async () => {
-                    const result = await createRoomAsync(formDataRoom);
-                    resolve(result);
-                  }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+                    await createRoomAsync(formDataRoom);
+                    resolve(); // Resolve promise when room creation is done
+                  }, roomIndex * 1000); // Add delay between rooms
                 });
               };
-
-              // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+  
+              // Add the promise to the requestPromises array
               requestPromises.push(callCreateRoom());
-
-              housingTemp++; // Oda sırasını arttırma
+  
+              housingTemp++; // Increment room order
             });
           });
-
+  
           Promise.all(requestPromises).then(() => {
             clearInterval(progressInterval);
-            setProgress(totalRoomCount());
+            setProgress(100); // Set progress to 100% when all requests are complete
             setLoadingModalOpen(false);
             setStep(4);
             setFillFormData(null);
           });
+        } else {
+          clearInterval(progressInterval);
+          setLoadingModalOpen(false);
+          toast.error(
+            "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+          );
         }
       })
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
+        console.log(error);
         toast.error(
           "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
         );
       });
   };
-
+  
   const style = {
     position: "absolute",
     top: "50%",

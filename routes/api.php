@@ -128,7 +128,7 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientPageController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
-Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('api.sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
