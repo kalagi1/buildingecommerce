@@ -215,7 +215,7 @@
                         <div class="col-md-4">
                             <div style="position: relative;">
                                 <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
-                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 30%; left: 55%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%;">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;">
                                 <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
                                 <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
                             </div>
