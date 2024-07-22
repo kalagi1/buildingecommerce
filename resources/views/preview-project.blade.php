@@ -1487,7 +1487,7 @@
                                                                         data-share="[&quot;Var&quot;]"
                                                                         data-number-share="12">
                                                                         <span class="IconContainer">
-                                                                            <img src="http://127.0.0.1:8000/sc.png"
+                                                                            <img src="http://private.emlaksepette.com/sc.png"
                                                                                 alt="">
                                                                         </span>
                                                                         <span class="text">Sepete Ekle</span>
