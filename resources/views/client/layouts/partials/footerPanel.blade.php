@@ -384,7 +384,7 @@
         });
     }
 </script>
-@vite('resources/js/app.jsx')
+{{-- @vite('resources/js/app.jsx') --}}
 <script>
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
