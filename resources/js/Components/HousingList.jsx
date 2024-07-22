@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 //MRT Imports
 import {
@@ -16,6 +16,8 @@ import {
     FormControlLabel,
     ListItemIcon,
     MenuItem,
+    Popover,
+    Skeleton,
     Switch,
     Typography,
     lighten,
@@ -68,9 +70,9 @@ const HousingList = ({ projectId }) => {
     });
     const [selectedData,setSelectedData] = useState({});
     const [selectedId,setSelectedId] = useState(null);
-
     const [paymentModalOpen,setPaymentModalOpen] = useState(false);
     const [saleCloses,setSaleCloses] = useState([]);
+    const [paymentModalLoading,setPaymentModalLoading] = useState(false);
 
     const getLastBlockCount = () => {
         var blockItemCount = 0;
@@ -109,7 +111,6 @@ const HousingList = ({ projectId }) => {
                     dizi.push(res.data.rows[key]);
                 }
             }
-            setLoading(false);
             setData(dizi);
             setProject(res.data.project)
             setBlocksx(res.data.project.blocks);
@@ -128,6 +129,7 @@ const HousingList = ({ projectId }) => {
             setSumCartQts(result2);
             setHaveBlocks(res.data.project.have_blocks)
             setSolds(res.data.solds)
+            setLoading(false);
         })
 
         // console.log(totalProjectsBlocksx);
@@ -307,7 +309,6 @@ const HousingList = ({ projectId }) => {
             saleOpenCount : project.room_count - saleCloseCount - saleCount
         }
     }
-
 
     const columns = useMemo(
         () => [
@@ -1289,6 +1290,8 @@ const HousingList = ({ projectId }) => {
         setSelectedRooms([]);
         toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
         setSelectedRoomsTemp({});
+        setAllSelectedTable(false);
+        setAllSelectedCheckbox(false);
         axiosRequestGetData(pagination.pageIndex)
     }
 
@@ -1427,117 +1430,13 @@ const HousingList = ({ projectId }) => {
         })
     }
 
-    const changeSelectedItems = (selectedFunc) => {
-        var items = selectedFunc();
-
-        if(typeof items == "object"){
-            if(Object.keys(items).length == 0){
-                var items2 = Object.keys(selectedRoomsTemp);
-                var newItems = {};
-                items2.map((item) => {
-                    if(parseInt(item) > getLastCount() && parseInt(item) <= getLastCount() + pagination.pageSize){
-                        
-                    }else{
-                        newItems[item] = true;
-                    }
-                })
-                setSelectedRoomsTemp(newItems);
-            }else{
-                var items4 = {...selectedRoomsTemp};
-                var items2 = Object.keys(selectedRoomsTemp);
-                var items3 = Object.keys(items);
-                var newItems2 = {};
-                items3.map((item) => {
-                    if(!items2.includes(item)){
-                        items4[item] = true;
-                    }
-                });
-                setSelectedRoomsTemp(items4);
-            }
-            
-            
-        }else{
-            var items2 = Object.keys(selectedRoomsTemp);
-            if(items2.includes(''+items+'')){
-                var newItems2 = {};
-                items2.map((item) => {
-                    if(parseInt(item) != items){
-                        newItems2[item] = true
-                    }
-                });
-    
-                setSelectedRoomsTemp(newItems2);
-            }else{
-                setSelectedRoomsTemp({...selectedRoomsTemp,[items] : true});
-            }
-        }
-        
-    }
-
-    const saleModalFunc = (id) => {
+    const paymentModalFunc = (id) => {             
+        setPaymentModalOpen(true);
         id = id - getLastCount();
         setSelectedRoomOrder(id);
         var saleData = {};
-        setSaleModalOpen(true)
-
-        axios.get(baseUrl+'get_sale/'+projectId+'/'+(getLastCount() + id)).then((res) => {
-            if(res.data.data && res.data.data.pay_decs){
-                var payDecx = JSON.parse(res.data.data.pay_decs);
-            }else{
-                var payDecx = [];
-            }
-            // console.log(data[id - 1])
-            solds.map((sold) => {
-                // console.log(sold);
-                var cart = JSON.parse(sold.cart);
-                if(cart.item.id == projectId && cart.item.housing == getLastCount() + id){
-                    var payDecs = [];
-                    for(var i = 0; i < data[id - 1]['pay-dec-count'+(getLastCount() + id)];i++){
-                        payDecs.push({});
-                        payDecs[i]['price'] = data[id - 1]['pay_desc_price'+(getLastCount() + id)+""+i];
-                        payDecs[i]['date'] = data[id - 1]['pay_desc_date'+(getLastCount() + id)+""+i];
-                        if(payDecx.includes(i+1)){
-                            payDecs[i]['status'] = true;
-                        }else{
-                            payDecs[i]['status'] = false;
-                        }
-                    }
-                    saleData['name'] = sold.full_name;
-                    saleData['email'] = sold.email;
-                    saleData['phone'] = sold.phone;
-                    saleData['sale_type'] = sold.is_swap == 0 ? 1 : 2,
-                    saleData['price'] = sold.is_swap == 0 ? data[id - 1]['price[]'] : data[id - 1]['installments-price[]'],
-                    saleData['installment_price'] = data[id - 1]['installments-price[]'],
-                    saleData['advance'] = data[id - 1]['advance[]'],
-                    saleData['installments'] = data[id - 1]['installments[]']
-                    saleData['pay_decs'] = payDecs
-                    saleData['down_payment'] = res.data.data?.down_payment
-                    saleData['advance_payment'] = res.data.data?.advance
-                    saleData['down_payment_price'] = res.data.data?.down_payment_price
-                    saleData['advance_date'] = res.data.data?.advance_date
-                    saleData['deposit_date'] = res.data.data?.deposit_date
-                    saleData['show_neighbour'] = sold.is_show_user == "on" ? true : false
-                }
-            })
-            setSelectedSaleData(saleData);
-        })
-    }
-    // const resetSaleData = () => {
-    //     setSelectedRoomOrder(null);
-    //     setSelectedSaleData({});
-    //     setSelectedId(null);
-    //     setSelectedData(null);
-    // };
-    // console.log(selectedSaleData);
-
-    const paymentModalFunc = (id) => {
-        id = id - getLastCount();
-        console.log('idddd'+ id)
-        setSelectedRoomOrder(id);
-        var saleData = {};
-        setLoading(true); // Start loading
-        // resetSaleData()
-        // setSaleModalOpen(true);
+        setLoading(true); 
+        setPaymentModalLoading(true);
         axios.get(baseUrl + 'get_sale/' + projectId + '/' + (getLastCount() + id))
             .then((res) => {
                 if (res.data.data && res.data.data.pay_decs) {
@@ -1545,39 +1444,51 @@ const HousingList = ({ projectId }) => {
                 } else {
                     var payDecx = [];
                 }
-    
                 solds.map((sold) => {
                     var cart = JSON.parse(sold.cart);
-                    if (cart.item.id == projectId && cart.item.housing == getLastCount() + id) {
-                        var payDecs = [];
-                        for (var i = 0; i < data[id - 1]['pay-dec-count' + (getLastCount() + id)]; i++) {
-                            payDecs.push({});
-                            payDecs[i]['price'] = data[id - 1]['pay_desc_price' + (getLastCount() + id) + "" + i];
-                            payDecs[i]['date'] = data[id - 1]['pay_desc_date' + (getLastCount() + id) + "" + i];
-                            payDecs[i]['status'] = payDecx.includes(i + 1) ? true : false;
+                    try{
+                        if (cart.item.id == projectId && cart.item.housing == getLastCount() + id) {
+                            var payDecs = [];
+                            if(data){
+                                for (var i = 0; i < data[id - 1]['pay-dec-count' + (getLastCount() + id)]; i++) {
+                                    payDecs.push({});
+                                    payDecs[i]['price'] = data[id - 1]['pay_desc_price' + (getLastCount() + id) + "" + i];
+                                    payDecs[i]['date'] = data[id - 1]['pay_desc_date' + (getLastCount() + id) + "" + i];
+                                    payDecs[i]['description'] = res.data.data?.pay_dec_description ? JSON.parse(res.data.data?.pay_dec_description)[i]?.description : "";
+                                    payDecs[i]['status'] = payDecx.includes(i + 1) ? true : false;
+                                }
+                            }
+                            console.log(sold)
+                            
+                            saleData['name']                            = sold.full_name;
+                            saleData['email']                           = sold.email;
+                            saleData['phone']                           = sold.phone;
+                            saleData['sale_type']                       = sold.is_swap == 0 ? 1 : 2;
+                            saleData['price']                           = sold.is_swap == 0 ? data[id - 1]['price[]'] : data[id - 1]['installments-price[]'];
+                            saleData['installment_price']               = data[id - 1]['installments-price[]'];
+                            saleData['advance']                         = data[id - 1]['advance[]'];
+                            saleData['installments']                    = data[id - 1]['installments[]'];
+                            saleData['pay_decs']                        = payDecs;
+                            saleData['down_payment']                    = res.data.data?.down_payment;
+                            saleData['advance_payment']                 = res.data.data?.advance;
+                            saleData['down_payment_price']              = res.data.data?.down_payment_price;
+                            saleData['advance_date']                    = res.data.data?.advance_date;
+                            saleData['deposit_date']                    = res.data.data?.deposit_date;
+                            saleData['show_neighbour']                  = sold.is_show_user === "on" ? true : false;
+                            saleData['down_payment_price_description']  = res.data.data?.down_payment_price_description,
+                            saleData['advance_date_description']        = res.data.data?.advance_date_description;
+                            saleData['title_deed_date'] = res.data.data?.title_deed_date;
+                            saleData['agreement_date'] = res.data.data?.agreement_date;
+                            saleData['agreement_no'] = res.data.data?.agreement_no;
+                            saleData['pay_dec_description'] = JSON.parse(res.data.data?.pay_dec_description);
+                            saleData['changer'] = res?.data?.changer;
                         }
-                        saleData['name']                            = sold.full_name;
-                        saleData['email']                           = sold.email;
-                        saleData['phone']                           = sold.phone;
-                        saleData['sale_type']                       = sold.is_swap == 0 ? 1 : 2;
-                        saleData['price']                           = sold.is_swap == 0 ? data[id - 1]['price[]'] : data[id - 1]['installments-price[]'];
-                        saleData['installment_price']               = data[id - 1]['installments-price[]'];
-                        saleData['advance']                         = data[id - 1]['advance[]'];
-                        saleData['installments']                    = data[id - 1]['installments[]'];
-                        saleData['pay_decs']                        = payDecs;
-                        saleData['down_payment']                    = res.data.data?.down_payment;
-                        saleData['advance_payment']                 = res.data.data?.advance;
-                        saleData['down_payment_price']              = res.data.data?.down_payment_price;
-                        saleData['advance_date']                    = res.data.data?.advance_date;
-                        saleData['deposit_date']                    = res.data.data?.deposit_date;
-                        saleData['show_neighbour']                  = sold.is_show_user === "on" ? true : false;
-                        saleData['down_payment_price_description']  = res.data.data?.down_payment_price_description,
-                        saleData['advance_date_description']        = res.data.data?.advance_date_description
+                    }catch(err){
+                        console.log(err)
                     }
                 });
                 setSelectedSaleData(saleData);
-                setLoading(false); // End loading                
-                setPaymentModalOpen(true);
+                setLoading(false); // End loading   
                 setSelectedId(id);
                 setSelectedData(data[id - 1]);
             })
@@ -1586,46 +1497,58 @@ const HousingList = ({ projectId }) => {
             });
     
     }
-    
 
-    const table = useMaterialReactTable({
-        columns,
-        data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-        enableColumnFilterModes: true,
-        enableColumnOrdering: true,
-        enableGrouping: false,
-        enableColumnPinning: true,
-        enableFacetedValues: true,
-        enableRowActions: true,
-        enableCellActions: true,
-        enableColumnPinning: true,
-        enableRowSelection: (row) => {
-            var soldx = solds.find((sold) => {
-                var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
-                    return sold
-                }
-            })
-            if(!soldx){
-                return true;
-            }else{
-                return false;
+    const [refs, setRefs] = useState([]);
+    const ref2 = useRef();
+
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const divs = containerRef.current.querySelectorAll('.scrollable');
+        const newRefs = Array.from(divs).map((_, index) => React.createRef());
+        setRefs(newRefs);
+    
+        
+    
+        newRefs.forEach((ref, index) => {
+            console.log(ref);
+          if (ref.current) {
+            ref.current.addEventListener('scroll', handleScroll);
+          }
+        });
+    
+      }, [data]);
+
+    const handleScroll = (e) => {
+        const scrollLeft = e.target.scrollLeft;
+        refs.forEach((ref, index) => {
+            if (ref.current && ref.current !== e.target) {
+                ref.current.scrollLeft = scrollLeft;
+                ref2.current.scrollLeft = scrollLeft;
             }
-        },
-        onRowSelectionChange: (item) => {
-            changeSelectedItems(item)
-        },
-        enableEditing: (row) => {
-            var soldx = solds.find((sold) => {
-                var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
-                    return sold
+        });
+    };
+
+    const allSelectedShowItems = (e) => {
+
+        if(e.target.checked){
+            var tempItems = selectedRoomsTemp;
+            var end = 20;
+            console.log(getLastCount() + 20,project.room_count);
+            if(getLastCount() + 20 > project.room_count){
+                end = project.room_count - getLastCount();
+            }
+            for(var i = 0 ; i < end ; i++){
+                var soldx = solds.find((sold) => {
+                    var soldJson = JSON.parse(sold.cart);
+                    if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + i + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                        return sold
+                    }
+                })
+
+                if(!soldx){
+                    tempItems[getLastCount() + i + 1] = true;
                 }
-            })
-            if(!soldx){
-                return true;
-            }else{
-                return false;
             }
         },
         editDisplayMode: 'cell',
@@ -1665,335 +1588,474 @@ const HousingList = ({ projectId }) => {
                         },
                     })
                 }else{
-                    if(data.cell.column.id == 'mrt-row-actions' ){
-                        return {
-                            sx: {
-                                display: 'block', // Diğer hücreleri gizlemek için
-                            },
-                        };
-                    }else{
-                        return {
-                            sx: {
-                                display: 'none', // Diğer hücreleri gizlemek için
-                            },
-                        };
-                    }
-                    
-                }
-                
-            }else{
-                if(data.row.original['off_sale[]'] != "[]"){
-                    return({
-                        sx: {
-                          backgroundColor: "#f0ad4e",
-                          color : '#000'
-                        },
-                    })
+                    tempItems[i] = selectedRoomsTemp[i]
                 }
             }
-        },
-        muiPaginationProps: {
-            color: 'secondary',
-            rowsPerPageOptions: [10, 20, 30],
-            shape: 'rounded',
-            variant: 'outlined',
-        },
-        onPaginationChange: setPagination,
-        manualPagination: true,
-        rowCount: totalProjectsCount,
-        enableStickyHeader: true,
-        enableStickyFooter: true,
-        onShowGlobalFilterChange : false,
-        enableGlobalFilterModes : false,
-        enableGlobalFilter: false,
-        enableGlobalFilterRankedResults:false,
-        enableFilterMatchHighlighting : false,
-        muiTableContainerProps: { sx: { maxHeight: 'calc(100vh - 330px)' } },
-        renderRowActionMenuItems: ({ closeMenu,row }) => {
-            var soldx = solds.find((sold) => {
-                var soldJson = JSON.parse(sold.cart);
-                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
-                    return sold
-                }
-            })
-            
-
-            if(soldx){
-                return [
-                    // <MenuItem
-                    //     key={0}
-                    //     onClick={() => {
-                    //         saleModalFunc(getLastCount() + row.index + 1)
-                    //         // View profile logic...
-                    //         closeMenu();
-                    //     }}
-                    //     sx={{ m: 0 }}
-                    // >
-                    //     <ListItemIcon>
-                    //         <UserIcon />
-                    //     </ListItemIcon>
-                    //     Satış Bilgilerini Düzenle
-                    // </MenuItem>,
-                    <MenuItem
-                        key={0}
-                        onClick={() => {
-                            paymentModalFunc(getLastCount() + row.index + 1);
-                        }}
-                        sx={{ m: 0 }}
-                    >
-                        <ListItemIcon>
-                            <ReceiptIcon />
-                        </ListItemIcon>
-                        Ödeme Planını Düzenle
-                    </MenuItem>,
-                    <MenuItem
-                        key={0}
-                        onClick={() => {
-                            var anchor = document.createElement('a');
-                            // console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
-                            anchor.href = frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1);
-                            anchor.target="_blank";
-                            anchor.click();
-                        }}
-                        sx={{ m: 0 }}
-                    >
-                        <ListItemIcon>
-                            <ReceiptIcon />
-                        </ListItemIcon>
-                        Çıktı Al
-                    </MenuItem>
-                ]
-            }else{
-                return [
-                    <MenuItem
-                        key={0}
-                        onClick={() => {
-                            // View profile logic...
-                            window.location.href = frontEndUrl+'hesabim/projects/'+projectId+'/housings/edit/'+(row.index + 1)
-                            closeMenu();
-                        }}
-                        sx={{ m: 0 }}
-                    >
-                        <ListItemIcon>
-                            <EditIcon />
-                        </ListItemIcon>
-                        İlanı Düzenle
-                    </MenuItem>
-                ]
-            }
-            
-        },
-        renderTopToolbar: ({ table }) => {
-
-            return (
-                <Box
-                    sx={(theme) => ({
-                        backgroundColor: lighten(theme.palette.background.default, 0.05),
-                        display: 'flex',
-                        gap: '0.5rem',
-                        p: '8px',
-                        justifyContent: 'space-between',
-                    })}
-                >
-                    <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                        {/* import MRT sub-components */}
-                        <MRT_GlobalFilterTextField table={table} />
-                    </Box>
-                    <Box>
-                        <Box sx={{ display: 'flex', gap: '0.5rem' }}>
-                            <Button
-                                color="info"
-                                disabled={!Object.keys(selectedRoomsTemp).length > 0}
-                                onClick={() => {setCustomEditOpen(true)}}
-                                variant="contained"
-                            >
-                                Seçilen İlanları Düzenle
-                            </Button>
-                        </Box>
-                    </Box>
-                </Box>
-            );
-        },
-        localization: {
-            actions: 'İşlemler',
-            and: 've',
-            cancel: 'İptal',
-            changeFilterMode: 'Change filter mode',
-            changeSearchMode: 'Change search mode',
-            clearFilter: 'Filtreyi Temizle',
-            clearSearch: 'Aramayı Temizle',
-            clearSelection: 'Seçme işlemini sıfırla',
-            clearSort: 'Sıralamyı sıfırla',
-            clickToCopy: 'Kopyala',
-            copy: 'Kopyala',
-            collapse: 'Collapse',
-            collapseAll: 'Collapse all',
-            columnActions: 'Column Actions',
-            copiedToClipboard: 'Copied to clipboard',
-            dropToGroupBy: 'Drop to group by {column}',
-            edit: 'Düzenle',
-            expand: 'Expand',
-            expandAll: 'Expand all',
-            filterArrIncludes: 'Includes',
-            filterArrIncludesAll: 'Includes all',
-            filterArrIncludesSome: 'Includes',
-            filterBetween: 'Between',
-            filterBetweenInclusive: 'Between Inclusive',
-            filterByColumn: '{column} alanına göre filtrele',
-            filterContains: 'Contains',
-            filterEmpty: 'Empty',
-            filterEndsWith: 'Ends With',
-            filterEquals: 'Equals',
-            filterEqualsString: 'Equals',
-            filterFuzzy: 'Fuzzy',
-            filterGreaterThan: 'Greater Than',
-            filterGreaterThanOrEqualTo: 'Greater Than Or Equal To',
-            filterInNumberRange: 'Between',
-            filterIncludesString: 'Contains',
-            filterIncludesStringSensitive: 'Contains',
-            filterLessThan: 'Less Than',
-            filterLessThanOrEqualTo: 'Less Than Or Equal To',
-            filterMode: '',
-            filterNotEmpty: 'Not Empty',
-            filterNotEquals: 'Not Equals',
-            filterStartsWith: 'Starts With',
-            filterWeakEquals: 'Equals',
-            filteringByColumn: 'Filtering by {column} - {filterType} {filterValue}',
-            goToFirstPage: 'Go to first page',
-            goToLastPage: 'Go to last page',
-            goToNextPage: 'Go to next page',
-            goToPreviousPage: 'Go to previous page',
-            grab: 'Grab',
-            groupByColumn: 'Group by {column}',
-            groupedBy: 'Grouped by ',
-            hideAll: 'Hide all',
-            hideColumn: 'Hide {column} column',
-            max: 'Max',
-            min: 'Min',
-            move: 'Move',
-            noRecordsToDisplay: 'No records to display',
-            noResultsFound: 'No results found',
-            of: 'of',
-            or: 'or',
-            pin: 'Pin',
-            pinToLeft: 'Pin to left',
-            pinToRight: 'Pin to right',
-            resetColumnSize: 'Reset column size',
-            resetOrder: 'Reset order',
-            rowActions: 'Row Actions',
-            rowNumber: '#',
-            rowNumbers: 'Row Numbers',
-            rowsPerPage: 'Gösterilen veri sayısı',
-            save: 'Save',
-            search: 'Ara...',
-            selectedCountOfRowCountRowsSelected:
-                '{selectedCount} of {rowCount} row(s) selected',
-            select: 'Select',
-            showAll: 'Show all',
-            showAllColumns: 'Show all columns',
-            showHideColumns: 'Show/Hide columns',
-            showHideFilters: 'Show/Hide filters',
-            showHideSearch: 'Show/Hide search',
-            sortByColumnAsc: 'Sort by {column} ascending',
-            sortByColumnDesc: 'Sort by {column} descending',
-            sortedByColumnAsc: 'Sorted by {column} ascending',
-            sortedByColumnDesc: 'Sorted by {column} descending',
-            thenBy: ', then by ',
-            toggleDensity: 'Toggle density',
-            toggleFullScreen: 'Toggle full screen',
-            toggleSelectAll: 'Toggle select all',
-            toggleSelectRow: 'Toggle select row',
-            toggleVisibility: 'Toggle visibility',
-            ungroupByColumn: 'Ungroup by {column}',
-            unpin: 'Unpin',
-            unpinAll: 'Unpin all',
+            setSelectedRoomsTemp(tempItems);
+            setAllSelectedTable(false);
         }
-    });
+        
+    }
+
+    const allSelectedOpenFunc = () => {
+        if(Object.keys(selectedRoomsTemp).length > 0){
+            setCustomEditOpen(true)
+        }else{
+            toast.error("Toplu ilan güncellemesi yapmanız için lütfen ilan seçiniz")
+        }
+    }
+
+    const [pageCountGlob,setPageCountGlob] = useState([]);
+
+    useEffect(() => {
+        if(project?.have_blocks){
+            var roomCount = project.blocks[selectedBlock].housing_count;
+            var pageCount = roomCount / 20;
+            var pageCountInt = parseInt(roomCount / 20);
+            pageCount = pageCount != pageCountInt ? pageCountInt + 1 : pageCountInt;
+            
+            var temp = [];
+
+            for(var i = 0 ; i < pageCount; i++){
+                temp.push(i);
+            }
+
+            setPageCountGlob(temp)
+        }else{
+            var roomCount = project.room_count;
+            var pageCount = roomCount / 20;
+            var pageCountInt = parseInt(roomCount / 20);
+            pageCount = pageCount != pageCountInt ? pageCountInt + 1 : pageCountInt;
+            
+            var temp = [];
+
+            for(var i = 0 ; i < pageCount; i++){
+                temp.push(i);
+            }
+
+            setPageCountGlob(temp)
+        }
+    },[project])
+
+
+    const [allSelectedTable,setAllSelectedTable] = useState(false);
+
+    console.log(pageCountGlob)
+
+    const getNextPage = () => {
+        if(pagination.pageIndex < pageCountGlob.length - 1){
+            setPagination({
+                pageIndex : pagination.pageIndex + 1,
+                pageSize : 20
+            })
+        }
+    }
+
+    const getPrevPage = () => {
+        if(pagination.pageIndex > 0){
+            setPagination({
+                pageIndex : 0,
+                pageSize : 20
+            })
+        }
+    }
+
+    const selectedSingleItemFunc = (roomOrder) => {
+        var tempItems = selectedRoomsTemp;
+        if(Object.keys(tempItems).find((tempItem) => roomOrder == tempItem)){
+            var items2 = {...selectedRoomsTemp};
+            items2 = Object.keys(items2);
+            var newItems2 = {};
+            items2.map((item) => {
+                if(parseInt(item) != parseInt(roomOrder)){
+                    newItems2[item] = true
+                }
+            });
+
+            setSelectedRoomsTemp(newItems2);
+        }else{
+            setSelectedRoomsTemp({
+                ...selectedRoomsTemp,
+                [roomOrder] : true
+            })
+        }
+        
+    }
+
+
+    const id = open ? 'simple-popover' : undefined;
+    const [anchorEl,setAnchorEl] = useState(null);
+    const popoverOpen = Boolean(anchorEl);
+    const [selectedRow,setSelectedRow] = useState(null)
+    const [isSelectedSold,setIsSelectedSold] = useState(false);
+
+    const handlePopoverClick = (event,row,isSold) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedRow(row);
+        setIsSelectedSold(isSold);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <>
-            {
-                haveBlocks ? 
-                    <div class="tabs">
-                        <ul>
-                            <li onClick={() => {setSelectedBlock(0)}} className={selectedBlock == 0 ? "active" : ""}>A Blok</li>
-                            <li onClick={() => {setSelectedBlock(1)}} className={selectedBlock == 1 ? "active" : ""}>B Blok</li>
-                        </ul>
-                    </div>
-                : ''
-            }
-            {
-                Object.keys(selectedRoomsTemp).length > 0 ? 
-                    <div className="card px-3 mb-2 pb-2">
-                        <h4>Seçilen Konutlar</h4>
-                        <div>
-                            {
-                                haveBlocks ? 
-                                    Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
-                                        var lastItemsCountx = 0;
-                                        var x = 0;
-                                        var blockName = "";
-                                        var selectedBlockIndex = 0;
-                                        for(var t = 0; t < blockx.length; t++ ){
-                                            x += blockx[t].housing_count;
-                                            if(selectedRoom > x){
-                                                lastItemsCountx += blockx[t].housing_count;
-                                                selectedBlockIndex = t + 1;
-                                            }
-                                        }
-                                        return(
-                                            <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ blockx[selectedBlockIndex].block_name +" "+ ( parseInt(selectedRoom) - lastItemsCountx)} <i className='fa fa-times'></i></span>
-                                        )
-                                    })
-                                : 
-                                    Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
-                                        return(
-                                            <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='badge badge-phoenix badge-phoenix-success mx-1'>{ ( parseInt(selectedRoom) )} <i className='fa fa-times'></i></span>
-                                        )
-                                    })
-                            }
-                        </div>
-                    </div>
-                : ''
-            }
+            <Popover
+                id={id}
+                open={popoverOpen}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+                }}
+                transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+                }}
+            >
+                <ul className="popover-project-actions">
+                    {
+                        isSelectedSold ? 
+                            <>
+                                <li>
+                                    <a onClick={(e) => {e.preventDefault();e.stopPropagation();paymentModalFunc(getLastCount() + selectedRow + 1);setAnchorEl(null)}}>Ödeme Planını Düzenle</a>
+                                </li>
+                                <li>
+                                    <a onClick={(e) => {
+                                        var anchor = document.createElement('a');
+                                        // console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
+                                        anchor.href = frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + selectedRow + 1);
+                                        anchor.target="_blank";
+                                        anchor.click();
+                                    }}>Çıktı Al</a>
+                                </li>
+                            </>
+                        : 
+                            <li>
+                                <a onClick={(e) => {window.location.href = frontEndUrl+'hesabim/projects/'+projectId+'/housings/edit/'+(selectedRow + 1); closeMenu();}}>İlanı Düzenle</a>
+                            </li>
+                    }
+                    
+                </ul>
+            </Popover>
             
             {
                 loading ? 
-                    ''
-                : 
-                    <div style={{display:'flex',justifyContent:'space-between',marginBottom:'10px',alignItems:'center'}} className='px-3'>
-                        <button className='all_selected_button' onClick={() => {allSelected()}}> <span className='buyUserRequest__text'>{allSelectedCheckbox ? 'Seçimi Kaldır' : 'Projedeki Tüm Konutları Seç'}</span> </button>
-                        <div style={{width:'60%'}}>
-                            <div style={{display:'flex',justifyContent:'space-around'}}>
-                                <div className='info-color'>
-                                    <div className='color-area' style={{background:'#22bb33'}}></div>
-                                    <span>Satışa Açık</span>
+                    <>
+                        <div>
+                            <div className="row" style={{justifyContent:'space-between'}}>
+                                <div className="col-md-6">
+                                    <Skeleton animation="wave" width={'100%'} style={{height : '30px',style:'100%'}} variant="rectangular" />
                                 </div>
-                                <div className='info-color'>
-                                    <div className='color-area' style={{background:'#f0ad4e'}}></div>
-                                    <span>Satışa Kapalı</span>
-                                </div>
-                                <div className='info-color'>
-                                    <div className='color-area' style={{background:'#bb2124'}}></div>
-                                    <span>Satıldı</span>
+                                <div className="col-md-3">
+                                    <Skeleton animation="wave" width={'100%'} style={{height : '30px',style:'100%'}} variant="rectangular" />
                                 </div>
                             </div>
-                            <div className="progress-areax">
-                                <div className="sales-open" style={{width:((salesCount()['saleOpenCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleOpenCount']}  </div>
-                                {
-                                    salesCount()['saleCloseCount'] > 0 ?
-                                        <div className="sales-closed" style={{width:((salesCount()['saleCloseCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleCloseCount']}  </div>
-                                    : ''
-                                }
-                                <div className="sale" style={{width:((salesCount()['saleCount'] * 100) / project.room_count)+'%'}}> {salesCount()['saleCount']} </div>
+                            <div className="d-flex mt-3" style={{justifyContent:'space-between'}}>
+                                <div className="d-flex">
+                                    <Skeleton animation="wave" width={30} height={30} style={{marginRight:'5px'}} variant='rectangular'/>
+                                    <Skeleton animation="wave" width={30} height={30} style={{marginRight:'5px'}} variant='rectangular'/>
+                                    <Skeleton animation="wave" width={30} height={30} style={{marginRight:'5px'}} variant='rectangular'/>
+                                    <Skeleton animation="wave" width={30} height={30} style={{marginRight:'5px'}} variant='rectangular'/>
+                                </div>
+                                <div>
+                                    <Skeleton animation="wave" width={160} height={30}  variant='rectangular'/>
+                                </div>
+                            </div>
+                            <div className="d-flex mt-3" style={{justifyContent:'space-between'}}>
+                                <div>
+                                    <Skeleton animation="wave" width={190} height={30}  variant='rectangular'/>
+                                </div>
+                            </div>
+                            <div>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
+                                <Skeleton variant="rounded" animation="wave" width='100%' height={60} style={{marginTop:'10px'}}/>
                             </div>
                         </div>
-                    </div>
+                    </>
+                : 
+                    <>
+                        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'10px',alignItems:'center',marginBottom:'20px'}} >
+                            <div className="table-breadcrumb">
+                                <ul>
+                                    <li><i className="fa fa-home"></i></li>
+                                    <li>Ofisim</li>
+                                    <li>{project.project_title} Adlı Projenin Konutları</li>
+                                </ul>
+                            </div>
+                            <div style={{width:'30%'}}>
+                                <div style={{display:'flex',justifyContent:'space-around'}}>
+                                    <div className='info-color' style={{borderColor:'green',color:'green'}}>
+                                        <span>Satışa Açık</span>
+                                        <span >{salesCount()['saleOpenCount']}</span>
+                                    </div>
+                                    <div className='info-color' style={{borderColor:'rgba(240, 173, 78)',color:'rgba(240, 173, 78)'}}>
+                                        <span>Satışa Kapalı</span>
+                                        <span>{salesCount()['saleCloseCount']}</span>
+                                    </div>
+                                    <div className='info-color'>
+                                        <span>Satıldı</span>
+                                        <span>{salesCount()['saleCount']}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="d-flex" style={{marginBottom : '20px',justifyContent:'space-between'}}>
+                            <div className="housing-pagination">
+                                <ul>
+                                    <li onClick={() => {getPrevPage()}} className={pagination.pageIndex != 0 ? 'active' : '' }><i className='fa fa-chevron-left'></i></li>
+                                    {
+                                        pageCountGlob.map((_,i) => {
+                                            return(
+                                                <li onClick={() => {setPagination({pageIndex : i , pageSize : 20});setAllSelectedTable(false)}} className={pagination.pageIndex == i ? "active" : ""}>{i + 1}</li>
+                                            )
+                                        })
+                                    }
+                                    <li onClick={() => [getNextPage()]} className={pagination.pageIndex != pageCountGlob.length - 1 ? 'active' : '' }><i className='fa fa-chevron-right'></i></li>
+                                </ul>
+                            </div>
+
+                            <button onClick={() => {allSelectedOpenFunc()}} className={'edit-selected-items '+(!Object.keys(selectedRoomsTemp).length > 0 ? "disabled" : "")}>Seçilen İlanları Düzenle</button>
+                        </div>
+                        <div className="d-flex" style={{justifyContent:'space-between'}}>
+                            {
+                                haveBlocks ? 
+                                    <div class="block-tabs mb-3">
+                                        <ul>
+                                            {
+                                                project?.blocks?.map((block,index) => {
+                                                    return(
+                                                        <li onClick={() => {setSelectedBlock(index)}} className={selectedBlock == index ? "active" : ""}>{block.block_name}</li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
+                                : ''
+                            }
+
+                            <button className={'all_selected_button mb-4 '+(allSelectedCheckbox ? "" : "active")} onClick={() => {allSelected()}}> <span className='buyUserRequest__text'>{allSelectedCheckbox ? 'Seçimi Kaldır' : 'Projedeki Tüm Konutları Seç'}</span> </button>
+
+                        </div>
+                        {
+                            Object.keys(selectedRoomsTemp).length > 0 ? 
+                                <div className="selected-items-area">
+                                    <h4>Seçilen Konutlar</h4>
+                                    <div className='selected-items' id='style-x' style={{paddingBottom:'5px'}}>
+                                        {
+                                            haveBlocks ? 
+                                                Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
+                                                    var lastItemsCountx = 0;
+                                                    var x = 0;
+                                                    var blockName = "";
+                                                    var selectedBlockIndex = 0;
+                                                    for(var t = 0; t < blockx.length; t++ ){
+                                                        x += blockx[t].housing_count;
+                                                        if(selectedRoom > x){
+                                                            lastItemsCountx += blockx[t].housing_count;
+                                                            selectedBlockIndex = t + 1;
+                                                        }
+                                                    }
+                                                    return(
+                                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='selected-item'>{ blockx[selectedBlockIndex].block_name +" "+ ( parseInt(selectedRoom) - lastItemsCountx)} <i className='fa fa-times'></i></span>
+                                                    )
+                                                })
+                                            : 
+                                                Object.keys(selectedRoomsTemp).map((selectedRoom,key) => {
+                                                    return(
+                                                        <span onClick={() => {removeSelectedRoom(selectedRoom)}} style={{cursor:'pointer'}}  className='selected-item'>{ ( parseInt(selectedRoom) )} <i className='fa fa-times'></i></span>
+                                                    )
+                                                })
+                                        }
+                                    </div>
+                                </div>
+                            : ''
+                        }
+                        <div className="project-housings-table-head">
+                            <div className="pinned-left">
+                                <span><input checked={allSelectedTable} type="checkbox" onChange={(e) => {allSelectedShowItems(e)}}/></span>
+                                <span>No</span>
+                            </div>
+                            <div className="center-scroll" ref={ref2} onScroll={handleScroll} id='style-x'>
+                                <span>İlan Görseli</span>
+                                <span style={{width:'23%'}}>İlan Başlığı</span>
+                                <span style={{width:'15%'}}>Fiyat</span>
+                                <span>Taksitli Fiyat</span>
+                                <span>Taksit Sayısı</span>
+                                <span>Peşinat</span>
+                                <span>Ara Ödemeler</span>
+                                <span style={{textAlign:'center'}}>Hisse Sayısı</span>
+                                <span>M² Net</span>
+                                <span>M² Brüt</span>
+                                <span>Oda Sayısı</span>
+                                <span>Bulunduğu Kat</span>
+                                <span>Satış Durumu</span>
+                            </div>
+                            <div className="pinned-right">
+                                <span>İşlemler</span>
+                            </div>
+                        </div>
+                    </>
             }
             
+            <div ref={containerRef}>
+                {
+                    data.map((row,index) => {
+                        var soldx = solds.find((sold) => {
+                            var soldJson = JSON.parse(sold.cart);
+                            if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                return sold
+                            }
+                        })
 
+                        if(soldx){
+                            return(
+                                <div className="project-housings-table-row" style={{background : row['off_sale[]'] != "[]" ? "rgb(240 173 78 / 20%)" : "#fff"}}>
+                                    <div className="sold-area">
+                                        <div className="sold-area2">
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                            <div className="sold-item">Satıldı</div>
+                                        </div>
+                                        <div className='customer-info'>
+                                            Alıcı Adı soyadı : {soldx.full_name}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Alıcı Telefon Numarası : {soldx.phone}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Satış Tipi : {soldx.is_swap == 0 ? "Peşin Satış" : "Taksitli Satış"}
+                                        </div>
+                                        <div className='customer-info'>
+                                            Satış Fiyatı : {soldx.is_swap == 0 ? dotNumberFormat(row['price[]']) : dotNumberFormat(row['installments-price[]'])} ₺
+                                        </div>
+                                    </div>
+                                    <div className="pinned-left">
+                                        <span><input disabled type="checkbox" /></span>
+                                        <span>{(getLastCount() + index + 1) - getLastBlockCount()}</span>
+                                    </div>
+                                    <div className="center-scroll scrollable" id='style-x' ref={refs[index]} onScroll={handleScroll}>
+                                        <span className='table-row-image'><img src={frontEndUrl + 'project_housing_images/' + row['image[]']} alt="" /></span>
+                                        <span style={{width:'23%'}}>{row['advertise_title[]']}</span>
+                                        <span style={{width:'15%'}}>{dotNumberFormat(row['price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments-price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments[]'])}</span>
+                                        <span>{dotNumberFormat(row['advance[]'])}₺</span>
+                                        <span>
+                                            <p onClick={() => { setSelectedSingleItem(getLastCount() + index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row,getLastCount() + index + 1); }} className="pay-decs-button">
+                                                <p>Ara ödemeleri güncelle</p>
+                                                <p>{parseInt(row['pay-dec-count' + (getLastCount() + index + 1)]) > 0 ? row['pay-dec-count' + (getLastCount() + index + 1)] : 0} Ara Ödeme</p>
+                                            </p>
+                                        </span>
+                                        <span>{row['number_of_shares[]']}</span>
+                                        <span>{row['squaremeters[]']}m²</span>
+                                        <span>{row['m2gross[]']}m²</span>
+                                        <span>{row['room_count[]']}</span>
+                                        <span>{row['floor_location[]']}</span>
+                                        <span>
+                                            {
+                                                soldx ? 
+                                                    <p className='sale-text'>
+                                                        Satıldı
+                                                    </p>  
+                                                : 
+                                                    row['off_sale[]'] == "[]" ?
+                                                        <p className='sale-open-text'>Satışa Açık</p>
+                                                    :   <p className='sale-close-text'>Satışa Kapalı</p>
+                                            }
+                                            {}
+                                        </span>
+                                    </div>
+                                    <div className="pinned-right">
+                                        <span onClick={(e) => {handlePopoverClick(e,index,true)}} className="project-table-content-actions-button" >
+                                            <i className="fa fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        }else{
+                            var isChecked = false;
+                            if(selectedRoomsTemp[getLastCount() + index + 1] && selectedRoomsTemp[getLastCount() + index + 1] == true){isChecked = true}
+                            
+                            return(
+                                <div className="project-housings-table-row" style={{background : row['off_sale[]'] != "[]" ? "rgb(240 173 78 / 20%)" : "#fff"}}>
+                                    {
+                                        isChecked ? 
+                                            <div className='selected-div'>
+
+                                            </div>
+                                        : ''
+                                    }
+                                    <div className="pinned-left">
+                                        <span><input onChange={() => {selectedSingleItemFunc(getLastCount() + index + 1)}} type="checkbox" checked={selectedRoomsTemp[getLastCount() + index + 1] && selectedRoomsTemp[getLastCount() + index + 1] == true}/></span>
+                                        <span>{(getLastCount() + index + 1) - getLastBlockCount()}</span>
+                                    </div>
+                                    <div className="center-scroll scrollable" id='style-x' ref={refs[index]} onScroll={handleScroll}>
+                                        <span className='table-row-image'><img onClick={() => {setSingleUpdateImageModalOpen(true);setSelectedSingleItem( getLastCount() + index + 1);setSelectedColumn('image')}} src={frontEndUrl + 'project_housing_images/' + row['image[]']} alt="" /></span>
+                                        <span style={{width:'23%'}}>{row['advertise_title[]']}</span>
+                                        <span style={{width:'15%'}}>{dotNumberFormat(row['price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments-price[]'])}₺</span>
+                                        <span>{dotNumberFormat(row['installments[]'])}</span>
+                                        <span>{dotNumberFormat(row['advance[]'])}₺</span>
+                                        <span>
+                                            <p onClick={() => { setSelectedSingleItem(getLastCount() + index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row,getLastCount() + index + 1); }} className="pay-decs-button">
+                                                <p>Ara ödemeleri güncelle</p>
+                                                <p>{parseInt(row['pay-dec-count' + (getLastCount() + index + 1)]) > 0 ? row['pay-dec-count' + (getLastCount() + index + 1)] : 0} Ara Ödeme</p>
+                                            </p>
+                                        </span>
+                                        <span style={{textAlign:'center'}}>{row['number_of_shares[]']}</span>
+                                        <span>{row['squaremeters[]']}m²</span>
+                                        <span>{row['m2gross[]']}m²</span>
+                                        <span>{row['room_count[]']}</span>
+                                        <span>{row['floor_location[]']}</span>
+                                        <span>
+                                            {
+                                                soldx ? 
+                                                    <p className='sale-text'>
+                                                        Satıldı
+                                                    </p>  
+                                                : 
+                                                    row['off_sale[]'] == "[]" ?
+                                                        <p className='sale-open-text'>Satışa Açık</p>
+                                                    :   <p className='sale-close-text'>Satışa Kapalı</p>
+                                            }
+                                            {}
+                                        </span>
+                                    </div>
+                                    <div className="pinned-right">
+                                        <span onClick={(e) => {handlePopoverClick(e,index,false)}} className="project-table-content-actions-button" >
+                                            <i className="fa fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        
+                    })
+                }
+            </div>
+            
             <CustomEdit reloadData={reloadData} selectedRoomsTemp={selectedRoomsTemp} open={customEditOpen} setOpen={setCustomEditOpen} project={project}/>
-            <MaterialReactTable table={table} />
             <ImageChange saveSingleHousing={saveImageSingle} saveHousing={saveImageMultiple} data={changeData} setData={setChangeData} open={updateSingleImageModalOpen} selectedType={selectedType} setOpen={setSingleUpdateImageModalOpen} />
             <ToastContainer />
             <PayDecTable savePayDecsSingle={savePayDecsSingle} saveSelectedHousing={savePayDecSelectedHousing} saveHousing={savePayDecs} data={payDecData} setData={setPayDecData} open={updatePayDecModalOpen} selectedType={selectedType} setOpen={setUpdatePayDecModalOpen} />
@@ -2001,8 +2063,7 @@ const HousingList = ({ projectId }) => {
             <UpdateHousingModal saveHousing={saveHousing} data={changeData} setData={setChangeData} open={updateHousingModalOpen} selectedType={selectedType} setOpen={setUpdateHousingModalOpen} isDotType={isDotType} />
             <SaleModal getLastCount={getLastCount} reloadData={reloadData2} projectId={projectId} roomOrder={selectedRoomOrder} datat={selectedSaleData} open={saleModalOpen} setOpen={setSaleModalOpen}
             selectedId={selectedId}  selectedData={selectedData} setSelectedId={setSelectedId}  solds={solds}   />   
-            <PaymentModal projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen} getLastCount={getLastCount} reloadData={reloadData2} roomOrder={selectedRoomOrder} datat={selectedSaleData} setSelectedData={setSelectedData}/>   
-            
+            <PaymentModal loading={paymentModalLoading} setLoading={setPaymentModalLoading} projectId={projectId} selectedId={selectedId} selectedData={selectedData} setSelectedId={setSelectedId} open={paymentModalOpen} solds={solds} setOpen={setPaymentModalOpen} getLastCount={getLastCount} reloadData={reloadData2} roomOrder={selectedRoomOrder} datat={selectedSaleData} setSelectedData={setSelectedData}/>   
         </>
     );
 };

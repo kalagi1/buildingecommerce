@@ -95,6 +95,8 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Admin\ReasonManagementController;
 use App\Http\Controllers\Api\Client\ProjectController as ApiClientProjectController;
 use App\Http\Controllers\Api\Institutional\CrmController;
+use App\Http\Controllers\Api\Institutional\LockedController;
+use App\Http\Controllers\Api\Institutional\SubuserController;
 use App\Http\Controllers\Client\SellTypeController;
 use App\Http\Controllers\Api\Institutional\UserController as ApiInstitutionalUserController;
 use App\Http\Controllers\Client\BidController;
@@ -1244,6 +1246,17 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/render_pdf/{project_id}/{room_order}', [ApiProjectController::class, "renderPdf"]);
     Route::get('/get_sale/{project_id}/{room_order}', [ApiProjectController::class, "getSale"]);
     Route::apiResource('customer', CrmController::class);
+    Route::get('/get_lockeds',[LockedController::class,"getLockeds"]);
+    Route::get('/subUsers',[SubuserController::class,"getSubusers"]);
+    Route::get('/get_lockers/{projectId}/{roomOrder}',[LockedController::class,"getLockers"]);
+    Route::post('/save_lockers/{projectId}/{roomOrder}',[LockedController::class,"saveLockers"]);
+    Route::post('/update_locked/{projectId}/{roomOrder}',[LockedController::class,"updateLock"]);
+    Route::get('/get_user_locked_information/{projectId}/{roomOrder}',[LockedController::class,"getUserLockedInformation"]);
+    
+    Route::post('new-call-record',[CrmController::class,'newCallRecord']);
+    Route::post('new-appointment',[CrmController::class,'newAppointment']);
+    Route::get('fetch-customers/{customerId}',[CrmController::class,'fetchCustomers']);
+    Route::get('all-appointments',[CrmController::class,'allAppointments']);
 
     Route::post('new-call-record', [CrmController::class, 'newCallRecord']);
     Route::post('new-appointment', [CrmController::class, 'newAppointment']);
