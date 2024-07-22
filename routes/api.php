@@ -134,7 +134,7 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
-
+    Route::get('housing_type_parents',[TempOrderController::class,"getHousingTypeParents"]);
     Route::get('support', [ApiSupportController::class, 'index']);
     Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
         
