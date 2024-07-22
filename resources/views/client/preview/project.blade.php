@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="http://private.emlaksepette.com/" />
+        <meta property="og:url"content="https://private.emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'http://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -2022,7 +2022,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -2216,7 +2216,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

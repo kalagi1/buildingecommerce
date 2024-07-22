@@ -293,7 +293,7 @@ function FileUpload({
                 <span class="d-block">Dosya Eklediniz</span>{" "}
                 <a
                   class="btn btn-info"
-                  href="http://private.emlaksepette.com/housing_documents/document_temp106.pdf"
+                  href="https://private.emlaksepette.com/housing_documents/document_temp106.pdf"
                   download=""
                 >
                   Mevcut Dosyayı İndir

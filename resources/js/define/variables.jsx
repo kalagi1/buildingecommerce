@@ -1,7 +1,7 @@
 
 
-export const baseUrl = "http://private.emlaksepette.com/react/";
-export const frontEndUrl = "http://private.emlaksepette.com/";
+export const baseUrl = "https://private.emlaksepette.com/react/";
+export const frontEndUrl = "https://private.emlaksepette.com/";
 
 
 export const dotNumberFormat = (number) => {

@@ -1645,7 +1645,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1839,7 +1839,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
@@ -2020,7 +2020,7 @@
 <script
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
-
+    
 
 <!--FormBuilder-->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -2030,7 +2030,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-8cb64a61.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-12f0c864.js"></script>
 
 
 {{-- @vite('resources/js/app.jsx') --}}

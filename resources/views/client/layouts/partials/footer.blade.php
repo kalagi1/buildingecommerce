@@ -1707,7 +1707,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1925,7 +1925,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://private.emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

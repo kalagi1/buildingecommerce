@@ -598,7 +598,7 @@
                                                                         data-share="[&quot;Var&quot;]"
                                                                         data-number-share="12">
                                                                         <span class="IconContainer">
-                                                                            <img src="http://private.emlaksepette.com/sc.png"
+                                                                            <img src="https://private.emlaksepette.com/sc.png"
                                                                                 alt="">
                                                                         </span>
                                                                         <span class="text">Sepete Ekle</span>

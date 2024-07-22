@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://private.emlaksepette.com'),
+    'url' => env('APP_URL', 'https://private.emlaksepette.com'),
 
     'asset_url' => env('ASSET_URL'),
 
