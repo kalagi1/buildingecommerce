@@ -339,7 +339,7 @@ function HousingForm({
           <div className="add-classified-note mb-3">
             Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma yükümlülüğü metnine {" "}
             <a
-              href="https://emlaksepette.com/sayfa/kvkk-politikasi"
+              href="http://private.emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"
             >
               buradan
