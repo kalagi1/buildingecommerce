@@ -184,11 +184,13 @@
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
+                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                 <div class="button-effect-div favorite-move">
                                     <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -305,7 +307,7 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (count($labels) <= 0) 
+                                            @if (count($labels) > 0)
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
                                                         @if (count($val) > 1)
@@ -505,7 +507,7 @@
                                     <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
-                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                @if ( $sold &&  $sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                         <h4
                                                             style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
@@ -599,12 +601,18 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <div class="col-md-12 col-12 p-0 ml-3">
-                                                    <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                        style="color:#EA2B2E !important;cursor: pointer; ">
-                                                        Pazarlık Yap <i class="fa fa-handshake"></i>
-                                                    </a>
-                                                </div>
+                                                @if (Auth::check())
+                                                    
+                                                
+                                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
+                                                    <div class="col-md-12 col-12 p-0 ml-3">
+                                                        <a data-bs-toggle="modal" data-bs-target="#bidModal"
+                                                            style="color:#EA2B2E !important;cursor: pointer; ">
+                                                            Pazarlık Yap <i class="fa fa-handshake"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                                @endif
                                             @endif
                                         </div>
 
@@ -621,7 +629,7 @@
                                                     @php
                                                         $buttonStyle = '';
                                                         $buttonText = '';
-                                                        if ($sold[0]->status == '0') {
+                                                        if ($sold && $sold[0]->status == '0') {
                                                             $buttonStyle =
                                                                 'background: orange !important; width: 100%; color: white;';
                                                             $buttonText = 'Rezerve Edildi';
@@ -661,96 +669,105 @@
 
                         @if (checkIfUserCanAddToCart($housing->id))
 
+
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                                <div class="add-to-collections-wrapper addCollection" data-type='housing'
-                                    data-id="{{ $housing->id }}">
-                                    <div class="add-to-collection-button-wrapper">
-                                        <div class="add-to-collection-button">
+                                @if ((isset($sold[0]) && $sold[0]->status == '2') || !$sold)
+                                    <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                                        data-id="{{ $housing->id }}">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
 
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#e54242" />
-                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                    <rect width="1440" height="1577"
-                                                        transform="translate(-1100 -1183)" fill="white" />
-                                                    <g id="Group 6131">
-                                                        <g id="Frame 21409">
-                                                            <g id="Group 6385">
-                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#ea2a28" />
-                                                                <g id="Group 2664">
-                                                                    <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#ea2a28" />
-                                                                    <g id="Group 72">
-                                                                        <path id="Rectangle 12"
-                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                            fill="white" stroke="white"
-                                                                            stroke-width="2" />
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#e54242" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#ea2a28" />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#ea2a28" />
+                                                                        <g id="Group 72">
+                                                                            <path id="Rectangle 12"
+                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                                fill="white" stroke="white"
+                                                                                stroke-width="2" />
+                                                                        </g>
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1750_971">
-                                                        <rect width="1440" height="1577" fill="white"
-                                                            transform="translate(-1100 -1183)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg><span class="add-to-collection-button-text">
-                                                @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                    Portföyüme Ekle
-                                                @else
-                                                    Koleksiyona Ekle
-                                                @endif
-                                            </span>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg><span class="add-to-collection-button-text">
+                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                        Portföyüme Ekle
+                                                    @else
+                                                        Koleksiyona Ekle
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
-                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                </div>
+                                @endif
                             @endif
-                            @if (isset(json_decode($housing->housing_type_data)->swap[0]))
-                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                    <div class="add-to-collection-button-wrapper">
-                                        <div class="add-to-collection-button">
 
-                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="32" height="32" fill="#F0F0F0" />
-                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                    <rect width="1440" height="1577"
-                                                        transform="translate(-1100 -1183)" fill="white" />
-                                                    <g id="Group 6131">
-                                                        <g id="Frame 21409">
-                                                            <g id="Group 6385">
-                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                    height="48" rx="8" fill="#FEF4EB" />
-                                                                <g id="Group 2664">
-                                                                    <rect id="Rectangle 316" width="32"
-                                                                        height="32" rx="4" fill="#F27A1A" />
-                                                                    <g id="Group 72">
-                                                                        <path d="M16 11V21M11 16H21" stroke="white"
-                                                                            stroke-width="2" stroke-linecap="round" />
+                            @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
+                                @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
+
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#F0F0F0" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#FEF4EB" />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#F27A1A" />
+                                                                        <g id="Group 72">
+                                                                            <path d="M16 11V21M11 16H21" stroke="white"
+                                                                                stroke-width="2" stroke-linecap="round" />
+                                                                        </g>
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                </g>
-                                                <defs>
-                                                    <clipPath id="clip0_1750_971">
-                                                        <rect width="1440" height="1577" fill="white"
-                                                            transform="translate(-1100 -1183)" />
-                                                    </clipPath>
-                                                </defs>
-                                            </svg>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
 
-                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                         </div>
-                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                </div>
+                                @endif
                             @endif
                         @endif
 
@@ -1366,11 +1383,12 @@
                                                                     </svg></a>
                                                             </button>
                                                         </div>
-                                                        <div class="button-effect toggle-favorite"
-                                                            data-housing-id={{ $housing->id }}>
-                                                            <i class="fa fa-heart-o"></i>
-                                                        </div>
-
+                                                        @if ($sold && $sold[0]->status != '1')
+                                                            <div class="button-effect toggle-favorite"
+                                                                data-housing-id={{ $housing->id }}>
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </div>
+                                                        @endif
 
                                                     </div>
                                                 </div>

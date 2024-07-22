@@ -54,6 +54,18 @@ class ProjectController extends Controller
             'message' => 'Başvurunuz başarıyla alındı !'
         ]);
     }
+
+    public function giveOfferByUser()
+    {
+        $userId = auth()->guard('api')->user()->id;
+        $offers = ProjectOffers::with('project','store')->where('user_id', $userId)->get();
+
+        return response()->json([
+            'success' => true,
+            'offers' => $offers
+        ], 200);
+    }
+
     public function getFeaturedProjects()
     {
 

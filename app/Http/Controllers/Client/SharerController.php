@@ -348,9 +348,11 @@ class SharerController extends Controller
     }
 
 
-    public function showLinks($id)
+    public function showLinks($hashedId)
     {
-        $collection = Collection::where('id', $id)->first();
+        $collectionId = decode_id($hashedId);
+
+        $collection = Collection::with("links")->where('id', $collectionId)->first();
         $sharer = User::findOrFail(auth()->user()->id);
 
         $items = ShareLink::where('user_id', auth()->user()->id)->where('collection_id', $collection->id)->get();
@@ -381,7 +383,7 @@ class SharerController extends Controller
                 $offSale = isset($housingTypeData['off_sale1']);
             }
 
-            if ($item->item_type == 1) {
+            if ($item->item_type == 1 || $item->item_type == 0) {
 
                 $userProjectIds = $sharer->projects->pluck('id');
                 $discount_amount = Offer::where('type', 'project')->where('project_id', $item->project->id)

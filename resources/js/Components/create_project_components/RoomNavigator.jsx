@@ -1,225 +1,345 @@
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify';
-function RoomNavigator({formDataHousing,selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBlock,formData,validationErrors,setValidationErrors,haveBlock}) {
-    const [copyValue,setCopyValue] = useState("");
-    const [tempItems,setTempItems] = useState([]);
-    const [copyLoading,setCopyLoading] = useState(false);
-    const nextHouse = () => {
-        if(selectedRoom + 1 < blocks[selectedBlock]?.roomCount){
-            const errors = [];
-            for(var i = 0; i < formData.length; i++){
-                if(!formData[i]?.className?.includes("project-disabled")){
-                    if(formData[i].required){
-                        if(blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "" && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "Seçiniz"){
-                        }else{
-                            errors.push(formData[i].name)
-                        }
-                    }
-                }
-            }
-            if(errors.length == 0){
-                if(!blocks[selectedBlock].rooms[selectedRoom + 1]){
-                    var newBlocks = blocks[selectedBlock].rooms;
-                    newBlocks.push({});
-                    setBlocks((block,key) => {
-                        if(key == selectedBlock){
-                            return {
-                                ...block,
-                                rooms : [...newBlocks]
-                            }
-                        }else{
-                            return block;
-                        }
-                    })
-                    setSelectedRoom(selectedRoom + 1);
-                }else{
-                    setSelectedRoom(selectedRoom + 1);
-                }
-            }else{
-                
-                if(document.getElementsByClassName('error-border').length > 0){
-                    window.scrollTo({ top: document.getElementsByClassName('error-border')[0].offsetTop, behavior: "smooth" })
-                    console.log("asd",document.getElementsByClassName('error-border')[0],document.getElementsByClassName('error-border')[0].offset);
-                }
-                setValidationErrors(errors);
-            }
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+function RoomNavigator({
+  formDataHousing,
+  selectedRoom,
+  setSelectedRoom,
+  blocks,
+  setBlocks,
+  selectedBlock,
+  formData,
+  validationErrors,
+  setValidationErrors,
+  haveBlock,
+}) {
+  const [copyValue, setCopyValue] = useState("");
+  const [tempItems, setTempItems] = useState([]);
+  const [copyLoading, setCopyLoading] = useState(false);
+
+  const nextHouse = () => {
+    if (selectedRoom + 1 < blocks[selectedBlock]?.roomCount) {
+      const errors = formData.reduce((acc, field) => {
+        if (
+          !field?.className?.includes("project-disabled") &&
+          field.required &&
+          (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+            blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+            blocks[selectedBlock]?.rooms[selectedRoom][field.name] ===
+              "Seçiniz")
+        ) {
+          acc.push(field.name);
         }
+        return acc;
+      }, []);
+
+      if (errors.length === 0) {
+        const newBlocks = [...blocks];
+        if (!newBlocks[selectedBlock].rooms[selectedRoom + 1]) {
+          newBlocks[selectedBlock].rooms.push({});
+        }
+        setBlocks(newBlocks);
+        setSelectedRoom(selectedRoom + 1);
+      } else {
+        scrollToError();
+        setValidationErrors(errors);
+      }
+    }
+  };
+
+  const scrollToError = () => {
+    const errorElement = document.querySelector(".error-border");
+    if (errorElement) {
+      window.scrollTo({
+        top: errorElement.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const percentOccupancy = () => {
+    const requiredCount = formData.filter(
+      (field) =>
+        !field?.className?.includes("project-disabled") && field.required
+    ).length;
+
+    const filledCount = formData.reduce((acc, field) => {
+      if (
+        !field?.className?.includes("project-disabled") &&
+        field.required &&
+        blocks[selectedBlock]?.rooms[selectedRoom]?.[field.name] &&
+        blocks[selectedBlock]?.rooms[selectedRoom][field.name] !== "" &&
+        blocks[selectedBlock]?.rooms[selectedRoom][field.name] !== "Seçiniz"
+      ) {
+        acc++;
+      }
+      return acc;
+    }, 0);
+
+    return (100 * filledCount) / requiredCount;
+  };
+
+  useEffect(() => {
+    var tempItems2 = [];
+    if (haveBlock) {
+      for (var i = 0; i < blocks.length; i++) {
+        for (var j = 0; j < blocks[i].roomCount; j++) {
+          if (haveBlock) {
+            tempItems2.push({
+              label: blocks[i].name + " " + (j + 1) + " No'lu İlan",
+              value: i + "-" + j,
+            });
+          } else {
+            if (j < selectedRoom) {
+              tempItems2.push({
+                label: j + 1 + " No'lu İlan",
+                value: i + "-" + j,
+              });
+            }
+          }
+        }
+      }
+    } else {
+      for (var i = 0; i < blocks[selectedBlock]?.roomCount; i++) {
+        tempItems2.push({
+          label: i + 1 + " No'lu İlan",
+          value: i + "-" + i,
+        });
+      }
     }
 
+    console.log("dadsds".tempItems2);
+    setTempItems(tempItems2);
+  }, [selectedBlock, selectedRoom]);
 
-    const percentOccupancy = () => {
-        var requiredCount = 0;
-        var rightCount = 0;
-        for(var i = 0; i < formData.length; i++){
-            if(!formData[i]?.className?.includes("project-disabled")){
-                if(formData[i].required){
-                    requiredCount++;
-                    if(blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "" && blocks[selectedBlock]?.rooms[selectedRoom][formData[i].name] != "Seçiniz"){
-                        rightCount++;
-                    }
-                }
-            }
-        }
-        return (100 * rightCount) / requiredCount;
-    }
+  const copyItem = (selectBlock, selectRoom) => {
+    // const errors = formDataHousing.reduce((acc, field) => {
+    //   if (
+    //     !field?.className?.includes("project-disabled") &&
+    //     field.required &&
+    //     (!blocks[selectedBlock].rooms[selectedRoom][field.name] ||
+    //       blocks[selectedBlock].rooms[selectedRoom][field.name] === "")
+    //   ) {
+    //     acc.push(field.name.replace("[]", ""));
+    //   }
+    //   return acc;
+    // }, []);
 
+    // if (errors.length > 0) {
+    //   toast.error(
+    //     "Bu ilanda zorunlu tüm alanlar dolu olmadığı için seçili ilana kopyalama işlemi yapılamaz"
+    //   );
+    //   return;
+    // }
+
+    setCopyLoading(true);
+    console.log(blocks);
+    const newBlocks = blocks.map((block, blockIndex) => {
+      if (blockIndex === selectedBlock) {
+        return {
+          ...block,
+          rooms: block.rooms.map((room, roomIndex) =>
+            roomIndex === selectedRoom
+              ? blocks[selectBlock].rooms[selectRoom]
+              : room
+          ),
+        };
+      }
+      return block;
+    });
+
+    toast.success(
+      haveBlock
+        ? `${blocks[selectBlock].name} bloğun ${selectRoom + 1}. nolu ilanı, ${blocks[selectedBlock].name} bloğun ${selectedRoom + 1}. nolu ilana kopyalandı`
+        : `${(selectRoom + 1) + (selectedRoom + 1)}. nolu ilan, ${selectedRoom + 1}. nolu ilana kopyalandı`
+    );
     
 
-    useEffect(() => {
-        var tempItems2 = [];
-        for(var i = 0; i < blocks.length; i++){
-            for(var j = 0 ; j < blocks[i].roomCount; j++){
-                if(haveBlock){
-                    tempItems2.push({
-                        label : blocks[i].name +' '+ (j+1) +' No\'lu Konut',
-                        value : i+"-"+j
-                    })
-                }else{
-                    if(j < selectedRoom){
-                        tempItems2.push({
-                            label : (j+1) +' No\'lu Konut',
-                            value : i+"-"+j
-                        })
-                    }
-                }
-                
-            }
-        }
+    setBlocks(newBlocks);
+    setCopyLoading(false);
+  };
 
-        setTempItems(tempItems2)
-    },[selectedBlock,selectedRoom])
-
-    const copyItem = (selectBlock,selectRoom) => {
-        setCopyLoading(false);
-        var newBlocks = blocks.map((block,key) => {
-            if(key == selectedBlock){
-                return {
-                    ...block,
-                    rooms : block.rooms.map((room,keyx) => {
-                        if(keyx == selectedRoom){
-                            return blocks[selectBlock].rooms[selectRoom];
-                        }else{
-                            return room;
+  const allCopy = () => {
+    var tempErrors = [];
+    if(blocks.length > 0){
+        formDataHousing.forEach((formDataHousing) => {
+            if(!formDataHousing?.className?.includes('project-disabled')){
+                if(formDataHousing.required){
+                    if(blocks.length < 1){
+                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                    }else{
+                        if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                            tempErrors.push(formDataHousing.name.replace("[]",""))
                         }
-                    })
+                    }
+                    
                 }
-            }else{
-                return block;
+            }
+        })
+    }
+
+    if(tempErrors.length > 0){
+        toast.error("Bu konutta zorunlu tüm alanlar dolu olmadığı için tüm konutlara kopyalama işlemi yapılamaz");
+    }else{
+        var tempBlocks = blocks.map((block) => {
+            var tempRooms = [];
+            for( var i = 0 ; i < block.roomCount; i++){
+                tempRooms.push(blocks[selectedBlock].rooms[selectedRoom]);
+            }
+
+            return {
+                ...block,
+                rooms : tempRooms
             }
         })
 
-        if(haveBlock){
-            toast.success(blocks[selectBlock].name+" bloğun "+(parseInt(selectRoom) + 1)+" nolu konutu "+blocks[selectedBlock].name+" bloğun "+(selectedRoom + 1)+" nolu konutuna kopyalandı")
-        }else{
-            
-            toast.success((parseInt(selectRoom) + 1)+" nolu konut "+(selectedRoom + 1)+" nolu konuta kopyalandı")
-        }
-        
-        setBlocks(newBlocks);
-        
-        setCopyLoading(true);
+        setBlocks(tempBlocks);
+
+        toast.success("Bu konutu başarıyla tüm konutlara kopyaladınız")
     }
-
-    const allCopy = () => {
-        var tempErrors = [];
-        if(blocks.length > 0){
-            formDataHousing.forEach((formDataHousing) => {
-                if(!formDataHousing?.className?.includes('project-disabled')){
-                    if(formDataHousing.required){
-                        if(blocks.length < 1){
-                            tempErrors.push(formDataHousing.name.replace("[]",""))
-                        }else{
-                            if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
-                                tempErrors.push(formDataHousing.name.replace("[]",""))
-                            }
-                        }
-                        
-                    }
-                }
-            })
-        }
-
-        if(tempErrors.length > 0){
-            toast.error("Bu konutta zorunlu tüm alanlar dolu olmadığı için tüm konutlara kopyalama işlemi yapılamaz");
-        }else{
-            var tempBlocks = blocks.map((block) => {
-                var tempRooms = [];
-                for( var i = 0 ; i < block.roomCount; i++){
-                    tempRooms.push(blocks[selectedBlock].rooms[selectedRoom]);
-                }
     
-                return {
-                    ...block,
-                    rooms : tempRooms
-                }
-            })
-
-            setBlocks(tempBlocks);
-
-            toast.success("Bu konutu başarıyla tüm konutlara kopyaladınız")
-        }
-        
-    }
-
-    return(
-        <div className="bottom-housing-area align-center col-xl-6 col-md-6 col-6" style={{justifyContent:'center'}}>
-            
-            <div className="row w-100">
-                <div className="col-md-12 mbpx-10">
-                    <div className="row jc-space-between">
-                        <div className="col-md-4">
-                            <div className="d-flex" style={{alignItems:'center'}}>
-                                <div className="show-houing-order " style={{width:'calc(100% - 30px)'}}>
-                                    <div className="full-load" style={{width:percentOccupancy()+'%'}}></div>
-                                     <span>Konut <span className="room-order-progress">{selectedRoom + 1}</span> / <span className="percent-housing">{percentOccupancy().toFixed(2)}</span>%</span></div>
-                                <div className="icon" style={{marginLeft:'5px'}} data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
-                                    <i className="fa fa-circle-info"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <button className='btn btn-primary' onClick={allCopy}> Bu Konutu Hepsine Kopyala</button>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="d-flex" style={{alignItems:'center'}}>
-                                <div className="icon" style={{marginRight:'5px'}}>
-                                    <i className="fa fa-circle-info"></i>
-                                </div>
-                                
-                                <select value={copyValue} onChange={(e) => {var copyValues= e.target.value.split('-'); copyItem(copyValues[0],copyValues[1])}} className={"form-control  copy-item"} name="" id="">
-                                    <option value="">{
-                                        haveBlock ? 
-                                        "Kopyalamak istediğiniz konutu seçin" : selectedRoom == 0 ? "Kopyalama işlemi için 2 nolu konuta geçin" : "Kopyalamak istediğiniz konutu seçin" 
-                                    }</option>
-                                    {tempItems.map((x, i) => {
-                                        return(
-                                           <option value={x.value}>{x.label}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-12 ">
-                    <div className="row" style={{justifyContent:'space-between'}}>
-                        <div className=" col-md-4">
-                            <div onClick={() => {selectedRoom != 0 ? setSelectedRoom(selectedRoom - 1) : () => {}}} className={"button-white prev-house-bottom "+(selectedRoom == 0 ? "disabled-button" : "")}>
-                                <i className="fa fa-circle-chevron-left"></i> <span className="ml-5px last-housing-text">Önceki Konut</span>
-                            </div>
-                        </div>
-                        <div className="button-white2 col-md-4">
-                            <input type="text" value={selectedRoom + 1} className="form-control house_order_input"/><span>/</span><span className="total-house-text">{blocks[selectedBlock]?.roomCount}</span>
-                        </div>
-                        <div className="col-md-4">
-                            <div className={"button-white next-house-bottom "+(selectedRoom == blocks[selectedBlock]?.roomCount - 1 ? "disabled-button" : "")} onClick={() => {nextHouse()}}>
-                                <span className="mr-5px next-housing-text">Sonraki Konut</span> <i className="fa fa-circle-chevron-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
 }
-export default RoomNavigator
+
+
+  return (
+    <>
+      <div className="bottom-housing-area align-center col-md-12">
+        <div className="row">
+          <div className="col-md-12 mb-10">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="row justify-content-between align-items-center">
+                  <div className="col-md-4">
+                    <div
+                      onClick={() => {
+                        if (selectedRoom !== 0) {
+                          setSelectedRoom(selectedRoom - 1);
+                        }
+                      }}
+                      className={`button-white prev-house-bottom ${
+                        selectedRoom === 0 ? "disabled-button" : ""
+                      }`}
+                    >
+                      <i className="fa fa-chevron-left mr-1"></i>
+                      <span>Önceki</span>
+                    </div>
+                  </div>
+                  <div className="col-md-4 text-center">
+                    <span className="total-house-text">{selectedRoom + 1}</span>
+
+                    <span> / </span>
+                    <span className="total-house-text">
+                      {blocks[selectedBlock]?.roomCount}
+                    </span>
+                  </div>
+                  <div className="col-md-4 text-right">
+                    <div
+                      className={`button-white next-house-bottom ${
+                        selectedRoom === blocks[selectedBlock]?.roomCount - 1
+                          ? "disabled-button"
+                          : ""
+                      }`}
+                      onClick={nextHouse}
+                    >
+                      <span>Sonraki</span>
+                      <i className="fa fa-chevron-right ml-1"></i>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+              </div>
+              <div className="col-md-12">
+                <div className="d-flex align-items-center">
+                  <div className="show-houing-order" style={{ width: "100%" }}>
+                    <div
+                      className="full-load"
+                      style={{ width: `${percentOccupancy()}%` }}
+                    ></div>
+                    <span>
+                      <span className="room-order-progress">
+                        {selectedRoom + 1}. İlan /
+                      </span>{" "}
+                      <span className="percent-housing">
+                        {percentOccupancy().toFixed(2)}%
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    className="icon ml-2"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Doldurduğunuz ilanın doluluk oranını görüntüleyebilirsiniz"
+                  >
+                    <i className="fa fa-info-circle"></i>
+                  </div>
+                </div>
+                <hr />
+              </div>
+
+              {tempItems.length > 1 && selectedRoom != 0 && (
+                <div className="col-md-12">
+                  <div className="d-flex align-items-center">
+                    <div className="w-100">
+                      <p className="mb-0">Bu ilana,</p>
+                      <p>başka bir ilanın verilerini kopyalamak için:</p>
+                      <select
+                        value={copyValue}
+                        onChange={(e) => {
+                          var copyValues = e.target.value.split("-");
+                          copyItem(
+                            !haveBlock ? 0 : copyValues[0],
+                            copyValues[1]
+                          );
+                        }}
+                        className="form-control copy-item w-100"
+                        disabled={selectedRoom === 0}
+                      >
+                        <option value="">
+                          {haveBlock
+                            ? "İlan Seçiniz"
+                            : selectedRoom === 0
+                            ? "Kopyalama işlemi için önce bir ilan seçin"
+                            : "İlan Seçiniz"}
+                        </option>
+                        {tempItems.map((item, index) => {
+                          // Sadece selectedRoom'dan küçük olanları listele, selectedRoom 0 ise gösterme
+                          if (
+                            selectedRoom > 0 &&
+                            parseInt(item.value.split("-")[1]) < selectedRoom
+                          ) {
+                            return (
+                              <option key={index} value={item.value}>
+                                {item.label}
+                              </option>
+                            );
+                          } else {
+                            return null;
+                          }
+                        })}
+                      </select>
+                      <p className="mt-2 mb-0">
+                        <span className="mr-2">veya</span>
+                        <a
+                          style={{
+                            color: "#2196f3",
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                          }}
+                          onClick={allCopy}
+                        >
+                          Tüm ilanlara kopyala
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default RoomNavigator;

@@ -14,7 +14,7 @@ var slashs = currentURL.split('/');
 
 console.log(slashs);
 
-if(slashs[slashs.length - 1] == "create_project_v3"){
+if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateProject />, document.getElementById('react_render_area'));
     }
@@ -22,7 +22,7 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<EditProject projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }
-}else if(slashs[slashs.length - 1] == "create_housing_v3"){
+}else if(slashs[slashs.length - 1] == "emlak-ilani-ekle"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateHousing projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }

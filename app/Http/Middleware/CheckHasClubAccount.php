@@ -14,7 +14,8 @@ class CheckHasClubAccount {
     [
         'institutional.sharer.index',
         'institutional.sharer.earnings',
-    ];
+        'corporate-has-club-verification'
+        ];
 
     /**
     * Handle an incoming request.
@@ -27,10 +28,10 @@ class CheckHasClubAccount {
             return redirect()->route( 'institutional.corporate-has-club-verification' );
         } elseif ( auth()->user()->has_club == '2' && auth()->user()->type != 3 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
             return redirect()->route( 'institutional.corporate-has-club-status' );
-        } elseif ( auth()->user()->has_club == '3' && request()->route()->getName() == 'institutional.sharer.index' ) {
+        } elseif ( auth()->user()->has_club == '3' && request()->route()->getName() == 'institutional.sharer.index' || auth()->user()->has_club == '3' && request()->route()->getName() == 'institutional.corporate-has-club-status' ) {
             return redirect()->route( 'institutional.corporate-has-club-verification' )->with( 'error', 'Emlak Kulüp başvurunuz reddedildi. Yeni bir başvuru yapınız ya da yönetim ile iletişime geçiniz.' );
-        } elseif ( auth()->user()->has_club == '1' && request()->route()->getName() == 'institutional.corporate-has-club-verification' ) {
-            return redirect()->route( 'institutional.index' );
+        } elseif ( auth()->user()->has_club == '1' && request()->route()->getName() == 'institutional.corporate-has-club-status' ||  auth()->user()->has_club == '1' && request()->route()->getName() == 'institutional.corporate-has-club-verification' ) {
+            return redirect()->route( 'institutional.sharer.index' );
         }
         return $next( $request );
     }

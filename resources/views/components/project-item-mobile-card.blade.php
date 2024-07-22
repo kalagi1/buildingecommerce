@@ -179,11 +179,12 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                             <i class="fa fa-bookmark-o"></i>
                         </span>
-                    @endif
+                  
                     <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
                         style="color: white;" data-project-id="{{ $project->id }}">
                         <i class="fa fa-heart-o"></i>
                     </span>
+                    @endif
                 </div>
             </a>
             <div class="d-flex align-items-end projectItemFlex">

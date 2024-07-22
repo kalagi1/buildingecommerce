@@ -36,6 +36,9 @@ use App\Http\Controllers\Institutional\ProjectController as ControllersInstituti
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
+use App\Http\Controllers\Api\Client\NeighborViewController;
+use App\Http\Controllers\Api\SupportController as ApiSupportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +117,7 @@ Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
 Route::post('add_project_to_favorites/{housingId}', [FavoriteController::class, 'addProjectHousingToFavorites']);
 
+
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
@@ -130,15 +134,24 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
+    Route::get('support', [ApiSupportController::class, 'index']);
+    Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
+        
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/neighbor-view', [NeighborViewController::class, 'index']);
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
 
         Route::Delete('/notifications', [InfoController::class, 'destroyAll']);
+        Route::delete('/notification/delete', [InfoController::class, "notificationDestroyById"])->name('notificationDestroyById');
         Route::Delete('/housing-favorite', [InstitutionalHousingController::class, 'destroyAllFavorite']);
         Route::Delete('/project-favorite', [InstitutionalProjectController::class, 'destroyAllFavorite']);
+
+        Route::delete('/favorites/delete', [FavoriteController::class, 'deleteFavorites']);
+        Route::delete('/sub-users', [UserController::class, 'deleteSubUsers']);
+        Route::delete('/rol-users', [InstitutionalRoleController::class, 'userType']);
 
         Route::middleware(['checkPermission:CreateRole'])->group(function () {
             Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
@@ -190,6 +203,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/get_boughts', [BoughtController::class, 'bougths'])->name('react.bougths');
         Route::get('/get_solds', [BoughtController::class, 'solds'])->name('react.solds');
         Route::post('give_offer', [ProjectController::class, 'give_offer'])->name('give_offer');
+        Route::get ('/user/offers', [ProjectController::class, 'giveOfferByUser']);
         Route::get('/order_detail/{order_id}', [ClientPageController::class, 'orderDetail'])->name('order.detail');
         Route::get('/invoice/{order}', [ClientPageController::class, "invoiceDetail"])->name('invoice.show');
         Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');

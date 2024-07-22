@@ -139,7 +139,7 @@ const HousingList = ({ projectId }) => {
         })
     }
 
-    // console.log(data);
+    // 
 
     const savePayDecSelectedHousing = () => {
         axios.post(baseUrl + 'save_pay_dec', {
@@ -309,6 +309,959 @@ const HousingList = ({ projectId }) => {
             saleOpenCount : project.room_count - saleCloseCount - saleCount
         }
     }
+
+    const columns = useMemo(
+        () => [
+            {
+                id: 'employee', //id used to define `group` column
+                header: 'Proje İlanları',
+                columns: [
+                    {
+                        id: 'no', //id is still required when using accessorFn instead of accessorKey
+                        header: 'No',
+                        size: 10,
+                        accessorKey : "no",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        muiEditTextFieldProps: {
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                            },
+                        },
+                        Cell: ({ renderedCellValue, row }) => {
+                            return (
+                                (getLastCount() + row.index + 1) - getLastBlockCount()
+                            )
+                        },
+                    },
+                    
+                    {
+                        accessorFn: (row) => `${row['image[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'image[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'İlan Görseli',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldTemp = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project"){
+                                    return sold
+                                }
+                            });
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    
+                                        {
+                                            soldTemp ?
+                                                <div class="image-area" style={{ width: '80px', height: '80px', display: 'flex', placeItems: 'center' }}>
+                                                    <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={frontEndUrl + 'project_housing_images/' + renderedCellValue} alt="" />
+                                                </div>
+                                            : 
+                                            <div class="image-area" onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setSingleUpdateImageModalOpen(true); setSelectedColumn("image"); setSelectedType('İlan Resimi'); }} style={{ width: '80px', height: '80px', display: 'flex', placeItems: 'center' }}>
+                                                <div class="image-change">Resmi Değiştir</div>
+                                                <img style={{ maxWidth: '100%', maxHeight: '100%' }} src={frontEndUrl + 'project_housing_images/' + renderedCellValue} alt="" />
+                                            </div>
+                                        }
+                                    
+                                </Box>
+                            )
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['advertise_title[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'ilan_baslik[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'İlan Başlığı',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "advertise_title",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldx = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                    return sold
+                                }
+                            })
+                            if(soldx){
+                                return(
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '1rem',
+                                        }}
+                                    >
+                                        <div>
+                                            No : {row.id}
+                                        </div>
+                                        <div>
+                                            Alıcı Adı soyadı : {soldx.full_name}
+                                        </div>
+                                        <div>
+                                            Alıcı Telefon Numarası : {soldx.phone}
+                                        </div>
+                                        <div>
+                                            Satış Tipi : {soldx.is_swap == 0 ? "Peşin Satış" : "Taksitli Satış"}
+                                        </div>
+                                        <div>
+                                            Satış Fiyatı : {soldx.is_swap == 0 ? dotNumberFormat(row.original['price[]']) : dotNumberFormat(row.original['installments-price[]'])} ₺
+                                        </div>
+                                    </Box>
+                                )
+                            }else{
+                                return(
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '1rem',
+                                        }}
+                                    >
+                                        <span>{renderedCellValue.substr(0, 20)}...</span>
+                                    </Box>
+                                )
+                            }
+                            
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['price[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'price[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Fiyat',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "price",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>{dotNumberFormat(renderedCellValue)}₺</span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['installments-price[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'installments-price[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Taksitli Fiyat',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "installments-price",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>
+                                    {
+                                        row.original['installments-price[]'] ?
+                                            dotNumberFormat(renderedCellValue) + '₺'
+                                            : ''
+                                    }
+                                </span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['pay-decs[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'pay-decs[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Ara Ödemeler',
+                        enableEditing: false,
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldTemp = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                    return sold
+                                }
+                            });
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    {
+                                        soldTemp ? 
+                                            <span className="badge badge-phoenix badge-phoenix-primary batch_update_button" style={{background:'gray',color:'black',border:'1px solid gray'}}>
+                                                {row['pay-dec-count' + (getLastCount() + row.index + 1)] > 0 ? row['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
+                                            </span>
+                                        :   
+                                            <span onClick={() => { setSelectedSingleItem(getLastCount() + row.index + 1); setUpdatePayDecModalOpen(true); setPayDecDataFunc(row.original,getLastCount() + row.index + 1); }} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                Ara ödemeleri güncelle
+                                                <br />
+                                                {parseInt(row.original['pay-dec-count' + (getLastCount() + row.index + 1)]) > 0 ? row.original['pay-dec-count' + (getLastCount() + row.index + 1)] : 0} Ara Ödeme
+                                            </span>
+                                            
+                                        
+                                    }
+                                    
+                                </Box>
+                            )
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['installments[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'installments[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Taksit Sayısı',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "installments",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>{renderedCellValue}</span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['advance[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'advance[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Peşinat',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        visibleInShowHideMenu: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "advance",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                }}
+                            >
+                                <span>
+                                    {
+                                        row.original['advance[]'] ?
+                                            dotNumberFormat(renderedCellValue) + '₺'
+                                            : ''
+                                    }
+                                </span>
+                            </Box>
+                        ),
+                    },
+                    {
+                        accessorFn: (row) => `${row['number_of_shares[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'number_of_shares[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Hisse Sayısı',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "number_of_shares",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    <span>{renderedCellValue == undefined || renderedCellValue == "undefined" ? "" : renderedCellValue}</span>
+                                </Box>
+                            )
+                        },
+                    }, 
+                    {
+                        id: 'squaremeters[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'M² Net',
+                        size: 10,
+                        accessorKey : "squaremeters[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "squaremeters",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue + ' M²'
+                                )
+                            }
+                        },
+                    },
+                    {
+                        id: 'm2gross[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'M² Brüt',
+                        size: 10,
+                        accessorKey : "m2gross[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: false,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "m2gross",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            // console.log(renderedCellValue);
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue + ' M²'
+                                )
+                            }
+                            
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['room_count[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'room_count[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Oda Sayısı',
+                        size: 10,
+                        accessorKey : "room_count[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                label: "1+0",
+                                value: "1+0",
+                                select: true
+                            },
+                            {
+                                label: "1+1",
+                                value: "1+1",
+                                select: true
+                            },
+                            {
+                                label: "1.5+1",
+                                value: "1.5+1",
+                                select: true
+                            },
+                            {
+                                label: "2+0",
+                                value: "2+0",
+                                select: true
+                            },
+                            {
+                                label: "2+1",
+                                value: "2+1",
+                                select: true
+                            },
+                            {
+                                label: "2.5+1",
+                                value: "2.5+1",
+                                select: true
+                            },
+                            {
+                                label: "3+0",
+                                value: "3+0",
+                                select: true
+                            },
+                            {
+                                label: "3+1",
+                                value: "3+1",
+                                select: true
+                            },
+                            {
+                                label: "3.5+1",
+                                value: "3.5+1",
+                                select: true
+                            },
+                            {
+                                label: "4+0",
+                                value: "4+0",
+                                select: true
+                            },
+                            {
+                                label: "4+1",
+                                value: "4+1",
+                                select: true
+                            },
+                            {
+                                label: "4.5+1",
+                                value: "4.5+1",
+                                select: true
+                            },
+                            {
+                                label: "4+2",
+                                value: "4+2",
+                                select: true
+                            },
+                            {
+                                label: "4+3",
+                                value: "4+3",
+                                select: true
+                            },
+                            {
+                                label: "4+4",
+                                value: "4+4",
+                                select: true
+                            },
+                            {
+                                label: "5+1",
+                                value: "5+1",
+                                select: true
+                            },
+                            {
+                                label: "5.5+1",
+                                value: "5.5+1",
+                                select: true
+                            },
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "room_count",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue
+                                )
+                            }
+                        },
+                    },
+                    {
+                        id: 'floor_location[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Bulunduğu Kat',
+                        size: 10,
+                        accessorKey : "floor_location[]",
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        size : 75,
+                        
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                "label": "Giriş Altı Kat 1",
+                                "value": "Giriş Altı Kat 1",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 2",
+                                "value": "Giriş Altı Kat 2",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 3",
+                                "value": "Giriş Altı Kat 3",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Altı Kat 4",
+                                "value": "Giriş Altı Kat 4",
+                                "select": false
+                            },
+                            {
+                                "label": "Bodrum Kat",
+                                "value": "Bodrum Kat",
+                                "select": false
+                            },
+                            {
+                                "label": "Zemin Kat",
+                                "value": "Zemin Kat",
+                                "select": true
+                            },
+                            {
+                                "label": "Bahçe Katı",
+                                "value": "Bahçe Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "Giriş Katı",
+                                "value": "Giriş Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "Yüksek Giriş",
+                                "value": "Yüksek Giriş",
+                                "select": false
+                            },
+                            {
+                                "label": "Müstakil",
+                                "value": "Müstakil",
+                                "select": false
+                            },
+                            {
+                                "label": "Villa Tipi",
+                                "value": "Villa Tipi",
+                                "select": false
+                            },
+                            {
+                                "label": "Çatı Katı",
+                                "value": "Çatı Katı",
+                                "select": false
+                            },
+                            {
+                                "label": "0",
+                                "value": "0",
+                                "select": false
+                            },
+                            {
+                                "label": "1",
+                                "value": "1",
+                                "select": false
+                            },
+                            {
+                                "label": "2",
+                                "value": "2",
+                                "select": false
+                            },
+                            {
+                                "label": "3",
+                                "value": "3",
+                                "select": false
+                            },
+                            {
+                                "label": "4",
+                                "value": "4",
+                                "select": false
+                            },
+                            {
+                                "label": "5",
+                                "value": "5",
+                                "select": false
+                            },
+                            {
+                                "label": "6",
+                                "value": "6",
+                                "select": false
+                            },
+                            {
+                                "label": "7",
+                                "value": "7",
+                                "select": false
+                            },
+                            {
+                                "label": "8",
+                                "value": "8",
+                                "select": false
+                            },
+                            {
+                                "label": "9",
+                                "value": "9",
+                                "select": false
+                            },
+                            {
+                                "label": "10",
+                                "value": "10",
+                                "select": false
+                            },
+                            {
+                                "label": "11",
+                                "value": "11",
+                                "select": false
+                            },
+                            {
+                                "label": "12",
+                                "value": "12",
+                                "select": false
+                            },
+                            {
+                                "label": "13",
+                                "value": "13",
+                                "select": false
+                            },
+                            {
+                                "label": "14",
+                                "value": "14",
+                                "select": false
+                            },
+                            {
+                                "label": "15",
+                                "value": "15",
+                                "select": false
+                            },
+                            {
+                                "label": "16",
+                                "value": "16",
+                                "select": false
+                            },
+                            {
+                                "label": "17",
+                                "value": "17",
+                                "select": false
+                            },
+                            {
+                                "label": "18",
+                                "value": "18",
+                                "select": false
+                            },
+                            {
+                                "label": "19",
+                                "value": "19",
+                                "select": false
+                            },
+                            {
+                                "label": "20",
+                                "value": "20",
+                                "select": false
+                            },
+                            {
+                                "label": "21",
+                                "value": "21",
+                                "select": false
+                            },
+                            {
+                                "label": "22",
+                                "value": "22",
+                                "select": false
+                            },
+                            {
+                                "label": "23",
+                                "value": "23",
+                                "select": false
+                            },
+                            {
+                                "label": "24",
+                                "value": "24",
+                                "select": false
+                            },
+                            {
+                                "label": "25",
+                                "value": "25",
+                                "select": false
+                            },
+                            {
+                                "label": "26",
+                                "value": "26",
+                                "select": false
+                            },
+                            {
+                                "label": "27",
+                                "value": "27",
+                                "select": false
+                            },
+                            {
+                                "label": "28",
+                                "value": "28",
+                                "select": false
+                            },
+                            {
+                                "label": "29",
+                                "value": "29",
+                                "select": false
+                            },
+                            {
+                                "label": "30 ve üzeri",
+                                "value": "30 ve üzeri",
+                                "select": false
+                            }
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event) => {
+                                const value = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "floor_location",
+                                    value: value,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            if(!renderedCellValue){
+                                return (
+                                    'Belirtilmedi'
+                                )
+                            }else{
+                                return (
+                                    renderedCellValue
+                                )
+                            }
+                        },
+                    },
+                    {
+                        accessorFn: (row) => `${row['off_sale[]']}`, //accessorFn used to join multiple data into a single cell
+                        id: 'off_sale[]', //id is still required when using accessorFn instead of accessorKey
+                        header: 'Satış Durumu',
+                        enableColumnFilterModes: false,
+                        enableColumnFilter: false,
+                        enableSorting: false,
+                        enableColumnActions: false,
+                        enableEditing: true,
+                        enableColumnPinning: false,
+                        enableColumnOrdering : false,
+                        editVariant: 'select',
+                        editSelectOptions: [
+                            {
+                                label: "Satışa Açık",
+                                value: "[]",
+                                select: true
+                            },
+
+                            {
+                                label: "Satışa Kapalı",
+                                value: "['Satışa Kapalı']"
+                            }
+                        ],
+                        muiEditTextFieldProps: ({ cell, column, table }) => ({
+                            select: true,
+                            value: cell.value,
+                            onChange: (event, s) => {
+                                const value2 = event.target.value;
+                                axios.post(baseUrl + 'save_housing', {
+                                    rooms: [getLastCount() + cell.row.index + 1],
+                                    column_name: "off_sale",
+                                    value: value2,
+                                    is_dot: false,
+                                    project_id: projectId
+                                }).then((res) => {
+                                })
+                            },
+                        }),
+                        Cell: ({ renderedCellValue, row }) => {
+                            var soldx = solds.find((sold) => {
+                                var soldJson = JSON.parse(sold.cart);
+                                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                                    return sold
+                                }
+                            })
+                            return (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '1rem',
+                                    }}
+                                >
+                                    {
+                                        !soldx ?
+                                            renderedCellValue == '[]' ?
+                                                <button className="badge badge-phoenix badge-phoenix-success value-text">
+                                                    Satışa Açık
+                                                </button>
+                                                :
+                                                <button className="badge badge-phoenix badge-phoenix-danger value-text">
+                                                    Satışa Kapatıldı
+                                                </button>
+                                            : <button disabled={true} className="badge badge-phoenix badge-phoenix-danger value-text">
+                                                Satıldı
+                                            </button>
+                                    }
+                                </Box>
+                            )
+                        },
+                    },
+                ],
+            },
+
+        ],
+        [solds],
+    );
+
 
     const saveHousing = () => {
         var itemsx = Object.keys(selectedRoomsTemp)
@@ -597,14 +1550,43 @@ const HousingList = ({ projectId }) => {
                     tempItems[getLastCount() + i + 1] = true;
                 }
             }
-            setSelectedRoomsTemp(tempItems)
-            setAllSelectedTable(true);
-        }else{
-            var tempItems = {};
-
-            for(var i = 1; i < Object.keys(selectedRoomsTemp).length; i++){
-                if(i > getLastCount() && i < getLastCount() + 20){
-
+        },
+        editDisplayMode: 'cell',
+        initialState: {
+            showColumnFilters: true,
+            showGlobalFilter: true,
+            columnPinning: {
+                left: ['mrt-row-select', 'no'],
+                right: ['mrt-row-actions'],
+            },
+            pagination: pagination,
+        },
+        getRowId: (row,key) =>  { return parseInt(getLastCount()) + (key + 1);},
+        onPaginationChange : setPagination,
+        state: {
+            pagination,
+            rowSelection : selectedRoomsTemp,
+            isLoading : loading
+        },
+        paginationDisplayMode: 'pages',
+        positionToolbarAlertBanner: 'bottom',
+        muiTableBodyCellProps: ( data ) => {
+            var soldx = solds.find((sold) => {
+                var soldJson = JSON.parse(sold.cart);
+                if(soldJson.item.id == projectId && soldJson.item.housing == getLastCount() + data.row.index + 1 && soldJson.type == "project" && (sold.status == 1 || sold.status == 0)){
+                    return sold
+                }
+            })
+            if(soldx){
+                if(data.cell.column.id === 'ilan_baslik[]'){
+                    return({
+                        //conditionally style pinned columns
+                        colSpan : 15,
+                        sx: {
+                          backgroundColor: "#28a745",
+                          color : '#fff'
+                        },
+                    })
                 }else{
                     tempItems[i] = selectedRoomsTemp[i]
                 }

@@ -15,6 +15,7 @@ use App\Models\Project;
 use App\Models\ProjectFavorite;
 use App\Models\Reservation;
 use App\Models\SharerPrice;
+use App\Models\Bid;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Services\SmsService;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -150,7 +152,7 @@ class DashboardController extends Controller
             ->get();
 
     
-            return view( 'institutional.reservations.get', compact('refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
+            return view( 'client.panel.reservations.get', compact('refundedReservations','housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
 
     public function cancelReservationRequest(Request $request, $id)
@@ -303,6 +305,7 @@ class DashboardController extends Controller
             }
         }
     }
+
     public function verifyAccount(Request $request)
     {
         $request->validate(
@@ -436,68 +439,294 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
-        $projectCounts = Project::where("user_id",  auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->count();
-        $housingCounts = Housing::where("user_id",  auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->count();
-        $housingFavorites = HousingFavorite::where("user_id", auth()->user()->id)->count();
-        $projectFavorites = ProjectFavorite::where("user_id", auth()->user()->id)->count();
+        $housingViews = $this->housingViews();
+        $housingSalesStatistics = $this->salesStatistics();
+        $housings = $this->housings();
+        $pendingJobs = $this->pendingJobs();
+        $monthlyCounts = $this->getMonthlyCounts();
+        $monthlyCollectionCounts = $this->getMonthlyCollectionCounts(); // Adjusted variable name
 
-        $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
-        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
-        $stats1_data = [];
+        return view('client.panel.home.index', compact(
+            'housingViews',
+            'housingSalesStatistics',
+            'housings',
+            'pendingJobs',
+            'monthlyCounts',
+            'monthlyCollectionCounts', 
+          
 
-        DB::beginTransaction();
-        for ($i = 1; $i <= date('m'); ++$i) {
-            $n = $i + 1;
-            if ($i == date('m')) {
-                $stats1_data[] = DB::table('housings')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            } else {
-                $stats1_data[] = DB::table('housings')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            }
-        }
-        DB::commit();
-
-        $stats2_data = [];
-
-        DB::beginTransaction();
-        for ($i = 1; $i <= date('m'); ++$i) {
-            $n = $i + 1;
-            if ($i == date('m')) {
-                $stats2_data[] = DB::table('projects')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            } else {
-                $stats2_data[] = DB::table('projects')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            }
-        }
-        DB::commit();
-
-        $user_id = Auth::user()->id;
-
-        $balanceStatus0Lists = SharerPrice::where("user_id", $user_id)
-            ->where("status", "0")->get();
-
-        $balanceStatus0 = SharerPrice::where("user_id", $user_id)
-            ->where("status", "0")
-            ->sum('balance');
-
-        $balanceStatus1Lists = SharerPrice::where("user_id", $user_id)
-            ->where("status", "1")->get();
-
-        $balanceStatus1 = SharerPrice::where("user_id", $user_id)
-            ->where("status", "1")
-            ->sum('balance');
-
-
-        $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
-            ->where("status", "2")->get();
-
-        $balanceStatus2 = SharerPrice::where("user_id", $user_id)
-            ->where("status", "2")
-            ->sum('balance');
-
-        $collections = Collection::with("links")->where("user_id", Auth::user()->id)->orderBy("id","desc")->limit(6)->get();
-        $totalStatus1Count = $balanceStatus1Lists->count();
-        $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
-
-        return view('client.panel.home.index', compact("userLog", "housingCounts", "housingFavorites", "projectFavorites", "projectCounts", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
+        ));
     }
+    
+
+    /**
+     * TODO: Ziyaretci Sayısı son 24 saat
+     * TODO: Grafik-Performans Verileri (yayındaki ilanlar , Görüntülenme, Favoriye Alınma, Koleksiyona Alınma)
+     * TODO: Satış istatistikleri (Toplam Satış, Bugünki satış, Son 1 ayki satış) count ve toplam para
+     * TODO: Son 3 ilan 
+     * TODO: Bekleyen İşler (count)
+     * 
+     */
+
+    
+    public function getMonthlyCollectionCounts()
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+
+        // Şu anki tarihi ve yılı alalım
+        $today = Carbon::today();
+        $currentYear = $today->year;
+        $currentMonth = $today->month;
+
+        // Koleksiyona alınma tarihlerine göre gruplanmış ve item_type'a göre filtrelenmiş verileri alalım
+        $monthlyCollections = DB::table('share_links')
+            ->selectRaw('MONTH(created_at) as month, item_type, ROUND(count(*)) as count')
+            ->where('user_id', $userId)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', '<=', $currentMonth)
+            ->whereIn('item_type', [1, 2]) // 1: Proje, 2: Emlak
+            ->groupBy('month', 'item_type')
+            ->orderBy('month')
+            ->get();
+
+        // Tüm ayları içeren bir dizi oluştur
+        $allMonths = [
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+
+        // Grafik için gerekli formatı oluşturalım
+        $months = [];
+        $countsProjects = [];
+        $countsListings = [];
+
+        // Şu anki yıl için ayarlara yerleştirelim
+        foreach ($allMonths as $index => $month) {
+            if ($index + 1 <= $currentMonth) {
+                $months[] = $month;
+                $countsProjects[] = 0;
+                $countsListings[] = 0;
+            }
+        }
+
+        // Koleksiyon verilerini ayarlara yerleştirelim
+        foreach ($monthlyCollections as $collection) {
+            $index = $collection->month - 1; // Array indexleri 0'dan başladığı için -1
+            if ($collection->item_type == 1) {
+                $countsProjects[$index] += $collection->count;
+            } elseif ($collection->item_type == 2) {
+                $countsListings[$index] += $collection->count;
+            }
+        }
+
+        return [
+            'months' => json_encode($months),
+            'countsProjects' => json_encode($countsProjects),
+            'countsListings' => json_encode($countsListings),
+            'user' => $user,
+            
+        ];
+    }
+        
+        
+    public function getMonthlyCounts()
+    {
+        $user = Auth::user(); 
+        $userId = $user->id;
+
+        // Şu anki tarihi ve yılı alalım
+        $today = Carbon::today();
+        $currentYear = $today->year;
+        $currentMonth = $today->month;
+
+        // İlanların yayınlanma tarihlerine göre gruplanmış verileri alalım
+        $monthlyListings = Housing::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->selectRaw('count(*) as totalCount')
+            ->where('status', 1)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', '<=', $currentMonth)
+            ->when($user->type == 1, function ($query) use ($userId) {
+                return $query->where('owner_id', $userId); // owner_id olarak ayarlayın
+            }, function ($query) use ($userId) {
+                return $query->where('user_id', $userId); // user_id olarak ayarlayın
+            })
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Projelerin yayınlanma tarihlerine göre gruplanmış verileri alalım
+        $monthlyProjects = Project::selectRaw('MONTH(created_at) as month, count(*) as count')
+            ->where('user_id', $userId)
+            ->where('status', 1)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', '<=', $currentMonth)
+            ->whereHas('user', function ($query) use ($userId) {
+                $query->where('id', $userId)
+                      ->where('type', 2); // User modelindeki type alanı 2 olan kullanıcıları filtrele
+            })
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Tüm ayları içeren bir dizi oluştur
+        $allMonths = [
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+
+        // Grafik için gerekli formatı oluşturalım
+        $monthsListings = [];
+        $countsListings = [];
+        $monthsProjects = [];
+        $countsProjects = [];
+
+        // Şu anki yıl için ayırlara yerleştirelim
+        foreach ($allMonths as $index => $month) {
+            if ($index + 1 <= $currentMonth) {
+                $monthsListings[] = $month;
+                $countsListings[] = 0;
+                $monthsProjects[] = $month;
+                $countsProjects[] = 0;
+            }
+        }
+
+        // İlan verilerini ayarlara yerleştirelim
+        foreach ($monthlyListings as $listing) {
+            $index = $listing->month - 1; // Array indexleri 0'dan başladığı için -1
+            $countsListings[$index] = $listing->count;
+        }
+
+        // Proje verilerini ayarlara yerleştirelim
+        foreach ($monthlyProjects as $project) {
+            $index = $project->month - 1; // Array indexleri 0'dan başladığı için -1
+            $countsProjects[$index] = $project->count;
+        }
+        
+
+        return [
+            'monthsListings' => json_encode($monthsListings),
+            'countsListings' => json_encode($countsListings),
+            'totalCountListings' => $monthlyListings->sum('totalCount'),
+            'monthsProjects' => json_encode($monthsProjects),
+            'countsProjects' => json_encode($countsProjects),
+            'totalCountProjects' => $monthlyProjects->sum('count'),
+            'user' => $user,
+        ];
+    }
+
+    private function pendingJobs(){
+
+        $user = Auth::user(); 
+        $userId = $user->id;
+    
+        $totalListingCount  = Housing::where('user_id',$userId)->count();
+        $listingsPendingApprovalCount  = Housing::where('user_id',$userId)->where('status', 0)->count();
+        $activeListingsCount = Housing::where('user_id',$userId)->where('status', 1)->count();
+        $listingsSuspended = Housing::where('user_id',$userId)->where('status', 3)->count();
+        $CollectionCount = Collection::where('user_id',$userId)->count();
+        $SubordinateCount = User::where('parent_id',$userId)->count();
+        $marketOffers =  Bid::where('user_id',$userId)->count();
+
+        return [
+            'totalListingCount' =>$totalListingCount,
+            'listingsPendingApprovalCount' =>$listingsPendingApprovalCount,
+            'activeListingsCount' => $activeListingsCount,
+            'listingsSuspended' => $listingsSuspended,
+            'CollectionCount' => $CollectionCount,
+            'SubordinateCount' => $SubordinateCount,
+            'marketOffers' =>  $marketOffers,
+            'user' =>  $user ,
+        ];  
+    }
+
+    private function housingViews()
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $housingViews = Housing::where('status', 1) 
+        ->orderBy('view_count', 'desc') 
+        ->where('user_id', $userId)
+        ->limit(3) 
+        ->get();
+       
+        return $housingViews;
+    }
+
+    private function housings()
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $housings= Housing::where('status', 1) 
+        ->orderBy('created_at', 'desc') 
+        ->where('user_id', $userId)
+        ->limit(3) 
+        ->get();
+
+        return $housings;
+    }
+
+    private function salesStatistics()
+    {
+        $user = Auth::user(); 
+        $userId = $user->id;
+    
+        $today = Carbon::today()->toDateString();
+        $lastMonth = Carbon::now()->subMonth()->toDateString();
+    
+        // Tüm verileri al
+        $cartOrdersQuery = CartOrder::where('status', '1')
+            ->where('store_id', $userId)
+            ->whereNull('is_disabled')
+            ->get();
+    
+        $todaySalesQuery = CartOrder::where('status', '1')
+            ->where('store_id', $userId)
+            ->whereNull('is_disabled')
+            ->whereDate('created_at', $today)
+            ->get();
+    
+        $lastMonthSalesQuery = CartOrder::where('status', '1')
+            ->where('store_id', $userId)
+            ->whereNull('is_disabled')
+            ->whereDate('created_at', '>=', $lastMonth)
+            ->get();
+    
+        // Toplam Satış
+        $totalSales = $cartOrdersQuery->count();
+    
+        // Bugünün Satışları
+        $todaySales = $todaySalesQuery->count();
+    
+        // Geçen Ayın Satışları
+        $lastMonthSales = $lastMonthSalesQuery->count();
+    
+        // Toplam Gelir
+        $totalRevenue = $cartOrdersQuery->sum(function($order) {
+            return floatval(str_replace(',', '.', str_replace('.', '', $order->amount)));
+        });
+    
+        // Günlük Gelir
+        $dailyRevenue = $todaySalesQuery->sum(function($order) {
+            return floatval(str_replace(',', '.', str_replace('.', '', $order->amount)));
+        });
+    
+        // Aylık Gelir
+        $monthlyRevenue = $lastMonthSalesQuery->sum(function($order) {
+            return floatval(str_replace(',', '.', str_replace('.', '', $order->amount)));
+        });
+    
+        return [
+            'totalSales' => $totalSales,
+            'todaySales' => $todaySales,
+            'lastMonthSales' => $lastMonthSales,
+            'totalRevenue' => $totalRevenue,
+            'dailyRevenue' => $dailyRevenue,
+            'monthlyRevenue' => $monthlyRevenue,
+            'user' => $user,
+        ];
+    }
+
 }

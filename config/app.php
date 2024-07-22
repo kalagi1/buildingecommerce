@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://emlaksepette.com'),
+    'url' => env('APP_URL', 'https://private.emlaksepette.com'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -171,7 +171,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        App\Providers\ValidationServiceProvider::class,
+        
     ])->toArray(),
 
     /*
@@ -189,6 +190,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
     ])->toArray(),
 
 ];

@@ -20,6 +20,12 @@ return new class extends Migration
             $table->string('platform');
             $table->string('province');
             $table->string('job_title');
+
+            $table->string('konut_tercihi')->nullable();
+            $table->string('varlik_yonetimi')->nullable();
+            $table->string('musteri_butcesi')->nullable();
+            $table->string('ilgilendigi_bolge')->nullable();
+
             $table->timestamps();
         });
     }

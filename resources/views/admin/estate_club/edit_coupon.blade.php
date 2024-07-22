@@ -36,13 +36,13 @@
                                             <label class="form-label" for="code">Kupon Kodu</label>
                                             <input name="code" class="form-control" id="code" type="text"
                                                 value="{{ $coupon->coupon_code }}" required>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="code">Kullanım Sayısı</label>
                                             <input name="use_count" class="form-control price-only" id="code"
                                                 type="text" value="{{ $coupon->use_count }}" required>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Satın Alan Kişiye Uygulanacak
@@ -55,7 +55,7 @@
                                                 <option @if ($coupon->discount_type == 2) selected @endif value="2">
                                                     Miktar Olarak</option>
                                             </select>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Satın Alan Kişiye Uygulanacak
@@ -65,7 +65,7 @@
                                                     class="price-only">
                                                 <span class="right-icon amount-icon">?</span>
                                             </div>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Emlak Kulüp Üyesine Sağlanacak
@@ -78,7 +78,7 @@
                                                 <option @if ($coupon->discount_type == 2) selected @endif value="2">
                                                     Miktar</option>
                                             </select>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Emlak Kulüp Üyesine Verilecek
@@ -88,7 +88,7 @@
                                                     name="estate_club_user_amount" type="text" class="price-only">
                                                 <span class="right-icon estate_amount-icon">?</span>
                                             </div>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="" style="font-size: 14px;"><b>Kupon kullanım
@@ -117,7 +117,7 @@
                                                     <input @if ($coupon->time_type == 1) checked @endif
                                                         name="start_date" class="form-control" id="start_date"
                                                         type="date" value="{{ $coupon->start_date }}">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="end_date">Bu kupon kodunun
@@ -125,7 +125,7 @@
                                                     <input @if ($coupon->time_type == 1) checked @endif
                                                         name="end_date" class="form-control" id="end_date"
                                                         type="date" value="{{ $coupon->end_date }}">
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                             </div>
                                         </div>

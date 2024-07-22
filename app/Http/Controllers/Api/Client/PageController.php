@@ -122,52 +122,41 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        // Order'ı bulmaya çalışıyoruz
-        $order = CartOrder::with("user", "store")->where('id', $id)->first();
-    
-        // Eğer order bulunamazsa hata döndürüyoruz
-        if (!$order) {
-            return response()->json([
-                "error" => "Order not found."
-            ], 404);
-        }
-    
-        // Order'ın cart'ını decode ediyoruz ve hata kontrolü yapıyoruz
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
-        if (json_last_error() !== JSON_ERROR_NONE || !isset($orderCart['type']) || !isset($orderCart['item']['id'])) {
-            return response()->json([
-                "error" => "Invalid order cart data."
-            ], 400);
-        }
-    
         $housing = null;
         $project = null;
-    
-        // Housing veya Project'i bulmaya çalışıyoruz
-        if ($orderCart['type'] == 'housing') {
-            $housing = Housing::where('id', $orderCart['item']['id'])->first();
-            if (!$housing) {
-                return response()->json([
-                    "error" => "Housing item not found."
-                ], 404);
+
+        if ($order) {
+            // Payment result değerine göre ödeme yöntemini belirle
+            if ($order->payment_result) {
+                $paymentMethod = 'Kredi Kartı';
+            } else {
+                $paymentMethod = 'EFT / Havale';
             }
-        } else {
-            $project = Project::where('id', $orderCart['item']['id'])->first();
-            if (!$project) {
-                return response()->json([
-                    "error" => "Project item not found."
-                ], 404);
-            }
+        
+            // $order değişkenine yeni bir alan ekleyerek ödeme yöntemini atayabiliriz
+            $order->payment_method = $paymentMethod;
         }
-    
-        // Başarılı durumda yanıt döndürüyoruz
+
+        if ($order) {
+    // Taksitli veya taksitsiz durumu eklemek
+    $order->is_installment = $order->is_swap ? 'Taksitli' : 'Taksitsiz';
+}
+        
+
+        if ($orderCart['type'] == 'housing') {
+            $housing = Housing::with("county","city")->where('id', $orderCart['item']['id'])->first();
+        } else {
+            $project = Project::with("county","city")->where('id', $orderCart['item']['id'])->first();
+        }
         return response()->json([
             "order" => $order,
             "housing" => $housing,
             "project" => $project
         ]);
     }
-    
+
     public function index($slug)
     {
         $pageInfo = Page::where('slug', $slug)->first();
@@ -280,7 +269,7 @@ class PageController extends Controller
 
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
-        $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
+        $collections = Collection::with('links.project',"links.housing", "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         foreach ($items as $item) {
 
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();

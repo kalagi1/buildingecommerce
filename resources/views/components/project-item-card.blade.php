@@ -160,13 +160,14 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                             <i class="fa fa-bookmark-o"></i>
                                         </span>
-                                    @endif
+                                  
 
-                                    <span class="btn toggle-project-favorite bg-white"
-                                        data-project-housing-id="{{ $keyIndex }}"
-                                        data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </span>
+                                        <span class="btn toggle-project-favorite bg-white"
+                                            data-project-housing-id="{{ $keyIndex }}"
+                                            data-project-id={{ $project->id }}>
+                                            <i class="fa fa-heart-o"></i>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="homes position-relative">
                                     <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"

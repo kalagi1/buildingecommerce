@@ -3060,7 +3060,7 @@ $('.rulesOpen').click(function(){
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
-                    console.log(data);
+                    
                     $('.area-list').eq(1).find('li').removeClass('selected');
                     data = data.data;
                     var list = "";

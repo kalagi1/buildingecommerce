@@ -23,9 +23,15 @@ class HousingController extends Controller {
     }
 
     public function show( Housing $housing ) {
-        $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
+        $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county')
         ->where( 'id', $housing->id )
         ->where( 'status', 1 )->first();
+
+        if ($housing && auth()->guard("api")->check()) {
+            $user = auth()->guard("api")->user();
+            $isFavorited = $housing->favorites()->where('user_id', $user->id)->exists();
+            $housing->isFavoritedByUser = $isFavorited ? 1 : null;
+        }
 
         $housing->increment( 'views_count' );
         $housingSetting = ProjectHouseSetting::all();
