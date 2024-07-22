@@ -2030,7 +2030,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-8c7efa10.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-759a00be.js"></script>
 
 
 {{-- @vite('resources/js/app.jsx') --}}
