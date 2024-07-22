@@ -135,6 +135,7 @@ Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class,
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('housing_type_parents',[TempOrderController::class,"getHousingTypeParents"]);
+    Route::get('housing_type_parent_by_parent_id/{parent_id}',[TempOrderController::class,"getHousingTypeParentByParentId"]);
     Route::get('support', [ApiSupportController::class, 'index']);
     Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
         

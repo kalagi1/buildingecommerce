@@ -27,6 +27,12 @@ class TempOrderController extends Controller
         return $housingTypeParent;
     }
 
+    public function getHousingTypeParentByParentId($parentId){
+        $housingTypeParent = HousingTypeParent::where('parent_id',$parentId)->get();
+
+        return $housingTypeParent;
+    }
+
     public function getTempOrderData($id){
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();
