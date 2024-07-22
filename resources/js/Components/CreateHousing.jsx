@@ -12,46 +12,99 @@ import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
 
 function CreateHousing(props) {
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(0);
+  const [step, setStep] = useState(
+    JSON.parse(localStorage.getItem("step")) || 1
+  );
+  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(false);
+
   const [housingTypes, setHousingTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [fillFormData, setFillFormData] = useState([]);
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
 
-  const [projectData, setProjectData] = useState({});
+  const [projectData, setProjectData] = useState(
+    JSON.parse(localStorage.getItem("projectData")) || {}
+  );
   const [selectedHousingType, setSelectedHousingType] = useState({});
   const [haveBlocks, setHaveBlocks] = useState(false);
   const [slug, setSlug] = useState("");
-
-  const [blocks, setBlocks] = useState([
-    {
-      name: "housing",
-      roomCount: 1,
-      rooms: [{}],
-    },
-  ]);
-
+  const [blocks, setBlocks] = useState(
+    JSON.parse(localStorage.getItem("blocks")) || [
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]
+  );
   const [roomCount, setRoomCount] = useState(1);
   const [allErrors, setAllErrors] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(0);
   const [anotherBlockErrors, setAnotherBlockErrors] = useState(0);
-  const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
+  const [selectedTypesTitles, setSelectedTypesTitles] = useState(
+    JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
+  );
   const [user, setUser] = useState({});
   const setProjectDataFunc = (key, value) => {
-    setProjectData({
-      ...projectData,
-      [key]: value,
+    setProjectData((prev) => {
+      const newProjectData = { ...prev, [key]: value };
+      localStorage.setItem("projectData", JSON.stringify(newProjectData));
+      return newProjectData;
     });
   };
 
   useEffect(() => {
-    
     axios.get(baseUrl + "get_current_user").then((res) => {
       setUser(res.data.user);
     });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+  }, [blocks]);
+
+  useEffect(() => {
+    localStorage.setItem("projectData", JSON.stringify(projectData));
+  }, [projectData]);
+
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(1));
+  }, [step]);
+
+  useEffect(() => {
+    const storedStep = localStorage.getItem("step");
+    if (storedStep) {
+      setLoadingModalOpen(false);
+      setStorageLoadingModalOpen(true);
+    } else {
+      setStep(1);
+    }
+  }, []);
+
+  const handleContinue = () => {
+    const storedStep = localStorage.getItem("step");
+    if (storedStep) {
+      setStep(Number(storedStep)); // Continue from the stored step
+    }
+    setLoadingModalOpen(false);
+  };
+
+  const handleStartOver = () => {
+    localStorage.removeItem("step");
+    localStorage.removeItem("projectData");
+    localStorage.removeItem("blocks");
+    localStorage.removeItem("selectedTypesTitles");
+    setStep(1); // Reset to step 1
+    setLoadingModalOpen(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedTypesTitles",
+      JSON.stringify(selectedTypesTitles)
+    );
+  }, [selectedTypesTitles]);
 
   function getCoords(elem) {
     // crossbrowser version
@@ -76,9 +129,10 @@ function CreateHousing(props) {
   }
 
   const createProject = () => {
-    var formDataHousing = JSON.parse(
-      selectedHousingType?.housing_type?.form_json
+    const formDataHousing = JSON.parse(
+      selectedHousingType?.housing_type?.form_json || "[]"
     );
+
     var tempErrors = [];
     var anotherBlockErrorsTemp = [];
     if (!projectData.project_title) {
@@ -706,14 +760,13 @@ function CreateHousing(props) {
             setLoadingModalOpen(false);
             setStep(4);
             setFillFormData(null);
-          }, 500); 
+          }, 500);
         }
       })
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
         toast.error(error.message);
-
       });
   };
 
@@ -727,21 +780,6 @@ function CreateHousing(props) {
     boxShadow: 24,
     p: 4,
   };
-
-  function LinearProgressWithLabel(props) {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ width: "100%", mr: 1 }}>
-          <LinearProgress variant="determinate" {...props} />
-        </Box>
-        <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${Math.round(
-            props.value
-          )}%`}</Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   const totalRoomCount = () => {
     var roomCount = 0;
@@ -795,6 +833,8 @@ function CreateHousing(props) {
       ) : (
         <div className="table-breadcrumb">
           <ul>
+            <li>Emlak İlanı Ekle</li>
+
             <li>Tebrikler</li>
           </ul>
         </div>
@@ -855,24 +895,20 @@ function CreateHousing(props) {
       ) : (
         <EndSectionHousing />
       )}
-
-      {/* <Modal
-        open={loadingModal}
-        onClose={() => {
-          setLoadingModal(false);
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <h2>İlanınız oluşturuluyor</h2>
-          <p>
-            Lütfen işlem tamamlanana kadar tarayıcıyı ve bilgisayarı kapatmayın.
-          </p>
-          <LinearProgressWithLabel value={1} />
-        </Box>
-      </Modal> */}
       <LoadingModal open={loadingModalOpen} progress={progress} />
+      <Modal
+        onClose={() => {
+          setLoadingModalOpen(false);
+        }}
+        open={loadingStorageModalOpen && !loadingModalOpen}
+      >
+        <h2>
+          Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
+          istersin?
+        </h2>
+        <button onClick={handleContinue}>Devam Et</button>
+        <button onClick={handleStartOver}>Yeni İlan Ekle</button>
+      </Modal>
 
       <ToastContainer />
     </>

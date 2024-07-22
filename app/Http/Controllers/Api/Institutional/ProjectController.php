@@ -177,8 +177,8 @@ class ProjectController extends Controller
         $roomValidations = [];
         $roomValidationsMessages = [];
 
-        foreach ($housingTypeInputs as $input) {
-            if($input && isset($input->className) && $input->className){
+        if (isset($housingTypeInputs)) {
+            foreach ($housingTypeInputs as $input) {
                 if (!str_contains($input->className, 'project-disabled')) {
                     if ($input->required) {
                         $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
@@ -187,6 +187,8 @@ class ProjectController extends Controller
                 }
             }
         }
+
+       
 
         $manager = new ImageManager(
             new Driver()
@@ -230,7 +232,7 @@ class ProjectController extends Controller
         $instUser = User::where("id", Auth::user()->id)->first();
         $endDate = Carbon::now();
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
-        if ($request->file('projectData')['cover_image']) {
+        if (isset($request->file('projectData')['cover_image']) && $request->file('projectData')['cover_image']) {
 
             $file = $request->file('projectData')['cover_image'];
 
@@ -266,7 +268,7 @@ class ProjectController extends Controller
 
         $totalCount = $request->input('totalRoomCount');
 
-        if ($request->file('projectData')['document']) {
+        if (isset($request->file('projectData')['document']) && $request->file('projectData')['document']) {
             $file = $request->file('projectData')['document'];
 
             $destinationPath = public_path('housing_documents');
@@ -306,64 +308,71 @@ class ProjectController extends Controller
             "have_blocks" => $request->input('haveBlocks') == "true"
         ]);
 
-        foreach ($request->file('projectData')['gallery'] as $key => $image) {
-            $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
-
-
-            if ($image->move($destinationPath, $newFileName)) {
-
-                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
+        if (isset($request->file('projectData')['gallery'])) {
+            foreach ($request->file('projectData')['gallery'] as $key => $image) {
+                $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
+    
+    
+                if ($image->move($destinationPath, $newFileName)) {
+    
+                    $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
+                    $imageWidth = $imageMg->width();
+                    $imageHeight = $imageMg->height();
+    
+                    if ($imageWidth > 1200) {
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
+                    } else {
+    
+                        $newWidth = $imageWidth;
+                        $newHeight = $imageHeight;
+                    }
+                    $imageMg->resize($newWidth, $newHeight);
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                    $encoded->save(public_path('storage/project_images/' . $newFileName));
+    
+                    $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+                    $projectImage->image = 'public/project_images/' . $newFileName;
+                    $projectImage->project_id = $project->id;
+                    $projectImage->save();
                 }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('storage/project_images/' . $newFileName));
-
-                $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                $projectImage->image = 'public/project_images/' . $newFileName;
-                $projectImage->project_id = $project->id;
-                $projectImage->save();
             }
+    
         }
 
-        foreach ($request->file('projectData')['situations'] as $key => $situation) {
-            $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
-            $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
-
-            if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
+        if (isset($request->file('projectData')['situations'])) {
+            foreach ($request->file('projectData')['situations'] as $key => $situation) {
+                $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
+                $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
+    
+                if ($situation->move($yeniDosyaAdi, $newFileName)) {
+                    $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
+                    $imageWidth = $imageMg->width();
+                    $imageHeight = $imageMg->height();
+    
+                    if ($imageWidth > 1200) {
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
+                    } else {
+    
+                        $newWidth = $imageWidth;
+                        $newHeight = $imageHeight;
+                    }
+                    $imageMg->resize($newWidth, $newHeight);
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                    $encoded->save(public_path('situation_images/' . $newFileName));
+    
+                    $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+                    $projectImage->situation = 'public/situation_images/' . $newFileName;
+                    $projectImage->project_id = $project->id;
+                    $projectImage->save();
                 }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('situation_images/' . $newFileName));
-
-                $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
-                $projectImage->situation = 'public/situation_images/' . $newFileName;
-                $projectImage->project_id = $project->id;
-                $projectImage->save();
             }
+    
         }
-
+      
+     
 
 
         ProjectHousingType::create([
@@ -882,26 +891,24 @@ class ProjectController extends Controller
         }
         foreach ($housingTypeInputs as $input) {
             if(isset($input) && isset($input->type) && $input->type){
-                if($input && isset($input->className) && $input->className){
-                    if ($input->type == "checkbox-group") {
-                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                            }
-                        } else {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                            }
+                if ($input->type == "checkbox-group") {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                         }
                     } else {
-                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                            }
-                        } else {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
-                            }
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
+                    }
+                } else {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
                         }
                     }
                 }

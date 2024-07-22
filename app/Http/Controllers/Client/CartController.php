@@ -834,7 +834,7 @@ class CartController extends Controller
             // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = 'https://private.emlaksepette.com/public/dekont/' . $order->dekont;
+        $dekontDosyaYolu = 'http://127.0.0.1:8000/public/dekont/' . $order->dekont;
 
         if ($dekontDosyaYolu) {
             return redirect()->away($dekontDosyaYolu);

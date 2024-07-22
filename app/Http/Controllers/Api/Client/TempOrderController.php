@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\DopingPricing;
+use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
+use App\Models\HousingTypeParentConnection;
 use App\Models\Project;
 use App\Models\SinglePrice;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
@@ -21,6 +24,24 @@ use Throwable;
 
 class TempOrderController extends Controller
 {
+    public function getHousingTypeParents(){
+        $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+
+        return $housingTypeParent;
+    }
+
+    public function getHousingTypeParentByParentId($parentId){
+        $parent = HousingTypeParent::where('id',$parentId)->first();
+
+        if($parent->is_end){
+            $housingTypeParent = HousingTypeParentConnection::select(DB::raw('housing_types.*'))->where('parent_id',$parentId)->join('housing_types','housing_types.id','=','housing_type_parent_connections.housing_type_id')->get();
+        }else{
+            $housingTypeParent = HousingTypeParent::where('parent_id',$parentId)->get();
+        }
+
+        return $housingTypeParent;
+    }
+
     public function getTempOrderData($id){
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();

@@ -2,18 +2,13 @@
 @section('content')
 
 <div class="content">
-    <div class="table-breadcrumb">
-        <ul>
-            <li>Hesabım</li>
-            <li>CRM</li>
-            <li>Danışman Müşterileri</li>
-        </ul>
-    </div>
-    {{-- <div style="justify-content: center; display:flex" >
-        <header class="page-header-title2 col-11" id="page-header-title">
-            Yeni Müşteriler
-        </header>
-    </div> --}}
+        <div class="table-breadcrumb">
+            <ul>
+                <li>Hesabım</li>
+                <li>CRM</li>
+                <li>Danışman Müşterileri</li>
+            </ul>
+        </div>
    
         <div class="mb-3" role="group" aria-label="Basic example" style="text-align: center">
             <a href="#" class="btn active" id="new-customers-btn">
@@ -34,201 +29,157 @@
         </div>
     
         {{-- yeni Müşteriler --}}
-        <div class="text-header" id="yeniMusteriler" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;">      
-            <button id="btnMusteriEkle" data-bs-toggle="modal" data-bs-target="#musteriEklemeModal">Yeni Müşteri Ekle</button>
-            <table id="example" class="display" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Tarih</th>
-                        <th>Ad Soyad</th>
-                        <th>Telefon</th>
-                        <th>E-posta</th>
-                        <th>Meslek</th>
-                        <th>Şehir</th>
-                        <th>İlgilendiği Proje</th>
-                        {{-- <th>Danışman</th> --}}
-                        <th>İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($customers as $index => $item)
-                        <tr >
-                            <td>{{$index + 1 }}</td>
-                            <td>{{$item->created_at}}</td>
-                            <td>{{$item->name}}</td>
-                            <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-                            <td>{{$item->email}}</td>
-                            <td>{{$item->job_title}}</td>
-                            <td>{{$item->province}}</td>
-                            <td>{{$item->project_name}}</td>
-                            <td class="action-buttons">
-                                <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
-                                @if ($item->parent_id)
-                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
-                                @endif
-                                {{-- <button class="action-btn" title="Randevular" data-bs-toggle="modal" data-bs-target="#appointmentsModal{{$index}}"><i class="fas fa-handshake"></i></button> --}}
-                                @php
-                                        $isFavorited = DB::table('favorite_customers')
-                                        ->where('customer_id', $item->id)->where('danisman_id', Auth::id())
-                                        ->exists();
-                                @endphp
-                            <button id="favorite-btn-{{ $item->id }}" class=" {{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                                <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" 
-                                    data-bs-target="#newCallsModal"><i class="fas fa-plus"></i>
-                                </button>
-                                <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
-                                    <button class="whatsapp-btn" title="WhatsApp Web"><i class="fab fa-whatsapp"></i></button>
-                                </a>
-                            </td>
-                        </tr>                    
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="text-header" id="yeniMusteriler" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;">    
+            <div class="d-flex" style="justify-content: space-between;"> 
+                <input type="text" id="search-input-yeni" placeholder="Ara..." class="search-input form-control" >
+                <button id="btnMusteriEkle" data-bs-toggle="modal" data-bs-target="#musteriEklemeModal">Yeni Müşteri Ekle</button>  
+            </div>
+
+            <div class="project-table-content user-item">
+                <ul style="gap: 20px" >
+                    <li style="width: 0%;">No.</li>
+                    <li style="width: 10%;">Ad Soyad</li>
+                    <li style="width: 15%;">E-posta</li>
+                    <li style="width: 10%;">Telefon</li>
+                    <li style="width: 10%;">Meslek</li>
+                    <li style="width: 10%;">Şehir</li>
+                    <li style="width: 15%;">İlgilendiği Proje</li>
+                    <li style="width: 20%;">İşlemler</li>
+                </ul>
+            </div>
+            <div id="user-list-table-body-yeni"></div>    
+            <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
+                <button id="prev-page" class="btn btn-primary" disabled>Önceki</button>
+                <span id="page-info"></span>
+                <button id="next-page" class="btn btn-primary">Sonraki</button>
+            </div>
         </div>
 
         {{-- Geri Dönüş Yapılacak Müşteriler --}}
-        <div class="container"id="geriDonusYapilacakMusteriler" style="display: none;">
-            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
-                <table id="geriDonusYapilacakMusterilerTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Tarih</th>
-                            <th>Ad Soyad</th>
-                            <th>Telefon</th>
-                            <th>E-posta</th>
-                            <th>Meslek</th>
-                            <th>Şehir</th>
-                            <th>İlgilendiği Proje</th>
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($geri_donus_yapilacak_musteriler as $index => $item)
-                            <tr >
-                                <td>{{$index + 1 }}</td>
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->job_title}}</td>
-                                <td>{{$item->province}}</td>
-                                <td>{{$item->project_name}}</td>
-                                <td class="action-buttons">
-                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
-                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
-                                    {{-- <button class="action-btn" title="Randevular" data-bs-toggle="modal" data-bs-target="#appointmentsModal{{$index}}"><i class="fas fa-handshake"></i></button> --}}
-                                    @php
-                                            $isFavorited = DB::table('favorite_customers')
-                                            ->where('customer_id', $item->id)->where('danisman_id', Auth::id())
-                                            ->exists();
-                                    @endphp
-                                    <button id="favorite-btn-{{ $item->id }}" class=" {{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" 
-                                        data-bs-toggle="modal" data-bs-target="#newCallsModal"><i class="fas fa-plus"></i></button>
-                                    <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
-                                        <button class="whatsapp-btn" title="WhatsApp Web"><i class="fab fa-whatsapp"></i></button>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <div class="content"id="geriDonusYapilacakMusteriler" style="display: none;">
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >
+                <input type="text" id="search-input-geridonus" placeholder="Ara..." class="search-input form-control" >
+            <div class="project-table-content user-item ">
+                <ul style="gap: 20px" >
+                    <li style="width: 0%;">No.</li>
+                    <li style="width: 10%;">Ad Soyad</li>
+                    <li style="width: 10%;">E-posta</li>
+                    <li style="width: 10%;">Telefon</li>
+                    <li style="width: 10%;">Meslek</li>
+                    <li style="width: 10%;">Şehir</li>
+                    <li style="width: 10%;">İlgilendiği Proje</li>
+                    <li style="width: 30%;">İşlemler</li>
+                </ul>
+            </div>
+            <div id="user-list-table-body-geridonus"></div>
+            <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
+                <button id="prev-page2" class="btn btn-primary" disabled>Önceki</button>
+                <span id="page-info2"></span>
+                <button id="next-page2" class="btn btn-primary">Sonraki</button>
+            </div>
             </div>
         </div>
 
         {{-- Tüm Müşteriler --}}
         <div class="container"id="tumMusteriler" style="display: none;">
-            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
-                <table id="tumMusterilerTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Tarih</th>
-                            <th>Ad Soyad</th>
-                            <th>Telefon</th>
-                            <th>İlgilendiği Proje</th>
-                            <th>Görüşme Türü</th>
-                            <th>Görüşme Sonucu</th>
-                            <th>Görüşme  Durumu</th>
-                            {{-- <th>Danışman</th> --}}
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($tum_musteriler as $index => $item)
-                            <tr >
-                                <td>{{$index + 1 }}</td>
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-                                <td>{{$item->project_name}}</td>
-                                <td>{{$item->gorusme_turu}}</td>
-                                <td>{{$item->gorusme_sonucu}}</td>
-                                <td>{{$item->gorusme_durumu}}</td>
-                                <td class="action-buttons">
-                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
-                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
-                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" 
-                                        data-bs-target="#newCallsModal"><i class="fas fa-plus"></i>
-                                    </button>
-                                    <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
-                                        <button class="whatsapp-btn" title="WhatsApp Web"><i class="fab fa-whatsapp"></i></button>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >
+                <input type="text" id="search-input-musteriler" placeholder="Ara..." class="search-input form-control" >
+                <div class="project-table-content user-item">
+                    <ul style="gap: 20px">
+                        <li style="width: 0%;">No.</li>
+                        <li style="width: 10%;">Ad Soyad</li>
+                        <li style="width: 10%;">Telefon</li>
+                        <li style="width: 10%;">İlgilendiği Proje</li>
+                        <li style="width: 10%;">Görüşme Türü</li>
+                        <li style="width: 10%;">Görüşme Sonucu</li>
+                        <li style="width: 10%;">Görüşme Durumu</li>
+                        <li style="width: 20%;">İşlemler</li>
+                    </ul>
+                </div>
+                <div id="user-list-table-body-musteriler"></div>
+                <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
+                    <button id="prev-page3" class="btn btn-primary" disabled>Önceki</button>
+                    <span id="page-info3"></span>
+                    <button id="next-page3" class="btn btn-primary">Sonraki</button>
+                </div>
             </div>
         </div>
 
         {{-- favori Müşteriler --}}
         <div class="container" id="favoriMusteriler" style="display: none">
-            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" >      
-                <table id="favoriMusterilerTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Tarih</th>
-                            <th>Ad Soyad</th>
-                            <th>Telefon</th>
-                            <th>E-posta</th>
-                            <th>Meslek</th>
-                            <th>Şehir</th>
-                            <th>İlgilendiği Proje</th>
-                            {{-- <th>Danışman</th> --}}
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($favoriteCustomers as $index => $item)
-                            <tr >
-                                <td>{{$index + 1 }}</td>
-                                <td>{{$item->created_at}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{ str_replace('p:+9', '', $item->phone) }}</td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->job_title}}</td>
-                                <td>{{$item->province}}</td>
-                                <td>{{$item->project_name}}</td>
-                                <td class="action-buttons">
-                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fas fa-user"></i></button>
-                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal"><i class="fas fa-history"></i></button>
-                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#newCallsModal"><i class="fas fa-plus"></i></button>
+            <div class="text-header" style="border:1px solid #df3a3a;border-radius:7px;margin-top:20px;" > 
+                <input type="text" id="search-input-favoriler" placeholder="Ara..." class="search-input form-control" >
+                <div class="project-table-content user-item">
+                    <ul style="gap: 20px" >
+                        <li style="width: 0%;">No.</li>
+                        <li style="width: 10%;">Ad Soyad</li>
+                        <li style="width: 10%;">E-posta</li>
+                        <li style="width: 10%;">Telefon</li>
+                        <li style="width: 10%;">Meslek</li>
+                        <li style="width: 10%;">Şehir</li>
+                        <li style="width: 10%;">İlgilendiği Proje</li>
+                        <li style="width: 20%;">İşlemler</li>
+                    </ul>
+                </div>
+                <div id="user-list-table-body-favoriler">
+                    @foreach ($favoriteCustomers as $key => $item)
+                        <div class="project-table-content user-item">
+                            <ul  style="gap: 20px" >
+                                <li style="width: 0%;">{{ $key + 1 }}</li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->name }}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->email }}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->phone }}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->job_title }}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->province }}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>{{ $item->project_name }}</span>
+                                </li>
+                              
+                                <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    @if ($item->parent_id)
+                                        <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                            <i class="fas fa-history"></i>
+                                        </button>
+                                    @endif
+                                    @php
+                                        $isFavorited = DB::table('favorite_customers')
+                                        ->where('customer_id', $item->id)->where('danisman_id', Auth::id())
+                                        ->exists();
+                                    @endphp
+                                    <button id="favorite-btn-{{ $item->id }}" class="{{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                     <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
-                                        <button class="whatsapp-btn" title="WhatsApp Web"><i class="fab fa-whatsapp"></i></button>
+                                        <button class="whatsapp-btn" title="WhatsApp Web">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </button>
                                     </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </li>
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
+                <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
+                    <button id="prev-page4" class="btn btn-primary" disabled>Önceki</button>
+                    <span id="page-info4"></span>
+                    <button id="next-page4" class="btn btn-primary">Sonraki</button>
+                </div>
             </div>
         </div>
 
@@ -791,8 +742,6 @@
             </div>
         </div>
 
-
-
 @endsection    
 
 @section('scripts')
@@ -814,6 +763,437 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
+    {{-- //yeni müşteriler pagination --}}
+    <script>
+        $(document).ready(function() {
+            const itemsPerPage = 10; // Her sayfada göstermek istediğiniz müşteri sayısı
+            let currentPage = 1;
+            const $list = $('#user-list-table-body-yeni');
+            const $paginationControls = $('#pagination-controls');
+            const $prevPage = $('#prev-page');
+            const $nextPage = $('#next-page');
+            const $pageInfo = $('#page-info');
+
+            // Müşteri verilerinizi buraya JSON formatında yerleştirin
+            const allCustomers = @json($customers); // Laravel Blade'den JSON olarak veri
+
+            function renderPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = allCustomers.slice(start, end);
+
+                let html = '';
+                paginatedItems.forEach((item, index) => {
+                 
+                    html += `
+                        <div class="project-table-content user-item">
+                            <ul style="gap: 20px">
+                                <li style="width: 0%;">${start + index + 1}</li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.name}</span>
+                                </li>
+                                <li style="width: 15%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
+                                    <span>${item.email}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.phone}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.job_title}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.province}</span>
+                                </li>
+                                <li style="width: 15%; align-items: flex-start;">
+                                    <span>${item.project_name}</span>
+                                </li>
+                                <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails(${item.id})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    ${item.parent_id ? `
+                                        <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls(${item.parent_id})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                            <i class="fas fa-history"></i>
+                                        </button>
+                                    ` : ''}
+                                    <button id="favorite-btn-${item.id}" class="${item.isFavorited ? 'favorited' : 'not-favorited'}" title="${item.isFavorited ? 'Favori' : 'Favoriye Al'}" onclick="toggleFavorite(${item.id})">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall(${item.id})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <a href="https://wa.me/${item.phone.replace('p:+', '')}" target="_blank">
+                                        <button class="whatsapp-btn" title="WhatsApp Web">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    `;
+                });
+
+                $list.html(html);
+                updatePaginationControls();
+            }
+
+            function updatePaginationControls() {
+                const totalPages = Math.ceil(allCustomers.length / itemsPerPage);
+
+                $prevPage.prop('disabled', currentPage === 1);
+                $nextPage.prop('disabled', currentPage === totalPages);
+                $pageInfo.text(`Sayfa ${currentPage} / ${totalPages}`);
+            }
+
+            $prevPage.on('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+
+            $nextPage.on('click', function() {
+                const totalPages = Math.ceil(allCustomers.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            });
+
+            // İlk sayfayı render et
+            renderPage(currentPage);
+        });
+    </script>
+
+    {{-- //dönüş yapılacak müşteriler --}}
+    <script>
+        $(document).ready(function() {
+            const itemsPerPage = 10; // Her sayfada göstermek istediğiniz müşteri sayısı
+            let currentPage = 1;
+            const $list = $('#user-list-table-body-geri');
+            const $paginationControls = $('#pagination-controls');
+            const $prevPage = $('#prev-page2');
+            const $nextPage = $('#next-page2');
+            const $pageInfo = $('#page-info2');
+
+            // Müşteri verilerinizi buraya JSON formatında yerleştirin
+            const geri_donus_yapilacak_musteriler = @json($geri_donus_yapilacak_musteriler); // Laravel Blade'den JSON olarak veri
+
+            function renderPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = geri_donus_yapilacak_musteriler.slice(start, end);
+                let cleanedPhone = item.phone ? item.phone.replace(/^p:\+/, '') .replace(/^\+9/, '') .replace(/^9/, '') : '-';
+                let html = '';
+                paginatedItems.forEach((item, index) => {
+                    html += `
+                        <div class="project-table-content user-item">
+                            <ul style="gap: 20px">
+                                <li style="width: 0%;">${start + index + 1}</li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.name}</span>
+                                </li>
+                                <li style="width: 15%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
+                                    <span>${item.email}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${cleanedPhone}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.job_title}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.province}</span>
+                                </li>
+                                <li style="width: 15%; align-items: flex-start;">
+                                    <span>${item.project_name}</span>
+                                </li>
+                                <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails(${item.id})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    ${item.parent_id ? `
+                                        <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls(${item.parent_id})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                            <i class="fas fa-history"></i>
+                                        </button>
+                                    ` : ''}
+                                    <button id="favorite-btn-${item.id}" class="${item.isFavorited ? 'favorited' : 'not-favorited'}" title="${item.isFavorited ? 'Favori' : 'Favoriye Al'}" onclick="toggleFavorite(${item.id})">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall(${item.id})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <a href="https://wa.me/${item.phone.replace('p:+', '')}" target="_blank">
+                                        <button class="whatsapp-btn" title="WhatsApp Web">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    `;
+                });
+
+                $list.html(html);
+                updatePaginationControls();
+            }
+
+            function updatePaginationControls() {
+                const totalPages = Math.ceil(geri_donus_yapilacak_musteriler.length / itemsPerPage);
+
+                $prevPage.prop('disabled', currentPage === 1);
+                $nextPage.prop('disabled', currentPage === totalPages);
+                $pageInfo.text(`Sayfa ${currentPage} / ${totalPages}`);
+            }
+
+            $prevPage.on('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+
+            $nextPage.on('click', function() {
+                const totalPages = Math.ceil(geri_donus_yapilacak_musteriler.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            });
+
+            // İlk sayfayı render et
+            renderPage(currentPage);
+        });
+    </script>
+
+    {{-- //tüm müşteriler --}}
+    <script>       
+        $(document).ready(function() {
+            const itemsPerPage = 10; // Her sayfada göstermek istediğiniz müşteri sayısı
+            let currentPage = 1;
+            const $list = $('#user-list-table-body-musteriler');
+            const $paginationControls = $('#pagination-controls');
+            const $prevPage = $('#prev-page3');
+            const $nextPage = $('#next-page3');
+            const $pageInfo = $('#page-info3');
+
+            // Müşteri verilerinizi buraya JSON formatında yerleştirin
+            const tumMusteriler = @json($tum_musteriler); // Laravel Blade'den JSON olarak veri
+
+            function renderPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = tumMusteriler.slice(start, end);
+
+                let html = '';
+                paginatedItems.forEach((item, index) => {
+                    html += `
+                        <div class="project-table-content user-item">
+                            <ul style="gap: 20px">
+                                <li style="width: 0%;">${start + index + 1}</li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.name}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.phone}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.project_name || '-'}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.gorusme_turu || '-'}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.gorusme_sonucu || '-'}</span>
+                                </li>
+                                <li style="width: 10%; align-items: flex-start;">
+                                    <span>${item.gorusme_durumu || '-'}</span>
+                                </li>
+                                <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails(${item.id})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    ${item.parent_id ? `
+                                        <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls(${item.parent_id})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                            <i class="fas fa-history"></i>
+                                        </button>
+                                    ` : ''}
+                                    <button id="favorite-btn-${item.id}" class="${item.isFavorited ? 'favorited' : 'not-favorited'}" title="${item.isFavorited ? 'Favori' : 'Favoriye Al'}" onclick="toggleFavorite(${item.id})">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall(${item.id})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <a href="https://wa.me/${item.phone.replace('p:+', '')}" target="_blank">
+                                        <button class="whatsapp-btn" title="WhatsApp Web">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    `;
+                });
+
+                $list.html(html);
+                updatePaginationControls();
+            }
+
+            function updatePaginationControls() {
+                const totalPages = Math.ceil(tumMusteriler.length / itemsPerPage);
+
+                $prevPage.prop('disabled', currentPage === 1);
+                $nextPage.prop('disabled', currentPage === totalPages);
+                $pageInfo.text(`Sayfa ${currentPage} / ${totalPages}`);
+            }
+
+            $prevPage.on('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+
+            $nextPage.on('click', function() {
+                const totalPages = Math.ceil(tumMusteriler.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            });
+
+            // İlk sayfayı render et
+            renderPage(currentPage);
+        });
+    </script>
+
+    {{-- //favorş müşteriler --}}
+    <script>
+        //favorş müşteriler
+        $(document).ready(function() {
+            const itemsPerPage = 10; // Her sayfada göstermek istediğiniz müşteri sayısı
+            let currentPage = 1;
+            const $list = $('#user-list-table-body-favoriler');
+            const $paginationControls = $('#pagination-controls');
+            const $prevPage = $('#prev-page4');
+            const $nextPage = $('#next-page4');
+            const $pageInfo = $('#page-info4');
+
+            // Müşteri verilerinizi buraya JSON formatında yerleştirin
+            const favoriteCustomers = @json($favoriteCustomers); // Laravel Blade'den JSON olarak veri
+
+            function renderPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = favoriteCustomers.slice(start, end);
+
+                let html = '';
+                paginatedItems.forEach((item, index) => {
+                    html += `
+                    <div class="project-table-content user-item">
+                        <ul style="gap: 20px">
+                            <li style="width: 0%;">${start + index + 1}</li>
+                            <li style="width: 10%; align-items: flex-start;">
+                                <span>${item.name}</span>
+                            </li>
+                            <li style="width: 15%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
+                                <span>${item.email}</span>
+                            </li>
+                            <li style="width: 10%; align-items: flex-start;">
+                                <span>${item.phone}</span>
+                            </li>
+                            <li style="width: 10%; align-items: flex-start;">
+                                <span>${item.job_title}</span>
+                            </li>
+                            <li style="width: 10%; align-items: flex-start;">
+                                <span>${item.province}</span>
+                            </li>
+                            <li style="width: 15%; align-items: flex-start;">
+                                <span>${item.project_name}</span>
+                            </li>
+                            <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails(${item.id})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                    <i class="fas fa-user"></i>
+                                </button>
+                                ${item.parent_id ? `
+                                    <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls(${item.parent_id})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                ` : ''}
+                                <button id="favorite-btn-${item.id}" class="${item.isFavorited ? 'favorited' : 'not-favorited'}" title="${item.isFavorited ? 'Favori' : 'Favoriye Al'}" onclick="toggleFavorite(${item.id})">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall(${item.id})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <a href="https://wa.me/${item.phone.replace('p:+', '')}" target="_blank">
+                                    <button class="whatsapp-btn" title="WhatsApp Web">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    `;
+                });
+
+                $list.html(html);
+                updatePaginationControls();
+            }
+
+            function updatePaginationControls() {
+                const totalPages = Math.ceil(favoriteCustomers.length / itemsPerPage);
+
+                $prevPage.prop('disabled', currentPage === 1);
+                $nextPage.prop('disabled', currentPage === totalPages);
+                $pageInfo.text(`Sayfa ${currentPage} / ${totalPages}`);
+            }
+
+            $prevPage.on('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+
+            $nextPage.on('click', function() {
+                const totalPages = Math.ceil(favoriteCustomers.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            });
+
+            // İlk sayfayı render et
+            renderPage(currentPage);
+        });
+
+    </script>
+
+    {{-- search bar script --}}
+    <script>
+        $(document).ready(function() {
+            function filterTable(searchInputId, tableBodyId) {
+                $(searchInputId).on('keyup', function() {
+                    var value = $(this).val().toLowerCase();
+                    console.log(value)
+
+                    $(tableBodyId + ' .user-item').each(function() {
+                        var text = $(this).text().toLowerCase();
+                        console.log(text)
+                        $(this).toggle(text.indexOf(value) > -1);
+                    });
+                });
+            }
+        
+            // Arama kutuları ve tablo gövdesi
+            filterTable('#search-input-yeni', '#user-list-table-body-yeni');
+            filterTable('#search-input-geridonus', '#user-list-table-body-geridonus');
+            filterTable('#search-input-musteriler', '#user-list-table-body-musteriler');
+            filterTable('#search-input-favoriler', '#user-list-table-body-favoriler');
+        });
+    </script>        
+        
     {{-- Takvim kodları --}}
     <script>
         $(document).ready(function () {
@@ -1226,200 +1606,6 @@
 
     </script>
 
-    {{-- example datatable  --}}
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>'+
-                        '<option value="10">10</option>'+
-                        '<option value="50">50</option>'+
-                        '<option value="100">100</option>'+
-                        '<option value="-1">Tüm</option>'+
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
-            // Handle tab button clicks
-            $('.btn').click(function(e) {
-                // e.preventDefault();
-                $('.btn').removeClass('active');
-                $(this).addClass('active');
-
-                // Show corresponding tab content
-                var target = $(this).data('target');
-                $('.tab-pane').removeClass('show active');
-                $(target).addClass('show active');
-            });
-        });
-    </script>
-
-    {{-- tumMusterilerTable datatable --}}
-    <script>
-        $(document).ready(function() {
-            $('#tumMusterilerTable').DataTable({
-                
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>'+
-                        '<option value="10">10</option>'+
-                        '<option value="50">50</option>'+
-                        '<option value="100">100</option>'+
-                        '<option value="-1">Tüm</option>'+
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
-            // Handle tab button clicks
-            $('.btn').click(function(e) {
-                $('.btn').removeClass('active');
-                $(this).addClass('active');
-
-                var target = $(this).data('target');
-                $('.tab-pane').removeClass('show active');
-                $(target).addClass('show active');
-            });
-        });
-    </script>
-
-    {{-- favoriMusterilerTable datatable --}}
-    <script>
-        $(document).ready(function() {
-            $('#favoriMusterilerTable').DataTable({
-                
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>'+
-                        '<option value="10">10</option>'+
-                        '<option value="50">50</option>'+
-                        '<option value="100">100</option>'+
-                        '<option value="-1">Tüm</option>'+
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
-            // Handle tab button clicks
-            $('.btn').click(function(e) {
-                $('.btn').removeClass('active');
-                $(this).addClass('active');
-
-                var target = $(this).data('target');
-                $('.tab-pane').removeClass('show active');
-                $(target).addClass('show active');
-            });
-        });
-    </script>
-
-    {{-- geriDonusYapilacakMusterilerTable datatable --}}
-    <script>
-        $(document).ready(function() {
-            $('#geriDonusYapilacakMusterilerTable').DataTable({
-                
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>'+
-                        '<option value="10">10</option>'+
-                        '<option value="50">50</option>'+
-                        '<option value="100">100</option>'+
-                        '<option value="-1">Tüm</option>'+
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
-            // Handle tab button clicks
-            $('.btn').click(function(e) {
-                $('.btn').removeClass('active');
-                $(this).addClass('active');
-
-                var target = $(this).data('target');
-                $('.tab-pane').removeClass('show active');
-                $(target).addClass('show active');
-            });
-        });
-    </script>
-
     {{-- favori ekleme ajax js --}}
     <script>
         function toggleFavorite(itemId) {
@@ -1527,351 +1713,15 @@
         }
     </style>
 
-    {{-- table css --}}
     <style>
-      
-        #example {
-            border-spacing: 0 15px;
-            border-collapse: separate !important; 
+        .project-table-content ul li {
+            flex: none !important;  
+        }
+        .search-input {
+            width: 21%;
+            margin-top: 8px;
         }
 
-        #example tbody tr {
-            background-color: white !important;
-        }
-
-        #example tbody tr td {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-            padding: 10px 6px !important;
-        }
-
-        #example thead tr th {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length select {
-            width: 100px; 
-        }
-
-        #example_wrapper .dataTables_length {
-            display: flex;
-            align-items: center;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            font-size: 18px;
-            color: #60666d;
-        }
-
-        #example_wrapper .dataTables_length select {
-            margin-left: 10px;
-            margin-right: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        #example_wrapper .dataTables_length select:hover,
-        #example_wrapper .dataTables_length select:focus {
-            border-color: #333;
-        }
-
-        #example_wrapper .dataTables_length label {
-            white-space: nowrap;
-        }
-
-        #example_wrapper .dataTables_length .select-box__icon {
-            display: none;
-        }
-
-        #example_wrapper .dataTables_filter {
-            display: flex;
-            align-items: center;
-        }
-
-        #example_wrapper .dataTables_filter label {
-            margin-right: 10px;
-        }
-
-        #example_wrapper .dataTables_filter input[type="search"] {
-            flex: 1;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            color: #333;
-        }
-
-        #example_wrapper .dataTables_filter input[type="search"]:hover,
-        #example_wrapper .dataTables_filter input[type="search"]:focus {
-            border-color: #666;
-            outline: none;
-        }
-
-        #tumMusterilerTable {
-            border-spacing: 0 15px;
-            border-collapse: separate !important; 
-        }
-
-        #tumMusterilerTable tbody tr {
-            background-color: white !important;
-        }
-
-        #tumMusterilerTable tbody tr td {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-            padding: 8px 5px !important;
-        }
-
-        #tumMusterilerTable thead tr th {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length select {
-            width: 100px;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length {
-            display: flex;
-            align-items: center;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            font-size: 18px;
-            color: #60666d;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length select {
-            margin-left: 10px;
-            margin-right: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length select:hover,
-        #tumMusterilerTable_wrapper .dataTables_length select:focus {
-            border-color: #333;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length label {
-            white-space: nowrap;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_length .select-box__icon {
-            display: none;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_filter {
-            display: flex;
-            align-items: center;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_filter label {
-            margin-right: 10px;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_filter input[type="search"] {
-            flex: 1;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            color: #333;
-        }
-
-        #tumMusterilerTable_wrapper .dataTables_filter input[type="search"]:hover,
-        #tumMusterilerTable_wrapper .dataTables_filter input[type="search"]:focus {
-            border-color: #666;
-            outline: none;
-        }
-
-        #favoriMusterilerTable {
-            border-spacing: 0 15px;
-            border-collapse: separate !important; 
-        }
-
-        #favoriMusterilerTable tbody tr {
-            background-color: white !important;
-        }
-
-        #favoriMusterilerTable tbody tr td {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #favoriMusterilerTable thead tr th {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length select {
-            width: 100px;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length {
-            display: flex;
-            align-items: center;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            font-size: 18px;
-            color: #60666d;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length select {
-            margin-left: 10px;
-            margin-right: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length select:hover,
-        #favoriMusterilerTable_wrapper .dataTables_length select:focus {
-            border-color: #333;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length label {
-            white-space: nowrap;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_length .select-box__icon {
-            display: none;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_filter {
-            display: flex;
-            align-items: center;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_filter label {
-            margin-right: 10px;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_filter input[type="search"] {
-            flex: 1;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            color: #333;
-        }
-
-        #favoriMusterilerTable_wrapper .dataTables_filter input[type="search"]:hover,
-        #favoriMusterilerTable_wrapper .dataTables_filter input[type="search"]:focus {
-            border-color: #666;
-            outline: none;
-        }
-
-
-        #geriDonusYapilacakMusterilerTable {
-            border-spacing: 0px 15px;
-            border-collapse: separate !important; 
-        }
-
-        #geriDonusYapilacakMusterilerTable tbody tr {
-            background-color: white !important;
-        }
-
-        #geriDonusYapilacakMusterilerTable tbody td{
-            padding: 8px 5px !important;
-        }
-
-        #geriDonusYapilacakMusterilerTable tbody tr td {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #geriDonusYapilacakMusterilerTable thead tr th {
-            background-color: white !important;
-            text-align: center; /* Yatay hizalama */
-            vertical-align: middle; 
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length select {
-            width: 100px;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length {
-            display: flex;
-            align-items: center;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            font-size: 18px;
-            color: #60666d;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length select {
-            margin-left: 10px;
-            margin-right: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length select:hover,
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length select:focus {
-            border-color: #333;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length label {
-            white-space: nowrap;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_length .select-box__icon {
-            display: none;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_filter {
-            display: flex;
-            align-items: center;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_filter label {
-            margin-right: 10px;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_filter input[type="search"] {
-            flex: 1;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-            color: #333;
-        }
-
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_filter input[type="search"]:hover,
-        #geriDonusYapilacakMusterilerTable_wrapper .dataTables_filter input[type="search"]:focus {
-            border-color: #666;
-            outline: none;
-        }
-
-    </style>
-
-    <style>
         .page-header-title2{
             background: linear-gradient(to top, #EA2B2E, #84181A);  
             padding: 10px;
@@ -1957,7 +1807,6 @@
         .text-header{
             padding: 20px;
             margin-bottom: 25px;
-            background-color: white;
             border-radius: 18px;
         }
         .text-header-title{

@@ -131,10 +131,11 @@ Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->na
 Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{county?}/{hood?}', [ClientPageController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
-Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('api.sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
-
+    Route::get('housing_type_parents',[TempOrderController::class,"getHousingTypeParents"]);
+    Route::get('housing_type_parent_by_parent_id/{parent_id}',[TempOrderController::class,"getHousingTypeParentByParentId"]);
     Route::get('support', [ApiSupportController::class, 'index']);
     Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
         
