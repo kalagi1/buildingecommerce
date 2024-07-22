@@ -503,7 +503,7 @@
                                 <div class="filter-tags-wrap ">
                                     <input id="check-b" type="checkbox" name="check-b">
                                     <label for="check-b" style="font-size: 11px;">
-                                        <a href="http://127.0.0.1:8000/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
+                                        <a href="http://private.emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
                                             Sat Kirala Formu sözleşmesini
                                         </a>
                                         okudum onaylıyorum.
