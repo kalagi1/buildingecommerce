@@ -34,7 +34,7 @@ class TempOrderController extends Controller
         $parent = HousingTypeParent::where('id',$parentId)->first();
 
         if($parent->is_end){
-            $connections = HousingTypeParentConnection::select(DB::raw('housing_types.*'))->where('parent_id',$parentId)->join('housing_types','housing_types.id','=','housing_type_parent_connections.housing_type_id')->get();
+            $housingTypeParent = HousingTypeParentConnection::select(DB::raw('housing_types.*'))->where('parent_id',$parentId)->join('housing_types','housing_types.id','=','housing_type_parent_connections.housing_type_id')->get();
         }else{
             $housingTypeParent = HousingTypeParent::where('parent_id',$parentId)->get();
         }
