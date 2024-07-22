@@ -51,7 +51,9 @@
                         <tbody>
                             @foreach ($awards as $award)
                                 <tr>
-                                    <td>{{ $award->award_image }}</td>
+                                    <td>
+                                        <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->award_name }}" style="width: 50px; height: 50px;">
+                                    </td>
                                     <td>{{ $award->title }}</td>
                                     <td>{{ $award->award_name }}</td>
                                     <td>
