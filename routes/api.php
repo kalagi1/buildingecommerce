@@ -36,6 +36,9 @@ use App\Http\Controllers\Institutional\ProjectController as ControllersInstituti
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
+use App\Http\Controllers\Api\Client\NeighborViewController;
+use App\Http\Controllers\Api\SupportController as ApiSupportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -131,8 +134,13 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}/{city?}/{coun
 Route::get('/emlak-kulup/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('api.sharer.links.showClientLinks');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('housing_type_parents',[TempOrderController::class,"getHousingTypeParents"]);
+    Route::get('housing_type_parent_by_parent_id/{parent_id}',[TempOrderController::class,"getHousingTypeParentByParentId"]);
+    Route::get('support', [ApiSupportController::class, 'index']);
+    Route::post('support', [ApiSupportController::class, 'sendSupportMessage']);
+        
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
+    Route::get('/neighbor-view', [NeighborViewController::class, 'index']);
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
         Route::get('/collections/{id}', [SharerController::class, "show"])->name('collection.show');
         Route::get('my-cart', [CartController::class, 'index'])->name('cart');
@@ -196,6 +204,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/get_boughts', [BoughtController::class, 'bougths'])->name('react.bougths');
         Route::get('/get_solds', [BoughtController::class, 'solds'])->name('react.solds');
         Route::post('give_offer', [ProjectController::class, 'give_offer'])->name('give_offer');
+        Route::get ('/user/offers', [ProjectController::class, 'giveOfferByUser']);
         Route::get('/order_detail/{order_id}', [ClientPageController::class, 'orderDetail'])->name('order.detail');
         Route::get('/invoice/{order}', [ClientPageController::class, "invoiceDetail"])->name('invoice.show');
         Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');

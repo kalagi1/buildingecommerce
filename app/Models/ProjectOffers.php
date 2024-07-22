@@ -16,6 +16,11 @@ class ProjectOffers extends Model
         return $this->hasOne(User::class,"id","user_id");
     }
 
+    public function store(){
+        return $this->hasOne(User::class,"id","store_id");
+    }
+
+
     public function city()
     {
         return $this->hasOne(City::class, "id", "city_id");

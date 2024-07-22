@@ -57,12 +57,12 @@ class CrmController extends Controller
             ->whereNull('customer_calls.customer_id')
             ->select('assigned_users.*')
             ->get();
-
             $customerCount = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->whereNull('customer_calls.customer_id')
             ->select('assigned_users.*')
             ->count();   
+
 
       
         $tum_musteriler = DB::table('assigned_users')
@@ -73,12 +73,11 @@ class CrmController extends Controller
                 'customer_calls.conclusion as gorusme_sonucu',
                 'customer_calls.gorusme_durumu as gorusme_durumu'
             )
-            ->whereNotNull('customer_calls.meet_type')
-            ->orWhereNotNull('customer_calls.conclusion')
-            ->orWhereNotNull('customer_calls.gorusme_durumu')
+            // ->whereNotNull('customer_calls.meet_type')
+            // ->orWhereNotNull('customer_calls.conclusion')
+            // ->orWhereNotNull('customer_calls.gorusme_durumu')
             ->where('danisman_id',Auth::id())
             ->get();
-   
 
             $tum_musterilerCount = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
@@ -88,12 +87,13 @@ class CrmController extends Controller
                 'customer_calls.conclusion as gorusme_sonucu',
                 'customer_calls.gorusme_durumu as gorusme_durumu'
             )
-            ->whereNotNull('customer_calls.meet_type')
-            ->orWhereNotNull('customer_calls.conclusion')
-            ->orWhereNotNull('customer_calls.gorusme_durumu')
+            // ->whereNotNull('customer_calls.meet_type')
+            // ->orWhereNotNull('customer_calls.conclusion')
+            // ->orWhereNotNull('customer_calls.gorusme_durumu')
             ->where('danisman_id',Auth::id())
             ->count();   
 
+//    print_r($tum_musterilerCount);die;
       
         $favoriteCustomers = DB::table('favorite_customers')
            ->where('favorite_customers.danisman_id', Auth::id())
@@ -131,6 +131,7 @@ class CrmController extends Controller
         $geri_donus_yapilacak_musteriler = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
             ->get();
+            // print_r($geri_donus_yapilacak_musteriler);die;
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
@@ -682,6 +683,16 @@ class CrmController extends Controller
     }//End
 
     public function adminOdulEklePost(Request $request){
+
+        $request->validate([
+            'award_image' => 'nullable|file|mimes:png',
+            'title' => 'required|string|max:255',
+            'award_name' => 'required|string|max:255',
+            'status' => 'nullable|boolean',
+        ], [
+            'award_image.mimes' => 'Yalnızca PNG formatında dosyalar kabul edilmektedir.'
+        ]);
+    
        
            // Ödül resminin yüklendiği kısmı kontrol edin ve saklayın
            if ($request->hasFile('award_image')) {
@@ -701,8 +712,7 @@ class CrmController extends Controller
             $award->ekleyen_user_id = Auth::id();
             $award->created_at      = now();
             $award->updated_at      = now();
-            $award->save();
-            
+            $award->save();            
 
             return redirect()->back()->with('success','Ödül Başarıyla Eklendi.');
     }//End

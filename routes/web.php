@@ -843,11 +843,11 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     //sıfırdan crm rotaları
 
     //satış danışmanlarını listele ve proje atama
-    Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('salesConsultantList');
+    Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('crm.danisman.proje.atama');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
 
     //danisman_id değerine göre müşterilerin listelenmesi
-    Route::get('/crm/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('consultantCustomerList');
+    Route::get('/crm/danisman/musteri/listesi', [InstitutionalCrmController::class, 'consultantCustomerList'])->name('crm.danisman.musteri.listesi');
     Route::get('/musteri/bilgileri/{id}', [InstitutionalCrmController::class, 'getMusteriBilgileri']);
     Route::get('/musteri/gecmis/aramalari/{id}', [InstitutionalCrmController::class, 'musteriGecmisAramalari']);
 

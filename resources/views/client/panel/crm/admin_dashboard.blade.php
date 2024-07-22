@@ -1,6 +1,20 @@
 @extends('client.layouts.masterPanel')
 @section('content')
+
     <div class="content">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>
+                    Hesabım
+                </li>
+                <li>
+                    CRM
+                </li>
+                <li>
+                    Admin Dashboard
+                </li>
+            </ul>
+        </div>
         <div class="row mb-3">
             <div class="col-xl-3 col-lg-3">
                 <div class="card l-bg-red">
@@ -204,7 +218,7 @@
                         <div class="col-md-4">
                             <div style="position: relative;">
                                 <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
-                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 30%; left: 55%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%;">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%;max-width: 80px;">
                                 <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
                                 <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
                             </div>
@@ -697,9 +711,30 @@
 
 
 <script>
-    // PHP'den gelen verileri JavaScript'e geçirin
     var labels = @json($labels);
     var satis_sayilari = @json($satis_sayilari);
+
+    // Satış sayıları kontrolü
+    var allZero = satis_sayilari.every(value => value === 0);
+
+    if (allZero) {
+        // Tüm satış sayıları sıfırsa, "Veri Yok" mesajı ile grafik verisi oluşturun
+        labels = ["Veri Yok"];
+        satis_sayilari = [0];
+        backgroundColor = ["ghostwhite"];
+        borderColor = ["black"];
+    } else {
+        backgroundColor = [
+            '#EA2B2E', // Bireysel Satış rengi
+            'blue',    // Danışman Satış rengi
+            'orange'   // Şirket Satış rengi
+        ];
+        borderColor = [
+            '#EA2B2E',
+            'blue',
+            'orange'
+        ];
+    }
 
     const ctx = document.getElementById('salesChart2').getContext('2d');
     const salesChart = new Chart(ctx, {
@@ -709,16 +744,8 @@
             datasets: [{
                 label: 'Satış Sayısı',
                 data: satis_sayilari, // Satış sayıları
-                backgroundColor: [
-                    '#EA2B2E', // Bireysel Satış rengi
-                    'blue',    // Danışman Satış rengi
-                    'orange'   // Şirket Satış rengi
-                ],
-                borderColor: [
-                    '#EA2B2E',
-                    'blue',
-                    'orange'
-                ],
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1
             }]
         },
@@ -743,6 +770,7 @@
     });
 </script>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Canvas elementini seçin
@@ -750,7 +778,10 @@
         var labels = @json($satisDanismanlari->pluck('name'));
         var data = @json(array_column($danismanVerileri, 'satis_sayisi'));
 
-
+   // Eğer data boşsa, tüm değerleri sıfır olarak doldurun
+        if (data.length === 0) {
+            data = Array(labels.length).fill(0);
+        }
         // Veri seti tanımlayın
         var salesData = {
             labels: labels,

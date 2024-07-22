@@ -1,14 +1,21 @@
 @extends('client.layouts.masterPanel')
 @section('content')
     <div class="content">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>Hesabım</li>
+                <li>CRM</li>
+                <li>Ödül Sistemi</li>
+            </ul>
+        </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-container" style="background-color: white; padding: 20px; border-radius: 5px;">
-                    <form action="{{route('institutional.crm.admin.odul.ekle.post')}}" method="post" enctype="multipart/form-data">
+            <div class="col-md-6" >
+                <div class="form-container" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;background-color: white; padding: 20px; border-radius: 5px;">
+                    <form action="{{ route('institutional.crm.admin.odul.ekle.post') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="award_image">Ödül Resmi</label>
-                            <input type="file" class="form-control" id="award_image" name="award_image" style="width: 100%" >
+                            <input type="file" class="form-control" id="award_image" name="award_image" style="width: 100%">
                         </div>
                         <div class="form-group">
                             <label for="title">Başlık</label>
@@ -23,63 +30,61 @@
                             <label class="form-check-label" style="margin-left: 25px;" for="flexCheckIndeterminate">
                                 Aktif Et
                             </label>
-                          </div>
+                        </div>
                         <button type="submit" class="btn btnDanisman">Gönder</button>
                     </form>
                 </div>
             </div>
-            <div class="col-md-6" style="background-color: white; padding: 20px; border-radius: 5px;">
-                <div>
+            <div class="col-md-6" style="background-color: white; padding: 20px; border-radius: 5px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+                <div >
                     <h3>Ödüller</h3>
                     <table class="table">
                         <thead>
-                          <tr>
-                            <th scope="col">Görsel</th>
-                            <th scope="col">Başlık</th>
-                            <th scope="col">Ödül</th>
-                            <th scope="col">Aktif / Pasif</th>
-                            <th scope="col">Düzenle</th>
-                          </tr>
+                            <tr>
+                                <th scope="col">Görsel</th>
+                                <th scope="col">Başlık</th>
+                                <th scope="col">Ödül</th>
+                                <th scope="col">Aktif / Pasif</th>
+                                <th scope="col">Düzenle</th>
+                            </tr>
                         </thead>
                         <tbody>
-                          @foreach ($awards as $award)
-                            <tr>
-                                <td>{{ $award->award_image }}</td>
-                                <td>{{ $award->title }}</td>
-                                <td>{{ $award->award_name }}</td>
-                                <td>
-                                    @if($award->status == 1)
-                                        Aktif
-                                    @else
-                                        Pasif
-                                    @endif        
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-edit" data-id="{{$award->id}}">Düzenle</button>
-                                </td>
-                            </tr>    
-                          @endforeach                          
+                            @foreach ($awards as $award)
+                                <tr>
+                                    <td>{{ $award->award_image }}</td>
+                                    <td>{{ $award->title }}</td>
+                                    <td>{{ $award->award_name }}</td>
+                                    <td>
+                                        @if($award->status == 1)
+                                            Aktif
+                                        @else
+                                            Pasif
+                                        @endif        
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-edit" data-id="{{ $award->id }}">Düzenle</button>
+                                    </td>
+                                </tr>    
+                            @endforeach                          
                         </tbody>
-                      </table>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    
 @endsection
 
 @section('styles')
     <style>
-        .btnDanisman{
+        .btnDanisman {
             background: linear-gradient(to top, #EA2B2E, #84181A) !important;
             color: #ffffff;
             border-color: #EA2B2E !important;
             padding: 5px 25px;
             border-radius: 6px !important; 
-            margin-top:15px;
+            margin-top: 15px;
         }
-
-        .btnDanisman:hover{
+        .btnDanisman:hover {
             color: white;
             background: linear-gradient(to top, #84181A, #EA2B2E) !important;
         }
@@ -98,13 +103,13 @@
                     success: function(data) {
                         Swal.fire({
                             title: 'Ödül Düzenle',
-                            html:
-                                `<form id="edit-award-form">
+                            html: `
+                                <form id="edit-award-form">
                                     @csrf
                                     <input type="hidden" id="award_id" name="award_id" value="${data.id}">
                                     <div class="form-group">
                                         <label for="award_image" style="float:left">Ödül Resmi</label>
-                                        <input type="file" class="form-control" id="edit_award_image" name="award_image" style="width: 100%" >
+                                        <input type="file" class="form-control" id="edit_award_image" name="award_image" style="width: 100%">
                                     </div>
                                     <div class="form-group">
                                         <label for="title" style="float:left">Başlık</label>
@@ -118,7 +123,8 @@
                                         <input class="form-check-input" type="checkbox" id="edit_status" name="status" ${data.status == 1 ? 'checked' : ''}>
                                         <label class="form-check-label" for="edit_status">Aktif Et</label>
                                     </div>
-                                </form>`,
+                                </form>
+                            `,
                             showCancelButton: true,
                             confirmButtonText: 'Kaydet',
                             cancelButtonText: 'İptal',
@@ -148,6 +154,28 @@
                     }
                 });
             });
+
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    html: `
+                        <ul style="text-align: left;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    `
+                });
+            @endif
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Başarılı!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
         });
     </script>
 @endsection
