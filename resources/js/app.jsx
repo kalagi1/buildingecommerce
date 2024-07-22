@@ -8,6 +8,7 @@ import ProjectListItem from './Components/project_components/ProjectListItem';
 import HousingList from './Components/HousingList';
 import Crm from './Components/Crm';
 import ProjectAssigment from './Components/ProjectAssigment';
+import ReactTable from './Components/reactTable';
 
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
@@ -44,5 +45,7 @@ if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     }
 }
 else{
-    
+    if(document.getElementById('react_render_area')){
+        ReactDOM.render(<ReactTable  />, document.getElementById('react_render_area'));
+    }
 }
