@@ -442,7 +442,7 @@ function ReactTable(props) {
           <li>Proje İlanlarım</li>
         </ul>
       </div>
-      <div className="front-project-tabs">
+      <div className="front-project-tabs mt-5">
         <ul>
           {tabs.map((tab) => {
             return (

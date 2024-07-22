@@ -7,11 +7,10 @@ import EndSection from './create_project_components/EndSection';
 import TopCreateProjectNavigator from './create_project_components/TopCreateProjectNavigator';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Block } from '@mui/icons-material';
 import { Box, LinearProgress, Modal, Typography } from '@mui/material';
 
 
-function CreateProject(props) {
+function CreateProject() {
     const [step,setStep] = React.useState(1);
     const [loadingModal,setLoadingModal] = React.useState(false);
     const [loading,setLoading] = React.useState(0);
