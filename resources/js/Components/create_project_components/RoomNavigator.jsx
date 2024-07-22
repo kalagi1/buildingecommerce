@@ -150,8 +150,8 @@ function RoomNavigator({
 
     toast.success(
       haveBlock
-        ? `${blocks[selectBlock].name} bloğun ${selectRoom + 1}. nolu ilanı, ${blocks[selectedBlock].name} bloğun ${selectedRoom + 1}. nolu ilana kopyalandı`
-        : `${(selectRoom + 1) + (selectedRoom + 1)}. nolu ilan, ${selectedRoom + 1}. nolu ilana kopyalandı`
+        ? `${blocks[selectBlock].name} bloğun ${parseInt(selectRoom)+ 1}. nolu ilanı, ${blocks[selectedBlock].name} bloğun ${parseInt(selectedRoom) + 1}. nolu ilana kopyalandı`
+        : `${(parseInt(selectRoom) + 1)}. nolu ilan, ${parseInt(selectedRoom) + 1}. nolu ilana kopyalandı`
     );
     
 

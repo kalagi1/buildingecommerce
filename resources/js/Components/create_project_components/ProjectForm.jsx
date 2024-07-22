@@ -156,7 +156,6 @@ function ProjectForm({
     });
   }, []);
 
-
   const handleSwitchChange = (event) => {
     console.log("Switch clicked");
     console.log("Current haveBlocks value:", haveBlocks);
@@ -425,7 +424,7 @@ function ProjectForm({
       <div className="section-title mt-5">
         <h2>Proje Genel Bilgileri </h2>
       </div>
-      <div className="card p-3 mb-4 mt-4">
+      <div className="card p-3 mb-4 mt-4" id="projectGeneralForm">
         <div className="htmlform-group">
           <div className="row">
             <div className="col-md-6">
@@ -455,7 +454,10 @@ function ProjectForm({
                   onChange={(e) => {
                     setProjectDataFunc("create_company", e.target.value);
                   }}
-                  className="create_company"
+                  className={
+                    "create_company " +
+                    (allErrors.includes("create_company") ? "error-border" : "")
+                  }
                 />
               </div>
             </div>
@@ -489,7 +491,10 @@ function ProjectForm({
                       dotNumberFormat(e.target.value)
                     );
                   }}
-                  className="total_project_area price-only"
+                  className={
+                    "total_project_area price-only " +
+                    (allErrors.includes("total_project_area") ? "error-border" : "")
+                  }
                 />
               </div>
             </div>
@@ -520,7 +525,10 @@ function ProjectForm({
                   onChange={(e) => {
                     setProjectDataFunc("island", e.target.value);
                   }}
-                  className="total_project_area create_company"
+                  className={
+                    "total_project_area create_company " +
+                    (allErrors.includes("island") ? "error-border" : "")
+                  }
                 />
               </div>
             </div>
@@ -551,7 +559,10 @@ function ProjectForm({
                   onChange={(e) => {
                     setProjectDataFunc("parcel", e.target.value);
                   }}
-                  className="total_project_area price-only"
+                  className={
+                    "total_project_area price-only " +
+                    (allErrors.includes("parcel") ? "error-border" : "")
+                  }
                 />
               </div>
             </div>

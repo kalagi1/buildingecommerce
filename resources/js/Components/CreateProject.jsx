@@ -88,7 +88,6 @@ function CreateProject(props) {
   };
 
   const createRoomAsync = async (formData) => {
-    // createRoom işlevini çağır ve bekleyerek sonucu döndür
     return await createRoom(formData);
   };
 
@@ -142,7 +141,6 @@ function CreateProject(props) {
         } else {
           var boolCheck = false;
           formDataHousing.forEach((formDataHousing, order) => {
-            console.log(formDataHousing);
             if (!formDataHousing?.className?.includes("project-disabled")) {
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
@@ -154,7 +152,6 @@ function CreateProject(props) {
                     ]
                   ) {
                     if (!boolCheck) {
-                      console.log(formDataHousing.name.replace("[]", ""));
                       var elementDesc = document.getElementById(
                         formDataHousing.name.replace("[]", "")
                       );
@@ -213,7 +210,23 @@ function CreateProject(props) {
                   behavior: "smooth", // Yumuşak kaydırma efekti için
                 });
               } else {
-                if (!projectData.county_id) {
+                if (
+                  !projectData.create_company ||
+                  !projectData.total_project_area ||
+                  !projectData.end_date ||
+                  !projectData.parcel ||
+                  !projectData.island ||
+                  !projectData.start_date
+                ) {
+                  var element = document.getElementById("projectGeneralForm");
+                  window.scrollTo({
+                    top:
+                      getCoords(element).top -
+                      document.getElementById("navbarDefault").offsetHeight -
+                      30,
+                    behavior: "smooth", // For smooth scrolling effect
+                  });
+                } else if (!projectData.county_id) {
                   var element = document.getElementById("county_id");
                   window.scrollTo({
                     top:
@@ -566,6 +579,28 @@ function CreateProject(props) {
       tempErrors.push("description");
     }
 
+    if (!projectData.create_company) {
+      tempErrors.push("create_company");
+    }
+
+    if (!projectData.total_project_area) {
+      tempErrors.push("total_project_area");
+    }
+
+    if (!projectData.end_date) {
+      tempErrors.push("end_date");
+    }
+
+    if (!projectData.parcel) {
+      tempErrors.push("parcel");
+    }
+    if (!projectData.island) {
+      tempErrors.push("island");
+    }
+    if (!projectData.start_date) {
+      tempErrors.push("start_date");
+    }
+
     if (!projectData.city_id) {
       tempErrors.push("city_id");
     }
@@ -632,24 +667,24 @@ function CreateProject(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-      let requestPromises = [];
+     
       setFillFormData(formData);
       setStep(3);
     }
   };
-
   const finishCreateProject = () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+    let requestPromises = [];
+    
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500); // Increase progress every half a second
-
+  
     axios
       .post(baseUrl + "create_project", fillFormData, {
         headers: {
@@ -667,7 +702,7 @@ function CreateProject(props) {
               formDataRoom.append("project_id", res.data.project.id);
               formDataRoom.append("room_order", housingTemp);
               Object.keys(room).forEach((key) => {
-                if (key == "payDecs") {
+                if (key === "payDecs") {
                   room.payDecs.forEach((payDec, payDecIndex) => {
                     formDataRoom.append(
                       `room[payDecs][${payDecIndex}][price]`,
@@ -687,41 +722,48 @@ function CreateProject(props) {
                   }
                 }
               });
-
+  
               const callCreateRoom = () => {
                 return new Promise((resolve) => {
                   setTimeout(async () => {
-                    const result = await createRoomAsync(formDataRoom);
-                    resolve(result);
-                  }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+                    await createRoomAsync(formDataRoom);
+                    resolve(); // Resolve promise when room creation is done
+                  }, roomIndex * 1000); // Add delay between rooms
                 });
               };
-
-              // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+  
+              // Add the promise to the requestPromises array
               requestPromises.push(callCreateRoom());
-
-              housingTemp++; // Oda sırasını arttırma
+  
+              housingTemp++; // Increment room order
             });
           });
-
+  
           Promise.all(requestPromises).then(() => {
             clearInterval(progressInterval);
-            setProgress(100);
-            setTimeout(() => {
-              setLoadingModalOpen(false);
-              setStep(4);
-              setFillFormData(null);
-            }, 500);
+            setProgress(100); // Set progress to 100% when all requests are complete
+            setLoadingModalOpen(false);
+            setStep(4);
+            setFillFormData(null);
           });
+        } else {
+          clearInterval(progressInterval);
+          setLoadingModalOpen(false);
+          toast.error(
+            "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+          );
         }
       })
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error(error.message);
+        console.log(error);
+        toast.error(
+          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+        );
       });
   };
-
+  
   const style = {
     position: "absolute",
     top: "50%",
