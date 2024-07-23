@@ -780,6 +780,7 @@ class ProjectController extends Controller
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
         $projectData = $request->input('projectData');
         $fileNameCoverImage = null;
+        $fileNameDocument =null;
 
         if (isset($request->file('projectData')['cover_image'])) {
 
@@ -816,7 +817,7 @@ class ProjectController extends Controller
 
         $housingTypeParent = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->first();
 
-        if (isset($housingTypeParent) && $housingTypeParent->slug != "gunluk-kiralik") {
+        if ($housingTypeParent && $housingTypeParent->slug != "gunluk-kiralik") {
             if (isset($request->file('projectData')['document'])) {
 
                 $file = $request->file('projectData')['document'];
