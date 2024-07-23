@@ -13,6 +13,8 @@ import { baseUrl } from "../../define/variables";
 import { FALSE } from "sass";
 function HousingForm({
   selectedTypesTitles,
+  selectedLocation,
+  setSelectedLocation,
   user,
   slug,
   prevStep,
@@ -46,7 +48,7 @@ function HousingForm({
 
   const [zoom, setZoom] = useState(5);
   const [center, setCenter] = useState({ lat: 39.0, lng: 35.0 }); // Coordinates for Turkey's center
-  const [selectedLocation, setSelectedLocation] = useState({});
+
   const mapRef = useRef(null);
   const isShowRef = useRef(isShow);
   const rectangleRef = useRef(null);
@@ -250,7 +252,10 @@ function HousingForm({
       // Check if the clicked location is within Turkey's boundaries
       const isWithinTurkey =
         lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
-
+        if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
+          setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+          return;
+        }
       if (isShowRef.current) {
         console.log("Clicked LatLng:", latLng);
 
@@ -273,7 +278,7 @@ function HousingForm({
         }
         setError(null);
       } else {
-        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        setError("Harita seçimi için gerekli bilgiler eksik veya seçim yapmayı bitirmediniz.");
       }
     };
 

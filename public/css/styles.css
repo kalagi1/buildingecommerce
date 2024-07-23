@@ -31256,16 +31256,7 @@ a {
   .custom-modal-button-secondary {
     background-color: #6c757d;
   }
-  
-  .custom-modal-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  .custom-modal-button-secondary:hover {
-    background-color: #5a6268;
-    transform: scale(1.05);
-  }
+
   
   .icon-area {
     padding: 5px 20px;

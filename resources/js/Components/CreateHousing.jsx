@@ -16,6 +16,10 @@ function CreateHousing(props) {
   const [step, setStep] = useState(
     () => JSON.parse(localStorage.getItem("step")) || 1
   );
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
+  );
+
   const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
   );
@@ -981,7 +985,9 @@ function CreateHousing(props) {
       ) : step == 2 ? (
         <HousingForm
           user={user}
+          selectedLocation={selectedLocation}
           slug={slug}
+          setSelectedLocation={setSelectedLocation}
           prevStep={prevStep}
           anotherBlockErrors={anotherBlockErrors}
           selectedTypesTitles={selectedTypesTitles}
@@ -1029,7 +1035,7 @@ function CreateHousing(props) {
       >
         <div className="custom-modal-header">
           Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
-          istersin? {step}
+          istersin?
         </div>
         <div className="custom-modal-buttons">
           <button className="custom-modal-button" onClick={handleContinue}>
