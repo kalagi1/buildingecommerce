@@ -895,20 +895,25 @@ function CreateHousing(props) {
       ) : (
         <EndSectionHousing />
       )}
-      <LoadingModal open={loadingModalOpen} progress={progress} />
-      {/* <Modal
-        onClose={() => {
-          setLoadingModalOpen(false);
-        }}
-        open={loadingStorageModalOpen && !loadingModalOpen}
-      >
-        <h2>
-          Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
-          istersin?
-        </h2>
-        <button onClick={handleContinue}>Devam Et</button>
-        <button onClick={handleStartOver}>Yeni İlan Ekle</button>
-      </Modal> */}
+      {loadingModalOpen && !loadingStorageModalOpen && (
+        <LoadingModal open={loadingModalOpen} progress={progress} />
+      )}
+
+      {!loadingModalOpen && loadingStorageModalOpen && (
+        <Modal
+          onClose={() => {
+            setStorageLoadingModalOpen(false);
+          }}
+          open={loadingStorageModalOpen}
+        >
+          <h2>
+            Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
+            istersin?
+          </h2>
+          <button onClick={handleContinue}>Devam Et</button>
+          <button onClick={handleStartOver}>Yeni İlan Ekle</button>
+        </Modal>
+      )}
 
       <ToastContainer />
     </>
