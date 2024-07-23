@@ -142,6 +142,10 @@ function CreateHousing(props) {
   }, [roomCount]);
 
   useEffect(() => {
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
+
+  useEffect(() => {
     localStorage.setItem("allErrors", JSON.stringify(allErrors));
   }, [allErrors]);
 

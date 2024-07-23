@@ -296,6 +296,7 @@ function HousingForm({
       "coordinates",
       `${selectedLocation.lat}-${selectedLocation.lng}`
     );
+
   }, [selectedLocation]);
 
   const onUnmount = useCallback(function callback(map) {
@@ -497,8 +498,7 @@ function HousingForm({
               </select>
             </div>
           </div>
-          {  !projectData.coordinates ||
-                      projectData.coordinates == "undefined-undefined" ? (
+          {  !selectedLocation ? (
             <Alert
               severity="error"
               className="mt-3"
@@ -534,7 +534,7 @@ function HousingForm({
                 }}
                 ref={mapRef}
               >
-                {selectedLocation.lat && (
+                {selectedLocation && (
                   <Marker position={selectedLocation} draggable />
                 )}
               </GoogleMap>
