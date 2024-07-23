@@ -497,7 +497,8 @@ function HousingForm({
               </select>
             </div>
           </div>
-          {!projectData.coordinates ? (
+          {  !projectData.coordinates ||
+                      projectData.coordinates == "undefined-undefined" ? (
             <Alert
               severity="error"
               className="mt-3"
