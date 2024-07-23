@@ -212,7 +212,8 @@ function CreateHousing(props) {
     localStorage.removeItem("anotherBlockErrors");
     localStorage.removeItem("selectedTypesTitles");
     localStorage.removeItem("user");
-    setStep(1); // Reset to step 1
+    setStep(1);
+    setSelectedTypes([]);
     setStorageLoadingModalOpen(false);
   };
 
