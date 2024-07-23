@@ -238,7 +238,10 @@ button {
 }
 
 .project_imagex img{
-  cursor:move;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .project_imagex{
