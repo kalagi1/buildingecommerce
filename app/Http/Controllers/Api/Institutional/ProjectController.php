@@ -891,7 +891,7 @@ class ProjectController extends Controller
         $housingTypeParent2 = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->firstOrFail();
 
         $postData = [];
-        if(isset($request->input('room'))){
+        if($request->input('room') != null){
             foreach ($request->input('room') as $key => $pData) {
                 $postData[$key] = [$pData];
             }
@@ -973,7 +973,7 @@ class ProjectController extends Controller
             ]
         );
 
-        if (isset($project)) {
+        if ($project) {
             $institutions = Institution::all();
         
             foreach ($institutions as $key => $institution) {
