@@ -214,7 +214,13 @@ function CreateHousing(props) {
     localStorage.removeItem("user");
     setStep(1);
     setSelectedTypes([]);
-    setStorageLoadingModalOpen(false);
+    setBlocks([
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);    setStorageLoadingModalOpen(false);
   };
 
   useEffect(() => {
