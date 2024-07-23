@@ -494,8 +494,9 @@
                                 <ul class="homes-list reservation-list clearfix">
                                     <li>
                                         <span>Giriş: 
-                                            @if(isset(getData($housing, 'start_time')))
-                                                {{ getData($housing, 'start_time') }}
+                                            @php $start_time = getData($housing, 'start_time'); @endphp
+                                            @if($start_time !== null)
+                                                {{ $start_time }}
                                             @else
                                                 Belirtilmedi
                                             @endif
@@ -503,8 +504,9 @@
                                     </li>
                                     <li>
                                         <span>Çıkış: 
-                                            @if( getData($housing, 'end_time') != null)
-                                                {{ getData($housing, 'end_time') }}
+                                            @php $end_time = getData($housing, 'end_time'); @endphp
+                                            @if($end_time !== null)
+                                                {{ $end_time }}
                                             @else
                                                 Belirtilmedi
                                             @endif
@@ -513,6 +515,7 @@
                                 </ul>
                             </div>
                         </div>
+                        
                         
                         @else
                             <div class="mobileHour mobileHourDiv">
