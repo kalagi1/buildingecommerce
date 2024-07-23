@@ -313,6 +313,8 @@ class ProfileController extends Controller
 
     public function refund(Request $request)
     {
+
+      
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
