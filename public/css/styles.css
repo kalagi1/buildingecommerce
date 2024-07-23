@@ -237,10 +237,16 @@ button {
   text-align:center
 }
 
+.project_imagex img{
+  cursor:move;
+}
+
 .project_imagex{
+  margin: 10px;
   width: 150px;
   height: 100px;
-  cursor:move;
+
+  border: 1px solid #ebebeb;
 }
 .mbb {
   margin-bottom: 2.5rem;
