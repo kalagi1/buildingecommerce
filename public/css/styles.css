@@ -31315,7 +31315,7 @@ a {
     color: white;
   }
 
-  #cover-photo div{
+  .cover-photo div{
     display: flex;
     align-items: center;
     justify-content: start;
