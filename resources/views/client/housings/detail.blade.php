@@ -490,7 +490,7 @@
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
                         <div class="mobileHour mobileHourDiv">
-                            {{-- <div class="homes-content details-2">
+                            <div class="homes-content details-2">
                                 <ul class="homes-list reservation-list clearfix">
                                     <li>
                                         <span>Giriş: 
@@ -513,7 +513,7 @@
                                         </span>
                                     </li>
                                 </ul>
-                            </div> --}}
+                            </div>
                         </div>
                         
                         
