@@ -497,7 +497,7 @@ function HousingForm({
               </select>
             </div>
           </div>
-          {allErrors.includes("coordinates") ? (
+          {!projectData.coordinates ? (
             <Alert
               severity="error"
               className="mt-3"
