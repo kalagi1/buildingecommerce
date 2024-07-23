@@ -781,6 +781,7 @@ class ProjectController extends Controller
         $projectData = $request->input('projectData');
         $fileNameCoverImage = null;
         $fileNameDocument =null;
+        $fileNameAuthorityCertificateName = null;
 
         if (isset($request->file('projectData')['cover_image'])) {
 
@@ -853,6 +854,7 @@ class ProjectController extends Controller
 
 
         $galleryImages = [];
+        $fileNameGalleryImage =null ;
 
         if(isset($request->file('projectData')['gallery']))
         {
