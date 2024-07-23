@@ -54,13 +54,15 @@
 @endphp
 @php
 
-    function getData($housing, $key)
-    {
+function getData($housing, $key) {
+    if (isset($housing->housing_type_data)) {
         $housing_type_data = json_decode($housing->housing_type_data);
-        $a = $housing_type_data->$key;
-        return $a[0];
+        if (isset($housing_type_data->$key) && is_array($housing_type_data->$key) && !empty($housing_type_data->$key)) {
+            return $housing_type_data->$key[0];
+        }
     }
-
+    return null;
+}
     function getImages($housing, $key)
     {
         $housing_type_data = json_decode($housing->housing_type_data);
