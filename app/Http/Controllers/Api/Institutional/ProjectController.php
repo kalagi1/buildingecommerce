@@ -816,7 +816,7 @@ class ProjectController extends Controller
         $housingTypeParent = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->first();
 
         if (isset($housingTypeParent) && $housingTypeParent->slug != "gunluk-kiralik") {
-            if ($request->file('projectData')['document']) {
+            if (isset($request->file('projectData')['document'])) {
 
                 $file = $request->file('projectData')['document'];
 
@@ -828,7 +828,7 @@ class ProjectController extends Controller
                 $file->move($destinationPath, $fileNameDocument);
             }
 
-            if(auth()->user()->type != 1){
+            if(auth()->check() && auth()->user()->type != 1){
                 if ($request->file('projectData')['document']) {
 
                     $file = $request->file('projectData')['authority_certificate'];
