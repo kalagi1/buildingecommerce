@@ -237,10 +237,11 @@ button {
   text-align:center
 }
 .favorite-move {
-  position: absolute;
-  z-index: 9;
+  position: absolute !important;
+  z-index: 9 !important;
   margin-top: 0;
-  right: 20px;
+  right: 20px !important;
+  top: 0 !important;
 }
 .second-area-finish{
   display: flex;
