@@ -1,0 +1,60 @@
+/* CustomModal.css */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Daha koyu arka plan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Modalın diğer öğelerin üstünde olduğundan emin olun */
+  }
+  
+  .custom-modal-content {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .custom-modal-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .custom-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .custom-modal-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 16px;
+  }
+  
+  .custom-modal-button-secondary {
+    background-color: #6c757d;
+  }
+  
+  .custom-modal-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .custom-modal-button-secondary:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+  }
+  

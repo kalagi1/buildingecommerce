@@ -10,6 +10,7 @@ import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
+import CustomModal from "./CustomModal";
 
 function CreateHousing(props) {
   const [step, setStep] = useState(
@@ -899,21 +900,23 @@ function CreateHousing(props) {
         <LoadingModal open={loadingModalOpen} progress={progress} />
       )}
 
-      {/* {!loadingModalOpen && loadingStorageModalOpen && (
-        <Modal
-          onClose={() => {
-            setStorageLoadingModalOpen(false);
-          }}
-          open={loadingStorageModalOpen}
-        >
-          <h2>
-            Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
-            istersin?
-          </h2>
-          <button onClick={handleContinue}>Devam Et</button>
-          <button onClick={handleStartOver}>Yeni İlan Ekle</button>
-        </Modal>
-      )} */}
+      <CustomModal isOpen={loadingStorageModalOpen} onClose={() => setStorageLoadingModalOpen(false)}>
+        <div className="custom-modal-header">
+          Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
+          istersin?
+        </div>
+        <div className="custom-modal-buttons">
+          <button className="custom-modal-button" onClick={handleContinue}>
+            Devam Et
+          </button>
+          <button
+            className="custom-modal-button custom-modal-button-secondary"
+            onClick={handleStartOver}
+          >
+            Yeni İlan Ekle
+          </button>
+        </div>
+      </CustomModal>
 
       <ToastContainer />
     </>
