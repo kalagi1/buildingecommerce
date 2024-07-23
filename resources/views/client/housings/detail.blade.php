@@ -464,6 +464,7 @@
                                             <button type="button" class="ud-btn btn-white2 mt-3"
                                                 onclick="submitForm()">Yorumu
                                                 Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
                                         </form>
                                     @endif
@@ -1671,11 +1672,20 @@
                                                                     <span class="det">{{ $val[0] }}
                                                                         m2</span>
                                                                 @elseif ($label == 'Özellikler')
-                                                                    <ul>
+                                                                    {{-- <ul>
                                                                         @foreach ($val as $ozellik)
                                                                             <li>{{ $ozellik }}</li>
                                                                         @endforeach
-                                                                    </ul>
+                                                                    </ul> --}}
+                                                                    @if (!empty($val) && is_array($val))
+                                                                        <ul>
+                                                                            @foreach ($val as $ozellik)
+                                                                                <li>{{ $ozellik }}</li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @else
+                                                                        <p>Bu ilan ait özellikler belirtilmemiştir.</p>
+                                                                    @endif
                                                                 @else
                                                                     <span class="det">
                                                                         {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
@@ -1958,6 +1968,31 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            $(document).ready(function() {
+    $('#selectImageButton').on('click', function() {
+        $('.fileinput').click();
+    });
+
+    $('.fileinput').on('change', function(event) {
+        var previewContainer = $('#previewContainer');
+        previewContainer.empty(); // Clear previous previews
+
+        var files = event.target.files;
+        if (files) {
+            $.each(files, function(index, file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = $('<img>').attr('src', e.target.result);
+                    previewContainer.append(img);
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+    });
+});
+
+        </script>
 
     <script>
         $(document).ready(function() {
@@ -3264,6 +3299,15 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/housing.css') }}">
     <style>
+        #previewContainer img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+        }
+
         #ad-error,
         #soyad-error,
         #email-error,
