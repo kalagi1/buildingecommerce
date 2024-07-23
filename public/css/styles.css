@@ -236,6 +236,12 @@ button {
 .remove-area{
   text-align:center
 }
+.favorite-move {
+  position: absolute;
+  z-index: 9;
+  margin-top: 0;
+  right: 20px;
+}
 .second-area-finish{
   display: flex;
   align-items: center;
