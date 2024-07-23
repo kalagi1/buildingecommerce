@@ -31272,7 +31272,9 @@ a {
   }
 
 
-  #cover_image.upload-container{
+  #cover_image.upload-container,
+  #authority_certificate.upload-container,
+  #document.upload-container{
     background: #fff none repeat scroll 0 0;
     border: 2px dashed #1ABC9C;
     /* padding: 50px 20px; */
