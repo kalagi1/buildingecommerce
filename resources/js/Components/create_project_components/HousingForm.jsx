@@ -284,13 +284,13 @@ function HousingForm({
     clickListenerRef.current = map.addListener("click", handleClick);
 
     // Cleanup function to remove listener on component unmount or if map changes
-    return () => {
+    return () => {  
       if (clickListenerRef.current) {
         google.maps.event.removeListener(clickListenerRef.current);
       }
     };
   }, [mapRef.current, projectData]);
-
+  
   useEffect(() => {
     setProjectDataFunc(
       "coordinates",

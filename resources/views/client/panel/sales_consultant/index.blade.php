@@ -167,17 +167,17 @@
         }
 
         /* .btnProjectAssign{
-            width: 100%;
-            border-color: #333;
-            background-color: #333;
-            color: white;
-            border-radius: 6px !important;
-        }
-        .btnProjectAssign:hover{
-            background-color: white !important;
-            color: #333;
-            border-color: #333;
-        }     */
+                width: 100%;
+                border-color: #333;
+                background-color: #333;
+                color: white;
+                border-radius: 6px !important;
+            }
+            .btnProjectAssign:hover{
+                background-color: white !important;
+                color: #333;
+                border-color: #333;
+            }     */
         .btnProjectAssign {
             width: 95%;
             border-color: #EA2B2E;
