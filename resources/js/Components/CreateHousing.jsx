@@ -29,10 +29,9 @@ function CreateHousing(props) {
   const [selectedTypes, setSelectedTypes] = useState(
     () => JSON.parse(localStorage.getItem("selectedTypes")) || []
   );
-  const [fillFormData, setFillFormData] = useState(() => {
-    const savedFormData = localStorage.getItem("fillFormData");
-    return savedFormData ? jsonToFormData(JSON.parse(savedFormData)) : [];
-  });
+  const [fillFormData, setFillFormData] = useState(
+    () => JSON.parse(localStorage.getItem("fillFormData")) || []
+  );
   const [loadingModalOpen, setLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
   );
