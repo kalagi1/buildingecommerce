@@ -31315,6 +31315,19 @@ a {
     color: white;
   }
 
+  #cover-photo div{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
+
+  .project_imagex,
+  .project_imagex div{
+    display:block !important
+
+  }
+
   .border-container .icons {
     display: flex;
     justify-content: center;
