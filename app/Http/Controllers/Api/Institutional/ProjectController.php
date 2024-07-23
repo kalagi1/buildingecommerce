@@ -829,7 +829,7 @@ class ProjectController extends Controller
             }
 
             if(auth()->check() && auth()->user()->type != 1){
-                if ($request->file('projectData')['document']) {
+                if (isset($request->file('projectData')['document'])) {
 
                     $file = $request->file('projectData')['authority_certificate'];
     
