@@ -237,6 +237,11 @@ button {
   text-align:center
 }
 
+.finish-tick {
+  display: flex;
+  margin-top: 20px;
+}
+
 .project_imagex img{
   cursor: move;
   display: flex;
