@@ -252,7 +252,7 @@ function FileUpload({
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="cover-photo-full card py-2 px-5 housing_after_step"
+        className="cover-photo-full card py-3 px-3 housing_after_step"
       >
         <input
           accept={accept}
