@@ -47,13 +47,16 @@ function CreateHousing(props) {
   const [slug, setSlug] = useState(
     () => JSON.parse(localStorage.getItem("slug")) || ""
   );
-  const [blocks, setBlocks] = useState( [
-    {
-      name: "housing",
-      roomCount: 1,
-      rooms: [{}],
-    },
-  ]);
+  const [blocks, setBlocks] = useState(
+    () =>
+      JSON.parse(localStorage.getItem("blocks")) || [
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]
+  );
   const [roomCount, setRoomCount] = useState(
     () => JSON.parse(localStorage.getItem("roomCount")) || 1
   );
@@ -129,6 +132,10 @@ function CreateHousing(props) {
   useEffect(() => {
     localStorage.setItem("slug", JSON.stringify(slug));
   }, [slug]);
+
+  useEffect(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+  }, [blocks]);
 
   useEffect(() => {
     localStorage.setItem("roomCount", JSON.stringify(roomCount));
@@ -210,7 +217,14 @@ function CreateHousing(props) {
     localStorage.removeItem("selectedTypesTitles");
     localStorage.removeItem("user");
     setStep(1);
-    setSelectedTypes([]); 
+    setSelectedTypes([]);
+    setBlocks([
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);    
     setStorageLoadingModalOpen(false);
   };
 
@@ -910,15 +924,8 @@ function CreateHousing(props) {
   const nextStep = () => {
     setStep(step + 1);
     if (step == 1) {
-      setBlocks([
-        {
-          name: "housing",
-          roomCount: 1,
-          rooms: [{}],
-        },
-      ]);
-      setProjectData([]);
-    }
+   localStorage.removeItem("projectData");
+  }
   };
   return (
     <>

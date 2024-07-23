@@ -247,42 +247,35 @@ function HousingForm({
       const latLng = e.latLng;
       const lat = latLng.lat();
       const lng = latLng.lng();
-      console.log("Map clicked:", latLng);
-
+      
       // Check if the clicked location is within Turkey's boundaries
-      const isWithinTurkey =
-        lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
-        if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
-          setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
-          return;
+      const isWithinTurkey = lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
+
+      // Check if projectData has required fields
+      if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        return;
+      }
+
+      if (isWithinTurkey) {
+        setSelectedLocation({ lat, lng });
+
+        if (markerRef.current) {
+          markerRef.current.setMap(null);
         }
-      if (isShowRef.current) {
-        console.log("Clicked LatLng:", latLng);
 
-        if (isWithinTurkey) {
-          setSelectedLocation({ lat, lng });
-
-          if (markerRef.current) {
-            markerRef.current.setMap(null);
-          }
-
-          markerRef.current = new google.maps.Marker({
-            position: { lat, lng },
-            map: mapRef.current,
-            title: "Selected Location",
-          });
-          setError(null);
-        } else {
-          console.log("Outside bounds or outside Turkey:", latLng);
-          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
-        }
+        markerRef.current = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: "Selected Location",
+        });
         setError(null);
       } else {
-        setError("Harita seçimi için gerekli bilgiler eksik veya seçim yapmayı bitirmediniz.");
+        setError("Türkiye sınırları içinde bir nokta seçiniz.");
       }
     };
 
-    // Remove previous listener
+    // Remove previous listener if exists
     if (clickListenerRef.current) {
       google.maps.event.removeListener(clickListenerRef.current);
     }
@@ -290,11 +283,13 @@ function HousingForm({
     // Add new listener
     clickListenerRef.current = map.addListener("click", handleClick);
 
+    // Cleanup function to remove listener on component unmount or if map changes
     return () => {
-      // Clean up listener on component unmount or if map changes
-      google.maps.event.removeListener(clickListenerRef.current);
+      if (clickListenerRef.current) {
+        google.maps.event.removeListener(clickListenerRef.current);
+      }
     };
-  }, [mapRef.current, bounds]);
+  }, [mapRef.current, projectData]);
 
   useEffect(() => {
     setProjectDataFunc(
