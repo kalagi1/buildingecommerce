@@ -489,18 +489,31 @@
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            <div class="mobileHour mobileHourDiv">
-                                <div class="homes-content details-2">
-                                    <ul class="homes-list reservation-list clearfix">
-                                        <li>
-                                            <span>Giriş: {{ getData($housing, 'start_time') ?? 'Belirtilmedi' }}</span>
-                                        </li>
-                                        <li>
-                                            <span>Çıkış: {{ getData($housing, 'end_time') ?? 'Belirtilmedi' }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <div class="mobileHour mobileHourDiv">
+                            <div class="homes-content details-2">
+                                <ul class="homes-list reservation-list clearfix">
+                                    <li>
+                                        <span>Giriş: 
+                                            @isset(getData($housing, 'start_time'))
+                                                {{ getData($housing, 'start_time') }}
+                                            @else
+                                                Belirtilmedi
+                                            @endisset
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>Çıkış: 
+                                            @isset( getData($housing, 'end_time'))
+                                                {{ getData($housing, 'end_time') }}
+                                            @else
+                                                Belirtilmedi
+                                            @endisset
+                                        </span>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                        
                         @else
                             <div class="mobileHour mobileHourDiv">
 
