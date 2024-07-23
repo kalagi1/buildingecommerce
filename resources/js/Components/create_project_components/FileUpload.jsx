@@ -247,7 +247,7 @@ function FileUpload({
   };
 
   return (
-    <div>
+    <div class="project_imagex_flex">
       {/* <span className="section-title mt-4 housing_after_step">{title}</span> */}
       <div
         onDrop={handleDrop}
