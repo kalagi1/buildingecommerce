@@ -895,11 +895,11 @@ function CreateHousing(props) {
       ) : (
         <EndSectionHousing />
       )}
-      {loadingModalOpen && !loadingStorageModalOpen && (
+      {loadingModalOpen && (
         <LoadingModal open={loadingModalOpen} progress={progress} />
       )}
 
-      {!loadingModalOpen && loadingStorageModalOpen && (
+      {/* {!loadingModalOpen && loadingStorageModalOpen && (
         <Modal
           onClose={() => {
             setStorageLoadingModalOpen(false);
@@ -913,7 +913,7 @@ function CreateHousing(props) {
           <button onClick={handleContinue}>Devam Et</button>
           <button onClick={handleStartOver}>Yeni İlan Ekle</button>
         </Modal>
-      )}
+      )} */}
 
       <ToastContainer />
     </>
