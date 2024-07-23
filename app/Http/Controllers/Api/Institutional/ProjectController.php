@@ -779,11 +779,8 @@ class ProjectController extends Controller
 
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
         $projectData = $request->input('projectData');
-        $fileNameCoverImage = null;
-        $fileNameDocument =null;
-        $fileNameAuthorityCertificateName = null;
 
-        if (isset($request->file('projectData')['cover_image'])) {
+        if ($request->file('projectData')['cover_image']) {
 
             $file = $request->file('projectData')['cover_image'];
 
@@ -818,8 +815,8 @@ class ProjectController extends Controller
 
         $housingTypeParent = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->first();
 
-        if ($housingTypeParent && $housingTypeParent->slug != "gunluk-kiralik") {
-            if (isset($request->file('projectData')['document'])) {
+        if ($housingTypeParent->slug != "gunluk-kiralik") {
+            if ($request->file('projectData')['document']) {
 
                 $file = $request->file('projectData')['document'];
 
@@ -831,8 +828,8 @@ class ProjectController extends Controller
                 $file->move($destinationPath, $fileNameDocument);
             }
 
-            if(auth()->check() && auth()->user()->type != 1){
-                if (isset($request->file('projectData')['document'])) {
+            if(auth()->user()->type != 1){
+                if ($request->file('projectData')['document']) {
 
                     $file = $request->file('projectData')['authority_certificate'];
     
@@ -854,82 +851,70 @@ class ProjectController extends Controller
 
 
         $galleryImages = [];
-        $fileNameGalleryImage =null ;
 
-        if(isset($request->file('projectData')['gallery']))
-        {
-            foreach ($request->file('projectData')['gallery'] as $order => $imagex) {
-                $file = $imagex;
-                // Dosyanın hedef dizini
-                $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
-                // Dosyayı belirlenen hedefe taşı
-                $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move($destinationPath, $fileNameGalleryImage);
-                $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
-                $imageWidth = $image->width();
-                $imageHeight = $image->height();
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-    
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
-                }
-                $image2 = $manager->read(public_path('images/filigran2.png'));
-                $imageWidth2 = $image2->width();
-                $imageHeight2 = $image2->height();
-                $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-                $image2->rotate(30, '#00000000');
-                $image->resize($newWidth, $newHeight);
-                $encoded = $image->place($image2, 'center', 10, 10, 20);
-                $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
-                array_push($galleryImages, $fileNameGalleryImage);
+        foreach ($request->file('projectData')['gallery'] as $order => $imagex) {
+            $file = $imagex;
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameGalleryImage);
+            $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+            if ($imageWidth > 1200) {
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
+            } else {
+
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
             }
+            $image2 = $manager->read(public_path('images/filigran2.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
+            array_push($galleryImages, $fileNameGalleryImage);
         }
-
-      
 
         $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[0])->firstOrFail();
         $housingTypeParent2 = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->firstOrFail();
 
         $postData = [];
-        if($request->input('room') != null){
-            foreach ($request->input('room') as $key => $pData) {
-                $postData[$key] = [$pData];
-            }
+        foreach ($request->input('room') as $key => $pData) {
+            $postData[$key] = [$pData];
         }
-      
-        if(isset($housingTypeInputs)){
-            foreach ($housingTypeInputs as $input) {
-                if(isset($input) && isset($input->type) && $input->type){
-                    if ($input->type == "checkbox-group") {
-                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                            }
-                        } else {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
-                            }
+        foreach ($housingTypeInputs as $input) {
+            if(isset($input) && isset($input->type) && $input->type){
+                if ($input->type == "checkbox-group") {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                         }
                     } else {
-                        if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
-                            }
-                        } else {
-                            if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                                $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
-                            }
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+                        }
+                    }
+                } else {
+                    if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
+                        }
+                    } else {
+                        if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                            $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
                         }
                     }
                 }
-                
             }
+            
         }
-       
 
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
