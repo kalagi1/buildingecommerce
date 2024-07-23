@@ -49,7 +49,7 @@ function CreateHousing(props) {
   );
   const [blocks, setBlocks] = useState(
     () =>
-      JSON.parse(localStorage.getItem("blocks")) || [
+       [
         {
           name: "housing",
           roomCount: 1,
