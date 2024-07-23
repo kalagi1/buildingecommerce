@@ -384,7 +384,7 @@
         });
     }
 </script>
-{{-- @vite('resources/js/app.jsx') --}}
+@vite('resources/js/app.jsx')
 <script>
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
@@ -2030,11 +2030,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-b32a5bdd.js"></script>
-
-
-{{-- @vite('resources/js/app.jsx') --}}
-
+<script src="{{ URL::to('/') }}/build/assets/app-24268688.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
