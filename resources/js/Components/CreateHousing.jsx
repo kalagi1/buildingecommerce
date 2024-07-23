@@ -177,7 +177,7 @@ function CreateHousing(props) {
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
-    if (storedStep) {
+    if (storedStep != 1) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);
     } else {
@@ -188,7 +188,7 @@ function CreateHousing(props) {
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); // Continue from the stored step
+      setStep(Number(storedStep)); 
     }
     setStorageLoadingModalOpen(false);
   };
