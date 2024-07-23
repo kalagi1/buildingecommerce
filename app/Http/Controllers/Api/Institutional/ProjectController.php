@@ -779,6 +779,7 @@ class ProjectController extends Controller
 
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
         $projectData = $request->input('projectData');
+        $fileNameCoverImage = null;
 
         if (isset($request->file('projectData')['cover_image'])) {
 
