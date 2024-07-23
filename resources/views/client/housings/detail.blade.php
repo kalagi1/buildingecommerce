@@ -1667,11 +1667,20 @@
                                                                     <span class="det">{{ $val[0] }}
                                                                         m2</span>
                                                                 @elseif ($label == 'Özellikler')
-                                                                    <ul>
+                                                                    {{-- <ul>
                                                                         @foreach ($val as $ozellik)
                                                                             <li>{{ $ozellik }}</li>
                                                                         @endforeach
-                                                                    </ul>
+                                                                    </ul> --}}
+                                                                    @if (!empty($val) && is_array($val))
+                                                                        <ul>
+                                                                            @foreach ($val as $ozellik)
+                                                                                <li>{{ $ozellik }}</li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @else
+                                                                        <p>Bu ilan ait özellikler belirtilmemiştir.</p>
+                                                                    @endif
                                                                 @else
                                                                     <span class="det">
                                                                         {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
