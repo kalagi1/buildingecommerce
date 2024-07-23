@@ -494,20 +494,20 @@
                                 <ul class="homes-list reservation-list clearfix">
                                     <li>
                                         <span>Giriş: 
-                                            @isset(getData($housing, 'start_time'))
+                                            @if(getData($housing, 'start_time') != null)
                                                 {{ getData($housing, 'start_time') }}
                                             @else
                                                 Belirtilmedi
-                                            @endisset
+                                            @endif
                                         </span>
                                     </li>
                                     <li>
                                         <span>Çıkış: 
-                                            @isset( getData($housing, 'end_time'))
+                                            @if( getData($housing, 'end_time') != null)
                                                 {{ getData($housing, 'end_time') }}
                                             @else
                                                 Belirtilmedi
-                                            @endisset
+                                            @endif
                                         </span>
                                     </li>
                                 </ul>
