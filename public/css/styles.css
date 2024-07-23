@@ -236,10 +236,15 @@ button {
 .remove-area{
   text-align:center
 }
+.second-area-finish{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top:20px;
+}
 
 .finish-tick {
-  display: flex;
-  margin-top: 20px;
+  display: flex;  
 }
 
 .project_imagex img{
