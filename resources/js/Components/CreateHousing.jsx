@@ -14,39 +14,159 @@ import CustomModal from "./CustomModal";
 
 function CreateHousing(props) {
   const [step, setStep] = useState(
-    JSON.parse(localStorage.getItem("step")) || 1
+    () => JSON.parse(localStorage.getItem("step")) || 1
   );
-  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(false);
-
-  const [housingTypes, setHousingTypes] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [fillFormData, setFillFormData] = useState([]);
-  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
-
+  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
+  );
+  const [housingTypes, setHousingTypes] = useState(
+    () => JSON.parse(localStorage.getItem("housingTypes")) || []
+  );
+  const [selectedTypes, setSelectedTypes] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypes")) || []
+  );
+  const [fillFormData, setFillFormData] = useState(
+    () => JSON.parse(localStorage.getItem("fillFormData")) || []
+  );
+  const [loadingModalOpen, setLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
+  );
   const [projectData, setProjectData] = useState(
-    JSON.parse(localStorage.getItem("projectData")) || {}
+    () => JSON.parse(localStorage.getItem("projectData")) || {}
   );
-  const [selectedHousingType, setSelectedHousingType] = useState({});
-  const [haveBlocks, setHaveBlocks] = useState(false);
-  const [slug, setSlug] = useState("");
+  const [selectedHousingType, setSelectedHousingType] = useState(
+    () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
+  );
+  const [haveBlocks, setHaveBlocks] = useState(
+    () => JSON.parse(localStorage.getItem("haveBlocks")) || false
+  );
+  const [slug, setSlug] = useState(
+    () => JSON.parse(localStorage.getItem("slug")) || ""
+  );
   const [blocks, setBlocks] = useState(
-    JSON.parse(localStorage.getItem("blocks")) || [
-      {
-        name: "housing",
-        roomCount: 1,
-        rooms: [{}],
-      },
-    ]
+    () =>
+      JSON.parse(localStorage.getItem("blocks")) || [
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]
   );
-  const [roomCount, setRoomCount] = useState(1);
-  const [allErrors, setAllErrors] = useState([]);
-  const [selectedBlock, setSelectedBlock] = useState(0);
-  const [selectedRoom, setSelectedRoom] = useState(0);
-  const [anotherBlockErrors, setAnotherBlockErrors] = useState(0);
+  const [roomCount, setRoomCount] = useState(
+    () => JSON.parse(localStorage.getItem("roomCount")) || 1
+  );
+  const [allErrors, setAllErrors] = useState(
+    () => JSON.parse(localStorage.getItem("allErrors")) || []
+  );
+  const [selectedBlock, setSelectedBlock] = useState(
+    () => JSON.parse(localStorage.getItem("selectedBlock")) || 0
+  );
+  const [selectedRoom, setSelectedRoom] = useState(
+    () => JSON.parse(localStorage.getItem("selectedRoom")) || 0
+  );
+  const [anotherBlockErrors, setAnotherBlockErrors] = useState(
+    () => JSON.parse(localStorage.getItem("anotherBlockErrors")) || 0
+  );
   const [selectedTypesTitles, setSelectedTypesTitles] = useState(
-    JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
+    () => JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
   );
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(
+    () => JSON.parse(localStorage.getItem("user")) || {}
+  );
+
+  // Kullanıcı bilgilerini al
+  useEffect(() => {
+    axios.get(baseUrl + "get_current_user").then((res) => {
+      setUser(res.data.user);
+    });
+  }, []);
+
+  // Tüm state değerlerini localStorage'da sakla
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(step));
+  }, [step]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "loadingStorageModalOpen",
+      JSON.stringify(loadingStorageModalOpen)
+    );
+  }, [loadingStorageModalOpen]);
+
+  useEffect(() => {
+    localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
+  }, [housingTypes]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
+  }, [selectedTypes]);
+
+  useEffect(() => {
+    localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
+  }, [fillFormData]);
+
+  useEffect(() => {
+    localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
+  }, [loadingModalOpen]);
+
+  useEffect(() => {
+    localStorage.setItem("projectData", JSON.stringify(projectData));
+  }, [projectData]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedHousingType",
+      JSON.stringify(selectedHousingType)
+    );
+  }, [selectedHousingType]);
+
+  useEffect(() => {
+    localStorage.setItem("haveBlocks", JSON.stringify(haveBlocks));
+  }, [haveBlocks]);
+
+  useEffect(() => {
+    localStorage.setItem("slug", JSON.stringify(slug));
+  }, [slug]);
+
+  useEffect(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+  }, [blocks]);
+
+  useEffect(() => {
+    localStorage.setItem("roomCount", JSON.stringify(roomCount));
+  }, [roomCount]);
+
+  useEffect(() => {
+    localStorage.setItem("allErrors", JSON.stringify(allErrors));
+  }, [allErrors]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
+  }, [selectedBlock]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedRoom", JSON.stringify(selectedRoom));
+  }, [selectedRoom]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "anotherBlockErrors",
+      JSON.stringify(anotherBlockErrors)
+    );
+  }, [anotherBlockErrors]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedTypesTitles",
+      JSON.stringify(selectedTypesTitles)
+    );
+  }, [selectedTypesTitles]);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
+
   const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: value };
@@ -54,24 +174,6 @@ function CreateHousing(props) {
       return newProjectData;
     });
   };
-
-  useEffect(() => {
-    axios.get(baseUrl + "get_current_user").then((res) => {
-      setUser(res.data.user);
-    });
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("blocks", JSON.stringify(blocks));
-  }, [blocks]);
-
-  useEffect(() => {
-    localStorage.setItem("projectData", JSON.stringify(projectData));
-  }, [projectData]);
-
-  useEffect(() => {
-    localStorage.setItem("step", JSON.stringify(1));
-  }, [step]);
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
@@ -88,16 +190,30 @@ function CreateHousing(props) {
     if (storedStep) {
       setStep(Number(storedStep)); // Continue from the stored step
     }
-    setLoadingModalOpen(false);
+    setStorageLoadingModalOpen(false);
   };
 
   const handleStartOver = () => {
     localStorage.removeItem("step");
+    localStorage.removeItem("loadingStorageModalOpen");
+    localStorage.removeItem("housingTypes");
+    localStorage.removeItem("selectedTypes");
+    localStorage.removeItem("fillFormData");
+    localStorage.removeItem("loadingModalOpen");
     localStorage.removeItem("projectData");
+    localStorage.removeItem("selectedHousingType");
+    localStorage.removeItem("haveBlocks");
+    localStorage.removeItem("slug");
     localStorage.removeItem("blocks");
+    localStorage.removeItem("roomCount");
+    localStorage.removeItem("allErrors");
+    localStorage.removeItem("selectedBlock");
+    localStorage.removeItem("selectedRoom");
+    localStorage.removeItem("anotherBlockErrors");
     localStorage.removeItem("selectedTypesTitles");
+    localStorage.removeItem("user");
     setStep(1); // Reset to step 1
-    setLoadingModalOpen(false);
+    setStorageLoadingModalOpen(false);
   };
 
   useEffect(() => {
@@ -900,10 +1016,13 @@ function CreateHousing(props) {
         <LoadingModal open={loadingModalOpen} progress={progress} />
       )}
 
-      <CustomModal isOpen={loadingStorageModalOpen} onClose={() => setStorageLoadingModalOpen(false)}>
+      <CustomModal
+        isOpen={loadingStorageModalOpen}
+        onClose={() => setStorageLoadingModalOpen(false)}
+      >
         <div className="custom-modal-header">
           Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
-          istersin?
+          istersin? {step}
         </div>
         <div className="custom-modal-buttons">
           <button className="custom-modal-button" onClick={handleContinue}>
