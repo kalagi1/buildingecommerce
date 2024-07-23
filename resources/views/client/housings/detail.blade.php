@@ -494,7 +494,7 @@
                                 <ul class="homes-list reservation-list clearfix">
                                     <li>
                                         <span>Giriş: 
-                                            @if(getData($housing, 'start_time') != null)
+                                            @if(isset(getData($housing, 'start_time')))
                                                 {{ getData($housing, 'start_time') }}
                                             @else
                                                 Belirtilmedi
