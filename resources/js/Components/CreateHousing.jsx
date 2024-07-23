@@ -859,7 +859,8 @@ function CreateHousing(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-      let requestPromises = [];
+      let requestPromises = [];  
+      localStorage.setItem("fillFormData", JSON.stringify(formData))
       setFillFormData(formData);
       setStep(3);
     }
