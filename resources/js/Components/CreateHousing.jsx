@@ -926,10 +926,17 @@ function CreateHousing(props) {
     setStep(step - 1);
   };
   const nextStep = () => {
-    setStep(step + 1);
+
     if (step == 1) {
-   localStorage.removeItem("projectData");
-  }
+      setBlocks([
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]);
+      setProjectData([]);
+  }    setStep(step + 1);
   };
   return (
     <>
