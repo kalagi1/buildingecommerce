@@ -225,9 +225,23 @@ button {
 .section-title {
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
   position: relative;
 }
+.cover-photo div{
+  display:flex;
+  align-items:center;
+  margin-top:30px
+}
 
+.remove-area{
+  text-align:center
+}
+
+.project_imagex{
+  width:20%;
+  cursor:move;
+}
 .mbb {
   margin-bottom: 2.5rem;
 }
@@ -31257,6 +31271,27 @@ a {
     background-color: #6c757d;
   }
 
+
+  #cover_image.upload-container{
+    background: #fff none repeat scroll 0 0;
+    border: 2px dashed #1ABC9C;
+    /* padding: 50px 20px; */
+    display: flex;
+    cursor: pointer;
+  }
+
+  #cover_image .border-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #cover_image .border-container p {
+    margin-top: 10px;
+    font-weight: 600;
+  }
   
   .icon-area {
     padding: 5px 20px;
