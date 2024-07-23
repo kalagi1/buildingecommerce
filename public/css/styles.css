@@ -31280,7 +31280,7 @@ a {
     cursor: pointer;
   }
 
-  #cover_image .border-container{
+  .border-container{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -31288,7 +31288,7 @@ a {
     text-align: center;
   }
 
-  #cover_image .border-container p {
+.border-container p {
     margin-top: 10px;
     font-weight: 600;
   }
