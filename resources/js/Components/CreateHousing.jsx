@@ -29,9 +29,10 @@ function CreateHousing(props) {
   const [selectedTypes, setSelectedTypes] = useState(
     () => JSON.parse(localStorage.getItem("selectedTypes")) || []
   );
-  const [fillFormData, setFillFormData] = useState(
-    () => JSON.parse(localStorage.getItem("fillFormData")) || []
-  );
+  const [fillFormData, setFillFormData] = useState(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    return savedFormData ? jsonToFormData(JSON.parse(savedFormData)) : [];
+  });
   const [loadingModalOpen, setLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
   );
@@ -860,11 +861,40 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];  
-      localStorage.setItem("fillFormData", JSON.stringify(formData))
+      const formDataJSON = formDataToJSON(formData);
+      localStorage.setItem("fillFormData", JSON.stringify(formDataJSON));
+  
       setFillFormData(formData);
       setStep(3);
     }
   };
+  function formDataToJSON(formData) {
+    const json = {};
+    formData.forEach((value, key) => {
+      if (!json[key]) {
+        json[key] = value;
+        return;
+      }
+      if (!Array.isArray(json[key])) {
+        json[key] = [json[key]];
+      }
+      json[key].push(value);
+    });
+    return json;
+  }
+  
+  function jsonToFormData(json) {
+    const formData = new FormData();
+    Object.keys(json).forEach(key => {
+      if (Array.isArray(json[key])) {
+        json[key].forEach(value => formData.append(key, value));
+      } else {
+        formData.append(key, json[key]);
+      }
+    });
+    return formData;
+  }
+  
   const [progress, setProgress] = useState(0);
 
   const finishCreateHousing = () => {
