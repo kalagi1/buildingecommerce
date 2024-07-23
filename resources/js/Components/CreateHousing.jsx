@@ -176,6 +176,9 @@ function CreateHousing(props) {
   }, [user]);
 
   const setProjectDataFunc = (key, value) => {
+    const formDataHousing = JSON.parse(
+      selectedHousingType?.housing_type?.form_json || "[]"
+    );
     var tempErrors = [];
     var anotherBlockErrorsTemp = [];
     if (!projectData.project_title) {
