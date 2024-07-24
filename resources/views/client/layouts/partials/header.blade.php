@@ -399,8 +399,8 @@
     <!-- Wrapper -->
     <div id="wrapper">
             <div class="slick-lancersl homeTopBanner">
-                <div class="home-top-banner d-xl-block d-none d-lg-block">
-                    <video autoplay loop muted>
+                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
+                    <video autoplay loop muted style="width:100%">
                         <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
                     </video>
                 </div>
