@@ -314,6 +314,7 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
+                                            {{count($labels)}}
                                             @if (isset($labels) && count($labels) > 0)
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
