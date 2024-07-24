@@ -50,7 +50,7 @@ function CreateProject(props) {
     () => JSON.parse(localStorage.getItem("allErrors")) || []
   );
   const [selectedBlock, setSelectedBlock] = useState(
-    () => JSON.parse(localStorage.getItem("selectedBlock")) || null
+    () => JSON.parse(localStorage.getItem("selectedBlock")) || 0
   );
   const [selectedRoom, setSelectedRoom] = useState(
     () => JSON.parse(localStorage.getItem("selectedRoom")) || 0
