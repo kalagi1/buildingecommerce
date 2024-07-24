@@ -93,11 +93,12 @@ function CreateProject(props) {
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // This converts the file to a Base64-encoded string
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
   };
+  
   
   
   
@@ -193,7 +194,7 @@ function CreateProject(props) {
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
   
-    // Convert binary files (images, PDFs, etc.) to Base64
+    // Convert files to Base64
     if (value instanceof File) {
       newValue = await convertFileToBase64(value);
     } else if (Array.isArray(value)) {
@@ -225,6 +226,7 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
+  
   const getFileFromBase64 = (base64String) => {
     return fetch(base64String)
       .then(response => response.arrayBuffer())
@@ -265,7 +267,6 @@ function CreateProject(props) {
       }
     }
   }, []);
-  
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
