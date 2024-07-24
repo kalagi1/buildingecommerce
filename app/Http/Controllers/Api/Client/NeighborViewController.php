@@ -37,7 +37,7 @@ class NeighborViewController extends Controller
         $userId = $user->id;
 
         // NeighborView verilerini al
-        $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project'])
+        $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project.housings'])
             ->where('user_id', $userId)
             ->orderByDesc("id")
             ->get();
