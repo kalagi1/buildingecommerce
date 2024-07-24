@@ -860,8 +860,11 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];  
-
-      localStorage.setItem("fillFormData", JSON.stringify([...formData.entries()]));
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
       setFillFormData(formData);
       setStep(3);
     }
@@ -872,11 +875,13 @@ function CreateHousing(props) {
     if (savedFormData) {
       const parsedFormData = JSON.parse(savedFormData);
       const formData = new FormData();
-      parsedFormData.forEach(([key, value]) => formData.append(key, value));
+      Object.entries(parsedFormData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
       setFillFormData(formData);
     }
   }, []);
-  
+
   const [progress, setProgress] = useState(0);
 
   const finishCreateHousing = () => {
