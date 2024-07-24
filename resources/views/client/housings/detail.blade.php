@@ -314,30 +314,37 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            {{count($labels)}}
+                                            {{ count($labels) }}
                                             @if (isset($labels) && count($labels) > 0)
+                                                @php
+                                                    $hasFeature = false;
+                                                @endphp
                                                 @foreach ($labels as $label => $val)
-                                                    @if (is_array($val))
-                                                        @if (count($val) > 1)
-                                                            @if ($label != 'Galeri')
-                                                                <h5>{{ $label }}</h5>
-                                        
-                                                                <ul class="homes-list clearfix mb-3 checkSquareIcon">
-                                                                    @foreach ($val as $item)
-                                                                        <li>
-                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                            <span>{{ $item }}</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
+                                                    @if (is_array($val) && count($val) > 1)
+                                                        @if ($label != 'Galeri')
+                                                            @php
+                                                                $hasFeature = true;
+                                                            @endphp
+                                                            <h5>{{ $label }}</h5>
+                                                            <ul class="homes-list clearfix mb-3 checkSquareIcon">
+                                                                @foreach ($val as $item)
+                                                                    <li>
+                                                                        <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                        <span>{{ $item }}</span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
                                                         @endif
                                                     @endif
                                                 @endforeach
+                                                @if (!$hasFeature)
+                                                    <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
+                                                @endif
                                             @else
                                                 <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
                                             @endif
                                         </div>
+                                        
                                         
                                     </div>
                                 </div>
