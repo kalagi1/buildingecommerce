@@ -180,7 +180,7 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
-  
+
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
   }, [blocks]);
@@ -861,6 +861,7 @@ function CreateProject(props) {
 
   const handleStartOver = () => {
     setStep(1);
+    setStorageLoadingModalOpen(false);
     setLoadingModal(false);
     setLoading(0);
     setHousingTypes([]);
