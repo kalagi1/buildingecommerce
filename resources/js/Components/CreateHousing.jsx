@@ -186,7 +186,7 @@ function CreateHousing(props) {
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
-    if (storedStep != 1) {
+    if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);
     } else {
@@ -860,39 +860,22 @@ function CreateHousing(props) {
         formData.append(`selectedTypes[${index}]`, data);
       });
       let requestPromises = [];  
-      const formDataJSON = formDataToJSON(formData);
-      localStorage.setItem("fillFormData", JSON.stringify(formDataJSON));
-  
+
+      localStorage.setItem("fillFormData", JSON.stringify([...formData.entries()]));
       setFillFormData(formData);
       setStep(3);
     }
   };
-  function formDataToJSON(formData) {
-    const json = {};
-    formData.forEach((value, key) => {
-      if (!json[key]) {
-        json[key] = value;
-        return;
-      }
-      if (!Array.isArray(json[key])) {
-        json[key] = [json[key]];
-      }
-      json[key].push(value);
-    });
-    return json;
-  }
-  
-  function jsonToFormData(json) {
-    const formData = new FormData();
-    Object.keys(json).forEach(key => {
-      if (Array.isArray(json[key])) {
-        json[key].forEach(value => formData.append(key, value));
-      } else {
-        formData.append(key, json[key]);
-      }
-    });
-    return formData;
-  }
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      const formData = new FormData();
+      parsedFormData.forEach(([key, value]) => formData.append(key, value));
+      setFillFormData(formData);
+    }
+  }, []);
   
   const [progress, setProgress] = useState(0);
 
@@ -906,10 +889,7 @@ function CreateHousing(props) {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
-    }, 500); // Increase progress every half a second
-
-    console.log(JSON.parse(localStorage.getItem("fillFormData")));
-    console.log(fillFormData);
+    }, 500);
 
     axios
       .post(baseUrl + "create_housing", fillFormData, {
@@ -933,7 +913,7 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error(error.message);
+        toast.error("Bir hata oluştu. Lütfen emlak sepette yönetimiyle iletişime geçin.");
       });
   };
 
