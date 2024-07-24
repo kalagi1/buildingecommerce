@@ -900,6 +900,16 @@ function CreateProject(props) {
     localStorage.removeItem("fillFormData");
     localStorage.removeItem("loadingModalOpen");
     localStorage.removeItem("progress");
+
+    localStorage.removeItem("formGenerated");
+    localStorage.removeItem("updatedRoomCount");
+    localStorage.removeItem("selectedAccordion");
+    localStorage.removeItem("checkedItems");
+    localStorage.removeItem("payDecOpen");
+    localStorage.removeItem("rendered");
+    localStorage.removeItem("validationErrors");
+
+
   };
   const finishCreateProject = () => {
     setLoadingModalOpen(true);
