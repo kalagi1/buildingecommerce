@@ -100,6 +100,8 @@ function CreateProject(props) {
   };
   
   
+  
+  
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
@@ -191,7 +193,7 @@ function CreateProject(props) {
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
   
-    // Convert binary data to Base64
+    // Convert binary files (images, PDFs, etc.) to Base64
     if (value instanceof File) {
       newValue = await convertFileToBase64(value);
     } else if (Array.isArray(value)) {
@@ -223,23 +225,22 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
-  
   const getFileFromBase64 = (base64String) => {
     return fetch(base64String)
       .then(response => response.arrayBuffer())
-      .then(buffer => new Blob([buffer]));
+      .then(buffer => new Blob([buffer], { type: base64String.split(';')[0].split(':')[1] }));
   };
-
+  
   useEffect(() => {
     const storedData = localStorage.getItem("projectData");
     if (storedData) {
       try {
         const decompressedData = decompressFromUTF16(storedData);
         const parsedData = JSON.parse(decompressedData);
-        
-        // Decode Base64 data for PDFs
+  
+        // Decode Base64 data for files
         const decodeBase64Data = async (data) => {
-          if (typeof data === 'string' && data.startsWith('data:application/pdf;base64,')) {
+          if (typeof data === 'string' && data.startsWith('data:')) {
             return await getFileFromBase64(data);
           }
           if (Array.isArray(data)) {
@@ -264,6 +265,7 @@ function CreateProject(props) {
       }
     }
   }, []);
+  
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
