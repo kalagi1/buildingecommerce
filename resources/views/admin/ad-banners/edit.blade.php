@@ -38,7 +38,7 @@
                                                     style="max-width: 200px;">
                                             </div>
                                             <input name="image" class="form-control" id="image" type="file"
-                                                accept="image/*" />
+                                           />
                                         </div>
 
                                         <div class="col-md-12">
