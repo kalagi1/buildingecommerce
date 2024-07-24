@@ -314,7 +314,7 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (count($labels) > 0)
+                                            @if (isset($labels) && count($labels > 0 ))
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
                                                         @if (count($val) > 1)
@@ -337,8 +337,6 @@
                                             <span>Bu ilana ait herhangi bir özellik
                                                 belirtilmemiştir.</span>
                                             @endif
-                                            <span>Bu ilana ait herhangi bir özellik
-                                                belirtilmemiştir.</span>
                                         </div>
                                     </div>
                                 </div>
