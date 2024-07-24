@@ -100,7 +100,7 @@ function CreateProject(props) {
     localStorage.setItem("selectedTypesTitles", JSON.stringify(selectedTypesTitles));
     localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
     localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
-    localStorage.setItem("loadingStorageModalOpen", JSON.stringify(loadingStorageModalOpen));
+    localStorage.setItem("storageLoadingModalOpen", JSON.stringify(storageLoadingModalOpen));
     localStorage.setItem("progress", JSON.stringify(progress));
   }, [
     step,
@@ -122,7 +122,7 @@ function CreateProject(props) {
     selectedTypesTitles,
     fillFormData,
     loadingModalOpen,
-    loadingStorageModalOpen,
+    storageLoadingModalOpen,
     progress
   ]);
 
@@ -146,7 +146,7 @@ function CreateProject(props) {
     const storedSelectedTypesTitles = localStorage.getItem("selectedTypesTitles");
     const storedFillFormData = localStorage.getItem("fillFormData");
     const storedLoadingModalOpen = localStorage.getItem("loadingModalOpen");
-    const storedStorageLoadingModalOpen = localStorage.getItem("loadingStorageModalOpen");
+    const storedStorageLoadingModalOpen = localStorage.getItem("storageLoadingModalOpen");
 
     const storedProgress = localStorage.getItem("progress");
 
@@ -1079,7 +1079,7 @@ function CreateProject(props) {
 
       <LoadingModal open={loadingModalOpen} progress={progress} />
       <CustomModal
-        isOpen={loadingStorageModalOpen}
+        isOpen={storageLoadingModalOpen}
         onClose={() => setStorageLoadingModalOpen(false)}
       >
         <div className="custom-modal-header">
