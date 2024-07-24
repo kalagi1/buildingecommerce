@@ -14,6 +14,7 @@ import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
+import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
 function CreateProject(props) {
   const [step, setStep] = useState(
@@ -31,9 +32,19 @@ function CreateProject(props) {
   const [selectedTypes, setSelectedTypes] = useState(
     () => JSON.parse(localStorage.getItem("selectedTypes")) || []
   );
-  const [projectData, setProjectData] = useState(
-    () => JSON.parse(localStorage.getItem("projectData")) || {}
-  );
+  const [projectData, setProjectData] = useState(() => {
+    const storedData = localStorage.getItem("projectData");
+    if (storedData) {
+      try {
+        const decompressedData = decompressFromUTF16(storedData);
+        return JSON.parse(decompressedData);
+      } catch (e) {
+        console.error("Error decompressing or parsing data:", e);
+        return {};
+      }
+    }
+    return {};
+  });
   const [selectedHousingType, setSelectedHousingType] = useState(
     () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
   );
@@ -101,9 +112,13 @@ function CreateProject(props) {
   }, [selectedTypes]);
 
   useEffect(() => {
-    localStorage.setItem("projectData", JSON.stringify(projectData));
+    try {
+      const compressedData = compressToUTF16(JSON.stringify(projectData));
+      localStorage.setItem("projectData", compressedData);
+    } catch (e) {
+      console.error("Error compressing or storing data:", e);
+    }
   }, [projectData]);
-
   useEffect(() => {
     localStorage.setItem("selectedHousingType", JSON.stringify(selectedHousingType));
   }, [selectedHousingType]);
