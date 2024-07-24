@@ -14,7 +14,6 @@ import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
-import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
 function CreateProject(props) {
   const [step, setStep] = useState(
@@ -102,8 +101,7 @@ function CreateProject(props) {
   }, [selectedTypes]);
 
   useEffect(() => {
-    const compressedData = compressToUTF16(JSON.stringify(projectData));
-    localStorage.setItem("projectData", compressedData);
+    localStorage.setItem("projectData", JSON.stringify(projectData));
   }, [projectData]);
 
   useEffect(() => {
@@ -243,12 +241,9 @@ function CreateProject(props) {
     var formDataHousing = JSON.parse(
       selectedHousingType?.housing_type?.form_json
     );
-    const storedData = localStorage.getItem("projectData");
-    const decompressedData = JSON.parse(decompressFromUTF16(storedData));
-
     var tempErrors = [];
     var anotherBlockErrorsTemp = [];
-    if (!decompressedData.project_title) {
+    if (!projectData.project_title) {
       tempErrors.push("project_title");
       var element = document.getElementById("project_title");
       window.scrollTo({
@@ -259,7 +254,7 @@ function CreateProject(props) {
         behavior: "smooth", // Yumuşak kaydırma efekti için
       });
     } else {
-      if (!decompressedData.description) {
+      if (!projectData.description) {
         var elementDesc = document.getElementById("description");
         window.scrollTo({
           top:
@@ -351,7 +346,7 @@ function CreateProject(props) {
                 behavior: "smooth", // Yumuşak kaydırma efekti için
               });
             } else {
-              if (!decompressedData.city_id) {
+              if (!projectData.city_id) {
                 var elementCity = document.getElementById("city_id");
                 window.scrollTo({
                   top:
@@ -362,12 +357,12 @@ function CreateProject(props) {
                 });
               } else {
                 if (
-                  !decompressedData.create_company ||
-                  !decompressedData.total_project_area ||
-                  !decompressedData.end_date ||
-                  !decompressedData.parcel ||
-                  !decompressedData.island ||
-                  !decompressedData.start_date
+                  !projectData.create_company ||
+                  !projectData.total_project_area ||
+                  !projectData.end_date ||
+                  !projectData.parcel ||
+                  !projectData.island ||
+                  !projectData.start_date
                 ) {
                   var element = document.getElementById("projectGeneralForm");
                   window.scrollTo({
@@ -377,7 +372,7 @@ function CreateProject(props) {
                       30,
                     behavior: "smooth", // For smooth scrolling effect
                   });
-                } else if (!decompressedData.county_id) {
+                } else if (!projectData.county_id) {
                   var element = document.getElementById("county_id");
                   window.scrollTo({
                     top:
@@ -387,7 +382,7 @@ function CreateProject(props) {
                     behavior: "smooth", // Yumuşak kaydırma efekti için
                   });
                 } else {
-                  if (!decompressedData.neighbourhood_id) {
+                  if (!projectData.neighbourhood_id) {
                     var element = document.getElementById("neighbourhood_id");
                     window.scrollTo({
                       top:
@@ -398,8 +393,8 @@ function CreateProject(props) {
                     });
                   } else {
                     if (
-                      !decompressedData.coordinates ||
-                      decompressedData.coordinates == "undefined-undefined"
+                      !projectData.coordinates ||
+                      projectData.coordinates == "undefined-undefined"
                     ) {
                       var element = document.getElementById("map");
                       window.scrollTo({
@@ -411,7 +406,7 @@ function CreateProject(props) {
                         behavior: "smooth", // Yumuşak kaydırma efekti için
                       });
                     } else {
-                      if (!decompressedData.cover_image) {
+                      if (!projectData.cover_image) {
                         var element = document.getElementById("cover_image");
                         window.scrollTo({
                           top:
@@ -422,7 +417,7 @@ function CreateProject(props) {
                           behavior: "smooth", // Yumuşak kaydırma efekti için
                         });
                       } else {
-                        if (!decompressedData.gallery) {
+                        if (!projectData.gallery) {
                           var element = document.getElementById("gallery");
                           window.scrollTo({
                             top:
@@ -433,7 +428,7 @@ function CreateProject(props) {
                             behavior: "smooth", // Yumuşak kaydırma efekti için
                           });
                         } else {
-                          if (!decompressedData.situations) {
+                          if (!projectData.situations) {
                             var element = document.getElementById("situations");
                             window.scrollTo({
                               top:
@@ -444,7 +439,7 @@ function CreateProject(props) {
                               behavior: "smooth", // Yumuşak kaydırma efekti için
                             });
                           } else {
-                            if (!decompressedData.document) {
+                            if (!projectData.document) {
                               var element = document.getElementById("document");
                               window.scrollTo({
                                 top:
@@ -455,7 +450,7 @@ function CreateProject(props) {
                                 behavior: "smooth", // Yumuşak kaydırma efekti için
                               });
                             } else {
-                              if (!decompressedData.rules_confirm) {
+                              if (!projectData.rules_confirm) {
                                 var element =
                                   document.getElementById("finish-tick-id");
                                 window.scrollTo({
@@ -470,9 +465,9 @@ function CreateProject(props) {
                                 var element =
                                   document.getElementById("start_date_id");
 
-                                if (decompressedData.start_date) {
+                                if (projectData.start_date) {
                                   const selectedDate = new Date(
-                                    decompressedData.start_date
+                                    projectData.start_date
                                   );
                                   const minDate = new Date("2010-01-01");
                                   const maxDate = new Date("2050-01-01");
@@ -501,9 +496,9 @@ function CreateProject(props) {
                                 var element =
                                   document.getElementById("end_date_id");
 
-                                if (decompressedData.end_date) {
+                                if (projectData.end_date) {
                                   const selectedDate = new Date(
-                                    decompressedData.start_date
+                                    projectData.start_date
                                   );
                                   const minDate = new Date("2010-01-01");
                                   const maxDate = new Date("2050-01-01");
@@ -546,8 +541,8 @@ function CreateProject(props) {
     }
 
     var tempErrorMessages = {};
-    if (decompressedData.start_date) {
-      const selectedDate = new Date(decompressedData.start_date);
+    if (projectData.start_date) {
+      const selectedDate = new Date(projectData.start_date);
       const minDate = new Date("2010-01-01");
       const maxDate = new Date("2050-01-01");
 
@@ -562,8 +557,8 @@ function CreateProject(props) {
       }
     }
 
-    if (decompressedData.end_date) {
-      const selectedDate = new Date(decompressedData.end_date);
+    if (projectData.end_date) {
+      const selectedDate = new Date(projectData.end_date);
       const minDate = new Date("2010-01-01");
       const maxDate = new Date("2050-01-01");
 
@@ -726,68 +721,68 @@ function CreateProject(props) {
 
     setAnotherBlockErrors(anotherBlockErrorsTemp);
 
-    if (!decompressedData.description) {
+    if (!projectData.description) {
       tempErrors.push("description");
     }
 
-    if (!decompressedData.create_company) {
+    if (!projectData.create_company) {
       tempErrors.push("create_company");
     }
 
-    if (!decompressedData.total_project_area) {
+    if (!projectData.total_project_area) {
       tempErrors.push("total_project_area");
     }
 
-    if (!decompressedData.end_date) {
+    if (!projectData.end_date) {
       tempErrors.push("end_date");
     }
 
-    if (!decompressedData.parcel) {
+    if (!projectData.parcel) {
       tempErrors.push("parcel");
     }
-    if (!decompressedData.island) {
+    if (!projectData.island) {
       tempErrors.push("island");
     }
-    if (!decompressedData.start_date) {
+    if (!projectData.start_date) {
       tempErrors.push("start_date");
     }
 
-    if (!decompressedData.city_id) {
+    if (!projectData.city_id) {
       tempErrors.push("city_id");
     }
 
-    if (!decompressedData.county_id) {
+    if (!projectData.county_id) {
       tempErrors.push("county_id");
     }
 
-    if (!decompressedData.neighbourhood_id) {
+    if (!projectData.neighbourhood_id) {
       tempErrors.push("neighbourhood_id");
     }
 
     if (
-      !decompressedData.coordinates ||
-      decompressedData.coordinates == "undefined-undefined"
+      !projectData.coordinates ||
+      projectData.coordinates == "undefined-undefined"
     ) {
       tempErrors.push("coordinates");
     }
 
-    if (!decompressedData.cover_image) {
+    if (!projectData.cover_image) {
       tempErrors.push("cover_image");
     }
 
-    if (!decompressedData.gallery) {
+    if (!projectData.gallery) {
       tempErrors.push("gallery");
     }
 
-    if (!decompressedData.situations) {
+    if (!projectData.situations) {
       tempErrors.push("situations");
     }
 
-    if (!decompressedData.document) {
+    if (!projectData.document) {
       tempErrors.push("document");
     }
 
-    if (!decompressedData.rules_confirm) {
+    if (!projectData.rules_confirm) {
       tempErrors.push("rules_confirm");
     }
 
