@@ -59,7 +59,15 @@ function ProjectForm({
     language: "tr",
   });
 
-  const [selectedLocation, setSelectedLocation] = useState({});
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
+
+  
   const setProjectTitle = (projectTitle) => {
     if (projectTitle.length <= 70) {
       setProjectDataFunc("project_title", projectTitle);
