@@ -26,7 +26,9 @@
         <meta property="og:image:width" content="300">
     @endif
 
-   
+   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-6b2945bb.css" />
+   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-eb9269d2.css" />
+
     <!-- FAVICON -->
     <!-- Canonical URL için bölüm -->
     @if (isset($canonicalUrl))

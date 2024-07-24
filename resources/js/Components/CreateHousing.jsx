@@ -924,7 +924,7 @@ function CreateHousing(props) {
           clearInterval(progressInterval);
           setProgress(100);
           setTimeout(() => {
-            setLoadingModalOpen(false);
+            setLoadingModalOpen(false); 
             setStep(4);
             setFillFormData(null);
           }, 500);
@@ -956,9 +956,19 @@ function CreateHousing(props) {
 
     return roomCount;
   };
+
   const prevStep = () => {
+    setBlocks(  JSON.parse(localStorage.getItem("blocks")) || [
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);
     setStep(step - 1);
+  
   };
+
   const nextStep = () => {
 
     if (step == 1) {
