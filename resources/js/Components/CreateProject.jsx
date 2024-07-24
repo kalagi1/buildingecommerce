@@ -182,10 +182,16 @@ function CreateProject(props) {
   const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: value };
-      localStorage.setItem("projectData", JSON.stringify(newProjectData));
+      try {
+        const compressedData = compressToUTF16(JSON.stringify(newProjectData));
+        localStorage.setItem("projectData", compressedData);
+      } catch (e) {
+        console.error("Error compressing or storing data:", e);
+      }
       return newProjectData;
     });
   };
+  
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
