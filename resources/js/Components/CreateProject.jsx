@@ -1010,7 +1010,7 @@ function CreateProject(props) {
 
 
   };
-  const finishCreateProject = () => {
+  const finishCreateProject = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
@@ -1023,84 +1023,74 @@ function CreateProject(props) {
       );
     }, 500); // Increase progress every half a second
   
-    axios
-      .post(baseUrl + "create_project", fillFormData, {
+    try {
+      const res = await axios.post(baseUrl + "create_project", fillFormData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
           "Content-Type": `multipart/form-data;`,
         },
-      })
-      .then((res) => {
-        if (res.data.status) {
-          var housingTemp = 1;
-          blocks.forEach((block, blockIndex) => {
-            block.rooms.forEach((room, roomIndex) => {
-              const formDataRoom = new FormData();
-              formDataRoom.append("project_id", res.data.project.id);
-              formDataRoom.append("room_order", housingTemp);
-              Object.keys(room).forEach((key) => {
-                if (key === "payDecs") {
-                  room.payDecs.forEach((payDec, payDecIndex) => {
-                    formDataRoom.append(
-                      `room[payDecs][${payDecIndex}][price]`,
-                      payDec.price
-                    );
-                    formDataRoom.append(
-                      `room[payDecs][${payDecIndex}][date]`,
-                      payDec.date
-                    );
-                  });
-                } else {
-                  if (!key.includes("imagex")) {
-                    formDataRoom.append(
-                      `room[${key.replace("[]", "")}]`,
-                      room[key]
-                    );
-                  }
-                }
-              });
-  
-              const callCreateRoom = () => {
-                return new Promise((resolve) => {
-                  setTimeout(async () => {
-                    await createRoomAsync(formDataRoom);
-                    resolve(); // Resolve promise when room creation is done
-                  }, roomIndex * 1000); // Add delay between rooms
-                });
-              };
-  
-              // Add the promise to the requestPromises array
-              requestPromises.push(callCreateRoom());
-  
-              housingTemp++; // Increment room order
-            });
-          });
-  
-          Promise.all(requestPromises).then(() => {
-            clearInterval(progressInterval);
-            setProgress(100); // Set progress to 100% when all requests are complete
-            setLoadingModalOpen(false);
-            setStep(4);
-            setFillFormData(null);
-          });
-        } else {
-          clearInterval(progressInterval);
-          setLoadingModalOpen(false);
-          toast.error(
-            "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-          );
-        }
-      })
-      .catch((error) => {
-        clearInterval(progressInterval);
-        setLoadingModalOpen(false);
-        console.log(error);
-        toast.error(
-          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-        );
       });
+  
+      if (res.data.status) {
+        var housingTemp = 1;
+  
+        for (const block of blocks) {
+          for (const room of block.rooms) {
+            const formDataRoom = new FormData();
+            formDataRoom.append("project_id", res.data.project.id);
+            formDataRoom.append("room_order", housingTemp);
+  
+            for (const [key, value] of Object.entries(room)) {
+              if (key === "payDecs") {
+                value.forEach((payDec, index) => {
+                  formDataRoom.append(`room[payDecs][${index}][price]`, payDec.price);
+                  formDataRoom.append(`room[payDecs][${index}][date]`, payDec.date);
+                });
+              } else if (!key.includes("imagex")) {
+                if (value instanceof File) {
+                  // Convert file to Base64
+                  const base64 = await convertFileToBase64(value);
+                  formDataRoom.append(`room[${key.replace("[]", "")}]`, base64);
+                } else {
+                  formDataRoom.append(`room[${key.replace("[]", "")}]`, value);
+                }
+              }
+            }
+  
+            const callCreateRoom = () => {
+              return new Promise((resolve) => {
+                setTimeout(async () => {
+                  await createRoomAsync(formDataRoom);
+                  resolve(); // Resolve promise when room creation is done
+                }, roomIndex * 1000); // Add delay between rooms
+              });
+            };
+  
+            requestPromises.push(callCreateRoom());
+            housingTemp++; // Increment room order
+          }
+        }
+  
+        await Promise.all(requestPromises);
+        clearInterval(progressInterval);
+        setProgress(100); // Set progress to 100% when all requests are complete
+        setLoadingModalOpen(false);
+        setStep(4);
+        setFillFormData(null);
+      } else {
+        throw new Error("Project creation failed");
+      }
+    } catch (error) {
+      clearInterval(progressInterval);
+      setLoadingModalOpen(false);
+      console.error(error);
+      toast.error(
+        "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+      );
+    }
   };
+  
   
   const style = {
     position: "absolute",
