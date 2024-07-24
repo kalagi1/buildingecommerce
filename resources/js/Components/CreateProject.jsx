@@ -35,10 +35,8 @@ function CreateProject(props) {
   const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
   const [fillFormData, setFillFormData] = useState([]);
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
+  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
-    () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
-  );
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
     localStorage.setItem("loadingModal", JSON.stringify(loadingModal));
@@ -59,6 +57,8 @@ function CreateProject(props) {
     localStorage.setItem("selectedTypesTitles", JSON.stringify(selectedTypesTitles));
     localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
     localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
+    localStorage.setItem("loadingStorageModalOpen", JSON.stringify(loadingStorageModalOpen));
+
     localStorage.setItem("progress", JSON.stringify(progress));
   }, [
     step,
@@ -80,6 +80,7 @@ function CreateProject(props) {
     selectedTypesTitles,
     fillFormData,
     loadingModalOpen,
+    loadingStorageModalOpen,
     progress
   ]);
 
@@ -103,6 +104,8 @@ function CreateProject(props) {
     const storedSelectedTypesTitles = localStorage.getItem("selectedTypesTitles");
     const storedFillFormData = localStorage.getItem("fillFormData");
     const storedLoadingModalOpen = localStorage.getItem("loadingModalOpen");
+    const storedStorageLoadingModalOpen = localStorage.getItem("loadingStorageModalOpen");
+
     const storedProgress = localStorage.getItem("progress");
 
     if (storedStep) setStep(JSON.parse(storedStep));
@@ -124,6 +127,8 @@ function CreateProject(props) {
     if (storedSelectedTypesTitles) setSelectedTypesTitles(JSON.parse(storedSelectedTypesTitles));
     if (storedFillFormData) setFillFormData(JSON.parse(storedFillFormData));
     if (storedLoadingModalOpen) setLoadingModalOpen(JSON.parse(storedLoadingModalOpen));
+    if (storedStorageLoadingModalOpen) setStorageLoadingModalOpen(JSON.parse(storedStorageLoadingModalOpen));
+
     if (storedProgress) setProgress(JSON.parse(storedProgress));
   }, []);
 
