@@ -93,12 +93,11 @@ function CreateProject(props) {
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file); // This converts the file to a Base64-encoded string
+      reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
   };
-  
   
   
   
@@ -1090,7 +1089,6 @@ function CreateProject(props) {
       );
     }
   };
-  
   
   const style = {
     position: "absolute",
