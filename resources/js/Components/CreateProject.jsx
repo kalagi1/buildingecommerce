@@ -90,7 +90,15 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
-
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  };
+  
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
@@ -179,9 +187,32 @@ function CreateProject(props) {
     localStorage.setItem("progress", JSON.stringify(progress));
   }, [progress]);
 
-  const setProjectDataFunc = (key, value) => {
+  const setProjectDataFunc = async (key, value) => {
+    let newValue = value;
+  
+    // Check if the value is a File or Blob and convert to Base64
+    if (value instanceof File || value instanceof Blob) {
+      newValue = await convertToBase64(value);
+    } else if (Array.isArray(value)) {
+      newValue = await Promise.all(value.map(async (item) => {
+        if (item instanceof File || item instanceof Blob) {
+          return await convertToBase64(item);
+        }
+        return item;
+      }));
+    } else if (typeof value === 'object' && value !== null) {
+      newValue = {};
+      for (const [subKey, subValue] of Object.entries(value)) {
+        if (subValue instanceof File || subValue instanceof Blob) {
+          newValue[subKey] = await convertToBase64(subValue);
+        } else {
+          newValue[subKey] = subValue;
+        }
+      }
+    }
+  
     setProjectData((prev) => {
-      const newProjectData = { ...prev, [key]: value };
+      const newProjectData = { ...prev, [key]: newValue };
       try {
         const compressedData = compressToUTF16(JSON.stringify(newProjectData));
         localStorage.setItem("projectData", compressedData);
@@ -191,6 +222,7 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
+  
   
 
   useEffect(() => {
