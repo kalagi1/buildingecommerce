@@ -90,12 +90,12 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
-  const convertFileToBase64 = (file) => {
+  const convertFileToBinary = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
+      reader.onerror = (error) => reject(error); // Reject on error
     });
   };
   
