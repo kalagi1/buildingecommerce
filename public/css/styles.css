@@ -232,7 +232,11 @@ button {
   display:flex;
   align-items:center;
 }
-
+.project_imaget img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
 .remove-area{
   text-align:center
 }
