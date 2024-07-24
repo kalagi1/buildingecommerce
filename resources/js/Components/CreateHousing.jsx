@@ -213,7 +213,6 @@ function CreateHousing(props) {
     localStorage.removeItem("selectedHousingType");
     localStorage.removeItem("haveBlocks");
     localStorage.removeItem("slug");
-    localStorage.removeItem("blocks");
     localStorage.removeItem("roomCount");
     localStorage.removeItem("allErrors");
     localStorage.removeItem("selectedBlock");
