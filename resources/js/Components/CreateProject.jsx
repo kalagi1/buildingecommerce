@@ -33,7 +33,7 @@ function CreateProject(props) {
     () => JSON.parse(localStorage.getItem("selectedTypes")) || []
   );
   const [projectData, setProjectData] = useState(
-    () => JSON.parse(decompressFromUTF16(localStorage.getItem("projectData"))) || {}
+    () => JSON.parse(localStorage.getItem("projectData")) || {}
   );
   const [selectedHousingType, setSelectedHousingType] = useState(
     () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
@@ -243,9 +243,12 @@ function CreateProject(props) {
     var formDataHousing = JSON.parse(
       selectedHousingType?.housing_type?.form_json
     );
+    const storedData = localStorage.getItem("projectData");
+    const decompressedData = JSON.parse(decompressFromUTF16(storedData));
+
     var tempErrors = [];
     var anotherBlockErrorsTemp = [];
-    if (!projectData.project_title) {
+    if (!decompressedData.project_title) {
       tempErrors.push("project_title");
       var element = document.getElementById("project_title");
       window.scrollTo({
@@ -256,7 +259,7 @@ function CreateProject(props) {
         behavior: "smooth", // Yumuşak kaydırma efekti için
       });
     } else {
-      if (!projectData.description) {
+      if (!decompressedData.description) {
         var elementDesc = document.getElementById("description");
         window.scrollTo({
           top:
@@ -348,7 +351,7 @@ function CreateProject(props) {
                 behavior: "smooth", // Yumuşak kaydırma efekti için
               });
             } else {
-              if (!projectData.city_id) {
+              if (!decompressedData.city_id) {
                 var elementCity = document.getElementById("city_id");
                 window.scrollTo({
                   top:
@@ -359,12 +362,12 @@ function CreateProject(props) {
                 });
               } else {
                 if (
-                  !projectData.create_company ||
-                  !projectData.total_project_area ||
-                  !projectData.end_date ||
-                  !projectData.parcel ||
-                  !projectData.island ||
-                  !projectData.start_date
+                  !decompressedData.create_company ||
+                  !decompressedData.total_project_area ||
+                  !decompressedData.end_date ||
+                  !decompressedData.parcel ||
+                  !decompressedData.island ||
+                  !decompressedData.start_date
                 ) {
                   var element = document.getElementById("projectGeneralForm");
                   window.scrollTo({
@@ -374,7 +377,7 @@ function CreateProject(props) {
                       30,
                     behavior: "smooth", // For smooth scrolling effect
                   });
-                } else if (!projectData.county_id) {
+                } else if (!decompressedData.county_id) {
                   var element = document.getElementById("county_id");
                   window.scrollTo({
                     top:
@@ -384,7 +387,7 @@ function CreateProject(props) {
                     behavior: "smooth", // Yumuşak kaydırma efekti için
                   });
                 } else {
-                  if (!projectData.neighbourhood_id) {
+                  if (!decompressedData.neighbourhood_id) {
                     var element = document.getElementById("neighbourhood_id");
                     window.scrollTo({
                       top:
@@ -395,8 +398,8 @@ function CreateProject(props) {
                     });
                   } else {
                     if (
-                      !projectData.coordinates ||
-                      projectData.coordinates == "undefined-undefined"
+                      !decompressedData.coordinates ||
+                      decompressedData.coordinates == "undefined-undefined"
                     ) {
                       var element = document.getElementById("map");
                       window.scrollTo({
@@ -408,7 +411,7 @@ function CreateProject(props) {
                         behavior: "smooth", // Yumuşak kaydırma efekti için
                       });
                     } else {
-                      if (!projectData.cover_image) {
+                      if (!decompressedData.cover_image) {
                         var element = document.getElementById("cover_image");
                         window.scrollTo({
                           top:
@@ -419,7 +422,7 @@ function CreateProject(props) {
                           behavior: "smooth", // Yumuşak kaydırma efekti için
                         });
                       } else {
-                        if (!projectData.gallery) {
+                        if (!decompressedData.gallery) {
                           var element = document.getElementById("gallery");
                           window.scrollTo({
                             top:
@@ -430,7 +433,7 @@ function CreateProject(props) {
                             behavior: "smooth", // Yumuşak kaydırma efekti için
                           });
                         } else {
-                          if (!projectData.situations) {
+                          if (!decompressedData.situations) {
                             var element = document.getElementById("situations");
                             window.scrollTo({
                               top:
@@ -441,7 +444,7 @@ function CreateProject(props) {
                               behavior: "smooth", // Yumuşak kaydırma efekti için
                             });
                           } else {
-                            if (!projectData.document) {
+                            if (!decompressedData.document) {
                               var element = document.getElementById("document");
                               window.scrollTo({
                                 top:
@@ -452,7 +455,7 @@ function CreateProject(props) {
                                 behavior: "smooth", // Yumuşak kaydırma efekti için
                               });
                             } else {
-                              if (!projectData.rules_confirm) {
+                              if (!decompressedData.rules_confirm) {
                                 var element =
                                   document.getElementById("finish-tick-id");
                                 window.scrollTo({
@@ -467,9 +470,9 @@ function CreateProject(props) {
                                 var element =
                                   document.getElementById("start_date_id");
 
-                                if (projectData.start_date) {
+                                if (decompressedData.start_date) {
                                   const selectedDate = new Date(
-                                    projectData.start_date
+                                    decompressedData.start_date
                                   );
                                   const minDate = new Date("2010-01-01");
                                   const maxDate = new Date("2050-01-01");
@@ -498,9 +501,9 @@ function CreateProject(props) {
                                 var element =
                                   document.getElementById("end_date_id");
 
-                                if (projectData.end_date) {
+                                if (decompressedData.end_date) {
                                   const selectedDate = new Date(
-                                    projectData.start_date
+                                    decompressedData.start_date
                                   );
                                   const minDate = new Date("2010-01-01");
                                   const maxDate = new Date("2050-01-01");
@@ -543,8 +546,8 @@ function CreateProject(props) {
     }
 
     var tempErrorMessages = {};
-    if (projectData.start_date) {
-      const selectedDate = new Date(projectData.start_date);
+    if (decompressedData.start_date) {
+      const selectedDate = new Date(decompressedData.start_date);
       const minDate = new Date("2010-01-01");
       const maxDate = new Date("2050-01-01");
 
@@ -559,8 +562,8 @@ function CreateProject(props) {
       }
     }
 
-    if (projectData.end_date) {
-      const selectedDate = new Date(projectData.end_date);
+    if (decompressedData.end_date) {
+      const selectedDate = new Date(decompressedData.end_date);
       const minDate = new Date("2010-01-01");
       const maxDate = new Date("2050-01-01");
 
@@ -723,68 +726,68 @@ function CreateProject(props) {
 
     setAnotherBlockErrors(anotherBlockErrorsTemp);
 
-    if (!projectData.description) {
+    if (!decompressedData.description) {
       tempErrors.push("description");
     }
 
-    if (!projectData.create_company) {
+    if (!decompressedData.create_company) {
       tempErrors.push("create_company");
     }
 
-    if (!projectData.total_project_area) {
+    if (!decompressedData.total_project_area) {
       tempErrors.push("total_project_area");
     }
 
-    if (!projectData.end_date) {
+    if (!decompressedData.end_date) {
       tempErrors.push("end_date");
     }
 
-    if (!projectData.parcel) {
+    if (!decompressedData.parcel) {
       tempErrors.push("parcel");
     }
-    if (!projectData.island) {
+    if (!decompressedData.island) {
       tempErrors.push("island");
     }
-    if (!projectData.start_date) {
+    if (!decompressedData.start_date) {
       tempErrors.push("start_date");
     }
 
-    if (!projectData.city_id) {
+    if (!decompressedData.city_id) {
       tempErrors.push("city_id");
     }
 
-    if (!projectData.county_id) {
+    if (!decompressedData.county_id) {
       tempErrors.push("county_id");
     }
 
-    if (!projectData.neighbourhood_id) {
+    if (!decompressedData.neighbourhood_id) {
       tempErrors.push("neighbourhood_id");
     }
 
     if (
-      !projectData.coordinates ||
-      projectData.coordinates == "undefined-undefined"
+      !decompressedData.coordinates ||
+      decompressedData.coordinates == "undefined-undefined"
     ) {
       tempErrors.push("coordinates");
     }
 
-    if (!projectData.cover_image) {
+    if (!decompressedData.cover_image) {
       tempErrors.push("cover_image");
     }
 
-    if (!projectData.gallery) {
+    if (!decompressedData.gallery) {
       tempErrors.push("gallery");
     }
 
-    if (!projectData.situations) {
+    if (!decompressedData.situations) {
       tempErrors.push("situations");
     }
 
-    if (!projectData.document) {
+    if (!decompressedData.document) {
       tempErrors.push("document");
     }
 
-    if (!projectData.rules_confirm) {
+    if (!decompressedData.rules_confirm) {
       tempErrors.push("rules_confirm");
     }
 
