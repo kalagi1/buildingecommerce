@@ -36,7 +36,9 @@ function CreateProject(props) {
   const [fillFormData, setFillFormData] = useState([]);
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const [progress, setProgress] = useState(0);
-
+  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
+  );
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
     localStorage.setItem("loadingModal", JSON.stringify(loadingModal));
