@@ -31305,12 +31305,18 @@ a {
   #cover_image.upload-container,
   #authority_certificate.upload-container,
   #document.upload-container,
+  #situations.upload-container,
   #gallery.upload-container{
     background: #fff none repeat scroll 0 0;
     border: 2px dashed #1ABC9C;
     /* padding: 50px 20px; */
     display: flex;
     cursor: pointer;
+  }
+
+  .next-house-bottom,
+  .prev-house-bottom{
+    cursor:pointer
   }
 
   .border-container{

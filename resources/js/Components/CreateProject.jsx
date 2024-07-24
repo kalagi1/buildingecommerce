@@ -844,6 +844,7 @@ function CreateProject(props) {
     const storedStep = localStorage.getItem("step");
     console.log(storedStep);
     console.log(blocks);
+    console.log(selectedBlock);
 
     if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);

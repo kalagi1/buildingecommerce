@@ -248,9 +248,9 @@ function RoomNavigator({
                 </div>
                 <hr />
               </div>
-              <div className="col-md-12 mt-4 p-0">
+              <div className="col-md-12">
                 <div className="d-flex align-items-center"
-               style={{ justifyContent: "center", height: "100%" }}>
+               style={{ justifyContent: "center", height: "100%", textAlign: "center" }}>
                   <div className="show-houing-order" style={{ width: "100%" }}>
                     <div
                       className="full-load"
@@ -278,7 +278,7 @@ function RoomNavigator({
               </div>
 
               {tempItems.length > 1 && selectedRoom != 0 && (
-                <div className="col-md-12">
+                <div className="col-md-12  mt-4 p-0">
                   <div className="d-flex align-items-center">
                     <div className="w-100">
                       <p className="mb-0">Bu ilana,</p>
