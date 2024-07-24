@@ -16,27 +16,70 @@ import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
 
 function CreateProject(props) {
-  const [step, setStep] = React.useState(1);
-  const [loadingModal, setLoadingModal] = React.useState(false);
-  const [loading, setLoading] = React.useState(0);
-  const [housingTypes, setHousingTypes] = React.useState([]);
-  const [selectedTypes, setSelectedTypes] = React.useState([]);
-  const [projectData, setProjectData] = React.useState({});
-  const [selectedHousingType, setSelectedHousingType] = React.useState({});
-  const [haveBlocks, setHaveBlocks] = React.useState(false);
-  const [blocks, setBlocks] = React.useState([]);
-  const [roomCount, setRoomCount] = React.useState(0);
-  const [allErrors, setAllErrors] = React.useState([]);
-  const [selectedBlock, setSelectedBlock] = React.useState(null);
-  const [selectedRoom, setSelectedRoom] = React.useState(0);
-  const [anotherBlockErrors, setAnotherBlockErrors] = React.useState(0);
-  const [slug, setSlug] = React.useState("");
-  const [errorMessages, setErrorMessages] = React.useState([]);
-  const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
-  const [fillFormData, setFillFormData] = useState([]);
-  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
-  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(
+    () => JSON.parse(localStorage.getItem("step")) || 1
+  );
+  const [loadingModal, setLoadingModal] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModal")) || false
+  );
+  const [loading, setLoading] = useState(
+    () => JSON.parse(localStorage.getItem("loading")) || 0
+  );
+  const [housingTypes, setHousingTypes] = useState(
+    () => JSON.parse(localStorage.getItem("housingTypes")) || []
+  );
+  const [selectedTypes, setSelectedTypes] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypes")) || []
+  );
+  const [projectData, setProjectData] = useState(
+    () => JSON.parse(localStorage.getItem("projectData")) || {}
+  );
+  const [selectedHousingType, setSelectedHousingType] = useState(
+    () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
+  );
+  const [haveBlocks, setHaveBlocks] = useState(
+    () => JSON.parse(localStorage.getItem("haveBlocks")) || false
+  );
+  const [blocks, setBlocks] = useState(
+    () => JSON.parse(localStorage.getItem("blocks")) || []
+  );
+  const [roomCount, setRoomCount] = useState(
+    () => JSON.parse(localStorage.getItem("roomCount")) || 0
+  );
+  const [allErrors, setAllErrors] = useState(
+    () => JSON.parse(localStorage.getItem("allErrors")) || []
+  );
+  const [selectedBlock, setSelectedBlock] = useState(
+    () => JSON.parse(localStorage.getItem("selectedBlock")) || null
+  );
+  const [selectedRoom, setSelectedRoom] = useState(
+    () => JSON.parse(localStorage.getItem("selectedRoom")) || 0
+  );
+  const [anotherBlockErrors, setAnotherBlockErrors] = useState(
+    () => JSON.parse(localStorage.getItem("anotherBlockErrors")) || 0
+  );
+  const [slug, setSlug] = useState(
+    () => JSON.parse(localStorage.getItem("slug")) || ""
+  );
+  const [errorMessages, setErrorMessages] = useState(
+    () => JSON.parse(localStorage.getItem("errorMessages")) || []
+  );
+  const [selectedTypesTitles, setSelectedTypesTitles] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
+  );
+  const [fillFormData, setFillFormData] = useState(
+    () => JSON.parse(localStorage.getItem("fillFormData")) || []
+  );
+  const [loadingModalOpen, setLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
+  );
+  const [storageLoadingModalOpen, setStorageLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("storageLoadingModalOpen")) || false
+  );
+  const [progress, setProgress] = useState(
+    () => JSON.parse(localStorage.getItem("progress")) || 0
+  );
+
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
     localStorage.setItem("loadingModal", JSON.stringify(loadingModal));
@@ -58,7 +101,6 @@ function CreateProject(props) {
     localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
     localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
     localStorage.setItem("loadingStorageModalOpen", JSON.stringify(loadingStorageModalOpen));
-
     localStorage.setItem("progress", JSON.stringify(progress));
   }, [
     step,
@@ -128,7 +170,6 @@ function CreateProject(props) {
     if (storedFillFormData) setFillFormData(JSON.parse(storedFillFormData));
     if (storedLoadingModalOpen) setLoadingModalOpen(JSON.parse(storedLoadingModalOpen));
     if (storedStorageLoadingModalOpen) setStorageLoadingModalOpen(JSON.parse(storedStorageLoadingModalOpen));
-
     if (storedProgress) setProgress(JSON.parse(storedProgress));
   }, []);
 
@@ -797,6 +838,7 @@ function CreateProject(props) {
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
+    console.log(storedStep);
     if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);
@@ -812,6 +854,7 @@ function CreateProject(props) {
     }
     setStorageLoadingModalOpen(false);
   };
+
   const handleStartOver = () => {
     setStep(1);
     setLoadingModal(false);
