@@ -32,7 +32,7 @@
                                         <div class="col-md-12">
                                             <label class="form-label" for="image">Görseli</label>
                                             <input name="image" class="form-control" id="image" type="file"
-                                              required />
+                                                accept="image/*" required />
                                         </div>
 
                                         <div class="col-md-12">
