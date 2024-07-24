@@ -314,18 +314,18 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (isset($labels) && count($labels) > 0 )
+                                            @if (isset($labels) && count($labels) > 0)
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
                                                         @if (count($val) > 1)
                                                             @if ($label != 'Galeri')
-                                                                <h5>
-                                                                    {{ $label }}</h5>
-
+                                                                <h5>{{ $label }}</h5>
+                                        
                                                                 <ul class="homes-list clearfix mb-3 checkSquareIcon">
                                                                     @foreach ($val as $item)
-                                                                        <li><i class="fa fa-check-square"
-                                                                                aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                        <li>
+                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                            <span>{{ $item }}</span>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -334,10 +334,10 @@
                                                     @endif
                                                 @endforeach
                                             @else
-                                            <span>Bu ilana ait herhangi bir özellik
-                                                belirtilmemiştir.</span>
+                                                <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
                                             @endif
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
