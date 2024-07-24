@@ -908,8 +908,10 @@ function CreateHousing(props) {
       );
     }, 500); // Increase progress every half a second
 
+    var data = JSON.parse(localStorage.getItem("fillFormData"));
+
     axios
-      .post(baseUrl + "create_housing", fillFormData, {
+      .post(baseUrl + "create_housing", data, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
