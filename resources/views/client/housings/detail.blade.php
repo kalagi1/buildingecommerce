@@ -334,11 +334,11 @@
                                                     @endif
                                                 @endforeach
                                             @else
-                                                <div>
-                                                    <span>Bu ilana ait herhangi bir özellik
-                                                        belirtilmemiştir.</span>
-                                                </div>
+                                            <span>Bu ilana ait herhangi bir özellik
+                                                belirtilmemiştir.</span>
                                             @endif
+                                            <span>Bu ilana ait herhangi bir özellik
+                                                belirtilmemiştir.</span>
                                         </div>
                                     </div>
                                 </div>
