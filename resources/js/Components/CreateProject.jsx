@@ -90,14 +90,15 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
-  const convertToBase64 = (file) => {
+  const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
     });
   };
+  
   
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
@@ -190,21 +191,21 @@ function CreateProject(props) {
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
   
-    // Check if the value is a File or Blob and convert to Base64
-    if (value instanceof File || value instanceof Blob) {
-      newValue = await convertToBase64(value);
+    // Convert binary data to Base64
+    if (value instanceof File) {
+      newValue = await convertFileToBase64(value);
     } else if (Array.isArray(value)) {
       newValue = await Promise.all(value.map(async (item) => {
-        if (item instanceof File || item instanceof Blob) {
-          return await convertToBase64(item);
+        if (item instanceof File) {
+          return await convertFileToBase64(item);
         }
         return item;
       }));
     } else if (typeof value === 'object' && value !== null) {
       newValue = {};
       for (const [subKey, subValue] of Object.entries(value)) {
-        if (subValue instanceof File || subValue instanceof Blob) {
-          newValue[subKey] = await convertToBase64(subValue);
+        if (subValue instanceof File) {
+          newValue[subKey] = await convertFileToBase64(subValue);
         } else {
           newValue[subKey] = subValue;
         }
@@ -223,7 +224,46 @@ function CreateProject(props) {
     });
   };
   
+  const getFileFromBase64 = (base64String) => {
+    return fetch(base64String)
+      .then(response => response.arrayBuffer())
+      .then(buffer => new Blob([buffer]));
+  };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("projectData");
+    if (storedData) {
+      try {
+        const decompressedData = decompressFromUTF16(storedData);
+        const parsedData = JSON.parse(decompressedData);
+        
+        // Decode Base64 data for PDFs
+        const decodeBase64Data = async (data) => {
+          if (typeof data === 'string' && data.startsWith('data:application/pdf;base64,')) {
+            return await getFileFromBase64(data);
+          }
+          if (Array.isArray(data)) {
+            return Promise.all(data.map(decodeBase64Data));
+          }
+          if (typeof data === 'object' && data !== null) {
+            const result = {};
+            for (const [key, value] of Object.entries(data)) {
+              result[key] = await decodeBase64Data(value);
+            }
+            return result;
+          }
+          return data;
+        };
   
+        decodeBase64Data(parsedData).then((decodedData) => {
+          setProjectData(decodedData);
+        });
+  
+      } catch (e) {
+        console.error("Error decompressing or parsing data:", e);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
