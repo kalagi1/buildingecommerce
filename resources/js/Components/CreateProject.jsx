@@ -180,6 +180,10 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
+  
+  useEffect(() => {
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+  }, [blocks]);
 
   const prevStep = () => {
     setStep(step - 1);
