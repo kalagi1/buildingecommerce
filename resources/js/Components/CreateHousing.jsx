@@ -918,7 +918,7 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error("Bir hata oluştu. Lütfen emlak sepette yönetimiyle iletişime geçin.");
+        toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz." );
       });
   };
 

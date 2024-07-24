@@ -13,6 +13,7 @@ import PreviewHousing from "./create_project_components/PreviewHousing";
 import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
+import CustomModal from "./CustomModal";
 
 function CreateProject(props) {
   const [step, setStep] = React.useState(1);
@@ -36,39 +37,136 @@ function CreateProject(props) {
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(step));
+    localStorage.setItem("loadingModal", JSON.stringify(loadingModal));
+    localStorage.setItem("loading", JSON.stringify(loading));
+    localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
+    localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
+    localStorage.setItem("projectData", JSON.stringify(projectData));
+    localStorage.setItem("selectedHousingType", JSON.stringify(selectedHousingType));
+    localStorage.setItem("haveBlocks", JSON.stringify(haveBlocks));
+    localStorage.setItem("blocks", JSON.stringify(blocks));
+    localStorage.setItem("roomCount", JSON.stringify(roomCount));
+    localStorage.setItem("allErrors", JSON.stringify(allErrors));
+    localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
+    localStorage.setItem("selectedRoom", JSON.stringify(selectedRoom));
+    localStorage.setItem("anotherBlockErrors", JSON.stringify(anotherBlockErrors));
+    localStorage.setItem("slug", JSON.stringify(slug));
+    localStorage.setItem("errorMessages", JSON.stringify(errorMessages));
+    localStorage.setItem("selectedTypesTitles", JSON.stringify(selectedTypesTitles));
+    localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
+    localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
+    localStorage.setItem("progress", JSON.stringify(progress));
+  }, [
+    step,
+    loadingModal,
+    loading,
+    housingTypes,
+    selectedTypes,
+    projectData,
+    selectedHousingType,
+    haveBlocks,
+    blocks,
+    roomCount,
+    allErrors,
+    selectedBlock,
+    selectedRoom,
+    anotherBlockErrors,
+    slug,
+    errorMessages,
+    selectedTypesTitles,
+    fillFormData,
+    loadingModalOpen,
+    progress
+  ]);
+
+  useEffect(() => {
+    const storedStep = localStorage.getItem("step");
+    const storedLoadingModal = localStorage.getItem("loadingModal");
+    const storedLoading = localStorage.getItem("loading");
+    const storedHousingTypes = localStorage.getItem("housingTypes");
+    const storedSelectedTypes = localStorage.getItem("selectedTypes");
+    const storedProjectData = localStorage.getItem("projectData");
+    const storedSelectedHousingType = localStorage.getItem("selectedHousingType");
+    const storedHaveBlocks = localStorage.getItem("haveBlocks");
+    const storedBlocks = localStorage.getItem("blocks");
+    const storedRoomCount = localStorage.getItem("roomCount");
+    const storedAllErrors = localStorage.getItem("allErrors");
+    const storedSelectedBlock = localStorage.getItem("selectedBlock");
+    const storedSelectedRoom = localStorage.getItem("selectedRoom");
+    const storedAnotherBlockErrors = localStorage.getItem("anotherBlockErrors");
+    const storedSlug = localStorage.getItem("slug");
+    const storedErrorMessages = localStorage.getItem("errorMessages");
+    const storedSelectedTypesTitles = localStorage.getItem("selectedTypesTitles");
+    const storedFillFormData = localStorage.getItem("fillFormData");
+    const storedLoadingModalOpen = localStorage.getItem("loadingModalOpen");
+    const storedProgress = localStorage.getItem("progress");
+
+    if (storedStep) setStep(JSON.parse(storedStep));
+    if (storedLoadingModal) setLoadingModal(JSON.parse(storedLoadingModal));
+    if (storedLoading) setLoading(JSON.parse(storedLoading));
+    if (storedHousingTypes) setHousingTypes(JSON.parse(storedHousingTypes));
+    if (storedSelectedTypes) setSelectedTypes(JSON.parse(storedSelectedTypes));
+    if (storedProjectData) setProjectData(JSON.parse(storedProjectData));
+    if (storedSelectedHousingType) setSelectedHousingType(JSON.parse(storedSelectedHousingType));
+    if (storedHaveBlocks) setHaveBlocks(JSON.parse(storedHaveBlocks));
+    if (storedBlocks) setBlocks(JSON.parse(storedBlocks));
+    if (storedRoomCount) setRoomCount(JSON.parse(storedRoomCount));
+    if (storedAllErrors) setAllErrors(JSON.parse(storedAllErrors));
+    if (storedSelectedBlock) setSelectedBlock(JSON.parse(storedSelectedBlock));
+    if (storedSelectedRoom) setSelectedRoom(JSON.parse(storedSelectedRoom));
+    if (storedAnotherBlockErrors) setAnotherBlockErrors(JSON.parse(storedAnotherBlockErrors));
+    if (storedSlug) setSlug(JSON.parse(storedSlug));
+    if (storedErrorMessages) setErrorMessages(JSON.parse(storedErrorMessages));
+    if (storedSelectedTypesTitles) setSelectedTypesTitles(JSON.parse(storedSelectedTypesTitles));
+    if (storedFillFormData) setFillFormData(JSON.parse(storedFillFormData));
+    if (storedLoadingModalOpen) setLoadingModalOpen(JSON.parse(storedLoadingModalOpen));
+    if (storedProgress) setProgress(JSON.parse(storedProgress));
+  }, []);
+
   const setProjectDataFunc = (key, value) => {
-    setProjectData({
-      ...projectData,
-      [key]: value,
+    setProjectData((prev) => {
+      const newProjectData = { ...prev, [key]: value };
+      localStorage.setItem("projectData", JSON.stringify(newProjectData));
+      return newProjectData;
     });
   };
+
   const prevStep = () => {
     setStep(step - 1);
   };
+
   const nextStep = () => {
-    setStep(step + 1);
     if (step == 1) {
       setBlocks([]);
       setProjectData([]);
     }
+    setStep(step + 1);
+   
   };
+
+
   function getCoords(elem) {
     // crossbrowser version
-    var box = elem.getBoundingClientRect();
+    if (elem && elem.getBoundingClientRect()) {
+      var box = elem.getBoundingClientRect();
 
-    var body = document.body;
-    var docEl = document.documentElement;
+      var body = document.body;
+      var docEl = document.documentElement;
 
-    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+      var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+      var scrollLeft =
+        window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
-    var clientTop = docEl.clientTop || body.clientTop || 0;
-    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+      var clientTop = docEl.clientTop || body.clientTop || 0;
+      var clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-    var top = box.top + scrollTop - clientTop;
-    var left = box.left + scrollLeft - clientLeft;
+      var top = box.top + scrollTop - clientTop;
+      var left = box.left + scrollLeft - clientLeft;
 
-    return { top: Math.round(top), left: Math.round(left) };
+      return { top: Math.round(top), left: Math.round(left) };
+    }
   }
 
   const createRoom = async (data) => {
@@ -667,10 +765,88 @@ function CreateProject(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-     
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
       setFillFormData(formData);
       setStep(3);
     }
+  };
+
+  
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      const formData = new FormData();
+      Object.entries(parsedFormData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      setFillFormData(formData);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedStep = localStorage.getItem("step");
+    if (storedStep != 1 && storedStep != 4) {
+      setLoadingModalOpen(false);
+      setStorageLoadingModalOpen(true);
+    } else {
+      setStep(1);
+    }
+  }, []);
+  
+  const handleContinue = () => {
+    const storedStep = localStorage.getItem("step");
+    if (storedStep) {
+      setStep(Number(storedStep)); 
+    }
+    setStorageLoadingModalOpen(false);
+  };
+  const handleStartOver = () => {
+    setStep(1);
+    setLoadingModal(false);
+    setLoading(0);
+    setHousingTypes([]);
+    setSelectedTypes([]);
+    setProjectData({});
+    setSelectedHousingType({});
+    setHaveBlocks(false);
+    setBlocks([]);
+    setRoomCount(0);
+    setAllErrors([]);
+    setSelectedBlock(null);
+    setSelectedRoom(0);
+    setAnotherBlockErrors(0);
+    setSlug("");
+    setErrorMessages([]);
+    setSelectedTypesTitles([]);
+    setFillFormData([]);
+    setLoadingModalOpen(false);
+    setProgress(0);
+    
+    localStorage.removeItem("step");
+    localStorage.removeItem("loadingModal");
+    localStorage.removeItem("loading");
+    localStorage.removeItem("housingTypes");
+    localStorage.removeItem("selectedTypes");
+    localStorage.removeItem("projectData");
+    localStorage.removeItem("selectedHousingType");
+    localStorage.removeItem("haveBlocks");
+    localStorage.removeItem("blocks");
+    localStorage.removeItem("roomCount");
+    localStorage.removeItem("allErrors");
+    localStorage.removeItem("selectedBlock");
+    localStorage.removeItem("selectedRoom");
+    localStorage.removeItem("anotherBlockErrors");
+    localStorage.removeItem("slug");
+    localStorage.removeItem("errorMessages");
+    localStorage.removeItem("selectedTypesTitles");
+    localStorage.removeItem("fillFormData");
+    localStorage.removeItem("loadingModalOpen");
+    localStorage.removeItem("progress");
   };
   const finishCreateProject = () => {
     setLoadingModalOpen(true);
@@ -852,7 +1028,26 @@ function CreateProject(props) {
       </Modal> */}
 
       <LoadingModal open={loadingModalOpen} progress={progress} />
-
+      <CustomModal
+        isOpen={loadingStorageModalOpen}
+        onClose={() => setStorageLoadingModalOpen(false)}
+      >
+        <div className="custom-modal-header">
+          Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
+          istersin?
+        </div>
+        <div className="custom-modal-buttons">
+          <button className="custom-modal-button" onClick={handleContinue}>
+            Devam Et
+          </button>
+          <button
+            className="custom-modal-button custom-modal-button-secondary"
+            onClick={handleStartOver}
+          >
+            Yeni İlan Ekle
+          </button>
+        </div>
+      </CustomModal>
       <ToastContainer />
       {step == 1 ? (
         <TypeList
