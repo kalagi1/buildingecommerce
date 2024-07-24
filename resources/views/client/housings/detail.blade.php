@@ -314,7 +314,6 @@
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            {{ count($labels) }}
                                             @if (isset($labels) && count($labels) > 0)
                                                 @php
                                                     $hasFeature = false;
