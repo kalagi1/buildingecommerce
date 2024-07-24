@@ -951,7 +951,7 @@ function CreateHousing(props) {
       },
     ]);
     setStep(step - 1);
-  
+    window.scrollTo(0, 0);
   };
 
   const nextStep = () => {
@@ -966,6 +966,7 @@ function CreateHousing(props) {
       ]);
       setProjectData([]);
   }    setStep(step + 1);
+  window.scrollTo(0, 0);
   };
   return (
     <>
