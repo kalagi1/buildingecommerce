@@ -213,6 +213,7 @@ function CreateHousing(props) {
     localStorage.removeItem("selectedHousingType");
     localStorage.removeItem("haveBlocks");
     localStorage.removeItem("slug");
+    localStorage.removeItem("blocks");
     localStorage.removeItem("roomCount");
     localStorage.removeItem("allErrors");
     localStorage.removeItem("selectedBlock");
@@ -907,10 +908,11 @@ function CreateHousing(props) {
       );
     }, 500); // Increase progress every half a second
 
-    var data = JSON.parse(localStorage.getItem("fillFormData"));
+    console.log(JSON.parse(localStorage.getItem("fillFormData")));
+    console.log(fillFormData);
 
     axios
-      .post(baseUrl + "create_housing", data, {
+      .post(baseUrl + "create_housing", fillFormData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
