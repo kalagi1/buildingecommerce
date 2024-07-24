@@ -539,12 +539,11 @@
     <!-- Wrapper -->
     <div id="wrapper">
         <div class="slick-lancersl">
-            @foreach ($adBanners as $adBanner)
-                <div class="home-top-banner d-xl-block d-none d-lg-block"
-                    style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="https://private.emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
-                </div>
-            @endforeach
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
+                <video autoplay loop muted style="width:100%">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                </video>
+            </div>
         </div>
 
         <!-- START SECTION HEADINGS -->

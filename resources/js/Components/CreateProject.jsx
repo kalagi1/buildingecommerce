@@ -843,6 +843,8 @@ function CreateProject(props) {
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
     console.log(storedStep);
+    console.log(blocks);
+
     if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);

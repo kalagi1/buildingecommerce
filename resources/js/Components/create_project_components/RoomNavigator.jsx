@@ -248,7 +248,7 @@ function RoomNavigator({
                 </div>
                 <hr />
               </div>
-              <div className="col-md-12">
+              <div className="col-md-12 mt-4 p-0">
                 <div className="d-flex align-items-center"
                style={{ justifyContent: "center", height: "100%" }}>
                   <div className="show-houing-order" style={{ width: "100%" }}>
