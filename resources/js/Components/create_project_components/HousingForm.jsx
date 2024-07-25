@@ -13,6 +13,8 @@ import { baseUrl } from "../../define/variables";
 import { FALSE } from "sass";
 function HousingForm({
   selectedTypesTitles,
+  selectedLocation,
+  setSelectedLocation,
   user,
   slug,
   prevStep,
@@ -46,7 +48,7 @@ function HousingForm({
 
   const [zoom, setZoom] = useState(5);
   const [center, setCenter] = useState({ lat: 39.0, lng: 35.0 }); // Coordinates for Turkey's center
-  const [selectedLocation, setSelectedLocation] = useState({});
+
   const mapRef = useRef(null);
   const isShowRef = useRef(isShow);
   const rectangleRef = useRef(null);
@@ -245,39 +247,35 @@ function HousingForm({
       const latLng = e.latLng;
       const lat = latLng.lat();
       const lng = latLng.lng();
-      console.log("Map clicked:", latLng);
-
+      
       // Check if the clicked location is within Turkey's boundaries
-      const isWithinTurkey =
-        lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
+      const isWithinTurkey = lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
 
-      if (isShowRef.current) {
-        console.log("Clicked LatLng:", latLng);
+      // Check if projectData has required fields
+      if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        return;
+      }
 
-        if (isWithinTurkey) {
-          setSelectedLocation({ lat, lng });
+      if (isWithinTurkey) {
+        setSelectedLocation({ lat, lng });
 
-          if (markerRef.current) {
-            markerRef.current.setMap(null);
-          }
-
-          markerRef.current = new google.maps.Marker({
-            position: { lat, lng },
-            map: mapRef.current,
-            title: "Selected Location",
-          });
-          setError(null);
-        } else {
-          console.log("Outside bounds or outside Turkey:", latLng);
-          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
+        if (markerRef.current) {
+          markerRef.current.setMap(null);
         }
+
+        markerRef.current = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: "Selected Location",
+        });
         setError(null);
       } else {
-        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        setError("Türkiye sınırları içinde bir nokta seçiniz.");
       }
     };
 
-    // Remove previous listener
+    // Remove previous listener if exists
     if (clickListenerRef.current) {
       google.maps.event.removeListener(clickListenerRef.current);
     }
@@ -285,17 +283,20 @@ function HousingForm({
     // Add new listener
     clickListenerRef.current = map.addListener("click", handleClick);
 
-    return () => {
-      // Clean up listener on component unmount or if map changes
-      google.maps.event.removeListener(clickListenerRef.current);
+    // Cleanup function to remove listener on component unmount or if map changes
+    return () => {  
+      if (clickListenerRef.current) {
+        google.maps.event.removeListener(clickListenerRef.current);
+      }
     };
-  }, [mapRef.current, bounds]);
-
+  }, [mapRef.current, projectData]);
+  
   useEffect(() => {
     setProjectDataFunc(
       "coordinates",
       `${selectedLocation.lat}-${selectedLocation.lng}`
     );
+
   }, [selectedLocation]);
 
   const onUnmount = useCallback(function callback(map) {
@@ -497,7 +498,7 @@ function HousingForm({
               </select>
             </div>
           </div>
-          {allErrors.includes("coordinates") ? (
+          {  !selectedLocation ? (
             <Alert
               severity="error"
               className="mt-3"
@@ -533,7 +534,7 @@ function HousingForm({
                 }}
                 ref={mapRef}
               >
-                {selectedLocation.lat && (
+                {selectedLocation && (
                   <Marker position={selectedLocation} draggable />
                 )}
               </GoogleMap>

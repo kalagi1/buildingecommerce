@@ -399,12 +399,18 @@
     <!-- Wrapper -->
     <div id="wrapper">
             <div class="slick-lancersl homeTopBanner">
-                @foreach ($adBanners as $adBanner)
+                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
+                    <video autoplay loop muted style="width:100%">
+                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+            
+                {{-- @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
                         style="background-color: {{ $adBanner->background_color }};padding:0 !important">
                         <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
 
         <!-- START SECTION HEADINGS -->

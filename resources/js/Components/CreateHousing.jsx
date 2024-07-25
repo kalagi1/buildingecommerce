@@ -10,71 +10,279 @@ import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
+import CustomModal from "./CustomModal";
+import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
 function CreateHousing(props) {
   const [step, setStep] = useState(
-    JSON.parse(localStorage.getItem("step")) || 1
+    () => JSON.parse(localStorage.getItem("step")) || 1
   );
-  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(false);
-
-  const [housingTypes, setHousingTypes] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [fillFormData, setFillFormData] = useState([]);
-  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
-
-  const [projectData, setProjectData] = useState(
-    JSON.parse(localStorage.getItem("projectData")) || {}
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
   );
-  const [selectedHousingType, setSelectedHousingType] = useState({});
-  const [haveBlocks, setHaveBlocks] = useState(false);
-  const [slug, setSlug] = useState("");
+
+  const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
+  );
+  const [housingTypes, setHousingTypes] = useState(
+    () => JSON.parse(localStorage.getItem("housingTypes")) || []
+  );
+  const [selectedTypes, setSelectedTypes] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypes")) || []
+  );
+  const [fillFormData, setFillFormData] = useState(
+    () => JSON.parse(localStorage.getItem("fillFormData")) || []
+  );
+  const [loadingModalOpen, setLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
+  );
+  const [projectData, setProjectData] = useState(() => {
+    const storedData = localStorage.getItem("projectData");
+    if (storedData) {
+      try {
+        const decompressedData = decompressFromUTF16(storedData);
+        return JSON.parse(decompressedData);
+      } catch (e) {
+        console.error("Error decompressing or parsing data:", e);
+        return {};
+      }
+    }
+    return {};
+  });
+  const [selectedHousingType, setSelectedHousingType] = useState(
+    () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
+  );
+  const [haveBlocks, setHaveBlocks] = useState(
+    () => JSON.parse(localStorage.getItem("haveBlocks")) || false
+  );
+  const [slug, setSlug] = useState(
+    () => JSON.parse(localStorage.getItem("slug")) || ""
+  );
   const [blocks, setBlocks] = useState(
-    JSON.parse(localStorage.getItem("blocks")) || [
-      {
-        name: "housing",
-        roomCount: 1,
-        rooms: [{}],
-      },
-    ]
+    () =>
+      JSON.parse(localStorage.getItem("blocks")) || [
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]
   );
-  const [roomCount, setRoomCount] = useState(1);
-  const [allErrors, setAllErrors] = useState([]);
-  const [selectedBlock, setSelectedBlock] = useState(0);
-  const [selectedRoom, setSelectedRoom] = useState(0);
-  const [anotherBlockErrors, setAnotherBlockErrors] = useState(0);
+  const [roomCount, setRoomCount] = useState(
+    () => JSON.parse(localStorage.getItem("roomCount")) || 1
+  );
+  const [allErrors, setAllErrors] = useState(
+    () => JSON.parse(localStorage.getItem("allErrors")) || []
+  );
+  const [selectedBlock, setSelectedBlock] = useState(
+    () => JSON.parse(localStorage.getItem("selectedBlock")) || 0
+  );
+  const [selectedRoom, setSelectedRoom] = useState(
+    () => JSON.parse(localStorage.getItem("selectedRoom")) || 0
+  );
+  const [anotherBlockErrors, setAnotherBlockErrors] = useState(
+    () => JSON.parse(localStorage.getItem("anotherBlockErrors")) || 0
+  );
   const [selectedTypesTitles, setSelectedTypesTitles] = useState(
-    JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
+    () => JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
   );
-  const [user, setUser] = useState({});
-  const setProjectDataFunc = (key, value) => {
-    setProjectData((prev) => {
-      const newProjectData = { ...prev, [key]: value };
-      localStorage.setItem("projectData", JSON.stringify(newProjectData));
-      return newProjectData;
-    });
-  };
+  const [user, setUser] = useState(
+    () => JSON.parse(localStorage.getItem("user")) || {}
+  );
 
+  // Kullanıcı bilgilerini al
   useEffect(() => {
     axios.get(baseUrl + "get_current_user").then((res) => {
       setUser(res.data.user);
     });
   }, []);
 
+  // Tüm state değerlerini localStorage'da sakla
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(step));
+  }, [step]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "loadingStorageModalOpen",
+      JSON.stringify(loadingStorageModalOpen)
+    );
+  }, [loadingStorageModalOpen]);
+
+  useEffect(() => {
+    localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
+  }, [housingTypes]);
+
+
+  useEffect(() => {
+    localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
+  }, [selectedTypes]);
+
+  useEffect(() => {
+    localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
+  }, [fillFormData]);
+
+  useEffect(() => {
+    localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
+  }, [loadingModalOpen]);
+
+  useEffect(() => {
+    try {
+      const compressedData = compressToUTF16(JSON.stringify(projectData));
+      localStorage.setItem("projectData", compressedData);
+    } catch (e) {
+      console.error("Error compressing or storing data:", e);
+    }
+  }, [projectData]);
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedHousingType",
+      JSON.stringify(selectedHousingType)
+    );
+  }, [selectedHousingType]);
+
+  useEffect(() => {
+    localStorage.setItem("haveBlocks", JSON.stringify(haveBlocks));
+  }, [haveBlocks]);
+
+  useEffect(() => {
+    localStorage.setItem("slug", JSON.stringify(slug));
+  }, [slug]);
+
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
   }, [blocks]);
 
   useEffect(() => {
-    localStorage.setItem("projectData", JSON.stringify(projectData));
-  }, [projectData]);
+    localStorage.setItem("roomCount", JSON.stringify(roomCount));
+  }, [roomCount]);
 
   useEffect(() => {
-    localStorage.setItem("step", JSON.stringify(1));
-  }, [step]);
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    localStorage.setItem("allErrors", JSON.stringify(allErrors));
+  }, [allErrors]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
+  }, [selectedBlock]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedRoom", JSON.stringify(selectedRoom));
+  }, [selectedRoom]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "anotherBlockErrors",
+      JSON.stringify(anotherBlockErrors)
+    );
+  }, [anotherBlockErrors]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedTypesTitles",
+      JSON.stringify(selectedTypesTitles)
+    );
+  }, [selectedTypesTitles]);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
+
+  const convertFileToBinary = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
+      reader.onerror = (error) => reject(error); // Reject on error
+    });
+  };
+  
+  
+  const setProjectDataFunc = async (key, value) => {
+    let newValue = value;
+  
+    // Convert files to Binary
+    if (value instanceof File) {
+      newValue = await convertFileToBinary(value);
+    } else if (Array.isArray(value)) {
+      newValue = await Promise.all(value.map(async (item) => {
+        if (item instanceof File) {
+          return await convertFileToBinary(item);
+        }
+        return item;
+      }));
+    } else if (typeof value === 'object' && value !== null) {
+      newValue = {};
+      for (const [subKey, subValue] of Object.entries(value)) {
+        if (subValue instanceof File) {
+          newValue[subKey] = await convertFileToBinary(subValue);
+        } else {
+          newValue[subKey] = subValue;
+        }
+      }
+    }
+  
+    setProjectData((prev) => {
+      const newProjectData = { ...prev, [key]: newValue };
+      try {
+        const compressedData = compressToUTF16(JSON.stringify(newProjectData));
+        localStorage.setItem("projectData", compressedData);
+      } catch (e) {
+        console.error("Error compressing or storing data:", e);
+      }
+      return newProjectData;
+    });
+  };
+  
+  const getFileFromBinary = (binaryData, mimeType) => {
+    return new Blob([binaryData], { type: mimeType });
+  };
+  
+  const decodeBinaryData = async (data) => {
+    if (data instanceof ArrayBuffer) {
+      // Detect the MIME type based on the content (you may need a better way to determine this)
+      const mimeType = 'application/pdf'; // Example for PDFs; you might need to adjust for images
+      return getFileFromBinary(data, mimeType);
+    }
+    if (Array.isArray(data)) {
+      return Promise.all(data.map(decodeBinaryData));
+    }
+    if (typeof data === 'object' && data !== null) {
+      const result = {};
+      for (const [key, value] of Object.entries(data)) {
+        result[key] = await decodeBinaryData(value);
+      }
+      return result;
+    }
+    return data;
+  };
+  
+
+   
+  useEffect(() => {
+    const storedData = localStorage.getItem("projectData");
+    if (storedData) {
+      try {
+        const decompressedData = decompressFromUTF16(storedData);
+        const parsedData = JSON.parse(decompressedData);
+  
+        // Decode Binary data for files
+        decodeBinaryData(parsedData).then((decodedData) => {
+          setProjectData(decodedData);
+        });
+  
+      } catch (e) {
+        console.error("Error decompressing or parsing data:", e);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
-    if (storedStep) {
+    if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);
     } else {
@@ -85,18 +293,40 @@ function CreateHousing(props) {
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); // Continue from the stored step
+      setStep(Number(storedStep)); 
     }
-    setLoadingModalOpen(false);
+    setStorageLoadingModalOpen(false);
   };
 
   const handleStartOver = () => {
     localStorage.removeItem("step");
+    localStorage.removeItem("loadingStorageModalOpen");
+    localStorage.removeItem("housingTypes");
+    localStorage.removeItem("selectedTypes");
+    localStorage.removeItem("fillFormData");
+    localStorage.removeItem("loadingModalOpen");
     localStorage.removeItem("projectData");
+    localStorage.removeItem("selectedHousingType");
+    localStorage.removeItem("haveBlocks");
+    localStorage.removeItem("slug");
     localStorage.removeItem("blocks");
+    localStorage.removeItem("roomCount");
+    localStorage.removeItem("allErrors");
+    localStorage.removeItem("selectedBlock");
+    localStorage.removeItem("selectedRoom");
+    localStorage.removeItem("anotherBlockErrors");
     localStorage.removeItem("selectedTypesTitles");
-    setStep(1); // Reset to step 1
-    setLoadingModalOpen(false);
+    localStorage.removeItem("user");
+    setStep(1);
+    setSelectedTypes([]);
+    setBlocks([
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);    
+    setStorageLoadingModalOpen(false);
   };
 
   useEffect(() => {
@@ -725,14 +955,66 @@ function CreateHousing(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-      let requestPromises = [];
+      let requestPromises = [];  
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
       setFillFormData(formData);
       setStep(3);
     }
   };
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      const formData = new FormData();
+      Object.entries(parsedFormData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      setFillFormData(formData);
+    }
+  }, []);
+
   const [progress, setProgress] = useState(0);
 
-  const finishCreateHousing = () => {
+  const prepareFormDataWithBinary = async (data) => {
+    const formData = new FormData();
+  
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof File) {
+        const binaryData = await convertFileToBinary(value);
+        formData.append(key, new Blob([binaryData], { type: value.type }), value.name);
+      } else if (Array.isArray(value)) {
+        for (const item of value) {
+          if (item instanceof File) {
+            const binaryData = await convertFileToBinary(item);
+            formData.append(key, new Blob([binaryData], { type: item.type }), item.name);
+          } else {
+            formData.append(key, item);
+          }
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        for (const [subKey, subValue] of Object.entries(value)) {
+          if (subValue instanceof File) {
+            const binaryData = await convertFileToBinary(subValue);
+            formData.append(`${key}[${subKey}]`, new Blob([binaryData], { type: subValue.type }), subValue.name);
+          } else {
+            formData.append(`${key}[${subKey}]`, subValue);
+          }
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+  
+    return formData;
+  };
+
+  
+  const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
@@ -742,10 +1024,15 @@ function CreateHousing(props) {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
-    }, 500); // Increase progress every half a second
+    }, 500);
+    const storedData = localStorage.getItem("fillFormData");
 
+    const parsedData = JSON.parse(decompressFromUTF16(storedData));
+    
+    // Prepare the form data with binary files
+    const formData = await prepareFormDataWithBinary(parsedData);
     axios
-      .post(baseUrl + "create_housing", fillFormData, {
+      .post(baseUrl + "create_housing", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -757,7 +1044,7 @@ function CreateHousing(props) {
           clearInterval(progressInterval);
           setProgress(100);
           setTimeout(() => {
-            setLoadingModalOpen(false);
+            setLoadingModalOpen(false); 
             setStep(4);
             setFillFormData(null);
           }, 500);
@@ -766,7 +1053,7 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error(error.message);
+        toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz." );
       });
   };
 
@@ -789,11 +1076,21 @@ function CreateHousing(props) {
 
     return roomCount;
   };
+
   const prevStep = () => {
+    setBlocks(  JSON.parse(localStorage.getItem("blocks")) || [
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);
     setStep(step - 1);
+    window.scrollTo(0, 0);
   };
+
   const nextStep = () => {
-    setStep(step + 1);
+
     if (step == 1) {
       setBlocks([
         {
@@ -803,7 +1100,8 @@ function CreateHousing(props) {
         },
       ]);
       setProjectData([]);
-    }
+  }    setStep(step + 1);
+  window.scrollTo(0, 0);
   };
   return (
     <>
@@ -857,7 +1155,9 @@ function CreateHousing(props) {
       ) : step == 2 ? (
         <HousingForm
           user={user}
+          selectedLocation={selectedLocation}
           slug={slug}
+          setSelectedLocation={setSelectedLocation}
           prevStep={prevStep}
           anotherBlockErrors={anotherBlockErrors}
           selectedTypesTitles={selectedTypesTitles}
@@ -895,20 +1195,30 @@ function CreateHousing(props) {
       ) : (
         <EndSectionHousing />
       )}
-      <LoadingModal open={loadingModalOpen} progress={progress} />
-      <Modal
-        onClose={() => {
-          setLoadingModalOpen(false);
-        }}
-        open={loadingStorageModalOpen && !loadingModalOpen}
+      {loadingModalOpen && (
+        <LoadingModal open={loadingModalOpen} progress={progress} />
+      )}
+
+      <CustomModal
+        isOpen={loadingStorageModalOpen}
+        onClose={() => setStorageLoadingModalOpen(false)}
       >
-        <h2>
+        <div className="custom-modal-header">
           Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
           istersin?
-        </h2>
-        <button onClick={handleContinue}>Devam Et</button>
-        <button onClick={handleStartOver}>Yeni İlan Ekle</button>
-      </Modal>
+        </div>
+        <div className="custom-modal-buttons">
+          <button className="custom-modal-button" onClick={handleContinue}>
+            Devam Et
+          </button>
+          <button
+            className="custom-modal-button custom-modal-button-secondary"
+            onClick={handleStartOver}
+          >
+            Yeni İlan Ekle
+          </button>
+        </div>
+      </CustomModal>
 
       <ToastContainer />
     </>

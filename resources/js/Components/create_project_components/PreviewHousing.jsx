@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function PreviewHousing({
   createProject,
@@ -14,6 +15,8 @@ function PreviewHousing({
   selectedTypes
 }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [htmlContent, setHtmlContent] = useState("");
   const style = {
     position: "absolute",
@@ -38,6 +41,8 @@ function PreviewHousing({
       setHtmlContent(response.data);
     } catch (error) {
       console.error("Error fetching preview:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,8 +83,16 @@ function PreviewHousing({
         </div>
       
       </div>
-      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      <Modal
+      {loading ? (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <CircularProgress />
+          <p>Önizleme yükleniyor...</p>
+        </div>
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      )}    
+      
+        <Modal
         open={open}
         onClose={() => {
           setOpen(false);

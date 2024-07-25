@@ -13,7 +13,6 @@ import ReactTable from './Components/reactTable';
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
-console.log(slashs);
 
 if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     if(document.getElementById('react_render_area')){

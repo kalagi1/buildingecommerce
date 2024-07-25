@@ -60,6 +60,7 @@ class HousingController extends Controller {
     }
 
     public function sendComment( Request $request, $id ) {
+        
         $housing = Housing::where( 'id', $id )->with( 'user' )->first();
         $validator = Validator::make(
             $request->all(),

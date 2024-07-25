@@ -29,14 +29,56 @@ function Rooms({
   setRoomCount,
   selectedHousingType,
 }) {
-  const [validationErrors, setValidationErrors] = useState([]);
-  var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
-  const [rendered, setRendered] = useState(0);
-  const [payDecOpen, setPayDecOpen] = useState(false);
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [selectedAccordion, setSelectedAccordion] = useState("");
-  const [formGenerated, setFormGenerated] = useState(false); // Yeni state
-  const [updatedRoomCount, setUpdatedRoomCount] = useState(0); // Güncellenmiş oda sayısı
+  const [validationErrors, setValidationErrors] = useState(
+    () => JSON.parse(localStorage.getItem("validationErrors")) || []
+  );
+  const formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
+  const [rendered, setRendered] = useState(
+    () => JSON.parse(localStorage.getItem("rendered")) || 0
+  );
+  const [payDecOpen, setPayDecOpen] = useState(
+    () => JSON.parse(localStorage.getItem("payDecOpen")) || false
+  );
+  const [checkedItems, setCheckedItems] = useState(
+    () => JSON.parse(localStorage.getItem("checkedItems")) || []
+  );
+  const [selectedAccordion, setSelectedAccordion] = useState(
+    () => JSON.parse(localStorage.getItem("selectedAccordion")) || ""
+  );
+  const [formGenerated, setFormGenerated] = useState(
+    () => JSON.parse(localStorage.getItem("formGenerated")) || false
+  );
+  const [updatedRoomCount, setUpdatedRoomCount] = useState(
+    () => JSON.parse(localStorage.getItem("updatedRoomCount")) || 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("validationErrors", JSON.stringify(validationErrors));
+  }, [validationErrors]);
+
+  useEffect(() => {
+    localStorage.setItem("rendered", JSON.stringify(rendered));
+  }, [rendered]);
+
+  useEffect(() => {
+    localStorage.setItem("payDecOpen", JSON.stringify(payDecOpen));
+  }, [payDecOpen]);
+
+  useEffect(() => {
+    localStorage.setItem("checkedItems", JSON.stringify(checkedItems));
+  }, [checkedItems]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedAccordion", JSON.stringify(selectedAccordion));
+  }, [selectedAccordion]);
+
+  useEffect(() => {
+    localStorage.setItem("formGenerated", JSON.stringify(formGenerated));
+  }, [formGenerated]);
+
+  useEffect(() => {
+    localStorage.setItem("updatedRoomCount", JSON.stringify(updatedRoomCount));
+  }, [updatedRoomCount]);
 
   // Formu oluşturma fonksiyonu
   const setRoomCountFunc = () => {
