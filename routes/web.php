@@ -846,8 +846,8 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
-    //sıfırdan crm rotaları
 
+    //sıfırdan crm rotaları
     //satış danışmanlarını listele ve proje atama
     Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('crm.danisman.proje.atama');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
@@ -1194,6 +1194,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
 
+Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
 
 Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
 Route::get('sold/order_detail/{id}', [InstitutionalProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');

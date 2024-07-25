@@ -496,6 +496,11 @@
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-heart',
+                                                    'text' => 'Değerlendirmelerim',
+                                                ],
+                                                [
                                                     'url' => route('client.logout'),
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
@@ -560,6 +565,11 @@
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-heart',
+                                                    'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
