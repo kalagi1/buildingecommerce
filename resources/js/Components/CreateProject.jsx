@@ -102,6 +102,7 @@ function CreateProject(props) {
   
   
   
+  
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
@@ -193,13 +194,13 @@ function CreateProject(props) {
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
   
-    // Convert files to Base64
+    // Convert files to Binary
     if (value instanceof File) {
-      newValue = await convertFileToBase64(value);
+      newValue = await convertFileToBinary(value);
     } else if (Array.isArray(value)) {
       newValue = await Promise.all(value.map(async (item) => {
         if (item instanceof File) {
-          return await convertFileToBase64(item);
+          return await convertFileToBinary(item);
         }
         return item;
       }));
@@ -207,7 +208,7 @@ function CreateProject(props) {
       newValue = {};
       for (const [subKey, subValue] of Object.entries(value)) {
         if (subValue instanceof File) {
-          newValue[subKey] = await convertFileToBase64(subValue);
+          newValue[subKey] = await convertFileToBinary(subValue);
         } else {
           newValue[subKey] = subValue;
         }
@@ -226,11 +227,29 @@ function CreateProject(props) {
     });
   };
   
-  const getFileFromBase64 = (base64String) => {
-    return fetch(base64String)
-      .then(response => response.arrayBuffer())
-      .then(buffer => new Blob([buffer], { type: base64String.split(';')[0].split(':')[1] }));
+  const getFileFromBinary = (binaryData, mimeType) => {
+    return new Blob([binaryData], { type: mimeType });
   };
+  
+  const decodeBinaryData = async (data) => {
+    if (data instanceof ArrayBuffer) {
+      // Detect the MIME type based on the content (you may need a better way to determine this)
+      const mimeType = 'application/pdf'; // Example for PDFs; you might need to adjust for images
+      return getFileFromBinary(data, mimeType);
+    }
+    if (Array.isArray(data)) {
+      return Promise.all(data.map(decodeBinaryData));
+    }
+    if (typeof data === 'object' && data !== null) {
+      const result = {};
+      for (const [key, value] of Object.entries(data)) {
+        result[key] = await decodeBinaryData(value);
+      }
+      return result;
+    }
+    return data;
+  };
+  
   
   useEffect(() => {
     const storedData = localStorage.getItem("projectData");
@@ -239,25 +258,8 @@ function CreateProject(props) {
         const decompressedData = decompressFromUTF16(storedData);
         const parsedData = JSON.parse(decompressedData);
   
-        // Decode Base64 data for files
-        const decodeBase64Data = async (data) => {
-          if (typeof data === 'string' && data.startsWith('data:')) {
-            return await getFileFromBase64(data);
-          }
-          if (Array.isArray(data)) {
-            return Promise.all(data.map(decodeBase64Data));
-          }
-          if (typeof data === 'object' && data !== null) {
-            const result = {};
-            for (const [key, value] of Object.entries(data)) {
-              result[key] = await decodeBase64Data(value);
-            }
-            return result;
-          }
-          return data;
-        };
-  
-        decodeBase64Data(parsedData).then((decodedData) => {
+        // Decode Binary data for files
+        decodeBinaryData(parsedData).then((decodedData) => {
           setProjectData(decodedData);
         });
   
@@ -266,6 +268,7 @@ function CreateProject(props) {
       }
     }
   }, []);
+  
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
