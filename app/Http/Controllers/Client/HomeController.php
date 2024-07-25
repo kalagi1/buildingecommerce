@@ -62,12 +62,14 @@ class HomeController extends Controller
             $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
             $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[1]);
             $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[2]);
+            return $housingTypeParentConnection;
 
             if ($housingTypeParentConnection && isset($blocks)) {
                 $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
 
                 if ($housingType) {
                     $formJsonItems = json_decode($housingType->form_json, true) ?? [];
+                    return $formJsonItems;
 
                     foreach ($blocks as $block) {
                         if (!empty($block['rooms'])) {
