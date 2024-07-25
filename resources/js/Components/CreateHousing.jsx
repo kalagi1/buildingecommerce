@@ -125,7 +125,7 @@ function CreateHousing(props) {
   useEffect(() => {
     localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
   }, [loadingModalOpen]);
-  
+
   useEffect(() => {
     try {
       const compressedData = compressToUTF16(JSON.stringify(projectData));
@@ -191,13 +191,93 @@ function CreateHousing(props) {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
-  const setProjectDataFunc = (key, value) => {
+  const convertFileToBinary = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
+      reader.onerror = (error) => reject(error); // Reject on error
+    });
+  };
+  
+  const setProjectDataFunc = async (key, value) => {
+    let newValue = value;
+  
+    // Convert files to Binary
+    if (value instanceof File) {
+      newValue = await convertFileToBinary(value);
+    } else if (Array.isArray(value)) {
+      newValue = await Promise.all(value.map(async (item) => {
+        if (item instanceof File) {
+          return await convertFileToBinary(item);
+        }
+        return item;
+      }));
+    } else if (typeof value === 'object' && value !== null) {
+      newValue = {};
+      for (const [subKey, subValue] of Object.entries(value)) {
+        if (subValue instanceof File) {
+          newValue[subKey] = await convertFileToBinary(subValue);
+        } else {
+          newValue[subKey] = subValue;
+        }
+      }
+    }
+  
     setProjectData((prev) => {
-      const newProjectData = { ...prev, [key]: value };
-      localStorage.setItem("projectData", JSON.stringify(newProjectData));
+      const newProjectData = { ...prev, [key]: newValue };
+      try {
+        const compressedData = compressToUTF16(JSON.stringify(newProjectData));
+        localStorage.setItem("projectData", compressedData);
+      } catch (e) {
+        console.error("Error compressing or storing data:", e);
+      }
       return newProjectData;
     });
   };
+  
+  const getFileFromBinary = (binaryData, mimeType) => {
+    return new Blob([binaryData], { type: mimeType });
+  };
+  
+  const decodeBinaryData = async (data) => {
+    if (data instanceof ArrayBuffer) {
+      // Detect the MIME type based on the content (you may need a better way to determine this)
+      const mimeType = 'application/pdf'; // Example for PDFs; you might need to adjust for images
+      return getFileFromBinary(data, mimeType);
+    }
+    if (Array.isArray(data)) {
+      return Promise.all(data.map(decodeBinaryData));
+    }
+    if (typeof data === 'object' && data !== null) {
+      const result = {};
+      for (const [key, value] of Object.entries(data)) {
+        result[key] = await decodeBinaryData(value);
+      }
+      return result;
+    }
+    return data;
+  };
+  
+
+   
+  useEffect(() => {
+    const storedData = localStorage.getItem("projectData");
+    if (storedData) {
+      try {
+        const decompressedData = decompressFromUTF16(storedData);
+        const parsedData = JSON.parse(decompressedData);
+  
+        // Decode Binary data for files
+        decodeBinaryData(parsedData).then((decodedData) => {
+          setProjectData(decodedData);
+        });
+  
+      } catch (e) {
+        console.error("Error decompressing or parsing data:", e);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
