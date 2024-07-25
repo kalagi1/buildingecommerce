@@ -57,7 +57,6 @@ class HomeController extends Controller
         $housingTypeParent1 = null;
         $housingTypeParent2 = null;
         $labels = [];
-        return $blocks;
 
         if (isset($selectedTypes) && count($selectedTypes) >= 3) {
             $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
@@ -98,6 +97,8 @@ class HomeController extends Controller
                 }
             }
         }
+
+        return $labels;
 
         $city = null;
         $county = null;
