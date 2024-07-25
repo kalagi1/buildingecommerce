@@ -90,14 +90,6 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
-  const convertFileToBinary = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
-      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
-      reader.onerror = (error) => reject(error); // Reject on error
-    });
-  };
 
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
@@ -984,6 +976,19 @@ function CreateProject(props) {
     localStorage.removeItem("validationErrors");
     localStorage.removeItem("selectedLocation");
   };
+  const convertFileToBinary = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result); // This is the binary data
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsArrayBuffer(file); // Read file as binary
+    });
+  };
+  
   const finishCreateProject = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
@@ -999,49 +1004,26 @@ function CreateProject(props) {
   
     const formData = new FormData();
   
-    const convertFileToBinary = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          resolve(event.target.result);
-        };
-        reader.onerror = (err) => {
-          reject(err);
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    };
-  
-    const appendBinaryFiles = async (formData, key, files) => {
-      for (let index = 0; index < files.length; index++) {
-        const file = files[index];
-        const binaryData = await convertFileToBinary(file);
-        formData.append(`projectData[${key}][${index}]`, new Blob([binaryData], { type: file.type }));
-      }
-    };
-  
-    const processProjectData = async () => {
-      for (const key of Object.keys(projectData)) {
-        if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-          if (Array.isArray(projectData[key])) {
-            if (projectData[key][0] instanceof File) {
-              await appendBinaryFiles(formData, key, projectData[key]);
-            } else {
-              projectData[key].forEach((data, index) => {
-                formData.append(`projectData[${key}][${index}]`, data);
-              });
-            }
-          } else if (projectData[key] instanceof File) {
-            const binaryData = await convertFileToBinary(projectData[key]);
-            formData.append(`projectData[${key}]`, new Blob([binaryData], { type: projectData[key].type }));
+    for (const [key, value] of Object.entries(projectData)) {
+      if (value instanceof File) {
+        // Convert file to binary
+        const binaryData = await convertFileToBinary(value);
+        formData.append(key, binaryData);
+      } else if (Array.isArray(value)) {
+        value.forEach((data, index) => {
+          if (data instanceof File) {
+            // Convert file to binary
+            convertFileToBinary(data).then((binaryData) => {
+              formData.append(`${key}[${index}]`, binaryData);
+            });
           } else {
-            formData.append(`projectData[${key}]`, projectData[key]);
+            formData.append(`${key}[${index}]`, data);
           }
-        }
+        });
+      } else {
+        formData.append(key, value);
       }
-    };
-  
-    await processProjectData();
+    }
   
     blocks.forEach((block, blockIndex) => {
       formData.append(`blocks[${blockIndex}][name]`, block.name);
@@ -1053,12 +1035,6 @@ function CreateProject(props) {
     selectedTypes.forEach((data, index) => {
       formData.append(`selectedTypes[${index}]`, data);
     });
-  
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value;
-    });
-    setFillFormData(formData);
   
     try {
       const res = await axios.post(baseUrl + "create_project", formData, {
@@ -1090,13 +1066,12 @@ function CreateProject(props) {
                     payDec.date
                   );
                 });
-              } else if (!key.includes("imagex")) {
-                if (value instanceof File) {
-                  const binaryData = await convertFileToBinary(value);
-                  formDataRoom.append(`room[${key.replace("[]", "")}]`, new Blob([binaryData], { type: value.type }));
-                } else {
-                  formDataRoom.append(`room[${key.replace("[]", "")}]`, value);
-                }
+              } else if (value instanceof File) {
+                // Convert file to binary
+                const binaryData = await convertFileToBinary(value);
+                formDataRoom.append(`room[${key.replace("[]", "")}]`, binaryData);
+              } else {
+                formDataRoom.append(`room[${key.replace("[]", "")}]`, value);
               }
             }
   
