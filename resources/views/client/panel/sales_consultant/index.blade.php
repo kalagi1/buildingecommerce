@@ -161,7 +161,9 @@
             padding: 20px;
             margin-bottom: 25px;
             border-radius: 18px;
+
         }  
+
         .btnProjectAssign {
             width: 95%;
             border-color: #EA2B2E;

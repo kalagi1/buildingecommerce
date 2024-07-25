@@ -16,6 +16,10 @@ function CreateHousing(props) {
   const [step, setStep] = useState(
     () => JSON.parse(localStorage.getItem("step")) || 1
   );
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
+  );
+
   const [loadingStorageModalOpen, setStorageLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingStorageModalOpen")) || false
   );
@@ -98,6 +102,7 @@ function CreateHousing(props) {
     localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
   }, [housingTypes]);
 
+
   useEffect(() => {
     localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
   }, [selectedTypes]);
@@ -136,6 +141,10 @@ function CreateHousing(props) {
   useEffect(() => {
     localStorage.setItem("roomCount", JSON.stringify(roomCount));
   }, [roomCount]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
 
   useEffect(() => {
     localStorage.setItem("allErrors", JSON.stringify(allErrors));
@@ -177,7 +186,7 @@ function CreateHousing(props) {
 
   useEffect(() => {
     const storedStep = localStorage.getItem("step");
-    if (storedStep) {
+    if (storedStep != 1 && storedStep != 4) {
       setLoadingModalOpen(false);
       setStorageLoadingModalOpen(true);
     } else {
@@ -188,7 +197,7 @@ function CreateHousing(props) {
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); // Continue from the stored step
+      setStep(Number(storedStep)); 
     }
     setStorageLoadingModalOpen(false);
   };
@@ -212,7 +221,15 @@ function CreateHousing(props) {
     localStorage.removeItem("anotherBlockErrors");
     localStorage.removeItem("selectedTypesTitles");
     localStorage.removeItem("user");
-    setStep(1); // Reset to step 1
+    setStep(1);
+    setSelectedTypes([]);
+    setBlocks([
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);    
     setStorageLoadingModalOpen(false);
   };
 
@@ -842,11 +859,29 @@ function CreateHousing(props) {
       selectedTypes.forEach((data, index) => {
         formData.append(`selectedTypes[${index}]`, data);
       });
-      let requestPromises = [];
+      let requestPromises = [];  
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
       setFillFormData(formData);
       setStep(3);
     }
   };
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      const formData = new FormData();
+      Object.entries(parsedFormData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      setFillFormData(formData);
+    }
+  }, []);
+
   const [progress, setProgress] = useState(0);
 
   const finishCreateHousing = () => {
@@ -859,7 +894,7 @@ function CreateHousing(props) {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
-    }, 500); // Increase progress every half a second
+    }, 500);
 
     axios
       .post(baseUrl + "create_housing", fillFormData, {
@@ -874,7 +909,7 @@ function CreateHousing(props) {
           clearInterval(progressInterval);
           setProgress(100);
           setTimeout(() => {
-            setLoadingModalOpen(false);
+            setLoadingModalOpen(false); 
             setStep(4);
             setFillFormData(null);
           }, 500);
@@ -883,7 +918,7 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error(error.message);
+        toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz." );
       });
   };
 
@@ -906,11 +941,21 @@ function CreateHousing(props) {
 
     return roomCount;
   };
+
   const prevStep = () => {
+    setBlocks(  JSON.parse(localStorage.getItem("blocks")) || [
+      {
+        name: "housing",
+        roomCount: 1,
+        rooms: [{}],
+      },
+    ]);
     setStep(step - 1);
+    window.scrollTo(0, 0);
   };
+
   const nextStep = () => {
-    setStep(step + 1);
+
     if (step == 1) {
       setBlocks([
         {
@@ -920,7 +965,8 @@ function CreateHousing(props) {
         },
       ]);
       setProjectData([]);
-    }
+  }    setStep(step + 1);
+  window.scrollTo(0, 0);
   };
   return (
     <>
@@ -974,7 +1020,9 @@ function CreateHousing(props) {
       ) : step == 2 ? (
         <HousingForm
           user={user}
+          selectedLocation={selectedLocation}
           slug={slug}
+          setSelectedLocation={setSelectedLocation}
           prevStep={prevStep}
           anotherBlockErrors={anotherBlockErrors}
           selectedTypesTitles={selectedTypesTitles}
@@ -1022,7 +1070,7 @@ function CreateHousing(props) {
       >
         <div className="custom-modal-header">
           Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
-          istersin? {step}
+          istersin?
         </div>
         <div className="custom-modal-buttons">
           <button className="custom-modal-button" onClick={handleContinue}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import './CustomModal.css'; // Özel stil dosyasını import edin
 
 const CustomModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;

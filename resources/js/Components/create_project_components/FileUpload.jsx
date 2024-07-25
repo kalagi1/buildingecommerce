@@ -247,12 +247,12 @@ function FileUpload({
   };
 
   return (
-    <div>
+    <div class="project_imagex_flex">
       {/* <span className="section-title mt-4 housing_after_step">{title}</span> */}
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="cover-photo-full card py-2 px-5 housing_after_step"
+        className="cover-photo-full card py-3 px-3 w-100 housing_after_step"
       >
         <input
           accept={accept}

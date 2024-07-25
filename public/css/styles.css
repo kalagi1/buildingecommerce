@@ -225,9 +225,53 @@ button {
 .section-title {
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
   position: relative;
 }
+.project_imagex_flex{
+  display:flex;
+  align-items:center;
+}
+.project_imaget img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.remove-area{
+  text-align:center
+}
+.favorite-move {
+  position: absolute !important;
+  z-index: 9 !important;
+  margin-top: 0;
+  right: 20px !important;
+  top: 0 !important;
+}
+.second-area-finish{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top:20px;
+}
 
+.finish-tick {
+  display: flex;  
+}
+
+.project_imagex img{
+  cursor: move;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.project_imagex{
+  margin: 10px;
+  width: 150px;
+  height: 100px;
+
+  border: 1px solid #ebebeb;
+}
 .mbb {
   margin-bottom: 2.5rem;
 }
@@ -270,7 +314,7 @@ button {
 img {
   display: inline-block;
   max-width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .bg-white {
@@ -31207,7 +31251,87 @@ a {
     background: #fafafa;
     border: 1px solid #efefef;
   }
+/* CustomModal.css */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Daha koyu arka plan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Modalın diğer öğelerin üstünde olduğundan emin olun */
+  }
+  
+  .custom-modal-content {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .custom-modal-header {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .custom-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .custom-modal-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 12px;
+  }
+  
+  .custom-modal-button-secondary {
+    background-color: #6c757d;
+  }
 
+
+  #cover_image.upload-container,
+  #authority_certificate.upload-container,
+  #document.upload-container,
+  #situations.upload-container,
+  #gallery.upload-container{
+    background: #fff none repeat scroll 0 0;
+    border: 2px dashed #1ABC9C;
+    /* padding: 50px 20px; */
+    display: flex;
+    cursor: pointer;
+  }
+
+  .next-house-bottom,
+  .prev-house-bottom{
+    cursor:pointer
+  }
+
+  .border-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+.border-container p {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  
   .icon-area {
     padding: 5px 20px;
     background-color: #ea2a28;
@@ -31225,6 +31349,19 @@ a {
   .icon-area svg {
     height: 1em;
     color: white;
+  }
+
+  .cover-photo div{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
+
+  .project_imagex,
+  .project_imagex div{
+    display:block !important
+
   }
 
   .border-container .icons {
