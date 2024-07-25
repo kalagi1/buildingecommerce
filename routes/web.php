@@ -1191,6 +1191,13 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 });
 
 
+Route::get('/share/approve/{share}', [HomeController::class, 'approveShare'])->name('client.approve-share');
+Route::get('/share/unapprove/{share}', [HomeController::class, 'unapproveShare'])->name('client.unapprove-share');
+
+Route::get('/price/approve/{price}', [HomeController::class, 'approvePrice'])->name('client.approve-price');
+Route::get('/price/unapprove/{price}', [HomeController::class, 'unapprovePrice'])->name('client.unapprove-price');
+
+
 Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
 Route::get('sold/order_detail/{id}', [InstitutionalProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
 
