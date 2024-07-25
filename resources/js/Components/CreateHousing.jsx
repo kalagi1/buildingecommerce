@@ -968,39 +968,47 @@ function CreateHousing(props) {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+  
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500);
-
+  
     const formData = new FormData();
-
-    Object.keys(projectData).forEach((key) => {
-      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-        if (Array.isArray(projectData[key])) {
-          projectData[key].forEach((data, index) => {
-            formData.append(`projectData[${key}][${index}]`, data);
-          });
+  
+    // Function to handle conversion of files to binary and appending to FormData
+    const prepareFormDataWithBinary = async (data, parentKey = '') => {
+      for (const key in data) {
+        if (data[key] instanceof File) {
+          const binaryData = await convertFileToBinary(data[key]);
+          formData.append(parentKey ? `${parentKey}[${key}]` : key, new Blob([binaryData], { type: data[key].type }));
+        } else if (Array.isArray(data[key])) {
+          for (let i = 0; i < data[key].length; i++) {
+            await prepareFormDataWithBinary({[i]: data[key][i]}, parentKey ? `${parentKey}[${key}]` : key);
+          }
+        } else if (typeof data[key] === 'object' && data[key] !== null) {
+          await prepareFormDataWithBinary(data[key], parentKey ? `${parentKey}[${key}]` : key);
         } else {
-          formData.append(`projectData[${key}]`, projectData[key]);
+          formData.append(parentKey ? `${parentKey}[${key}]` : key, data[key]);
         }
       }
-    });
-
+    };
+  
+    await prepareFormDataWithBinary(projectData);
+  
     blocks.forEach((block, blockIndex) => {
       formData.append(`blocks[${blockIndex}][name]`, block.name);
       formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
     });
-
+  
     var housingTemp = 1;
-
+  
     blocks.forEach((block, blockIndex) => {
       block.rooms.forEach((room, roomIndex) => {
         Object.keys(room).forEach((key) => {
-          if (key == "payDecs") {
+          if (key === "payDecs") {
             room.payDecs.forEach((payDec, payDecIndex) => {
               formData.append(
                 `room[payDecs][${payDecIndex}][price]`,
@@ -1017,27 +1025,27 @@ function CreateHousing(props) {
             }
           }
         });
-
+  
         housingTemp++;
       });
     });
-
+  
     formData.append("haveBlocks", haveBlocks);
     formData.append("totalRoomCount", totalRoomCount());
     selectedTypes.forEach((data, index) => {
       formData.append(`selectedTypes[${index}]`, data);
     });
+  
     const formDataObj = {};
     formData.forEach((value, key) => {
       formDataObj[key] = value;
     });
+  
     localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
-    setFillFormData(formData);    
-    const sendData = await prepareFormDataWithBinary(formData);
-
-
+    setFillFormData(formData);
+  
     axios
-      .post(baseUrl + "create_housing", sendData, {
+      .post(baseUrl + "create_housing", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -1063,6 +1071,7 @@ function CreateHousing(props) {
         );
       });
   };
+  
 
   const style = {
     position: "absolute",
