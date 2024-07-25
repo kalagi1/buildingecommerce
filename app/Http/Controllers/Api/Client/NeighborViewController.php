@@ -24,38 +24,43 @@ class NeighborViewController extends Controller
 {
 
     public function index()
-    {
-        // Auth kullanıcıyı alın
-        $user = auth()->guard()->user();
-        
-        // Kullanıcıyı kontrol et
-        if (!$user) {
-            return response()->json(['status' => 'fail', 'message' => 'Kullanıcı giriş yapmamış'], 401);
-        }
+{
+    // Auth kullanıcıyı alın
+    $user = auth()->guard()->user();
     
-        // Kullanıcı ID'sini al
-        $userId = $user->id;
-    
-        // NeighborView verilerini al
-        $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project'])
-            ->where('user_id', $userId)
-            ->orderByDesc("id")
-            ->get();
-    
-        // Verilerin boş olup olmadığını kontrol et
-        if ($neighborViews->isEmpty()) {
-            return response()->json(['status' => 'fail', 'message' => 'Size ait bilgiler yok'], 404);
-        }
-    
-        // NeighborView içindeki her bir project_id için ProjectHousing verilerini al
-        foreach ($neighborViews as $neighborView) {
-            $projectHousings = ProjectHousing::where('project_id', $neighborView->project->id)->get();
-            $neighborView->project_housings = $projectHousings; // ProjectHousing verilerini NeighborView'e ekle
-        }
-    
-        // Başarılı yanıt
-        return response()->json(['status' => 'success', 'data' => $neighborViews], 200);
+    // Kullanıcıyı kontrol et
+    if (!$user) {
+        return response()->json(['status' => 'fail', 'message' => 'Kullanıcı giriş yapmamış'], 401);
     }
+
+    // Kullanıcı ID'sini al
+    $userId = $user->id;
+
+    // NeighborView verilerini al
+    $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project'])
+        ->where('user_id', $userId)
+        ->orderByDesc("id")
+        ->get();
+
+    // Verilerin boş olup olmadığını kontrol et
+    if ($neighborViews->isEmpty()) {
+        return response()->json(['status' => 'fail', 'message' => 'Size ait bilgiler yok'], 404);
+    }
+
+    // Projects verilerini al
+    $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))
+        ->where('user_id', $userId)
+        ->with(["housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel','user'])
+        ->orderByDesc('created_at')
+        ->get();
+
+    // Başarılı yanıt
+    return response()->json([
+        'status' => 'success',
+        'neighborViews' => $neighborViews,
+        'projects' => $projects
+    ], 200);
+}
     
 
 }
