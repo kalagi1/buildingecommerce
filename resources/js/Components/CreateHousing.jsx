@@ -200,6 +200,7 @@ function CreateHousing(props) {
     });
   };
   
+  
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
   
@@ -979,7 +980,41 @@ function CreateHousing(props) {
 
   const [progress, setProgress] = useState(0);
 
-  const finishCreateHousing = () => {
+  const prepareFormDataWithBinary = async (data) => {
+    const formData = new FormData();
+  
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof File) {
+        const binaryData = await convertFileToBinary(value);
+        formData.append(key, new Blob([binaryData], { type: value.type }), value.name);
+      } else if (Array.isArray(value)) {
+        for (const item of value) {
+          if (item instanceof File) {
+            const binaryData = await convertFileToBinary(item);
+            formData.append(key, new Blob([binaryData], { type: item.type }), item.name);
+          } else {
+            formData.append(key, item);
+          }
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        for (const [subKey, subValue] of Object.entries(value)) {
+          if (subValue instanceof File) {
+            const binaryData = await convertFileToBinary(subValue);
+            formData.append(`${key}[${subKey}]`, new Blob([binaryData], { type: subValue.type }), subValue.name);
+          } else {
+            formData.append(`${key}[${subKey}]`, subValue);
+          }
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+  
+    return formData;
+  };
+
+  
+  const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
@@ -990,9 +1025,14 @@ function CreateHousing(props) {
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500);
+    const storedData = localStorage.getItem("fillFormData");
 
+    const parsedData = JSON.parse(decompressFromUTF16(storedData));
+    
+    // Prepare the form data with binary files
+    const formData = await prepareFormDataWithBinary(parsedData);
     axios
-      .post(baseUrl + "create_housing", fillFormData, {
+      .post(baseUrl + "create_housing", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
