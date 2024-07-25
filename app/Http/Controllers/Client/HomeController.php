@@ -61,7 +61,7 @@ class HomeController extends Controller
         if (isset($selectedTypes) && count($selectedTypes) >= 3) {
             $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
             $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[1]);
-            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[3]);
+            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[2]);
 
             if ($housingTypeParentConnection && isset($blocks)) {
                 $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
