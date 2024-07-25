@@ -1026,8 +1026,9 @@ function CreateHousing(props) {
       );
     }, 500);
     const storedData = localStorage.getItem("fillFormData");
+    console.log(storedData);
 
-    const parsedData = JSON.parse(decompressFromUTF16(storedData));
+    const parsedData = JSON.parse(storedData);
     
     // Prepare the form data with binary files
     const formData = await prepareFormDataWithBinary(parsedData);
