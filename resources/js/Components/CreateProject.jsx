@@ -90,6 +90,14 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
+  const convertFileToBinary = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
+      reader.onerror = (error) => reject(error); // Reject on error
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
@@ -976,66 +984,49 @@ function CreateProject(props) {
     localStorage.removeItem("validationErrors");
     localStorage.removeItem("selectedLocation");
   };
-  const convertFileToBinary = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result); // This is the binary data
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsArrayBuffer(file); // Read file as binary
-    });
-  };
-  
   const finishCreateProject = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
     let requestPromises = [];
-  
+
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500); // Increase progress every half a second
-  
+
     const formData = new FormData();
-  
-    for (const [key, value] of Object.entries(projectData)) {
-      if (value instanceof File) {
-        // Convert file to binary
-        const binaryData = await convertFileToBinary(value);
-        formData.append(key, binaryData);
-      } else if (Array.isArray(value)) {
-        value.forEach((data, index) => {
-          if (data instanceof File) {
-            // Convert file to binary
-            convertFileToBinary(data).then((binaryData) => {
-              formData.append(`${key}[${index}]`, binaryData);
-            });
-          } else {
-            formData.append(`${key}[${index}]`, data);
-          }
-        });
-      } else {
-        formData.append(key, value);
+
+    Object.keys(projectData).forEach((key) => {
+      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
+        if (Array.isArray(projectData[key])) {
+          projectData[key].forEach((data, index) => {
+            formData.append(`projectData[${key}][${index}]`, data);
+          });
+        } else {
+          formData.append(`projectData[${key}]`, projectData[key]);
+        }
       }
-    }
-  
+    });
+
     blocks.forEach((block, blockIndex) => {
       formData.append(`blocks[${blockIndex}][name]`, block.name);
       formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
     });
-  
+
     formData.append("haveBlocks", haveBlocks);
     formData.append("totalRoomCount", totalRoomCount());
     selectedTypes.forEach((data, index) => {
       formData.append(`selectedTypes[${index}]`, data);
     });
-  
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    setFillFormData(formData);
+
     try {
       const res = await axios.post(baseUrl + "create_project", formData, {
         headers: {
@@ -1044,16 +1035,16 @@ function CreateProject(props) {
           "Content-Type": `multipart/form-data;`,
         },
       });
-  
+
       if (res.data.status) {
         var housingTemp = 1;
-  
+
         for (const block of blocks) {
           for (const room of block.rooms) {
             const formDataRoom = new FormData();
             formDataRoom.append("project_id", res.data.project.id);
             formDataRoom.append("room_order", housingTemp);
-  
+
             for (const [key, value] of Object.entries(room)) {
               if (key === "payDecs") {
                 value.forEach((payDec, index) => {
@@ -1066,15 +1057,17 @@ function CreateProject(props) {
                     payDec.date
                   );
                 });
-              } else if (value instanceof File) {
-                // Convert file to binary
-                const binaryData = await convertFileToBinary(value);
-                formDataRoom.append(`room[${key.replace("[]", "")}]`, binaryData);
-              } else {
-                formDataRoom.append(`room[${key.replace("[]", "")}]`, value);
+              } else if (!key.includes("imagex")) {
+                if (value instanceof File) {
+                  // Convert file to Base64
+                  const base64 = await convertFileToBase64(value);
+                  formDataRoom.append(`room[${key.replace("[]", "")}]`, base64);
+                } else {
+                  formDataRoom.append(`room[${key.replace("[]", "")}]`, value);
+                }
               }
             }
-  
+
             const callCreateRoom = () => {
               return new Promise((resolve) => {
                 setTimeout(async () => {
@@ -1083,12 +1076,12 @@ function CreateProject(props) {
                 }, roomIndex * 1000); // Add delay between rooms
               });
             };
-  
+
             requestPromises.push(callCreateRoom());
             housingTemp++; // Increment room order
           }
         }
-  
+
         await Promise.all(requestPromises);
         clearInterval(progressInterval);
         setProgress(100); // Set progress to 100% when all requests are complete
@@ -1107,7 +1100,6 @@ function CreateProject(props) {
       );
     }
   };
-  
 
   const style = {
     position: "absolute",
