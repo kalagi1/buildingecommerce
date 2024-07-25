@@ -11,7 +11,7 @@ import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
-import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateHousing(props) {
   const [step, setStep] = useState(
@@ -113,7 +113,6 @@ function CreateHousing(props) {
     localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
   }, [housingTypes]);
 
-
   useEffect(() => {
     localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
   }, [selectedTypes]);
@@ -199,22 +198,23 @@ function CreateHousing(props) {
       reader.onerror = (error) => reject(error); // Reject on error
     });
   };
-  
-  
+
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
-  
+
     // Convert files to Binary
     if (value instanceof File) {
       newValue = await convertFileToBinary(value);
     } else if (Array.isArray(value)) {
-      newValue = await Promise.all(value.map(async (item) => {
-        if (item instanceof File) {
-          return await convertFileToBinary(item);
-        }
-        return item;
-      }));
-    } else if (typeof value === 'object' && value !== null) {
+      newValue = await Promise.all(
+        value.map(async (item) => {
+          if (item instanceof File) {
+            return await convertFileToBinary(item);
+          }
+          return item;
+        })
+      );
+    } else if (typeof value === "object" && value !== null) {
       newValue = {};
       for (const [subKey, subValue] of Object.entries(value)) {
         if (subValue instanceof File) {
@@ -224,7 +224,7 @@ function CreateHousing(props) {
         }
       }
     }
-  
+
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: newValue };
       try {
@@ -236,21 +236,21 @@ function CreateHousing(props) {
       return newProjectData;
     });
   };
-  
+
   const getFileFromBinary = (binaryData, mimeType) => {
     return new Blob([binaryData], { type: mimeType });
   };
-  
+
   const decodeBinaryData = async (data) => {
     if (data instanceof ArrayBuffer) {
       // Detect the MIME type based on the content (you may need a better way to determine this)
-      const mimeType = 'application/pdf'; // Example for PDFs; you might need to adjust for images
+      const mimeType = "application/pdf"; // Example for PDFs; you might need to adjust for images
       return getFileFromBinary(data, mimeType);
     }
     if (Array.isArray(data)) {
       return Promise.all(data.map(decodeBinaryData));
     }
-    if (typeof data === 'object' && data !== null) {
+    if (typeof data === "object" && data !== null) {
       const result = {};
       for (const [key, value] of Object.entries(data)) {
         result[key] = await decodeBinaryData(value);
@@ -259,21 +259,18 @@ function CreateHousing(props) {
     }
     return data;
   };
-  
 
-   
   useEffect(() => {
     const storedData = localStorage.getItem("projectData");
     if (storedData) {
       try {
         const decompressedData = decompressFromUTF16(storedData);
         const parsedData = JSON.parse(decompressedData);
-  
+
         // Decode Binary data for files
         decodeBinaryData(parsedData).then((decodedData) => {
           setProjectData(decodedData);
         });
-  
       } catch (e) {
         console.error("Error decompressing or parsing data:", e);
       }
@@ -293,7 +290,7 @@ function CreateHousing(props) {
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); 
+      setStep(Number(storedStep));
     }
     setStorageLoadingModalOpen(false);
   };
@@ -325,7 +322,7 @@ function CreateHousing(props) {
         roomCount: 1,
         rooms: [{}],
       },
-    ]);    
+    ]);
     setStorageLoadingModalOpen(false);
   };
 
@@ -904,64 +901,6 @@ function CreateHousing(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      const formData = new FormData();
-
-      Object.keys(projectData).forEach((key) => {
-        if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-          if (Array.isArray(projectData[key])) {
-            projectData[key].forEach((data, index) => {
-              formData.append(`projectData[${key}][${index}]`, data);
-            });
-          } else {
-            formData.append(`projectData[${key}]`, projectData[key]);
-          }
-        }
-      });
-
-      blocks.forEach((block, blockIndex) => {
-        formData.append(`blocks[${blockIndex}][name]`, block.name);
-        formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-      });
-
-      var housingTemp = 1;
-
-      blocks.forEach((block, blockIndex) => {
-        block.rooms.forEach((room, roomIndex) => {
-          Object.keys(room).forEach((key) => {
-            if (key == "payDecs") {
-              room.payDecs.forEach((payDec, payDecIndex) => {
-                formData.append(
-                  `room[payDecs][${payDecIndex}][price]`,
-                  payDec.price
-                );
-                formData.append(
-                  `room[payDecs][${payDecIndex}][date]`,
-                  payDec.date
-                );
-              });
-            } else {
-              if (!key.includes("imagex")) {
-                formData.append(`room[${key.replace("[]", "")}]`, room[key]);
-              }
-            }
-          });
-
-          housingTemp++;
-        });
-      });
-
-      formData.append("haveBlocks", haveBlocks);
-      formData.append("totalRoomCount", totalRoomCount());
-      selectedTypes.forEach((data, index) => {
-        formData.append(`selectedTypes[${index}]`, data);
-      });
-      let requestPromises = [];  
-      const formDataObj = {};
-      formData.forEach((value, key) => {
-        formDataObj[key] = value;
-      });
-      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
-      setFillFormData(formData);
       setStep(3);
     }
   };
@@ -982,25 +921,37 @@ function CreateHousing(props) {
 
   const prepareFormDataWithBinary = async (data) => {
     const formData = new FormData();
-  
+
     for (const [key, value] of Object.entries(data)) {
       if (value instanceof File) {
         const binaryData = await convertFileToBinary(value);
-        formData.append(key, new Blob([binaryData], { type: value.type }), value.name);
+        formData.append(
+          key,
+          new Blob([binaryData], { type: value.type }),
+          value.name
+        );
       } else if (Array.isArray(value)) {
         for (const item of value) {
           if (item instanceof File) {
             const binaryData = await convertFileToBinary(item);
-            formData.append(key, new Blob([binaryData], { type: item.type }), item.name);
+            formData.append(
+              key,
+              new Blob([binaryData], { type: item.type }),
+              item.name
+            );
           } else {
             formData.append(key, item);
           }
         }
-      } else if (typeof value === 'object' && value !== null) {
+      } else if (typeof value === "object" && value !== null) {
         for (const [subKey, subValue] of Object.entries(value)) {
           if (subValue instanceof File) {
             const binaryData = await convertFileToBinary(subValue);
-            formData.append(`${key}[${subKey}]`, new Blob([binaryData], { type: subValue.type }), subValue.name);
+            formData.append(
+              `${key}[${subKey}]`,
+              new Blob([binaryData], { type: subValue.type }),
+              subValue.name
+            );
           } else {
             formData.append(`${key}[${subKey}]`, subValue);
           }
@@ -1009,11 +960,10 @@ function CreateHousing(props) {
         formData.append(key, value);
       }
     }
-  
+
     return formData;
   };
 
-  
   const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
@@ -1025,15 +975,69 @@ function CreateHousing(props) {
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500);
-    const storedData = localStorage.getItem("fillFormData");
-    console.log(storedData);
 
-    const parsedData = JSON.parse(storedData);
-    
-    // Prepare the form data with binary files
-    const formData = await prepareFormDataWithBinary(parsedData);
+    const formData = new FormData();
+
+    Object.keys(projectData).forEach((key) => {
+      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
+        if (Array.isArray(projectData[key])) {
+          projectData[key].forEach((data, index) => {
+            formData.append(`projectData[${key}][${index}]`, data);
+          });
+        } else {
+          formData.append(`projectData[${key}]`, projectData[key]);
+        }
+      }
+    });
+
+    blocks.forEach((block, blockIndex) => {
+      formData.append(`blocks[${blockIndex}][name]`, block.name);
+      formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
+    });
+
+    var housingTemp = 1;
+
+    blocks.forEach((block, blockIndex) => {
+      block.rooms.forEach((room, roomIndex) => {
+        Object.keys(room).forEach((key) => {
+          if (key == "payDecs") {
+            room.payDecs.forEach((payDec, payDecIndex) => {
+              formData.append(
+                `room[payDecs][${payDecIndex}][price]`,
+                payDec.price
+              );
+              formData.append(
+                `room[payDecs][${payDecIndex}][date]`,
+                payDec.date
+              );
+            });
+          } else {
+            if (!key.includes("imagex")) {
+              formData.append(`room[${key.replace("[]", "")}]`, room[key]);
+            }
+          }
+        });
+
+        housingTemp++;
+      });
+    });
+
+    formData.append("haveBlocks", haveBlocks);
+    formData.append("totalRoomCount", totalRoomCount());
+    selectedTypes.forEach((data, index) => {
+      formData.append(`selectedTypes[${index}]`, data);
+    });
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
+    setFillFormData(formData);    
+    const sendData = await prepareFormDataWithBinary(formData);
+
+
     axios
-      .post(baseUrl + "create_housing", formData, {
+      .post(baseUrl + "create_housing", sendData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -1045,7 +1049,7 @@ function CreateHousing(props) {
           clearInterval(progressInterval);
           setProgress(100);
           setTimeout(() => {
-            setLoadingModalOpen(false); 
+            setLoadingModalOpen(false);
             setStep(4);
             setFillFormData(null);
           }, 500);
@@ -1054,7 +1058,9 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz." );
+        toast.error(
+          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+        );
       });
   };
 
@@ -1079,19 +1085,20 @@ function CreateHousing(props) {
   };
 
   const prevStep = () => {
-    setBlocks(  JSON.parse(localStorage.getItem("blocks")) || [
-      {
-        name: "housing",
-        roomCount: 1,
-        rooms: [{}],
-      },
-    ]);
+    setBlocks(
+      JSON.parse(localStorage.getItem("blocks")) || [
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]
+    );
     setStep(step - 1);
     window.scrollTo(0, 0);
   };
 
   const nextStep = () => {
-
     if (step == 1) {
       setBlocks([
         {
@@ -1101,8 +1108,9 @@ function CreateHousing(props) {
         },
       ]);
       setProjectData([]);
-  }    setStep(step + 1);
-  window.scrollTo(0, 0);
+    }
+    setStep(step + 1);
+    window.scrollTo(0, 0);
   };
   return (
     <>
