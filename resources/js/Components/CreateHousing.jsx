@@ -1041,7 +1041,6 @@ function CreateHousing(props) {
       formDataObj[key] = value;
     });
   
-    localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
     setFillFormData(formData);
   
     axios
