@@ -25,8 +25,8 @@
                             <td>{{ $item->role->name }}</td>
                             <td>
                                 @foreach ($item->projectAssigments as $project)
-                                    {{ $project->project_title }}<br>
-                                @endforeach
+                                {{ $project->project_title }}<br>
+                            @endforeach
                             </td>
                             <td>
                                 <!-- Button trigger modal -->
@@ -50,16 +50,16 @@
                                         <form action="{{ route('institutional.assign.project.user') }}" method="POST">
                                             @csrf
                                             <div class="col-md-12 mb-3">
-                                                {{-- <label class="form-label mb-3 fs-1 text-center" for="projects{{$index}}">Proje Seç</label> --}}
                                                 <div id="projects{{ $index }}"
-                                                    style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
+                                                    style="max-height: 300px; overflow-y: auto;">
                                                     @foreach ($projects as $project)
                                                         <div class="form-check mt-3">
                                                             <input type="hidden" name="user_id"
                                                                 value="{{ $item->id }}">
                                                             <input class="form-check-input mr-3" type="checkbox"
                                                                 name="projectIds[]" value="{{ $project->id }}"
-                                                                id="project{{ $index }}_{{ $project->id }}">
+                                                                id="project{{ $index }}_{{ $project->id }}"
+                                                                {{ in_array($project->id, $consultantsWithProjects[$item->id] ?? []) ? 'checked' : '' }}>
                                                             <label class="form-check-label"
                                                                 for="project{{ $index }}_{{ $project->id }}"
                                                                 style="margin-left: 24px !important;">
@@ -68,12 +68,9 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <div class="valid-feedback">Looks good!</div>
                                             </div>
                                             <div class="col-12 d-flex justify-content-between mt-2 mb-2">
-                                                <!-- Flexbox ile düzenleme -->
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Kapat</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                                                 <button class="btn btn-primary" type="submit">Kaydet</button>
                                             </div>
                                         </form>
@@ -164,20 +161,7 @@
             padding: 20px;
             margin-bottom: 25px;
             border-radius: 18px;
-        }
-
-        /* .btnProjectAssign{
-            width: 100%;
-            border-color: #333;
-            background-color: #333;
-            color: white;
-            border-radius: 6px !important;
-        }
-        .btnProjectAssign:hover{
-            background-color: white !important;
-            color: #333;
-            border-color: #333;
-        }     */
+        }  
         .btnProjectAssign {
             width: 95%;
             border-color: #EA2B2E;
@@ -194,10 +178,8 @@
 
         .dataTables_length select {
             width: 100px;
-            /* Adjust width as needed */
         }
 
-        /* DataTables Select Box Styles */
         .dataTables_wrapper .dataTables_length {
             display: flex;
             align-items: center;
@@ -230,7 +212,6 @@
             display: none;
         }
 
-        /* DataTables Search Input Style */
         .dataTables_wrapper .dataTables_filter {
             display: flex;
             align-items: center;
@@ -268,14 +249,12 @@
         .dataTables_wrapper tbody tr td {
             background-color: white !important;
             text-align: center;
-            /* Yatay hizalama */
             vertical-align: middle;
         }
 
         .dataTables_wrapper thead tr th {
             background-color: white !important;
             text-align: center;
-            /* Yatay hizalama */
             vertical-align: middle;
         }
     </style>

@@ -24,11 +24,22 @@ class CrmController extends Controller
         return view('client.panel.crm.project_assigment');
     }//End
 
-    public function salesConsultantList(){
-        $sales_consultant = User::where('project_authority','on')->get(); 
-        $projects = Project::where('status','1')->get();
-        // print_r(count($projects));die;
-        return view('client.panel.sales_consultant.index',compact('sales_consultant','projects'));
+    public function salesConsultantList() {
+        $sales_consultant = User::where('project_authority', 'on')->get();
+        $projects = Project::where('status', '1')->get();
+    
+        // Danışmanlar için atanmış projeleri çek
+        $consultantsWithProjects = [];
+        foreach ($sales_consultant as $consultant) {
+            $assignedProjects = DB::table('project_assigment')
+                ->where('user_id', $consultant->id)
+                ->pluck('project_id')
+                ->toArray();
+    
+            $consultantsWithProjects[$consultant->id] = $assignedProjects;
+        }
+    
+        return view('client.panel.sales_consultant.index', compact('sales_consultant', 'projects', 'consultantsWithProjects'));
     }//End
 
     public function assignProjectUser(Request $request){
