@@ -96,16 +96,16 @@
                                                         $status = $housingType->status;
                                                         switch ($status) {
                                                             case 1:
-                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>';
+                                                                $badge = '<span class="badge badge-success">Aktif</span>';
                                                                 break;
                                                             case 2:
-                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>';
+                                                                $badge = '<span class="badge badge-warning">Onay Bekleniyor</span>';
                                                                 break;
                                                             case 3:
-                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>';
+                                                                $badge = '<span class="badge badge-danger">Yönetim Tarafından Reddedildi</span>';
                                                                 break;
                                                             default:
-                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+                                                                $badge = '<span class="badge badge-danger">Pasif</span>';
                                                                 break;
                                                         }
                                                     @endphp
