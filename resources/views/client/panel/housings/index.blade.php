@@ -39,7 +39,7 @@
                 <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
                     @if ($housingTypes->isEmpty())
                     <div class="project-table-content">
-                        <p class="text-center">İlan bulunamadı</p>
+                        <p class="text-center mb-0">İlan bulunamadı</p>
                     </div>
                     
                     @else
