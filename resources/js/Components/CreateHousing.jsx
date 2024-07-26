@@ -190,21 +190,14 @@ function CreateHousing(props) {
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("projectData"));
     if (savedData) {
-      const projectDataWithFiles = {};
-      const projectDataWithoutFiles = {};
-  
-      Object.entries(savedData).forEach(([key, value]) => {
-        if (typeof value === 'string' && value.startsWith('data:')) {
-          projectDataWithFiles[key] = value; // Base64 formatındaki dosyalar
-        } else {
-          projectDataWithoutFiles[key] = value; // Diğer veriler
-        }
-      });
-  
-      setProjectData(projectDataWithoutFiles);
-      // Eğer dosyalar varsa, bu dosyaları işleyin
+      const projectData = {};
+      for (const [key, value] of Object.entries(savedData)) {
+        projectData[key] = value;
+      }
+      setProjectData(projectData);
     }
   }, []);
+  
   
 
   const setProjectDataFunc = (key, value) => {
