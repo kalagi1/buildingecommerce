@@ -5,83 +5,46 @@
         <div class="table-breadcrumb">
             <ul>
                 <li>Hesabım</li>
-                <li>Emlak İlanlarım
-                </li>
+                <li>Emlak İlanlarım</li>
             </ul>
         </div>
     </div>
-    <div class="single homes-content details">
-        <!-- title -->
-        <h5 class="mb-4 header-title">
-            Emlak İlanları
-        </h5>
+    <section>
         <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay
-                    Bekleyen İlanlar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab"
-                    href="#disabledHousingTypes">Reddedilen İlanlar</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="soldHousingTypes-tab" data-bs-toggle="tab" href="#soldHousingTypes">Satılan
-                    İlanlar</a>
-            </li>
-
-
+            @foreach ([
+                ['id' => 'active', 'text' => 'Aktif İlanlar', 'active' => true],
+                ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar'],
+                ['id' => 'disabledHousingTypes', 'text' => 'Reddedilen İlanlar'],
+                ['id' => 'inactive', 'text' => 'Pasif İlanlar'],
+                ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
+            ] as $tab)
+                <li class="nav-item">
+                    <a class="nav-link {{ $tab['active'] ?? false ? 'active' : '' }}" 
+                       id="{{ $tab['id'] }}-tab" 
+                       data-bs-toggle="tab" 
+                       href="#{{ $tab['id'] }}">
+                        {{ $tab['text'] }}
+                    </a>
+                </li>
+            @endforeach
         </ul>
-
-        <div class="tab-content px-4 ">
-            <div class="tab-pane fade show active" id="active">
-                <div class="table-responsive">
+        <div class="tab-content px-4">
+            @foreach ([
+                'active' => $activeHousingTypes,
+                'pendingHousingTypes' => $pendingHousingTypes,
+                'disabledHousingTypes' => $disabledHousingTypes,
+                'inactive' => $inactiveHousingTypes,
+                'soldHousingTypes' => $soldHousingTypes
+            ] as $tabId => $housingTypes)
+                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
                     @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-active',
-                        'housingTypes' => $activeHousingTypes,
+                        'tableId' => 'bulk-select-body-' . $tabId,
+                        'housingTypes' => $housingTypes
                     ])
                 </div>
-            </div>
-            <div class="tab-pane fade" id="pendingHousingTypes">
-                <div class="table-responsive">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-pendingHousingTypes',
-                        'housingTypes' => $pendingHousingTypes,
-                    ])
-                </div>
-            </div>
-            <div class="tab-pane fade" id="disabledHousingTypes">
-                <div class="table-responsive">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-disabledHousingTypes',
-                        'housingTypes' => $disabledHousingTypes,
-                    ])
-                </div>
-            </div>
-            <div class="tab-pane fade" id="inactive">
-                <div class="table-responsive">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-inactive',
-                        'housingTypes' => $inactiveHousingTypes,
-                    ])
-                </div>
-            </div>
-            <div class="tab-pane fade" id="soldHousingTypes">
-                <div class="table-responsive">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-soldHousingTypes',
-                        'housingTypes' => $soldHousingTypes,
-                    ])
-                </div>
-            </div>
+            @endforeach
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('scripts')
@@ -93,325 +56,149 @@
         var pendingHousingTypes = @json($pendingHousingTypes);
         var disabledHousingTypes = @json($disabledHousingTypes);
         var soldHousingTypes = @json($soldHousingTypes);
-        var user = @json($user);
+        var userPermissions = @json($userPermissions);
 
         function createTable(tbody, housingTypes) {
+            housingTypes.forEach(function(housingType, index) {
+                var row = document.createElement("div");
+                row.className = "project-table-content";
 
-            housingTypes.forEach(function(housingType) {
-                var row = document.createElement("tr");
-                var idCell = document.createElement("td");
-                idCell.className = "align-middle id";
-                idCell.textContent = housingType.id + 2000000;
+                var ul = document.createElement("ul");
 
+                // Index
+                var indexLi = document.createElement("li");
+                indexLi.style.width = "5%";
+                indexLi.textContent = index + 1;
+                ul.appendChild(indexLi);
 
-                var housingTitleCell = document.createElement("td");
-                housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.housing_title
+                // Housing Title
+                var titleLi = document.createElement("li");
+                titleLi.style.width = "90%";
+                var titleDiv = document.createElement("div");
+                var titleP = document.createElement("p");
+                titleP.className = "project-table-content-title";
+                titleP.textContent = housingType.housing_title;
+                titleDiv.appendChild(titleP);
+                titleLi.appendChild(titleDiv);
+                ul.appendChild(titleLi);
 
-                var housingOwner = document.createElement("td");
-                housingOwner.className = "align-middle housing_owner";
+                // Actions
+                var actionsLi = document.createElement("li");
+                actionsLi.style.width = "5%";
+                var actionsButton = document.createElement("span");
+                actionsButton.className = "project-table-content-actions-button";
+                actionsButton.setAttribute("data-bs-toggle", "popover");
+                actionsButton.setAttribute("data-bs-content", "#popover-" + housingType.id);
+                actionsButton.innerHTML = '<i class="fa fa-chevron-down"></i>';
+                actionsLi.appendChild(actionsButton);
+                ul.appendChild(actionsLi);
 
-                var housingTypeCell = document.createElement("td");
-                housingTypeCell.className = "align-middle housing_type";
-                housingTypeCell.textContent = housingType.housing_type;
+                row.appendChild(ul);
 
-                // Create a new table cell element
-                var housingConsultant = document.createElement("td");
+                // Popover Actions
+                var popoverDiv = document.createElement("div");
+                popoverDiv.className = "popover-project-actions d-none";
+                popoverDiv.id = "popover-" + housingType.id;
 
-                // Set the class name
-                housingConsultant.className = "align-middle housing_type";
+                var popoverUl = document.createElement("ul");
 
-                // Determine the text content based on housingType.user.name
-                if (housingType.consultant && housingType.consultant.name) {
-                    housingConsultant.textContent = housingType.consultant
-                        .name;
-                } else if (housingType.user && housingType.user.name) {
-                    housingConsultant.textContent = housingType.user
-                        .name;
-                } else {
-                    housingConsultant.textContent = "Mağaza Yöneticisi"; // If not, use this default text
+                if (userPermissions.includes('UpdateHousingType')) {
+                    var editLi = document.createElement("li");
+                    var editLink = document.createElement("a");
+                    editLink.href = "{{ route('institutional.housings.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
+                    editLink.textContent = "Düzenle";
+                    editLi.appendChild(editLink);
+                    popoverUl.appendChild(editLi);
                 }
 
-
-                var statusCell = document.createElement("td");
-                statusCell.className = "align-middle status";
-                statusCell.innerHTML = housingType.status == 1 ?
-                    '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
-                    housingType.status == 2 ?
-                    '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>' :
-                    housingType
-                    .status == 3 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
-
-                var createdAtCell = document.createElement("td");
-                createdAtCell.className = "align-middle created_at";
-                createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
-
-                var actionsCell = document.createElement("td");
-                actionsCell.className = "align-middle white-space-nowrap     pe-0";
-                var actionsDiv = document.createElement("div");
-                actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-
-                var viewLinkCell = document.createElement("td");
-                viewLinkCell.className = "align-middle";
-                var viewLink = document.createElement("button");
-                viewLink.className = "badge badge-phoenix badge-phoenix-warning btn-sm";
-                viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
-                viewLink.textContent = "Loglar";
-                viewLinkCell.appendChild(viewLink);
-
-
-
-                if (tbody.id == 'bulk-select-body-soldHousingTypes') {
-                    var exportLinkCell = document.createElement("td");
-                    exportLinkCell.className = "align-middle";
-                    var exportLink = document.createElement("a");
-                    exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    exportLink.href = "#";
-                    exportLink.textContent = "-";
-                    exportLinkCell.appendChild(exportLink);
-
-                    var imageLinksCell = document.createElement("td");
-                    imageLinksCell.className = "align-middle";
-                    var imageLinks = document.createElement("a");
-                    imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
-                    imageLinks.href = "#";
-                    imageLinks.textContent = "-";
-                    imageLinksCell.appendChild(imageLinks);
-
-                    var invoiceLinkCell = document.createElement("td");
-                    invoiceLinkCell.className = "align-middle";
-                    var invoiceLink = document.createElement("a");
-                    invoiceLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    invoiceLink.href = "{{ URL::to('/') }}/sold/invoice_detail/" + housingType.id;
-                    invoiceLink.textContent = "Fatura Görüntüle";
-                    invoiceLinkCell.appendChild(invoiceLink);
-
-                    var orderDetailCell = document.createElement("td");
-                    orderDetailCell.className = "align-middle";
-                    var orderDetailLink = document.createElement("a");
-                    orderDetailLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    orderDetailLink.href = "{{ URL::to('/') }}/sold/order_detail/" + housingType.id;
-                    orderDetailLink.textContent = "Sipariş Detay";
-                    orderDetailCell.appendChild(orderDetailLink);
-
-                    var statusCell = document.createElement("td");
-                    statusCell.className = "align-middle";
-                    var statusLink = document.createElement("span");
-                    statusLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-
-                    statusLink.textContent = "Onaylandı";
-                    statusCell.appendChild(statusLink);
-
-                } else {
-                    var exportLinkCell = document.createElement("td");
-                    exportLinkCell.className = "align-middle";
-                    var exportLink = document.createElement("a");
-                    exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    exportLink.href = "{{ URL::to('/') }}/hesabim/konut-duzenleme/" + housingType.id;
-                    exportLink.textContent = "Düzenle";
-                    exportLinkCell.appendChild(exportLink);
-
-                    var imageLinksCell = document.createElement("td");
-                    imageLinksCell.className = "align-middle";
-                    var imageLinks = document.createElement("a");
-                    imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
-                    imageLinks.href = "{{ URL::to('/') }}/hesabim/gorsel-duzenleme/" + housingType.id;
-                    imageLinks.textContent = "Resimler";
-                    imageLinksCell.appendChild(imageLinks);
-
-
-
-                    var bidsCell = document.createElement("td");
-                    bidsCell.className = "align-middle";
-
-                    // Pazarlık Teklifleri bağlantısını oluşturun
-                    var bidsLink = document.createElement("a");
-                    bidsLink.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-                    bidsLink.href = "{{ URL::to('/') }}/hesabim/housing/" + housingType.id + "/bids";
-                    bidsLink.textContent = "Pazarlık Teklifleri (" + (housingType.bids ? housingType.bids.length :
-                        0) + ")";
-                    bidsCell.appendChild(bidsLink);
-
-
-                    var deleteCell = document.createElement("td");
-                    deleteCell.className = "align-middle";
-
-                    // var passiveButton = document.createElement("button");
-                    // passiveButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
-                    // passiveButton.textContent = "Pasife Al";
-                    // passiveButton.addEventListener("click", function() {
-                    //     // Kullanıcıdan onay al
-                    //     var confirmDelete = confirm("Bu ilanı pasife almak istediğinizden emin misiniz?");
-                    //     if (confirmDelete) {
-                    //         var csrfToken = "{{ csrf_token() }}";
-                    //         // Laravel route ismi
-                    //         var routeName =
-                    //             "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
-                    //         // API Endpoint'i oluştur
-                    //         var apiUrl = routeName.replace(':id', housingType.id);
-
-                    //         fetch(apiUrl, {
-                    //                 method: "POST", // Silme işlemi için DELETE metodu
-                    //                 headers: {
-                    //                     "Content-Type": "application/json",
-                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                    //                 },
-                    //             })
-                    //             .then(response => {
-                    //                 if (!response.ok) {
-                    //                     throw new Error("Network response was not ok");
-                    //                 }
-                    //                 location.reload();
-                    //             })
-                    //             .then(data => {
-                    //                 // Silme işlemi başarılı
-                    //                 toastr.success("İlan başarıyla pasife alındı.");
-                    //                 location.reload();
-                    //             })
-                    //             .catch(error => {
-                    //                 console.error("There was a problem with the fetch operation:",
-                    //                     error);
-                    //                 // Silme işlemi başarısız
-                    //                 toastr.error("İlan pasife alınırken bir hata oluştu.");
-                    //             });
-                    //     }
-                    // });
-
-                    // var activeButton = document.createElement("button");
-                    // activeButton.className = "badge badge-phoenix badge-phoenix-success btn-sm";
-                    // activeButton.textContent = "Aktife Al";
-                    // activeButton.addEventListener("click", function() {
-                    //     // Kullanıcıdan onay al
-                    //     var confirmDelete = confirm("Bu ilanı aktife almak istediğinizden emin misiniz?");
-                    //     if (confirmDelete) {
-                    //         var csrfToken = "{{ csrf_token() }}";
-                    //         // Laravel route ismi
-                    //         var routeName = "{{ route('institutional.housings.active', ['id' => ':id']) }}";
-                    //         // API Endpoint'i oluştur
-                    //         var apiUrl = routeName.replace(':id', housingType.id);
-
-                    //         fetch(apiUrl, {
-                    //                 method: "POST", // Silme işlemi için DELETE metodu
-                    //                 headers: {
-                    //                     "Content-Type": "application/json",
-                    //                     "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
-                    //                 },
-                    //             })
-                    //             .then(response => {
-                    //                 if (!response.ok) {
-                    //                     throw new Error("Network response was not ok");
-                    //                 }
-                    //                 location.reload();
-                    //             })
-                    //             .then(data => {
-                    //                 // Silme işlemi başarılı
-                    //                 toastr.success("İlan başarıyla aktife alındı.");
-                    //                 location.reload();
-                    //             })
-                    //             .catch(error => {
-                    //                 console.error("There was a problem with the fetch operation:",
-                    //                     error);
-                    //                 // Silme işlemi başarısız
-                    //                 toastr.error("İlan aktife alınırken bir hata oluştu.");
-                    //             });
-                    //     }
-                    // });
-
-                    // if (housingType.status == 1) {
-                    //     deleteCell.appendChild(passiveButton);
-                    // } else if (housingType.status == 0) {
-                    //     deleteCell.appendChild(activeButton);
-                    // }
-
+                if (userPermissions.includes('ViewHousingType')) {
+                    var previewLi = document.createElement("li");
+                    var previewLink = document.createElement("a");
+                    previewLink.href = "{{ route('institutional.housings.preview', ['id' => ':id']) }}".replace(':id', housingType.id);
+                    previewLink.textContent = "Önizle";
+                    previewLi.appendChild(previewLink);
+                    popoverUl.appendChild(previewLi);
                 }
 
-                if (tbody.id === 'bulk-select-body-soldHousingTypes') {
-                    row.appendChild(idCell);
-                    row.appendChild(housingTitleCell);
-                    row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
-
-                    row.appendChild(statusCell);
-                    row.appendChild(createdAtCell);
-                    row.appendChild(viewLinkCell);
-                    row.appendChild(exportLinkCell);
-                    row.appendChild(imageLinksCell);
-                    row.appendChild(bidsCell);
-
-                    row.appendChild(statusCell);
-                    row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
-
-                } else {
-
-                    row.appendChild(idCell);
-                    row.appendChild(housingTitleCell);
-                    row.appendChild(housingTypeCell);
-                    row.appendChild(housingConsultant);
-
-                    row.appendChild(statusCell);
-                    row.appendChild(createdAtCell);
-                    row.appendChild(viewLinkCell);
-                    row.appendChild(exportLinkCell);
-                    row.appendChild(imageLinksCell);
-                    row.appendChild(bidsCell);
-
-                    row.appendChild(actionsCell);
-                    row.appendChild(deleteCell);
-
+                if (userPermissions.includes('DeleteHousingType')) {
+                    var deleteLi = document.createElement("li");
+                    var deleteLink = document.createElement("a");
+                    deleteLink.setAttribute("data-bs-toggle", "modal");
+                    deleteLink.setAttribute("data-bs-target", "#deleteModal-" + housingType.id);
+                    deleteLink.textContent = "Sil";
+                    deleteLi.appendChild(deleteLink);
+                    popoverUl.appendChild(deleteLi);
                 }
 
+                popoverDiv.appendChild(popoverUl);
+                row.appendChild(popoverDiv);
+
+                // Delete Modal
+                var deleteModalDiv = document.createElement("div");
+                deleteModalDiv.className = "modal fade";
+                deleteModalDiv.id = "deleteModal-" + housingType.id;
+                deleteModalDiv.setAttribute("tabindex", "-1");
+                deleteModalDiv.setAttribute("aria-labelledby", "deleteModalLabel-" + housingType.id);
+                deleteModalDiv.setAttribute("aria-hidden", "true");
+
+                var modalDialogDiv = document.createElement("div");
+                modalDialogDiv.className = "modal-dialog";
+
+                var modalContentDiv = document.createElement("div");
+                modalContentDiv.className = "modal-content";
+
+                var modalHeaderDiv = document.createElement("div");
+                modalHeaderDiv.className = "modal-header";
+                var modalTitleH5 = document.createElement("h5");
+                modalTitleH5.className = "modal-title";
+                modalTitleH5.id = "deleteModalLabel-" + housingType.id;
+                modalTitleH5.textContent = "Sil";
+                var closeButton = document.createElement("button");
+                closeButton.type = "button";
+                closeButton.className = "btn p-1";
+                closeButton.setAttribute("data-bs-dismiss", "modal");
+                closeButton.setAttribute("aria-label", "Close");
+                closeButton.innerHTML = '<svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
+                modalHeaderDiv.appendChild(modalTitleH5);
+                modalHeaderDiv.appendChild(closeButton);
+                modalContentDiv.appendChild(modalHeaderDiv);
+
+                var modalBodyDiv = document.createElement("div");
+                modalBodyDiv.className = "modal-body";
+                modalBodyDiv.innerHTML = '<p class="text-700 lh-lg mb-0">Bu ilanı silmek istediğinize emin misiniz?</p>';
+                modalContentDiv.appendChild(modalBodyDiv);
+
+                var modalFooterDiv = document.createElement("div");
+                modalFooterDiv.className = "modal-footer";
+                var cancelButton = document.createElement("button");
+                cancelButton.type = "button";
+                cancelButton.className = "btn btn-secondary";
+                cancelButton.setAttribute("data-bs-dismiss", "modal");
+                cancelButton.textContent = "Kapat";
+                var deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "btn btn-danger";
+                deleteButton.setAttribute("data-housing-id", housingType.id);
+                deleteButton.textContent = "Sil";
+                modalFooterDiv.appendChild(cancelButton);
+                modalFooterDiv.appendChild(deleteButton);
+                modalContentDiv.appendChild(modalFooterDiv);
+
+                modalDialogDiv.appendChild(modalContentDiv);
+                deleteModalDiv.appendChild(modalDialogDiv);
+
+                row.appendChild(deleteModalDiv);
 
                 tbody.appendChild(row);
             });
         }
 
-        createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
-        createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
-        createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
-        createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
-        createTable(document.getElementById("bulk-select-body-soldHousingTypes"), soldHousingTypes);
-
-        // Handle tab switching
-        var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
-        housingTabs.show();
+        window.onload = function() {
+            createTable(document.querySelector('#bulk-select-body-active'), activeHousingTypes);
+            createTable(document.querySelector('#bulk-select-body-pendingHousingTypes'), pendingHousingTypes);
+            createTable(document.querySelector('#bulk-select-body-disabledHousingTypes'), disabledHousingTypes);
+            createTable(document.querySelector('#bulk-select-body-inactive'), inactiveHousingTypes);
+            createTable(document.querySelector('#bulk-select-body-soldHousingTypes'), soldHousingTypes);
+        };
     </script>
-
-    <style>
-        .nav-tabs .nav-link {
-            color: black !important;
-            box-shadow: 0 0 0 1px rgba(71, 85, 95, 0.08) !important;
-        }
-
-        .nav-tabs .nav-link.active,
-        .nav-tabs .nav-item.show .nav-link {
-            color: #274abb !important;
-            background-color: white !important;
-        }
-
-        .nav-tabs li {
-            margin-right: 10px;
-        }
-
-        .ml-2 {
-            margin-left: 20px;
-        }
-
-        .mr-2 {
-            margin-right: 20px;
-        }
-
-        .table td {
-            display: table-cell !important;
-        }
-
-        .header-title {
-            border-bottom: 1px solid #ddd;
-            background: #ea2a28 !important;
-            color: white;
-            margin: 0;
-            padding: 10px;
-        }
-    </style>
 @endsection
