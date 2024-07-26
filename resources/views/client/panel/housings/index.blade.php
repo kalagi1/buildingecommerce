@@ -36,7 +36,7 @@
                 'inactive' => $inactiveHousingTypes,
                 'soldHousingTypes' => $soldHousingTypes
             ] as $tabId => $housingTypes)
-                <div class="tab-pane {{ $loop->first ? 'show' : '' }}" id="{{ $tabId }}">
+                <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
                     @if ($housingTypes->isEmpty())
                         <p class="text-center">İlan bulunamadı</p>
                     @else
