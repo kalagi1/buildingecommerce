@@ -212,8 +212,9 @@ if (!function_exists('checkIfUserCanAddToCart')) {
         </div>
     </div>
 </div>
-<div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-    <div class="d-flex justify-content-between align-items-center mb-5" style="height: 100%;padding: 10px">
+<div class="w-100" style="height:40px;background-color:#8080802e;margin-top:10px">
+    <div class="d-flex justify-content-between align-items-center" style="height: 100%;padding: 10px">
+
         <ul class="d-flex align-items-center h-100"
             style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
             @if (isset($housing->listItems->column1_name) &&

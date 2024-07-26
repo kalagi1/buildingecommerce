@@ -474,7 +474,6 @@ class HomeController extends Controller
                 }
             }
         }
-        // dd($slug,$housingTypeSlug,$housingType);
 
         $query = Project::query()->where('projects.status', 1);
 
@@ -826,7 +825,7 @@ class HomeController extends Controller
         foreach ($parameters as $index => $paramValue) {
             $housingTypet = null;
             if ($paramValue) {
-                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik" || $request->input($paramValue) == "devren-satilik" || $request->input($paramValue) == "devren-kiralik") {
                     $opt = $request->input($paramValue);
                     if ($opt) {
                         $opt = $opt;
@@ -834,8 +833,12 @@ class HomeController extends Controller
                             $optName = "Kiralık";
                         } elseif ($opt == "satilik") {
                             $optName = "Satılık";
+                        }elseif ($opt == "gunluk-kiralik") {
+                            $optName = "devren Kiralık";
+                        }elseif ($opt == "gunluk-kiralik") {
+                            $optName = "Devren Kiralık";
                         } else {
-                            $optName = "Günlük Kiralık";
+                            $optName = "Devren Satılık";
                         }
                     }
                 } else {
