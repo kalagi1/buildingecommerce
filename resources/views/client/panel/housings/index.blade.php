@@ -9,7 +9,7 @@
             </ul>
         </div>
     </div>
-    {{dd($userPermissions)}}
+    
     <section>
         <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
             @foreach ([
@@ -52,26 +52,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        // JSON verilerini al
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
         var pendingHousingTypes = @json($pendingHousingTypes);
         var disabledHousingTypes = @json($disabledHousingTypes);
         var soldHousingTypes = @json($soldHousingTypes);
         var userPermissions = @json($userPermissions);
-
+    
+        // Yetki kontrol fonksiyonu
+        function hasPermission(permission) {
+            return userPermissions.includes(permission);
+        }
+    
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType, index) {
                 var row = document.createElement("div");
                 row.className = "project-table-content";
-
+    
                 var ul = document.createElement("ul");
-
+    
                 // Index
                 var indexLi = document.createElement("li");
                 indexLi.style.width = "5%";
                 indexLi.textContent = index + 1;
                 ul.appendChild(indexLi);
-
+    
                 // Housing Title
                 var titleLi = document.createElement("li");
                 titleLi.style.width = "90%";
@@ -82,7 +88,7 @@
                 titleDiv.appendChild(titleP);
                 titleLi.appendChild(titleDiv);
                 ul.appendChild(titleLi);
-
+    
                 // Actions
                 var actionsLi = document.createElement("li");
                 actionsLi.style.width = "5%";
@@ -93,17 +99,17 @@
                 actionsButton.innerHTML = '<i class="fa fa-chevron-down"></i>';
                 actionsLi.appendChild(actionsButton);
                 ul.appendChild(actionsLi);
-
+    
                 row.appendChild(ul);
-
+    
                 // Popover Actions
                 var popoverDiv = document.createElement("div");
                 popoverDiv.className = "popover-project-actions d-none";
                 popoverDiv.id = "popover-" + housingType.id;
-
+    
                 var popoverUl = document.createElement("ul");
-
-                if (userPermissions.includes('UpdateHousingType')) {
+    
+                if (hasPermission('UpdateHousing')) {
                     var editLi = document.createElement("li");
                     var editLink = document.createElement("a");
                     editLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
@@ -111,8 +117,8 @@
                     editLi.appendChild(editLink);
                     popoverUl.appendChild(editLi);
                 }
-
-                if (userPermissions.includes('ViewHousingType')) {
+    
+                if (hasPermission('ViewHousing')) {
                     var previewLi = document.createElement("li");
                     var previewLink = document.createElement("a");
                     previewLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
@@ -120,8 +126,8 @@
                     previewLi.appendChild(previewLink);
                     popoverUl.appendChild(previewLi);
                 }
-
-                if (userPermissions.includes('DeleteHousingType')) {
+    
+                if (hasPermission('DeleteHousing')) {
                     var deleteLi = document.createElement("li");
                     var deleteLink = document.createElement("a");
                     deleteLink.setAttribute("data-bs-toggle", "modal");
@@ -130,10 +136,10 @@
                     deleteLi.appendChild(deleteLink);
                     popoverUl.appendChild(deleteLi);
                 }
-
+    
                 popoverDiv.appendChild(popoverUl);
                 row.appendChild(popoverDiv);
-
+    
                 // Delete Modal
                 var deleteModalDiv = document.createElement("div");
                 deleteModalDiv.className = "modal fade";
@@ -141,13 +147,13 @@
                 deleteModalDiv.setAttribute("tabindex", "-1");
                 deleteModalDiv.setAttribute("aria-labelledby", "deleteModalLabel-" + housingType.id);
                 deleteModalDiv.setAttribute("aria-hidden", "true");
-
+    
                 var modalDialogDiv = document.createElement("div");
                 modalDialogDiv.className = "modal-dialog";
-
+    
                 var modalContentDiv = document.createElement("div");
                 modalContentDiv.className = "modal-content";
-
+    
                 var modalHeaderDiv = document.createElement("div");
                 modalHeaderDiv.className = "modal-header";
                 var modalTitleH5 = document.createElement("h5");
@@ -163,12 +169,12 @@
                 modalHeaderDiv.appendChild(modalTitleH5);
                 modalHeaderDiv.appendChild(closeButton);
                 modalContentDiv.appendChild(modalHeaderDiv);
-
+    
                 var modalBodyDiv = document.createElement("div");
                 modalBodyDiv.className = "modal-body";
                 modalBodyDiv.innerHTML = '<p class="text-700 lh-lg mb-0">Bu ilanı silmek istediğinize emin misiniz?</p>';
                 modalContentDiv.appendChild(modalBodyDiv);
-
+    
                 var modalFooterDiv = document.createElement("div");
                 modalFooterDiv.className = "modal-footer";
                 var cancelButton = document.createElement("button");
@@ -184,16 +190,16 @@
                 modalFooterDiv.appendChild(cancelButton);
                 modalFooterDiv.appendChild(deleteButton);
                 modalContentDiv.appendChild(modalFooterDiv);
-
+    
                 modalDialogDiv.appendChild(modalContentDiv);
                 deleteModalDiv.appendChild(modalDialogDiv);
-
+    
                 row.appendChild(deleteModalDiv);
-
+    
                 tbody.appendChild(row);
             });
         }
-
+    
         window.onload = function() {
             createTable(document.querySelector('#bulk-select-body-active'), activeHousingTypes);
             createTable(document.querySelector('#bulk-select-body-pendingHousingTypes'), pendingHousingTypes);
@@ -202,4 +208,5 @@
             createTable(document.querySelector('#bulk-select-body-soldHousingTypes'), soldHousingTypes);
         };
     </script>
+    
 @endsection
