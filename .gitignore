@@ -19,9 +19,4 @@ yarn-error.log
 /.vscode
 Dockerfile
 docker-compose.yml
-.htaccessrr
-.rr.yaml
-
-/caddy
-frankenphp
-frankenphp-worker.php
+.htaccess

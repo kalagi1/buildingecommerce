@@ -1,147 +1,164 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../../define/variables';
+function TypeList2({setSlug,setSelectedHousingType,selectedHousingType,setSelectedTypes,selectedTypes,nextStep,housingTypes,setHousingTypes,setSelectedTypesTitles,selectedTypesTitles}) {
+    const [loadingOrder,setLoadingOrder] = useState(null);
+    const [loadingOrderStatusId,setLoadingOrderStatusId] = useState(null);
 
-function TypeList2({
-  setSlug,
-  setSelectedHousingType,
-  selectedHousingType,
-  setSelectedTypes,
-  selectedTypes,
-  nextStep,
-  housingTypes,
-  setHousingTypes,
-  setSelectedTypesTitles,
-  selectedTypesTitles,
-}) {
-  const [loadingOrder, setLoadingOrder] = useState(null);
-  const [loadingOrderStatusId, setLoadingOrderStatusId] = useState(null);
+    useEffect(() => {
+        axios.get(baseUrl+'housing_types').then((res) => {
+            setHousingTypes([
+                res.data.data
+            ])
+        })
+    },[])
 
-  useEffect(() => {
-    if (housingTypes.length === 0) {
-      axios.get(baseUrl + 'housing_types').then((res) => {
-        setHousingTypes([res.data.data]);
-      });
+    const setHousingTypeParent = (housingTypeId,order) => {
+        var tempHousingTypeParents = [];
+
+        for(var i = 0; i <= order; i++){
+            if(i == order){
+                tempHousingTypeParents.push(housingTypeId);
+            }else{
+                tempHousingTypeParents.push(selectedTypes[i]);
+            }
+        }
+        setLoadingOrder(order);
+        setLoadingOrderStatusId(housingTypeId);
+        setSelectedTypes(tempHousingTypeParents)
+        if(order == 1){
+            axios.get(baseUrl+'housing_types_end?parent_id='+housingTypeId).then((res) => {
+                var tempHousingTypeParents = [];
+                for(var i = 0; i <= order + 1; i++){
+                    if(i == order + 1){
+                        tempHousingTypeParents.push(res.data.data);
+                    }else{
+                        tempHousingTypeParents.push(housingTypes[i]);
+                    }
+                }
+                setLoadingOrder(null);
+                setLoadingOrderStatusId(null);
+                setHousingTypes(tempHousingTypeParents);
+            })
+        }else{
+            axios.get(baseUrl+'housing_types?parent_id='+housingTypeId).then((res) => {
+                var tempHousingTypeParents = [];
+                for(var i = 0; i <= order + 1; i++){
+                    if(i == order + 1){
+                        tempHousingTypeParents.push(res.data.data);
+                    }else{
+                        tempHousingTypeParents.push(housingTypes[i]);
+                    }
+                }
+                setLoadingOrder(null);
+                setLoadingOrderStatusId(null);
+                setHousingTypes(tempHousingTypeParents);
+            })
+        }
+        
     }
-  }, [setHousingTypes, housingTypes]);
 
-  const setHousingTypeParent = (housingTypeId, order) => {
-    const tempHousingTypeParents = [...selectedTypes.slice(0, order), housingTypeId];
-    setLoadingOrder(order);
-    setLoadingOrderStatusId(housingTypeId);
-    setSelectedTypes(tempHousingTypeParents);
+    const setHousingTypeTitles = (housingTypeTitle,order) => {
+        var tempHousingTypeParents = [];
 
-    const endpoint = order === 1 ? 'housing_types_end' : 'housing_types';
-    axios
-      .get(`${baseUrl}${endpoint}?parent_id=${housingTypeId}`)
-      .then((res) => {
-        const newHousingTypes = [...housingTypes.slice(0, order + 1), res.data.data];
-        setLoadingOrder(null);
-        setLoadingOrderStatusId(null);
-        setHousingTypes(newHousingTypes);
-      });
-  };
+        for(var i = 0; i <= order; i++){
+            if(i == order){
+                tempHousingTypeParents.push(housingTypeTitle);
+            }else{
+                tempHousingTypeParents.push(selectedTypesTitles[i]);
+            }
+        }
+        
+        setSelectedTypesTitles(tempHousingTypeParents)
+        
+    }
 
-  const setHousingTypeTitles = (housingTypeTitle, order) => {
-    const tempHousingTypeTitles = [...selectedTypesTitles.slice(0, order), housingTypeTitle];
-    setSelectedTypesTitles(tempHousingTypeTitles);
-  };
 
-  return (
-    <div>
-      <div className="container mt-5">
-        <div className="row">
-          {housingTypes[0] && (
-            <div className="area-list active">
-              <ul>
-                {housingTypes[0].map((housingType) => (
-                  <li
-                    key={housingType.id}
-                    onClick={() => {
-                      setHousingTypeParent(housingType.id, 0);
-                      setHousingTypeTitles(housingType.title, 0);
-                    }}
-                    className={selectedTypes[0] === housingType.id ? 'selected' : ''}
-                  >
-                    {housingType?.title}
-                    {loadingOrder === 0 && loadingOrderStatusId === housingType.id && (
-                      <div className="loading-icon">
-                        <i className="fa fa-spinner"></i>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
+    return(
+        <div>
+            <div className="row">
+                {
+                    housingTypes[0] ? 
+                        <div className="area-list active">
+                            <ul>
+                                {
+                                    housingTypes[0].map((housingType) => {
+                                        return(
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,0);setHousingTypeTitles(housingType.title,0)}} className={selectedTypes[0] == housingType.id ? "selected" : ""}>
+                                                {housingType?.title}
+                                                {
+                                                    loadingOrder && loadingOrder == 0 && loadingOrderStatusId && loadingOrderStatusId == housingType.id ?
+                                                        <div class="loading-icon"><i class="fa fa-spinner"></i></div>
+                                                    : ''
+                                                }
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    : ''
+                }
+                {
+                    selectedTypes[0] && selectedTypes[0] != undefined ? 
+                        <div className="area-list active">
+                            <ul>
+                                {
+                                    housingTypes[1]?.map((housingType) => {
+                                        return(
+                                            <li onClick={() => {setHousingTypeParent(housingType.id,1);setSlug(housingType.slug);setHousingTypeTitles(housingType.title,1)}} className={selectedTypes[1] == housingType.id ? "selected" : ""}>
+                                                {housingType?.title}
+                                                {
+                                                    loadingOrder && loadingOrder == 1 && loadingOrderStatusId && housingType.id == loadingOrderStatusId ?
+                                                        <div class="loading-icon"><i class="fa fa-spinner"></i></div>
+                                                    : ''
+                                                }
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    : ''
+                }
+                {
+                    selectedTypes[1] && selectedTypes[1] != undefined ? 
+                        <div className="area-list active">
+                            <ul>
+                                {
+                                    housingTypes[2]?.map((housingType) => {
+                                        return(
+                                            <li onClick={() => {setSelectedHousingType(housingType);setHousingTypeParent(housingType.id,2);setHousingTypeTitles(housingType?.housing_type?.title,2)}} className={selectedTypes[2] == housingType.id ? "selected" : ""}>
+                                                {housingType?.housing_type?.title}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    : ''
+                }
+                {
+                    selectedTypes[2] && selectedTypes[2] != undefined ? 
+                        <div class="area-list active">
+                            <div class="finish-category-select">
+                                <div class="finish-icon-area">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="finish-text">
+                                    <p>Kategori Seçimi Tamanlanmıştır</p>
+                                </div>
+                                <div class="finish-button-first">
+                                    <button onClick={() => {nextStep(2)}} class="btn btn-info">
+                                        Devam
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    : ''
+                }
             </div>
-          )}
-          {selectedTypes[0] && housingTypes[1] && (
-            <div className="area-list active">
-              <ul>
-                {housingTypes[1].map((housingType) => (
-                  <li
-                    key={housingType.id}
-                    onClick={() => {
-                      setHousingTypeParent(housingType.id, 1);
-                      setSlug(housingType.slug);
-                      setHousingTypeTitles(housingType.title, 1);
-                    }}
-                    className={selectedTypes[1] === housingType.id ? 'selected' : ''}
-                  >
-                    {housingType?.title}
-                    {loadingOrder === 1 && loadingOrderStatusId === housingType.id && (
-                      <div className="loading-icon">
-                        <i className="fa fa-spinner"></i>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {selectedTypes[1] && housingTypes[2] && (
-            <div className="area-list active">
-              <ul>
-                {housingTypes[2].map((housingType) => (
-                  <li
-                    key={housingType.id}
-                    onClick={() => {
-                      setSelectedHousingType(housingType);
-                      setHousingTypeParent(housingType.id, 2);
-                      setHousingTypeTitles(housingType?.housing_type?.title, 2);
-                    }}
-                    className={selectedTypes[2] === housingType.id ? 'selected' : ''}
-                  >
-                    {housingType?.housing_type?.title}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {selectedTypes[2] && (
-            <div className="area-list active last-contunie-step">
-              <div className="finish-category-select">
-                <div className="finish-icon-area">
-                  <i className="fa fa-check"></i>
-                </div>
-                <div className="finish-text">
-                  <p>Kategori Seçimi Tamanlanmıştır</p>
-                </div>
-                <div className="finish-button-first">
-                  <button
-                    onClick={nextStep}
-                    className="btn btn-danger"
-                    style={{ backgroundColor: 'green', border: 'green' }}
-                  >
-                    Devam
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-      </div>
-    </div>
-  );
+    )
 }
-
-export default TypeList2;
+export default TypeList2

@@ -27,26 +27,4 @@ class InfoController extends Controller
             ], 404);
         }
     }
-
-    public function notificationDestroyById(Request $request)
-        {
-            $userId = $request->userId;
-            $notificationId = $request->id;
-            
-            $deleted = DocumentNotification::where('owner_id', $userId)
-                ->where('id', $notificationId)
-                ->delete(); 
-            
-            if ($deleted > 0) {
-                return response()->json([
-                    'message' => 'Bildirim başarıyla silindi.',
-                    'deleted_count' => $deleted
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'Silinecek bildirim bulunamadı.'
-                ], 200);
-            }
-        }
-
 }

@@ -21,15 +21,9 @@
                                         <th class="sort align-middle" scope="col" data-sort="customer"
                                             style="min-width: 200px;">
                                             Yorum</th>
-
                                         <th class="sort align-middle" scope="col" data-sort="rating"
                                             style="min-width: 110px;">
                                             Oylama</th>
-
-                                        <th class="sort align-middle" scope="col" data-sort="customer"
-                                            style="min-width: 200px;">
-                                            İlan Numarası</th>
-
 
                                         <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status">
                                             Durum
@@ -80,12 +74,6 @@
                                                     </svg>
                                                 @endfor
                                             </td>
-
-                                            <td class="align-middle">                        
-                                                <a href="{{  route('housing.show', ['housingSlug' => $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000])}}"> {{$comment->housing->id + 2000000}} </a>
-                                            </td>
-                                              
-
                                             <td class="align-middle text-start ps-5 status">
                                                 @if ($comment->status == '1')
                                                     <span class="badge badge-phoenix fs--2 badge-phoenix-success">

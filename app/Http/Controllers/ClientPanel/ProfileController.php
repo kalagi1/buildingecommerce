@@ -16,101 +16,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\CartOrderRefund;
-use App\Models\ReservationRefund;
+use App\Models\ReservationRefund; 
 
 class ProfileController extends Controller
 {
-    public function getReservations()
-    {
+    public function getReservations() {
         $housingReservations = Reservation::with("user", "housing")
-            ->where("user_id", auth()->user()->id)
-            ->get();
+        ->where("user_id",auth()->user()->id)
+        ->get();
 
         return view('client.client-panel.profile.reservations', compact('housingReservations'));
     }
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
-            ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
-        return view('client.panel.orders.get', compact('cartOrders'));
-    }
+        ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
+            return view('institutional.orders.get', compact('cartOrders'));
 
-
-    public function filter(Request $request)
-    {
-        $query = CartOrder::with('store', 'refund', "invoice", "user", "price", "bank");
-
-        if ($request->has('search') && !empty($request->search)) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->orWhere('id', 'like', "%$search%")
-                  ->orWhere('amount', 'like', "%$search%")
-                  ->orWhere('key', 'like', "%$search%")
-                  ->orWhereHas('store', function ($q) use ($search) {
-                      $q->where('name', 'like', "%$search%");
-                  })
-                  ->orWhereHas('user', function ($q) use ($search) {
-                      $q->where('name', 'like', "%$search%");
-                  });
-            });
-        }
+    
         
-
-        if ($request->has('startDate') && !empty($request->startDate)) {
-            $query->whereDate('created_at', '>=', $request->startDate);
-        }
-
-        if ($request->has('endDate') && !empty($request->endDate)) {
-            $query->whereDate('created_at', '<=', $request->endDate);
-        }
-
-        $query->orderBy("id", "desc");
-
-        if ($request->has("key")) {
-            if ($request->key == "my-orders") {
-                $query->where('user_id', auth()->user()->id);
-            } elseif ($request->key == "my-sells") {
-                $user = User::with("projects", "housings")->find(Auth::user()->id);
-                $userHousingIds = $user->housings->pluck('id')->toArray();
-                $userProjectIds = $user->projects->pluck('id')->toArray();
-
-                // Merge housing and project IDs
-                $mergedIds = array_merge($userProjectIds, $userHousingIds);
-
-                if (!empty($mergedIds)) {
-                    $query->where(function ($query) use ($mergedIds) {
-                        $query->whereIn(
-                            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
-                            $mergedIds
-                        );
-                    })->where("is_disabled", NULL);
-                }
-            }
-        }
-
-
-        $cartOrders = $query->get();
-        $key = $request->key;
-
-        return response()->json([
-            'html' => view('client.panel.orders_list', compact('cartOrders', 'key'))->render()
-        ]);
     }
 
-    public function orderDetail($hashedId)
+    public function orderDetail($id)
     {
-        $cartOrderId = decode_id($hashedId);
+        $order = CartOrder::where('id', $id)->first();
 
-        $order = CartOrder::with("store")->where('id', $cartOrderId)->first();
-
-        return view('client.panel.orders.detail', compact('order'));
+        return view('institutional.orders.detail', compact('order'));
     }
 
     public function reservationDetail($id)
     {
         $order = Reservation::where('id', $id)->first();
 
-        return view('client.panel.reservations.detail', compact('order'));
+        return view('institutional.reservations.detail', compact('order'));
     }
 
     public function upload(Request $request)
@@ -183,12 +121,13 @@ class ProfileController extends Controller
         }
     }
 
-
+  
     public function cartOrderDetail(CartOrder $order)
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id", $order->id)->with("invoice")->orderBy("id", "desc")->get();
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
+        
+        return view('institutional.orders.get', compact('cartOrders'));
 
-        return view('client.panel.orders.get', compact('cartOrders'));
     }
 
 
@@ -251,8 +190,7 @@ class ProfileController extends Controller
 
     public function upgradeProfile(Request $request, $id)
     {
-        $request->validate(
-            ['id' => $id],
+        $request->validate(['id' => $id],
             [
                 'id' =>
                 [
@@ -275,14 +213,13 @@ class ProfileController extends Controller
         }
 
         $data =
-            [
-                'subscription_plan_id' => $plan->id,
-                'housing_limit' => $before->housing_limit + $plan->housing_limit,
-                'user_id' => auth()->user()->id,
-                'subscription_plan_id' => $id,
-                'project_limit' => 0,
-                'user_limit' => 0,
-            ];
+            ['subscription_plan_id' => $plan->id,
+            'housing_limit' => $before->housing_limit + $plan->housing_limit,
+            'user_id' => auth()->user()->id,
+            'subscription_plan_id' => $id,
+            'project_limit' => 0,
+            'user_limit' => 0,
+        ];
 
         DB::beginTransaction();
         UpgradeLog::create(
@@ -311,23 +248,21 @@ class ProfileController extends Controller
     }
 
 
-    public function refund(Request $request)
+    public function refund(Request $request) 
     {
-
-      
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'cart_order_id' => 'required',
+            'cart_order_id' =>'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-
+        
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = CartOrderRefund::where('cart_order_id', $validatedData['cart_order_id'])->first();
 
@@ -367,23 +302,23 @@ class ProfileController extends Controller
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
 
+    
 
-
-    public function reservationRefund(Request $request)
-    {
+    public function reservationRefund(Request $request) 
+    {   
         $validatedData = $request->validate([
             'terms' => 'required|boolean',
             'name' => 'required|string|max:255',
             'phone' => 'required',
             'email' => 'required|string|email|max:255',
             'content' => 'required|string',
-            'reservation_id' => 'required',
+            'reservation_id' =>'required',
             'return_bank' => 'required',
             'return_iban' => 'required',
         ]);
 
         $userId = auth()->id();
-
+        
         // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
         $existingRefund = ReservationRefund::where('reservation_id', $validatedData['reservation_id'])->first();
 
@@ -422,4 +357,5 @@ class ProfileController extends Controller
         // İade talebi başarıyla kaydedildi mesajını döndür
         return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
     }
+
 }

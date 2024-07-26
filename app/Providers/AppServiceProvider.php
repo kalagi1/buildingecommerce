@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\AdBanner;
 use App\Models\CartItem;
-use App\Models\Collection;
 use App\Models\FooterLink;
 use App\Models\Housing;
 use App\Models\Menu;
@@ -12,7 +11,6 @@ use App\Models\Page;
 use App\Models\ShareLink;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
-use App\Observers\CollectionObserver;
 use App\Observers\HousingObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -38,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
         $this->composeInstitutionalView();
         $this->extendValidator();
         Housing::observe(HousingObserver::class);
-        Collection::observe(CollectionObserver::class);
-
 
     }
 
@@ -58,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
             "client.layouts.partials.footer",
             "client.layouts.partials.footerPanel",
             "client.layouts.partials.cart_icon",
-            "client.panel*"
+            "client.client-panel*"
         ], function ($view) {
             $cachedData = Cache::remember('client_view_data', now()->addHours(1), function () {
                 return [

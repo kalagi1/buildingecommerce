@@ -65,7 +65,7 @@ class CartController extends Controller {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
-                        if ( isset($collection) && isset($collection->user)) {
+                        if ( isset( $collection ) ) {
                             if ( ( $collection->user_id != Auth::guard( 'api' )->user()->id ) ) {
                                 $hasCounter = true;
                             }
@@ -162,7 +162,7 @@ class CartController extends Controller {
                 } else if ( $type == 'housing' ) {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
-                        if ( isset($collection) && isset($collection->user) ) {
+                        if ( isset( $collection ) ) {
                             if ( ( $collection->user_id != Auth::guard( 'api' )->user()->id ) ) {
                                 $hasCounter = true;
                             }

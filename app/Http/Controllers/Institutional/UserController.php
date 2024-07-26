@@ -10,12 +10,11 @@ use App\Models\Chat;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller {
     public function index() {
         $users = User::with( 'role' )->where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->orderBy("order","asc")->get();
-        return view( 'client.panel.users.index', compact( 'users' ) );
+        return view( 'institutional.users.index', compact( 'users' ) );
     }
 
     public function getTaxDocument() {
@@ -85,7 +84,7 @@ class UserController extends Controller {
     public function create() {
         $userLog = User::where( 'id', auth()->user()->id )->with( 'plan.subscriptionPlan', 'parent' )->first();
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
-        return view( 'client.panel.users.create', compact( 'roles', 'userLog' ) );
+        return view( 'institutional.users.create', compact( 'roles', 'userLog' ) );
     }
 
     public function store( Request $request ) {
@@ -101,6 +100,7 @@ class UserController extends Controller {
             'password.min' => 'Şifre en az 3 karakterden oluşmalıdır.',
             'type.required' => 'Tip alanı zorunludur.',
             'title.required' => 'Unvan alanı zorunludur.',
+
         ];
 
         $rules = [
@@ -110,6 +110,7 @@ class UserController extends Controller {
             'password' => 'required|min:3',
             'type' => 'required',
             'title' => 'required',
+
         ];
 
         $validatedData = $request->validate( $rules, $messages );
@@ -122,21 +123,23 @@ class UserController extends Controller {
         $user = new User();
         $user->name = $validatedData[ 'name' ];
         $user->title = $validatedData[ 'title' ];
+
         $user->email = $validatedData[ 'email' ];
         $user->mobile_phone = $validatedData[ 'mobile_phone' ];
+
         $user->profile_image = 'indir.png';
         $user->password = bcrypt( $validatedData[ 'password' ] );
+        // Şifreyi şifreleyin
         $user->type = $validatedData[ 'type' ];
-        $user->status = 0;
+        $user->status =0;
         $user->corporate_account_status = 1;
         $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
-        $user->code = $lastUser->id + auth()->user()->id + 1000000;
+        $user->code = $lastUser->id + auth()->user()->id  + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
-        $user->project_authority = $request->project_authority;
 
         $user->save();
 
-        if ($countUser && $user->save() ) {
+        if ( $user->save() ) {
             $countUser->user_limit = $countUser->user_limit - 1;
             $countUser->save();
         }
@@ -145,37 +148,26 @@ class UserController extends Controller {
             'user_id' => $user->id
         ] );
 
-        // Count children of the user's parent
-        $parent_id = auth()->user()->parent_id ?? auth()->user()->id;
-        $childrenCount = User::where('parent_id', $parent_id)->count();
-    
-        // Assign order to the newly created user
-        $user->order = $childrenCount + 1;
-        $user->save();
-    
-        session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
-    
-        return redirect()->route('institutional.users.index');
-    }
-    
+        session()->flash( 'success', 'Kullanıcı başarıyla oluşturuldu.' );
 
-    public function edit( $hashedId ) {
-        $userId = decode_id($hashedId);
-        $user = User::findOrFail($userId);
+        return redirect()->route( 'institutional.users.index' );
+
+    }
+
+    public function edit( $id ) {
         $roles = Role::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
-        $subUser = User::findOrFail( $userId );
+        $subUser = User::findOrFail( $id );
         // Kullanıcıyı bulun veya hata döndürün
-        return view( 'client.panel.users.edit', compact( 'subUser', 'roles' ) );
+        return view( 'institutional.users.edit', compact( 'subUser', 'roles' ) );
     }
 
-    public function update( Request $request, $hashedId ) {
-        $userId = decode_id($hashedId);
-
+    public function update( Request $request, $id ) {
+        // Form doğrulama kurallarını tanımlayın
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'type' => 'required',
-            // 'mobile_phone' => 'required',
+            'mobile_phone' => 'required',
             'title' => 'required',
             'is_active' => 'nullable',
         ];
@@ -184,17 +176,15 @@ class UserController extends Controller {
         $validatedData = $request->validate( $rules );
 
         // Kullanıcıyı güncelleyin
-        $user = User::findOrFail( $userId );
+        $user = User::findOrFail( $id );
         // Kullanıcıyı bulun veya hata döndürün
         $user->name = $validatedData[ 'name' ];
         $user->email = $validatedData[ 'email' ];
         $user->title = $validatedData[ 'title' ];
-        // $user->mobile_phone = $validatedData[ 'mobile_phone' ];
-        $user->mobile_phone =$request->mobile_phone;
+        $user->mobile_phone = $validatedData[ 'mobile_phone' ];
 
         $user->type = $validatedData[ 'type' ];
         $user->status = $request->has( 'is_active' ) ? 5 : 0;
-        $user->project_authority = $request->project_authority ? $request->project_authority : "";
         
             
         if ($request->hasFile('profile_image')) {
@@ -221,32 +211,23 @@ class UserController extends Controller {
         // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
-    public function destroy( $hashedId ) {
-        $userId = decode_id( $hashedId );
-        $user = User::findOrFail( $userId );
-        // Kullanıcıyı bulun veya hata döndürün
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
         $user->delete();
 
         // Kullanıcı başarıyla silindiğine dair bir mesaj ayarlayın
-        session()->flash( 'success', 'Kullanıcı başarıyla silindi.' );
+        session()->flash('success', 'Kullanıcı başarıyla silindi.');
 
         // Kullanıcıları listeleme sayfasına yönlendirme yapabilirsiniz
-        return redirect()->route( 'institutional.users.index' );
-        // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
+        return redirect()->route('institutional.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
-    public function updateUserOrder(Request $request) {
-        $validated = $request->validate([
-            'orders' => 'required|array',
-            'orders.*.id' => 'required|integer|exists:users,id', // Remove any spaces around 'id'
-            'orders.*.order' => 'required|integer',
-        ]);
-    
-        foreach ($validated['orders'] as $key => $order) {
-            User::where('id', $order['id'])->update(['order' => $key + 1]);
+    public function updateUserOrder(Request $request){
+        foreach ($request->input('orders') as $key => $order) {
+            User::where('id', $order['id'])->update(['order' => $key +1]);
         }
-    
+
         return response()->json(['message' => 'Order updated successfully']);
-    }
-    
+    }//End
 }

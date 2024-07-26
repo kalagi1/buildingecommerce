@@ -17,42 +17,6 @@
     "activePath": "/hesabim/estate_club_users"
 },
 {
-    "id": "crm",
-    "label": "CRM",
-    "icon": "users",
-    "text": "Crm Admin Modülü",
-    "key": "crmAdmin",
-    "url": "institutional.admin.dashboard",
-    "activePath": "/hesabim/crm/admin/dashboard" 
-},
-{
-    "id": "crm",
-    "label": "CRM",
-    "icon": "users",
-    "text": "Crm Danışman Modülü",
-    "key": "crmDanisman",
-    "url": "institutional.danisman.dashboard",
-    "activePath": "/hesabim/crm/danisman/dashboard" 
-},
-{
-    "id": "crm",
-    "label": "CRM",
-    "icon": "users",
-    "text": "Danışman Proje Atama",
-    "key": "crmProjeAtama",
-    "url": "institutional.crm.danisman.proje.atama",
-    "activePath": "/hesabim/crm/danisman/projeleri" 
-},
-{
-    "id": "crm",
-    "label": "CRM",
-    "icon": "users",
-    "text": "Danışman Müşterileri",
-    "key": "crmDanismanMusterileri",
-    "url": "institutional.crm.danisman.musteri.listesi",
-    "activePath": "/hesabim/crm/danisman/musteri/listesi" 
-},
-{
     "id": "neighbors",
     "label": "Komşumu Gör",
     "icon": "eye",
@@ -175,6 +139,15 @@
     ]
 },
 {
+    "id": "realestate",
+    "label": "Mağazam Emlak Sepette",
+    "icon": "info",
+    "text": "Sat Kirala Formlarım",
+    "key": "RealEstate",
+    "url": "institutional.real.estates",
+    "activePath": "/hesabim/real_estates"
+},
+{
     "id": "shopping-bag",
     "label": "Mağazam Emlak Sepette",
     "icon": "shopping-bag",
@@ -186,10 +159,10 @@
         "/hesabim/aldiklarim"
     ],
     "subMenu": [{
-            "text": "Siparişlerim",
+            "text": "Aldıklarım",
             "key": "ShowCartOrders",
             "url": "institutional.profile.cart-orders",
-            "activePath": "/hesabim/siparislerim"
+            "activePath": "/hesabim/aldiklarim"
         },
         {
             "text": "Sattıklarım",

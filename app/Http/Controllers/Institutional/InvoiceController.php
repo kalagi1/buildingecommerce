@@ -11,10 +11,9 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    public function show($hashedId)
+    public function show($order)
     {
-        $orderId = decode_id($hashedId);
-        $order = CartOrder::where("id", $orderId)->first();
+        $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;
 
@@ -31,11 +30,10 @@ class InvoiceController extends Controller
         ];
 
 
-        return view('client.panel.invoice.index', compact("data"));
+        return view('institutional.invoice.index', compact("data"));
     }
 
-    public function adminshow($order)
-    {
+    public function adminshow($order){
         $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;

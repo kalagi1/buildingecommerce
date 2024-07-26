@@ -33,7 +33,7 @@
                                             <label class="form-label" for="validationCustom01">Başlık</label>
                                             <input name="name" class="form-control" id="validationCustom01"
                                                 type="text" value="{{ $housingStatus->name }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
 
                                         <div class="col-md-6">
@@ -62,7 +62,7 @@
                                             <label class="form-label" for="dashboard_order">Anasayfa'da Gözükme Sırası</label>
                                             <input name="dashboard_order" class="form-control" name="dashboard_order" id="dashboard_order"
                                                 type="text" @if(!$housingStatus->in_dashboard) disabled @endif value="{{ $housingStatus->dashboard_order }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
 
                                         <div id="fb-editor"></div>

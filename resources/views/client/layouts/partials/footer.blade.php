@@ -1,13 +1,3 @@
-<a id="scrollToTopBtn" class="fa fa-angle-double-up" style="display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 40px;
-    color: #007bff;
-    cursor: pointer;
-    z-index: 1000;
-    transition: color 0.3s;"
-    onclick="scrollToTop()"></a>
 <footer class="first-footer">
     <div class="top-footer">
         <div class="container">
@@ -384,27 +374,6 @@
         });
     }
 </script>
-
-<script>
-    // Sayfa kaydırıldığında butonu göster/gizle
-    window.onscroll = function() {
-        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            scrollToTopBtn.style.display = "block";
-        } else {
-            scrollToTopBtn.style.display = "none";
-        }
-    };
-
-    // Sayfanın en üstüne kaydır
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' // Yumuşak kaydırma için
-        });
-    }
-</script>
-
 
 <script>
     $(document).ready(function() {
@@ -1026,32 +995,27 @@
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
                                                     .room_order)) {
-                                                payDecPrice += numberOfShares ? parseFloat(getDataJS(response,
+                                                payDecPrice += parseFloat(getDataJS(response,
                                                     "pay_desc_price" + (orderHousing) +
                                                     l,
-                                                    response.room_info[i].room_order)) / numberOfShares : parseFloat(getDataJS(response,
-                                                    "pay_desc_price" + (orderHousing) +
-                                                    l,
-                                                    response.room_info[i].room_order)) ;
-                                                var payDecPrice2 = numberOfShares ? parseFloat(getDataJS(response,
-                                                "pay_desc_price" + (orderHousing) +
-                                                l,
-                                                response.room_info[i].room_order)) / numberOfShares : parseFloat(getDataJS(response,
-                                                "pay_desc_price" + (orderHousing) +
-                                                l,
-                                                response.room_info[i].room_order)) ;
+                                                    response.room_info[i].room_order));
                                                 var payDescDate = new Date(getDataJS(response,
                                                     "pay_desc_date" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order));
-                                                console.log(payDecPrice);
+
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l +
                                                                 1) +
                                                             ". Ara Ödeme :</strong> <br>" :
                                                             "") +
-                                                        formatPrice(payDecPrice2) + "₺" +
+                                                        formatPrice(parseFloat(getDataJS(response,
+                                                            "pay_desc_price" + (
+                                                                orderHousing) + l, response
+                                                            .room_info[
+                                                                i]
+                                                            .room_order))) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +
@@ -1706,7 +1670,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1924,7 +1888,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

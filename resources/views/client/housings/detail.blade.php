@@ -54,15 +54,13 @@
 @endphp
 @php
 
-function getData($housing, $key) {
-    if (isset($housing->housing_type_data)) {
+    function getData($housing, $key)
+    {
         $housing_type_data = json_decode($housing->housing_type_data);
-        if (isset($housing_type_data->$key) && is_array($housing_type_data->$key) && !empty($housing_type_data->$key)) {
-            return $housing_type_data->$key[0];
-        }
+        $a = $housing_type_data->$key;
+        return $a[0];
     }
-    return null;
-}
+
     function getImages($housing, $key)
     {
         $housing_type_data = json_decode($housing->housing_type_data);
@@ -186,13 +184,11 @@ function getData($housing, $key) {
                         <div class="col-md-12">
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                 <div class="button-effect-div favorite-move">
                                     <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div>
                                 </div>
-                                @endif
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -309,7 +305,7 @@ function getData($housing, $key) {
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (count($labels) > 0)
+                                            @if (count($labels) <= 0) 
                                                 @foreach ($labels as $label => $val)
                                                     @if (is_array($val))
                                                         @if (count($val) > 1)
@@ -466,7 +462,6 @@ function getData($housing, $key) {
                                             <button type="button" class="ud-btn btn-white2 mt-3"
                                                 onclick="submitForm()">Yorumu
                                                 Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                                <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
                                         </form>
                                     @endif
@@ -491,34 +486,18 @@ function getData($housing, $key) {
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                        <div class="mobileHour mobileHourDiv">
-                            <div class="homes-content details-2">
-                                <ul class="homes-list reservation-list clearfix">
-                                    <li>
-                                        <span>Giriş: 
-                                            @php $start_time = getData($housing, 'start_time'); @endphp
-                                            @if($start_time !== null)
-                                                {{ $start_time }}
-                                            @else
-                                                Belirtilmedi
-                                            @endif
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>Çıkış: 
-                                            @php $end_time = getData($housing, 'end_time'); @endphp
-                                            @if($end_time !== null)
-                                                {{ $end_time }}
-                                            @else
-                                                Belirtilmedi
-                                            @endif
-                                        </span>
-                                    </li>
-                                </ul>
+                            <div class="mobileHour mobileHourDiv">
+                                <div class="homes-content details-2">
+                                    <ul class="homes-list reservation-list clearfix">
+                                        <li>
+                                            <span>Giriş: {{ getData($housing, 'start_time') ?? 'Belirtilmedi' }}</span>
+                                        </li>
+                                        <li>
+                                            <span>Çıkış: {{ getData($housing, 'end_time') ?? 'Belirtilmedi' }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        
-                        
                         @else
                             <div class="mobileHour mobileHourDiv">
 
@@ -526,7 +505,7 @@ function getData($housing, $key) {
                                     <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
-                                                @if ( $sold &&  $sold[0]->status != '0' && $sold[0]->status != '1')
+                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                         <h4
                                                             style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
@@ -620,18 +599,12 @@ function getData($housing, $key) {
                                                     </a>
                                                 </div>
                                             @else
-                                                @if (Auth::check())
-                                                    
-                                                
-                                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
-                                                    <div class="col-md-12 col-12 p-0 ml-3">
-                                                        <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                            style="color:#EA2B2E !important;cursor: pointer; ">
-                                                            Pazarlık Yap <i class="fa fa-handshake"></i>
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                                @endif
+                                                <div class="col-md-12 col-12 p-0 ml-3">
+                                                    <a data-bs-toggle="modal" data-bs-target="#bidModal"
+                                                        style="color:#EA2B2E !important;cursor: pointer; ">
+                                                        Pazarlık Yap <i class="fa fa-handshake"></i>
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div>
 
@@ -648,7 +621,7 @@ function getData($housing, $key) {
                                                     @php
                                                         $buttonStyle = '';
                                                         $buttonText = '';
-                                                        if ($sold && $sold[0]->status == '0') {
+                                                        if ($sold[0]->status == '0') {
                                                             $buttonStyle =
                                                                 'background: orange !important; width: 100%; color: white;';
                                                             $buttonText = 'Rezerve Edildi';
@@ -688,105 +661,96 @@ function getData($housing, $key) {
 
                         @if (checkIfUserCanAddToCart($housing->id))
 
-
                             @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
-                                @if ((isset($sold[0]) && $sold[0]->status == '2') || !$sold)
-                                    <div class="add-to-collections-wrapper addCollection" data-type='housing'
-                                        data-id="{{ $housing->id }}">
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
+                                <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                                    data-id="{{ $housing->id }}">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#e54242" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#ea2a28" />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#ea2a28" />
-                                                                        <g id="Group 72">
-                                                                            <path id="Rectangle 12"
-                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                                fill="white" stroke="white"
-                                                                                stroke-width="2" />
-                                                                        </g>
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#e54242" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#ea2a28" />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#ea2a28" />
+                                                                    <g id="Group 72">
+                                                                        <path id="Rectangle 12"
+                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                            fill="white" stroke="white"
+                                                                            stroke-width="2" />
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg><span class="add-to-collection-button-text">
-                                                    @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                        Portföyüme Ekle
-                                                    @else
-                                                        Koleksiyona Ekle
-                                                    @endif
-                                                </span>
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg><span class="add-to-collection-button-text">
+                                                @if (Auth::check() && Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    Portföyüme Ekle
+                                                @else
+                                                    Koleksiyona Ekle
+                                                @endif
+                                            </span>
                                         </div>
+                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                @endif
+                                </div>
                             @endif
+                            @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-                            @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
-                                @if (isset(json_decode($housing->housing_type_data)->swap[0]))
-                                    <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
-
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#F0F0F0" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#FEF4EB" />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#F27A1A" />
-                                                                        <g id="Group 72">
-                                                                            <path d="M16 11V21M11 16H21" stroke="white"
-                                                                                stroke-width="2" stroke-linecap="round" />
-                                                                        </g>
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#F0F0F0" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#FEF4EB" />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#F27A1A" />
+                                                                    <g id="Group 72">
+                                                                        <path d="M16 11V21M11 16H21" stroke="white"
+                                                                            stroke-width="2" stroke-linecap="round" />
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
 
-                                                <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
-
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
+                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
                                         </div>
+                                        <i class="fa fa-caret-right"></i>
                                     </div>
-                                @endif
+                                </div>
                             @endif
                         @endif
 
@@ -1402,12 +1366,11 @@ function getData($housing, $key) {
                                                                     </svg></a>
                                                             </button>
                                                         </div>
-                                                        @if ($sold && $sold[0]->status != '1')
-                                                            <div class="button-effect toggle-favorite"
-                                                                data-housing-id={{ $housing->id }}>
-                                                                <i class="fa fa-heart-o"></i>
-                                                            </div>
-                                                        @endif
+                                                        <div class="button-effect toggle-favorite"
+                                                            data-housing-id={{ $housing->id }}>
+                                                            <i class="fa fa-heart-o"></i>
+                                                        </div>
+
 
                                                     </div>
                                                 </div>
@@ -1690,20 +1653,11 @@ function getData($housing, $key) {
                                                                     <span class="det">{{ $val[0] }}
                                                                         m2</span>
                                                                 @elseif ($label == 'Özellikler')
-                                                                    {{-- <ul>
+                                                                    <ul>
                                                                         @foreach ($val as $ozellik)
                                                                             <li>{{ $ozellik }}</li>
                                                                         @endforeach
-                                                                    </ul> --}}
-                                                                    @if (!empty($val) && is_array($val))
-                                                                        <ul>
-                                                                            @foreach ($val as $ozellik)
-                                                                                <li>{{ $ozellik }}</li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                    @else
-                                                                        <p>Bu ilan ait özellikler belirtilmemiştir.</p>
-                                                                    @endif
+                                                                    </ul>
                                                                 @else
                                                                     <span class="det">
                                                                         {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
@@ -1986,31 +1940,6 @@ function getData($housing, $key) {
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            $(document).ready(function() {
-    $('#selectImageButton').on('click', function() {
-        $('.fileinput').click();
-    });
-
-    $('.fileinput').on('change', function(event) {
-        var previewContainer = $('#previewContainer');
-        previewContainer.empty(); // Clear previous previews
-
-        var files = event.target.files;
-        if (files) {
-            $.each(files, function(index, file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var img = $('<img>').attr('src', e.target.result);
-                    previewContainer.append(img);
-                }
-                reader.readAsDataURL(file);
-            });
-        }
-    });
-});
-
-        </script>
 
     <script>
         $(document).ready(function() {
@@ -3317,15 +3246,6 @@ function getData($housing, $key) {
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/housing.css') }}">
     <style>
-        #previewContainer img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin: 5px;
-        }
-
         #ad-error,
         #soyad-error,
         #email-error,

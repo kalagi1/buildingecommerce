@@ -35,20 +35,20 @@
                                             <label class="form-label" for="email">Email</label>
                                             <input name="email" class="form-control" id="email" type="text"
                                                 value="{{ $contactInfo->email }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="phone">Telefon</label>
                                             <input name="phone" class="form-control" id="phone" type="text"
                                                 value="{{ $contactInfo->phone }}" required="" maxlength="10">
                                                 <span id="error_message" class="error-message"></span>
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="working_time">Çalışma zamanı(09:00-17:00)</label>
                                             <input name="working_time" class="form-control" id="working_time" type="text"
                                                 value="{{ $contactInfo->working_time }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="address">Adres</label>

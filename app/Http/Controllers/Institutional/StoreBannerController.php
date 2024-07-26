@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use App\Models\StoreBanner; // Eğer kullanılacaksa StoreBanner modelini ekleyin
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,12 +13,12 @@ class StoreBannerController extends Controller
     public function index()
     {
         $storeBanners = StoreBanner::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->orderBy("order", "asc")->get();
-        return view('client.panel.store_banners.index', compact('storeBanners'));
+        return view('institutional.store_banners.index', compact('storeBanners'));
     }
 
     public function create()
     {
-        return view('client.panel.store_banners.create');
+        return view('institutional.store_banners.create');
     }
 
     public function store(Request $request)
@@ -49,20 +48,13 @@ class StoreBannerController extends Controller
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerları başarıyla oluşturuldu.');
     }
 
-    public function edit($hashedId)
+    public function edit(StoreBanner $storeBanner)
     {
-        $storeBannerId = decode_id($hashedId);
-        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
-       
-
-        return view('client.panel.store_banners.edit', compact('storeBanner'));
+        return view('institutional.store_banners.edit', compact('storeBanner'));
     }
 
-    public function update(Request $request, $hashedId)
+    public function update(Request $request, StoreBanner $storeBanner)
     {
-        $storeBannerId = decode_id($hashedId);
-        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
-
         $request->validate([
             'image' => 'image',
         ]);
@@ -79,11 +71,8 @@ class StoreBannerController extends Controller
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerı başarıyla güncellendi.');
     }
 
-    public function destroy($hashedId)
+    public function destroy(StoreBanner $storeBanner)
     {
-        $storeBannerId = decode_id($hashedId);
-        $storeBanner = StoreBanner::where("id", $storeBannerId)->first();
-
         if ($storeBanner->image) {
             Storage::delete('store_banners/' . $storeBanner->image);
         }

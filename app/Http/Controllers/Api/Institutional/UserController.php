@@ -255,7 +255,7 @@ class UserController extends Controller
 
             $user->save();
 
-            if ($countUser && $user->save()) {
+            if ($user->save()) {
                 $countUser->user_limit = $countUser->user_limit - 1;
                 $countUser->save();
             }
@@ -351,30 +351,6 @@ class UserController extends Controller
             'success' => true,
             'message' => "Kullanıcı başarıyla silindi."
         ]);
-    }
-
-
-    public function deleteSubUsers(Request $request)
-    {
-
-        $userIds = $request->input('user_ids',[]);
-        
-         $deletedRows = User::whereIn('id', $userIds)->where('parent_id', auth()->user()->id)->delete();
-
-         if ($deletedRows === 0) {
-             return response()->json([
-                 'status' => "no_sub_users",
-                 'message' => "Bu parent_id ile alt kullanıcı bulunamadı."
-             ]);
-         }
- 
-         return response()->json([
-             'status' => "deleted",
-             'message' => "Alt kullanıcılar başarıyla silindi.",
-             'deleted_count' => $deletedRows
-         ]);
-
-
     }
 
     public function getCurrentUser()

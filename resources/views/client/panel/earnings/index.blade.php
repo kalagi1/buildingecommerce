@@ -1,4 +1,4 @@
-@extends('client.layouts.masterPanel')
+@extends('client.layouts.master')
 
 @section('content')
     <div class="content">
@@ -19,7 +19,7 @@
                                                 <h5>{{ Auth::user()->name }}</h5>
                                                 <span style="display: flex"> <img style="height: 21px;"
                                                         class="lazy entered loading"
-                                                        src="https://private.emlaksepette.com/yeniler_2.svg" alt="Yeniler"
+                                                        src="https://emlaksepette.com/yeniler_2.svg" alt="Yeniler"
                                                         data-ll-status="loading">Emlak Kulüp Üyesi</span>
                                             </div>
                                         </div>

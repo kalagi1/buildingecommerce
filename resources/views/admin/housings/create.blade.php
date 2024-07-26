@@ -33,7 +33,7 @@
                                             <label class="form-label" for="validationCustom01">Başlık</label>
                                             <input name="title" class="form-control" id="validationCustom01"
                                                 type="text" value="" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Hangi Marka Adına Ekliyorsun</label>
@@ -67,7 +67,7 @@
 
                                         <div class="col-md-6">
                                             <label class="form-label" for="status">Durum</label>
-                                            <select name="status" class="form-select"
+                                            <select name="status" id="status" class="form-select"
                                                 aria-label="Default select example">
                                                 <option selected="">Konut durumunu seçiniz:</option>
                                                 @foreach ($housing_status as $status)

@@ -1,9 +1,9 @@
-@extends('client.layouts.masterPanel')
+@extends('client.layouts.master')
 
 @section('content')
 
     <div class="content px-0">
-        <div id="react_render_area">
+        <div id="react_projects">
 
         </div>  
     </div>

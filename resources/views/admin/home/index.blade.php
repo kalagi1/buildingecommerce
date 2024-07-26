@@ -172,11 +172,6 @@
 
                                 <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status">Durum
                                 </th>
-
-                                <th class="sort text-start ps-5 align-middle" data-sort="customer"
-                                style="min-width: 200px;">
-                                İlan Numarası</th>
-
                                 <th class="sort align-middle" scope="col" colspan="2" data-sort="review">Tarih
                                 </th>
                             </tr>
@@ -223,9 +218,6 @@
                                             </svg>
                                         @endfor
                                     </td>
-
-                                    
-
                                     <td class="align-middle text-start ps-5 status">
                                         @if ($comment->status == '1')
                                             <span class="badge badge-phoenix fs--2 badge-phoenix-success">
@@ -242,12 +234,6 @@
                                         @endif
 
                                     </td>
-
-                                    <td class="align-middle text-start ps-5 ">                        
-                                        <a href="{{  route('housing.show', ['housingSlug' => $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000])}}"> {{$comment->housing->id + 2000000}} </a>
-                                    </td>
-                                      
-
                                     <td class="align-middle text-end time white-space-nowrap">
                                         <div class="hover-hide">
                                             <h6 class="text-1000 mb-0">

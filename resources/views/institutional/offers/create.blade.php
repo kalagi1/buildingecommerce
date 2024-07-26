@@ -31,7 +31,7 @@
                                         <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                         <input name="discount_amount" class="form-control" id="validationCustom01"
                                             type="text">
-                                        <div class="valid-feedback">İyi Görünüyor !</div>
+                                        <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="#" class="form-label">Türü</label>

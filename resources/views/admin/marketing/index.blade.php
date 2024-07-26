@@ -19,13 +19,13 @@
                                             <label class="form-label" for="sort_order">Sıra</label>
                                             <input name="sort_order" class="form-control" id="sort_order" type="text"
                                                 value="" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-5">
                                             <label class="form-label" for="price">Fiyat</label>
                                             <input name="price" class="form-control" id="price" type="text"
                                                 value="" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
 
                                         <div class="col-md-2">
@@ -104,7 +104,7 @@
                                     <label class="form-label" for="months">Fiyat</label>
                                     <input name="months" class="form-control" id="months" type="text" value=""
                                         required="">
-                                    <div class="valid-feedback">İyi Görünüyor !</div>
+                                    <div class="valid-feedback">Looks good!</div>
                                 </div>
 
 

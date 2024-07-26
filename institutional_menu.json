@@ -139,6 +139,15 @@
         ]
     },
     {
+        "id": "realestate",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "info",
+        "text": "Sat Kirala Formlarım",
+        "key": "RealEstate",
+        "url": "institutional.real.estates",
+        "activePath": "/hesabim/real_estates"
+    },
+    {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
@@ -147,13 +156,13 @@
         "url": "#nv-shopping",
         "activePath": [
             "/hesabim/sattiklarim*",
-            "/hesabim/siparislerim"
+            "/hesabim/aldiklarim"
         ],
         "subMenu": [{
-                "text": "Siparişlerim",
+                "text": "Aldıklarım",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
-                "activePath": "/hesabim/siparislerim"
+                "activePath": "/hesabim/aldiklarim"
             },
             {
                 "text": "Sattıklarım",

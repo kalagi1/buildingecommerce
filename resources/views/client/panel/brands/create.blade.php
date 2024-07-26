@@ -1,4 +1,4 @@
-@extends('client.layouts.masterPanel')
+@extends('client.layouts.master')
 
 @section('content')
     <div class="content">
@@ -33,7 +33,7 @@
                                             <label class="form-label" for="title">Başlık</label>
                                             <input name="title" class="form-control" id="title"
                                                 type="text" value="{{ old('title') }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="logo">Logo</label>

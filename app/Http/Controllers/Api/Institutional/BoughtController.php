@@ -13,11 +13,10 @@ class BoughtController extends Controller
 {
     public function bougths()
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice",'refund')
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")
             ->where("is_disabled", NULL)->orderBy("id", "desc")->get();
         return response()->json([
             "boughts" => $cartOrders
-
         ]);
     }
 

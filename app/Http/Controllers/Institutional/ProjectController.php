@@ -133,7 +133,7 @@ class ProjectController extends Controller
 
     public function housingsV2()
     {
-        return view('client.panel.projects.housings_v2');
+        return view('institutional.projects.housings_v2');
     }
 
     public function loadMoreHousings(Request $request)
@@ -1131,7 +1131,7 @@ class ProjectController extends Controller
 
     public function reactProjects()
     {
-        return view('client.panel.projects.react_projects');
+        return view('institutional.projects.react_projects');
     }
 
     public function setSelectedData(Request $request, $projectId)
@@ -1205,7 +1205,7 @@ class ProjectController extends Controller
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
 
 
-        return view('client.panel.projects.housings', compact('menu', "sumCartOrderQt", "projectHousingsList", "offer", 'project'));
+        return view('institutional.projects.housings', compact('menu', "sumCartOrderQt", "projectHousingsList", "offer", 'project'));
     }
 
     public function setPayDecs(Request $request)
@@ -1328,7 +1328,7 @@ class ProjectController extends Controller
         $project = Project::where('id', $projectId)->first();
         $housingType = HousingType::where('id', $project->housing_type_id)->first();
         $housing = ProjectHousing::where('project_id', $projectId)->where('room_order', $roomOrder)->get();
-        return view('client.panel.projects.housing_edit', compact('project', 'housingType', 'housing', 'roomOrder'));
+        return view('institutional.projects.housing_edit', compact('project', 'housingType', 'housing', 'roomOrder'));
     }
 
     public function editHousingPost(Request $request, $projectId, $roomOrder)
@@ -1529,7 +1529,7 @@ class ProjectController extends Controller
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
 
-        return view('client.panel.projects.index', compact('activeProjects', 'pendingProjects', 'disabledProjects', 'inactiveProjects', 'pendingProjects', 'bankAccounts'));
+        return view('institutional.projects.index', compact('activeProjects', 'pendingProjects', 'disabledProjects', 'inactiveProjects', 'pendingProjects', 'bankAccounts'));
     }
 
 
@@ -1565,7 +1565,7 @@ class ProjectController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        return view('client.panel.projects.create', compact('housing_types', 'housing_status', 'brands', 'cities'));
+        return view('institutional.projects.create', compact('housing_types', 'housing_status', 'brands', 'cities'));
     }
 
     public function createV2()
@@ -1671,12 +1671,12 @@ class ProjectController extends Controller
         $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $featuredPrices = DopingPricing::where('item_type', 1)->get();
         $topRowPrices = DopingPricing::where('item_type', 2)->get();
-        return view('client.panel.projects.createv2', compact('topRowPrices', 'featuredPrices', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
+        return view('institutional.projects.createv2', compact('topRowPrices', 'featuredPrices', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
     }
 
     public function createV3()
     {
-        return view('client.panel.projects.createv3');
+        return view('institutional.projects.createv3');
     }
 
     public function editV2($slug, $id)
@@ -1728,12 +1728,12 @@ class ProjectController extends Controller
 
         $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
         
-        return view('client.panel.projects.editv2', compact('tempUpdateHas', 'project', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
+        return view('institutional.projects.editv2', compact('tempUpdateHas', 'project', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 
     public function editV3($projectSlug, $projectId)
     {
-        return view('client.panel.projects.editv3', compact('projectId'));
+        return view('institutional.projects.editv3', compact('projectId'));
     }
 
     public function getBusyDatesByStatusType($statusId, Request $request)
@@ -2284,7 +2284,7 @@ class ProjectController extends Controller
         $featuredPrices = DopingPricing::where('item_type', 1)->get();
         $topRowPrices = DopingPricing::where('item_type', 2)->get();
 
-        return view('client.panel.projects.stand_out', compact('projectId', 'project', 'topRowPrices', 'featuredPrices', 'bankAccounts'));
+        return view('institutional.projects.stand_out', compact('projectId', 'project', 'topRowPrices', 'featuredPrices', 'bankAccounts'));
     }
 
     public function standOutPost(Request $request, $projectId)
@@ -2401,7 +2401,7 @@ class ProjectController extends Controller
         $housing_status = HousingStatus::all();
         $cities = City::get();
         $counties = County::where('city_id', $project->city_id)->get();
-        return view('client.panel.projects.edit', compact('project', 'housing_types', 'housing_status', 'brands', 'cities', 'counties'));
+        return view('institutional.projects.edit', compact('project', 'housing_types', 'housing_status', 'brands', 'cities', 'counties'));
     }
 
     public function update(Request $request, $id)
@@ -2585,13 +2585,13 @@ class ProjectController extends Controller
             'project' => $project,
         ];
 
-        return view('client.panel.invoice.index',compact('data'));
+        return view('institutional.invoice.index',compact('data'));
     }//End
 
     public function soldOrderDetail($id){
         $order = CartOrder::where('cart->item->id', $id)->first();
 
-        return view('client.panel.orders.detail', compact('order'));
+        return view('institutional.orders.detail', compact('order'));
     }//End
 
     public function newProjectImage(Request $request, $projectId)
@@ -2672,7 +2672,7 @@ class ProjectController extends Controller
     public function logs($projectId)
     {
         $logs = Log::where('item_type', 1)->where('item_id', $projectId)->orderByDesc('created_at')->get();
-        return view('client.panel.projects.logs', compact('logs'));
+        return view('institutional.projects.logs', compact('logs'));
     }
 
     public function updateProjectEnd()

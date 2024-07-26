@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html class="no-js" lang="tr">
+<html class="no-js" lang="en">
 
 <head>
+    <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -157,7 +158,7 @@
                                 stroke-width="32" />
                         </svg>
                     </span>
-                    <span class="tm_btn_text">İndir</span>
+                    <span class="tm_btn_text">Download</span>
                 </a>
                 {{-- <button id="tm_download_btn" class="tm_invoice_btn tm_color2">
                     <span class="tm_btn_icon">

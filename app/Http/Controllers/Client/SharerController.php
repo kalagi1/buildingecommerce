@@ -46,20 +46,15 @@ class SharerController extends Controller
     public function index()
     {
         $sharer = User::where('id', auth()->user()->id)->first();
-        $items = ShareLink::where('user_id', auth()->user()->id)->get();    
-
-        $store = User::where('id', auth()->user()->id)
-            ->with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', "child.collections.clicks", 'banners')
-            ->first();
-
-        $collections = Collection::with('links.project', 'links.housing', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
+        $items = ShareLink::where('user_id', auth()->user()->id)->get();
+        $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         $itemsArray = [];
         foreach ($items as $item) {
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();
             $item['housing'] = $item->housing;
         }
 
-        return view('client.panel.sharer-panel.index', compact('items', "store" , 'sharer', 'collections'));
+        return view('institutional.sharer-panel.index', compact('items', 'sharer', 'collections'));
     }
     public function earnings()
     {
@@ -344,15 +339,13 @@ class SharerController extends Controller
     public function viewsLinks($id)
     {
         $collection = Collection::with("clicks.user")->where('id', $id)->first();
-        return view('client.panel.sharer-panel.views', compact("collection"));
+        return view('institutional.sharer-panel.views', compact("collection"));
     }
 
 
-    public function showLinks($hashedId)
+    public function showLinks($id)
     {
-        $collectionId = decode_id($hashedId);
-
-        $collection = Collection::with("links")->where('id', $collectionId)->first();
+        $collection = Collection::where('id', $id)->first();
         $sharer = User::findOrFail(auth()->user()->id);
 
         $items = ShareLink::where('user_id', auth()->user()->id)->where('collection_id', $collection->id)->get();
@@ -383,7 +376,7 @@ class SharerController extends Controller
                 $offSale = isset($housingTypeData['off_sale1']);
             }
 
-            if ($item->item_type == 1 || $item->item_type == 0) {
+            if ($item->item_type == 1) {
 
                 $userProjectIds = $sharer->projects->pluck('id');
                 $discount_amount = Offer::where('type', 'project')->where('project_id', $item->project->id)
@@ -423,7 +416,7 @@ class SharerController extends Controller
             return array_merge($item, $itemArray);
         }, $items->toArray(), $itemsArray->toArray());
 
-        return view('client.panel.sharer-panel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
+        return view('institutional.sharer-panel.show', compact('mergedItems', 'items', 'sharer', 'collection'));
     }
 
     public function sharerPanel()

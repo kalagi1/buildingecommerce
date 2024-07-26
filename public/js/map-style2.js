@@ -3,11 +3,11 @@ $(document).ready(function () {
 
     if ($('#map-leaflet').length) {
         var map = L.map('map-leaflet', {
-            zoom: 6,
+            zoom: 9,
             maxZoom: 20,
             tap: false,
             gestureHandling: true,
-            center: [38.9334, 32.8597] 
+            center: [40.85, -74.10]
         });
 
         var marker_cluster = L.markerClusterGroup();

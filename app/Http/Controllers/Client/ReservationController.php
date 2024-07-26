@@ -245,7 +245,7 @@ class ReservationController extends Controller
                         $sales_rate_club = null; // Başlangıçta boş veya null değer
 
                         foreach ($rates as $rate) {
-                            if (isset($collection) && isset($collection->user) && $collection->user->corporate_type == $rate->institution->name) {
+                            if ($collection->user->corporate_type == $rate->institution->name) {
                                 // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                                 $sales_rate_club = $rate->sales_rate_club;
                             }

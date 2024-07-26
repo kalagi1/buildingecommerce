@@ -37,7 +37,7 @@
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
                                                 type="text" value="{{ number_format($offer->discount_amount, 0, ',', '.') }}"
                                                 required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         
                                         

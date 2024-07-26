@@ -41,9 +41,7 @@
 
                                                 @if (!is_null($user_e->tax_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('tax_documents/' . $user_e->tax_document) }}"
-                                                            download>
+                                                        <a target="_blank" href="{{ url("tax_documents/". $user_e->tax_document)  }}" download>
                                                             <i class="fa fa-download"></i>
                                                         </a>
                                                     </div>
@@ -55,7 +53,6 @@
                                                 @endif
                                             </label>
                                             <select name="tax_document_approve" class="form-control">
-                                                <option value="">Seçiniz</option>
                                                 <option
                                                     value="0"{{ $user_e->tax_document_approve == 0 ? ' selected' : null }}>
                                                     Onaylamıyorum</option>
@@ -71,9 +68,7 @@
 
                                                 @if (!is_null($user_e->record_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('record_documents/' . $user_e->record_document) }}"
-                                                            download>
+                                                        <a target="_blank" href="{{ url("record_documents/". $user_e->record_document)  }}" download>
                                                             <i class="fa fa-download"></i>
                                                         </a>
                                                     </div>
@@ -102,9 +97,7 @@
 
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('identity_documents/' . $user_e->identity_document) }}"
-                                                            download>
+                                                        <a target="_blank" href="{{ url("identity_documents/". $user_e->identity_document)  }}" download>
                                                             <i class="fa fa-download"></i>
                                                         </a>
                                                     </div>
@@ -133,12 +126,10 @@
 
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('identity_documents/' . $user_e->identity_document) }}"
-                                                            download>
+                                                        <a target="_blank" href="{{ url("identity_documents/". $user_e->identity_document)  }}" download>
                                                             <i class="fa fa-download"></i>
                                                         </a>
-
+                                                        
                                                     </div>
                                                 @endif
                                                 @if ($user_e->identity_document_approve)
@@ -162,11 +153,9 @@
                                                 Belgesi (Opsiyonel):
 
                                                 @if (!is_null($user_e->company_document))
-                                                    <a target="_blank"
-                                                        href="{{ url('company_documents/' . $user_e->company_document) }}"
-                                                        download>
-                                                        <i class="fa fa-download"></i>
-                                                    </a>
+                                                <a target="_blank" href="{{ url("company_documents/". $user_e->company_document)  }}" download>
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 @else
                                                     <span style="color: #e54242;margin-left:5px"> Belge Yüklenmedi</span>
                                                 @endif
@@ -188,21 +177,19 @@
                                         </div>
                                     @endif
                                     <div class="form-group">
-                                        <label for="vergi_levhasi" class="mb-2 d-flex align-items-center">İmzalı Onay
-                                            Belgesi:
+                                        <label for="vergi_levhasi" class="mb-2 d-flex align-items-center">İmzalı Onay Belgesi:
 
                                             @if (!is_null($user_e->approve_website))
                                                 <div class="ml-2 mr-2">
-                                                    <a target="_blank"
-                                                        href="{{ url('approve_websites/' . $user_e->approve_website) }}"
-                                                        download>
+                                                    <a target="_blank" href="{{ url("approve_websites/". $user_e->approve_website)  }}" download>
                                                         <i class="fa fa-download"></i>
                                                     </a>
                                                 </div>
                                             @endif
 
                                             @if ($user_e->approve_website_approve)
-                                                <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                                                <span class="checkmark"></span> <span
+                                                    style="color:green">Onaylandı</span>
                                             @endif
                                         </label>
                                         <select name="approve_website_approve" class="form-control">

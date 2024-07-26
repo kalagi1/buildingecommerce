@@ -10,16 +10,18 @@
         </div>
     @endif
     @php
-
+        
         $deposit_rate = 0.02;
         $discount_percent = 2;
-        if ($cart['type'] == 'housing') {
-            $deposit_rate = 0.02;
-            $discount_percent = 2;
-        } else {
-            $deposit_rate = $project->deposit_rate / 100;
-            $discount_percent = $project->deposit_rate;
-        }
+            if ($cart['type'] == 'housing') {
+                $deposit_rate = 0.02;
+                $discount_percent = 2;
+
+            } else {
+                $deposit_rate = $project->deposit_rate / 100;
+                $discount_percent =  $project->deposit_rate;
+
+            }
     @endphp
     <section class="payment-method notfound">
         <div class="container  pt-5">
@@ -39,7 +41,7 @@
             @else
                 <div class="row">
                     <div class="col-md-12">
-
+                     
                         @if ($cart['type'] == 'project')
                             <div class="wrap-house wg-dream flex bg-white">
                                 <div class="box-0">
@@ -380,42 +382,51 @@
                         </div>
                     </div>
                     @php
-                        $itemPrice = $cart['item']['amount'];
-                        if ($cart['hasCounter']) {
-                            if ($cart['type'] == 'housing') {
-                                $housing = App\Models\Housing::find($cart['item']['id']);
-                                $housingData = json_decode($housing->housing_type_data);
-                                $discountRate = $housingData->discount_rate[0] ?? 0;
+                    $itemPrice = $cart['item']['amount'];
+                    if ($cart['hasCounter']) {
+                        if ($cart['type'] == 'housing') {
+                            $housing = App\Models\Housing::find($cart['item']['id']);
+                            $housingData = json_decode($housing->housing_type_data);
+                            $discountRate = $housingData->discount_rate[0] ?? 0;
 
-                                $housingAmount = $itemPrice - $housingDiscountAmount;
-                                $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-                            } else {
-                                $project = App\Models\Project::find($cart['item']['id']);
-                                $roomOrder = $cart['item']['housing'];
-                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                    ->where('room_order', $roomOrder)
-                                    ->get()
-                                    ->keyBy('name');
-                                $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                $projectAmount = $itemPrice - $projectDiscountAmount;
-                                $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
-                            }
+                            $housingAmount = $itemPrice - $housingDiscountAmount;
+                            $discountedPrice =
+                                $housingAmount - ($housingAmount * $discountRate) / 100;
                         } else {
-                            $discountedPrice = $itemPrice;
-                            $discountRate = 0;
+                            $project = App\Models\Project::find($cart['item']['id']);
+                            $roomOrder = $cart['item']['housing'];
+                            $projectHousing = App\Models\ProjectHousing::where(
+                                'project_id',
+                                $project->id,
+                            )
+                                ->where('room_order', $roomOrder)
+                                ->get()
+                                ->keyBy('name');
+                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                            $projectAmount = $itemPrice - $projectDiscountAmount;
+                            $discountedPrice =
+                                $projectAmount - ($projectAmount * $discountRate) / 100;
                         }
-                        $selectedPaymentOption = request('paymentOption');
-                        $itemPrice =
-                            $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
-                                ? $cart['item']['installmentPrice']
-                                : $discountedPrice;
-                        $discountedPrice =
-                            $itemPrice - ($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount);
+                    } else {
+                        $discountedPrice = $itemPrice;
+                        $discountRate = 0;
+                    }
+                    $selectedPaymentOption = request('paymentOption');
+                    $itemPrice =
+                        $selectedPaymentOption === 'taksitli' &&
+                        isset($cart['item']['installmentPrice'])
+                            ? $cart['item']['installmentPrice']
+                            : $discountedPrice;
+                    $discountedPrice =
+                        $itemPrice -
+                        ($housingDiscountAmount
+                            ? $housingDiscountAmount
+                            : $projectDiscountAmount);
 
-                        $displayedPrice = number_format($discountedPrice, 0, ',', '.');
-                        $share_sale = $cart['item']['isShare'] ?? null;
-                        $number_of_share = $cart['item']['numbershare'] ?? null;
-                    @endphp
+                    $displayedPrice = number_format($discountedPrice, 0, ',', '.');
+                    $share_sale = $cart['item']['isShare'] ?? null;
+                    $number_of_share = $cart['item']['numbershare'] ?? null;
+                @endphp
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
@@ -432,7 +443,7 @@
                                     <input type="hidden" name="is_swap" class="is_swap"
                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                     <div class="row">
-
+                                      
                                         <div class="col-sm-6">
                                             <label for="tc">TC: </label>
                                             <input type="number" class="form-control" id="tc" name="tc"
@@ -569,18 +580,18 @@
                                             </div>
                                         </div>
 
-
-
-                                        <div class="col-sm-12 pt-2">
-                                            <div class="d-flex align-items-center mb-3">
-                                                <input id="checkSignature" type="checkbox" name="checkSignature">
-                                                <label for="checkSignature" class="m-0 ml-1 text-black">
-                                                    Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
-                                                    kabul ve beyan ediyorum.
-                                                </label>
-                                            </div>
-                                        </div>
-
+                                       
+                                            
+                                                <div class="col-sm-12 pt-2">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="checkSignature" type="checkbox" name="checkSignature">
+                                                        <label for="checkSignature" class="m-0 ml-1 text-black">
+                                                            Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
+                                                            kabul ve beyan ediyorum.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            
                                     </div>
                                 </form>
                             </div>
@@ -652,7 +663,7 @@
                                                                 class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @else
-                                                        <li> %{{ $discount_percent }} Kapora:<strong
+                                                        <li> %{{$discount_percent}} Kapora:<strong
                                                                 class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @endif
@@ -1215,15 +1226,14 @@
             }
         });
 
+        //EFT/Havale
         $(document).ready(function() {
-            const cart =
-            @json($cart); // Use Laravel Blade directive to safely pass PHP data to JavaScript
-            const uniqueCode = cart.type === 'housing' ?
-                cart.item.id + 2000000 :
-                `${cart.item.id + 1000000}-${cart.item.housing}`;
-
-            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode); // Insert uniqueCode into span elements
-            $('#orderKey').val(uniqueCode); // Insert uniqueCode into hidden input element
+            var $cart = <?php echo json_encode($cart); ?>; // $cart değişkenini hazırla
+            var uniqueCode = ($cart['type'] === 'housing') ? // uniqueCode'u oluştur
+                $cart['item']['id'] + 2000000 :
+                $cart['item']['housing'] + $cart['item']['id'] + 1000000;
+            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode); // uniqueCode değerini span içine yerleştir
+            $("#orderKey").val(uniqueCode); // uniqueCode değerini gizli input içine yerleştir
         });
         $(document).ready(function() {
 
@@ -1368,9 +1378,9 @@
             $(document).ready(function() {
                 var $cart = <?php echo json_encode($cart); ?>;
                 $(".paymentButton").on("click", function() {
-                    const uniqueCode = cart.type === 'housing' ?
-                        cart.item.id + 2000000 :
-                        `${cart.item.id + 1000000}-${cart.item.housing}`;
+                    var uniqueCode = ($cart['type'] === 'housing') ?
+                        $cart['item']['id'] + 2000000 :
+                        $cart['item']['housing'] + $cart['item']['id'] + 1000000;
                     $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
                     $("#orderKey").val(uniqueCode);
                 });

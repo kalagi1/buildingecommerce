@@ -34,13 +34,13 @@
                                             <label class="form-label" for="validationCustom01">Başlık</label>
                                             <input name="title" class="form-control" id="validationCustom01"
                                                 type="text" value="{{ $housingType->title }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label" for="validationCustom02">Slug</label>
                                             <input name="slug" class="form-control" id="validationCustom02"
                                                 type="text" value="{{ $housingType->slug }}" required="">
-                                            <div class="valid-feedback">İyi Görünüyor !</div>
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
 
                                         <div class="col-md-3">

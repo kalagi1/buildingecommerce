@@ -820,9 +820,9 @@ class PayController extends Controller
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
                                                 // $amount değerini float'a dönüştür
-                            $amount = str_replace('.', '', $amount); // Noktaları kaldır
-                            $amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
-                            $amount = floatval($amount); // Float'a dönüştür
+$amount = str_replace('.', '', $amount); // Noktaları kaldır
+$amount = str_replace(', ', '.', $amount); // Virgülü nokta ile değiştir
+$amount = floatval($amount); // Float'a dönüştür
 
                         $estateclubrate = ($amount - $sharedAmount_balance) * $sales_rate_club;
                         $remaining = $sharedAmount_earn - $estateclubrate;
@@ -987,7 +987,7 @@ class PayController extends Controller
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
 
-                    if ($collection && isset($collection->user) && $collection->user->type != "1") {
+                    if ($collection->user->type != "1") {
                         if ($collection->user->corporate_type == "Emlak Ofisi") {
 
                             $share_percent = $estateProjectRate;

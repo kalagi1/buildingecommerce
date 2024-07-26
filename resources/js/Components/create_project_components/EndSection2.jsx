@@ -8,7 +8,7 @@ function EndSection2(props) {
                         <div className="finish-area">
                             <div className="icon"><i className="fa fa-thumbs-up"></i></div>
                             <div className="text">Başarıyla ilanı güncellediniz</div>
-                            <div className="text"><a href="/hesabim/konutlar" className="btn btn-info">Mağazama Git</a></div>
+                            <div className="text"><a href="/institutional/konutlar" className="btn btn-info">Mağazama Git</a></div>
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@ class HousingController extends Controller
         $cities = City::get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('client.panel.housings.create', compact('brands', 'cities', 'housing_types', 'housing_status'));
+        return view('institutional.housings.create', compact('brands', 'cities', 'housing_types', 'housing_status'));
     }
 
     public function createV2()
@@ -136,12 +136,12 @@ class HousingController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        return view('client.panel.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'secondAreaList', 'housingTypes', 'areaSlugs', 'hasTemp'));
+        return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'secondAreaList', 'housingTypes', 'areaSlugs', 'hasTemp'));
     }
 
     public function createV3()
     {
-        return view('client.panel.housings.create_v3');
+        return view('institutional.housings.create_v3');
     }
 
     public function finishByTemp(Request $request)
@@ -352,7 +352,7 @@ class HousingController extends Controller
 
 
 
-        return view('client.panel.housings.index', compact('activeHousingTypes', "user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes', 'isShareTypes'));
+        return view('institutional.housings.index', compact('activeHousingTypes', "user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes', 'isShareTypes'));
     }
 
 
@@ -364,7 +364,7 @@ class HousingController extends Controller
         $counties = District::where('ilce_sehirkey', $housing->city_id)->get();
         $neighborhoods = Neighborhood::where('mahalle_ilcekey', $housing->county_id)->get();
         $formData = json_decode($housing->housing_type_data);
-        return view('client.panel.housings.edit', compact('housing', 'areaSlugs', 'cities', 'formData', 'counties', 'neighborhoods'));
+        return view('institutional.housings.edit', compact('housing', 'areaSlugs', 'cities', 'formData', 'counties', 'neighborhoods'));
     }
 
     public function editImages($housingId)
@@ -375,7 +375,7 @@ class HousingController extends Controller
         $counties = District::where('ilce_sehirkey', $housing->city_id)->get();
         $neighborhoods = Neighborhood::where('mahalle_ilcekey', $housing->county_id)->get();
         $formData = json_decode($housing->housing_type_data);
-        return view('client.panel.housings.images', compact('housing', 'areaSlugs', 'cities', 'formData', 'counties', 'neighborhoods'));
+        return view('institutional.housings.images', compact('housing', 'areaSlugs', 'cities', 'formData', 'counties', 'neighborhoods'));
     }
 
     public function newHousingImage(Request $request)
@@ -588,7 +588,7 @@ class HousingController extends Controller
     public function logs($housingId)
     {
         $logs = Log::where('item_type', 2)->where('item_id', $housingId)->orderByDesc('created_at')->get();
-        return view('client.panel.housings.logs', compact('logs'));
+        return view('institutional.housings.logs', compact('logs'));
     }
 
     public function destroy($housingId)

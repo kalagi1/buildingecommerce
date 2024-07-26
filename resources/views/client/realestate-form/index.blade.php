@@ -503,7 +503,7 @@
                                 <div class="filter-tags-wrap ">
                                     <input id="check-b" type="checkbox" name="check-b">
                                     <label for="check-b" style="font-size: 11px;">
-                                        <a href="https://private.emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
+                                        <a href="https://emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
                                             Sat Kirala Formu sözleşmesini
                                         </a>
                                         okudum onaylıyorum.
@@ -598,7 +598,7 @@ $(document).ready(function() {
                 type: "GET",
                 url: "{{ route('get-districts', ['city_id' => '__cityId__']) }}".replace('__cityId__', cityId), // cityId parametresini rotaya ekliyoruz
                 success: function(data) {
-                    
+                    console.log(data);
                     if(data) {
                         $('#district').html('<option value="">İlçe Seçiniz</option>');
                         $.each(data, function(index, district) {

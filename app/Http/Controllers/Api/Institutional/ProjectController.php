@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\CartOrder;
-use App\Models\Changer;
 use App\Models\City;
 use App\Models\District;
 use App\Models\DocumentNotification;
@@ -177,18 +176,14 @@ class ProjectController extends Controller
         $roomValidations = [];
         $roomValidationsMessages = [];
 
-        if (isset($housingTypeInputs)) {
-            foreach ($housingTypeInputs as $input) {
-                if (!str_contains($input->className, 'project-disabled')) {
-                    if ($input->required) {
-                        $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
-                        $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
-                    }
+        foreach ($housingTypeInputs as $input) {
+            if (!str_contains($input->className, 'project-disabled')) {
+                if ($input->required) {
+                    $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
+                    $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
                 }
             }
         }
-
-       
 
         $manager = new ImageManager(
             new Driver()
@@ -232,7 +227,7 @@ class ProjectController extends Controller
         $instUser = User::where("id", Auth::user()->id)->first();
         $endDate = Carbon::now();
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
-        if (isset($request->file('projectData')['cover_image']) && $request->file('projectData')['cover_image']) {
+        if ($request->file('projectData')['cover_image']) {
 
             $file = $request->file('projectData')['cover_image'];
 
@@ -268,7 +263,7 @@ class ProjectController extends Controller
 
         $totalCount = $request->input('totalRoomCount');
 
-        if (isset($request->file('projectData')['document']) && $request->file('projectData')['document']) {
+        if ($request->file('projectData')['document']) {
             $file = $request->file('projectData')['document'];
 
             $destinationPath = public_path('housing_documents');
@@ -308,71 +303,64 @@ class ProjectController extends Controller
             "have_blocks" => $request->input('haveBlocks') == "true"
         ]);
 
-        if (isset($request->file('projectData')['gallery'])) {
-            foreach ($request->file('projectData')['gallery'] as $key => $image) {
-                $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
-    
-    
-                if ($image->move($destinationPath, $newFileName)) {
-    
-                    $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
-                    $imageWidth = $imageMg->width();
-                    $imageHeight = $imageMg->height();
-    
-                    if ($imageWidth > 1200) {
-                        $newWidth = 1200;
-                        $newHeight = $imageHeight * 1200 / $imageWidth;
-                    } else {
-    
-                        $newWidth = $imageWidth;
-                        $newHeight = $imageHeight;
-                    }
-                    $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                    $encoded->save(public_path('storage/project_images/' . $newFileName));
-    
-                    $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                    $projectImage->image = 'public/project_images/' . $newFileName;
-                    $projectImage->project_id = $project->id;
-                    $projectImage->save();
+        foreach ($request->file('projectData')['gallery'] as $key => $image) {
+            $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
+
+
+            if ($image->move($destinationPath, $newFileName)) {
+
+                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
                 }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('storage/project_images/' . $newFileName));
+
+                $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+                $projectImage->image = 'public/project_images/' . $newFileName;
+                $projectImage->project_id = $project->id;
+                $projectImage->save();
             }
-    
         }
 
-        if (isset($request->file('projectData')['situations'])) {
-            foreach ($request->file('projectData')['situations'] as $key => $situation) {
-                $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
-                $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
-    
-                if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                    $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
-                    $imageWidth = $imageMg->width();
-                    $imageHeight = $imageMg->height();
-    
-                    if ($imageWidth > 1200) {
-                        $newWidth = 1200;
-                        $newHeight = $imageHeight * 1200 / $imageWidth;
-                    } else {
-    
-                        $newWidth = $imageWidth;
-                        $newHeight = $imageHeight;
-                    }
-                    $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                    $encoded->save(public_path('situation_images/' . $newFileName));
-    
-                    $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
-                    $projectImage->situation = 'public/situation_images/' . $newFileName;
-                    $projectImage->project_id = $project->id;
-                    $projectImage->save();
+        foreach ($request->file('projectData')['situations'] as $key => $situation) {
+            $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
+            $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
+
+            if ($situation->move($yeniDosyaAdi, $newFileName)) {
+                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
                 }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('situation_images/' . $newFileName));
+
+                $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+                $projectImage->situation = 'public/situation_images/' . $newFileName;
+                $projectImage->project_id = $project->id;
+                $projectImage->save();
             }
-    
         }
-      
-     
+
 
 
         ProjectHousingType::create([
@@ -1207,8 +1195,7 @@ class ProjectController extends Controller
             if ($imageRoom) {
                 $newFileName = $project->slug . '-project-housing-image-' . ($request->input('room_order')) . time() . '.' . $imageRoom->getClientOriginalExtension();
                 $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
-                
-                
+
                 if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
                     $image = $manager->read(public_path('project_housing_images/' . $newFileName));
                     $imageWidth = $image->width();
@@ -1230,11 +1217,11 @@ class ProjectController extends Controller
                     $image2->rotate(30, '#00000000');
                     $image->resize($newWidth, $newHeight);
                     $encoded = $image->place($image2, 'center', 10, 10, 20);
-                    $encoded->toWebp()->save(public_path('project_housing_images/' . explode('.',$newFileName)[0].'.webp'));
-                    
+                    $encoded->save(public_path('project_housing_images/' . $newFileName));
+
                     ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
                         "name" => "image[]",
-                        "value" => explode('.',$newFileName)[0].'.webp'
+                        "value" => $newFileName
                     ]);
                 }
             }
@@ -1360,53 +1347,44 @@ class ProjectController extends Controller
 
     public function saveHousingCheckboxes(Request $request)
     {
-        try{
-            for ($i = 0; $i < count($request->input('rooms')); $i++) {
-                $hasData = ProjectHousing::where('project_id', $request->input('project_id'))
+        for ($i = 0; $i < count($request->input('rooms')); $i++) {
+            $hasData = ProjectHousing::where('project_id', $request->input('project_id'))
+                ->where('room_order', $request->input('rooms')[$i])
+                ->where('name', $request->input('column_name') . '[]')
+                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+                ->first();
+
+            if ($hasData) {
+                ProjectHousing::where('project_id', $request->input('project_id'))
                     ->where('room_order', $request->input('rooms')[$i])
                     ->where('name', $request->input('column_name') . '[]')
                     ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
-                    ->first();
-    
-                if ($hasData) {
-                    ProjectHousing::where('project_id', $request->input('project_id'))
-                        ->where('room_order', $request->input('rooms')[$i])
-                        ->where('name', $request->input('column_name') . '[]')
-                        ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
-                        ->update([
-                            "name" => $request->input('column_name') . "[]",
-                            "value" => json_encode($request->input('value'))
-                        ]);
-                } else {
-                    ProjectHousing::create([
-                        "key" => "Asd",
-                        "name" => $request->input('column_name') . '[]',
-                        "value" => is_array($request->input('value')) ? json_encode($request->input('value')) : str_replace('.', '', $request->input('value')),
-                        "project_id" => $request->input('project_id'),
-                        "room_order" => $request->input('rooms')[$i]
+                    ->update([
+                        "name" => $request->input('column_name') . "[]",
+                        "value" => json_encode($request->input('value'))
                     ]);
-                }
+            } else {
+                ProjectHousing::create([
+                    "key" => "Asd",
+                    "name" => $request->input('column_name') . '[]',
+                    "value" => str_replace('.', '', $request->input('value')),
+                    "project_id" => $request->input('project_id'),
+                    "room_order" => $request->input('rooms')[$i]
+                ]);
             }
-    
-    
-            return json_encode([
-                "status" => true,
-            ]);
-        }catch(Throwable $e){
-            return json_encode([
-                "status" => false,
-                "message" => $e->getMessage()
-            ]);
         }
-        
+
+
+        return json_encode([
+            "status" => true,
+        ]);
     }
 
     public function getSale($projectId,$roomOrder){
         $paymentSetting = PaymentSetting::where('project_id',$projectId)->where('room_order',$roomOrder)->first();
-        $changer = Changer::with("user")->where('transaction',1)->where('item_id',$projectId.'-'.$roomOrder)->latest()->first();
+
         return json_encode([
-            "data" => $paymentSetting,
-            "changer" => $changer
+            "data" => $paymentSetting
         ]);
     }
 
@@ -1476,17 +1454,7 @@ class ProjectController extends Controller
             "advance_date"                   => $request->input('advance_date') ?? null,
             "deposit_date"                   => $request->input('deposit_date') ?? null,
             "down_payment_price_description" => $request->input('down_payment_price_description') ?? null,
-            "advance_date_description"       => $request->input('advance_date_description') ?? null,
-            "title_deed_date"                => $request->input('title_deed_date') ?? null,
-            "agreement_date"                 => $request->input('agreement_date') ?? null,
-            "agreement_no"                   => $request->input('agreement_no') ?? null,
-            "pay_dec_description"            => json_encode($request->input('pay_decs'))
-        ]);
-
-        Changer::create([
-            "user_id" => Auth::user()->id,
-            "item_id" => $projectId.'-'.$request->input('room_order'),
-            "transaction" => 1
+            "advance_date_description"       => $request->input('advance_date_description') ?? null
         ]);
 
         if($request->input('pay_decs')){

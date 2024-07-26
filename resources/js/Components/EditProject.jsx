@@ -37,13 +37,9 @@ function EditProject({projectId}) {
             [key] : value
         });
     }
-    const prevStep = () => {
-        setStep(step - 1);
-      };
-      const nextStep = () => {
-        setStep(step + 1);
-    
-      };
+    const nextStep = (stepOrder) => {
+        setStep(stepOrder);
+    }
 
     console.log(projectData)
     useEffect(() => {
