@@ -825,43 +825,52 @@ function CreateHousing(props) {
 
   const [progress, setProgress] = useState(0);
 
-  const finishCreateHousing = () => {
+  const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+  
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500);
-
+  
     const formData = new FormData();
-
-    Object.keys(projectData).forEach((key) => {
+  
+    // Convert projectData to binary format
+    const binaryProjectData = await convertToBinary(projectData);
+  
+    Object.keys(binaryProjectData).forEach((key) => {
       if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-        if (Array.isArray(projectData[key])) {
-          projectData[key].forEach((data, index) => {
-            formData.append(`projectData[${key}][${index}]`, data);
+        if (Array.isArray(binaryProjectData[key])) {
+          binaryProjectData[key].forEach((data, index) => {
+            if (data instanceof File) {
+              formData.append(`projectData[${key}][${index}]`, data);
+            } else {
+              formData.append(`projectData[${key}][${index}]`, JSON.stringify(data));
+            }
           });
         } else {
-          formData.append(`projectData[${key}]`, projectData[key]);
+          if (binaryProjectData[key] instanceof File) {
+            formData.append(`projectData[${key}]`, binaryProjectData[key]);
+          } else {
+            formData.append(`projectData[${key}]`, JSON.stringify(binaryProjectData[key]));
+          }
         }
       }
     });
-
+  
     blocks.forEach((block, blockIndex) => {
       formData.append(`blocks[${blockIndex}][name]`, block.name);
       formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
     });
-
-    var housingTemp = 1;
-
+  
     blocks.forEach((block, blockIndex) => {
       block.rooms.forEach((room, roomIndex) => {
         Object.keys(room).forEach((key) => {
-          if (key == "payDecs") {
+          if (key === "payDecs") {
             room.payDecs.forEach((payDec, payDecIndex) => {
               formData.append(
                 `room[payDecs][${payDecIndex}][price]`,
@@ -878,50 +887,38 @@ function CreateHousing(props) {
             }
           }
         });
-
-        housingTemp++;
       });
     });
-
+  
     formData.append("haveBlocks", haveBlocks);
     formData.append("totalRoomCount", totalRoomCount());
     selectedTypes.forEach((data, index) => {
       formData.append(`selectedTypes[${index}]`, data);
     });
-    let requestPromises = [];
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value;
-    });
-    setFillFormData(formData);
-
-    axios
-      .post(baseUrl + "create_housing", formData, {
+  
+    try {
+      const res = await axios.post(baseUrl + "create_housing", formData, {
         headers: {
           "accept": "application/json",
           "Content-Type": `multipart/form-data;`,
         },
-      })
-      .then((res) => {
-        if (res.status) {
-          clearInterval(progressInterval);
-          setProgress(100);
-          setTimeout(() => {
-            setLoadingModalOpen(false);
-            setStep(4);
-            setFillFormData(null);
-          }, 500);
-        }
-      })
-      .catch((error) => {
-        clearInterval(progressInterval);
-        setLoadingModalOpen(false);
-        toast.error(
-          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-        );
       });
+      if (res.status) {
+        clearInterval(progressInterval);
+        setProgress(100);
+        setTimeout(() => {
+          setLoadingModalOpen(false);
+          setStep(4);
+          setFillFormData(null);
+        }, 500);
+      }
+    } catch (error) {
+      clearInterval(progressInterval);
+      setLoadingModalOpen(false);
+      toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz.");
+    }
   };
-
+  
   const style = {
     position: "absolute",
     top: "50%",
@@ -941,7 +938,36 @@ function CreateHousing(props) {
 
     return roomCount;
   };
-
+  const convertToBinary = async (data) => {
+    const convertedData = {};
+  
+    for (const key in data) {
+      if (data[key] instanceof File || data[key] instanceof Blob) {
+        // If it's a file or blob, keep it as is
+        convertedData[key] = data[key];
+      } else if (Array.isArray(data[key])) {
+        // Handle array data
+        convertedData[key] = await Promise.all(
+          data[key].map(async (item) => {
+            if (item instanceof File || item instanceof Blob) {
+              return item;
+            }
+            // If it's not a file or blob, convert to binary format (string here as an example)
+            return new Blob([JSON.stringify(item)], { type: 'application/json' });
+          })
+        );
+      } else if (typeof data[key] === 'object' && data[key] !== null) {
+        // Handle object data
+        convertedData[key] = new Blob([JSON.stringify(data[key])], { type: 'application/json' });
+      } else {
+        // For other types, just use the data as is
+        convertedData[key] = data[key];
+      }
+    }
+  
+    return convertedData;
+  };
+  
   const prevStep = () => {
     setBlocks(
       JSON.parse(localStorage.getItem("blocks")) || [

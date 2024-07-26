@@ -2032,7 +2032,7 @@
 
 {{-- @vite('resources/js/app.jsx') --}}
 
-<script src="{{ URL::to('/') }}/build/assets/app-48db5ae1.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-349023f5.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
