@@ -29,118 +29,119 @@
     </div>
     <form action="{{ route('institutional.housing.update', $housing->id) }}" method="post">
         @csrf
-            <div class="clear-both"></div>
-            <div class="second-area">
-                <div class="row">
-                 
-                    <div class="form-area">
+        <div class="clear-both"></div>
+        <div class="second-area">
+            <div class="row">
 
-                        <div class="card p-4">
-                            <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
-                                yükümlülüğü metnine <a href="https://hisselitask.emlaksepette.com/sayfa/kvkk-politikasi"
-                                    target="_blank">buradan</a> ulaşabilirsiniz.</div>
-                            <div class="form-group">
-                                <label for="">İlan Başlığı <span class="required">*</span></label>
-                                <input type="text" value="{{ isset($housing->title) ? $housing->title : '' }}"
-                                    name="name" class="form-control">
-                            </div>
-                            
-                            <div class="form-group description-field">
-                                <label for="">İlan Açıklaması <span class="required">*</span></label>
-                                <textarea name="description" id="editor" cols="30" rows="5" class="form-control">{{ isset($housing->description) ? $housing->description : '' }}</textarea>
+                <div class="form-area">
+
+                    <div class="card p-4">
+                        <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve
+                            aydınlatma
+                            yükümlülüğü metnine <a href="https://hisselitask.emlaksepette.com/sayfa/kvkk-politikasi"
+                                target="_blank">buradan</a> ulaşabilirsiniz.</div>
+                        <div class="form-group">
+                            <label for="">İlan Başlığı <span class="required">*</span></label>
+                            <input type="text" value="{{ isset($housing->title) ? $housing->title : '' }}" name="name"
+                                class="form-control">
+                        </div>
+
+                        <div class="form-group description-field">
+                            <label for="">İlan Açıklaması <span class="required">*</span></label>
+                            <textarea name="description" id="editor" cols="30" rows="5" class="form-control">{{ isset($housing->description) ? $housing->description : '' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="section-title mt-5">
+                        <h2>İlan Özellikleri </h2>
+                    </div>
+                    <div class="card p-4">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="tab-content " id="pricingTabContent" role="tabpanel">
+                                    <div id="renderForm"></div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="address">
                         <div class="section-title mt-5">
-                            <h2>İlan Özellikleri </h2>
+                            <h2>Adres Bilgileri</h2>
                         </div>
                         <div class="card p-4">
-
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="tab-content " id="pricingTabContent" role="tabpanel">
-                                        <div id="renderForm"></div>
-                                    </div>
+                                <div class="col-md-4">
+                                    <label for="">İl <span class="required">*</span></label>
+                                    <select name="city_id" id="cities" class="form-control">
+                                        <option value="">İl Seç</option>
+                                        @foreach ($cities as $city)
+                                            <option
+                                                {{ isset($housing->city_id) && $housing->city_id == $city->id ? 'selected' : '' }}
+                                                value="{{ $city->id }}">{{ $city->title }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="">İlçe <span class="required">*</span></label>
+                                    <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties"
+                                        class="form-control">
+                                        <option value="">İlçe Seç</option>
+                                        @foreach ($counties as $county)
+                                            <option
+                                                {{ isset($housing->county_id) && $housing->county_id == $county->ilce_key ? 'selected' : '' }}
+                                                value="{{ $county->ilce_key }}">{{ $county->ilce_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="">Mahalle <span class="required">*</span></label>
+                                    <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id"
+                                        id="neighbourhood" class="form-control">
+                                        <option value="">Mahalle Seç</option>
+                                        @foreach ($neighborhoods as $neighborhood)
+                                            <option
+                                                {{ isset($housing->neighborhood_id) && $housing->neighborhood_id == $neighborhood->mahalle_id ? 'selected' : '' }}
+                                                value="{{ $neighborhood->mahalle_id }}">
+                                                {{ $neighborhood->mahalle_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <input name="location" class="form-control" id="location" readonly type="hidden"
+                                    value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
+                                <div style="height: 350px;" id="mapContainer"></div>
                             </div>
                         </div>
-                        <div class="address">
-                            <div class="section-title mt-5">
-                                <h2>Adres Bilgileri</h2>
-                            </div>
-                            <div class="card p-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="">İl <span class="required">*</span></label>
-                                        <select name="city_id" id="cities" class="form-control">
-                                            <option value="">İl Seç</option>
-                                            @foreach ($cities as $city)
-                                                <option
-                                                    {{ isset($housing->city_id) && $housing->city_id == $city->id ? 'selected' : '' }}
-                                                    value="{{ $city->id }}">{{ $city->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="">İlçe <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'county_id')" name="county_id"
-                                            id="counties" class="form-control">
-                                            <option value="">İlçe Seç</option>
-                                            @foreach ($counties as $county)
-                                                <option
-                                                    {{ isset($housing->county_id) && $housing->county_id == $county->ilce_key ? 'selected' : '' }}
-                                                    value="{{ $county->ilce_key }}">{{ $county->ilce_title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="">Mahalle <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id"
-                                            id="neighbourhood" class="form-control">
-                                            <option value="">Mahalle Seç</option>
-                                            @foreach ($neighborhoods as $neighborhood)
-                                                <option
-                                                    {{ isset($housing->neighborhood_id) && $housing->neighborhood_id == $neighborhood->mahalle_id ? 'selected' : '' }}
-                                                    value="{{ $neighborhood->mahalle_id }}">
-                                                    {{ $neighborhood->mahalle_title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <input name="location" class="form-control" id="location" readonly type="hidden"
-                                        value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
-                                    <div style="height: 350px;" id="mapContainer"></div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="second-area-finish">
-                            <div class="finish-tick ">
-                                <input type="checkbox" value="1" class="rules_confirm">
-                                <span class="rulesOpen">İlan verme kurallarını</span>
-                                <span>okudum, kabul ediyorum</span>
-                            </div>
-                            <div style="float:right;margin:0;">
-                                <button class="btn btn-info">
-                                    Devam
-                                </button>
-                            </div>
+                    <div class="second-area-finish">
+                        <div class="finish-tick ">
+                            <input type="checkbox" value="1" class="rules_confirm">
+                            <span class="rulesOpen">İlan verme kurallarını</span>
+                            <span>okudum, kabul ediyorum</span>
+                        </div>
+                        <div style="float:right;margin:0;">
+                            <button class="btn btn-info">
+                                Devam
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="fourth-area d-none">
-                <div class="row" style="justify-content:center;">
-                    <div class="col-md-5">
-                        <div class="finish-area">
-                            <div class="icon"><i class="fa fa-thumbs-up"></i></div>
-                            <div class="text">Başarıyla ilan eklediniz</div>
-                            <div class="text"><a href="{{ route('institutional.housing.list') }}"
-                                    class="btn btn-info">Mağazama Git</a></div>
-                        </div>
+        </div>
+        <div class="fourth-area d-none">
+            <div class="row" style="justify-content:center;">
+                <div class="col-md-5">
+                    <div class="finish-area">
+                        <div class="icon"><i class="fa fa-thumbs-up"></i></div>
+                        <div class="text">Başarıyla ilan eklediniz</div>
+                        <div class="text"><a href="{{ route('institutional.housing.list') }}"
+                                class="btn btn-info">Mağazama Git</a></div>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 @endsection
 @section('scripts')
@@ -4935,4 +4936,19 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/rich-editor/richtext.min.css">
+    <style>
+        .checkbox-group {
+            display: flex;
+        }
+
+        .formbuilder-checkbox-inline {
+            display: flex;
+            align-items: center;
+            width: 33.3%;
+            align-items: center;
+        }
+        .rendered-form label{
+            margin-bottom: 0 ;
+        }
+    </style>
 @endsection
