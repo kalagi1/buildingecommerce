@@ -627,7 +627,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('cart') }}"
+                                    <a href="{{ auth()->check() ? route('cart') : route('client.login') }}"
                                         style="border-left: 1px solid #666;
                                     padding-left: 15px;">
                                         @include('client.layouts.partials.cart_icon', [
