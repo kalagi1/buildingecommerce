@@ -381,7 +381,8 @@ class ProjectController extends Controller
             "housing_type_id" => $request->input('selectedTypes')[0],
         ]);
 
-        if ($request->input('haveBlocks') && $request->input('haveBlocks') == "true") {o            foreach ($request->input('blocks') as $key => $block) {
+        if ($request->input('haveBlocks') && $request->input('haveBlocks') == "true") {
+            foreach ($request->input('blocks') as $key => $block) {
                 Block::create([
                     "project_id" => $project->id,
                     "block_name" => $block['name'],
