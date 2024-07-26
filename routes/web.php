@@ -1164,7 +1164,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
-        Route::get('/konut-duzenleme/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
+        Route::get('/emlak-ilani-duzenle/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
         Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
         Route::get('/gorsel-duzenleme/{id}', [InstitutionalHousingController::class, 'editImages'])->name('housing.images.update');
         Route::post('/add_image/{id}', [InstitutionalHousingController::class, 'addProjectImage'])->name('housing.image.add');

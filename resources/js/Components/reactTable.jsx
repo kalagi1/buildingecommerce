@@ -544,7 +544,7 @@ function ReactTable(props) {
             <a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
           <li><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
-          <li><a href={`https://hisselitask.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li><a href={`https://private.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
           <li>
             {selectedRow?.status == 2 ? (
               <span className="badge badge-phoenix badge-phoenix-warning">

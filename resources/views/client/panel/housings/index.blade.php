@@ -127,7 +127,7 @@
                                         <ul class="list-unstyled">
                                             @if (in_array('UpdateHousing', $userPermissions))
                                                 <li>
-                                                    <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">İlanı Düzenle</a>
+                                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housingType->id)]) }}">İlanı Düzenle</a>
                                                 </li>
                                             @endif
 
