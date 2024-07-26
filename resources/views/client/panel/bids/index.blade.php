@@ -14,6 +14,8 @@
         </li>
     </ul>
 </div>
+
+@if($housing->bids && count($housing->bids) > 0)
 @foreach ($housing->bids as $key => $bid)
 <div class="project-table-content">
     <ul>
@@ -74,6 +76,13 @@
     @endif
 </div>
 @endforeach
+@else
+
+<div class="project-table-content">
+    <p class="text-center mb-0">Henüz pazarlık teklifi almadınız.</p>
+</div>
+@endif
+
 
 @endsection
 
