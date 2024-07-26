@@ -377,7 +377,7 @@
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
             <div class="container">
-                <div id="map-leaflet"></div>
+                
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
@@ -605,11 +605,6 @@
     <!-- Include Toastify CSS and JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="{{asset('js/map-style2.js')}}"></script>
-<script src="{{ asset('js/leaflet.js') }}"></script>
-<script src="{{ asset('js/leaflet-gesture-handling.min.js') }}"></script>
-<script src="{{ asset('js/leaflet-providers.js') }}"></script>
-<script src="{{ asset('js/leaflet.markercluster.js') }}"></script>
     <script>
         var page = 1;
         var maxPages = 4; // Maksimum sayfa sayısını buraya girin
@@ -803,11 +798,4 @@
             display: inline-block !important;
         }
     </style>
-<link rel="stylesheet" href="{{asset('css/maps.css')}}">
-   <!-- LEAFLET MAP -->
-   <link rel="stylesheet" href="{{asset('css/leaflet.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet-gesture-handling.min.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.default.css')}}">
-
 @endsection
