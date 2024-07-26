@@ -49,6 +49,12 @@
                                 <label for="">İlan Açıklaması <span class="required">*</span></label>
                                 <textarea name="description" id="editor" cols="30" rows="5" class="form-control">{{ isset($housing->description) ? $housing->description : '' }}</textarea>
                             </div>
+                        </div>
+                        <div class="section-title mt-5">
+                            <h2>İlan Özellikleri </h2>
+                        </div>
+                        <div class="card p-4">
+
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="tab-content " id="pricingTabContent" role="tabpanel">
@@ -58,8 +64,10 @@
                             </div>
                         </div>
                         <div class="address">
-                            <span class="section-title">Adres Bilgileri</span>
-                            <div class="card">
+                            <div class="section-title mt-5">
+                                <h2>Adres Bilgileri</h2>
+                            </div>
+                            <div class="card p-4">
                                 <div class="row px-5 py-4">
                                     <div class="col-md-4">
                                         <label for="">İl <span class="required">*</span></label>
