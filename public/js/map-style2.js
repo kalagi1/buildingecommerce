@@ -21,6 +21,7 @@ $(document).ready(function () {
 
         $.ajax('js/markers.json', {
             success: function (markers) {
+                consoler.log(markers);
                 $.each(markers, function (index, value) {
                     var icon = L.divIcon({
                         html: value.icon,
