@@ -119,6 +119,9 @@ function CreateHousing(props) {
   }, [projectData]);
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
+      if (!(file instanceof Blob)) {
+        return reject(new Error('File is not a Blob'));
+      }
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
       reader.onerror = reject;
@@ -126,15 +129,7 @@ function CreateHousing(props) {
     });
   };
   
-  const handleFiles = async (data) => {
-    const fileObjects = {};
-    for (const [key, value] of Object.entries(data)) {
-      if (value instanceof File) {
-        fileObjects[key] = await convertFileToBase64(value);
-      }
-    }
-    return fileObjects;
-  };
+  
   useEffect(() => {
     localStorage.setItem(
       "selectedHousingType",
@@ -191,6 +186,26 @@ function CreateHousing(props) {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("projectData"));
+    if (savedData) {
+      const projectDataWithFiles = {};
+      const projectDataWithoutFiles = {};
+  
+      Object.entries(savedData).forEach(([key, value]) => {
+        if (typeof value === 'string' && value.startsWith('data:')) {
+          projectDataWithFiles[key] = value; // Base64 formatındaki dosyalar
+        } else {
+          projectDataWithoutFiles[key] = value; // Diğer veriler
+        }
+      });
+  
+      setProjectData(projectDataWithoutFiles);
+      // Eğer dosyalar varsa, bu dosyaları işleyin
+    }
+  }, []);
+  
 
   const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
@@ -842,6 +857,19 @@ function CreateHousing(props) {
 
   const [progress, setProgress] = useState(0);
 
+  const handleFiles = async (data) => {
+    const fileObjects = {};
+    const otherData = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof File) {
+        fileObjects[key] = await convertFileToBase64(value);
+      } else {
+        otherData[key] = value;
+      }
+    }
+    return { fileObjects, otherData };
+  };
+  
   const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
@@ -854,95 +882,73 @@ function CreateHousing(props) {
       );
     }, 500);
   
-    // Convert projectData files to base64
-    const projectDataWithFiles = await handleFiles(projectData);
+    try {
+      const { fileObjects, otherData } = await handleFiles(projectData);
   
-    // Save projectDataWithFiles as JSON in localStorage
-    localStorage.setItem("projectData", JSON.stringify(projectDataWithFiles));
-  
-    const formData = new FormData();
-    Object.keys(projectDataWithFiles).forEach((key) => {
-      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-        if (Array.isArray(projectDataWithFiles[key])) {
-          projectDataWithFiles[key].forEach((data, index) => {
-            formData.append(`projectData[${key}][${index}]`, data);
-          });
-        } else {
-          formData.append(`projectData[${key}]`, projectDataWithFiles[key]);
-        }
-      }
-    });
-  
-    blocks.forEach((block, blockIndex) => {
-      formData.append(`blocks[${blockIndex}][name]`, block.name);
-      formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-    });
-  
-    var housingTemp = 1;
-    blocks.forEach((block, blockIndex) => {
-      block.rooms.forEach((room, roomIndex) => {
-        Object.keys(room).forEach((key) => {
-          if (key == "payDecs") {
-            room.payDecs.forEach((payDec, payDecIndex) => {
-              formData.append(
-                `room[payDecs][${payDecIndex}][price]`,
-                payDec.price
-              );
-              formData.append(
-                `room[payDecs][${payDecIndex}][date]`,
-                payDec.date
-              );
-            });
-          } else {
-            if (!key.includes("imagex")) {
-              formData.append(`room[${key.replace("[]", "")}]`, room[key]);
-            }
-          }
-        });
-        housingTemp++;
+      const formData = new FormData();
+      Object.keys(fileObjects).forEach((key) => {
+        formData.append(`projectData[${key}]`, fileObjects[key]);
       });
-    });
+      Object.keys(otherData).forEach((key) => {
+        formData.append(`projectData[${key}]`, otherData[key]);
+      });
   
-    formData.append("haveBlocks", haveBlocks);
-    formData.append("totalRoomCount", totalRoomCount());
-    selectedTypes.forEach((data, index) => {
-      formData.append(`selectedTypes[${index}]`, data);
-    });
+      blocks.forEach((block, blockIndex) => {
+        formData.append(`blocks[${blockIndex}][name]`, block.name);
+        formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
+      });
   
-    let requestPromises = [];
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value;
-    });
-    setFillFormData(formData);
+      blocks.forEach((block, blockIndex) => {
+        block.rooms.forEach((room, roomIndex) => {
+          Object.keys(room).forEach((key) => {
+            if (key == "payDecs") {
+              room.payDecs.forEach((payDec, payDecIndex) => {
+                formData.append(
+                  `room[payDecs][${payDecIndex}][price]`,
+                  payDec.price
+                );
+                formData.append(
+                  `room[payDecs][${payDecIndex}][date]`,
+                  payDec.date
+                );
+              });
+            } else {
+              if (!key.includes("imagex")) {
+                formData.append(`room[${key.replace("[]", "")}]`, room[key]);
+              }
+            }
+          });
+        });
+      });
   
-    axios
-      .post(baseUrl + "create_housing", formData, {
+      formData.append("haveBlocks", haveBlocks);
+      formData.append("totalRoomCount", totalRoomCount());
+      selectedTypes.forEach((data, index) => {
+        formData.append(`selectedTypes[${index}]`, data);
+      });
+  
+      await axios.post(baseUrl + "create_housing", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
           "Content-Type": `multipart/form-data;`,
         },
-      })
-      .then((res) => {
-        if (res.status) {
-          clearInterval(progressInterval);
-          setProgress(100);
-          setTimeout(() => {
-            setLoadingModalOpen(false);
-            setStep(4);
-            setFillFormData(null);
-          }, 500);
-        }
-      })
-      .catch((error) => {
-        clearInterval(progressInterval);
-        setLoadingModalOpen(false);
-        toast.error(
-          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-        );
       });
+  
+      clearInterval(progressInterval);
+      setProgress(100);
+      setTimeout(() => {
+        setLoadingModalOpen(false);
+        setStep(4);
+        setFillFormData(null);
+      }, 500);
+    } catch (error) {
+      clearInterval(progressInterval);
+      setLoadingModalOpen(false);
+      toast.error("Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz.");
+    }
   };
+  
   
 
   const style = {
