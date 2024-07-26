@@ -58,7 +58,7 @@
         var pendingHousingTypes = @json($pendingHousingTypes);
         var disabledHousingTypes = @json($disabledHousingTypes);
         var soldHousingTypes = @json($soldHousingTypes);
-        var userPermissions = @json($userPermissions);
+        var userPermissions = Array.isArray(@json($userPermissions)) ? @json($userPermissions) : [];
     
         // Yetki kontrol fonksiyonu
         function hasPermission(permission) {
