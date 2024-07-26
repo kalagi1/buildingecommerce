@@ -503,7 +503,7 @@
                                                 ],
                                                 [
                                                     'url' => route('my.reviews'),
-                                                    'icon' => 'fa fa-heart',
+                                                    'icon' => 'fa fa-comment',
                                                     'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
@@ -574,7 +574,7 @@
                                                 ],
                                                 [
                                                     'url' => route('my.reviews'),
-                                                    'icon' => 'fa fa-heart',
+                                                    'icon' => 'fa fa-comment',
                                                     'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
