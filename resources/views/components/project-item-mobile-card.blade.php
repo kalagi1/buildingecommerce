@@ -128,7 +128,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     </div>
 
                     <span class="mobileNoStyle">
-                        {{$projectHousingsList[$keyIndex] && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}
+                        {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) &6 $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}
                         @if (isset($blockStart) && $blockStart)
                             {{ $i - $blockStart + 1 }}
                         @else
