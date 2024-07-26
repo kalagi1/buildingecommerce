@@ -20,8 +20,8 @@
                 ['id' => 'inactive', 'text' => 'Pasif İlanlar', 'count' => $inactiveHousingTypes->count()],
                 ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar', 'count' => $soldHousingTypes->count()]
                 ] as $tab)
-                    <li class="tab-item {{ $tab['active'] ?? false ? 'active' : '' }}" 
-                        id="{{ $tab['id'] }}-tab">
+                        <li class="tab-item {{ $loop->first ? 'active' : ($activeTab === $tab['id'] ? 'active' : '') }}" 
+                            id="{{ $tab['id'] }}-tab">
                         {{ $tab['text'] }} ({{ $tab['count'] }})
 
                     </li>
