@@ -9,10 +9,10 @@
             </ul>
         </div>
     </div>
-    
+
     <section>
         <div class="front-project-tabs">
-            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
+            <ul class="mt-3 mb-3" id="housingTabs">
                 @foreach ([
                     ['id' => 'active', 'text' => 'Aktif İlanlar', 'active' => true],
                     ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar'],
@@ -20,18 +20,16 @@
                     ['id' => 'inactive', 'text' => 'Pasif İlanlar'],
                     ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
                 ] as $tab)
-                    <li class="nav-item">
-                        <a class="nav-link {{ $tab['active'] ?? false ? 'active' : '' }}" 
-                           id="{{ $tab['id'] }}-tab" 
-                           data-bs-toggle="tab" 
-                           href="#{{ $tab['id'] }}">
-                            {{ $tab['text'] }}
-                        </a>
+                    <li class="tab-item {{ $tab['active'] ?? false ? 'active' : '' }}" 
+                        id="{{ $tab['id'] }}-tab" 
+                        data-bs-toggle="tab" 
+                        href="#{{ $tab['id'] }}">
+                        {{ $tab['text'] }}
                     </li>
                 @endforeach
             </ul>
         </div>
-       
+
         <div class="tab-content px-4">
             @foreach ([
                 'active' => $activeHousingTypes,
@@ -44,7 +42,7 @@
                     <div class="project-table">
                         @foreach ($housingTypes as $index => $housingType)
                             <div class="project-table-content">
-                                <ul>
+                                <ul class="list-unstyled d-flex">
                                     <!-- Index -->
                                     <li style="width: 5%">{{ $index + 1 }}</li>
 
@@ -57,9 +55,7 @@
 
                                     <!-- Actions -->
                                     <li style="width: 5%">
-                                        <span 
-                                        class="project-table-content-actions-button"
-                            data-toggle="popover-{{ $housingType->id }}">
+                                        <span class="project-table-content-actions-button" data-bs-toggle="popover" data-bs-content="#popover-{{ $housingType->id }}">
                                             <i class="fa fa-chevron-down"></i>
                                         </span>
                                     </li>
@@ -67,7 +63,7 @@
 
                                 <!-- Popover Actions -->
                                 <div class="popover-project-actions d-none" id="popover-{{ $housingType->id }}">
-                                    <ul>
+                                    <ul class="list-unstyled">
                                         @if (in_array('UpdateHousing', $userPermissions))
                                             <li>
                                                 <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">Düzenle</a>
@@ -128,7 +124,7 @@
     <script>
         $(document).ready(function() {
             $('.project-table-content-actions-button').on('click', function() {
-                var targetId = $(this).data('toggle');
+                var targetId = $(this).data('bs-content');
                 var $popover = $('#' + targetId);
 
                 // Hide other popovers
@@ -147,3 +143,43 @@
         });
     </script>
 @endsection
+
+<style>
+    #housingTabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #housingTabs .tab-item {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    #housingTabs .tab-item.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    #housingTabs .tab-item:not(.active):hover {
+        background-color: #f1f1f1;
+    }
+
+    .popover-project-actions {
+        position: absolute;
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 1000;
+        padding: 10px;
+        width: 200px;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+    }
+</style>
