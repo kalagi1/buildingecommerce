@@ -882,7 +882,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
 
 
-    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/proje-ilanlarim', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
     Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
