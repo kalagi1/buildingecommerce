@@ -133,7 +133,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                 style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                    No<br>
+                                    {{$projectHousingsList[$keyIndex] && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
 
                                     @if (isset($blockStart) && $blockStart)
                                         {{ $i - $blockStart + 1 }}
@@ -235,7 +235,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
-                                            @if ($off_sale_check && !$sold_check && $share_sale_empty)
+                                            @if ($off_sale_check && !$sold_check && $share_sale_empty )
 
 
                                                 @if ($projectDiscountAmount)
@@ -268,29 +268,31 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
-                                            @elseif(
-                                                (isset($share_sale) &&
+                                            @elseif( $off_sale_check &&
+                                                ( isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
                                                     $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
                                                     (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    <span class="text-center w-100">
-                                                        1 / {{ $number_of_share }} Fiyatı
-                                                    </span>
-                                                @endif
-                                                <h6
-                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                    @if (
-                                                        (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
-                                                            (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
-                                                        {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
-                                                        ₺
+                                                @if($off_sale_check)
+                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                        <span class="text-center w-100">
+                                                            1 / {{ $number_of_share }} Fiyatı
+                                                        </span>
                                                     @endif
-                                                </h6>
+                                                    <h6
+                                                        style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                        @if (
+                                                            (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
+                                                                (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
+                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }} 
+                                                            ₺
+                                                        @else
+                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                            ₺
+                                                        @endif
+                                                    </h6>
+                                                @endif
                                             @endif
                                         </span>
                                     </li>
@@ -426,16 +428,24 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     @endif
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
-                                        @if (Auth::user())
-                                            <button class="first-btn payment-plan-button" data-bs-toggle="modal"
-                                                data-bs-target="#approveProjectModal{{ $keyIndex }}">
-                                                Teklif Ver
-                                            </button>
+                                        @if( $off_sale_check &&
+                                        ( isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$keyIndex]) &&
+                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                         @else
-                                            <a href="{{ route('client.login') }}"
-                                                class="first-btn payment-plan-button">
-                                                Teklif Ver
-                                            </a>
+                                            @if (Auth::user())
+                                                <button class="first-btn payment-plan-button" data-bs-toggle="modal"
+                                                    data-bs-target="#approveProjectModal{{ $keyIndex }}">
+                                                    Teklif Ver
+                                                </button>
+                                            @else
+                                                <a href="{{ route('client.login') }}"
+                                                    class="first-btn payment-plan-button">
+                                                    Teklif Ver
+                                                </a>
+                                            @endif
                                         @endif
                                     @else
                                         <button class="first-btn payment-plan-button"
@@ -455,12 +465,22 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
+                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
+                                        ( isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$keyIndex]) &&
+                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
                                         <span class="text">Satışa Kapatıldı</span>
                                     </button>
                                 @elseif ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
+                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
+                                        ( isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$keyIndex]) &&
+                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
                                         <span class="text">Satışa Kapatıldı</span>
                                     </button>
                                 @else

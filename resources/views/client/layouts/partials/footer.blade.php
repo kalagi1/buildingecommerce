@@ -1032,27 +1032,25 @@
                                             if (getDataJS(response, "pay_desc_price" + (
                                                         orderHousing) + l, response.room_info[i]
                                                     .room_order)) {
-                                                payDecPrice += parseFloat(getDataJS(response,
+                                                payDecPrice += numberOfShares ? parseFloat(getDataJS(response,
                                                     "pay_desc_price" + (orderHousing) +
                                                     l,
-                                                    response.room_info[i].room_order));
+                                                    response.room_info[i].room_order)) / numberOfShares : parseFloat(getDataJS(response,
+                                                    "pay_desc_price" + (orderHousing) +
+                                                    l,
+                                                    response.room_info[i].room_order)) ;
                                                 var payDescDate = new Date(getDataJS(response,
                                                     "pay_desc_date" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order));
-
+                                                console.log(payDecPrice);
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l +
                                                                 1) +
                                                             ". Ara Ödeme :</strong> <br>" :
                                                             "") +
-                                                        formatPrice(parseFloat(getDataJS(response,
-                                                            "pay_desc_price" + (
-                                                                orderHousing) + l, response
-                                                            .room_info[
-                                                                i]
-                                                            .room_order))) + "₺" +
+                                                        formatPrice(payDecPrice) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +

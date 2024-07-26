@@ -30,7 +30,7 @@ if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     if(document.getElementById('project_list_items')){
         ReactDOM.render(<ProjectListItem projectId={slashs[slashs.length - 1]} />, document.getElementById('project_list_items'));
     }
-}else if(slashs[slashs.length - 1] == "housings_v2" && slashs[4] == "pojects"){
+}else if(slashs[slashs.length - 1] == "housings_v2" && slashs[4] == "projects"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<HousingList projectId={slashs[slashs.length - 2]} />, document.getElementById('react_render_area'));
     }
