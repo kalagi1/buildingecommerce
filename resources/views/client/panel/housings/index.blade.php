@@ -11,24 +11,27 @@
     </div>
     
     <section>
-        <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
-            @foreach ([
-                ['id' => 'active', 'text' => 'Aktif İlanlar', 'active' => true],
-                ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar'],
-                ['id' => 'disabledHousingTypes', 'text' => 'Reddedilen İlanlar'],
-                ['id' => 'inactive', 'text' => 'Pasif İlanlar'],
-                ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
-            ] as $tab)
-                <li class="nav-item">
-                    <a class="nav-link {{ $tab['active'] ?? false ? 'active' : '' }}" 
-                       id="{{ $tab['id'] }}-tab" 
-                       data-bs-toggle="tab" 
-                       href="#{{ $tab['id'] }}">
-                        {{ $tab['text'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+        <div class="front-project-tabs">
+            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
+                @foreach ([
+                    ['id' => 'active', 'text' => 'Aktif İlanlar', 'active' => true],
+                    ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar'],
+                    ['id' => 'disabledHousingTypes', 'text' => 'Reddedilen İlanlar'],
+                    ['id' => 'inactive', 'text' => 'Pasif İlanlar'],
+                    ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
+                ] as $tab)
+                    <li class="nav-item">
+                        <a class="nav-link {{ $tab['active'] ?? false ? 'active' : '' }}" 
+                           id="{{ $tab['id'] }}-tab" 
+                           data-bs-toggle="tab" 
+                           href="#{{ $tab['id'] }}">
+                            {{ $tab['text'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+       
         <div class="tab-content px-4">
             @foreach ([
                 'active' => $activeHousingTypes,
