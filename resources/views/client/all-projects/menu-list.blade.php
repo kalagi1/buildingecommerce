@@ -801,7 +801,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
+    <script src="{{asset('js/map-style2.js')}}"></script>
+    <script src="{{ asset('js/leaflet.js') }}"></script>
+    <script src="{{ asset('js/leaflet-gesture-handling.min.js') }}"></script>
+    <script src="{{ asset('js/leaflet-providers.js') }}"></script>
+    <script src="{{ asset('js/leaflet.markercluster.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -2440,23 +2444,11 @@
             color: black;
         }
     </style>
+    <link rel="stylesheet" href="{{asset('css/maps.css')}}">
+    <!-- LEAFLET MAP -->
+    <link rel="stylesheet" href="{{asset('css/leaflet.css')}}">
+    <link rel="stylesheet" href="{{asset('css/leaflet-gesture-handling.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.css')}}">
+    <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.default.css')}}">
 @endsection
 
-@section('scripts')
-<script src="{{asset('js/map-style2.js')}}"></script>
-<script src="{{ asset('js/leaflet.js') }}"></script>
-<script src="{{ asset('js/leaflet-gesture-handling.min.js') }}"></script>
-<script src="{{ asset('js/leaflet-providers.js') }}"></script>
-<script src="{{ asset('js/leaflet.markercluster.js') }}"></script>
-
-@endsection
-
-@section('styles')
-<link rel="stylesheet" href="{{asset('css/maps.css')}}">
-   <!-- LEAFLET MAP -->
-   <link rel="stylesheet" href="{{asset('css/leaflet.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet-gesture-handling.min.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.css')}}">
-   <link rel="stylesheet" href="{{asset('css/leaflet.markercluster.default.css')}}">
-
-@endsection
