@@ -288,8 +288,8 @@ class ProfileController extends Controller
             ]);
         }
 
-        if ($request->has('uploaded_file')) {
-
+        // if ($request->has('uploaded_file')) {
+            if ($request->uploaded_file) {
         
             // Decode base64 data
             $uploaded_file_data = json_decode($request->input('uploaded_file'), true);
