@@ -4949,6 +4949,9 @@
             height: 40px;
             align-items: center;
         }
+        .formbuilder-checkbox-group-label{
+            margin-bottom:20px;
+        }
         .rendered-form label{
             margin-bottom: 0 ;
         }
