@@ -342,7 +342,7 @@ class ProfileController extends Controller
     
         // Update user information
         $user->name = $request->input('name');
-        $user->İban = $request->input('iban');
+        $user->iban = $request->input('iban');
     
         // // Check if a new profile image has been uploaded
         // if ($request->hasFile('profile_image')) {
