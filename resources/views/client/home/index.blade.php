@@ -109,7 +109,7 @@
         <div class="container">
 
             <div class="portfolio ">
-                <div class="section-title mb-3 mobileSectionTitle">
+                <div class="section-title mb-5 mobileSectionTitle">
                     <h2>Popüler İnşaat Markaları</h2>
                 </div>
                 <div class="slick-lancers" style="height: 95px">
