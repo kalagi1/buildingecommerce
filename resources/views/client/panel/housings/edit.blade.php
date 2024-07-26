@@ -33,9 +33,9 @@
             <div class="second-area">
                 <div class="row">
                  
-                    <div class="form-area mt-4">
+                    <div class="form-area">
 
-                        <div class="card py-2 px-5">
+                        <div class="card p-4">
                             <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
                                 yükümlülüğü metnine <a href="https://hisselitask.emlaksepette.com/sayfa/kvkk-politikasi"
                                     target="_blank">buradan</a> ulaşabilirsiniz.</div>
@@ -4920,7 +4920,7 @@
     @stack('scripts')
 @endsection
 
-@section('css')
+@section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
         integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
