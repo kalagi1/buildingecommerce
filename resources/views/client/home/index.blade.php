@@ -363,18 +363,21 @@
                                             // Markanın adını boşluk karakteri ile ayır
                                             $words = explode(' ', $brandName);
                                         
-                                            // İlk iki kelimenin baş harflerini al
-                                            $initials = '';
+                                            // İlk iki kelimeyi al
+                                            $firstTwoWords = '';
                                             if (isset($words[0])) {
-                                                $initials .= strtoupper($words[0][0]);
+                                                $firstTwoWords .= $words[0];
                                             }
                                             if (isset($words[1])) {
-                                                $initials .= strtoupper($words[1][0]);
+                                                $firstTwoWords .= ' ' . $words[1];
                                             }
                                         @endphp
                                         
                                         <span style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
-                                            {{ $initials }}
+                                            {{ $firstTwoWords }}
+                                            @if (count($words) > 2)
+                                                ...
+                                            @endif
                                         </span>
                                         
                                         </div>
