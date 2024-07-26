@@ -133,7 +133,7 @@
 
                                             @if (in_array('UpdateHousing', $userPermissions))
                                                 <li>
-                                                    <a href="{{ route('institutional.housing.images.update', ['id' => $housingType->id]) }}">Resimleri Düzenle</a>
+                                                    <a href="{{ route('institutional.housing.images.update', ['id' => hash_id($housingType->id)]) }}">Resimleri Düzenle</a>
                                                 </li>
                                             @endif
                                             <li>

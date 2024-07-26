@@ -361,7 +361,9 @@ public function edit( $hashedId ) {
     return view( 'client.panel.housings.edit', compact( 'housing', 'areaSlugs', 'cities', 'formData', 'counties', 'neighborhoods' ) );
 }
 
-public function editImages( $housingId ) {
+public function editImages( $hashedId ) {
+    $housingId = decode_id( $hashedId );
+
     $housing = Housing::where( 'id', $housingId )->first();
     $areaSlugs = [ ucfirst( $housing->step1_slug ), $housing->step2_slug == 'satilik' ? 'Satılık' : 'Kiralık', $housing->housing_type->title ];
     $cities = City::get();
