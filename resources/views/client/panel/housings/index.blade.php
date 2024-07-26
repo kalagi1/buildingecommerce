@@ -125,6 +125,7 @@
             $('.project-table-content-actions-button').on('click', function() {
                 var targetId = $(this).data('toggle');
                 var $popover = $('#' + targetId);
+                console.log("sas");
 
                 // Hide other popovers
                 $('.popover-project-actions').not($popover).addClass('d-none');
