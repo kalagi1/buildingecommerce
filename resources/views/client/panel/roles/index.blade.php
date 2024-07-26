@@ -6,7 +6,7 @@
             abort(403, 'Bu sayfaya erişim yetkiniz yok.');
         @endphp
     @endif
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center">
         <div class="table-breadcrumb">
             <ul>
                 <li>Hesabım</li>

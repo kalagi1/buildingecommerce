@@ -59,7 +59,7 @@
         $isUserOwner = $order->user_id == Auth::user()->id;
     @endphp
 
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center">
         <div class="table-breadcrumb">
             <ul>
                 <li>Hesabım</li>
