@@ -117,9 +117,9 @@
 
                     <div class="second-area-finish">
                         <div class="finish-tick ">
-                            <input type="checkbox" value="1" class="rules_confirm">
+                            <input type="checkbox" value="1" class="rules_confirm mr-2">
                             <span class="rulesOpen">İlan verme kurallarını</span>
-                            <span>okudum, kabul ediyorum</span>
+                            <span> okudum, kabul ediyorum</span>
                         </div>
                         <div style="float:right;margin:0;">
                             <button class="btn btn-info">
