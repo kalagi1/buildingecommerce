@@ -21,9 +21,7 @@
                     ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
                 ] as $tab)
                     <li class="tab-item {{ $tab['active'] ?? false ? 'active' : '' }}" 
-                        id="{{ $tab['id'] }}-tab" 
-                        data-bs-toggle="tab" 
-                        href="#{{ $tab['id'] }}">
+                        id="{{ $tab['id'] }}-tab">
                         {{ $tab['text'] }}
                     </li>
                 @endforeach
@@ -38,7 +36,7 @@
                 'inactive' => $inactiveHousingTypes,
                 'soldHousingTypes' => $soldHousingTypes
             ] as $tabId => $housingTypes)
-                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
+                <div class="tab-pane {{ $loop->first ? 'show' : '' }}" id="{{ $tabId }}">
                     <div class="project-table">
                         @foreach ($housingTypes as $index => $housingType)
                             <div class="project-table-content">
@@ -123,6 +121,22 @@
 
     <script>
         $(document).ready(function() {
+            $('#housingTabs .tab-item').on('click', function() {
+                var targetId = $(this).attr('id').replace('-tab', '');
+                
+                // Remove active class from all tabs
+                $('#housingTabs .tab-item').removeClass('active');
+                
+                // Add active class to the clicked tab
+                $(this).addClass('active');
+
+                // Hide all tab panes
+                $('.tab-pane').removeClass('show');
+
+                // Show the corresponding tab pane
+                $('#' + targetId).addClass('show');
+            });
+
             $('.project-table-content-actions-button').on('click', function() {
                 var targetId = $(this).data('bs-content');
                 var $popover = $('#' + targetId);
@@ -167,6 +181,14 @@
 
     #housingTabs .tab-item:not(.active):hover {
         background-color: #f1f1f1;
+    }
+
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.show {
+        display: block;
     }
 
     .popover-project-actions {
