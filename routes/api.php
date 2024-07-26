@@ -38,7 +38,7 @@ use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Api\Client\NeighborViewController;
 use App\Http\Controllers\Api\SupportController as ApiSupportController;
-
+use App\Http\Controllers\MarkerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +50,8 @@ use App\Http\Controllers\Api\SupportController as ApiSupportController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/markers', [MarkerController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
