@@ -1113,6 +1113,8 @@
                                 } else if (json[lm].type != "file") {
                                     var value = $('input[name="' + (json[lm].name) + '"]').eq(order)
                                         .val();
+                                    console.log($('input[name="' + (json[lm].name) + '"]').eq(order)
+                                        .val());
                                     $('input[name="' + (json[lm].name) + '"]').eq(currentOrder).val(
                                         value);
                                 }
@@ -1125,6 +1127,7 @@
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value', $(this).val());
+                            console.log($(this).closest('.tab-pane').attr('id'))
                             formData.append('order', parseInt($(this).closest('.tab-pane').attr('id')
                                 .replace('TabContent', "")) - 1);
                             formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
@@ -1154,6 +1157,7 @@
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value', $(this).val());
+                            console.log($(this).closest('.tab-pane').attr('id'))
                             formData.append('order', parseInt($(this).closest('.tab-pane').attr('id')
                                 .replace('TabContent', "")) - 1);
                             formData.append('key', $(this).attr('name').replace("[]", ""));
@@ -1441,6 +1445,7 @@
         });
 
         $('.finish-tick').click(function() {
+            console.log($(this).find('input').is(':checked'));
             if ($(this).find('input').is(':checked')) {
                 $(this).find('input').prop('checked', false)
             } else {
@@ -1492,6 +1497,7 @@
                     @endphp
                     var housingTypeData = @json($housingType);
                     var oldData = @json(old());
+                    console.log(oldData);
                     var formInputs = JSON.parse(housingTypeData.form_json);
 
                     $('.rendered-area').removeClass('d-none')
@@ -1576,6 +1582,7 @@
                                         var inputName = formInputs[j].name;
                                         var inputNamex = inputName;
                                         inputNamex = inputNamex.split('[]')
+                                        console.log(inputNamex);
                                         $($('input[name="' + formInputs[j].name + '"]')[i - 1]).val(
                                             oldData[inputNamex[0]][i - 1]);
                                     } else if (formInputs[j].type == "select") {
@@ -1601,6 +1608,8 @@
                                         checkboxName = checkboxName[0];
                                         $($('input[name="' + checkboxName + [i] + '[][]"]')).map((key,
                                             item) => {
+                                            console.log(oldData[(checkboxName + i)], $(item)
+                                                .attr("value"))
                                             oldData[(checkboxName + i)].map((checkbox) => {
                                                 if (checkbox[0] == $(item).attr(
                                                         "value")) {
