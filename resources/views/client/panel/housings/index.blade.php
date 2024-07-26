@@ -127,48 +127,21 @@
                                         <ul class="list-unstyled">
                                             @if (in_array('UpdateHousing', $userPermissions))
                                                 <li>
-                                                    <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">Düzenle</a>
+                                                    <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">İlanı Düzenle</a>
                                                 </li>
                                             @endif
 
-                                            @if (in_array('ViewHousing', $userPermissions))
+                                            @if (in_array('UpdateHousing', $userPermissions))
                                                 <li>
-                                                    <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">Önizle</a>
+                                                    <a href="{{ route('institutional.housing.images.update', ['id' => $housingType->id]) }}">Resimleri Güncelle</a>
                                                 </li>
                                             @endif
+                                            <li>
+                                                <a href="{{ route('institutional.bids.index', ['id' => $housingType->id]) }}">Pazarlık Teklifleri</a>
+                                            </li>
 
-                                            @if (in_array('DeleteHousing', $userPermissions))
-                                                <li>
-                                                    <a data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $housingType->id }}">Sil</a>
-                                                </li>
-                                            @endif
                                         </ul>
                                     </div>
-
-                                    <!-- Delete Modal -->
-                                    @if (in_array('DeleteHousing', $userPermissions))
-                                        <div class="modal fade" id="deleteModal-{{ $housingType->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $housingType->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel-{{ $housingType->id }}">Sil</h5>
-                                                        <button type="button" class="btn p-1" data-bs-dismiss="modal" aria-label="Close">
-                                                            <svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                                <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p class="text-700 lh-lg mb-0">Bu ilanı silmek istediğinize emin misiniz?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                                                        <button type="button" class="btn btn-danger" data-housing-id="{{ $housingType->id }}">Sil</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
                             @endforeach
                         </div>
