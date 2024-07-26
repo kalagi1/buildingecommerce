@@ -1042,7 +1042,7 @@
                                 isset($housing->step2_slug) &&
                                 $housing->step1_slug &&
                                 $housing->step2_slug)
-                            @if ($housing->step2_slug != 'kiralik')
+                            @if ($housing->step2_slug == 'kiralik')
                                 $('.rent-disabled').closest('.form-group').remove();
                             @endif
                         @endif
@@ -1053,6 +1053,7 @@
                                 $housing->step1_slug &&
                                 $housing->step2_slug)
                             @if ($housing->step2_slug == 'satilik')
+                            console.log("asas");
 
                                 $('.project-disabled').closest('.form-group').remove();
                                 $('.disabled-housing').closest('.form-group').remove();
@@ -1064,7 +1065,7 @@
                                 isset($housing->step2_slug) &&
                                 $housing->step1_slug &&
                                 $housing->step2_slug)
-                            @if ($housing->step2_slug != 'gunluk-kiralik')
+                            @if ($housing->step2_slug == 'gunluk-kiralik')
                                 $('.daily-rent-disabled').closest('.form-group').remove();
                             @endif
                         @endif
