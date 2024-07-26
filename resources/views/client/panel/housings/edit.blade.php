@@ -4950,7 +4950,7 @@
             align-items: center;
         }
         .formbuilder-checkbox-group-label{
-            margin-bottom:20px;
+            margin-bottom:20px !important;
         }
         .rendered-form label{
             margin-bottom: 0 ;
