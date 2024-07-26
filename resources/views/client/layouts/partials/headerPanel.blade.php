@@ -670,7 +670,6 @@
                                                         'userID' => auth()->user()->id,
                                                     ]),
                                                     'icon' => 'fa fa-arrow-circle-o-right',
-
                                                     'text' => 'Mağazama Git',
                                                 ],
                                                 [
