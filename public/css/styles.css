@@ -31324,8 +31324,8 @@ a {
     cursor: pointer;
   }
 
-  .photos .ui-sortable{
-    display:flex;
+  .photos.ui-sortable{
+    display:flex !important;
     align-items:center
   }
 
