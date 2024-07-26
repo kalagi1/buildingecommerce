@@ -4939,13 +4939,19 @@
     <style>
         .checkbox-group {
             display: flex;
+            flex-wrap: wrap;
         }
 
         .formbuilder-checkbox-inline {
             display: flex;
             align-items: center;
-            width: 33.3%;
+            flex: 0 0 25%;
+            max-width: 25%;
             align-items: center;
+            position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
         }
         .rendered-form label{
             margin-bottom: 0 ;
