@@ -11,9 +11,7 @@
             </ul>
         </div>
     </div>
-    <div class="container">
-
-        <div class="text-header" id="yeniMusteriler" style="border-radius:7px;margin-top:20px;">
+        <div class="text-header" id="yeniMusteriler" style="border-radius:7px;">
             <div class="d-flex" style="justify-content: space-between;">
                 <input type="text" id="search-input-yeni" placeholder="Ara..." class="search-input form-control">
             </div>
@@ -91,7 +89,6 @@
                 <button id="next-page" class="btn btn-primary">Sonraki</button>
             </div>
         </div>
-    </div>
 @endsection
 
 @section('scripts')
