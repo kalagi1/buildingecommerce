@@ -266,7 +266,7 @@ function ReactTable(props) {
       setLoading(true);
       axios
         .get(
-          "https://hisselitask.emlaksepette.com/react/my_projects?status=" +
+          "https://private.emlaksepette.com/react/my_projects?status=" +
             tabIndex +
             "&start=0&take=" +
             rowPerPage
@@ -287,7 +287,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://hisselitask.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
+        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -303,7 +303,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://hisselitask.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
+        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -330,7 +330,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://hisselitask.emlaksepette.com/react/my_projects?status=" +
+                  "https://private.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -400,7 +400,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://hisselitask.emlaksepette.com/react/my_projects?status=" +
+                  "https://private.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -541,9 +541,9 @@ function ReactTable(props) {
       >
         <ul className="popover-project-actions">
           <li>
-            <a href={`https://hisselitask.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
+            <a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
-          <li><a href={`https://hisselitask.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
           <li><a href={`https://hisselitask.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
           <li>
             {selectedRow?.status == 2 ? (
