@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -32,7 +33,7 @@ class ProfileController extends Controller
         $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
         $plans = SubscriptionPlan::where('plan_type', $user->corporate_type)->orderBy("price", "asc")->get();
         $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        return view('institutional.profile.upgrade', compact('plans', 'current', 'bankAccounts'));
+        return view('client.panel.profile.upgrade', compact('plans', 'current', 'bankAccounts'));
     }
 
     public function upgradeProfile(Request $request, $id)
@@ -165,22 +166,111 @@ class ProfileController extends Controller
         $subscriptionPlans = SubscriptionPlan::all();
         $user = User::where("id", Auth::user()->id)->first();
         $taxOffices = TaxOffice::all();
-        return view('institutional.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
+        return view('client.panel.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
+
+    public function companyProfileUpdate(Request $request)
+    {
+    
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'iban' => 'required|string|max:34|iban_tr', // IBAN format validation can be added
+            'web_site' => 'url|max:255',
+            'phone_number' => 'required|string|max:8', // Phone number format validation can be added
+            'sector_year' => 'required|integer',
+        ]);
+
+
+        // Update the user's location
+        $user->name = $request->input('name');
+        $user->iban = $request->input('iban');
+        $user->website = $request->input('web_site');
+        $user->phone = $request->input('phone_number');
+        $user->year = $request->input('sector_year');
+        $user->taxOffice = $request->input('area_code');
+        
+        // Save the updated user
+        $user->save();
+
+        return redirect()->back()->with('success', 'Firma bilgileri başarıyla güncellendi.');
+    }
+
+    public function locationUpdate(Request $request)
+    {
+        $user = Auth::user();
+
+        // Validate the request data
+        $request->validate([
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
+        ]);
+
+        // Update the user's location
+        $user->longitude = $request->input('longitude');
+        $user->latitude = $request->input('latitude');
+        
+        // Save the updated user
+        $user->save();
+
+        return redirect()->back()->with('success', 'Firma konumu başarıyla güncellendi.');
+    }
+
+
+    public function profileImage(Request $request)
+    {
+        $user = Auth::user();
+        
+        if ($request->has('uploaded_file')) {
+            // Decode base64 data
+            $uploaded_file_data = json_decode($request->input('uploaded_file'), true);
+
+            if (isset($uploaded_file_data['dataURL'])) {
+                $base64_data = $uploaded_file_data['dataURL'];
+                $base64_image = substr($base64_data, strpos($base64_data, ',') + 1);
+                $file_content = base64_decode($base64_image);
+
+                // Generate file name
+                $filename = time() . '_profile_image.jpg'; // Or use the original filename from JSON
+
+                // Define storage path
+                $storagePath = public_path('storage/profile_images');
+
+                // Ensure the directory exists
+                if (!file_exists($storagePath)) {
+                    mkdir($storagePath, 0777, true);
+                }
+
+                // Save file
+                $stored = file_put_contents($storagePath . '/' . $filename, $file_content);
+
+                // Check if file saved successfully
+                if ($stored !== false) {
+                    // Update database with file information
+                    $user->profile_image = $filename;
+                } else {
+                    // Handle error if file couldn't be saved
+                    return redirect()->back()->with('error', 'Dosya kaydedilirken bir hata oluştu.');
+                }
+            }
+        }
+
+        // Always update the hex code if provided
+        if ($request->has('banner_hex_code')) {
+            $user->banner_hex_code = $request->input('banner_hex_code');
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'İşlem başarılı bir şekilde gerçekleşmiştir.');
+    }
+
+    
 
     public function editPhone(Request $request)
     {
         // Form verilerini doğrula
-        $request->validate([
-            'mobile_phone' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Resim doğrulaması eklendi
-        ], [
-            'mobile_phone.required' => 'Cep telefonu zorunludur',
-            'image.image' => 'Geçerli bir resim dosyası seçiniz.',
-            'image.mimes' => 'Resim dosyası sadece JPEG, PNG, JPG veya GIF formatında olabilir.',
-            'image.max' => 'Resim dosyası boyutu maksimum 2MB olabilir.',
-        ]);
-    
         $user = Auth::user(); // Giriş yapmış kullanıcıyı al
     
         // Eğer kullanıcının zaten bir telefon numarası kaydı varsa, güncelle
@@ -188,39 +278,94 @@ class ProfileController extends Controller
             $phoneNumber = $user->phoneNumbers->last(); // En son eklenen kaydı al
             $phoneNumber->update([
                 'old_phone_number' => $user->mobile_phone,
-                'new_phone_number' => $request->input('mobile_phone'),
+                'new_phone_number' => $request->input('new_phone_number'),
                 'phone_number_changed' => '0',
             ]);
         } else { // Eğer kullanıcının henüz bir telefon numarası kaydı yoksa, yeni bir kayıt oluştur
             $phoneNumber = $user->phoneNumbers()->create([
                 'old_phone_number' => $user->mobile_phone,
-                'new_phone_number' => $request->input('mobile_phone'),
+                'new_phone_number' => $request->input('new_phone_number'),
             ]);
         }
-    
-        // Eğer bir resim yüklendi ise
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Resim adı oluştur
-    
-            // Resmi kaydetmek için yol belirle
-            $imagePath = '/images/' . $imageName; // Örnek olarak public/images dizini altına kaydedilecek
-    
-            // Resmi belirtilen yola taşı
-            $image->move(public_path('images'), $imageName);
-    
-            // Resim yolu ve dosya adını güncelle
-            $phoneNumber->image_path = $imagePath;
-            $phoneNumber->file_name = $imageName;
-            $phoneNumber->save();
+
+        if ($request->has('uploaded_file')) {
+
+        
+            // Decode base64 data
+            $uploaded_file_data = json_decode($request->input('uploaded_file'), true);
+
+            $base64_data = $uploaded_file_data['dataURL'];
+
+
+            $base64_image = substr($base64_data, strpos($base64_data, ',') + 1);
+            $file_content = base64_decode($base64_image);
+
+            // Generate file name
+            $filename = time() . '_numberUpdate.jpg'; // Or use the original filename from JSON
+
+            // Define storage path
+            $storagePath = public_path('images');
+
+            // Save file
+            $stored = file_put_contents($storagePath . '/' . $filename, $file_content);
+
+            // Check if file saved successfully
+            if ($stored !== false) {
+                // Update database with file information
+                $phoneNumber->image_path = '/images/' . $filename; // Adjust path as necessary
+                $phoneNumber->file_name = $filename;
+                $phoneNumber->save();
+            } else {
+                // Handle error if file couldn't be saved
+                return redirect()->back()->with('error', 'Dosya kaydedilirken bir hata oluştu.');
+            }
         }
-    
+     
         return redirect()->back()->with('success', 'Telefon numarası değiştirme talebiniz destek ekibine iletilmiştir.');
+    }
+
+
+    public function individualProfileUpdate(Request $request)
+    {
+       
+
+        // Validate the input fields
+        $request->validate([
+            "name" => "required|string|max:255",
+            "iban" => "required|string|max:34|iban_tr", // IBAN genellikle maksimum 34 karakterdir
+            // "profile_image" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048", // Profil resminin geçerli bir resim dosyası olup olmadığını kontrol eder
+        ]);
+    
+       
+        // Retrieve the authenticated user
+        $user = Auth::user();
+    
+        // Update user information
+        $user->name = $request->input('name');
+        $user->İban = $request->input('iban');
+    
+        // // Check if a new profile image has been uploaded
+        // if ($request->hasFile('profile_image')) {
+        //     // Store the new profile image and get its path
+        //     $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
+    
+        //     // Delete the old profile image if it exists
+        //     if ($user->profile_image) {
+        //         Storage::disk('public')->delete($user->profile_image);
+        //     }
+    
+        //     // Update the user's profile image path
+        //     $user->profile_image = $profileImagePath;
+        // }
+    
+        // Save the updated user information
+        $user->save();
+    
+        // Redirect the user back with a success message
+        return redirect()->back()->with('success', 'Profiliniz başarıyla güncellendi.');
     }
     
     
-
-
     public function update(Request $request)
     {
         $request->validate([
@@ -376,7 +521,7 @@ class ProfileController extends Controller
 
            $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 
-        return  view("institutional.home.has-club-status");
+        return  view("client.panel.home.has-club-status");
     }
 
 }

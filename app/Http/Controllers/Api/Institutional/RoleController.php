@@ -11,6 +11,7 @@ use App\Models\RolePermission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Permission;
 use App\Models\PermissionGroup;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -326,10 +327,38 @@ class RoleController extends Controller
         return response()->json(['success' => true, 'message' => 'Role updated successfully']);
         
     }
+
     public function destroy(Role $role)
     {   
         $role->delete();
         return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
        
     }
+
+    public function userType(Request $request)
+    {
+    
+          // Gelen role ID'lerini al
+          $roleIds = $request->input('role_ids', []);
+
+          // Role ID'lerinin boş olup olmadığını kontrol et
+          if (empty($roleIds)) {
+              return response()->json(['success' => false, 'message' => 'No roles selected for deletion']);
+          }
+  
+          // Role ID'lerinin gerçekten mevcut olup olmadığını kontrol et
+          $rolesCount = Role::whereIn('id', $roleIds)->count();
+  
+          if ($rolesCount === 0) {
+              return response()->json(['success' => false, 'message' => 'No roles found with the provided IDs']);
+          }
+  
+          // Role'leri sil
+          Role::whereIn('id', $roleIds)->delete();
+  
+          return response()->json(['success' => true, 'message' => 'Selected roles deleted successfully']);
+      
+    }
+
+
 }

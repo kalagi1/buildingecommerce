@@ -1,4 +1,4 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @section('content')
     <div class="content">
@@ -33,12 +33,12 @@
                                         <div class="col-md-6">
                                             <label class="form-label" for="code">Kupon Kodu</label>
                                             <input name="code" class="form-control" id="code" type="text" value="" required>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="code">Kullanım Sayısı</label>
                                             <input name="use_count" class="form-control price-only" id="code" type="text" value="" required>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Satın Alan Kişiye Uygulanacak İndirimin Tipi</label>
@@ -47,7 +47,7 @@
                                                 <option value="1">Yüzdesel</option>
                                                 <option value="2">Miktar Olarak</option>
                                             </select>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Satın Alan Kişiye Uygulanacak İndirim Miktarı</label>
@@ -55,7 +55,7 @@
                                                 <input type="text" name="buyer_amount" class="price-only">
                                                 <span class="right-icon amount-icon">?</span>
                                             </div>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Emlak Kulüp Üyesine Sağlanacak Karın Tipi</label>
@@ -64,7 +64,7 @@
                                                 <option value="1">Satıştan Yüzde</option>
                                                 <option value="2">Miktar</option>
                                             </select>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="discount_type">Emlak Kulüp Üyesine Verilecek Miktar</label>
@@ -72,7 +72,7 @@
                                                 <input name="estate_club_user_amount" type="text" class="price-only">
                                                 <span class="right-icon estate_amount-icon">?</span>
                                             </div>
-                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="valid-feedback">İyi Görünüyor !</div>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="" style="font-size: 14px;"><b>Kupon kullanım süresi</b></label>
@@ -92,12 +92,12 @@
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="start_date">Bu kupon kodunun uygulanmasının başlangıç tarihi</label>
                                                     <input name="start_date" class="form-control" id="start_date" type="date" value="" >
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="end_date">Bu kupon kodunun uygulanmasının bitiş tarihi</label>
                                                     <input name="end_date" class="form-control" id="end_date" type="date" value="" >
-                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="valid-feedback">İyi Görünüyor !</div>
                                                 </div>
                                             </div>
                                         </div>

@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Models\NeighborPayment;
 use App\Models\Rate;
+use Illuminate\Support\Facades\Http;
 
 class PayController extends Controller
 {
@@ -36,7 +37,12 @@ class PayController extends Controller
         $amount = $request->input('amount');
         $transaction = $this->createTransaction();
 
+
         $data = $this->preparePaymentData($requestData, 1, $amount, $transaction);
+        $response = Http::post("https://entegrasyon.asseco-see.com.tr/fim/est3dgate",[
+            'amount' => $data['amount'],
+        ]);
+        return $response->body();
         return view('payment.pay-mobil', $data);
     }
 
@@ -128,7 +134,6 @@ class PayController extends Controller
         $lang = 'tr';
 
         $creditCardNumbers = $requestData['creditcard'];
-
 
         $data = [
             'amount' => $amount,
@@ -872,7 +877,7 @@ $amount = floatval($amount); // Float'a dönüştür
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
 
-                    if ($collection->user->type != "1") {
+                    if ($collection && isset($collection->user) && $collection->user->type != "1") {
                         if ($collection->user->corporate_type == "Emlak Ofisi") {
 
                             $share_percent = $estateProjectRate;

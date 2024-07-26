@@ -1,7 +1,6 @@
 import './bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactTable from './Components/reactTable';
 import CreateProject from './Components/CreateProject';
 import EditProject from './Components/EditProject';
 import CreateHousing from './Components/CreateHousing';
@@ -9,14 +8,13 @@ import ProjectListItem from './Components/project_components/ProjectListItem';
 import HousingList from './Components/HousingList';
 import Crm from './Components/Crm';
 import ProjectAssigment from './Components/ProjectAssigment';
-import { useContext } from 'react';
+import ReactTable from './Components/reactTable';
 
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
 
-
-if(slashs[slashs.length - 1] == "create_project_v3"){
+if(slashs[slashs.length - 1] == "proje-ilani-ekle"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateProject />, document.getElementById('react_render_area'));
     }
@@ -24,7 +22,7 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<EditProject projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }
-}else if(slashs[slashs.length - 1] == "create_housing_v3"){
+}else if(slashs[slashs.length - 1] == "emlak-ilani-ekle"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateHousing projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }
@@ -46,7 +44,7 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
     }
 }
 else{
-    if(document.getElementById('react_projects')){
-        ReactDOM.render(<ReactTable />, document.getElementById('react_projects'));
+    if(document.getElementById('react_render_area')){
+        ReactDOM.render(<ReactTable  />, document.getElementById('react_render_area'));
     }
 }

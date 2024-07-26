@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { Box, IconButton, Skeleton, useTheme } from "@mui/material";
+import { Box, IconButton, Popover, Skeleton, useTheme } from "@mui/material";
 import {
   FirstPage,
   KeyboardArrowLeft,
@@ -15,7 +15,7 @@ import {
   LastPage,
 } from "@mui/icons-material";
 import axios from "axios";
-import { baseUrl } from "../define/variables";
+import { baseUrl, frontEndUrl } from "../define/variables";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 
@@ -259,22 +259,25 @@ function ReactTable(props) {
   const [rows, setRows] = useState([]);
   const [rowPerPage, setRowPerPage] = useState(10);
   const [totalProjectsCount, setTotalProjectsCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [anchorEl,setAnchorEl] = useState(null);
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(
-        "https://emlaksepette.com/react/my_projects?status=" +
-          tabIndex +
-          "&start=0&take=" +
-          rowPerPage
-      )
-      .then((res) => {
-        setRows(res.data.data);
-        setTotalProjectsCount(res.data.total_projects_count);
-        setLoading(false);
-        setPage(0);
-      });
+    if(!loading){
+      setLoading(true);
+      axios
+        .get(
+          "http://127.0.0.1:8000/react/my_projects?status=" +
+            tabIndex +
+            "&start=0&take=" +
+            rowPerPage
+        )
+        .then((res) => {
+          setRows(res.data.data);
+          setTotalProjectsCount(res.data.total_projects_count);
+          setLoading(false);
+          setPage(0);
+        });
+    }
   }, [tabIndex]);
 
   const handleChangePage = (event, newPage) => {
@@ -284,7 +287,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
+        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -300,7 +303,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
+        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -311,7 +314,7 @@ function ReactTable(props) {
 
   const deactive = (id) => {
     Swal.fire({
-      title: "Projeyi aktife almak istediğine emin misin?",
+      title: "Projeyi pasife almak istediğine emin misin?",
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Evet",
@@ -327,7 +330,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://emlaksepette.com/react/my_projects?status=" +
+                  "http://127.0.0.1:8000/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -397,7 +400,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://emlaksepette.com/react/my_projects?status=" +
+                  "http://127.0.0.1:8000/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -415,23 +418,39 @@ function ReactTable(props) {
     });
   };
 
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event,row) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedRow(row);
+  };
+
+  const id = open ? 'simple-popover' : undefined;
+  const [selectedRow,setSelectedRow] = useState(null)
+
   return (
     <div className="estate-table">
       <ToastContainer />
       <div className="table-breadcrumb">
         <ul>
-          <li>Yönetim Paneli</li>
-          <li className="none-underline"> / </li>
+          <li><i className="fa fa-home"></i></li>
+          <li>Ofisim</li>
           <li>Proje İlanlarım</li>
         </ul>
       </div>
-      <div className="tabs">
+      <div className="front-project-tabs mt-5">
         <ul>
           {tabs.map((tab) => {
             return (
               <li
                 onClick={() => {
-                  setTabIndex(tab.tabId);
+                  if(!loading){
+                    setTabIndex(tab.tabId);
+                  }
                 }}
                 className={tabIndex == tab.tabId ? "active" : ""}
               >
@@ -503,7 +522,7 @@ function ReactTable(props) {
                       </TableCell>
                       <TableCell>
                         <a
-                          href={`https://emlaksepette.com/hesabim/projects/${row.id}/housings_v2`}
+                          href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/housings_v2`}
                           class="badge badge-phoenix badge-phoenix-success"
                         >
                           İlanları Düzenle
@@ -513,13 +532,13 @@ function ReactTable(props) {
                         <div className="d-flex">
                           <a
                             class="badge badge-phoenix badge-phoenix-warning"
-                            href={`https://emlaksepette.com/hesabim/projects/${row.id}/logs`}
+                            href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/logs`}
                           >
                             İşlem Kayıtları
                           </a>
                           <a
                             class="badge badge-phoenix badge-phoenix-success mx-3"
-                            href={`https://emlaksepette.com/hesabim/edit_project_v2/${row.slug}/${row.id}`}
+                            href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${row.slug}/${row.id}`}
                           >
                             Genel Düzenleme
                           </a>
@@ -600,6 +619,121 @@ function ReactTable(props) {
           </div>
         )}
       </div>
+
+      <div>
+        {
+          loading ? 
+            <>
+              <Skeleton variant="rounded" width='100%' height={60} style={{marginTop:'10px'}}/>
+              <Skeleton variant="rounded" width='100%' height={60} style={{marginTop:'10px'}}/>
+              <Skeleton variant="rounded" width='100%' height={60} style={{marginTop:'10px'}}/>
+              <Skeleton variant="rounded" width='100%' height={60} style={{marginTop:'10px'}}/>
+            </>
+          : 
+            rows.map((row) => {
+              return(
+                <div className="project-table-content">
+                  <ul>
+                    <li style={{width : '5%'}}>{1000000 + row.id}</li>
+                    <li style={{width : '12%'}}>
+                      <img style={{maxWidth:'80%',maxHeight:'30px'}} src={frontEndUrl+(row.image.replace('public','storage'))} alt="" />
+                    </li>
+                    <li style={{width : '23%',alignItems:'flex-start'}} >
+                      <div>
+                        <p className="project-table-content-title">{row.project_title}</p>
+                        <span className="project-table-content-location">{row.city.title} / {row.county.ilce_title} / {row.neighbourhood?.mahalle_title}</span>
+                      </div>
+                    </li>
+                    <li style={{width : '7%'}}>
+                      {row.room_count}
+                    </li>
+                    <li style={{width : '7%'}}>
+                      {row.cartOrders}
+                    </li>
+                    <li  style={{width : '12%'}}>
+                      {row.paymentPending}
+                    </li>
+                    <li  style={{width : '8%'}}>
+                      {row.offSale}
+                    </li>
+                    <li style={{width : '8%'}}>
+                      {row.room_count - (row.cartOrders + row.paymentPending)}
+                    </li>
+                    <li style={{width : '9%'}}>
+                      {row.status == 1 ? (
+                        <div className="text-success">Yayında</div>
+                      ) : row.status == 2 ? (
+                        <div className="text-warning">
+                          Onay Bekliyor
+                        </div>
+                      ) : row.status == 3 ? (
+                        <div class="text-danger">Reddedildi</div>
+                      ) : (
+                        <div class="text-danger">Pasif</div>
+                      )}
+                    </li>
+                    <li style={{width : '5%'}}>
+                      <span className="project-table-content-actions-button" onClick={(e) => {handleClick(e,row)}}>
+                        <i className="fa fa-chevron-down"></i>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                
+              )
+            })
+        }
+      </div>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <ul className="popover-project-actions">
+          <li>
+            <a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
+          </li>
+          <li><a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li><a href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li>
+            {selectedRow?.status == 2 ? (
+              <span className="badge badge-phoenix badge-phoenix-warning">
+                Admin Onayının Arından işlem Yapabilirsiniz
+              </span>
+            ) : selectedRow?.status == 0 ? (
+              <span
+                onClick={() => {
+                  active(selectedRow?.id);
+                }}
+              >
+                Aktife Al
+              </span>
+            ) : (
+              <span
+                onClick={() => {
+                  deactive(selectedRow?.id);
+                }}
+              >
+                Pasife Al
+              </span>
+            )}
+          </li>
+          <li>
+            <span onClick={() => { remove(selectedRow.id); }}>
+              Sil
+            </span>
+          </li>
+        </ul>
+      </Popover>
     </div>
   );
 }

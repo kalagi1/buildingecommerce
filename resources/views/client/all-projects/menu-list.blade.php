@@ -327,6 +327,8 @@
                                                     Kimden
                                                 </span>
                                             </div>
+                                            
+                                          
                                             <div class="mt-md-2 filtreArea" style="display: none !important">
 
                                                 <div class="mb-2 d-flex align-items-center">
@@ -336,29 +338,33 @@
                                                     </label>
                                                 </div>
 
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input class="filter-now form-control" type="radio"
-                                                        name="corporate_type" id="EmlakOfisi" value="Emlak Ofisi">
-                                                    <label class="form-check-label w-100 ml-4" for="EmlakOfisi">Emlak
-                                                        Ofisinden
-                                                    </label>
-                                                </div>
+                                   
+                                                @if($detachedHoliday != 1)
+                                                    <div class="mb-2 d-flex align-items-center">
+                                                        <input class="filter-now form-control" type="radio"
+                                                            name="corporate_type" id="EmlakOfisi" value="Emlak Ofisi">
+                                                        <label class="form-check-label w-100 ml-4" for="EmlakOfisi">Emlak
+                                                            Ofisinden
+                                                        </label>
+                                                    </div>
 
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input class="filter-now form-control" type="radio"
-                                                        name="corporate_type" id="İnsaatOfisi" value="İnşaat Ofisi">
-                                                    <label class="form-check-label w-100 ml-4" for="İnsaatOfisi">İnşaat
-                                                        Ofisinden
-                                                    </label>
-                                                </div>
+                                                    <div class="mb-2 d-flex align-items-center">
+                                                        <input class="filter-now form-control" type="radio"
+                                                            name="corporate_type" id="İnsaatOfisi" value="İnşaat Ofisi">
+                                                        <label class="form-check-label w-100 ml-4" for="İnsaatOfisi">İnşaat
+                                                            Ofisinden
+                                                        </label>
+                                                    </div>
 
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input class="filter-now form-control" type="radio"
-                                                        name="corporate_type" id="banka" value="Banka">
-                                                    <label class="form-check-label w-100 ml-4"
-                                                        for="banka">Bankadan</label>
+                                                    <div class="mb-2 d-flex align-items-center">
+                                                        <input class="filter-now form-control" type="radio"
+                                                            name="corporate_type" id="banka" value="Banka">
+                                                        <label class="form-check-label w-100 ml-4"
+                                                            for="banka">Bankadan</label>
 
-                                                </div>
+                                                    </div>
+
+                                                @endif
 
                                                 <div class="mb-2 d-flex align-items-center">
                                                     <input class="filter-now form-control" type="radio"
@@ -722,21 +728,23 @@
                                 onclick="changeTabStyle('all')" class="allButton">
                             <label for="all" class="activeTab">Tümü</label>
                         </div>
-                        <div class="tab">
-                            <input type="radio" name="tab-group" id="EmlakOfisi" value="Emlak Ofisi"
-                                onclick="changeTabStyle('EmlakOfisi')">
-                            <label for="EmlakOfisi">Emlak Ofisi</label>
-                        </div>
-                        <div class="tab">
-                            <input type="radio" name="tab-group" id="İnsaatOfisi" value="İnşaat Ofisi"
-                                onclick="changeTabStyle('İnsaatOfisi')">
-                            <label for="İnsaatOfisi">İnşaat Ofisi</label>
-                        </div>
-                        <div class="tab">
-                            <input type="radio" name="tab-group" id="banka" value="Banka"
-                                onclick="changeTabStyle('banka')">
-                            <label for="banka">Banka</label>
-                        </div>
+                        @if($detachedHoliday != 1)
+                            <div class="tab">
+                                <input type="radio" name="tab-group" id="EmlakOfisi" value="Emlak Ofisi"
+                                    onclick="changeTabStyle('EmlakOfisi')">
+                                <label for="EmlakOfisi">Emlak Ofisi</label>
+                            </div>
+                            <div class="tab">
+                                <input type="radio" name="tab-group" id="İnsaatOfisi" value="İnşaat Ofisi"
+                                    onclick="changeTabStyle('İnsaatOfisi')">
+                                <label for="İnsaatOfisi">İnşaat Ofisi</label>
+                            </div>
+                            <div class="tab">
+                                <input type="radio" name="tab-group" id="banka" value="Banka"
+                                    onclick="changeTabStyle('banka')">
+                                <label for="banka">Banka</label>
+                            </div>
+                        @endif
                         <div class="tab">
                             <input type="radio" name="tab-group" id="TurizmAmaçliKiralama"
                                 value="Turizm Amaçlı Kiralama" onclick="changeTabStyle('TurizmAmaçliKiralama')">

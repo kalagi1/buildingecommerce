@@ -109,77 +109,79 @@ function CustomEdit({project,open,setOpen,selectedRoomsTemp,reloadData}) {
 
     return(
         <div>
-            <Modal
-                open={open}
-                onClose={() => {
-                    setOpen(false);
-                    setTextData("");
-                    setSelectData("");
-                    setCheckboxValues([]);
-                    setSelectedType([]);
-                }}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className="row">
-                        <h4>{housingTypeData.title}</h4>
-                        <span>{housingTypeData.title} tipinde bir ilanda alanlar üzerinde bir değişiklik yapıyorsunuz</span>
-                        <div className="col-md-12">
-                            <label htmlFor="">Alan Seç</label>
-                            <select className='form-control' value={selectedType} onChange={(e) => {setSelectedType(e.target.value)}} name="" id="">
-                                <option value="">Güncellemek İstediğiniz Alanı Seçin</option>
-                                {
-                                    formJsonData.map((typeData) => {
-                                        if(!typeData.className.includes('project-disabled')){
-                                            if(typeData.type != "file"){
-                                                return(
-                                                    <option value={typeData.name}>{typeData.label}</option>
-                                                )
-                                            }
-                                        }
-                                        
-                                    })
-                                }
-                            </select>
+            <div className={'payment-modal '+(open ? "" : "d-none")}>
+                <div onClick={() => {setOpen(false)}} className='payment-modal-bg'></div>
+                <div className="payment-modal-content">
+                    <div className="pop-up-top-gradient">
+                        <div className="left">
+                            <h3>{project.project_title} adlı projede toplu güncelleme</h3>
                         </div>
-                        <div className="col-md-12 mt-2">
-                            <label htmlFor="">{formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.label}</label>
-                            {
-                                formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "text" ? 
-                                    <input value={textData} onChange={(e) => {formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.className?.includes("price-only") ? setTextData(dotNumberFormat(e.target.value)) : setTextData(e.target.value)}} type="text"  className='form-control' />
-                                : formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "select" ? 
-                                    <select value={selectData} onChange={(e) => {setSelectData(e.target.value)}} className='form-control'>
+                        <div className="close" onClick={() => {setOpen(false)}}>
+                            <span><i className='fa fa-times '></i></span>
+                        </div>
+                    </div>
+                    <div className="payment-modal-area">
+                        <div className="payment-modal-section">
+                            <div className="col-md-12 mt-3">
+                                <div className="row">
+                                    <label htmlFor="">Alan Seç</label>
+                                    <select className='form-control' value={selectedType} onChange={(e) => {setSelectedType(e.target.value)}} name="" id="">
+                                        <option value="">Güncellemek İstediğiniz Alanı Seçin</option>
                                         {
-                                            formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.values?.map((value) => {
-                                                return(
-                                                    <option value={value.value}>{value.label}</option>
-                                                )
+                                            formJsonData.map((typeData) => {
+                                                if(!typeData?.className?.includes('project-disabled')){
+                                                    if(typeData.type != "file"){
+                                                        return(
+                                                            <option value={typeData.name}>{typeData.label}</option>
+                                                        )
+                                                    }
+                                                }
+                                                
                                             })
                                         }
                                     </select>
-                                    : 
-                                    <div className="checkbox-groups">
-                                        <div className="row">
-                                            {
-                                                formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.values?.map((valueCheckbox) => {
-                                                    return (
-                                                        <div className="col-md-3">
-                                                            <FormControlLabel control={<Switch checked={checkboxValues.includes(valueCheckbox.value)} onChange={() => {checkboxChange(valueCheckbox.value)}} label={valueCheckbox.label} />} label={valueCheckbox.label} />
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                            }
-                        </div>
-                        <div>
-                            <Button onClick={() => {saveEdit()}} className='save_button mt-2'> Kaydet {saveLoading ? <i className='fa fa-spinner loading-icon ml-2'></i> : ""}</Button>
+                                </div>
+                            </div>
+                            <div className="col-md-12 mt-3 custom-edit-area">
+                                <div className="row" style={{flexDirection:'column'}}>
+                                    <label htmlFor="">{formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.label}</label>
+                                    {
+                                        formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "text" ? 
+                                            <input value={textData} onChange={(e) => {formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.className?.includes("price-only") ? setTextData(dotNumberFormat(e.target.value)) : setTextData(e.target.value)}} type="text"  className='form-control' />
+                                        : formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.type == "select" ? 
+                                            <select value={selectData} onChange={(e) => {setSelectData(e.target.value)}} className='form-control'>
+                                                {
+                                                    formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.values?.map((value) => {
+                                                        return(
+                                                            <option value={value.value}>{value.label}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                            : 
+                                            <div className="checkbox-groups">
+                                                <div className="row">
+                                                    {
+                                                        formJsonData?.find((jsonData) => {return jsonData.name == selectedType})?.values?.map((valueCheckbox) => {
+                                                            return (
+                                                                <div className="col-md-3">
+                                                                    <FormControlLabel control={<Switch checked={checkboxValues.includes(valueCheckbox.value)} onChange={() => {checkboxChange(valueCheckbox.value)}} label={valueCheckbox.label} />} label={valueCheckbox.label} />
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <button onClick={() => {saveEdit()}} className='save-button-custom-edit mt-4'>Kaydet {saveLoading ? <i className='fa fa-spinner loading-icon ml-2'></i> : ""}</button>
+                            </div>
                         </div>
                     </div>
-                </Box>
-            </Modal>
+                </div>
+            </div>
         </div>
     )
 }

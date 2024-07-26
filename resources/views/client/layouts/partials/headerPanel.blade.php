@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://emlaksepette.com/" />
+        <meta property="og:url"content="https://private.emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -26,6 +26,8 @@
         <meta property="og:image:width" content="300">
     @endif
 
+   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-6b2945bb.css" />
+   <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-eb9269d2.css" />
 
     <!-- FAVICON -->
     <!-- Canonical URL için bölüm -->
@@ -56,7 +58,9 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/panel.css">
+
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,6 +68,9 @@
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     @yield('styles')
 
     <!-- Google tag (gtag.js) -->
@@ -79,6 +86,17 @@
         gtag('config', 'G-FVHQEVC6S0');
     </script>
     <style>
+        #navigation ul li ul{
+            border-top:2px solid #ea2a28 !important;
+        }
+
+        #navigation ul li ul a:hover{
+            background-color: ghostwhite;
+        }
+
+        .table td {
+            display: table-cell !important;
+        }
         .notification-card.unread {
             background-color: #eff2f6;
         }
@@ -105,6 +123,84 @@
             cursor: pointer;
         }
 
+        .dz-message {
+            background: #fff none repeat scroll 0 0;
+            border: 2px dashed #1ABC9C;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .h-120{
+            height: 120px !important;
+        }
+
+        .file-input {
+            width: 100% !important;
+            height: 220px !important;
+        }   
+
+        .fa-cloud-upload {
+            color: #1ABC9C;
+            display: block;
+            font-size: 50px;
+            margin-bottom: 0px;
+            margin-top: 20px;
+
+        }
+
+        .file-drop-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+            padding: 25px;
+            height: 220px;
+            border: 2px dashed #1ABC9C;
+            border-radius: 3px;
+            transition: 0.2s;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .file-drop-area.is-active {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .fake-btn {
+            flex-shrink: 0;
+            border-radius: 3px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+        }
+
+        .file-msg {
+            font-size: small;
+            font-weight: 300;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .file-input:focus {
+            outline: none;
+        }
         .box::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
             background-color: #F5F5F5;
@@ -202,7 +298,6 @@
             color: #d63031;
         }
 
-
         .gry {
             background-color: #F4F4F4;
         }
@@ -211,7 +306,6 @@
             color: black;
             padding: 10px
         }
-
 
         .cont {
             position: absolute;
@@ -353,6 +447,41 @@
             }
         }
     </style>
+
+    {{-- crm css --}}
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: 10px 0;
+            margin-top: 5px;
+            width: 200px;
+            z-index: 1000;
+            border-top:2px solid #ea2a28;
+
+        }
+
+        .dropdown-menu li {
+            padding: 20px 28px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #f5f5f5;
+        }
+
+        #crm-menu:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
     <!-- Google Tag Manager -->
     <script>
         (function(w, d, s, l, i) {
@@ -413,7 +542,7 @@
             @foreach ($adBanners as $adBanner)
                 <div class="home-top-banner d-xl-block d-none d-lg-block"
                     style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    <img src="https://private.emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
                 </div>
             @endforeach
         </div>
@@ -976,12 +1105,10 @@
 
                                                     </li>
                                                 @endif
-                                            @endforeach
+                                            @endforeach                                        
                                         </ul>
-                                    @endif
-                                </li>
-
-
+                                    @endif                                 
+                                </li>                           
 
                                 @if (!$hasVisibleMenus)
                                     <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
@@ -996,11 +1123,30 @@
                                 @endif
                             @endforeach
 
+                            @php
+                                $currentUser = Auth::user();
+                            @endphp
+                            
+                            @if ($currentUser->id == 106 || $currentUser->parent_id == 106)
+                                <li  class="navbar-vertical-label" style="font-weight: 600;color: #333;font-size: 12px;line-height: 34px;padding: 0; display: flex;cursor: pointer;
+                                    justify-content: center; align-items: center; text-decoration: none;  box-sizing: border-box; letter-spacing: 0.18px;" id="crm-menu">
+                                    CRM
+                                    <ul class="dropdown-menu">
+                                        @if ($currentUser->parent_id == 106)
+                                            <li><a href="{{route('institutional.crm.danisman.musteri.listesi')}}">Danışman Müşterileri</a></li>
+                                            <li><a href="{{route('institutional.danisman.dashboard')}}">Danışman Dashboard</a></li>
+                                        @endif    
+                                        @if ($currentUser->id == 106)
+                                            <li><a href="{{route('institutional.crm.danisman.proje.atama')}}">Danışman Projeleri</a></li>
+                                            <li><a href="{{route('institutional.admin.dashboard')}}">Admin Dashboard</a></li>
+                                            <li><a href="{{route('institutional.crm.admin.odul')}}">Ödül Sistemi</a></li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            @endif                         
                         </ul>
                     </nav>
                 </div>
-
-
             </div>
 
 
@@ -1047,7 +1193,7 @@
         <div class="clearfix"></div>
 
         <div id="preloader">
-            <div id="status">
+            <div id="statusPreloader">
                 <div class="status-mes"></div>
             </div>
         </div>

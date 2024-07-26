@@ -1,4 +1,3 @@
-
 </div>
 </div>
 
@@ -266,7 +265,7 @@
 
 
 <!-- ARCHIVES JS -->
-<script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
+<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
     integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w=="
@@ -274,12 +273,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
     integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/mmenu.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"
     integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/aos2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
     integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -302,7 +301,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/js/lightcase.min.js"
     integrity="sha512-i+A2/k3mB4TtIRp6fyk8Q+xzJqKusi0bvFgCIfDtdJT1tDEMqYvKo60q3bvp6LzGIeS6BahqN4AklwwxbdSaog=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/search.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/search.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
     integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -319,17 +318,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
     integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/range.js?v=2"></script>
-<script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js?v=2"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/searched.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/forms-2.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/range.js"></script>
+<script type="text/javascript" src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     var errorMessage = "{{ session('error') }}";
-
     if (errorMessage) {
         Swal.fire({
             position: "center",
@@ -1246,7 +1244,7 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow:4,
+                slidesToShow: 4,
                 slidesToScroll: 4,
                 dots: false,
                 arrows: false
@@ -1642,7 +1640,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1836,7 +1834,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "https://private.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
@@ -2002,47 +2000,79 @@
     });
 </script>
 
-<script src="{{ URL::to('/') }}/adminassets/vendors//popper/popper.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//bootstrap/bootstrap.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//anchorjs/anchor.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//is/is.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//lodash/lodash.min.js" ></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//popper/popper.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//bootstrap/bootstrap.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//anchorjs/anchor.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//is/is.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//lodash/lodash.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//list.js/list.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//dayjs/dayjs.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/assets//js/phoenix.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js" ></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js" ></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//list.js/list.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//dayjs/dayjs.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/assets//js/phoenix.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
 <script
-    src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js" >
+    src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
-
+    
 
 <!--FormBuilder-->
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" ></script>
-<script src="https://formbuilder.online/assets/js/form-builder.min.js" ></script>
-<script type="text/javascript" src="https://formbuilder.online/assets/js/form-render.min.js" ></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script type="text/javascript" src="https://formbuilder.online/assets/js/form-render.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@vite('resources/js/app.jsx')
+@vite('resources/js/app.jsx') 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js" ></script>
-<script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+<script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 <script>
-    $('*[data-bs-toggle="dropdown"]').click(function(){
-        if($(this).hasClass('show')){
+    $('*[data-bs-toggle="dropdown"]').click(function() {
+        if ($(this).hasClass('show')) {
             $(this).removeClass('show');
             $(this).parent().children('.dropdown-menu').removeClass('show');
             $(this).parent().children('.dropdown-menu').removeAttr('data-bs-popper')
-        }else{
+        } else {
             $(this).addClass('show');
             $(this).parent().children('.dropdown-menu').addClass('show');
-            $(this).parent().children('.dropdown-menu').attr('data-bs-popper','static')
+            $(this).parent().children('.dropdown-menu').attr('data-bs-popper', 'static')
         }
     })
+</script>
+
+<script src="{{ asset('js/dropzone.js') }}"></script>
+
+<script>
+    var $fileInput = $('.file-input');
+    var $droparea = $('.file-drop-area');
+
+    // highlight drag area
+    $fileInput.on('dragenter focus click', function() {
+        $droparea.addClass('is-active');
+    });
+
+    // back to normal state
+    $fileInput.on('dragleave blur drop', function() {
+        $droparea.removeClass('is-active');
+    });
+
+    // change inner text
+    $fileInput.on('change', function() {
+        var filesCount = $(this)[0].files.length;
+        var $textContainer = $(this).prev();
+
+        if (filesCount === 1) {
+            // if single file is selected, show file name
+            var fileName = $(this).val().split('\\').pop();
+            $(".file-msg").text(fileName);
+        } else {
+            // otherwise show number of files
+            $(".file-msg").text(filesCount + ' dosya seçildi');
+        }
+    });
 </script>
 @yield('scripts')
 

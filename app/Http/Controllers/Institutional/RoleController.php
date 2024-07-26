@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class RoleController extends Controller
 {
@@ -17,7 +18,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::where('parent_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
-        return view('institutional.roles.index', compact('roles'));
+        return view('client.panel.roles.index', compact('roles'));
     }
 
     public function create()
@@ -107,14 +108,16 @@ class RoleController extends Controller
             ->toArray();
 
         // Görünümü gruplanmış izinlerle döndürün
-        return view('institutional.roles.create', compact('groupedPermissions', 'specialPermissionIDs'));
+        return view('client.panel.roles.create', compact('groupedPermissions', 'specialPermissionIDs'));
     }
 
 
-    public function edit(Role $role)
+    public function edit($hashedId)
     {
+        $roleId = decode_id($hashedId);
+
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        $role = Role::where('id', $role->id)->with('rolePermissions.permissions')->first();
+        $role = Role::where('id', $roleId)->with('rolePermissions.permissions')->first();
         $mainRole = Role::where('id', '2')->with('rolePermissions.permissions')->first();
         $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
 
@@ -201,7 +204,7 @@ class RoleController extends Controller
 
 
 
-        return view('institutional.roles.edit', compact('role', 'groupedPermissions', 'specialPermissionIDs'));
+        return view('client.panel.roles.edit', compact('role', 'groupedPermissions', 'specialPermissionIDs'));
     }
 
     public function store(CreateRoleRequest $request)
@@ -225,12 +228,15 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('institutional.roles.index')->with('success', 'Role created successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla oluşturuldu');
     }
 
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, $hashedId)
     {
+        $roleId = decode_id($hashedId);
+
         $permissions = $request->input('permissions');
+        $role = Role::where("id", $roleId)->first();
 
         $role->update([
             'name' => $request->input('name'),
@@ -247,12 +253,15 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('institutional.roles.index')->with('success', 'Role updated successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla güncellendi');
     }
 
-    public function destroy(Role $role)
+    public function destroy( $hashedId)
     {
+        $roleId = decode_id($hashedId);
+        $role = Role::where("id", $roleId)->first();
+
         $role->delete();
-        return redirect()->route('institutional.roles.index')->with('success', 'Role deleted successfully');
+        return redirect()->route('institutional.roles.index')->with('success', 'Rol başarıyla silindi');
     }
 }

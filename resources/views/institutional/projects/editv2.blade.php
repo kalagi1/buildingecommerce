@@ -26,6 +26,7 @@
     @endif
     <div class="content">
         <h2 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">İlanı Güncelle</h2>
+        
         <div class="breadcrumb  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             <span>Emlak</span>
         </div>
@@ -97,7 +98,7 @@
                                     <div class="input col-md-10">
                                         <input type="text"
                                             value="{{ isset($tempData->project_title) ? $tempData->project_title : '' }}"
-                                            name="name" class="form-control advert_title">
+                                            name="name" class="form-control ilan_baslik">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="max-character"
@@ -160,7 +161,7 @@
                                         <label for="">Başlangıç Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
                                         </div>
@@ -170,7 +171,7 @@
                                         <label for="">Bitiş Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->project_end_date) ? $tempData->project_end_date : ''}}" class="project_end_date" onchange="changeData(this.value,'project_end_date')" onkeyup="changeData(this.value,'project_end_date')">
                                         </div>
@@ -2857,7 +2858,7 @@
             listChange();
         })
 
-        $('.advert_title').keyup(function() {
+        $('.ilan_baslik').keyup(function() {
             if ($(this).val().length > 70) {
                 $(this).val($(this).val().substring(0, 70))
             } else {

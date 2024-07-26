@@ -137,7 +137,6 @@
                                     ->first()
                                 )->discount_amount ?? 0;
                             @endphp
-                            
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">

@@ -1,8 +1,15 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="loading-area d-none">
-        <div class="loading">Loading&#8230;</div>
+    <div class="pop-up-v2 loading-area d-none">
+        <div class="pop-back">
+
+        </div>
+        <div class="pop-content">
+            <div class="pop-content-inner">
+                <i class="fa fa-spinner infinite-icon" style="font-size: 30px"></i>
+            </div>
+        </div>
     </div>
     @if ($tempUpdateHas)
         <div class="pop-up-v2">
@@ -11,7 +18,12 @@
             </div>
             <div class="pop-content">
                 <div class="pop-content-inner">
-                    <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                    <div class="pop-up-title-with-icon">
+                        <div class="icon">
+                            <svg fill="#7a7a7a" width="50px" height="50px" viewBox="0 -64 640 640" xmlns="http://www.w3.org/2000/svg"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h274.9c-2.4-6.8-3.4-14-2.6-21.3l6.8-60.9 1.2-11.1 7.9-7.9 77.3-77.3c-24.5-27.7-60-45.5-99.9-45.5zm45.3 145.3l-6.8 61c-1.1 10.2 7.5 18.8 17.6 17.6l60.9-6.8 137.9-137.9-71.7-71.7-137.9 137.8zM633 268.9L595.1 231c-9.3-9.3-24.5-9.3-33.8 0l-37.8 37.8-4.1 4.1 71.8 71.7 41.8-41.8c9.3-9.4 9.3-24.5 0-33.9z"/></svg>
+                        </div>
+                        <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                    </div>
                     <div class="choises">
                         <div class="choise choise-1">
                             Kaldığım Yerden Devam Et
@@ -25,17 +37,47 @@
         </div>
     @endif
     <div class="content">
-        <h2 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">İlanı Güncelle</h2>
-        <div class="breadcrumb  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-            <span>Emlak</span>
+        <div class="row" style="justify-content: space-between;">
+            <div class="table-breadcrumb">
+                <ul>
+                    <li><i class="fa fa-home"></i></li>
+                    <li>Ofisim</li>
+                    <li>Projeyi Düzenle</li>
+                </ul>
+            </div>
+            @if ($project->status == 0)
+                <div class="table-right-breadcrumb  cancel-project">
+                    <ul>
+                        <li>Projeniz Pasif</li>
+                        <li><i class="fa fa-pause"></i></li>
+                    </ul>
+                </div>
+            @elseif ($project->status == 3)
+                <div class="table-right-breadcrumb cancel-project">
+                    <ul>
+                        <li>Projeniz Reddedildi</li>
+                        <li><i class="fa fa-times"></i></li>
+                    </ul>
+                </div>
+            @elseif($project->status == 2)
+                <div class="table-right-breadcrumb wait-confirm">
+                    <ul>
+                        <li>Projeniz Onay Bekliyor</li>
+                        <li><i class="fa fa-hourglass-start"></i></li>
+                    </ul>
+                </div>
+            @else
+                <div class="table-right-breadcrumb">
+                    <ul>
+                        <li>Projeniz Yayında</li>
+                        <li><i class="fa fa-check"></i></li>
+                    </ul>
+                </div>
+            @endif
+            
         </div>
-        @if ($project->status == 0)
-            <h3 style="color:orange">Projeniz şu anda pasif durumda !</h3>
-        @elseif ($project->status == 3)
-            <h3 style="color:#e54242">Projeniz reddedildi !</h3>
-        @else
-            <h3 style="color:green">Projeniz şu anda yayında !</h3>
-        @endif
+        
+        
         <div class="mt-4">
             <div class="clear-both"></div>
             <div class="firt-area d-none">
@@ -81,40 +123,36 @@
             </div>
             <div class="second-area">
                 <div class="row">
-                    <div class="thumbnail-second">
-                        <span class="section-title">Kategori</span>
-                        <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
-                            <div class="icon"><i class="fa fa-house"></i></div> Emlak
-                        </div>
-                    </div>
                     <div class="form-area mt-4">
-                        <span class="section-title">İlan Detayları</span>
+                        <span class="section-title-form">İlan Detayları</span>
 
-                        <div class="form-group">
-                            <label for="">İlan Başlığı <span class="required">*</span></label>
-                            <div class="max-character-input">
-                                <div class="row" style="align-items:center;">
-                                    <div class="input col-md-10">
-                                        <input type="text"
-                                            value="{{ isset($tempData->project_title) ? $tempData->project_title : '' }}"
-                                            name="name" class="form-control advert_title">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="max-character"
-                                            for="">{{ isset($tempData->project_title) ? Str::length(trim($tempData->project_title)) : '0' }}/70</label>
+                        <div class="card p-3 mb-4">
+                            <div class="form-group">
+                                <label for="">İlan Başlığı <span class="required">*</span></label>
+                                <div class="max-character-input">
+                                    <div class="row" style="align-items:center;">
+                                        <div class="input col-md-10">
+                                            <input type="text"
+                                                value="{{ isset($tempData->project_title) ? $tempData->project_title : '' }}"
+                                                name="name" class="form-control ilan_baslik">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="max-character"
+                                                for="">{{ isset($tempData->project_title) ? Str::length(trim($tempData->project_title)) : '0' }}/70</label>
+                                        </div>
                                     </div>
                                 </div>
+    
                             </div>
-
-                        </div>
-                        <div class="form-group description-field">
-                            <label for="">İlan Açıklaması <span class="required">*</span></label>
-                            <div id="editor2">
-                                {!! isset($tempData->description) ? $tempData->description : '' !!}
+                            <div class="form-group description-field">
+                                <label for="">İlan Açıklaması <span class="required">*</span></label>
+                                <div id="editor2">
+                                    {!! isset($tempData->description) ? $tempData->description : '' !!}
+                                </div>
+                                  
+                                {{-- <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
+                                    class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea> --}}
                             </div>
-                              
-                            {{-- <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
-                                class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea> --}}
                         </div>
 
                         <div class="card p-3 mb-4">
@@ -133,7 +171,7 @@
                                         <label for="">Toplam Proje Alanı (M2)</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <svg style="width: 20px;height: 20px;" fill="#ffffff" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.541 491.541" xml:space="preserve"> <g> <path d="M350.373,116.048H24.445C10.942,116.048,0,126.988,0,140.492V466.42c0,13.503,10.942,24.445,24.445,24.445h325.928 c13.503,0,24.444-10.942,24.444-24.445V140.492C374.817,126.988,363.876,116.048,350.373,116.048z M325.928,441.975H48.889V164.936 h277.039V441.975z"/> <path d="M486.695,411.913h-26.513V126.63h26.513c1.958,0,3.724-1.178,4.472-2.991c0.756-1.814,0.342-3.892-1.05-5.283 l-42.802-42.802c-1.894-1.894-4.965-1.894-6.858,0l-42.803,42.802c-1.392,1.392-1.806,3.469-1.05,5.283 c0.749,1.813,2.515,2.991,4.473,2.991h26.513v285.283h-26.513c-1.958,0-3.724,1.177-4.473,2.991 c-0.755,1.815-0.342,3.893,1.05,5.285l42.803,42.802c1.893,1.894,4.965,1.894,6.858,0l42.802-42.802 c1.393-1.392,1.807-3.469,1.05-5.285C490.419,413.09,488.654,411.913,486.695,411.913z"/> <path d="M70.676,94.563c1.392,1.392,3.469,1.806,5.284,1.05c1.814-0.747,2.992-2.514,2.992-4.472V64.628h285.283v26.513 c0,1.958,1.177,3.725,2.991,4.472c1.814,0.756,3.891,0.342,5.284-1.05l42.802-42.802c1.894-1.895,1.894-4.967,0-6.86L372.51,2.1 c-1.393-1.393-3.469-1.807-5.284-1.051c-1.814,0.748-2.991,2.514-2.991,4.472v26.515H78.952V5.521c0-1.957-1.177-3.724-2.992-4.472 c-1.814-0.756-3.892-0.342-5.284,1.051L27.875,44.901c-1.894,1.893-1.894,4.965,0,6.86L70.676,94.563z"/> </g> </svg>
+                                                <i class="fa fa-square"></i>
                                             </div>
                                             <input type="text" value="{{isset($tempData->total_project_area) && $tempData->total_project_area ?  number_format(str_replace('.','',$tempData->total_project_area), 0, ',', '.')  : ''}}" class="total_project_area price-only" onkeyup="changeData(this.value,'total_project_area')">
                                         </div>
@@ -142,7 +180,7 @@
                                         <label for="">Ada Bilgisi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <svg style="width: 20px;height: 20px;" fill="#ffffff" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.541 491.541" xml:space="preserve"> <g> <path d="M350.373,116.048H24.445C10.942,116.048,0,126.988,0,140.492V466.42c0,13.503,10.942,24.445,24.445,24.445h325.928 c13.503,0,24.444-10.942,24.444-24.445V140.492C374.817,126.988,363.876,116.048,350.373,116.048z M325.928,441.975H48.889V164.936 h277.039V441.975z"/> <path d="M486.695,411.913h-26.513V126.63h26.513c1.958,0,3.724-1.178,4.472-2.991c0.756-1.814,0.342-3.892-1.05-5.283 l-42.802-42.802c-1.894-1.894-4.965-1.894-6.858,0l-42.803,42.802c-1.392,1.392-1.806,3.469-1.05,5.283 c0.749,1.813,2.515,2.991,4.473,2.991h26.513v285.283h-26.513c-1.958,0-3.724,1.177-4.473,2.991 c-0.755,1.815-0.342,3.893,1.05,5.285l42.803,42.802c1.893,1.894,4.965,1.894,6.858,0l42.802-42.802 c1.393-1.392,1.807-3.469,1.05-5.285C490.419,413.09,488.654,411.913,486.695,411.913z"/> <path d="M70.676,94.563c1.392,1.392,3.469,1.806,5.284,1.05c1.814-0.747,2.992-2.514,2.992-4.472V64.628h285.283v26.513 c0,1.958,1.177,3.725,2.991,4.472c1.814,0.756,3.891,0.342,5.284-1.05l42.802-42.802c1.894-1.895,1.894-4.967,0-6.86L372.51,2.1 c-1.393-1.393-3.469-1.807-5.284-1.051c-1.814,0.748-2.991,2.514-2.991,4.472v26.515H78.952V5.521c0-1.957-1.177-3.724-2.992-4.472 c-1.814-0.756-3.892-0.342-5.284,1.051L27.875,44.901c-1.894,1.893-1.894,4.965,0,6.86L70.676,94.563z"/> </g> </svg>
+                                                <i class="fa fa-map"></i>
                                             </div>
                                             <input type="text" value="{{isset($tempData->island) && $tempData->island ?  $tempData->island : ''}}" class="total_project_area" onkeyup="changeData(this.value,'island')">
                                         </div>
@@ -151,7 +189,7 @@
                                         <label for="">Parsel Bilgisi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <svg style="width: 20px;height: 20px;" fill="#ffffff" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.541 491.541" xml:space="preserve"> <g> <path d="M350.373,116.048H24.445C10.942,116.048,0,126.988,0,140.492V466.42c0,13.503,10.942,24.445,24.445,24.445h325.928 c13.503,0,24.444-10.942,24.444-24.445V140.492C374.817,126.988,363.876,116.048,350.373,116.048z M325.928,441.975H48.889V164.936 h277.039V441.975z"/> <path d="M486.695,411.913h-26.513V126.63h26.513c1.958,0,3.724-1.178,4.472-2.991c0.756-1.814,0.342-3.892-1.05-5.283 l-42.802-42.802c-1.894-1.894-4.965-1.894-6.858,0l-42.803,42.802c-1.392,1.392-1.806,3.469-1.05,5.283 c0.749,1.813,2.515,2.991,4.473,2.991h26.513v285.283h-26.513c-1.958,0-3.724,1.177-4.473,2.991 c-0.755,1.815-0.342,3.893,1.05,5.285l42.803,42.802c1.893,1.894,4.965,1.894,6.858,0l42.802-42.802 c1.393-1.392,1.807-3.469,1.05-5.285C490.419,413.09,488.654,411.913,486.695,411.913z"/> <path d="M70.676,94.563c1.392,1.392,3.469,1.806,5.284,1.05c1.814-0.747,2.992-2.514,2.992-4.472V64.628h285.283v26.513 c0,1.958,1.177,3.725,2.991,4.472c1.814,0.756,3.891,0.342,5.284-1.05l42.802-42.802c1.894-1.895,1.894-4.967,0-6.86L372.51,2.1 c-1.393-1.393-3.469-1.807-5.284-1.051c-1.814,0.748-2.991,2.514-2.991,4.472v26.515H78.952V5.521c0-1.957-1.177-3.724-2.992-4.472 c-1.814-0.756-3.892-0.342-5.284,1.051L27.875,44.901c-1.894,1.893-1.894,4.965,0,6.86L70.676,94.563z"/> </g> </svg>
+                                                <i class="fa fa-map"></i>
                                             </div>
                                             <input type="text" value="{{isset($tempData->parcel) && $tempData->parcel ?  $tempData->parcel  : ''}}" class="total_project_area" onkeyup="changeData(this.value,'parcel')">
                                         </div>
@@ -160,7 +198,7 @@
                                         <label for="">Başlangıç Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
                                         </div>
@@ -170,7 +208,7 @@
                                         <label for="">Bitiş Tarihi</label>
                                         <div class="icon-input">
                                             <div class="icon-area">
-                                                <i class="fa fa-calendar-days"></i>
+                                                <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="date" value="{{isset($tempData->project_end_date) ? $tempData->project_end_date : ''}}" class="project_end_date" onchange="changeData(this.value,'project_end_date')" onkeyup="changeData(this.value,'project_end_date')">
                                         </div>
@@ -180,9 +218,9 @@
                         </div>
                        
                         <div class="address">
-                            <span class="section-title">Adres Bilgileri</span>
+                            <span class="section-title-form">Adres Bilgileri</span>
                             <div class="card">
-                                <div class="row px-5 py-4">
+                                <div class="row p-3">
                                     <div class="col-md-4">
                                         <label for="">İl <span class="required">*</span></label>
                                         <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities"
@@ -217,8 +255,8 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="section-title mt-4">Kapak Fotoğrafı</span>
-                        <div class="cover-photo-full card py-2 px-5">
+                        <span class="section-title-form mt-4">Kapak Fotoğrafı</span>
+                        <div class="cover-photo-full card p-3">
                             <input type="file" accept="image/*" name="cover-image" class="cover_image d-none">
                             <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
@@ -229,7 +267,7 @@
                                     <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-                            <div class="cover-photo">
+                            <div class="cover-photo mt-3">
                                 @if (isset($tempData->image) && $tempData->image)
                                     <div class="project_imagex">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $tempData->image) }}"
@@ -238,8 +276,8 @@
                                 @endif
                             </div>
                         </div>
-                        <span class="section-title mt-4">Proje Galerisi</span>
-                        <div class="photo card py-2 px-5">
+                        <span class="section-title-form mt-4">Proje Galerisi</span>
+                        <div class="photo card py-2 p-3">
                             <input type="file" accept="image/*" multiple name="project-images" class="project_image d-none">
                             <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
@@ -250,24 +288,43 @@
                                     <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-                            <div class="photos">
-                                <div>
-                                    <span>{{count($tempData->images)}} / 40</span>
+                            <div class="image-progress-bar">
+                                <span>Eklenen Fotoğraf Adedi</span>
+                                <div class="d-flex" style="align-items: center;">
+                                    <div class="image-progress">
+                                        <div class="image-loading-bar project-gallery-bar" style="width: {{count($tempData->images) * 100 / 40}}%"></div>
+                                    </div>
+                                    <div style="margin-left: 10px">
+                                        <span class="project-image-count">{{count($tempData->images)}} / 40</span>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="photos">
                                 @if (isset($tempData->images) && $tempData->images)
                                     @foreach ($tempData->images as $key => $image)
                                         <div class="project_imagex" order="{{ $image->image }}">
+                                            <div class="bg-image"></div>
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}" alt="">
                                             <div class="image-buttons">
-                                                <i class="fa fa-trash"></i>
+                                                <div class="image-button">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                            <div class="project-image-button-select">
+                                                <input type="checkbox" name="" id="">
                                             </div>
                                         </div>
                                     @endforeach
                                 @endif
                             </div>
+                            <div class="project-multi-select d-none">
+                                <button class="multi-select">
+                                    Seçilen Fotoğrafları Sil
+                                </button>
+                            </div>
                         </div>
-                        <span class="section-title mt-4 housing_after_step">Vaziyet & Kat Planı</span>
-                        <div class="photo card py-2 px-5 housing_after_step">
+                        <span class="section-title-form mt-4 housing_after_step">Vaziyet & Kat Planı</span>
+                        <div class="photo card py-2 p-3 housing_after_step p-3">
                             <input type="file" multiple name="situation-plans" accept="image/*" class="situation-plan d-none">
                             <div class="upload-container col-md-4 col-xl-3 situation-plan-div" ondrop="handleDrop4(event)" ondragover="allowDrop4(event)">
                                 <div class="border-container">
@@ -278,20 +335,40 @@
                                   <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-                            <div class="situations">
-                                <div>
-                                    <span>{{count($tempData->situations)}} / 40</span>
+                            <div class="image-progress-bar">
+                                <span>Eklenen Fotoğraf Adedi</span>
+                                <div class="d-flex" style="align-items: center;">
+                                    <div class="image-progress">
+                                        <div class="image-loading-bar situation-width" style="width: {{count($tempData->situations) * 100 / 40}}%"></div>
+                                    </div>
+                                    <div style="margin-left: 10px">
+                                        <span class="situations-image-count">{{count($tempData->situations)}} / 40</span>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="situations">
                                 @if(isset($tempData->situations) && $tempData->situations)
                                     @foreach($tempData->situations as $image)
                                         <div class="situation_imagex"  order="{{$image->situation}}">
+                                            <div class="bg-image"></div>
                                             <img src="{{URL::to('/')}}/situation_images/{{str_replace('public/situation_images/', '', $image->situation)}}" alt="">
                                             <div class="image-buttons">
-                                                <i class="fa fa-trash"></i>
+                                                <div class="image-button">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                            <div class="situation-image-button-select">
+                                                <input type="checkbox" name="" id="">
                                             </div>
                                         </div>
                                     @endforeach
                                 @endif
+                            </div>
+
+                            <div class="situation-multi-select d-none">
+                                <button class="multi-select">
+                                    Seçilen Fotoğrafları Sil
+                                </button>
                             </div>
                         </div>
                         <div class="second-area-finish">
@@ -301,7 +378,7 @@
                                 <span>okudum, kabul ediyorum</span>
                             </div>
                             <div class="finish-button" style="float:right;margin:0;">
-                                <button class="btn btn-info">
+                                <button class="button-finish">
                                     Devam
                                 </button>
                             </div>
@@ -329,23 +406,140 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
 
     <script>
-        const toolbarOptions = [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            ['link', 'image', 'video', 'formula'],
+        var selectedSituationsx = [];
+        const handler = {
+            set(target, property, value) {
+                console.log(`${property} değişti: ${value}`);
+                if(selectedSituationsx.includes(value)){
+                    const index = selectedSituationsx.indexOf(value);
+                    if (index > -1) {
+                        selectedSituationsx.splice(index, 1);
+                    }
+                }else{
+                    selectedSituationsx.push(value);
+                }
+                
+                $('.situation-multi-select').removeClass('d-none')
+                $('.situation_imagex .bg-image').removeClass('d-block') 
+                $('.situation-image-button-select').removeClass('d-none')
+                if(selectedSituationsx.length > 0){
+                    for(var i = 0 ; i < selectedSituationsx.length; i++){
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').find('.bg-image').addClass('d-block') 
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').find('.situation-image-button-select').addClass('d-block') 
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]')
+                    }
+                }else{
+                    $('.situation-multi-select').addClass('d-none')
+                }
+            }
+        };
 
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
+        var selectedGalleriesx = [];
+        const handler2 = {
+            set(target, property, value) {
+                console.log(`${property} değişti: ${value}`);
+                if(selectedGalleriesx.includes(value)){
+                    const index = selectedGalleriesx.indexOf(value);
+                    if (index > -1) {
+                        selectedGalleriesx.splice(index, 1);
+                    }
+                }else{
+                    selectedGalleriesx.push(value);
+                }
+                $('.project-multi-select').removeClass('d-none')
+                $('.project_imagex .bg-image').removeClass('d-block') 
+                $('.projet-image-button-select').removeClass('d-none')
+                if(selectedGalleriesx.length > 0){
+                    for(var i = 0 ; i < selectedGalleriesx.length; i++){
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').find('.bg-image').addClass('d-block') 
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').find('.project-image-button-select').addClass('d-block') 
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]')
+                    }
+                }else{
+                    $('.project-multi-select').addClass('d-none')
+                }
+            }
+        };
+
+        var csrfToken = "{{ csrf_token() }}";
+        $('.situation-multi-select').click(function(){
+            console.log(selectedSituationsx)
+            var formData = new FormData();
+            for(var i = 0; i < selectedSituationsx.length; i++){
+                formData.append('selected_situations['+i+']',selectedSituationsx[i]);
+            }
+            formData.append('item_type',3);
+            formData.append('_token',csrfToken);
+            $.ajax({
+                type: "POST",
+                url: "{{URL::to('/')}}/hesabim/delete_situation_multiple", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    for(var i = 0 ; i < selectedSituationsx.length; i++){
+                        $('.situation_imagex[order="'+selectedSituationsx[i]+'"]').remove();
+                    }
+                },
+                error: function() {
+                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                    alert("Dosya yüklenemedi.");
+                }
+            });
+        })
+
+        $('.project-multi-select').click(function(){
+            console.log(selectedGalleriesx)
+            var formData = new FormData();
+            for(var i = 0; i < selectedGalleriesx.length; i++){
+                formData.append('selected_galleries['+i+']',selectedGalleriesx[i]);
+            }
+            formData.append('item_type',3);
+            formData.append('_token',csrfToken);
+            $.ajax({
+                type: "POST",
+                url: "{{URL::to('/')}}/hesabim/delete_gallery_multiple", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    for(var i = 0 ; i < selectedGalleriesx.length; i++){
+                        $('.project_imagex[order="'+selectedGalleriesx[i]+'"]').remove();
+                    }
+                },
+                error: function() {
+                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                    alert("Dosya yüklenemedi.");
+                }
+            });
+        })
+
+        let selectedSituations = new Proxy([], handler);
+        $('.situation_imagex .situation-image-button-select input').change(function(){
+            var imageName = $(this).closest('.situation_imagex').attr('order');
+            selectedSituations.push(imageName);
+            console.log(selectedSituations);
+        })
+
+        let selectedGalleries = new Proxy([], handler2);
+        $('.project_imagex .project-image-button-select input').change(function(){
+            var imageName = $(this).closest('.project_imagex').attr('order');
+            selectedGalleries.push(imageName);
+            console.log(selectedSituations);
+        })
+       
+
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline'], 
+            [{ 'align': [] }],       // toggled buttons
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' } ],
+
 
             [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
             [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
             [{ 'font': [] }],
-            [{ 'align': [] }],
 
             ['clean']                                         // remove formatting button
         ];
@@ -561,16 +755,26 @@
                     contentType: false,
                     success: function(response) {
                         
+                        var count = $('.situation_imagex').length;
+                        $('.situations-image-count').html((count + response.length)+' / 40')
+                        $('.situation-width').css('width',((count + response.length) * 100 / 40)+'%')
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="situation_imagex" order="'+response[i]+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/situation_images/'+response[i]);
-                            var imageButtons = $('<div>').attr('class','image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
-                            imageButtons.append(imageButtonsIcon)
-                            imageDiv.append(image);
-                            imageDiv.append(imageButtons);
-                            $('.situations').append(imageDiv);
-
+                            var htmlx = `
+                                <div class="situation_imagex" order="${response[i]}">
+                                    <div class="bg-image"></div>
+                                    <img src="{{URL::to('/')}}/situation_images/${response[i]}" alt="">
+                                    <div class="image-buttons">
+                                        <div class="image-button">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="situation-image-button-select">
+                                        <input type="checkbox" name="" id="">
+                                    </div>
+                                </div>
+                            `
+                            
+                            $('.situations').append(htmlx);
                             $('.situation_imagex .image-buttons').click(function(){
                                 var thisx = $(this);
                                 $.ajax({
@@ -590,6 +794,12 @@
                                 });
                             })
                         }
+
+                        $('.situation_imagex .situation-image-button-select input').change(function(){
+                            var imageName = $(this).closest('.situation_imagex').attr('order');
+                            selectedSituations.push(imageName);
+                            console.log(selectedSituations);
+                        })
                     },
                     error: function() {
                         // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
@@ -2033,16 +2243,28 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        
+                        var count = $('.project_imagex').length;
+                        $('.project-image-count').html((count + response.length)+' / 40')
+                        $('.project-gallery-bar').css('width',((count + response.length) * 100 / 40)+'%')
                         // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]);
-                            var imageButtons = $('<div>').attr('class','image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
-                            imageButtons.append(imageButtonsIcon)
-                            imageDiv.append(image);
-                            imageDiv.append(imageButtons);
-                            $('.photos').append(imageDiv);
+                            
+                            var htmlx = `
+                                <div class="project_imagex" order="${response[i]}">
+                                    <div class="bg-image"></div>
+                                    <img src="{{URL::to('/')}}/project_images/${response[i]}" alt="">
+                                    <div class="image-buttons">
+                                        <div class="image-button">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="project-image-button-select">
+                                        <input type="checkbox" name="" id="">
+                                    </div>
+                                </div>
+                            `
+                            $('.photos').append(htmlx);
 
                             $('.project_imagex .image-buttons').click(function(){
                                 var thisx = $(this);
@@ -2063,6 +2285,12 @@
                                 });
                             })
                         }
+
+                        $('.project_imagex .project-image-button-select input').change(function(){
+                            var imageName = $(this).closest('.project_imagex').attr('order');
+                            selectedGalleries.push(imageName);
+                            console.log(selectedSituations);
+                        })
 
                         // Resmi okuyun
                         reader.readAsDataURL(input.files[0]);
@@ -2752,11 +2980,15 @@
             $('.area-list').find('li').removeClass('selected');
             $('.breadcrumb-after-item').remove();
             for (var i = 0; i < areasSlugs.length; i++) {
+                console.log(areasSlugs[i])
                 $('.area-list').eq(i).addClass('active');
                 $('.breadcrumb').append('<span class="breadcrumb-after-item">' + areasSlugs[i].label + '</span>')
                 $('.area-list').eq(i).find('li').removeClass('selected');
                 $("li[slug='" + areasSlugs[i].slug + "']").addClass('selected');
             }
+            
+
+            console.log(tempOrders);
 
             for (var i = 0; i < $('.area-list').length; i++) {
                 if (i > areasSlugs.length) {
@@ -2764,6 +2996,15 @@
                 } else {
                     $('.area-list').eq(i).addClass('active');
                 }
+            }
+        }
+
+        var tempOrders = [];
+        for (var i = 0; i < areasSlugs.length; i++) {
+            console.log(tempOrders.includes(areasSlugs[i].order),tempOrders)
+            if(!tempOrders.includes(areasSlugs[i].order)){
+                tempOrders.push(areasSlugs[i].order);
+                $('.table-breadcrumb ul').append('<li>' + areasSlugs[i].label + '</li>')
             }
         }
 
@@ -2857,7 +3098,7 @@
             listChange();
         })
 
-        $('.advert_title').keyup(function() {
+        $('.ilan_baslik').keyup(function() {
             if ($(this).val().length > 70) {
                 $(this).val($(this).val().substring(0, 70))
             } else {

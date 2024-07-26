@@ -1,4 +1,4 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @section('content')
     <div class="content">
@@ -933,7 +933,7 @@
                     success: function(data) {
                         // Filtrelenmiş verileri tabloya ekleme işlemi
                         $('.table-responsive').html(data);
-                        console.log(data);
+                        
 
                         // DataTable yeniden yükleme (verileri güncellemek için)
                         table.ajax.reload();

@@ -123,4 +123,33 @@ class FavoriteController extends Controller
             'message' => $message,
         ]);
     }
+
+    public function deleteFavorites(Request $request)
+    {
+        $user = User::where("id", auth()->guard('api')->user()->id)->first();
+        if (!$user) {
+            return response()->json([
+                'status'  => "notLogin",
+                'message' => "Giriş Yapınız"
+            ]);
+        }
+        // request'ten favori id'lerini alın
+        $housingIds = $request->input('housing_ids', []);
+        // Kullanıcının belirli favori konutlarını ve projelerini sil
+        if (!empty($housingIds)) {
+            HousingFavorite::where('user_id', $user->id)
+                ->whereIn('housing_id', $housingIds)
+                ->delete();
+        }
+        if (!empty($housingIds)) {
+            ProjectFavorite::where('user_id', $user->id)
+                ->whereIn('housing_id', $housingIds)
+                ->delete();
+        }
+        return response()->json([
+            'status' => "deleted",
+            'message' => "Seçilen favoriler silindi."
+        ]);
+    }
+
 }

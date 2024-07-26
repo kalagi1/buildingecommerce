@@ -122,15 +122,33 @@ class PageController extends Controller
 
     public function orderDetail($id)
     {
-        $order = CartOrder::with("user", "store")->where('id', $id)->first();
+        $order = CartOrder::with("user", "store","refund")->where('id', $id)->first();
         $orderCart = json_decode($order->cart, true);
         $housing = null;
         $project = null;
 
+        if ($order) {
+            // Payment result değerine göre ödeme yöntemini belirle
+            if ($order->payment_result) {
+                $paymentMethod = 'Kredi Kartı';
+            } else {
+                $paymentMethod = 'EFT / Havale';
+            }
+        
+            // $order değişkenine yeni bir alan ekleyerek ödeme yöntemini atayabiliriz
+            $order->payment_method = $paymentMethod;
+        }
+
+        if ($order) {
+    // Taksitli veya taksitsiz durumu eklemek
+    $order->is_installment = $order->is_swap ? 'Taksitli' : 'Taksitsiz';
+}
+        
+
         if ($orderCart['type'] == 'housing') {
-            $housing = Housing::where('id', $orderCart['item']['id'])->first();
+            $housing = Housing::with("county","city")->where('id', $orderCart['item']['id'])->first();
         } else {
-            $project = Project::where('id', $orderCart['item']['id'])->first();
+            $project = Project::with("county","city")->where('id', $orderCart['item']['id'])->first();
         }
         return response()->json([
             "order" => $order,
@@ -251,7 +269,7 @@ class PageController extends Controller
 
         $sharer = User::where('id', auth()->user()->id)->first();
         $items = ShareLink::where('user_id', auth()->user()->id)->get();
-        $collections = Collection::with('links', "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
+        $collections = Collection::with('links.project',"links.housing", "clicks")->where('user_id', auth()->user()->id)->orderBy("id", "desc")->get();
         foreach ($items as $item) {
 
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray();

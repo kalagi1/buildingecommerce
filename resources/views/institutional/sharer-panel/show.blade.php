@@ -21,7 +21,6 @@
                             </thead>
                             <tbody class="collection-title">
                                 @foreach ($mergedItems as $item)
-
                                     @php
                                         $discountedPrice = null;
                                         $price = null;
@@ -216,9 +215,8 @@
                                                                     : (isset($item['project_values']['price[]'])
                                                                         ? $item['project_values']['price[]']
                                                                         : $item['project_values']['daily_rent[]']);
-                                                                        if (Auth::user()->corporate_type == 'Emlak Ofisi') {
-                                                                $earningAmount =
-                                                                    $discountedPrice * $sharePercent;
+                                                            if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                                $earningAmount = $discountedPrice * $sharePercent;
                                                             } else {
                                                                 $earningAmount =
                                                                     $discountedPrice * $deposit_rate * $sharePercent;
@@ -240,17 +238,21 @@
                                                     @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                                         <strong style="color: orange">
                                                             <span>Onay Bekleniyor:</span><br>
-                                                            {{ $item['share_price']['balance'] }} ₺
+                                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                                            ₺
                                                         </strong>
                                                     @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
                                                         <strong style="color: green">
                                                             <span>Komisyon Kazancınız:</span><br>
-                                                            {{ $item['share_price']['balance'] }} ₺
+                                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                                            ₺
+
                                                         </strong>
                                                     @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                                         <strong style="color: red">
                                                             <span>Kazancınız Reddedildi:</span><br>
-                                                            {{ $item['share_price']['balance'] }} ₺
+                                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                                            ₺
                                                         </strong>
                                                     @else
                                                         -
@@ -261,9 +263,9 @@
 
 
                                         <td>
-                                          
+
                                             <button class="btn btn-info remove-from-collection btn-sm" style="float: right"
-                                            data-collection="{{ $collection}}"
+                                                data-collection="{{ $collection }}"
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
@@ -272,10 +274,8 @@
 
                                         </td>
 
-                                       
-                                    </tr>
 
-                                
+                                    </tr>
                                 @endforeach
 
                             </tbody>
@@ -492,8 +492,7 @@
                                                                 : $item['project_values']['daily_rent[]'];
 
                                                             if (Auth::user()->corporate_type == 'Emlak Ofisi') {
-                                                                $earningAmount =
-                                                                    $discountedPrice * $sharePercent;
+                                                                $earningAmount = $discountedPrice * $sharePercent;
                                                             } else {
                                                                 $earningAmount =
                                                                     $discountedPrice * $deposit_rate * $sharePercent;
@@ -551,7 +550,7 @@
         </div>
     </div>
     <!-- Modal -->
-  
+
 
 @endsection
 
@@ -566,7 +565,7 @@
                 var itemId = button.data('id');
                 var projectId = button.data('project');
                 var collection = button.data('collection');
-        
+
                 $.ajax({
                     method: 'POST',
                     url: '/remove-from-collection',
@@ -579,11 +578,11 @@
                     },
                     success: function(response) {
                         if (response.complete) {
-                           
+
                             var redirectUrl = '/hesabim/koleksiyonlarim';
 
                             // Yönlendirme yap
-                            window.location.href = redirectUrl;             
+                            window.location.href = redirectUrl;
 
                         } else {
                             location.reload();
@@ -595,9 +594,7 @@
                 });
             });
         });
-        </script>
-        
-    
+    </script>
 @endsection
 
 @section('css')

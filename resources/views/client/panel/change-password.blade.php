@@ -1,95 +1,160 @@
-@extends('client.layouts.master')
+@extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="content">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-300 border-bottom mb-4">
-                    <div class="card-body">
-                        @if (session('success'))
-                            <div class="alert alert-success text-white text-white">
-                                {{ session('success') }}
+    <div class="table-breadcrumb">
+        <ul>
+            <li>
+                Hesabım
+            </li>
+            <li>
+                Şifreyi Değiştir
+            </li>
+        </ul>
+    </div>
+
+
+    <section>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-xxl-11">
+                    <div class="card border-light-subtle shadow-sm">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 border-right ">
+                                <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy"
+                                    src="{{ url('/images/template/changePassword.jpg') }}"
+                                    alt="Welcome back you've been missed!">
                             </div>
-                        @endif
-
-                        <form method="POST" action="{{ route('institutional.password.update') }}">
-                            @csrf
-
-                            <div class="col-12">
-                                <h4 class="mb-4">Şifre Değiştir</h4>
-
-                                <div class="form-group">
-                                    <div class="form-icon-container mb-3">
-                                        <div class="form-floating">
-                                            <input class="form-control form-icon-input" id="oldPassword" type="password"
-                                                name="current_password" placeholder="Old password" required>
-                                            <label class="text-body-tertiary form-icon-label" for="oldPassword">Mevcut
-                                                Şifre</label>
+                            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center border-left ">
+                                <div class="col-12 col-lg-11 col-xl-10">
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-5">
+                                                    <div class="text-center mb-5">
+                                                        <a href="#!">
+                                                            <img src="{{ url('/images/emlaksepettelogo.png') }}"
+                                                                alt="Emlak Sepette Logo" width="175" height="57">
+                                                        </a>
+                                                    </div>
+                                                    <h2 class="h4 text-center">Şifre Değiştir</h2>
+                                                    <h3 class="fs-6 fw-normal text-secondary text-center m-0">Herhangi bir
+                                                        sorunla karşılaşırsanız, lütfen info@emlaksepette.com ile iletişime
+                                                        geçmekten çekinmeyin.
+                                                    </h3>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <svg class="svg-inline--fa fa-lock text-body fs-9 form-icon" aria-hidden="true"
-                                            focusable="false" data-prefix="fas" data-icon="lock" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    @error('current_password')
-                                        <div class="badge badge-phoenix fs-10 badge-phoenix-danger d-inline-flex align-items-center ms-2">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                        <form method="POST" action="{{ route('institutional.password.update') }}">
+                                            @csrf
+                                            <div class="row gy-3 overflow-hidden">
+                                                <div class="col-12 mt-2">
+                                                    <div class="form-floating mb-3">
 
-                                <div class="form-group">
-                                    <div class="form-icon-container mb-3">
-                                        <div class="form-floating">
-                                            <input class="form-control form-icon-input" id="newPassword" type="password"
-                                                name="new_password" placeholder="New password" required>
-                                            <label class="text-body-tertiary form-icon-label" for="newPassword">Yeni
-                                                Şifre</label>
-                                        </div>
-                                        <svg class="svg-inline--fa fa-key text-body fs-9 form-icon" aria-hidden="true"
-                                            focusable="false" data-prefix="fas" data-icon="key" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M282.3 343.7L248.1 376.1C244.5 381.5 238.4 384 232 384H192V424C192 437.3 181.3 448 168 448H128V488C128 501.3 117.3 512 104 512H24C10.75 512 0 501.3 0 488V408C0 401.6 2.529 395.5 7.029 391L168.3 229.7C162.9 212.8 160 194.7 160 176C160 78.8 238.8 0 336 0C433.2 0 512 78.8 512 176C512 273.2 433.2 352 336 352C317.3 352 299.2 349.1 282.3 343.7zM376 176C398.1 176 416 158.1 416 136C416 113.9 398.1 96 376 96C353.9 96 336 113.9 336 136C336 158.1 353.9 176 376 176z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    @error('new_password')
-                                        <div class="badge badge-phoenix fs-10 badge-phoenix-danger d-inline-flex align-items-center ms-2">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                                        <div class="form-group">
+                                                            <div class="form-icon-container mb-3">
+                                                                <div class="form-floating">
+                                                                    <input class="form-control form-icon-input"
+                                                                        id="oldPassword" type="password"
+                                                                        name="current_password" placeholder="Mevcut Şifre"
+                                                                        required>
 
-                                <div class="form-group">
-                                    <div class="form-icon-container">
-                                        <div class="form-floating">
-                                            <input class="form-control form-icon-input" id="newPassword2" type="password"
-                                                name="new_password_confirmation" placeholder="Confirm New password"
-                                                required>
-                                            <label class="text-body-tertiary form-icon-label" for="newPassword2">Yeni Şifre
-                                                Onayı</label>
-                                        </div>
-                                        <svg class="svg-inline--fa fa-key text-body fs-9 form-icon" aria-hidden="true"
-                                            focusable="false" data-prefix="fas" data-icon="key" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M282.3 343.7L248.1 376.1C244.5 381.5 238.4 384 232 384H192V424C192 437.3 181.3 448 168 448H128V488C128 501.3 117.3 512 104 512H24C10.75 512 0 501.3 0 488V408C0 401.6 2.529 395.5 7.029 391L168.3 229.7C162.9 212.8 160 194.7 160 176C160 78.8 238.8 0 336 0C433.2 0 512 78.8 512 176C512 273.2 433.2 352 336 352C317.3 352 299.2 349.1 282.3 343.7zM376 176C398.1 176 416 158.1 416 136C416 113.9 398.1 96 376 96C353.9 96 336 113.9 336 136C336 158.1 353.9 176 376 176z">
-                                            </path>
-                                        </svg>
+
+                                                                </div>
+                                                            </div>
+                                                            @error('current_password')
+                                                                <div
+                                                                    class="badge badge-phoenix fs-10 badge-phoenix-danger d-inline-flex align-items-center ms-2">
+                                                                    {{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-floating mb-3">
+                                                        <div class="form-group">
+                                                            <div class="form-icon-container mb-3">
+                                                                <div class="form-floating">
+                                                                    <input class="form-control form-icon-input"
+                                                                        id="newPassword" type="password" name="new_password"
+                                                                        placeholder="Yeni Şifre" required>
+
+
+                                                                </div>
+                                                            </div>
+                                                            @error('new_password')
+                                                                <div
+                                                                    class="badge badge-phoenix fs-10 badge-phoenix-danger d-inline-flex align-items-center ms-2">
+                                                                    {{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-floating mb-3">
+                                                        <div class="form-group">
+                                                            <div class="form-icon-container">
+                                                                <div class="form-floating">
+                                                                    <input class="form-control form-icon-input"
+                                                                        id="newPassword2" type="password"
+                                                                        name="new_password_confirmation"
+                                                                        placeholder="Yeni Şifre Onayı" required>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="justify-content-center">
+                                                <div class="col-12 d-flex justify-content-center">
+                                                    <button class="button" type="submit">Şifreyi Güncelle</button>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                        {{-- <div class="row">
+                      <div class="col-12">
+                        <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
+                          <a href="#!" class="link-secondary text-decoration-none">Login</a>
+                          <a href="#!" class="link-secondary text-decoration-none">Register</a>
+                        </div>
+                      </div>
+                    </div> --}}
                                     </div>
                                 </div>
-
                             </div>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Şifre Güncelle</button>
-                            </div>
-                        </form>
-
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+@endsection
+
+@section('styles')
+    <style>
+        .button {
+            background-color: #ea2a28;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #c22321;
+        }
+    </style>
 @endsection

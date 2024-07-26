@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://emlaksepette.com/" />
+        <meta property="og:url"content="https://private.emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />
@@ -341,7 +341,8 @@
             }
         }
     </style>
-    <!-- Google Tag Manager -->
+    <link rel="stylesheet" href="{{ asset('css/map.css') }}">
+
     <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -398,12 +399,18 @@
     <!-- Wrapper -->
     <div id="wrapper">
             <div class="slick-lancersl homeTopBanner">
-                @foreach ($adBanners as $adBanner)
+                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
+                    <video autoplay loop muted style="width:100%">
+                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+            
+                {{-- @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
                         style="background-color: {{ $adBanner->background_color }};padding:0 !important">
                         <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
 
         <!-- START SECTION HEADINGS -->

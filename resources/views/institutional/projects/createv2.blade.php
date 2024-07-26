@@ -258,7 +258,7 @@
                             <div class="max-character-input">
                                 <div class="row" style="align-items:center;">
                                     <div class="input col-md-10">
-                                        <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" name="name" class="form-control advert_title">
+                                        <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" name="name" class="form-control ilan_baslik">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="max-character" for="">{{isset($tempData->name) ? Str::length(trim($tempData->name)) : '0'}}/70</label>
@@ -5428,7 +5428,7 @@
                                         success: function (data) {
                                             $('.area-list').eq(2).find('li').removeClass('selected');
                                             changeData(data,'housing_type_id');
-                                            console.log(data);
+                                            
                                             selectedid = data;
                                             thisx.addClass('selected')
                                             thisx.find('.loading-icon').remove();
@@ -5497,7 +5497,7 @@
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
-                    console.log(data);
+                    
                     $('.area-list').eq(1).find('li').removeClass('selected');
                     data = data.data;
                     var list = "";
@@ -5625,7 +5625,7 @@
             })
         })
 
-        $('.advert_title').keyup(function(){
+        $('.ilan_baslik').keyup(function(){
             if($(this).val().length > 70){
                 $(this).val($(this).val().substring(0,70))
             }else{
