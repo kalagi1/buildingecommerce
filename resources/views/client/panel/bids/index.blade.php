@@ -1,6 +1,19 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
+<div class="table-breadcrumb">
+    <ul>
+        <li>
+            Hesabım
+        </li>
+        <li>
+            Pazarlık Teklifleri 
+        </li>
+        <li>
+            {{ intval(2000000) + $housing->id }}
+        </li>
+    </ul>
+</div>
     <div class="content">
         <h3 class="mt-2 mb-4">Pazarlık Teklifleri | İlan No : {{ intval(2000000) + $housing->id }}</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">

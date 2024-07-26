@@ -240,6 +240,17 @@
             $('.cover_image.d-none').trigger('click');
         })
 
+        function showToast(heading, text, type) {
+            $.toast({
+                heading: heading,
+                text: text,
+                position: 'top-right',
+                stack: false,
+                icon: type,
+                showHideTransition: 'slide',
+            });
+        }
+
         $('.cover_image').change(function() {
             var input = this;
 
