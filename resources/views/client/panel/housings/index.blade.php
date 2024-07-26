@@ -137,7 +137,7 @@
                                                 </li>
                                             @endif
                                             <li>
-                                                <a href="{{ route('institutional.bids.index', ['housing' => $housingType->id]) }}">Pazarlık Teklifleri</a>
+                                                <a href="{{ route('institutional.bids.index', ['housing' =>hash_id( $housingType->id)]) }}">Pazarlık Teklifleri</a>
                                             </li>
 
                                         </ul>

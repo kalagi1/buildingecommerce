@@ -75,7 +75,9 @@ class BidController extends Controller {
         return back()->with('success', 'Teklif reddedildi.');
     }
 
-    public function index($housingId) {
+    public function index($hashedId) {
+        $housingId = decode_id( $hashedId );
+
         $housing = Housing::with('bids.user')->findOrFail($housingId);
         return view('client.panel.bids.index', compact('housing'));
     }
