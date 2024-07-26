@@ -1,50 +1,66 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>Hesabım</li>
+                <li>Emlak İlanlarım</li>
+                <li>Görsel Düzenle</li>
+                <li>#{{ $housing->id + 2000000 }}</li>
+            </ul>
+        </div>
+    </div>
     <div class="content">
-        <form action="{{route('institutional.housing.update',$housing->id)}}" method="post">
+        <form action="{{ route('institutional.housing.update', $housing->id) }}" method="post">
             @csrf
             <div class="">
                 <div class="clear-both"></div>
                 <div class="second-area">
                     <div class="row">
                         <div class="form-area mt-4">
-                            <span class="section-title mt-4">Kapak Fotoğrafı</span>
+                            <div class="section-title mt-5">
+                                <h2>Kapak Fotoğrafı </h2>
+                            </div>
                             <div class="cover-photo-full card py-2 px-5">
                                 <input type="file" name="cover-image" accept="image/*" class="cover_image d-none">
-                                <div class="upload-container col-md-3 cover-photo-area">
+                                <div id="cover_image" class="upload-container col-md-3 cover-photo-area">
                                     <div class="border-container">
-                                      <div class="icons fa-4x">
-                                        <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
-                                      </div>
-                                      <!--<input type="file" id="file-upload">-->
-                                      <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                        <div class="icons fa-4x">
+                                            <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                        </div>
+                                        <!--<input type="file" id="file-upload">-->
+                                        <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                     </div>
-                                  </div>
+                                </div>
                                 <div class="cover-photo">
-                                    @if(isset($formData->image) && $formData->image)
+                                    @if (isset($formData->image) && $formData->image)
                                         <div class="project_imagex">
-                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" alt="">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
+                                                alt="">
                                         </div>
                                     @endif
                                 </div>
                             </div>
-                            <span class="section-title mt-4">İlan Galerisi</span>
+                            <div class="section-title mt-5">
+                                <h2>İlan Galerisi </h2>
+                            </div>
                             <div class="photo card py-2 px-5">
-                                <input type="file" multiple name="project-images" accept="image/*" class="project_image d-none">
-                                <div class="upload-container col-md-3 photo-area">
+                                <input type="file" multiple name="project-images" accept="image/*"
+                                    class="project_image d-none">
+                                <div id="gallery" class="upload-container col-md-3 photo-area">
                                     <div class="border-container">
-                                      <div class="icons fa-4x">
-                                        <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
-                                      </div>
-                                      <!--<input type="file" id="file-upload">-->
-                                      <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                        <div class="icons fa-4x">
+                                            <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                        </div>
+                                        <!--<input type="file" id="file-upload">-->
+                                        <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                     </div>
                                 </div>
                                 <div class="photos">
-                                    @if(isset($formData->images) && $formData->images)
-                                        @foreach($formData->images as $image)
-                                            <div class="project_imagex"  order="{{$image}}">
+                                    @if (isset($formData->images) && $formData->images)
+                                        @foreach ($formData->images as $image)
+                                            <div class="project_imagex" order="{{ $image }}">
                                                 <img src="{{ asset('housing_images/' . $image) }}" alt="">
                                                 <div class="image-buttons">
                                                     <i class="fa fa-trash"></i>
@@ -75,17 +91,16 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        
         var csrfToken = $("meta[name='csrf-token']").attr("content");
-        $('.project_imagex .image-buttons').click(function(){
+        $('.project_imagex .image-buttons').click(function() {
             var thisx = $(this);
             $.ajax({
-                url: '{{route("institutional.housing.image.delete",$housing->id)}}',
+                url: '{{ route('institutional.housing.image.delete', $housing->id) }}',
                 type: 'POST',
-                data: { 
-                    image: $(this).closest('.project_imagex').attr('order') ,
-                    item_type : 2,
-                    _token : csrfToken
+                data: {
+                    image: $(this).closest('.project_imagex').attr('order'),
+                    item_type: 2,
+                    _token: csrfToken
                 },
                 success: function(response) {
                     thisx.closest('.project_imagex').remove()
@@ -106,18 +121,18 @@
             revert: true,
             update: function(event, ui) {
                 var ids = [];
-                for(var i = 0; i < $('.photos .project_imagex').length; i++){
+                for (var i = 0; i < $('.photos .project_imagex').length; i++) {
                     ids.push($('.photos .project_imagex').eq(i).attr('order'));
                 }
                 console.log(ids);
                 // Sıralama değiştiğinde bir Ajax POST isteği gönder
                 $.ajax({
-                    url: '{{route("institutional.housing.update.orders",$housing->id)}}',
+                    url: '{{ route('institutional.housing.update.orders', $housing->id) }}',
                     type: 'POST',
-                    data: { 
-                        images: ids ,
-                        item_type : 2,
-                        _token : csrfToken
+                    data: {
+                        images: ids,
+                        item_type: 2,
+                        _token: csrfToken
                     },
                     success: function(response) {
                         $.toast({
@@ -138,7 +153,7 @@
             connectToSortable: ".photos",
         });
 
-        
+
         $('.project_image').change(function() {
             var input = this;
 
@@ -148,13 +163,13 @@
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('item_type',2);
+                formData.append('item_type', 2);
                 for (let i = 0; i < this.files.length; i++) {
                     formData.append(`file${i}`, this.files[i]);
                 }
                 $.ajax({
                     type: "POST",
-                    url: "{{route('institutional.housing.image.add',$housing->id)}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{ route('institutional.housing.image.add', $housing->id) }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -166,24 +181,27 @@
                             stack: false
                         })
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/housing_images/'+response[i]);
-                            var imageButtons = $('<div>').attr('class','image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            var imageDiv = $('<div class="project_imagex" order="' + response[i] +
+                                '"></div>');
+                            var image = $('<img>').attr('src', '{{ URL::to('/') }}/housing_images/' +
+                                response[i]);
+                            var imageButtons = $('<div>').attr('class', 'image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class', 'fa fa-trash');
                             imageButtons.append(imageButtonsIcon)
                             imageDiv.append(image);
                             imageDiv.append(imageButtons);
                             $('.photos').append(imageDiv);
 
-                            $('.project_imagex .image-buttons').click(function(){
+                            $('.project_imagex .image-buttons').click(function() {
                                 var thisx = $(this);
                                 $.ajax({
-                                    url: '{{route("institutional.housing.image.delete",$housing->id)}}',
+                                    url: '{{ route('institutional.housing.image.delete', $housing->id) }}',
                                     type: 'POST',
-                                    data: { 
-                                        image: $(this).closest('.project_imagex').attr('order') ,
-                                        item_type : 2,
-                                        _token : csrfToken
+                                    data: {
+                                        image: $(this).closest('.project_imagex').attr(
+                                            'order'),
+                                        item_type: 2,
+                                        _token: csrfToken
                                     },
                                     success: function(response) {
                                         thisx.closest('.project_imagex').remove()
@@ -195,7 +213,9 @@
                                         })
                                     },
                                     error: function(xhr, status, error) {
-                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                        console.error(
+                                            "Ajax isteği sırasında bir hata oluştu: " +
+                                            error);
                                     }
                                 });
                             })
@@ -206,12 +226,12 @@
                         alert("Dosya yüklenemedi.");
                     }
                 });
-                
+
 
             }
         });
 
-        
+
         $('.photo-area').click(function() {
             $('.project_image.d-none').trigger('click');
         })
@@ -234,7 +254,7 @@
                 formData.append('item_type', 2);
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('institutional.housing.change.cover.image',$housing->id) }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{ route('institutional.housing.change.cover.image', $housing->id) }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -277,7 +297,6 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
-        
     </script>
     @stack('scripts')
 @endsection

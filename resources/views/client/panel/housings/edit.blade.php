@@ -6,7 +6,7 @@
             <ul>
                 <li>Hesabım</li>
                 <li>Emlak İlanlarım</li>
-                <li>Düzenle</li>
+                <li>İlan Düzenle</li>
                 <li>#{{ $housing->id + 2000000 }}</li>
             </ul>
         </div>
