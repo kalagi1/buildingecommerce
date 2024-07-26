@@ -14,20 +14,23 @@
         <div class="front-project-tabs">
             <ul class="mt-3 mb-3" id="housingTabs">
                 @foreach ([
-                    ['id' => 'active', 'text' => 'Aktif İlanlar', 'active' => true],
-                    ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar'],
-                    ['id' => 'disabledHousingTypes', 'text' => 'Reddedilen İlanlar'],
-                    ['id' => 'inactive', 'text' => 'Pasif İlanlar'],
-                    ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar']
+                        ['id' => 'active', 'text' => 'Aktif İlanlar', 'count' => $activeHousingTypes->count()],
+                ['id' => 'pendingHousingTypes', 'text' => 'Onay Bekleyen İlanlar', 'count' => $pendingHousingTypes->count()],
+                ['id' => 'disabledHousingTypes', 'text' => 'Reddedilen İlanlar', 'count' => $disabledHousingTypes->count()],
+                ['id' => 'inactive', 'text' => 'Pasif İlanlar', 'count' => $inactiveHousingTypes->count()],
+                ['id' => 'soldHousingTypes', 'text' => 'Satılan İlanlar', 'count' => $soldHousingTypes->count()]
                 ] as $tab)
                     <li class="tab-item {{ $tab['active'] ?? false ? 'active' : '' }}" 
                         id="{{ $tab['id'] }}-tab">
-                        {{ $tab['text'] }}
+                        {{ $tab['text'] }} ({{ $tab['count'] }})
+
                     </li>
                 @endforeach
             </ul>
         </div>
-
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="İlanları ara">
+        </div>
         <div class="tab-content">
             @foreach ([
                 'active' => $activeHousingTypes,
@@ -45,7 +48,7 @@
                         <div class="project-table">
                             @foreach ($housingTypes as $index => $housingType)
                                 <div class="project-table-content">
-                                    <ul class="list-unstyled d-flex">
+                                    <ul class="list-unstyled d-flex housing-item">
                                         <!-- Index -->
                                         <li style="width: 5%">{{ $index + 1 }}</li>
                                         <li style="width: 5%">{{ $housingType->id + 2000000 }}</li>
@@ -219,6 +222,24 @@
                 if (!$(event.target).closest('.project-table-content').length) {
                     $('.popover-project-actions').addClass('d-none');
                 }
+            });
+        });
+
+
+          // Search functionality
+          $('#searchInput').on('input', function() {
+            var query = $(this).val().toLowerCase();
+            $('.tab-pane').each(function() {
+                var $tabPane = $(this);
+                $tabPane.find('.housing-item').each(function() {
+                    var $item = $(this);
+                    var text = $item.text().toLowerCase();
+                    if (text.indexOf(query) > -1) {
+                        $item.show();
+                    } else {
+                        $item.hide();
+                    }
+                });
             });
         });
     </script>
