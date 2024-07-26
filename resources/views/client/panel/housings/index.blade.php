@@ -28,7 +28,7 @@
             </ul>
         </div>
 
-        <div class="tab-content px-4">
+        <div class="tab-content">
             @foreach ([
                 'active' => $activeHousingTypes,
                 'pendingHousingTypes' => $pendingHousingTypes,
@@ -131,10 +131,10 @@
                 $(this).addClass('active');
 
                 // Hide all tab panes
-                $('.tab-pane').removeClass('show');
+                $('.tab-pane').removeClass('show').removeClass('active');
 
                 // Show the corresponding tab pane
-                $('#' + targetId).addClass('show');
+                $('#' + targetId).addClass('show').addClass('active');
             });
 
             $('.project-table-content-actions-button').on('click', function() {
