@@ -25,6 +25,7 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
 use App\Models\ProjectOffers;
+use App\Models\ProjectComment;
 use App\Models\ProjectOffersGiven;
 use App\Models\ProjectOffersReceived;
 use App\Models\StandOutUser;
@@ -36,6 +37,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+
 
 use function PHPSTORM_META\type;
 
@@ -296,7 +299,10 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
 
-        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
+        //proje yorumlarını getiren değişken
+        $projectComments = ProjectComment::where( 'project_id', $project->id )->where( 'status', 1 )->with( 'user' )->get();
+
+        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','projectComments'));
     }
 
     public function ajaxIndex($slug, Request $request)
@@ -1765,5 +1771,52 @@ class ProjectController extends Controller
         return redirect()->back()->with('success', 'Yanıtlandı.');
     } //End
 
+    public function sendComment( Request $request, $id ) {
+        $project = Project::where( 'id', $id )->with( 'user' )->first();
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+            ]
+        );
 
+        if ( $validator->fails() ) {
+            return redirect()->back()->withErrors( $validator->errors() );
+        }
+
+        $rate = $request->input( 'rate' );
+        $comment = $request->input( 'comment' );
+
+        $images = [];
+        if ( is_array( $request->images ) ) {
+            foreach ( $request->images as $image ) {
+                $images[] = $image->store( 'public/housing-comment-images' );
+            }
+        }
+
+        ProjectComment::create(
+            [
+                'user_id' => auth()->user()->id,
+                'project_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'status' => 0,
+                'images' => json_encode( $images ),
+                'owner_id' => $project->user_id,
+            ]
+        );
+
+        return redirect()->back();
+    }//End
+
+    public function approveComment(Request $request, $id){
+        ProjectComment::where('id', $id)->update(['status' => 1]);
+        return redirect()->back();
+    }//End
+
+    public function unapproveComment(Request $request, $id){
+        ProjectComment::where('id', $id)->update(['status' => 0]);
+        return redirect()->back();
+    }//End
 }
