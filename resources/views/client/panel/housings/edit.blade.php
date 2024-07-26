@@ -68,7 +68,7 @@
                                 <h2>Adres Bilgileri</h2>
                             </div>
                             <div class="card p-4">
-                                <div class="row px-5 py-4">
+                                <div class="row">
                                     <div class="col-md-4">
                                         <label for="">İl <span class="required">*</span></label>
                                         <select name="city_id" id="cities" class="form-control">
@@ -106,7 +106,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="mt-4">
                                     <input name="location" class="form-control" id="location" readonly type="hidden"
                                         value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
                                     <div style="height: 350px;" id="mapContainer"></div>
