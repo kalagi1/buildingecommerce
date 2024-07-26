@@ -20,14 +20,20 @@
                                 Satılık
                             @endif
                         </div>
+                        @if (checkIfUserCanAddToCart($housing->id))
+
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
                         @endif
+                        @endif
+
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive">
                     </div>
                 </div>
+                @if (checkIfUserCanAddToCart($housing->id))
+
                 <div class="button-effect-div">
                     @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                         <span
@@ -41,6 +47,7 @@
                         <i class="fa fa-heart-o"></i>
                     </span>
                 </div>
+                @endif
             </div>
             <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
