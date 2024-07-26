@@ -38,7 +38,10 @@
             ] as $tabId => $housingTypes)
                 <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
                     @if ($housingTypes->isEmpty())
+                    <div class="project-table-content">
                         <p class="text-center">İlan bulunamadı</p>
+                    </div>
+                    
                     @else
                         <div class="project-table">
                             @foreach ($housingTypes as $index => $housingType)
