@@ -669,8 +669,9 @@
                                                         'slug' => Str::slug(auth()->user()->name),
                                                         'userID' => auth()->user()->id,
                                                     ]),
-                                                    'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'icon' => 'fa fa-arrow-circle-o-right',
+
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),

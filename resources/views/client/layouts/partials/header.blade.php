@@ -534,7 +534,7 @@
                                                 [
                                                     'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
                                                     'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
