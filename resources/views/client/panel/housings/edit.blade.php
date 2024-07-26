@@ -109,7 +109,7 @@
                             </div>
                             <div class="mt-4">
                                 <input name="location" class="form-control" id="location" readonly type="hidden"
-                                    value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
+                                    value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }} @else 32.9231576,37.3927733 @endif" />
                                 <div style="height: 350px;" id="mapContainer"></div>
                             </div>
                         </div>
@@ -1042,7 +1042,7 @@
                                 isset($housing->step2_slug) &&
                                 $housing->step1_slug &&
                                 $housing->step2_slug)
-                            @if ($housing->step2_slug == 'kiralik')
+                            @if ($housing->step2_slug != 'kiralik')
                                 $('.rent-disabled').closest('.form-group').remove();
                             @endif
                         @endif
@@ -1064,7 +1064,7 @@
                                 isset($housing->step2_slug) &&
                                 $housing->step1_slug &&
                                 $housing->step2_slug)
-                            @if ($housing->step2_slug == 'gunluk-kiralik')
+                            @if ($housing->step2_slug != 'gunluk-kiralik')
                                 $('.daily-rent-disabled').closest('.form-group').remove();
                             @endif
                         @endif
