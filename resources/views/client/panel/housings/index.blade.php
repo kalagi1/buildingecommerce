@@ -9,6 +9,7 @@
             </ul>
         </div>
     </div>
+    {{dd($userPermissions)}}
     <section>
         <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
             @foreach ([
