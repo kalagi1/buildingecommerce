@@ -889,7 +889,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
     Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
-    Route::get('/housing/{housing}/bids', [BidController::class, 'index'])->name('bids.index');
+    Route::get('/{housing}/pazarlik-teklifleri', [BidController::class, 'index'])->name('bids.index');
 
     Route::get('projelerime-gelen-basvurular', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('projelere-yaptigim-basvurular', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -1166,7 +1166,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
         Route::get('/emlak-ilani-duzenle/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
         Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
-        Route::get('/emlak-ilani-gorsel-duzenleme/{id}', [InstitutionalHousingController::class, 'editImages'])->name('housing.images.update');
+        Route::get('/emlak-ilani-gorsel-duzenle/{id}', [InstitutionalHousingController::class, 'editImages'])->name('housing.images.update');
         Route::post('/add_image/{id}', [InstitutionalHousingController::class, 'addProjectImage'])->name('housing.image.add');
         Route::post('/delete_image/{id}', [InstitutionalHousingController::class, 'deleteProjectImage'])->name('housing.image.delete');
         Route::post('/update_orders/{id}', [InstitutionalHousingController::class, 'updateOrders'])->name('housing.update.orders');

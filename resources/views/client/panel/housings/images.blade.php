@@ -18,8 +18,8 @@
                 <div class="clear-both"></div>
                 <div class="second-area">
                     <div class="row">
-                        <div class="form-area mt-4">
-                            <div class="section-title mt-5">
+                        <div class="form-area">
+                            <div class="section-title">
                                 <h2>Kapak Fotoğrafı </h2>
                             </div>
                             <div class="cover-photo-full card p-4">

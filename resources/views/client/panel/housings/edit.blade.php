@@ -167,6 +167,17 @@
             changeData(0, "featured");
         @endif
 
+        function showToast(heading, text, type) {
+            $.toast({
+                heading: heading,
+                text: text,
+                position: 'top-right',
+                stack: false,
+                icon: type,
+                showHideTransition: 'slide',
+            });
+        }
+
         var map;
         var markers = [];
 
@@ -444,7 +455,9 @@
                     _token: csrfToken
                 },
                 success: function(response) {
-                    thisx.closest('.project_imagex').remove()
+                    thisx.closest('.project_imagex').remove();
+                    showToast('Başarılı', 'Başarıyla resmi kaldırdınız', 'success');
+
                 },
                 error: function(xhr, status, error) {
                     console.error("Ajax isteği sırasında bir hata oluştu: " + error);
@@ -470,7 +483,7 @@
                         _token: csrfToken
                     },
                     success: function(response) {
-                        console.log("Sıralama güncellendi.");
+                        showToast('Başarılı', 'Başarıyla sıralamayı güncellediniz', 'success');
                     },
                     error: function(xhr, status, error) {
                         console.error("Ajax isteği sırasında bir hata oluştu: " + error);
@@ -1346,8 +1359,8 @@
                         $("#sonuc").html(response);
                     },
                     error: function() {
-                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
-                        alert("Dosya yüklenemedi.");
+                        showToast('Hata', 'Kapak fotoğrafı yüklenemedi', 'error');
+
                     }
                 });
                 reader.onload = function(e) {
@@ -1397,6 +1410,7 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        showToast('Başarılı', 'Başarıyla yeni resim eklediniz', 'success');
 
                         for (let i = 0; i < response.length; i++) {
                             var imageDiv = $('<div class="project_imagex" order="' + response[i] +
@@ -1434,8 +1448,8 @@
                         }
                     },
                     error: function() {
-                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
-                        alert("Dosya yüklenemedi.");
+                        showToast('Hata', 'Dosya yüklenemedi', 'error');
+
                     }
                 });
 
