@@ -19,7 +19,7 @@ $(document).ready(function () {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        $.ajax('js/markers2.json', {
+        $.ajax('js/markers.json', {
             success: function (markers) {
                 $.each(markers, function (index, value) {
                     var icon = L.divIcon({
