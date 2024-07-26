@@ -53,7 +53,7 @@
 
 
                                         <!-- Housing Title -->
-                                        <li style="width:65%">
+                                        <li style="width:55%">
                                             <div>
                                                 <p class="project-table-content-title">{{ $housingType->housing_title }}</p>
                                             </div>
@@ -79,8 +79,14 @@
                                                     </p>
                                                 </div>
                                             </li>
+                                            <li style="width:10%">
+                                                <div>
+                                                    <p class="project-table-content-title">
+                                                        {{ \Carbon\Carbon::parse($housingType->created_at)->format('d.m.Y H:i') }}
+                                                    </p>
+                                                </div>
+                                            </li>
                                             
-
                                         <!-- Actions -->
                                         <li style="width: 5%">
                                             <span class="project-table-content-actions-button" data-bs-content="#popover-{{ $housingType->id }}">
