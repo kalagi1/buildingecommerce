@@ -232,7 +232,11 @@ button {
   display:flex;
   align-items:center;
 }
-
+.project_imaget img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
 .remove-area{
   text-align:center
 }
@@ -31185,7 +31189,6 @@ a {
 
 .table-breadcrumb {
   display: inline-block;
-  margin-bottom: 20px;
 }
   .table-breadcrumb ul {
     margin: 0;
@@ -31301,12 +31304,18 @@ a {
   #cover_image.upload-container,
   #authority_certificate.upload-container,
   #document.upload-container,
+  #situations.upload-container,
   #gallery.upload-container{
     background: #fff none repeat scroll 0 0;
     border: 2px dashed #1ABC9C;
     /* padding: 50px 20px; */
     display: flex;
     cursor: pointer;
+  }
+
+  .next-house-bottom,
+  .prev-house-bottom{
+    cursor:pointer
   }
 
   .border-container{

@@ -211,7 +211,108 @@
                         </div>
                     </div>
                 </div>
+                @if ($order && $order->status && $order->status == 1)
+                    <div class="order-detail-inner mb-3">
+                        <div class="title mb-3">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h4>Sipariş Onaylama Durumu</h4>
+                        </div>
+                        <div class="container mt-5">
 
+
+                            @if ($order->payment_result)
+                                <div class="status-card bg-light-blue">
+                                    <div class="status-icon text-primary box-shadow-blue ">
+                                        <i class=""><img class="pay-icon"
+                                                src="{{ asset('images/template/pay-icon.png') }}" alt=""></i>
+                                    </div>
+                                    <div class="status-header">
+                                        <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
+                                        <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
+                                            sipariş
+                                            tamamlandığında alacak.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{$order->created_at}}</div>
+                                </div>
+                                <div class="horizontal-line"></div>
+                            @else
+                                @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
+                                    <div class="status-card bg-light">
+                                        <div class="status-icon text-success box-shadow-light">
+                                            <i class=""><img class="pay-icon"
+                                                    src="{{ asset('images/template/success-icon.png') }}"
+                                                    alt=""></i>
+                                        </div>
+                                        <div class="status-header">
+                                            <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
+                                            <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
+                                                değerlendirme
+                                                yapabilirsiniz.</div>
+                                        </div>
+                                        {{-- <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                    </div> --}}
+                                        <div class="status-timestamp">{{$order->created_at}}</div>
+                                    </div>
+
+                                    <div class="horizontal-line"></div>
+                                @else
+                                    <div class="status-card bg-light-green">
+                                        <div class="status-icon box-shadow-green text-success">
+                                            <i class=""><img class="pay-icon"
+                                                    src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                        </div>
+                                        <div class="status-header">
+                                            <div class="status-title text-success">Kaparonız Emlak Sepette ile Güvende</div>
+                                            <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
+                                                onaylamanız
+                                                bekleniyor.</div>
+                                        </div>
+                                        @if (isset($order->share))
+                                            <div class="approve-button">
+                                                <a class="btn btn-success"  href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                                    @if ($order->share->status == 1) disabled @endif>Hakedişleri
+                                                    Onayla</a>
+                                                {{-- <button class="btn btn-danger"
+                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
+                                                @if ($order->share->status != 1) disabled @endif>Hakedişleri
+                                                Reddet</button> --}}
+
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">İptal Et</button>
+                                            </div>
+
+                                            <div class="status-timestamp">{{$order->created_at}}</div>
+                                            
+                                        @endif
+
+                                        @if (isset($order->price))
+                                            <div class="approve-button">
+                                        
+                                                <a class="btn btn-success"  href="{{ route('client.approve-price', ['price' => $order->price->id]) }}"
+                                                    @if ($order->price->status == 1) disabled @endif>Onayla
+                                                </a>
+                                                {{-- <button class="btn btn-danger"
+                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
+                                                @if ($order->price->status != 1) disabled @endif>Hakedişleri
+                                                Reddet</button> --}}
+                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">İptal Et</button>
+                                            </div>
+                                            <div class="status-timestamp">{{$order->created_at}}</div>
+                                        @endif
+                                        
+                                    </div>
+                                @endif
+                            @endif
+
+                        </div>
+                    </div>
+                @endif
                 <div class="order-detail-inner">
                     <div class="title mb-3">
                         <i class="fa fa-edit"></i>
@@ -219,14 +320,12 @@
                     </div>
                     <textarea class="form-control" style="height: 150px" readonly>
                       @if ($order->notes)
-{!! $order->notes !!}
-@else
-Sipariş Notu eklenmedi
-@endif
+                    {!! $order->notes !!}
+                    @else
+                    Sipariş Notu eklenmedi
+                    @endif
                     </textarea>
                 </div>
-
-
 
             </div>
         </div>
@@ -375,7 +474,9 @@ Sipariş Notu eklenmedi
                                     <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
                                 @endif
 
-                                <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1"
+                                    aria-hidden="true">
+
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -384,53 +485,54 @@ Sipariş Notu eklenmedi
                                                 <div class="">
                                                     <div class="progress">
                                                         <div class="progress-bar
-                                                                    progress-bar-striped bg-success" 
-                                                             role="progressbar"
-                                                             style="width: 0%"
-                                                            aria-valuenow="0" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
+                                                                    progress-bar-striped bg-success"
+                                                            role="progressbar" style="width: 0%" aria-valuenow="0"
+                                                            aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                             
+
                                                     <div class="step active">
                                                         <p class="text-center mb-4">İade İşlemi</p>
                                                         <div class="mb-3">
                                                             @if (file_exists(public_path('refundpolicy/iadeislemleri.pdf')))
-                                                                    <iframe
-                                                                        src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
-                                                                        width="100%" height="400px">
-                                                                        Tarayıcınız yerleşik PDF dosyalarını
-                                                                        desteklemiyor. PDF dosyasını indirmek için
-                                                                        lütfen <a
-                                                                            href="{{ asset('refundpolicy/iadeislemleri.pdf') }}">buraya
-                                                                            tıklayın</a>.
-                                                                    </iframe>
-                                                                @else
-                                                                    <p>PDF bulunamadı.</p>
-                                                                @endif
-                                                                <form class="needs-validation was-validated" style="white-space: nowrap;"
-                                                                    id="wizardValidationForm1" novalidate="novalidate"
-                                                                    data-wizard-form="1">
-                                                                    @csrf
-                                                                    <input type="hidden" name="cart_order_id"
-                                                                        value="{{ $order->id }}">
-                                                                    
-                                                                        <div class="custom-checkbox">
-                                                                            <input type="checkbox" name="terms" required="required">
-                                                                            <span class="checkmark"></span>
-                                                                            <label class="form-check-label text-body" for="bootstrap-wizard-validation-wizard-checkbox">
-                                                                                Aydınlatma Metinini Okudum Onaylıyorum
-                                                                            </label>
-                                                                        </div>
-                                                                        
-                                                                </form>
+
+                                                                <iframe
+                                                                    src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
+                                                                    width="100%" height="400px">
+                                                                    Tarayıcınız yerleşik PDF dosyalarını
+                                                                    desteklemiyor. PDF dosyasını indirmek için
+                                                                    lütfen <a
+                                                                        href="{{ asset('refundpolicy/iadeislemleri.pdf') }}">buraya
+                                                                        tıklayın</a>.
+                                                                </iframe>
+                                                            @else
+                                                                <p>PDF bulunamadı.</p>
+                                                            @endif
+                                                            <form class="needs-validation was-validated"
+                                                                style="white-space: nowrap;" id="wizardValidationForm1"
+                                                                novalidate="novalidate" data-wizard-form="1">
+                                                                @csrf
+                                                                <input type="hidden" name="cart_order_id"
+                                                                    value="{{ $order->id }}">
+
+                                                                <div class="custom-checkbox">
+                                                                    <input type="checkbox" name="terms"
+                                                                        required="required">
+                                                                    <span class="checkmark"></span>
+                                                                    <label class="form-check-label text-body"
+                                                                        for="bootstrap-wizard-validation-wizard-checkbox">
+                                                                        Aydınlatma Metinini Okudum Onaylıyorum
+                                                                    </label>
+                                                                </div>
+
+                                                            </form>
                                                         </div>
                                                     </div>
-                                             
+
                                                     <div class="step">
                                                         <p class="text-center mb-4">Gerekli Bilgiler</p>
                                                         <form class="needs-validation" id="wizardValidationForm2"
-                                                                    novalidate="novalidate" data-wizard-form="2">
-                                                                    @csrf
+                                                            novalidate="novalidate" data-wizard-form="2">
+                                                            @csrf
 
 
                                                                     <div class="mb-2"><label class="form-label"
@@ -443,91 +545,95 @@ Sipariş Notu eklenmedi
                                                                         <div class="invalid-feedback">Alan Zorunludur.
                                                                         </div>
                                                                     </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                    Soyad</label><input class="form-control"
+                                                                    type="text" name="name" placeholder="Ad Soyad"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                            Numarası</label><input
-                                                                            class="form-control phoneControl"
-                                                                            type="text" name="phone"
-                                                                            placeholder="Telefon Numarası"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required" maxlength="10">
-                                                                        <span id="error_message"
-                                                                            class="error-message"></span>
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Telefon
+                                                                    Numarası</label><input
+                                                                    class="form-control phoneControl" type="text"
+                                                                    name="phone" placeholder="Telefon Numarası"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required" maxlength="10">
+                                                                <span id="error_message" class="error-message"></span>
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
+                                                                    class="form-control" type="email" name="email"
+                                                                    placeholder="E-Posta"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+
+                                                            @if ($order->payment_result && $order->payment_result !== '')
+                                                            @else
+                                                                <div class="mb-2"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                        Yapılacak Banka</label><input class="form-control"
+                                                                        type="text" name="return_bank"
+                                                                        placeholder="Banka"
+                                                                        id="bootstrap-wizard-validation-wizard-phone"
+                                                                        required="required">
+                                                                    <div class="invalid-feedback">Alan
+                                                                        Zorunludur.
                                                                     </div>
+                                                                </div>
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
-                                                                            class="form-control" type="email"
-                                                                            name="email" placeholder="E-Posta"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
+                                                                <div class="mb-2"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                        Yapılacak IBAN</label><input class="form-control"
+                                                                        type="text" name="return_iban"
+                                                                        placeholder="IBAN"
+                                                                        id="bootstrap-wizard-validation-wizard-phone"
+                                                                        required="required" oninput="formatIBAN(this)">
+                                                                    <div class="invalid-feedback">Alan
+                                                                        Zorunludur.
                                                                     </div>
-
-                                                                    @if ($order->payment_result && $order->payment_result !== '')
-                                                                    @else
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak Banka</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_bank" placeholder="Banka"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak IBAN</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_iban" placeholder="IBAN"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required"
-                                                                                oninput="formatIBAN(this)">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-                                                                    @endif
+                                                                </div>
+                                                            @endif
 
 
 
-                                                                </form>
+                                                        </form>
                                                     </div>
-                                             
+
                                                     <div class="step">
                                                         <p class="text-center mb-4"> Sipariş İptal Sebebiniz</p>
-                                                        <form class="mb-2 needs-validation"
-                                                        id="wizardValidationForm3" novalidate="novalidate"
-                                                        data-wizard-form="3">
-                                                        @csrf
-                                                        <div class="row gx-3 gy-2">
-                                                            <div class="col-12"><label class="form-label"
-                                                                    for="bootstrap-wizard-validation-card-number">
-                                                                   
-                                                                </label>
-                                                                <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
-                                                                    style="height: 300px !important; width: 100%; resize: vertical;" required></textarea>
-                                                            </div>
-                                                        </div>
+                                                        <form class="mb-2 needs-validation" id="wizardValidationForm3"
+                                                            novalidate="novalidate" data-wizard-form="3">
+                                                            @csrf
+                                                            <div class="row gx-3 gy-2">
+                                                                <div class="col-12"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-card-number">
 
-                                                    </form>
+                                                                    </label>
+                                                                    <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
+                                                                        style="height: 300px !important; width: 100%; resize: vertical;" required></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
                                                     </div>
-                                             
+
                                                     <div class="form-footer d-flex">
                                                         <button type="button" id="prevBtn"
-                                                                onclick="nextPrev(-1)">Geri</button>
+                                                            onclick="nextPrev(-1)">Geri</button>
                                                         <button type="button" id="nextBtn"
-                                                                onclick="nextPrev(1)">İleri</button>
+                                                            onclick="nextPrev(1)">İleri</button>
                                                     </div>
                                                 </div>
-                                             
 
                                                 {{-- <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
                                                     <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
@@ -844,8 +950,7 @@ Sipariş Notu eklenmedi
         });
     </script>
     <script>
-        // CSRF tokenını al
-       
+
 
         function formatIBAN(input) {
             // TR ile başlat
@@ -877,173 +982,299 @@ Sipariş Notu eklenmedi
         }
     </script>
 
-<script>
-    let currentTab = 0;
-    showTab(currentTab);
-
-    function showTab(n) {
-        let x = document.getElementsByClassName("step");
-        x[n].style.display = "block";
-        let progress = (n / (x.length - 1)) * 100;
-        document.querySelector(".progress-bar")
-          .style.width = progress + "%";
-        document.querySelector(".progress-bar")
-          .setAttribute("aria-valuenow", progress);
-        document.getElementById("prevBtn")
-          .style.display = n == 0 ? "none" : "inline";
-        document.getElementById("nextBtn")
-          .innerHTML = n == x.length - 1 ? "Tamamla" : "İleri";
-    }
-
-    function nextPrev(n) {
-        let x = document.getElementsByClassName("step");
-        if (n == 1 && !validateForm()) return false;
-        x[currentTab].style.display = "none";
-        currentTab += n;
-        if (currentTab >= x.length) {
-            submitForms();
-            
-            return false;
-        }
+    <script>
+        let currentTab = 0;
         showTab(currentTab);
-    }
 
-    function validateForm() {
-    let valid = true;
-    let x = document.getElementsByClassName("step");
-    let y = x[currentTab].getElementsByTagName("input");
-    let z = x[currentTab].getElementsByTagName("textarea");
-    let checkboxes = x[currentTab].getElementsByTagName("input");
-
-    for (let i = 0; i < y.length; i++) {
-        if (y[i].type !== "checkbox" && y[i].value == "") {
-            y[i].classList.add("invalid");
-            valid = false;
-        } else if (y[i].type !== "checkbox") {
-            y[i].classList.remove("invalid");
+        function showTab(n) {
+            let x = document.getElementsByClassName("step");
+            x[n].style.display = "block";
+            let progress = (n / (x.length - 1)) * 100;
+            document.querySelector(".progress-bar")
+                .style.width = progress + "%";
+            document.querySelector(".progress-bar")
+                .setAttribute("aria-valuenow", progress);
+            document.getElementById("prevBtn")
+                .style.display = n == 0 ? "none" : "inline";
+            document.getElementById("nextBtn")
+                .innerHTML = n == x.length - 1 ? "Tamamla" : "İleri";
         }
-        y[i].addEventListener('input', function() {
-            if (this.value != "") {
-                this.classList.remove("invalid");
-            }
-        });
-    }
 
-    for (let i = 0; i < z.length; i++) {
-        if (z[i].value == "") {
-            z[i].classList.add("invalid");
-            valid = false;
-        } else {
-            z[i].classList.remove("invalid");
+        function nextPrev(n) {
+            let x = document.getElementsByClassName("step");
+            if (n == 1 && !validateForm()) return false;
+            x[currentTab].style.display = "none";
+            currentTab += n;
+            if (currentTab >= x.length) {
+                submitForms();
+
+                return false;
+            }
+            showTab(currentTab);
         }
-        z[i].addEventListener('input', function() {
-            if (this.value != "") {
-                this.classList.remove("invalid");
-            }
-        });
-    }
 
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].type === "checkbox") {
-            if (!checkboxes[i].checked) {
-                checkboxes[i].classList.add("invalid-checkbox");
-                valid = false;
-            } else {
-                checkboxes[i].classList.remove("invalid-checkbox");
+        function validateForm() {
+            let valid = true;
+            let x = document.getElementsByClassName("step");
+            let y = x[currentTab].getElementsByTagName("input");
+            let z = x[currentTab].getElementsByTagName("textarea");
+            let checkboxes = x[currentTab].getElementsByTagName("input");
+
+            for (let i = 0; i < y.length; i++) {
+                if (y[i].type !== "checkbox" && y[i].value == "") {
+                    y[i].classList.add("invalid");
+                    valid = false;
+                } else if (y[i].type !== "checkbox") {
+                    y[i].classList.remove("invalid");
+                }
+                y[i].addEventListener('input', function() {
+                    if (this.value != "") {
+                        this.classList.remove("invalid");
+                    }
+                });
             }
-            checkboxes[i].addEventListener('change', function() {
-                if (this.checked) {
-                    this.classList.remove("invalid-checkbox");
+
+            for (let i = 0; i < z.length; i++) {
+                if (z[i].value == "") {
+                    z[i].classList.add("invalid");
+                    valid = false;
                 } else {
-                    this.classList.add("invalid-checkbox");
+                    z[i].classList.remove("invalid");
+                }
+                z[i].addEventListener('input', function() {
+                    if (this.value != "") {
+                        this.classList.remove("invalid");
+                    }
+                });
+            }
+
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].type === "checkbox") {
+                    if (!checkboxes[i].checked) {
+                        checkboxes[i].classList.add("invalid-checkbox");
+                        valid = false;
+                    } else {
+                        checkboxes[i].classList.remove("invalid-checkbox");
+                    }
+                    checkboxes[i].addEventListener('change', function() {
+                        if (this.checked) {
+                            this.classList.remove("invalid-checkbox");
+                        } else {
+                            this.classList.add("invalid-checkbox");
+                        }
+                    });
+                }
+            }
+
+            return valid;
+        }
+
+
+
+
+
+
+
+        var csrfToken = "{{ csrf_token() }}";
+
+        // Form verilerini topla ve gönder
+        function submitForms() {
+            var form1 = $("#wizardValidationForm1");
+            var form2 = $("#wizardValidationForm2");
+            var form3 = $("#wizardValidationForm3");
+
+            var formData = {
+                "_token": csrfToken,
+                "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                "name": form2.find("input[name='name']").val(),
+                "phone": form2.find("input[name='phone']").val(),
+                "email": form2.find("input[name='email']").val(),
+                "return_bank": form2.find("input[name='return_bank']").val(),
+                "return_iban": form2.find("input[name='return_iban']").val(),
+                "content": form3.find("textarea[name='content']").val(),
+                "cart_order_id": "{{ $order->id }}"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('institutional.order.refund') }}",
+                data: formData,
+                success: function(response) {
+                    // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
+                    toastr.success('İade talebi başarıyla gönderildi.');
+                    console.log("Form başarıyla gönderildi.");
+                    resetForm();
+                    location.reload();
+
+                },
+                error: function(xhr, status, error) {
+                    // Hata durumunda burada bir işlem yapabilirsiniz
+                    toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+                    console.error(error);
                 }
             });
         }
-    }
 
-    return valid;
-}
-
-
-
-
-
-
-
-    var csrfToken = "{{ csrf_token() }}";
-
-// Form verilerini topla ve gönder
-function submitForms() {
-    var form1 = $("#wizardValidationForm1");
-    var form2 = $("#wizardValidationForm2");
-    var form3 = $("#wizardValidationForm3");
-
-    var formData = {
-        "_token": csrfToken,
-        "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-        "name": form2.find("input[name='name']").val(),
-        "phone": form2.find("input[name='phone']").val(),
-        "email": form2.find("input[name='email']").val(),
-        "return_bank": form2.find("input[name='return_bank']").val(),
-        "return_iban": form2.find("input[name='return_iban']").val(),
-        "content": form3.find("textarea[name='content']").val(),
-        "cart_order_id": "{{ $order->id }}"
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "{{ route('institutional.order.refund') }}",
-        data: formData,
-        success: function(response) {
-            // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
-            toastr.success('İade talebi başarıyla gönderildi.');
-            console.log("Form başarıyla gönderildi.");
-            resetForm();
-            location.reload();
-
-        },
-        error: function(xhr, status, error) {
-            // Hata durumunda burada bir işlem yapabilirsiniz
-            toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-            console.error(error);
+        function resetForm() {
+            let x = document.getElementsByClassName("step");
+            for (var i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            let inputs = document.querySelectorAll("input");
+            inputs.forEach(input => {
+                input.value = "";
+                input.className = "";
+            });
+            currentTab = 0;
+            showTab(currentTab);
+            document.querySelector(".progress-bar")
+                .style.width = "0%";
+            document.querySelector(".progress-bar")
+                .setAttribute("aria-valuenow", 0);
+            document.getElementById("prevBtn")
+                .style.display = "none";
         }
-    });
-}
-
-    function resetForm() {
-        let x = document.getElementsByClassName("step");
-        for (var i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        let inputs = document.querySelectorAll("input");
-        inputs.forEach(input => {
-            input.value = "";
-            input.className = "";
-        });
-        currentTab = 0;
-        showTab(currentTab);
-        document.querySelector(".progress-bar")
-          .style.width = "0%";
-        document.querySelector(".progress-bar")
-          .setAttribute("aria-valuenow", 0);
-        document.getElementById("prevBtn")
-          .style.display = "none";
-    }
-</script>
+    </script>
 @endsection
 
 @section('styles')
-<style>
-    .invalid-checkbox {
-        color: #ff0000;
-    }
- 
-</style>
-<style>
-    .invalid {
-        background-color: #ffdddd;
-    }
-</style>
+    <style>
+        .invalid-checkbox {
+            color: #ff0000;
+        }
+    </style>
+    <style>
+        .invalid {
+            background-color: #ffdddd;
+        }
+    </style>
+
+
+    <style>
+        a.btn.btn-success {
+    border-radius: 20px !important;
+}
+        img.pay-icon {
+            margin-bottom: 30px;
+        }
+
+        .box-shadow-green {
+            box-shadow: 0 0 10px rgba(0, 177, 18, 0.5);
+        }
+
+        .box-shadow-light {
+            box-shadow: 0 0 10px rgba(0, 154, 56, 0.5);
+        }
+
+        .box-shadow-blue {
+            box-shadow: 0 0 10px rgba(9, 74, 187, 0.5);
+        }
+
+        .status-icon.box-shadow-green.text-success {
+            background-color: #0E713D;
+        }
+
+        .status-icon.text-primary.box-shadow-blue {
+            background-color: #2F7DF7;
+        }
+
+        .status-icon.text-success.box-shadow-light {
+            background-color: #0FA958;
+        }
+
+        .status-card {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+
+            border-radius: 50%;
+            padding: 10px;
+
+        }
+
+        .status-header {
+            margin-top: 30px;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status-description {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .status-timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .approve-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .rating {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .horizontal-line {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            margin-bottom: 30px !important;
+        }
+
+        .bg-light-blue {
+            background-color: #e9f5ff;
+        }
+
+        .bg-light-green {
+            background-color: rgba(116, 190, 151, 0.5);
+        }
+
+        .bg-light {
+            background-color: #E0F2E3 !important;
+        }
+
+        .status-icon i {
+            color: #007bff;
+        }
+
+        .bg-light-green .status-icon i {
+            color: #28a745;
+        }
+
+        .bg-light .status-icon i {
+            color: #28a745;
+        }
+
+        button.btn.btn-success {
+            border-radius: 20px !important;
+        }
+
+        button.btn.btn-danger {
+            border-radius: 20px !important;
+        }
+    </style>
 
     <style>
         
@@ -1124,9 +1355,8 @@ function submitForms() {
 
         .progress {
             height: 100%;
-            
             /* Default color */
-            
+
             /* Change this value to reflect progress */
         }
 
@@ -1353,8 +1583,6 @@ function submitForms() {
         }
     </style>
     <style>
-        
- 
         .main {
             max-width: 500px;
             background-color: #ffffff;
@@ -1363,15 +1591,14 @@ function submitForms() {
             border-radius: 12px;
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
         }
- 
         .step {
             display: none;
         }
- 
+
         .active {
             display: block;
         }
- 
+
         input {
             padding: 15px 20px;
             width: 100%;
@@ -1379,16 +1606,14 @@ function submitForms() {
             border: 1px solid #e3e3e3;
             border-radius: 5px;
         }
- 
         input:focus {
             border: 1px solid #009688;
             outline: 0;
         }
- 
         .invalid {
             border: 1px solid #ffaba5;
         }
- 
+
         #nextBtn,
         #prevBtn {
             background-color: #009688;
@@ -1402,19 +1627,16 @@ function submitForms() {
             margin-top: 5px;
             transition: background-color 0.3s ease;
         }
- 
         #prevBtn {
             background-color: #ffffff;
             color: #009688;
             border: 1px solid #009688;
         }
- 
         #prevBtn:hover,
         #nextBtn:hover {
             background-color: #00796b;
             color: #ffffff;
         }
- 
         .progress {
             margin-bottom: 20px;
         }
@@ -1426,13 +1648,11 @@ function submitForms() {
             width: 20px;
             height: 20px;
         }
-    
         .custom-checkbox input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-    
         .checkmark {
             position: absolute;
             top: 0;
@@ -1442,29 +1662,29 @@ function submitForms() {
             background-color: #ccc;
             border-radius: 4px;
         }
-    
-        .custom-checkbox input:checked ~ .checkmark {
-            background-color: #28a745; /* Checkbox seçiliyse yeşil */
+        .custom-checkbox input:checked~.checkmark {
+            background-color: #28a745;
+            /* Checkbox seçiliyse yeşil */
         }
-    
-        .custom-checkbox input:invalid ~ .checkmark {
-            background-color: #ff0000; /* Checkbox seçili değilse kırmızı */
+
+        .custom-checkbox input:invalid~.checkmark {
+            background-color: #ff0000;
+            /* Checkbox seçili değilse kırmızı */
         }
-    
-        .custom-checkbox input:focus ~ .checkmark {
+
+        .custom-checkbox input:focus~.checkmark {
             box-shadow: 0 0 2px 2px rgba(0, 123, 255, 0.25);
         }
-    
+
         .checkmark:after {
             content: "";
             position: absolute;
             display: none;
         }
-    
-        .custom-checkbox input:checked ~ .checkmark:after {
+        .custom-checkbox input:checked~.checkmark:after {
             display: block;
         }
-    
+
         .custom-checkbox .checkmark:after {
             left: 7px;
             top: 3px;
@@ -1475,5 +1695,4 @@ function submitForms() {
             transform: rotate(45deg);
         }
     </style>
-    
 @endsection

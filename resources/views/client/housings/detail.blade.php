@@ -54,15 +54,20 @@
 @endphp
 @php
 
-function getData($housing, $key) {
-    if (isset($housing->housing_type_data)) {
-        $housing_type_data = json_decode($housing->housing_type_data);
-        if (isset($housing_type_data->$key) && is_array($housing_type_data->$key) && !empty($housing_type_data->$key)) {
-            return $housing_type_data->$key[0];
+    function getData($housing, $key)
+    {
+        if (isset($housing->housing_type_data)) {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            if (
+                isset($housing_type_data->$key) &&
+                is_array($housing_type_data->$key) &&
+                !empty($housing_type_data->$key)
+            ) {
+                return $housing_type_data->$key[0];
+            }
         }
+        return null;
     }
-    return null;
-}
     function getImages($housing, $key)
     {
         $housing_type_data = json_decode($housing->housing_type_data);
@@ -187,11 +192,11 @@ function getData($housing, $key) {
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
-                                <div class="button-effect-div favorite-move">
-                                    <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
-                                        <i class="fa fa-heart-o"></i>
+                                    <div class="button-effect-div favorite-move">
+                                        <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
+                                            <i class="fa fa-heart-o"></i>
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
                                 <div class="carousel-inner">
 
@@ -309,32 +314,37 @@ function getData($housing, $key) {
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
-                                            @if (count($labels) > 0)
+                                            @if (isset($labels) && count($labels) > 0)
+                                                @php
+                                                    $hasFeature = false;
+                                                @endphp
                                                 @foreach ($labels as $label => $val)
-                                                    @if (is_array($val))
-                                                        @if (count($val) > 1)
-                                                            @if ($label != 'Galeri')
-                                                                <h5>
-                                                                    {{ $label }}</h5>
-
-                                                                <ul class="homes-list clearfix mb-3 checkSquareIcon">
-                                                                    @foreach ($val as $item)
-                                                                        <li><i class="fa fa-check-square"
-                                                                                aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
+                                                    @if (is_array($val) && count($val) > 1)
+                                                        @if ($label != 'Galeri')
+                                                            @php
+                                                                $hasFeature = true;
+                                                            @endphp
+                                                            <h5>{{ $label }}</h5>
+                                                            <ul class="homes-list clearfix mb-3 checkSquareIcon">
+                                                                @foreach ($val as $item)
+                                                                    <li>
+                                                                        <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                        <span>{{ $item }}</span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
                                                         @endif
                                                     @endif
                                                 @endforeach
+                                                @if (!$hasFeature)
+                                                    <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
+                                                @endif
                                             @else
-                                                <div>
-                                                    <span>Bu ilana ait herhangi bir özellik
-                                                        belirtilmemiştir.</span>
-                                                </div>
+                                                <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
                                             @endif
                                         </div>
+                                        
+                                        
                                     </div>
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
@@ -466,7 +476,8 @@ function getData($housing, $key) {
                                             <button type="button" class="ud-btn btn-white2 mt-3"
                                                 onclick="submitForm()">Yorumu
                                                 Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                                <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+                                            <div id="previewContainer"
+                                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
                                         </form>
                                     @endif
@@ -491,34 +502,32 @@ function getData($housing, $key) {
                 <aside class="col-md-4  car">
                     <div class="single widget">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                        <div class="mobileHour mobileHourDiv">
-                            <div class="homes-content details-2">
-                                <ul class="homes-list reservation-list clearfix">
-                                    <li>
-                                        <span>Giriş: 
-                                            @php $start_time = getData($housing, 'start_time'); @endphp
-                                            @if($start_time !== null)
-                                                {{ $start_time }}
-                                            @else
-                                                Belirtilmedi
-                                            @endif
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>Çıkış: 
-                                            @php $end_time = getData($housing, 'end_time'); @endphp
-                                            @if($end_time !== null)
-                                                {{ $end_time }}
-                                            @else
-                                                Belirtilmedi
-                                            @endif
-                                        </span>
-                                    </li>
-                                </ul>
+                            <div class="mobileHour mobileHourDiv">
+                                <div class="homes-content details-2">
+                                    <ul class="homes-list reservation-list clearfix">
+                                        <li>
+                                            <span>Giriş:
+                                                @php $start_time = getData($housing, 'start_time'); @endphp
+                                                @if ($start_time !== null)
+                                                    {{ $start_time }}
+                                                @else
+                                                    Belirtilmedi
+                                                @endif
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span>Çıkış:
+                                                @php $end_time = getData($housing, 'end_time'); @endphp
+                                                @if ($end_time !== null)
+                                                    {{ $end_time }}
+                                                @else
+                                                    Belirtilmedi
+                                                @endif
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        
-                        
                         @else
                             <div class="mobileHour mobileHourDiv">
 
@@ -526,7 +535,7 @@ function getData($housing, $key) {
                                     <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
                                         <div class="col-md-6 col-6 mobile-action-move p-0">
                                             @if ($sold)
-                                                @if ( $sold &&  $sold[0]->status != '0' && $sold[0]->status != '1')
+                                                @if ($sold && $sold[0]->status != '0' && $sold[0]->status != '1')
                                                     <div class="listing-title-bar mobileMovePrice w-100 p-0">
                                                         <h4
                                                             style="color: #274abb !important; position: relative; font-weight: 700; font-size:20px">
@@ -621,16 +630,14 @@ function getData($housing, $key) {
                                                 </div>
                                             @else
                                                 @if (Auth::check())
-                                                    
-                                                
-                                                @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
-                                                    <div class="col-md-12 col-12 p-0 ml-3">
-                                                        <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                            style="color:#EA2B2E !important;cursor: pointer; ">
-                                                            Pazarlık Yap <i class="fa fa-handshake"></i>
-                                                        </a>
-                                                    </div>
-                                                @endif
+                                                    @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
+                                                        <div class="col-md-12 col-12 p-0 ml-3">
+                                                            <a data-bs-toggle="modal" data-bs-target="#bidModal"
+                                                                style="color:#EA2B2E !important;cursor: pointer; ">
+                                                                Pazarlık Yap <i class="fa fa-handshake"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </div>
@@ -1341,7 +1348,7 @@ function getData($housing, $key) {
                                         <div class="schedule widget-boxed mt-33 mt-0">
                                             <div class="widget-boxed-header">
 
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-5">
                                                     <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
                                                         Yap
                                                     </h4>
@@ -1986,31 +1993,30 @@ function getData($housing, $key) {
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            $(document).ready(function() {
-    $('#selectImageButton').on('click', function() {
-        $('.fileinput').click();
-    });
-
-    $('.fileinput').on('change', function(event) {
-        var previewContainer = $('#previewContainer');
-        previewContainer.empty(); // Clear previous previews
-
-        var files = event.target.files;
-        if (files) {
-            $.each(files, function(index, file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var img = $('<img>').attr('src', e.target.result);
-                    previewContainer.append(img);
-                }
-                reader.readAsDataURL(file);
+    <script>
+        $(document).ready(function() {
+            $('#selectImageButton').on('click', function() {
+                $('.fileinput').click();
             });
-        }
-    });
-});
 
-        </script>
+            $('.fileinput').on('change', function(event) {
+                var previewContainer = $('#previewContainer');
+                previewContainer.empty(); // Clear previous previews
+
+                var files = event.target.files;
+                if (files) {
+                    $.each(files, function(index, file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var img = $('<img>').attr('src', e.target.result);
+                            previewContainer.append(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -2177,7 +2183,34 @@ function getData($housing, $key) {
             });
         }
 
+
+        function validateForm() {
+            let isValid = true;
+
+            // Gerekli inputları seç ve kontrol et
+            const requiredFields = ['comment']; // Gerekli input isimlerini ekleyin
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`[name="${fieldName}"]`);
+                if (field && (field.value === '' || field.value == null)) {
+                    field.classList.add('is-invalid'); // Bootstrap kullanıyorsanız
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid'); // Bootstrap kullanıyorsanız
+                }
+            });
+
+            return isValid;
+        }
+
+
+
         function submitForm() {
+
+
+            if (!validateForm()) {
+                toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                return;
+            }
             // Rate değerini al
             var rateValue = $('#rate').val();
 

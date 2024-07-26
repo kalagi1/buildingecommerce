@@ -59,7 +59,15 @@ function ProjectForm({
     language: "tr",
   });
 
-  const [selectedLocation, setSelectedLocation] = useState({});
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
+
+  
   const setProjectTitle = (projectTitle) => {
     if (projectTitle.length <= 70) {
       setProjectDataFunc("project_title", projectTitle);
@@ -257,30 +265,27 @@ function ProjectForm({
       const isWithinTurkey =
         lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
 
-      if (isShowRef.current) {
-        console.log("Clicked LatLng:", latLng);
+      // Check if projectData has required fields
+      if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        return;
+      }
 
-        if (isWithinTurkey) {
-          console.log("Inside bounds:", latLng);
-          setSelectedLocation({ lat, lng });
+      if (isWithinTurkey) {
+        setSelectedLocation({ lat, lng });
 
-          if (markerRef.current) {
-            markerRef.current.setMap(null);
-          }
-
-          markerRef.current = new google.maps.Marker({
-            position: { lat, lng },
-            map: mapRef.current,
-            title: "Selected Location",
-          });
-          setError(null);
-        } else {
-          console.log("Outside bounds or outside Turkey:", latLng);
-          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
+        if (markerRef.current) {
+          markerRef.current.setMap(null);
         }
+
+        markerRef.current = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: "Selected Location",
+        });
         setError(null);
       } else {
-        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        setError("Türkiye sınırları içinde bir nokta seçiniz.");
       }
     };
 
@@ -801,7 +806,7 @@ function ProjectForm({
               </select>
             </div>
           </div>
-          {allErrors.includes("coordinates") ? (
+          {  !selectedLocation ? (
             <Alert
               severity="error"
               className="mt-3"

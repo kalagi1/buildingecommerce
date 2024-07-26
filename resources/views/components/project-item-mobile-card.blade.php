@@ -441,7 +441,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     </div>
 </div>
 <div class="w-100" style="height: 25px; background-color: #8080802e; margin-top: 15px">
-    <div class="d-flex justify-content-between align-items-center" style="height: 100%">
+    <div class="d-flex justify-content-between align-items-center mb-5" style="height: 100%">
 
         <ul class="d-flex align-items-center h-100 w-100"
             style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:space-between !important;margin-bottom:0 !important">

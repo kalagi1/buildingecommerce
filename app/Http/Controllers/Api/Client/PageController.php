@@ -92,11 +92,11 @@ class PageController extends Controller
             if ($cart->type == "project") {
                 // Retrieve the project with its related data
                 $project = Project::where("id", $cart->item->id)
-                    ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
+                    ->with("brand", "roomInfo", "housingType", "county", "city","housings","neighbourhood", 'user.projects.housings', 'user.brands', 'user.housings', 'images',"listItemValues")
                     ->first();
             } else {
                 // Retrieve the housing with its related user data
-                $project = Housing::where("id", $cart->item->id)->with("user")->first();
+                $project = Housing::where("id", $cart->item->id)->with("user","housing_type","listItems",'neighborhood', "county", "city")->first();
             }
         } else {
             return response()->json(['error' => 'Invalid cart structure'], 400);

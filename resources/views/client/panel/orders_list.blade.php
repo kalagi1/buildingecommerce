@@ -79,7 +79,8 @@
                 </li>
 
                 <li class="order_amount">
-                    {{ number_format(floatval(str_replace('.', '', $order->amount)), 0, ',', '.') }} ₺
+                    {{-- {{ number_format(floatval(str_replace('.', '', $order->amount)), 0, ',', '.') }} ₺ --}} 
+                    {{$order->amount}}
                 </li>
                 <li class="order_date">{{ $tarih }}</li>
 

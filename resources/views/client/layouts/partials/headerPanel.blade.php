@@ -539,12 +539,11 @@
     <!-- Wrapper -->
     <div id="wrapper">
         <div class="slick-lancersl">
-            @foreach ($adBanners as $adBanner)
-                <div class="home-top-banner d-xl-block d-none d-lg-block"
-                    style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="https://private.emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
-                </div>
-            @endforeach
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
+                <video autoplay loop muted style="width:100%">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                </video>
+            </div>
         </div>
 
         <!-- START SECTION HEADINGS -->
@@ -554,7 +553,7 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
+                    <div class="d-flex justify-content-between align-items-center mb-5" style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -636,6 +635,11 @@
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
+                                                ],
+                                                [
                                                     'url' => route('client.logout'),
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
@@ -665,8 +669,8 @@
                                                         'slug' => Str::slug(auth()->user()->name),
                                                         'userID' => auth()->user()->id,
                                                     ]),
-                                                    'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'icon' => 'fa fa-arrow-right',
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
@@ -703,6 +707,11 @@
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),

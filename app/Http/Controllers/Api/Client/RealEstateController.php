@@ -47,6 +47,7 @@ class RealEstateController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
+            ->where('housings.is_sold', '!=', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at');
         }else{
@@ -82,6 +83,7 @@ class RealEstateController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
+            ->where('housings.is_sold', '!=', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at');
             

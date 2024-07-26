@@ -162,11 +162,13 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                         </span>
                                   
 
+                                        @if (!($sold_check && $sold->status == '1'))
                                         <span class="btn toggle-project-favorite bg-white"
                                             data-project-housing-id="{{ $keyIndex }}"
                                             data-project-id={{ $project->id }}>
                                             <i class="fa fa-heart-o"></i>
                                         </span>
+                                    @endif
                                     @endif
                                 </div>
                                 <div class="homes position-relative">

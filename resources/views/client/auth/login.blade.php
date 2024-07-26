@@ -1078,11 +1078,12 @@
             position: relative;
 
         }
-
+      
         .field-icon {
             float: right;
-            margin-right: 9px;
-            margin-top: -27px;
+            margin-right: 12px;
+            margin-top: -24px;
+            font-size: 14px;
             position: relative;
             z-index: 2;
             z-index: 9999;

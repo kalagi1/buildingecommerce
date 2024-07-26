@@ -209,7 +209,7 @@ function RoomNavigator({
             <div className="row">
               <div className="col-md-12">
                 <div className="row justify-content-between align-items-center">
-                  <div className="col-md-4">
+                  <div className="col-md-4 p-0">
                     <div
                       onClick={() => {
                         if (selectedRoom !== 0) {
@@ -224,7 +224,7 @@ function RoomNavigator({
                       <span>Önceki</span>
                     </div>
                   </div>
-                  <div className="col-md-4 text-center">
+                  <div className="col-md-4 p-0 text-center">
                     <span className="total-house-text">{selectedRoom + 1}</span>
 
                     <span> / </span>
@@ -232,7 +232,7 @@ function RoomNavigator({
                       {blocks[selectedBlock]?.roomCount}
                     </span>
                   </div>
-                  <div className="col-md-4 text-right">
+                  <div className="col-md-4 p-0 text-right">
                     <div
                       className={`button-white next-house-bottom ${
                         selectedRoom === blocks[selectedBlock]?.roomCount - 1
@@ -249,13 +249,14 @@ function RoomNavigator({
                 <hr />
               </div>
               <div className="col-md-12">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center"
+               style={{ justifyContent: "center", height: "100%", textAlign: "center" }}>
                   <div className="show-houing-order" style={{ width: "100%" }}>
                     <div
                       className="full-load"
                       style={{ width: `${percentOccupancy()}%` }}
                     ></div>
-                    <span>
+                    <span style={{position: "relative", zIndex: "99999"}}>
                       <span className="room-order-progress">
                         {selectedRoom + 1}. İlan /
                       </span>{" "}
@@ -264,20 +265,20 @@ function RoomNavigator({
                       </span>
                     </span>
                   </div>
-                  <div
+                  {/* <div
                     className="icon ml-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Doldurduğunuz ilanın doluluk oranını görüntüleyebilirsiniz"
                   >
                     <i className="fa fa-info-circle"></i>
-                  </div>
+                  </div> */}
                 </div>
                 <hr />
               </div>
 
               {tempItems.length > 1 && selectedRoom != 0 && (
-                <div className="col-md-12">
+                <div className="col-md-12  mt-4 p-0">
                   <div className="d-flex align-items-center">
                     <div className="w-100">
                       <p className="mb-0">Bu ilana,</p>

@@ -420,7 +420,7 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
+                    <div class="d-flex justify-content-between align-items-center mb-5" style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -502,6 +502,11 @@
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
+                                                ],
+                                                [
                                                     'url' => route('client.logout'),
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
@@ -528,8 +533,8 @@
                                             'links' => [
                                                 [
                                                     'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
-                                                    'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'icon' => 'fa fa-arrow-right',
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
@@ -566,6 +571,11 @@
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
@@ -627,7 +637,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('cart') }}"
+                                    <a href="{{ auth()->check() ? route('cart') : route('client.login') }}"
                                         style="border-left: 1px solid #666;
                                     padding-left: 15px;">
                                         @include('client.layouts.partials.cart_icon', [

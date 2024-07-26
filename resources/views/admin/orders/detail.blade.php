@@ -572,7 +572,7 @@
                     <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title mb-4">Sipariş Durumu</h3>
+                                <h3 class="card-title mb-4">Ödeme Onayla</h3>
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
                                     <select class="form-select mb-4" name="status" id="status"
