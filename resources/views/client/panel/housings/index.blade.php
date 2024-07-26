@@ -38,10 +38,9 @@
             ] as $tabId => $housingTypes)
                 <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
                     @if ($housingTypes->isEmpty())
-                    <div class="project-table-content">
-                        <p class="text-center mb-0">İlan bulunamadı</p>
-                    </div>
-                    
+                        <div class="project-table-content">
+                            <p class="text-center mb-0">İlan bulunamadı</p>
+                        </div>
                     @else
                         <div class="project-table">
                             @foreach ($housingTypes as $index => $housingType)
@@ -51,42 +50,70 @@
                                         <li style="width: 5%">{{ $index + 1 }}</li>
                                         <li style="width: 5%">{{ $housingType->id + 2000000 }}</li>
 
-
                                         <!-- Housing Title -->
-                                        <li style="width:55%">
+                                        <li style="width: 45%">
                                             <div>
                                                 <p class="project-table-content-title">{{ $housingType->housing_title }}</p>
                                             </div>
                                         </li>
 
-                                            <!-- Housing Title -->
-                                            <li style="width:10%">  
-                                                <div>
-                                                    <p class="project-table-content-title">{{ $housingType->housing_type }}</p>
-                                                </div>
-                                            </li>
+                                        <!-- Housing Type -->
+                                        <li style="width: 10%">
+                                            <div>
+                                                <p class="project-table-content-title">{{ $housingType->housing_type }}</p>
+                                            </div>
+                                        </li>
 
-                                            <li style="width:10%">
-                                                <div>
-                                                    <p class="project-table-content-title">
-                                                        @if (!empty($housingType->consultant) && !empty($housingType->consultant->name))
-                                                            {{ $housingType->consultant->name }}
-                                                        @elseif (!empty($housingType->user) && !empty($housingType->user->name))
-                                                            {{ $housingType->user->name }}
-                                                        @else
-                                                            Mağaza Yöneticisi
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li style="width:10%">
-                                                <div>
-                                                    <p class="project-table-content-title">
-                                                        {{ \Carbon\Carbon::parse($housingType->created_at)->format('d.m.Y H:i') }}
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            
+                                        <!-- Consultant or User -->
+                                        <li style="width: 10%">
+                                            <div>
+                                                <p class="project-table-content-title">
+                                                    @if (!empty($housingType->consultant) && !empty($housingType->consultant->name))
+                                                        {{ $housingType->consultant->name }}
+                                                    @elseif (!empty($housingType->user) && !empty($housingType->user->name))
+                                                        {{ $housingType->user->name }}
+                                                    @else
+                                                        Mağaza Yöneticisi
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <!-- Created At -->
+                                        <li style="width: 10%">
+                                            <div>
+                                                <p class="project-table-content-title">
+                                                    {{ \Carbon\Carbon::parse($housingType->created_at)->format('d.m.Y H:i') }}
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <!-- Status -->
+                                        <li style="width: 10%">
+                                            <div>
+                                                <p class="project-table-content-title">
+                                                    @php
+                                                        $status = $housingType->status;
+                                                        switch ($status) {
+                                                            case 1:
+                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>';
+                                                                break;
+                                                            case 2:
+                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>';
+                                                                break;
+                                                            case 3:
+                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>';
+                                                                break;
+                                                            default:
+                                                                $badge = '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+                                                                break;
+                                                        }
+                                                    @endphp
+                                                    {!! $badge !!}
+                                                </p>
+                                            </div>
+                                        </li>
+
                                         <!-- Actions -->
                                         <li style="width: 5%">
                                             <span class="project-table-content-actions-button" data-bs-content="#popover-{{ $housingType->id }}">
@@ -168,14 +195,14 @@
                 $(this).addClass('active');
 
                 // Hide all tab panes
-                $('.tab-pane').removeClass('show').removeClass('active');
+                $('.tab-pane').removeClass('show active');
 
                 // Show the corresponding tab pane
-                $('#' + targetId).addClass('show').addClass('active');
+                $('#' + targetId).addClass('show active');
             });
 
             $('.project-table-content-actions-button').on('click', function() {
-                var targetId = $(this).data('toggle');
+                var targetId = $(this).data('bs-content');
                 var $popover = $('#' + targetId);
 
                 // Hide other popovers
