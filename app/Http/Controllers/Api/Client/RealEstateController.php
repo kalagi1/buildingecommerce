@@ -33,7 +33,7 @@ class RealEstateController extends Controller
                 'project_list_items.column3_additional as column3_additional',
                 'project_list_items.column4_additional as column4_additional',
                 'housings.address',
-                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id AND status = 2  ORDER BY created_at DESC LIMIT 1) AS sold'),
+                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
                 'cities.title AS city_title',
                 'districts.ilce_title AS county_title',
                 'neighborhoods.mahalle_title AS neighborhood_title',
@@ -47,6 +47,7 @@ class RealEstateController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
+            ->where('housings.is_sold', '!=', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at');
         }else{
@@ -69,7 +70,7 @@ class RealEstateController extends Controller
                 'project_list_items.column3_additional as column3_additional',
                 'project_list_items.column4_additional as column4_additional',
                 'housings.address',
-                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id  AND status = 2  ORDER BY created_at DESC LIMIT 1) AS sold'),
+                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
                 'cities.title AS city_title',
                 'districts.ilce_title AS county_title',
                 'neighborhoods.mahalle_title AS neighborhood_title',
@@ -82,6 +83,7 @@ class RealEstateController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
+            ->where('housings.is_sold', '!=', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at');
             
