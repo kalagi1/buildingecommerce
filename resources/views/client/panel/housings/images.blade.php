@@ -22,7 +22,7 @@
                             <div class="section-title mt-5">
                                 <h2>Kapak Fotoğrafı </h2>
                             </div>
-                            <div class="cover-photo-full card py-2 px-5">
+                            <div class="cover-photo-full card p-4">
                                 <input type="file" name="cover-image" accept="image/*" class="cover_image d-none">
                                 <div id="cover_image" class="upload-container col-md-3 cover-photo-area">
                                     <div class="border-container">
@@ -45,7 +45,7 @@
                             <div class="section-title mt-5">
                                 <h2>İlan Galerisi </h2>
                             </div>
-                            <div class="photo card py-2 px-5">
+                            <div class="photo card p-4">
                                 <input type="file" multiple name="project-images" accept="image/*"
                                     class="project_image d-none">
                                 <div id="gallery" class="upload-container col-md-3 photo-area">

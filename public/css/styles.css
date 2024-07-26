@@ -31324,6 +31324,11 @@ a {
     cursor: pointer;
   }
 
+  .photos .ui-sortable{
+    display:flex;
+    align-items:center
+  }
+
   .next-house-bottom,
   .prev-house-bottom{
     cursor:pointer
