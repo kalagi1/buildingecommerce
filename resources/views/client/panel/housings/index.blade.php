@@ -28,9 +28,6 @@
                 @endforeach
             </ul>
         </div>
-        <div class="mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="İlanları ara">
-        </div>
         <div class="tab-content">
             @foreach ([
                 'active' => $activeHousingTypes,
