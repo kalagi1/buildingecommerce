@@ -123,7 +123,7 @@
     <script>
         $(document).ready(function() {
             $('.project-table-content-actions-button').on('click', function() {
-                var targetId = $(this).data('bsContent');
+                var targetId = $(this).data('toggle');
                 var $popover = $('#' + targetId);
 
                 // Hide other popovers
