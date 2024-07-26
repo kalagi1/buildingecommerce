@@ -2027,7 +2027,7 @@
 
 {{-- @vite('resources/js/app.jsx') --}}
 
-<script src="{{ URL::to('/') }}/build/assets/app-fe90ebf6.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-3a27728a.js"></script>
 
 
 
