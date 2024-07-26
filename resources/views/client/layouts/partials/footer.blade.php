@@ -1039,6 +1039,13 @@
                                                     "pay_desc_price" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order)) ;
+                                                var payDecPrice2 = numberOfShares ? parseFloat(getDataJS(response,
+                                                "pay_desc_price" + (orderHousing) +
+                                                l,
+                                                response.room_info[i].room_order)) / numberOfShares : parseFloat(getDataJS(response,
+                                                "pay_desc_price" + (orderHousing) +
+                                                l,
+                                                response.room_info[i].room_order)) ;
                                                 var payDescDate = new Date(getDataJS(response,
                                                     "pay_desc_date" + (orderHousing) +
                                                     l,
@@ -1050,7 +1057,7 @@
                                                                 1) +
                                                             ". Ara Ödeme :</strong> <br>" :
                                                             "") +
-                                                        formatPrice(payDecPrice) + "₺" +
+                                                        formatPrice(payDecPrice2) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +

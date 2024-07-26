@@ -133,7 +133,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                 style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                    {{$projectHousingsList[$keyIndex] && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
+                                    {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
 
                                     @if (isset($blockStart) && $blockStart)
                                         {{ $i - $blockStart + 1 }}
