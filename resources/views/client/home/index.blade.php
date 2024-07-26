@@ -314,8 +314,6 @@
                 </div>
             </div>
         </section>
-    @else
-        <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
 
 
@@ -374,7 +372,7 @@
     <!-- END SECTION RECENTLY PROPERTIES -->
 
 
-   
+
 
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
@@ -391,8 +389,8 @@
                     </a>
                 </div>
 
-               
-                
+
+
                 <div class="mobile-show">
                     <div id="housingMobileRow">
                         @forelse ($housings->take(4) as $housing)
@@ -738,7 +736,6 @@
 @endsection
 
 @section('styles')
-
     <style>
         .profile-initial {
             font-size: 20px;
