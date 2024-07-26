@@ -105,7 +105,7 @@
                 if (userPermissions.includes('UpdateHousingType')) {
                     var editLi = document.createElement("li");
                     var editLink = document.createElement("a");
-                    editLink.href = "{{ route('institutional.housings.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
+                    editLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
                     editLink.textContent = "Düzenle";
                     editLi.appendChild(editLink);
                     popoverUl.appendChild(editLi);
