@@ -126,10 +126,12 @@ function CreateHousing(props) {
     });
   };
   
-  const handleFiles = async (files) => {
+  const handleFiles = async (data) => {
     const fileObjects = {};
-    for (const [key, file] of Object.entries(files)) {
-      fileObjects[key] = await convertFileToBase64(file);
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof File) {
+        fileObjects[key] = await convertFileToBase64(value);
+      }
     }
     return fileObjects;
   };
