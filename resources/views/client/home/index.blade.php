@@ -425,7 +425,7 @@
                                 @endforelse
                             </div>
                             <div class="text-center">
-                                <button id="loadMoreButton" class="btn btn-primary my-3"
+                                <button id="loadMoreButton" class="btn my-3"
                                     style="display: none; margin: 0 auto;">Daha Fazlasını Gör</button>
                                 <div class="ajax-load" style="display: none;">
                                     <div class="spinner-border" role="status"></div>
