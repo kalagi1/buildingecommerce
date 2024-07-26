@@ -202,7 +202,7 @@
             });
 
             $('.project-table-content-actions-button').on('click', function() {
-                var targetId = $(this).data('bs-content');
+                var targetId = $(this).data('toggle');
                 var $popover = $('#' + targetId);
 
                 // Hide other popovers
