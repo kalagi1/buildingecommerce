@@ -4945,13 +4945,9 @@
         .formbuilder-checkbox-inline {
             display: flex;
             align-items: center;
-            flex: 0 0 25%;
-            max-width: 25%;
+            width: 24%;
+            height: 40px;
             align-items: center;
-            position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
         }
         .rendered-form label{
             margin-bottom: 0 ;
