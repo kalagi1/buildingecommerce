@@ -471,8 +471,9 @@
                                             <input type="text" id="phone" name="phone"
                                                 placeholder="Mevcut Telefon Numarası" value="{!! $user->mobile_phone !!}"
                                                 disabled>
-                                            <input type="number" id="new_phone_number" name="new_phone_number"
-                                                placeholder="Yeni Telefon Numarası" required="">
+                                                <input type="text" id="new_phone_number" name="new_phone_number"
+                                                placeholder="Yeni Telefon Numarası" required="" maxlength="11">
+                                         <div id="error-message" class="error-message"></div>
                                             @error('mobile_phone')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -892,7 +893,29 @@
     <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#new_phone_number').on('input', function() {
+                var inputValue = $(this).val();
+                var maxLength = 11;
 
+                // Sadece rakamları izin ver
+                var numericValue = inputValue.replace(/\D/g, '');
+
+                if (numericValue.length > maxLength) {
+                    numericValue = numericValue.slice(0, maxLength);
+                }
+
+                $(this).val(numericValue);
+
+                if (numericValue.length > maxLength) {
+                    $('#error-message').text('Telefon numarası 11 haneden fazla olamaz.');
+                } else {
+                    $('#error-message').text('');
+                }
+            });
+        });
+    </script>
     <script>
         Dropzone.options.myDropzone = {
             paramName: "file", // Yüklenecek dosya adı

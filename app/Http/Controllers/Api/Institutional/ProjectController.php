@@ -169,6 +169,7 @@ class ProjectController extends Controller
         ]);
     }
 
+
     public function createProject(Request $request)
     {
         $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();

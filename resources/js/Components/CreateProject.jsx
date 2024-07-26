@@ -14,7 +14,7 @@ import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
-import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateProject(props) {
   const [step, setStep] = useState(
@@ -98,11 +98,7 @@ function CreateProject(props) {
       reader.onerror = (error) => reject(error); // Reject on error
     });
   };
-  
-  
-  
-  
-  
+
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
@@ -132,7 +128,10 @@ function CreateProject(props) {
     }
   }, [projectData]);
   useEffect(() => {
-    localStorage.setItem("selectedHousingType", JSON.stringify(selectedHousingType));
+    localStorage.setItem(
+      "selectedHousingType",
+      JSON.stringify(selectedHousingType)
+    );
   }, [selectedHousingType]);
 
   useEffect(() => {
@@ -160,7 +159,10 @@ function CreateProject(props) {
   }, [selectedRoom]);
 
   useEffect(() => {
-    localStorage.setItem("anotherBlockErrors", JSON.stringify(anotherBlockErrors));
+    localStorage.setItem(
+      "anotherBlockErrors",
+      JSON.stringify(anotherBlockErrors)
+    );
   }, [anotherBlockErrors]);
 
   useEffect(() => {
@@ -172,7 +174,10 @@ function CreateProject(props) {
   }, [errorMessages]);
 
   useEffect(() => {
-    localStorage.setItem("selectedTypesTitles", JSON.stringify(selectedTypesTitles));
+    localStorage.setItem(
+      "selectedTypesTitles",
+      JSON.stringify(selectedTypesTitles)
+    );
   }, [selectedTypesTitles]);
 
   useEffect(() => {
@@ -184,7 +189,10 @@ function CreateProject(props) {
   }, [loadingModalOpen]);
 
   useEffect(() => {
-    localStorage.setItem("storageLoadingModalOpen", JSON.stringify(storageLoadingModalOpen));
+    localStorage.setItem(
+      "storageLoadingModalOpen",
+      JSON.stringify(storageLoadingModalOpen)
+    );
   }, [storageLoadingModalOpen]);
 
   useEffect(() => {
@@ -193,18 +201,20 @@ function CreateProject(props) {
 
   const setProjectDataFunc = async (key, value) => {
     let newValue = value;
-  
+
     // Convert files to Binary
     if (value instanceof File) {
       newValue = await convertFileToBinary(value);
     } else if (Array.isArray(value)) {
-      newValue = await Promise.all(value.map(async (item) => {
-        if (item instanceof File) {
-          return await convertFileToBinary(item);
-        }
-        return item;
-      }));
-    } else if (typeof value === 'object' && value !== null) {
+      newValue = await Promise.all(
+        value.map(async (item) => {
+          if (item instanceof File) {
+            return await convertFileToBinary(item);
+          }
+          return item;
+        })
+      );
+    } else if (typeof value === "object" && value !== null) {
       newValue = {};
       for (const [subKey, subValue] of Object.entries(value)) {
         if (subValue instanceof File) {
@@ -214,7 +224,7 @@ function CreateProject(props) {
         }
       }
     }
-  
+
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: newValue };
       try {
@@ -226,21 +236,21 @@ function CreateProject(props) {
       return newProjectData;
     });
   };
-  
+
   const getFileFromBinary = (binaryData, mimeType) => {
     return new Blob([binaryData], { type: mimeType });
   };
-  
+
   const decodeBinaryData = async (data) => {
     if (data instanceof ArrayBuffer) {
       // Detect the MIME type based on the content (you may need a better way to determine this)
-      const mimeType = 'application/pdf'; // Example for PDFs; you might need to adjust for images
+      const mimeType = "application/pdf"; // Example for PDFs; you might need to adjust for images
       return getFileFromBinary(data, mimeType);
     }
     if (Array.isArray(data)) {
       return Promise.all(data.map(decodeBinaryData));
     }
-    if (typeof data === 'object' && data !== null) {
+    if (typeof data === "object" && data !== null) {
       const result = {};
       for (const [key, value] of Object.entries(data)) {
         result[key] = await decodeBinaryData(value);
@@ -249,26 +259,23 @@ function CreateProject(props) {
     }
     return data;
   };
-  
-  
+
   useEffect(() => {
     const storedData = localStorage.getItem("projectData");
     if (storedData) {
       try {
         const decompressedData = decompressFromUTF16(storedData);
         const parsedData = JSON.parse(decompressedData);
-  
+
         // Decode Binary data for files
         decodeBinaryData(parsedData).then((decodedData) => {
           setProjectData(decodedData);
         });
-  
       } catch (e) {
         console.error("Error decompressing or parsing data:", e);
       }
     }
   }, []);
-  
 
   useEffect(() => {
     localStorage.setItem("blocks", JSON.stringify(blocks));
@@ -291,7 +298,6 @@ function CreateProject(props) {
     setStep(step + 1);
     window.scrollTo(0, 0);
   };
-
 
   function getCoords(elem) {
     // crossbrowser version
@@ -887,41 +893,10 @@ function CreateProject(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      const formData = new FormData();
-
-      Object.keys(projectData).forEach((key) => {
-        if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-          if (Array.isArray(projectData[key])) {
-            projectData[key].forEach((data, index) => {
-              formData.append(`projectData[${key}][${index}]`, data);
-            });
-          } else {
-            formData.append(`projectData[${key}]`, projectData[key]);
-          }
-        }
-      });
-
-      blocks.forEach((block, blockIndex) => {
-        formData.append(`blocks[${blockIndex}][name]`, block.name);
-        formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-      });
-
-      formData.append("haveBlocks", haveBlocks);
-      formData.append("totalRoomCount", totalRoomCount());
-      selectedTypes.forEach((data, index) => {
-        formData.append(`selectedTypes[${index}]`, data);
-      });
-      const formDataObj = {};
-      formData.forEach((value, key) => {
-        formDataObj[key] = value;
-      });
-      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
-      setFillFormData(formData);
       setStep(3);
     }
   };
 
-  
   useEffect(() => {
     const savedFormData = localStorage.getItem("fillFormData");
     if (savedFormData) {
@@ -947,11 +922,11 @@ function CreateProject(props) {
       setStep(1);
     }
   }, []);
-  
+
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); 
+      setStep(Number(storedStep));
     }
     setStorageLoadingModalOpen(false);
   };
@@ -978,7 +953,7 @@ function CreateProject(props) {
     setFillFormData([]);
     setLoadingModalOpen(false);
     setProgress(0);
-    
+
     localStorage.removeItem("step");
     localStorage.removeItem("loadingModal");
     localStorage.removeItem("loading");
@@ -1008,46 +983,79 @@ function CreateProject(props) {
     localStorage.removeItem("rendered");
     localStorage.removeItem("validationErrors");
     localStorage.removeItem("selectedLocation");
-
-
-
   };
   const finishCreateProject = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
     let requestPromises = [];
-    
+
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500); // Increase progress every half a second
-  
+
+    const formData = new FormData();
+
+    Object.keys(projectData).forEach((key) => {
+      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
+        if (Array.isArray(projectData[key])) {
+          projectData[key].forEach((data, index) => {
+            formData.append(`projectData[${key}][${index}]`, data);
+          });
+        } else {
+          formData.append(`projectData[${key}]`, projectData[key]);
+        }
+      }
+    });
+
+    blocks.forEach((block, blockIndex) => {
+      formData.append(`blocks[${blockIndex}][name]`, block.name);
+      formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
+    });
+
+    formData.append("haveBlocks", haveBlocks);
+    formData.append("totalRoomCount", totalRoomCount());
+    selectedTypes.forEach((data, index) => {
+      formData.append(`selectedTypes[${index}]`, data);
+    });
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    setFillFormData(formData);
+
     try {
-      const res = await axios.post(baseUrl + "create_project", fillFormData, {
+      const res = await axios.post(baseUrl + "create_project", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
           "Content-Type": `multipart/form-data;`,
         },
       });
-  
+
       if (res.data.status) {
         var housingTemp = 1;
-  
+
         for (const block of blocks) {
           for (const room of block.rooms) {
             const formDataRoom = new FormData();
             formDataRoom.append("project_id", res.data.project.id);
             formDataRoom.append("room_order", housingTemp);
-  
+
             for (const [key, value] of Object.entries(room)) {
               if (key === "payDecs") {
                 value.forEach((payDec, index) => {
-                  formDataRoom.append(`room[payDecs][${index}][price]`, payDec.price);
-                  formDataRoom.append(`room[payDecs][${index}][date]`, payDec.date);
+                  formDataRoom.append(
+                    `room[payDecs][${index}][price]`,
+                    payDec.price
+                  );
+                  formDataRoom.append(
+                    `room[payDecs][${index}][date]`,
+                    payDec.date
+                  );
                 });
               } else if (!key.includes("imagex")) {
                 if (value instanceof File) {
@@ -1059,7 +1067,7 @@ function CreateProject(props) {
                 }
               }
             }
-  
+
             const callCreateRoom = () => {
               return new Promise((resolve) => {
                 setTimeout(async () => {
@@ -1068,12 +1076,12 @@ function CreateProject(props) {
                 }, roomIndex * 1000); // Add delay between rooms
               });
             };
-  
+
             requestPromises.push(callCreateRoom());
             housingTemp++; // Increment room order
           }
         }
-  
+
         await Promise.all(requestPromises);
         clearInterval(progressInterval);
         setProgress(100); // Set progress to 100% when all requests are complete
@@ -1092,7 +1100,7 @@ function CreateProject(props) {
       );
     }
   };
-  
+
   const style = {
     position: "absolute",
     top: "50%",

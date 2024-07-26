@@ -476,6 +476,7 @@
 
                                 <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1"
                                     aria-hidden="true">
+
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -493,6 +494,7 @@
                                                         <p class="text-center mb-4">İade İşlemi</p>
                                                         <div class="mb-3">
                                                             @if (file_exists(public_path('refundpolicy/iadeislemleri.pdf')))
+
                                                                 <iframe
                                                                     src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
                                                                     width="100%" height="400px">
@@ -533,6 +535,16 @@
                                                             @csrf
 
 
+                                                                    <div class="mb-2"><label class="form-label"
+                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                            Soyad</label><input class="form-control"
+                                                                            type="text" name="name"
+                                                                            placeholder="Ad Soyad"
+                                                                            id="bootstrap-wizard-validation-wizard-phone"
+                                                                            required="required">
+                                                                        <div class="invalid-feedback">Alan Zorunludur.
+                                                                        </div>
+                                                                    </div>
                                                             <div class="mb-2"><label class="form-label"
                                                                     for="bootstrap-wizard-validation-wizard-phone">Ad
                                                                     Soyad</label><input class="form-control"
@@ -622,7 +634,6 @@
                                                             onclick="nextPrev(1)">İleri</button>
                                                     </div>
                                                 </div>
-
 
                                                 {{-- <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
                                                     <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
@@ -939,7 +950,6 @@
         });
     </script>
     <script>
-        // CSRF tokenını al
 
 
         function formatIBAN(input) {
@@ -1267,6 +1277,7 @@
     </style>
 
     <style>
+        
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1344,7 +1355,6 @@
 
         .progress {
             height: 100%;
-
             /* Default color */
 
             /* Change this value to reflect progress */
@@ -1572,7 +1582,6 @@
             height: 120px !important
         }
     </style>
-
     <style>
         .main {
             max-width: 500px;
@@ -1582,7 +1591,6 @@
             border-radius: 12px;
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
         }
-
         .step {
             display: none;
         }
@@ -1598,12 +1606,10 @@
             border: 1px solid #e3e3e3;
             border-radius: 5px;
         }
-
         input:focus {
             border: 1px solid #009688;
             outline: 0;
         }
-
         .invalid {
             border: 1px solid #ffaba5;
         }
@@ -1621,19 +1627,16 @@
             margin-top: 5px;
             transition: background-color 0.3s ease;
         }
-
         #prevBtn {
             background-color: #ffffff;
             color: #009688;
             border: 1px solid #009688;
         }
-
         #prevBtn:hover,
         #nextBtn:hover {
             background-color: #00796b;
             color: #ffffff;
         }
-
         .progress {
             margin-bottom: 20px;
         }
@@ -1645,13 +1648,11 @@
             width: 20px;
             height: 20px;
         }
-
         .custom-checkbox input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .checkmark {
             position: absolute;
             top: 0;
@@ -1661,7 +1662,6 @@
             background-color: #ccc;
             border-radius: 4px;
         }
-
         .custom-checkbox input:checked~.checkmark {
             background-color: #28a745;
             /* Checkbox seçiliyse yeşil */
@@ -1681,7 +1681,6 @@
             position: absolute;
             display: none;
         }
-
         .custom-checkbox input:checked~.checkmark:after {
             display: block;
         }

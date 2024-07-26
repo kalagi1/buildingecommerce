@@ -156,6 +156,7 @@ Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])-
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
+Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
 
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
     ->name('club.dashboard2');
@@ -469,6 +470,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housing/comment/approve/{id}', [HousingController::class, 'approveComment'])->name('housings.approve');
         Route::get('/housing/comment/unapprove/{id}', [HousingController::class, 'unapproveComment'])->name('housings.unapprove');
     });
+
+    Route::get('/projects/comment/approve/{id}', [ClientProjectController::class, 'approveComment'])->name('projects.approve');
+    Route::get('/projects/comment/unapprove/{id}', [ClientProjectController::class, 'unapproveComment'])->name('projects.unapprove');
 
     Route::middleware(['checkPermission:DeleteHousing'])->group(function () {
         Route::delete('/housings/{housing}', [HousingController::class, 'destroy'])->name('housings.destroy');
@@ -842,8 +846,8 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
-    //sıfırdan crm rotaları
 
+    //sıfırdan crm rotaları
     //satış danışmanlarını listele ve proje atama
     Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('crm.danisman.proje.atama');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
@@ -1190,6 +1194,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
 
+Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
 
 Route::get('/share/approve/{share}', [HomeController::class, 'approveShare'])->name('client.approve-share');
 Route::get('/share/unapprove/{share}', [HomeController::class, 'unapproveShare'])->name('client.unapprove-share');
