@@ -15,6 +15,7 @@ use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
+use App\Models\CartPrice;
 use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\Collection;
@@ -61,7 +62,7 @@ class HomeController extends Controller
         if (isset($selectedTypes) && count($selectedTypes) >= 3) {
             $housingTypeParent1 = HousingTypeParent::findOrFail($selectedTypes[0]);
             $housingTypeParent2 = HousingTypeParent::findOrFail($selectedTypes[1]);
-            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[2]);
+            $housingTypeParentConnection = HousingTypeParentConnection::find($selectedTypes[3]);
 
             if ($housingTypeParentConnection && isset($blocks)) {
                 $housingType = HousingType::find($housingTypeParentConnection->housing_type_id);
@@ -1723,5 +1724,38 @@ class HomeController extends Controller
 
 
         return view("client.search.index", compact('term', 'housings', 'housingTotalCount', 'projects', 'projectTotalCount', 'merchants', 'merchant_count'));
+    }
+
+
+    public function approveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapproveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
+    }
+
+    public function approvePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapprovePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
     }
 }
