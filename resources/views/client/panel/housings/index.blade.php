@@ -114,7 +114,7 @@
                 if (userPermissions.includes('ViewHousingType')) {
                     var previewLi = document.createElement("li");
                     var previewLink = document.createElement("a");
-                    previewLink.href = "{{ route('institutional.housings.preview', ['id' => ':id']) }}".replace(':id', housingType.id);
+                    previewLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
                     previewLink.textContent = "Önizle";
                     previewLi.appendChild(previewLink);
                     popoverUl.appendChild(previewLi);
