@@ -66,7 +66,7 @@
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                     @if ((isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]'] != 0) || null)
                                         <div class="col-md-12 col-12" >
-                                            <div class="d-flex justify-content-between align-items-center"
+                                            <div class="d-flex justify-content-between align-items-center mb-5"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
                                                     #{{ $item['project']->id + $item['room_order'] + 1000000 }}
@@ -983,7 +983,7 @@
                                                 null)
                                             <div class="w-100"
                                                 style="height:50px;background-color:#8080802e;margin-top:20px">
-                                                <div class="d-flex justify-content-between align-items-center"
+                                                <div class="d-flex justify-content-between align-items-center mb-5"
                                                     style="height: 100%;padding: 10px">
                                                     <span style="color: #e54242;font-size:9px !important">
                                                         #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
@@ -1003,7 +1003,7 @@
                                                 null)
                                             <div class="w-100"
                                                 style="height:50px;background-color:#8080802e;margin-top:20px">
-                                                <div class="d-flex justify-content-between align-items-center"
+                                                <div class="d-flex justify-content-between align-items-center mb-5"
                                                     style="height: 100%;padding: 10px">
                                                     <span style="color: #e54242;font-size:9px !important">
                                                         #{{ $item['project']->id + $item['room_order'] + 1000000 }}

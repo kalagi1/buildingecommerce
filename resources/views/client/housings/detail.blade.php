@@ -1348,7 +1348,7 @@
                                         <div class="schedule widget-boxed mt-33 mt-0">
                                             <div class="widget-boxed-header">
 
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-5">
                                                     <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
                                                         Yap
                                                     </h4>

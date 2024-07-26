@@ -1175,7 +1175,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
-        Route::get('/konutlar', [InstitutionalHousingController::class, 'index'])->name('housing.list');
+        Route::get('/emlak-ilanlarim', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
     Route::get('/kiraladiklarim', [DashboardController::class, 'getMyReservations'])->name('myreservations');
 

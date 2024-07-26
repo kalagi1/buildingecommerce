@@ -486,7 +486,7 @@
                         </div>
                     </div>
                     <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 15px">
-                        <div class="d-flex justify-content-between align-items-center" style="height: 100%">
+                        <div class="d-flex justify-content-between align-items-center mb-5" style="height: 100%">
                             <span
                                 style="    height: 100%;
                             font-size: 11px !important;
