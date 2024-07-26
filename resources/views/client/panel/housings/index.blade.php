@@ -208,5 +208,26 @@
             createTable(document.querySelector('#bulk-select-body-soldHousingTypes'), soldHousingTypes);
         };
     </script>
+        <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.project-table-content-actions-button').on('click', function() {
+                    var targetId = $(this).data('toggle');
+                    var $popover = $('#' + targetId);
     
+                    // Hide other popovers
+                    $('.popover-project-actions').not($popover).addClass('d-none');
+    
+                    // Toggle current popover
+                    $popover.toggleClass('d-none');
+                });
+    
+                // Close popover when clicking outside
+                $(document).on('click', function(event) {
+                    if (!$(event.target).closest('.project-table-content').length) {
+                        $('.popover-project-actions').addClass('d-none');
+                    }
+                });
+            });
+        </script>
 @endsection
