@@ -7,7 +7,7 @@
                 <li>Hesabım</li>
                 <li>Emlak İlanlarım</li>
                 <li>Düzenle</li>
-                <li>{{ $housing->id + 2000000 }}</li>
+                <li>#{{ $housing->id + 2000000 }}</li>
             </ul>
         </div>
     </div>
@@ -24,113 +24,116 @@
             @endforeach
         </ul>
     </div>
+    <div class="section-title mt-5">
+        <h2>İlan Detayları </h2>
+    </div>
+    <form action="{{ route('institutional.housing.update', $housing->id) }}" method="post">
+        @csrf
+            <div class="clear-both"></div>
+            <div class="second-area">
+                <div class="row">
+                 
+                    <div class="form-area mt-4">
 
-        <form action="{{ route('institutional.housing.update', $housing->id) }}" method="post">
-            @csrf
-            <div class="mt-4">
-                <div class="clear-both"></div>
-                <div class="second-area">
-                    <div class="row">
-                        <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma yükümlülüğü metnine <a href="https://hisselitask.emlaksepette.com/sayfa/kvkk-politikasi" target="_blank">buradan</a> ulaşabilirsiniz.</div>
-                        <div class="form-area mt-4">
-                            <span class="section-title">İlan Detayları</span>
-
-                            <div class="card py-2 px-5">
-                                <div class="form-group">
-                                    <label for="">İlan Başlığı <span class="required">*</span></label>
-                                    <input type="text" value="{{ isset($housing->title) ? $housing->title : '' }}"
-                                        name="name" class="form-control">
-                                </div>
-                                <div class="form-group description-field">
-                                    <label for="">İlan Açıklaması <span class="required">*</span></label>
-                                    <textarea name="description" id="editor" cols="30" rows="5" class="form-control">{{ isset($housing->description) ? $housing->description : '' }}</textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab-content " id="pricingTabContent" role="tabpanel">
-                                            <div id="renderForm"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="card py-2 px-5">
+                            <div class="add-classified-note mb-3">Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
+                                yükümlülüğü metnine <a href="https://hisselitask.emlaksepette.com/sayfa/kvkk-politikasi"
+                                    target="_blank">buradan</a> ulaşabilirsiniz.</div>
+                            <div class="form-group">
+                                <label for="">İlan Başlığı <span class="required">*</span></label>
+                                <input type="text" value="{{ isset($housing->title) ? $housing->title : '' }}"
+                                    name="name" class="form-control">
                             </div>
-                            <div class="address">
-                                <span class="section-title">Adres Bilgileri</span>
-                                <div class="card">
-                                    <div class="row px-5 py-4">
-                                        <div class="col-md-4">
-                                            <label for="">İl <span class="required">*</span></label>
-                                            <select name="city_id" id="cities" class="form-control">
-                                                <option value="">İl Seç</option>
-                                                @foreach ($cities as $city)
-                                                    <option
-                                                        {{ isset($housing->city_id) && $housing->city_id == $city->id ? 'selected' : '' }}
-                                                        value="{{ $city->id }}">{{ $city->title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="">İlçe <span class="required">*</span></label>
-                                            <select onchange="changeData(this.value,'county_id')" name="county_id"
-                                                id="counties" class="form-control">
-                                                <option value="">İlçe Seç</option>
-                                                @foreach ($counties as $county)
-                                                    <option
-                                                        {{ isset($housing->county_id) && $housing->county_id == $county->ilce_key ? 'selected' : '' }}
-                                                        value="{{ $county->ilce_key }}">{{ $county->ilce_title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="">Mahalle <span class="required">*</span></label>
-                                            <select onchange="changeData(this.value,'neighbourhood_id')"
-                                                name="neighbourhood_id" id="neighbourhood" class="form-control">
-                                                <option value="">Mahalle Seç</option>
-                                                @foreach ($neighborhoods as $neighborhood)
-                                                    <option
-                                                        {{ isset($housing->neighborhood_id) && $housing->neighborhood_id == $neighborhood->mahalle_id ? 'selected' : '' }}
-                                                        value="{{ $neighborhood->mahalle_id }}">
-                                                        {{ $neighborhood->mahalle_title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <input name="location" class="form-control" id="location" readonly type="hidden"
-                                            value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
-                                        <div style="height: 350px;" id="mapContainer"></div>
-                                    </div>
-                                </div>
+                            
+                            <div class="form-group description-field">
+                                <label for="">İlan Açıklaması <span class="required">*</span></label>
+                                <textarea name="description" id="editor" cols="30" rows="5" class="form-control">{{ isset($housing->description) ? $housing->description : '' }}</textarea>
                             </div>
-
-                            <div class="second-area-finish">
-                                <div class="finish-tick ">
-                                    <input type="checkbox" value="1" class="rules_confirm">
-                                    <span class="rulesOpen">İlan verme kurallarını</span>
-                                    <span>okudum, kabul ediyorum</span>
-                                </div>
-                                <div style="float:right;margin:0;">
-                                    <button class="btn btn-info">
-                                        Devam
-                                    </button>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="tab-content " id="pricingTabContent" role="tabpanel">
+                                        <div id="renderForm"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="fourth-area d-none">
-                    <div class="row" style="justify-content:center;">
-                        <div class="col-md-5">
-                            <div class="finish-area">
-                                <div class="icon"><i class="fa fa-thumbs-up"></i></div>
-                                <div class="text">Başarıyla ilan eklediniz</div>
-                                <div class="text"><a href="{{ route('institutional.housing.list') }}"
-                                        class="btn btn-info">Mağazama Git</a></div>
+                        <div class="address">
+                            <span class="section-title">Adres Bilgileri</span>
+                            <div class="card">
+                                <div class="row px-5 py-4">
+                                    <div class="col-md-4">
+                                        <label for="">İl <span class="required">*</span></label>
+                                        <select name="city_id" id="cities" class="form-control">
+                                            <option value="">İl Seç</option>
+                                            @foreach ($cities as $city)
+                                                <option
+                                                    {{ isset($housing->city_id) && $housing->city_id == $city->id ? 'selected' : '' }}
+                                                    value="{{ $city->id }}">{{ $city->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="">İlçe <span class="required">*</span></label>
+                                        <select onchange="changeData(this.value,'county_id')" name="county_id"
+                                            id="counties" class="form-control">
+                                            <option value="">İlçe Seç</option>
+                                            @foreach ($counties as $county)
+                                                <option
+                                                    {{ isset($housing->county_id) && $housing->county_id == $county->ilce_key ? 'selected' : '' }}
+                                                    value="{{ $county->ilce_key }}">{{ $county->ilce_title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="">Mahalle <span class="required">*</span></label>
+                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id"
+                                            id="neighbourhood" class="form-control">
+                                            <option value="">Mahalle Seç</option>
+                                            @foreach ($neighborhoods as $neighborhood)
+                                                <option
+                                                    {{ isset($housing->neighborhood_id) && $housing->neighborhood_id == $neighborhood->mahalle_id ? 'selected' : '' }}
+                                                    value="{{ $neighborhood->mahalle_id }}">
+                                                    {{ $neighborhood->mahalle_title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input name="location" class="form-control" id="location" readonly type="hidden"
+                                        value="@if (isset($housing->longitude) && isset($housing->latitude)) {{ $housing->latitude . ',' . $housing->longitude }}@else 32.9231576,37.3927733 @endif" />
+                                    <div style="height: 350px;" id="mapContainer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="second-area-finish">
+                            <div class="finish-tick ">
+                                <input type="checkbox" value="1" class="rules_confirm">
+                                <span class="rulesOpen">İlan verme kurallarını</span>
+                                <span>okudum, kabul ediyorum</span>
+                            </div>
+                            <div style="float:right;margin:0;">
+                                <button class="btn btn-info">
+                                    Devam
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+            <div class="fourth-area d-none">
+                <div class="row" style="justify-content:center;">
+                    <div class="col-md-5">
+                        <div class="finish-area">
+                            <div class="icon"><i class="fa fa-thumbs-up"></i></div>
+                            <div class="text">Başarıyla ilan eklediniz</div>
+                            <div class="text"><a href="{{ route('institutional.housing.list') }}"
+                                    class="btn btn-info">Mağazama Git</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
@@ -2161,12 +2164,12 @@
 
                                             if (isNaN(
                                                     houseCount
-                                                    ) ||
+                                                ) ||
                                                 houseCount <= 0
                                             ) {
                                                 alert(
                                                     'Lütfen geçerli bir sayı girin.'
-                                                    );
+                                                );
                                                 return;
                                             }
 
@@ -2200,12 +2203,12 @@
                                                             '" id="TabContent' +
                                                             (i +
                                                                 1
-                                                                ) +
+                                                            ) +
                                                             '" role="tabpanel">' +
                                                             '<div id="renderForm' +
                                                             (i +
                                                                 1
-                                                                ) +
+                                                            ) +
                                                             '" class="card p-4"></div>' +
                                                             '</div>';
                                                     }
@@ -2237,7 +2240,7 @@
                                                         var renderedForm =
                                                             $(
                                                                 '<div>'
-                                                                );
+                                                            );
                                                         renderedForm
                                                             .formRender(
                                                                 formRenderOpts
@@ -2315,7 +2318,7 @@
                                                                             ] +
                                                                             (json[
                                                                                     lm
-                                                                                    ]
+                                                                                ]
                                                                                 .name
                                                                                 .split(
                                                                                     '[]'
@@ -2358,7 +2361,7 @@
                                                         $('#renderForm' +
                                                                 (
                                                                     i
-                                                                    )
+                                                                )
                                                             )
                                                             .html(
                                                                 renderHtml
@@ -2381,7 +2384,7 @@
                                                                     var tabId =
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .attr(
                                                                             'data-bs-target'
                                                                         );
@@ -2408,7 +2411,7 @@
                                                                             if (!
                                                                                 $(
                                                                                     item
-                                                                                    )
+                                                                                )
                                                                                 .val()
                                                                             ) {
                                                                                 nextHousing
@@ -2430,7 +2433,7 @@
                                                                             if (!
                                                                                 $(
                                                                                     item
-                                                                                    )
+                                                                                )
                                                                                 .val()
                                                                             ) {
                                                                                 nextHousing
@@ -2445,7 +2448,7 @@
                                                                     )
                                                                 if ($(
                                                                         '.tab-pane.active input[required="required"]'
-                                                                        )
+                                                                    )
                                                                     .val() ==
                                                                     ""
                                                                 ) {
@@ -2460,11 +2463,11 @@
                                                                 var indexItem =
                                                                     $(
                                                                         '.tab-pane.active'
-                                                                        )
+                                                                    )
                                                                     .index();
                                                                 if (
                                                                     nextHousing
-                                                                    ) {
+                                                                ) {
                                                                     $('.tab-pane.active')
                                                                         .removeClass(
                                                                             'active'
@@ -2487,7 +2490,7 @@
                                                                                     parseFloat(
                                                                                         $(
                                                                                             '.navbar-top'
-                                                                                            )
+                                                                                        )
                                                                                         .css(
                                                                                             'height'
                                                                                         )
@@ -2506,7 +2509,7 @@
                                                                 var indexItem =
                                                                     $(
                                                                         '.tab-pane.active'
-                                                                        )
+                                                                    )
                                                                     .index();
                                                                 console
                                                                     .log(
@@ -2543,10 +2546,10 @@
                                                             function() {
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .is(
                                                                         ':checked'
-                                                                        )
+                                                                    )
                                                                 ) {
                                                                     $('.second-payment-plan')
                                                                         .closest(
@@ -2603,7 +2606,7 @@
 
                                                     if (
                                                         isRent
-                                                        ) {
+                                                    ) {
                                                         $('.rent-disabled')
                                                             .closest(
                                                                 '.form-group'
@@ -2613,7 +2616,7 @@
 
                                                     if (
                                                         isDailyRent
-                                                        ) {
+                                                    ) {
                                                         $('.daily-rent-disabled')
                                                             .closest(
                                                                 '.form-group'
@@ -2623,7 +2626,7 @@
 
                                                     if (
                                                         isSale
-                                                        ) {
+                                                    ) {
                                                         $('.sale-disabled')
                                                             .closest(
                                                                 '.form-group'
@@ -2648,7 +2651,7 @@
                                                                     parseInt(
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .val()
                                                                     ) -
                                                                     1;
@@ -2656,7 +2659,7 @@
                                                                     parseInt(
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .closest(
                                                                             'a'
                                                                         )
@@ -2694,7 +2697,7 @@
                                                                                 $('input[name="' +
                                                                                     (json[
                                                                                             lm
-                                                                                            ]
+                                                                                        ]
                                                                                         .name
                                                                                         .replace(
                                                                                             '[]',
@@ -2717,14 +2720,14 @@
                                                                                 )
                                                                                 .is(
                                                                                     ':checked'
-                                                                                    )
+                                                                                )
                                                                             if (
                                                                                 isChecked
-                                                                                ) {
+                                                                            ) {
                                                                                 $('input[name="' +
                                                                                         (json[
                                                                                                 lm
-                                                                                                ]
+                                                                                            ]
                                                                                             .name
                                                                                             .replace(
                                                                                                 '[]',
@@ -2754,7 +2757,7 @@
                                                                                 $('input[name="' +
                                                                                         (json[
                                                                                                 lm
-                                                                                                ]
+                                                                                            ]
                                                                                             .name
                                                                                             .replace(
                                                                                                 '[]',
@@ -2793,26 +2796,26 @@
                                                                             $('select[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 order
-                                                                                )
+                                                                            )
                                                                             .val();
                                                                         $('select[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 currentOrder
-                                                                                )
+                                                                            )
                                                                             .children(
                                                                                 'option'
                                                                             )
@@ -2824,7 +2827,7 @@
                                                                                 $('select[name="' +
                                                                                     (json[
                                                                                             lm
-                                                                                            ]
+                                                                                        ]
                                                                                         .name
                                                                                     ) +
                                                                                     '"]'
@@ -2843,14 +2846,14 @@
                                                                         $('select[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 currentOrder
-                                                                                )
+                                                                            )
                                                                             .children(
                                                                                 'option[value="' +
                                                                                 value[
@@ -2878,14 +2881,14 @@
                                                                             $('input[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 order
-                                                                                )[
+                                                                            )[
                                                                                 0
                                                                             ]
                                                                             .files;
@@ -2893,7 +2896,7 @@
                                                                             $('input[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
@@ -2928,41 +2931,41 @@
                                                                             $('input[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 order
-                                                                                )
+                                                                            )
                                                                             .val();
                                                                         console
                                                                             .log(
                                                                                 $('input[name="' +
                                                                                     (json[
                                                                                             lm
-                                                                                            ]
+                                                                                        ]
                                                                                         .name
                                                                                     ) +
                                                                                     '"]'
                                                                                 )
                                                                                 .eq(
                                                                                     order
-                                                                                    )
+                                                                                )
                                                                                 .val()
                                                                             );
                                                                         $('input[name="' +
                                                                                 (json[
                                                                                         lm
-                                                                                        ]
+                                                                                    ]
                                                                                     .name
                                                                                 ) +
                                                                                 '"]'
                                                                             )
                                                                             .eq(
                                                                                 currentOrder
-                                                                                )
+                                                                            )
                                                                             .val(
                                                                                 value
                                                                             );
@@ -2980,7 +2983,7 @@
                                                                 var csrfToken =
                                                                     $(
                                                                         "meta[name='csrf-token']"
-                                                                        )
+                                                                    )
                                                                     .attr(
                                                                         "content"
                                                                     );
@@ -2994,14 +2997,14 @@
                                                                         'value',
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .val()
                                                                     );
                                                                 console
                                                                     .log(
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .closest(
                                                                             '.tab-pane'
                                                                         )
@@ -3015,7 +3018,7 @@
                                                                         parseInt(
                                                                             $(
                                                                                 this
-                                                                                )
+                                                                            )
                                                                             .closest(
                                                                                 '.tab-pane'
                                                                             )
@@ -3034,7 +3037,7 @@
                                                                         'key',
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .attr(
                                                                             'name'
                                                                         )
@@ -3049,7 +3052,7 @@
                                                                     );
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .hasClass(
                                                                         'only-one'
                                                                     )
@@ -3067,7 +3070,7 @@
                                                                             '.only-one[value!="' +
                                                                             $(
                                                                                 this
-                                                                                )
+                                                                            )
                                                                             .val() +
                                                                             '"]'
                                                                         )
@@ -3083,7 +3086,7 @@
                                                                     );
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .attr(
                                                                         'type'
                                                                     ) ==
@@ -3117,7 +3120,7 @@
                                                                 var csrfToken =
                                                                     $(
                                                                         "meta[name='csrf-token']"
-                                                                        )
+                                                                    )
                                                                     .attr(
                                                                         "content"
                                                                     );
@@ -3131,14 +3134,14 @@
                                                                         'value',
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .val()
                                                                     );
                                                                 console
                                                                     .log(
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .closest(
                                                                             '.tab-pane'
                                                                         )
@@ -3152,7 +3155,7 @@
                                                                         parseInt(
                                                                             $(
                                                                                 this
-                                                                                )
+                                                                            )
                                                                             .closest(
                                                                                 '.tab-pane'
                                                                             )
@@ -3171,7 +3174,7 @@
                                                                         'key',
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .attr(
                                                                             'name'
                                                                         )
@@ -3205,7 +3208,7 @@
                                                                     .remove();
                                                                 if ($(
                                                                         '.price-only'
-                                                                        )
+                                                                    )
                                                                     .val()
                                                                     .replace(
                                                                         '.',
@@ -3226,7 +3229,7 @@
                                                                     parseInt(
                                                                         $(
                                                                             '.price-only'
-                                                                            )
+                                                                        )
                                                                         .val()
                                                                         .replace(
                                                                             '.',
@@ -3252,7 +3255,7 @@
                                                                 ) {
                                                                     if ($(
                                                                             '.price-only'
-                                                                            )
+                                                                        )
                                                                         .closest(
                                                                             '.form-group'
                                                                         )
@@ -3284,7 +3287,7 @@
                                                                     let inputValue =
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .val();
 
                                                                     // Sadece sayı karakterlerine izin ver
@@ -3328,18 +3331,18 @@
                                                                     .remove();
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .val() !=
                                                                     parseInt(
                                                                         $(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .val()
                                                                     )
                                                                 ) {
                                                                     if ($(
                                                                             this
-                                                                            )
+                                                                        )
                                                                         .closest(
                                                                             '.form-group'
                                                                         )
@@ -3385,7 +3388,7 @@
                                                             function() {
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .val() !=
                                                                     ""
                                                                 ) {
@@ -3402,7 +3405,7 @@
                                                             function() {
                                                                 if ($(
                                                                         this
-                                                                        )
+                                                                    )
                                                                     .val() !=
                                                                     ""
                                                                 ) {
@@ -3616,7 +3619,7 @@
                                                                     t] +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                     .split(
                                                                         '[]'
@@ -3686,10 +3689,10 @@
                                                 $('.tab-pane.active input[required="required"]')
                                                     .map((key,
                                                         item
-                                                        ) => {
+                                                    ) => {
                                                         if (!$(
                                                                 item
-                                                                )
+                                                            )
                                                             .val()
                                                         ) {
                                                             nextHousing
@@ -3705,10 +3708,10 @@
                                                 $('.tab-pane.active select[required="required"]')
                                                     .map((key,
                                                         item
-                                                        ) => {
+                                                    ) => {
                                                         if (!$(
                                                                 item
-                                                                )
+                                                            )
                                                             .val()
                                                         ) {
                                                             nextHousing
@@ -3722,7 +3725,7 @@
                                                     })
                                                 if ($(
                                                         '.tab-pane.active input[required="required"]'
-                                                        )
+                                                    )
                                                     .val() == "") {
                                                     nextHousing =
                                                         false;
@@ -3756,7 +3759,7 @@
                                                                 parseFloat(
                                                                     $(
                                                                         '.navbar-top'
-                                                                        )
+                                                                    )
                                                                     .css(
                                                                         'height'
                                                                     )
@@ -3888,7 +3891,7 @@
                                                                 $('input[name="' +
                                                                     (json[
                                                                             lm
-                                                                            ]
+                                                                        ]
                                                                         .name
                                                                         .replace(
                                                                             '[]',
@@ -3911,14 +3914,14 @@
                                                                 )
                                                                 .is(
                                                                     ':checked'
-                                                                    )
+                                                                )
                                                             if (
                                                                 isChecked
-                                                                ) {
+                                                            ) {
                                                                 $('input[name="' +
                                                                         (json[
                                                                                 lm
-                                                                                ]
+                                                                            ]
                                                                             .name
                                                                             .replace(
                                                                                 '[]',
@@ -3948,7 +3951,7 @@
                                                                 $('input[name="' +
                                                                         (json[
                                                                                 lm
-                                                                                ]
+                                                                            ]
                                                                             .name
                                                                             .replace(
                                                                                 '[]',
@@ -3984,26 +3987,26 @@
                                                             $('select[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 order
-                                                                )
+                                                            )
                                                             .val();
                                                         $('select[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 currentOrder
-                                                                )
+                                                            )
                                                             .children(
                                                                 'option'
                                                             )
@@ -4014,7 +4017,7 @@
                                                             $('select[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
@@ -4033,14 +4036,14 @@
                                                         $('select[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 currentOrder
-                                                                )
+                                                            )
                                                             .children(
                                                                 'option[value="' +
                                                                 value[
@@ -4063,21 +4066,21 @@
                                                             $('input[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 order
-                                                                )[
+                                                            )[
                                                                 0]
                                                             .files;
                                                         var input2 =
                                                             $('input[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
@@ -4108,40 +4111,40 @@
                                                             $('input[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 order
-                                                                )
+                                                            )
                                                             .val();
                                                         console.log(
                                                             $('input[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 order
-                                                                )
+                                                            )
                                                             .val()
                                                         );
                                                         $('input[name="' +
                                                                 (json[
                                                                         lm
-                                                                        ]
+                                                                    ]
                                                                     .name
                                                                 ) +
                                                                 '"]'
                                                             )
                                                             .eq(
                                                                 currentOrder
-                                                                )
+                                                            )
                                                             .val(
                                                                 value
                                                             );
@@ -4323,7 +4326,7 @@
                                                     )) {
                                                     if ($(
                                                             '.price-only'
-                                                            )
+                                                        )
                                                         .closest(
                                                             '.form-group'
                                                         ).find(
@@ -4802,7 +4805,7 @@
                                         .replace(
                                             '.', '').replace('.', '').replace('.',
                                             '').replace('.', '').replace('.', '')
-                                        )) {
+                                    )) {
                                     if ($('.price-only').closest('.form-group')
                                         .find('.error-text').length > 0) {
                                         $('.price-only').val("");
