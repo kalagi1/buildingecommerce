@@ -239,7 +239,7 @@
                                     <span class="text">Sepete Ekle</span>
                                 </button>
                             @else
-                                <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                     class="btn btn-success"
                                     style="width: 100%;
                                     height: 40px;
@@ -276,7 +276,7 @@
                             }
                         </script>
                     @else
-                        <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                        <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                             class="btn btn-success"
                             style="width: 100%;
     height: 40px;

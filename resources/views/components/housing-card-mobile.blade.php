@@ -102,7 +102,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                                         <span class="text">Sepete Ekle</span>
                                     </button>
                                 @else
-                                    <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                         class="btn btn-success">
                                         <span class="text">İlanı Düzenle</span>
                                     </a>
@@ -125,7 +125,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                                 }
                             </script>
                         @else
-                            <a href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}"
+                            <a href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}"
                                 class="btn btn-success">
                                 <span class="text">İlanı Düzenle</span>
                             </a>
