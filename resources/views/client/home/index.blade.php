@@ -203,7 +203,7 @@
     </section>
 
 
-    <section class="container justify-content-center">
+    <section class="container justify-content-center mb-5">
 
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
@@ -322,7 +322,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-12">
-                    <div class="section-title mb-3 mobileSectionTitle">
+                    <div class="section-title mb-5 mobileSectionTitle">
                         <h2>Popüler Gayrimenkul Markaları</h2>
                     </div>
                 </div>
@@ -356,9 +356,27 @@
                                                         style="object-fit:contain;">
                                                 @endif
                                             </a>
-                                            <span
-                                                style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">{{ $brand->name }}</span>
-
+                                            @php
+                                            // Markanın adını al
+                                            $brandName = $brand->name;
+                                        
+                                            // Markanın adını boşluk karakteri ile ayır
+                                            $words = explode(' ', $brandName);
+                                        
+                                            // İlk iki kelimenin baş harflerini al
+                                            $initials = '';
+                                            if (isset($words[0])) {
+                                                $initials .= strtoupper($words[0][0]);
+                                            }
+                                            if (isset($words[1])) {
+                                                $initials .= strtoupper($words[1][0]);
+                                            }
+                                        @endphp
+                                        
+                                        <span style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
+                                            {{ $initials }}
+                                        </span>
+                                        
                                         </div>
                                     </div>
                                 </div>
