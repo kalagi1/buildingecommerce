@@ -12,42 +12,18 @@
     </div>
 </div>
     <div class="content">
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             @foreach ($data as $index => $item)
                 <div class="project-table-content">
                     <ul>
                         <li style="width: 5%;">{{ $index + 1 }}</li>
-                        <li style="width: 10%;">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-xl mr-2">
-                                    @if ($item->user->profile_image == 'indir.png')
-                                        @php
-                                            $nameInitials = collect(preg_split('/\s+/', $item->user->name))
-                                                ->map(function ($word) {
-                                                    return mb_strtoupper(mb_substr($word, 0, 1));
-                                                })
-                                                ->take(1)
-                                                ->implode('');
-                                        @endphp
-                                        <div class="profile-initial"
-                                            style="margin: inherit !important;margin-left: 0 !important">
-                                            {{ $nameInitials }}</div>
-                                    @else
-                                        <img loading="lazy"
-                                            src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
-                                            alt="{{ $item->user->name }}" class="avatar-img rounded-circle"
-                                            style="object-fit:contain;">
-                                    @endif
-                                </div>
-                            </div>
-                        </li>
+                     
                         <li style="width: 20%;">
                             {{ $item->project->user->name }} <br>
                             <span style="font-size: 10px;color:black;font-weight:700">
                                 {{ $item->city ? $item->city->title : null }}
                                 {{ $item->district ? ' - ' . $item->district->ilce_title : null }}</span>
                         </li>
-                        <li style="width: 20%;">
+                        <li style="width: 30%;">
                             {{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
                         </li>
                         <li style="width: 10%;">
@@ -109,7 +85,6 @@
                     @endif
                 </div>
             @endforeach
-        </div>
     </div>
 @endsection
 
