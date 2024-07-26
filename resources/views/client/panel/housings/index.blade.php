@@ -38,10 +38,78 @@
                 'soldHousingTypes' => $soldHousingTypes
             ] as $tabId => $housingTypes)
                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-' . $tabId,
-                        'housingTypes' => $housingTypes
-                    ])
+                    <div class="project-table">
+                        @foreach ($housingTypes as $index => $housingType)
+                            <div class="project-table-content">
+                                <ul>
+                                    <!-- Index -->
+                                    <li style="width: 5%">{{ $index + 1 }}</li>
+
+                                    <!-- Housing Title -->
+                                    <li style="width: 90%">
+                                        <div>
+                                            <p class="project-table-content-title">{{ $housingType->housing_title }}</p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Actions -->
+                                    <li style="width: 5%">
+                                        <span class="project-table-content-actions-button" data-bs-toggle="popover" data-bs-content="#popover-{{ $housingType->id }}">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <!-- Popover Actions -->
+                                <div class="popover-project-actions d-none" id="popover-{{ $housingType->id }}">
+                                    <ul>
+                                        @if (in_array('UpdateHousing', $userPermissions))
+                                            <li>
+                                                <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">Düzenle</a>
+                                            </li>
+                                        @endif
+
+                                        @if (in_array('ViewHousing', $userPermissions))
+                                            <li>
+                                                <a href="{{ route('institutional.housing.edit', ['id' => $housingType->id]) }}">Önizle</a>
+                                            </li>
+                                        @endif
+
+                                        @if (in_array('DeleteHousing', $userPermissions))
+                                            <li>
+                                                <a data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $housingType->id }}">Sil</a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+
+                                <!-- Delete Modal -->
+                                @if (in_array('DeleteHousing', $userPermissions))
+                                    <div class="modal fade" id="deleteModal-{{ $housingType->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $housingType->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-{{ $housingType->id }}">Sil</h5>
+                                                    <button type="button" class="btn p-1" data-bs-dismiss="modal" aria-label="Close">
+                                                        <svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="text-700 lh-lg mb-0">Bu ilanı silmek istediğinize emin misiniz?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                    <button type="button" class="btn btn-danger" data-housing-id="{{ $housingType->id }}">Sil</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -51,183 +119,26 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <script>
-        // JSON verilerini al
-        var activeHousingTypes = @json($activeHousingTypes);
-        var inactiveHousingTypes = @json($inactiveHousingTypes);
-        var pendingHousingTypes = @json($pendingHousingTypes);
-        var disabledHousingTypes = @json($disabledHousingTypes);
-        var soldHousingTypes = @json($soldHousingTypes);
-        var userPermissions = Array.isArray(@json($userPermissions)) ? @json($userPermissions) : [];
-    
-        // Yetki kontrol fonksiyonu
-        function hasPermission(permission) {
-            return userPermissions.includes(permission);
-        }
-    
-        function createTable(tbody, housingTypes) {
-            housingTypes.forEach(function(housingType, index) {
-                var row = document.createElement("div");
-                row.className = "project-table-content";
-    
-                var ul = document.createElement("ul");
-    
-                // Index
-                var indexLi = document.createElement("li");
-                indexLi.style.width = "5%";
-                indexLi.textContent = index + 1;
-                ul.appendChild(indexLi);
-    
-                // Housing Title
-                var titleLi = document.createElement("li");
-                titleLi.style.width = "90%";
-                var titleDiv = document.createElement("div");
-                var titleP = document.createElement("p");
-                titleP.className = "project-table-content-title";
-                titleP.textContent = housingType.housing_title;
-                titleDiv.appendChild(titleP);
-                titleLi.appendChild(titleDiv);
-                ul.appendChild(titleLi);
-    
-                // Actions
-                var actionsLi = document.createElement("li");
-                actionsLi.style.width = "5%";
-                var actionsButton = document.createElement("span");
-                actionsButton.className = "project-table-content-actions-button";
-                actionsButton.setAttribute("data-bs-toggle", "popover");
-                actionsButton.setAttribute("data-bs-content", "#popover-" + housingType.id);
-                actionsButton.innerHTML = '<i class="fa fa-chevron-down"></i>';
-                actionsLi.appendChild(actionsButton);
-                ul.appendChild(actionsLi);
-    
-                row.appendChild(ul);
-    
-                // Popover Actions
-                var popoverDiv = document.createElement("div");
-                popoverDiv.className = "popover-project-actions d-none";
-                popoverDiv.id = "popover-" + housingType.id;
-    
-                var popoverUl = document.createElement("ul");
-    
-                if (hasPermission('UpdateHousing')) {
-                    var editLi = document.createElement("li");
-                    var editLink = document.createElement("a");
-                    editLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
-                    editLink.textContent = "Düzenle";
-                    editLi.appendChild(editLink);
-                    popoverUl.appendChild(editLi);
-                }
-    
-                if (hasPermission('ViewHousing')) {
-                    var previewLi = document.createElement("li");
-                    var previewLink = document.createElement("a");
-                    previewLink.href = "{{ route('institutional.housing.edit', ['id' => ':id']) }}".replace(':id', housingType.id);
-                    previewLink.textContent = "Önizle";
-                    previewLi.appendChild(previewLink);
-                    popoverUl.appendChild(previewLi);
-                }
-    
-                if (hasPermission('DeleteHousing')) {
-                    var deleteLi = document.createElement("li");
-                    var deleteLink = document.createElement("a");
-                    deleteLink.setAttribute("data-bs-toggle", "modal");
-                    deleteLink.setAttribute("data-bs-target", "#deleteModal-" + housingType.id);
-                    deleteLink.textContent = "Sil";
-                    deleteLi.appendChild(deleteLink);
-                    popoverUl.appendChild(deleteLi);
-                }
-    
-                popoverDiv.appendChild(popoverUl);
-                row.appendChild(popoverDiv);
-    
-                // Delete Modal
-                var deleteModalDiv = document.createElement("div");
-                deleteModalDiv.className = "modal fade";
-                deleteModalDiv.id = "deleteModal-" + housingType.id;
-                deleteModalDiv.setAttribute("tabindex", "-1");
-                deleteModalDiv.setAttribute("aria-labelledby", "deleteModalLabel-" + housingType.id);
-                deleteModalDiv.setAttribute("aria-hidden", "true");
-    
-                var modalDialogDiv = document.createElement("div");
-                modalDialogDiv.className = "modal-dialog";
-    
-                var modalContentDiv = document.createElement("div");
-                modalContentDiv.className = "modal-content";
-    
-                var modalHeaderDiv = document.createElement("div");
-                modalHeaderDiv.className = "modal-header";
-                var modalTitleH5 = document.createElement("h5");
-                modalTitleH5.className = "modal-title";
-                modalTitleH5.id = "deleteModalLabel-" + housingType.id;
-                modalTitleH5.textContent = "Sil";
-                var closeButton = document.createElement("button");
-                closeButton.type = "button";
-                closeButton.className = "btn p-1";
-                closeButton.setAttribute("data-bs-dismiss", "modal");
-                closeButton.setAttribute("aria-label", "Close");
-                closeButton.innerHTML = '<svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>';
-                modalHeaderDiv.appendChild(modalTitleH5);
-                modalHeaderDiv.appendChild(closeButton);
-                modalContentDiv.appendChild(modalHeaderDiv);
-    
-                var modalBodyDiv = document.createElement("div");
-                modalBodyDiv.className = "modal-body";
-                modalBodyDiv.innerHTML = '<p class="text-700 lh-lg mb-0">Bu ilanı silmek istediğinize emin misiniz?</p>';
-                modalContentDiv.appendChild(modalBodyDiv);
-    
-                var modalFooterDiv = document.createElement("div");
-                modalFooterDiv.className = "modal-footer";
-                var cancelButton = document.createElement("button");
-                cancelButton.type = "button";
-                cancelButton.className = "btn btn-secondary";
-                cancelButton.setAttribute("data-bs-dismiss", "modal");
-                cancelButton.textContent = "Kapat";
-                var deleteButton = document.createElement("button");
-                deleteButton.type = "button";
-                deleteButton.className = "btn btn-danger";
-                deleteButton.setAttribute("data-housing-id", housingType.id);
-                deleteButton.textContent = "Sil";
-                modalFooterDiv.appendChild(cancelButton);
-                modalFooterDiv.appendChild(deleteButton);
-                modalContentDiv.appendChild(modalFooterDiv);
-    
-                modalDialogDiv.appendChild(modalContentDiv);
-                deleteModalDiv.appendChild(modalDialogDiv);
-    
-                row.appendChild(deleteModalDiv);
-    
-                tbody.appendChild(row);
+        $(document).ready(function() {
+            $('.project-table-content-actions-button').on('click', function() {
+                var targetId = $(this).data('bsContent');
+                var $popover = $('#' + targetId);
+
+                // Hide other popovers
+                $('.popover-project-actions').not($popover).addClass('d-none');
+
+                // Toggle current popover
+                $popover.toggleClass('d-none');
             });
-        }
-    
-        window.onload = function() {
-            createTable(document.querySelector('#bulk-select-body-active'), activeHousingTypes);
-            createTable(document.querySelector('#bulk-select-body-pendingHousingTypes'), pendingHousingTypes);
-            createTable(document.querySelector('#bulk-select-body-disabledHousingTypes'), disabledHousingTypes);
-            createTable(document.querySelector('#bulk-select-body-inactive'), inactiveHousingTypes);
-            createTable(document.querySelector('#bulk-select-body-soldHousingTypes'), soldHousingTypes);
-        };
+
+            // Close popover when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.project-table-content').length) {
+                    $('.popover-project-actions').addClass('d-none');
+                }
+            });
+        });
     </script>
-        <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.project-table-content-actions-button').on('click', function() {
-                    var targetId = $(this).data('toggle');
-                    var $popover = $('#' + targetId);
-    
-                    // Hide other popovers
-                    $('.popover-project-actions').not($popover).addClass('d-none');
-    
-                    // Toggle current popover
-                    $popover.toggleClass('d-none');
-                });
-    
-                // Close popover when clicking outside
-                $(document).on('click', function(event) {
-                    if (!$(event.target).closest('.project-table-content').length) {
-                        $('.popover-project-actions').addClass('d-none');
-                    }
-                });
-            });
-        </script>
 @endsection
