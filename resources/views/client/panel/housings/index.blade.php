@@ -56,7 +56,7 @@
                                     <li style="width: 5%">
                                         <span 
                                         class="project-table-content-actions-button"
-                            data-toggle="popover-{{ $role->id }}">
+                            data-toggle="popover-{{ $housingType->id }}">
                                             <i class="fa fa-chevron-down"></i>
                                         </span>
                                     </li>
