@@ -49,13 +49,37 @@
                                     <ul class="list-unstyled d-flex">
                                         <!-- Index -->
                                         <li style="width: 5%">{{ $index + 1 }}</li>
+                                        <li style="width: 5%">{{ $housingType->id + 2000000 }}</li>
+
 
                                         <!-- Housing Title -->
-                                        <li style="width: 90%">
+                                        <li style="width:65%">
                                             <div>
                                                 <p class="project-table-content-title">{{ $housingType->housing_title }}</p>
                                             </div>
                                         </li>
+
+                                            <!-- Housing Title -->
+                                            <li style="width:10%">  
+                                                <div>
+                                                    <p class="project-table-content-title">{{ $housingType->housing_type }}</p>
+                                                </div>
+                                            </li>
+
+                                            <li style="width:10%">
+                                                <div>
+                                                    <p class="project-table-content-title">
+                                                        @if (!empty($housingType->consultant) && !empty($housingType->consultant->name))
+                                                            {{ $housingType->consultant->name }}
+                                                        @elseif (!empty($housingType->user) && !empty($housingType->user->name))
+                                                            {{ $housingType->user->name }}
+                                                        @else
+                                                            Mağaza Yöneticisi
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            
 
                                         <!-- Actions -->
                                         <li style="width: 5%">
