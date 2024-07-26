@@ -855,7 +855,7 @@ function CreateHousing(props) {
     const otherData = {};
     for (const [key, value] of Object.entries(data)) {
       if (value instanceof File) {
-        fileObjects[key] = await convertFileToBase64(value);
+        fileObjects[key] = await base64_decode(value);
       } else {
         otherData[key] = value;
       }
