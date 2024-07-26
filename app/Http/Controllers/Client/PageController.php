@@ -58,7 +58,7 @@ class PageController extends Controller
         }))->sortByDesc('created_at'); // Sort comments by creation date
         
         // Return view with the merged and sorted comments
-        return view('client.my_reviews.index', compact('all_comments'));
+        return view('client.panel.my_reviews.index', compact('all_comments'));
     }
     
     
