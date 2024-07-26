@@ -669,7 +669,7 @@
                                                         'slug' => Str::slug(auth()->user()->name),
                                                         'userID' => auth()->user()->id,
                                                     ]),
-                                                    'icon' => 'fa fa-arrow-circle-o-right',
+                                                    'icon' => 'fa fa-arrow-right',
                                                     'text' => 'Mağazama Git',
                                                 ],
                                                 [
