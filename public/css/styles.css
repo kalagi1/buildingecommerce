@@ -31093,8 +31093,8 @@ a {
 }
 
 .front-project-tabs ul li.active {
-  background-color: #ea2a28;
-  color: #fff;
+  background-color: #ea2a28 !important;
+  color: #fff  !important;
 }
 
 .project-table-menu {
