@@ -117,7 +117,22 @@ function CreateHousing(props) {
   useEffect(() => {
     localStorage.setItem("projectData", JSON.stringify(projectData));
   }, [projectData]);
-
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+  
+  const handleFiles = async (files) => {
+    const fileObjects = {};
+    for (const [key, file] of Object.entries(files)) {
+      fileObjects[key] = await convertFileToBase64(file);
+    }
+    return fileObjects;
+  };
   useEffect(() => {
     localStorage.setItem(
       "selectedHousingType",
@@ -825,39 +840,43 @@ function CreateHousing(props) {
 
   const [progress, setProgress] = useState(0);
 
-  const finishCreateHousing = () => {
+  const finishCreateHousing = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+  
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500);
-
+  
+    // Convert projectData files to base64
+    const projectDataWithFiles = await handleFiles(projectData);
+  
+    // Save projectDataWithFiles as JSON in localStorage
+    localStorage.setItem("projectData", JSON.stringify(projectDataWithFiles));
+  
     const formData = new FormData();
-
-    Object.keys(projectData).forEach((key) => {
+    Object.keys(projectDataWithFiles).forEach((key) => {
       if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-        if (Array.isArray(projectData[key])) {
-          projectData[key].forEach((data, index) => {
+        if (Array.isArray(projectDataWithFiles[key])) {
+          projectDataWithFiles[key].forEach((data, index) => {
             formData.append(`projectData[${key}][${index}]`, data);
           });
         } else {
-          formData.append(`projectData[${key}]`, projectData[key]);
+          formData.append(`projectData[${key}]`, projectDataWithFiles[key]);
         }
       }
     });
-
+  
     blocks.forEach((block, blockIndex) => {
       formData.append(`blocks[${blockIndex}][name]`, block.name);
       formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
     });
-
+  
     var housingTemp = 1;
-
     blocks.forEach((block, blockIndex) => {
       block.rooms.forEach((room, roomIndex) => {
         Object.keys(room).forEach((key) => {
@@ -878,23 +897,23 @@ function CreateHousing(props) {
             }
           }
         });
-
         housingTemp++;
       });
     });
-
+  
     formData.append("haveBlocks", haveBlocks);
     formData.append("totalRoomCount", totalRoomCount());
     selectedTypes.forEach((data, index) => {
       formData.append(`selectedTypes[${index}]`, data);
     });
+  
     let requestPromises = [];
     const formDataObj = {};
     formData.forEach((value, key) => {
       formDataObj[key] = value;
     });
     setFillFormData(formData);
-
+  
     axios
       .post(baseUrl + "create_housing", formData, {
         headers: {
@@ -922,6 +941,7 @@ function CreateHousing(props) {
         );
       });
   };
+  
 
   const style = {
     position: "absolute",
