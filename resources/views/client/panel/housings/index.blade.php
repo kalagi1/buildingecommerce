@@ -248,16 +248,6 @@
         display: block;
     }
 
-    .popover-project-actions {
-        position: absolute;
-        background: #fff;
-        border: 1px solid #ddd;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        z-index: 1000;
-        padding: 10px;
-        width: 200px;
-    }
-
     .modal-dialog {
         max-width: 500px;
     }
