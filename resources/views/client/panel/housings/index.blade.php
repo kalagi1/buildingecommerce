@@ -83,7 +83,7 @@
 
                                         <!-- Actions -->
                                         <li style="width: 5%">
-                                            <span class="project-table-content-actions-button" data-bs-toggle="popover" data-bs-content="#popover-{{ $housingType->id }}">
+                                            <span class="project-table-content-actions-button" data-bs-content="#popover-{{ $housingType->id }}">
                                                 <i class="fa fa-chevron-down"></i>
                                             </span>
                                         </li>
@@ -169,7 +169,7 @@
             });
 
             $('.project-table-content-actions-button').on('click', function() {
-                var targetId = $(this).data('bs-content');
+                var targetId = $(this).data('toggle');
                 var $popover = $('#' + targetId);
 
                 // Hide other popovers
