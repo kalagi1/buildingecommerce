@@ -678,14 +678,6 @@
                                                     'text' => 'Panelim',
                                                 ],
                                                 [
-                                                    'url' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? route('institutional.housing.list')
-                                                            : route('institutional.react.projects'),
-                                                    'icon' => 'fa fa-home',
-                                                    'text' => 'İlanlarım',
-                                                ],
-                                                [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa fa-bookmark',
                                                     'text' =>
