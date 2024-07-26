@@ -11,7 +11,7 @@
             </ul>
         </div>
     </div>
-        <div class="text-header" id="yeniMusteriler" style="border-radius:7px;">
+        <div class="text-header p-0" id="yeniMusteriler" style="border-radius:7px;">
             <div class="d-flex" style="justify-content: space-between;">
                 <input type="text" id="search-input-yeni" placeholder="Ara..." class="search-input form-control">
             </div>
@@ -38,7 +38,7 @@
                                 @if ($comment->type == 'Emlak')
                                     <span>{{ $comment->housing->name ?? 'N/A' }}</span>
                                 @else
-                                    <span>{{ $comment->project->name ?? 'N/A' }}</span>
+                                    <span>{{ $comment->project->project_title ?? 'N/A' }}</span>
                                 @endif
                             </li>
                             <li style="width: 10%; align-items: flex-start;">
