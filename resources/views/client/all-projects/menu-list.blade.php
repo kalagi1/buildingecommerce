@@ -798,7 +798,7 @@
 
     <script>// Using jQuery
 $(document).ready(function() {
-    $('#city, #county, #neighborhood').on('focus', function() {
+    $('#city, #county, #neighborhood').on('click', function() {
         $('.address-overlay').addClass('show');
     });
 
