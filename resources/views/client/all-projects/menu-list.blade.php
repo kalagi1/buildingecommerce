@@ -302,16 +302,17 @@
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="county" class="bg-white filter-now mobile-button" >
+                                        <select id="county" class="bg-white filter-now mobile-button" disabled>
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button" disabled>
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
                                     </div>
                                 </div>
+                                
                                 
                                 <!-- Address overlay added here -->
                                 <div class="address-overlay"></div>
@@ -866,25 +867,30 @@
             });
         });
 
-     $(document).ready(function() {
+        $(document).ready(function() {
     // Initialize Select2 for each element
+   
+    $("#project_type").select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
     $('#city').select2({
         placeholder: 'İl',
         width: '100%',
         searchInputPlaceholder: 'Ara...'
     });
-    $("#project_type").select2({
-        minimumResultsForSearch: -1,
-        width: '100%'
-    });
+
     $('#county').select2({
-        minimumResultsForSearch: -1,
+        placeholder: 'İlçe',
         width: '100%',
-    });
+        searchInputPlaceholder: 'Ara...'
+    }).prop('disabled', true);
+
     $('#neighborhood').select2({
-        minimumResultsForSearch: -1,
-        width: '100%'
-    });
+        placeholder: 'Mahalle',
+        width: '100%',
+        searchInputPlaceholder: 'Ara...'
+    }).prop('disabled', true);
 
     // Show overlay when a Select2 dropdown is opened
     $(document).on('click', '.select2-container', function() {
@@ -900,6 +906,23 @@
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
         }
+    });
+
+    // Hide overlay when a selection is made
+    $('#city').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#project_type').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#county').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#neighborhood').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
     });
 });
 
@@ -975,98 +998,55 @@
                 return currentUrl.origin + newPathParts.join('/');
             }
 
-            $('#city').on('change', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-counties') }}/" + $(this).val(),
-                    success: function(res) {
-                        $('#county').empty();
-                        $('#neighborhood').empty();
+       
+    $('#city').on('change', function() {
+        let cityID = $(this).val();
+        if (cityID !== '#') {
+            $.ajax({
+                method: "GET",
+                url: "{{ url('get-counties') }}/" + cityID,
+                success: function(res) {
+                    $('#county').empty().append('<option value="#" selected disabled>İlçe</option>');
+                    $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
 
-                        $("#county").val("#");
-                        $("#neighborhood").val("#");
-                        $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+                    $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+                    $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
-                        var citySlug = res.citySlug;
-                        var newUrl = buildNewUrl(citySlug, 'city');
+                    res.counties.forEach((e) => {
+                        $('#county').append(`<option value="${e.ilce_key}">${e.ilce_title}</option>`);
+                    });
 
-                        updateURL(newUrl);
-
-                        $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
-
-                        var cityNameElement = $(".hiddenCityName").find(".cityNameP");
-                        if (cityNameElement.parent('a').length) {
-                            cityNameElement.unwrap();
-                        }
-
-                        cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
-                            'href', newUrl);
-
-                        $('#county').append(`<option value="#">İlçe</option>`);
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
-
-                        res.counties.forEach((e) => {
-                            $('#county').append(
-                                `<option value="${e.ilce_key}">${e.ilce_title}</option>`
-                            );
-                        });
-
-                        $('#county').select2({
-                            placeholder: 'İlçe',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-                        if (countyID) {
-                            selectCountyByID(countyID);
-                        }
-                    }
-                });
+                    $('#county').prop('disabled', false).select2();
+                }
             });
+        } else {
+            $('#county').prop('disabled', true).select2();
+            $('#neighborhood').prop('disabled', true).select2();
+        }
+    });
 
-            $('#county').on('change', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
-                    success: function(res) {
-                        $('#neighborhood').empty();
-                        var countySlug = res.countySlug;
-                        var newUrl = buildNewUrl(countySlug, 'county');
+    $('#county').on('change', function() {
+        let countyID = $(this).val();
+        if (countyID !== '#') {
+            $.ajax({
+                method: "GET",
+                url: "{{ url('get-neighborhoods-for-client') }}/" + countyID,
+                success: function(res) {
+                    $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
 
-                        updateURL(newUrl);
+                    $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
 
-                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
+                    res.neighborhoods.forEach((e) => {
+                        $('#neighborhood').append(`<option value="${e.mahalle_id}">${e.mahalle_title}</option>`);
+                    });
 
-                        var countyNameElement = $(".hiddenCountyName").find(".countyNameP");
-                        if (countyNameElement.parent('a').length) {
-                            countyNameElement.unwrap();
-                        }
-
-                        countyNameElement.html(res.countyName).wrap('<a></a>').parent('a').attr(
-                            'href', newUrl);
-
-                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
-
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
-                        res.neighborhoods.forEach((e) => {
-                            $('#neighborhood').append(
-                                `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
-                            );
-                        });
-
-                        $('#neighborhood').select2({
-                            placeholder: 'Mahalle',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        });
-
-                        if (neighborhoodID) {
-                            selectNeighborhoodByID(neighborhoodID);
-                        }
-                    }
-                });
+                    $('#neighborhood').prop('disabled', false).select2();
+                }
             });
+        } else {
+            $('#neighborhood').prop('disabled', true).select2();
+        }
+    });
 
             $('#neighborhood').on('change', function() {
                 $.ajax({
