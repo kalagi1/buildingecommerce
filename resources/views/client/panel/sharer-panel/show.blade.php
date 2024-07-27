@@ -11,27 +11,29 @@
 </div>
 <section>
     @foreach ($mergedItems as $item)
-        @php
-            $price = null;
-            $discountedPrice = null;
-            $shareSale = $numberOfShare = null;
-            $depositRate = 0.02;
-            
-            $housingData = json_decode($item['housing']['housing_type_data']);
-            if ($item['item_type'] == 2 && isset($housingData->discount_rate[0])) {
-                $discountRate = $housingData->discount_rate[0];
-                $defaultPrice = $housingData->price[0] ?? $housingData->daily_rent[0];
-                $price = $defaultPrice - $item['discount_amount'];
-                $discountedPrice = $price - ($price * $discountRate) / 100;
-            } elseif ($item['item_type'] == 1) {
-                $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
-                $shareSale = $item['project_values']['share_sale[]'] ?? null;
-                $numberOfShare = $item['project_values']['number_of_shares[]'] ?? null;
-                $price = $item['project_values']['price[]'] - $item['discount_amount'];
-                $discountedPrice = $price - ($price * $discountRate) / 100;
-                $depositRate = $item['project']->deposit_rate / 100;
-            }
-        @endphp
+    @php
+    // Price ve diğer değişkenlerin kesinlikle sayısal türde olduğundan emin olun
+    $price = (float) ($price ?? 0);
+    $discountedPrice = (float) ($discountedPrice ?? 0);
+    $sharePercentEarn = (float) ($sharePercentEarn ?? 0);
+    $salesRateClub = (float) ($salesRateClub ?? 0);
+    $depositRate = (float) ($depositRate ?? 0);
+    $earningAmount = 0;
+
+    if ($item['item_type'] == 2) {
+        // Hesaplamalar
+        $discountedPrice = $discountedPrice ?? ($housingData->price[0] ?? $housingData->daily_rent[0]);
+        $total = $discountedPrice * 0.02 * $sharePercentEarn;
+        $earningAmount = $total * $salesRateClub;
+    } elseif ($item['item_type'] == 1) {
+        // Hesaplamalar
+        $estateProjectRate = $item['project']['club_rate'] / 100;
+        $sharePercent = Auth::user()->type != '1' && Auth::user()->corporate_type == 'Emlak Ofisi' ? $estateProjectRate : 0.25;
+        $discountedPrice = $discountedPrice ?? ($item['project_values']['price[]'] ?? $item['project_values']['daily_rent[]']);
+        $earningAmount = Auth::user()->corporate_type == 'Emlak Ofisi' ? $discountedPrice * $sharePercent : $discountedPrice * $depositRate * $sharePercent;
+    }
+@endphp
+
         <div class="project-table-content">
             <ul>
                 <li>#{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }}</li>
