@@ -23,10 +23,10 @@
             <form method="POST" action="{{ route('password.email') }}">
                 @csrf
 
-                <div class="row mb-3">
-                    <label for="email" class="col-md-4 col-form-label text-md-end"><span>E-posta Adresi</span></label>
+                <div class=" mb-3">
+                    <label for="email" class="col-md-12 col-form-label text-md-end"><span>E-posta Adresi</span></label>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                         @error('email')
@@ -37,8 +37,8 @@
                     </div>
                 </div>
 
-                <div class="row mb-0">
-                    <div class="col-md-6 offset-md-4">
+                <div class="mb-0">
+                    <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">
                             <span>Şifre Sıfırlama Bağlantısı Gönder</span>
                         </button>
