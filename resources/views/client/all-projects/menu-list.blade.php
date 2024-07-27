@@ -912,7 +912,7 @@
             $('.address-overlay').addClass('show');
             const searchField = $('.select2-search__field');
         if (searchField.length) {
-            searchField.attr('placeholder', 'ARA...');
+            searchField.attr('placeholder', 'Ara ...');
         }
 
         } else {
