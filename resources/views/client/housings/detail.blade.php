@@ -2090,111 +2090,79 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-        // Define custom messages for dynamic fields
-        var customMessages = {
-            'konut_satis_rakami': "Lütfen konut satış rakamını girin.",
-            'kullanim_durumu': "Lütfen kullanım durumunu belirtin.",
-            'konut_yasi': "Lütfen konut yaşını girin.",
-            'oda_sayisi': "Lütfen oda sayısını girin.",
-            'konut_tipi': "Lütfen konut tipini seçin.",
-            'tapu_belgesi': "Lütfen tapu belgesini yükleyin.",
-            'arsa_il': "Lütfen arsanın ilini seçin.",
-            'arsa_ilce': "Lütfen arsanın ilçesini seçin.",
-            'arsa_mahalle': "Lütfen arsanın mahallesini seçin.",
-            'ada_parsel': "Lütfen ada parsel numarasını girin.",
-            'imar_durumu': "Lütfen imar durumunu belirtin.",
-            'satis_rakami': "Lütfen satış rakamını girin.",
-            'ticari_bilgiler': "Lütfen ticari bilgileri girin.",
-            'isyeri_satis_rakami': "Lütfen işyeri satış rakamını girin.",
-            'arac_model_yili': "Lütfen araç model yılını girin.",
-            'arac_markasi': "Lütfen araç markasını girin.",
-            'yakit_tipi': "Lütfen yakıt tipini seçin.",
-            'vites_tipi': "Lütfen vites tipini seçin.",
-            'arac_satis_rakami': "Lütfen araç satış rakamını girin."
-        };
-
-        // Initialize jQuery Validation
-        $('#takasFormu').validate({
-            // Default error messages
-            messages: {
-                ad: {
-                    required: "Lütfen adınızı girin."
-                },
-                soyad: {
-                    required: "Lütfen soyadınızı girin."
-                },
-                telefon: {
-                    required: "Lütfen telefon numaranızı girin."
-                },
-                email: {
-                    required: "Lütfen e-posta adresinizi girin.",
-                    email: "Lütfen geçerli bir e-posta adresi girin."
-                },
-                sehir: {
-                    required: "Lütfen bir şehir seçin."
-                },
-                ilce: {
-                    required: "Lütfen bir ilçe seçin."
-                },
-                takas_tercihi: {
-                    required: "Lütfen takas tercihinizi belirtin."
-                }
-            },
-            // Custom validation rules
-            submitHandler: function(form) {
+    <script>
+        $(document).ready(function() {
+            $('#takasFormu').submit(function(e) {
                 var isEmpty = false;
-                var takasTercihi = $('#takas_tercihi').val();
-                var requiredFields = [];
 
-                if (takasTercihi === 'emlak') {
+                // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'emlak') {
                     var emlakTipi = $('#emlak_tipi').val();
                     if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
+                        var requiredFields = [];
                         if (emlakTipi === 'konut') {
-                            requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi', 'oda_sayisi', 'konut_tipi', 'tapu_belgesi'];
+                            requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi',
+                                'oda_sayisi', 'konut_tipi', 'tapu_belgesi'
+                            ];
                         } else if (emlakTipi === 'arsa') {
-                            requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel', 'imar_durumu', 'satis_rakami'];
+                            requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel',
+                                'imar_durumu', 'satis_rakami'
+                            ];
                         }
                     } else if (emlakTipi === 'işyeri') {
                         requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
                     }
-                } else if (takasTercihi === 'araç') {
-                    requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi', 'arac_satis_rakami'];
-                } else if (takasTercihi === 'barter' || takasTercihi === 'diğer') {
-                    requiredFields = ['conditional_field1', 'conditional_field2']; // Example, replace with actual fields
+
+                    for (var i = 0; i < requiredFields.length; i++) {
+                        var field = $('#' + requiredFields[i]);
+                        if (field.val().trim() === '') {
+                            isEmpty = true;
+                            field.addClass('error');
+                        } else {
+                            field.removeClass('error');
+                        }
+                    }
                 }
 
-                // Validate required fields and set custom messages
-                requiredFields.forEach(function(fieldId) {
-                    var field = $('#' + fieldId);
-                    if (field.val().trim() === '') {
-                        isEmpty = true;
-                        field.addClass('error');
-                        // Set custom validation message
-                        var message = customMessages[fieldId] || "Bu alanı doldurmanız gerekmektedir.";
-                        field.attr('data-msg-required', message);
-                    } else {
-                        field.removeClass('error');
+                // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'araç') {
+                    var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
+                        'arac_satis_rakami'
+                    ];
+
+                    for (var i = 0; i < requiredFields.length; i++) {
+                        var field = $('#' + requiredFields[i]);
+                        if (field.val().trim() === '') {
+                            isEmpty = true;
+                            field.addClass('error');
+                        } else {
+                            field.removeClass('error');
+                        }
                     }
-                });
+                }
+
+
+                // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
+                if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
+                    $('.conditional-fields:visible').find('.formInput').each(function() {
+                        if ($(this).val().trim() === '') {
+                            isEmpty = true;
+                            $(this).addClass('error');
+                        } else {
+                            $(this).removeClass('error');
+                        }
+                    });
+                }
 
                 if (isEmpty) {
                     e.preventDefault();
                     toastr.error('Lütfen tüm gerekli alanları doldurun.');
-                } else {
-                    form.submit(); // Submit the form if no errors
+
                 }
-            }
-        });
 
-        // Custom validation for dynamic fields
-        $('#takasFormu').on('change', '#takas_tercihi, #emlak_tipi', function() {
-            $(this).valid(); // Trigger validation
+            });
         });
-    });
-</script>
-
+    </script>
     <script>
         // $('#selectImageButton').on('click', function() {
         //     console.log("a");
