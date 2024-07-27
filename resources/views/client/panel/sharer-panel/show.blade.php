@@ -1,8 +1,8 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="table-breadcrumb">
-        <ul>
+<div class="table-breadcrumb mb-5">
+    <ul>
             <li>
                 Hesabım
             </li>
