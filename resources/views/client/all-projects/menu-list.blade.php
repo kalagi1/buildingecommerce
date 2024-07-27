@@ -903,8 +903,16 @@ $(document).ready(function() {
 
   // Show overlay when a Select2 dropdown is opened
   $(document).on('click', '.select2-container', function() {
-        if ($(this).hasClass('select2-container--open')) {
-            $('.address-overlay').addClass('show');
+        if ($(this).hasClass('select2-container--open')) {             $('.address-overlay').addClass('show');
+                 let search = $(this).find('.select2-search');
+                 if (search.length) {
+            // Add clear button next to search input
+            if (!$('.select2-clear-button').length) {
+                search.append('<button class="select2-clear-button" type="button">&#x2716;</button>');
+            }
+        }
+
+  
         } else {
             $('.address-overlay').removeClass('show');
         }
@@ -917,16 +925,6 @@ $(document).ready(function() {
         }
     });
 
-    // Add clear button to search input of Select2
-    $('.select2-container').on('select2:open', function() {
-        let search = $(this).siblings('.select2').find('.select2-search');
-        if (search.length) {
-            // Add clear button next to search input
-            if (!$('.select2-clear-button').length) {
-                search.append('<button class="select2-clear-button" type="button">&#x2716;</button>');
-            }
-        }
-    });
 
     // Clear search input on clear button click
     $(document).on('click', '.select2-clear-button', function() {
