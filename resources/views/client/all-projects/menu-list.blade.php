@@ -888,7 +888,7 @@ $(document).ready(function() {
         width: '100%',
         searchInputPlaceholder: 'Ara...'
     });
-    $("#project_type").select2({    
+    $("#project_type").select2({
         minimumResultsForSearch: -1,
         width: '100%'
     });
@@ -902,16 +902,15 @@ $(document).ready(function() {
     });
 
     // Show overlay when a Select2 dropdown is opened
-    $('.select2').on('select2:open', function() {
-        $('.address-overlay').addClass('show');
+    $(document).on('click', '.select2-container', function() {
+        if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
+        } else {
+            $('.address-overlay').removeClass('show');
+        }
     });
 
-    // Hide overlay when a Select2 dropdown is closed
-    $('.select2').on('select2:close', function() {
-        $('.address-overlay').removeClass('show');
-    });
-
-    // Additionally, you may need to handle the overlay hiding for clicks outside the select
+    // Hide overlay when clicking outside any Select2 dropdown
     $(document).on('click', function(event) {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
