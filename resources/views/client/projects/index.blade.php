@@ -1267,7 +1267,7 @@
                               
                                 <div class="form-group">
                                     <label for="comment">Yorumunuz/label>
-                                    <textarea id="comment" name="comment" class="form-control">${response.data.comment}</textarea>
+                                    <textarea id="comment" name="comment" class="form-control" style="height:125px !important>${response.data.comment}</textarea>
                                 </div>
                             </form>
                         `,
@@ -1302,33 +1302,33 @@
     </script>
     <script>
         $(document).ready(function() {
-    // Yıldızlara fare ile gelindiğinde
-    $('.rating-area .rating').on('mouseover', function() {
-        var index = $(this).index();
-        $('.rating-area .rating-polygon').each(function(i) {
-            $(this).attr('fill', i <= index ? 'gold' : 'none');
-            $(this).attr('stroke', i <= index ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
-        });
-    });
+            // Yıldızlara fare ile gelindiğinde
+            $('.rating-area .rating').on('mouseover', function() {
+                var index = $(this).index();
+                $('.rating-area .rating-polygon').each(function(i) {
+                    $(this).attr('fill', i <= index ? 'gold' : 'none');
+                    $(this).attr('stroke', i <= index ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                });
+            });
 
-    // Fare yıldızların üzerinden ayrıldığında
-    $('.rating-area').on('mouseleave', function() {
-        var selectedIndex = $('.rating-area .rating.selected').last().index();
-        $('.rating-area .rating-polygon').each(function(i) {
-            $(this).attr('fill', i <= selectedIndex ? 'gold' : 'none');
-            $(this).attr('stroke', i <= selectedIndex ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
-        });
-    });
+            // Fare yıldızların üzerinden ayrıldığında
+            $('.rating-area').on('mouseleave', function() {
+                var selectedIndex = $('.rating-area .rating.selected').last().index();
+                $('.rating-area .rating-polygon').each(function(i) {
+                    $(this).attr('fill', i <= selectedIndex ? 'gold' : 'none');
+                    $(this).attr('stroke', i <= selectedIndex ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                });
+            });
 
-    // Yıldızlara tıklama işlemi
-    $('.rating-area .rating').on('click', function() {
-        var index = $(this).index();
-        $('.rating-area .rating').removeClass('selected').each(function(i) {
-            if (i <= index) $(this).addClass('selected');
+            // Yıldızlara tıklama işlemi
+            $('.rating-area .rating').on('click', function() {
+                var index = $(this).index();
+                $('.rating-area .rating').removeClass('selected').each(function(i) {
+                    if (i <= index) $(this).addClass('selected');
+                });
+                $('#rate').val(index + 1);
+            });
         });
-        $('#rate').val(index + 1);
-    });
-});
 
     </script>
     <script>
@@ -1353,9 +1353,7 @@
                     });
                 }
             });
-        });
-
-     
+        });    
 
         function submitForm() {
 

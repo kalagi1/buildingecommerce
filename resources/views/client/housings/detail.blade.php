@@ -2006,8 +2006,8 @@
                                     <input type="hidden" name="id" value="${response.data.id}">
                                   
                                     <div class="form-group">
-                                        <label for="comment">Yorumunuz/label>
-                                        <textarea id="comment" name="comment" class="form-control">${response.data.comment}</textarea>
+                                        <label for="comment">Yorumunuz</label>
+                                        <textarea id="comment" name="comment" class="form-control" style="height:125px !important>${response.data.comment}</textarea>
                                     </div>
                                 </form>
                             `,
