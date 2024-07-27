@@ -157,7 +157,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
-
+Route::get('/get-project-comment/{id}', [ClientProjectController::class, 'getComment'])->name('project.get-comment');
+Route::post('/project-comments/update', [ClientProjectController::class, 'updateComment'])->name('project.update-comment');
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
     ->name('club.dashboard2');
 
