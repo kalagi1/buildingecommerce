@@ -292,6 +292,7 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
@@ -302,10 +303,12 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button" disabled>
+                                            <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="neighborhood" class="bg-white filter-now mobile-button" disabled>
+                                            <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1017,7 +1020,7 @@
 
                         cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
                             'href', newUrl);
-
+                            
                             $('#county').empty();
                         $('#neighborhood').append(`<option value="#">Mahalle</option>`);
 
