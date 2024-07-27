@@ -18,17 +18,17 @@
 
         @foreach ($mergedItems as $key => $item)
             @php
-                $discountedPrice = 0;
-                $price = 0;
-                $share_sale = 0;
-                $number_of_share = 0;
-                $deposit_rate = 0.02;
+                $discountedPrice = (float) 0;
+                $price = (float) 0;
+                $share_sale = (float) 0;
+                $number_of_share = (float) 0;
+                $deposit_rate = (float) 0.02;
 
                 if (
                     $item['item_type'] == 2 &&
                     isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                 ) {
-                    $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                    $discountRate = (float) json_decode($item['housing']['housing_type_data'])->discount_rate[0];
 
                     $defaultPrice =
                         json_decode($item['housing']['housing_type_data'])->price[0] ??
