@@ -919,7 +919,7 @@
                 return 'Arama sonuç bulunamadı';
             }
         }
-    });
+    }).prop('disabled', true);
     $('#countySelect').select2({
         minimumResultsForSearch: -1,
         width: '100%',
@@ -1005,7 +1005,7 @@
                 return 'Arama sonuç bulunamadı';
             }
         }
-    });
+    }).prop('disabled', false);
                     $.each(data, function(index, office) {
                         taxOffice.append('<option value="' + office.id + '">' + office
                             .daire +
