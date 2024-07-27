@@ -3,155 +3,473 @@
 @section('content')
 <div class="table-breadcrumb mb-5">
     <ul>
-        <li>Hesabım</li>
-        <li>Koleksiyonlarım</li>
-        <li>{{ $collection->name }} Koleksiyonu</li>
-        <li>{{ count($collection->links) }} İlan</li>
-    </ul>
-</div>
-<section>
-    @foreach ($mergedItems as $item)
-    @php
-    // Price ve diğer değişkenlerin kesinlikle sayısal türde olduğundan emin olun
-    $price = (float) ($price ?? 0);
-    $discountedPrice = (float) ($discountedPrice ?? 0);
-    $sharePercentEarn = (float) ($sharePercentEarn ?? 0);
-    $salesRateClub = (float) ($salesRateClub ?? 0);
-    $depositRate = (float) ($depositRate ?? 0);
-    $earningAmount = 0;
+            <li>
+                Hesabım
+            </li>
+            <li>
+                Koleksiyonlarım
+            </li>
+            <li>{{ $collection->name }} Koleksiyonu</li>
+            <li>{{ count($collection->links) }} İlan</li>
 
-    if ($item['item_type'] == 2) {
-        // Hesaplamalar
-        $discountedPrice = $discountedPrice ?? ($housingData->price[0] ?? $housingData->daily_rent[0]);
-        $total = $discountedPrice * 0.02 * $sharePercentEarn;
-        $earningAmount = $total * $salesRateClub;
-    } elseif ($item['item_type'] == 1) {
-        // Hesaplamalar
-        $estateProjectRate = $item['project']['club_rate'] / 100;
-        $sharePercent = Auth::user()->type != '1' && Auth::user()->corporate_type == 'Emlak Ofisi' ? $estateProjectRate : 0.25;
-        $discountedPrice = $discountedPrice ?? ($item['project_values']['price[]'] ?? $item['project_values']['daily_rent[]']);
-        $earningAmount = Auth::user()->corporate_type == 'Emlak Ofisi' ? $discountedPrice * $sharePercent : $discountedPrice * $depositRate * $sharePercent;
-    }
-@endphp
+        </ul>
+    </div>
+    <section>
 
-        <div class="project-table-content">
-            <ul>
-                <li>#{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }}</li>
-                <li>
-                    <a href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
-                        <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . $housingData->image }}" alt="home-1" class="img-responsive" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; border: 1px solid #bebebe;">
-                    </a>
-                </li>
-                <li>
-                    {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] . ' ' . $item['room_order'] . " No'lu Daire" : $item['housing']->title }}
-                </li>
-                <li>
-                    @if ($item['item_type'] == 1)
-                        {!! '1 Hisse Fiyatı' !!}
-                    @endif
-                    @if (($item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                        <span style="color: green;">
-                            {{ number_format($discountedPrice ?? $price, 0, ',', '.') }} ₺
-                        </span>
-                        @if (isset($discountedPrice))
-                            <del style="color: #e54242;">{{ number_format($price, 0, ',', '.') }} ₺</del>
+        @foreach ($mergedItems as $key => $item)
+        @php
+        // Price ve diğer değişkenlerin kesinlikle sayısal türde olduğundan emin olun
+        $price = (float) ($price ?? 0);
+        $discountedPrice = (float) ($discountedPrice ?? 0);
+        $sharePercentEarn = (float) ($sharePercentEarn ?? 0);
+        $salesRateClub = (float) ($salesRateClub ?? 0);
+        $depositRate = (float) ($depositRate ?? 0);
+        $earningAmount = 0;
+    
+        if ($item['item_type'] == 2) {
+            // Hesaplamalar
+            $discountedPrice = $discountedPrice ?? ($housingData->price[0] ?? $housingData->daily_rent[0]);
+            $total = $discountedPrice * 0.02 * $sharePercentEarn;
+            $earningAmount = $total * $salesRateClub;
+        } elseif ($item['item_type'] == 1) {
+            // Hesaplamalar
+            $estateProjectRate = $item['project']['club_rate'] / 100;
+            $sharePercent = Auth::user()->type != '1' && Auth::user()->corporate_type == 'Emlak Ofisi' ? $estateProjectRate : 0.25;
+            $discountedPrice = $discountedPrice ?? ($item['project_values']['price[]'] ?? $item['project_values']['daily_rent[]']);
+            $earningAmount = Auth::user()->corporate_type == 'Emlak Ofisi' ? $discountedPrice * $sharePercent : $discountedPrice * $depositRate * $sharePercent;
+        }
+    @endphp
+            <div class="project-table-content">
+                <ul>
+                    <li>
+                        #{{ $item['item_type'] == 1
+                            ? $item['project']->id + 1000000 . '-' . $item['room_order']
+                            : $item['housing']->id + 2000000 }}
+                    </li>
+
+                    <li style="align-items: flex-start;">
+                        <a
+                            href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
+                            <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
+                                alt="home-1" class="img-responsive"
+                                style="height: 40px !important;width: 40px !important; object-fit: cover;border-radius:50%;border: 1px solid #bebebe;">
+                        </a>
+                    </li>
+                    <li>
+                        {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
+
+                        @if ($item['item_type'] == 1)
+                            {!! ' ' . $item['room_order'] . " No'lu Daire <br>" !!}
                         @endif
-                    @else
-                        <span style="color: {{ $item['action'] == 'payment_await' ? 'orange' : 'red' }}; font-weight: 700">
-                            {{ $item['action'] == 'payment_await' ? 'REZERVE EDİLDİ' : 'SATILDI' }}
+                    </li>
+                    {{-- <li>
+                        <span style="font-size: 9px !important;font-weight:700">
+                            {{ isset($item['item_type']) && $item['item_type'] == 1
+                                ? $item['project']['city']['title'] .
+                                    ' / ' .
+                                    $item['project']['county']['ilce_title'] .
+                                    ' / ' .
+                                    $item['project']['neighbourhood']['mahalle_title']
+                                : ($item['housing']['city']
+                                    ? $item['housing']['city']['title']
+                                    : 'City Not Available') }}
+                            <br>
                         </span>
-                    @endif
-                </li>
-                <li>
-                    @if (($item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                        <div class="text-dark">
-                            <span>Komisyon Miktarı:</span><br>
-                            @php
-                                $earningAmount = 0;
-                                if ($item['item_type'] == 2) {
-                                    $rates = App\Models\Rate::where('housing_id', $item['housing']['id'])->get();
-                                    $user = App\Models\User::find($item['housing']['user_id']);
-                                    $sharePercentEarn = $salesRateClub = null;
-                                    foreach ($rates as $rate) {
-                                        if (Auth::user()->corporate_type == $rate->institution->name) {
-                                            $salesRateClub = $rate->sales_rate_club;
-                                        }
-                                        if ($item['housing']['user']['corporate_type'] == $rate->institution->name || ($user->type == 1 && $rate->institution->name == 'Diğer')) {
-                                            $sharePercentEarn = $rate->default_deposit_rate;
-                                        }
-                                    }
-                                    $discountedPrice = $discountedPrice ?? ($housingData->price[0] ?? $housingData->daily_rent[0]);
-                                    $total = $discountedPrice * 0.02 * $sharePercentEarn;
-                                    $earningAmount = $total * $salesRateClub;
-                                } elseif ($item['item_type'] == 1) {
-                                    $estateProjectRate = $item['project']['club_rate'] / 100;
-                                    $sharePercent = Auth::user()->type != '1' && Auth::user()->corporate_type == 'Emlak Ofisi' ? $estateProjectRate : 0.25;
-                                    $discountedPrice = $discountedPrice ?? ($item['project_values']['price[]'] ?? $item['project_values']['daily_rent[]']);
-                                    $earningAmount = Auth::user()->corporate_type == 'Emlak Ofisi' ? $discountedPrice * $sharePercent : $discountedPrice * $depositRate * $sharePercent;
-                                }
-                            @endphp
-                            <strong>{{ number_format($earningAmount, 0, ',', '.') }} ₺</strong>
-                        </div>
-                    @else
-                        @if (isset($item['share_price']['balance']))
-                            @php
-                                $balance = number_format($item['share_price']['balance'], 0, ',', '.');
-                                $statusColor = $item['share_price']['status'] == '0' ? 'orange' : ($item['share_price']['status'] == '1' ? 'green' : 'red');
-                                $statusText = $item['share_price']['status'] == '0' ? 'Onay Bekleniyor' : ($item['share_price']['status'] == '1' ? 'Komisyon Kazancınız' : 'Kazancınız Reddedildi');
-                            @endphp
-                            <strong style="color: {{ $statusColor }}">
-                                <span>{{ $statusText }}:</span><br>
-                                {{ $balance }} ₺
-                            </strong>
+                    </li> --}}
+                    <li>
+                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                            <span class="text-center w-100">
+                                1 Hisse Fiyatı
+                            </span>
+                        @endif
+                        @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                            @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
+                                <span style="color: green;">
+                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                </span>
+                                <del style="color: #e54242;">
+
+                                    @if ($item['item_type'] == 1)
+                                        @if (isset($item['project_values']['price[]']))
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                            @endif
+                                        @elseif ($item['project_values']['daily_rent[]'])
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
+                                            {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                        @elseif (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                            {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
+                                        @endif
+                                    @endif ₺
+                                </del>
+                            @else
+                                <span style="color: green; ">
+                                    @if ($item['item_type'] == 1)
+                                        @if (isset($item['project_values']['price[]']))
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                            @endif
+                                        @elseif ($item['project_values']['daily_rent[]'])
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
+                                            {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                        @elseif (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                            {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
+                                        @endif
+                                    @endif ₺
+                                </span>
+                            @endif
                         @else
-                            -
+                            @if ($item['action'] && $item['action'] == 'payment_await')
+                                <span class="text-warning" style="font-weight: 700"> REZERVE EDİLDİ</span>
+                            @else
+                                <span class="text-danger" style="font-weight: 700"> SATILDI</span>
+                            @endif
                         @endif
-                    @endif
-                </li>
-                <li>
-                    <span class="project-table-content-actions-button" data-toggle="popover-{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }}" data-id="{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }}">
-                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                    </span>
-                    <div class="popover-{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }} d-none">
-                        <a href="#" class="remove-item" data-id="{{ $item['item_type'] == 1 ? $item['project']->id + 1000000 . '-' . $item['room_order'] : $item['housing']->id + 2000000 }}">
-                            <i class="fa fa-trash" aria-hidden="true"></i> İlanı Koleksiyondan Çıkar
-                        </a>
-                        <a href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
-                            <i class="fa fa-eye" aria-hidden="true"></i> İlanı İncele
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    @endforeach
-</section>
-<script>
-    $(document).ready(function () {
-        $("[data-toggle^='popover-']").popover({
-            trigger: 'manual',
-            html: true,
-            content: function () {
-                return $('.popover-' + $(this).data('id')).html();
-            }
-        }).on('click', function () {
-            $(this).popover('toggle');
-        });
-        
-        $(".remove-item").on('click', function (e) {
-            e.preventDefault();
-            let itemId = $(this).data('id');
-            $.ajax({
-                url: '{{ route("collection.remove") }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    item_id: itemId
-                },
-                success: function (response) {
-                    location.reload();
+                    </li>
+                    <li>
+                        <span class="ml-auto text-success priceFont">
+                            @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                <div class="text-dark" style="color:black">
+                                    <span>Komisyon Miktarı:</span><br>
+
+                                    @if ($item['item_type'] == 2)
+                                        @php
+
+                                            $rates = App\Models\Rate::where(
+                                                'housing_id',
+                                                $item['housing']['id'],
+                                            )->get();
+                                            $user = App\Models\User::where('id', $item['housing']['user_id'])->first();
+
+                                            $share_percent_earn = null;
+                                            $sales_rate_club = null;
+
+                                            foreach ($rates as $key => $rate) {
+                                                if (Auth::user()->corporate_type == $rate->institution->name) {
+                                                    $sales_rate_club = $rate->sales_rate_club;
+                                                }
+                                                if (
+                                                    $item['housing']['user']['corporate_type'] ==
+                                                        $rate->institution->name ||
+                                                    ($user->type == 1 && $rate->institution->name == 'Diğer')
+                                                ) {
+                                                    $share_percent_earn = $rate->default_deposit_rate;
+                                                    $share_percent_balance = 1.0 - $share_percent_earn;
+                                                }
+                                            }
+
+                                            if ($sales_rate_club === null && count($rates) > 0) {
+                                                $sales_rate_club = $rates->last()->sales_rate_club;
+                                            }
+                                            $discountedPrice =
+                                                isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                                                    ? $discountedPrice
+                                                    : (json_decode($item['housing']['housing_type_data'])->price[0]
+                                                        ? json_decode($item['housing']['housing_type_data'])->price[0]
+                                                        : json_decode($item['housing']['housing_type_data'])
+                                                            ->daily_rent[0]);
+
+                                            $total = $discountedPrice * 0.02 * $share_percent_earn;
+
+                                            $earningAmount = $total * $sales_rate_club;
+                                        @endphp
+                                        <strong>
+                                            @if (strpos($earningAmount, '.') == false)
+                                                {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                            @else
+                                                {{ $earningAmount }} ₺
+                                            @endif
+
+                                        </strong>
+                                    @elseif ($item['item_type'] == 1)
+                                        @php
+                                            $estateProjectRate = $item['project']['club_rate'] / 100;
+                                            if (Auth::user()->type != '1') {
+                                                if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                    $sharePercent = $estateProjectRate;
+                                                } else {
+                                                    $sharePercent = 0.5;
+                                                }
+                                            } else {
+                                                $sharePercent = 0.25;
+                                            }
+                                            $discountedPrice =
+                                                isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                                                    ? $discountedPrice
+                                                    : (isset($item['project_values']['price[]'])
+                                                        ? $item['project_values']['price[]']
+                                                        : $item['project_values']['daily_rent[]']);
+                                            if (Auth::user()->corporate_type == 'Emlak Ofisi') {
+                                                $earningAmount = $discountedPrice * $sharePercent;
+                                            } else {
+                                                $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+                                            }
+                                        @endphp
+                                        <strong>
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
+                                            @else
+                                                @if (strpos($earningAmount, '.') == false)
+                                                    {{ number_format($earningAmount, 0, ',', '.') }}
+                                                @else
+                                                    {{ $earningAmount }}
+                                                @endif
+                                            @endif ₺
+                                        </strong>
+                                    @endif
+                                </div>
+                            @else
+                                @if (
+                                    (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0') ||
+                                        ($item['action'] && $item['action'] == 'payment_await'))
+                                    <strong style="color: orange">
+                                        <span>Onay Bekleniyor @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
+
+                                    </strong>
+                                @elseif (
+                                    (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1') ||
+                                        ($item['action'] && $item['action'] == 'sold'))
+                                    <strong style="color: green">
+                                        <span>Komisyon Kazancınız @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span>
+                                        <br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
+
+                                    </strong>
+                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
+                                    <strong style="color: red">
+                                        <span>Kazancınız Reddedildi @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
+                                        @if (isset($item['share_price']['balance']))
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
+                                        @endif
+
+                                    </strong>
+                                @else
+                                    -
+                                @endif
+                            @endif
+                        </span>
+                    </li>
+                    <li> <span class="project-table-content-actions-button"
+                            data-toggle="popover-{{ $item['item_type'] == 1
+                                ? $item['project']->id + 1000000 . '-' . $item['room_order']
+                                : $item['housing']->id + 2000000 }}"><i
+                                class="fa fa-chevron-down"></i></span>
+
+                    </li>
+                </ul>
+                <div class="popover-project-actions d-none"
+                    id="popover-{{ $item['item_type'] == 1
+                        ? $item['project']->id + 1000000 . '-' . $item['room_order']
+                        : $item['housing']->id + 2000000 }}">
+                    <ul>
+                        <li>
+                            <a class="remove-from-collection" data-collection="{{ $collection }}"
+                                data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
+                                data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
+                                @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
+                                Koleksiyondan Kaldır</a>
+
+                        </li>
+                        <li>
+                            <a
+                                href="{{ $item['item_type'] != 1
+                                    ? route('housing.show', [
+                                        'housingSlug' => $item['housing']->slug,
+                                        'housingID' => $item['housing']->id + 2000000,
+                                    ])
+                                    : route('project.housings.detail', [
+                                        'projectSlug' =>
+                                            optional(App\Models\Project::find($item['project']->id))->slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($item['project']->id))->step2_slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($item['project']->id))->housingtype->slug,
+                                        'projectID' => optional(App\Models\Project::find($item['project']->id))->id + 1000000,
+                                        'housingOrder' => $item['room_order'],
+                                    ]) }}">
+                                İlanı Gör
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        @endforeach
+    </section>
+
+@endsection
+
+@section('scripts')
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.project-table-content-actions-button').on('click', function() {
+                var targetId = $(this).data('toggle');
+                var $popover = $('#' + targetId);
+
+                // Hide other popovers
+                $('.popover-project-actions').not($popover).addClass('d-none');
+
+                // Toggle current popover
+                $popover.toggleClass('d-none');
+            });
+
+            // Close popover when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.project-table-content').length) {
+                    $('.popover-project-actions').addClass('d-none');
                 }
             });
         });
-    });
-</script>
+        $(document).ready(function() {
+            $(".remove-from-collection").on("click", function() {
+                var button = $(this); // Tıklanan düğmeyi referans al
+                var itemType = button.data('type');
+                var itemId = button.data('id');
+                var projectId = button.data('project');
+                var collection = button.data('collection');
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/remove-from-collection',
+                    data: {
+                        itemType: itemType,
+                        itemId: itemId,
+                        projectId: projectId,
+                        collection: collection,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.complete) {
+
+                            var redirectUrl = '/hesabim/koleksiyonlarim';
+
+                            // Yönlendirme yap
+                            window.location.href = redirectUrl;
+
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Hata:', error);
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
+
+@section('css')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .mobile-hidden {
+            display: flex;
+        }
+
+        .mobile-show {
+            display: none;
+        }
+
+
+        .desktop-hidden {
+            display: none;
+        }
+
+        .homes-content .footer {
+            display: none
+        }
+
+        .price-mobile {
+            display: flex;
+            align-items: self-end;
+        }
+
+        thead,
+        tbody,
+        tfoot,
+        tr,
+        td,
+        th {
+            text-align: center
+        }
+
+
+        @media (max-width: 768px) {
+
+            h4,
+            .h4 {
+                font-size: 11px !important;
+            }
+
+            .mobile-hidden {
+                display: none
+            }
+
+            .mobile-show {
+                display: block
+            }
+
+            .desktop-hidden {
+                display: block;
+            }
+
+            .mobile-position {
+                width: 100%;
+                margin: 0 auto;
+                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+            }
+
+            .inner-pages .portfolio .homes-content .homes-list-div ul {
+                flex-wrap: wrap
+            }
+
+            .homes-content .footer {
+                display: block;
+                background: none;
+                border-top: 1px solid #e8e8e8;
+                padding-top: 1rem;
+                font-size: 13px;
+                color: #666;
+            }
+
+        }
+    </style>
 @endsection
