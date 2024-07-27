@@ -2446,10 +2446,6 @@
         });
 
 
-
-
-
-
         jQuery('.rating-area .rating').on('mouseover', function() {
             jQuery('.rating-area .rating polygon').attr('fill', 'none');
             for (var i = 0; i <= $(this).index(); ++i)
@@ -2472,9 +2468,6 @@
         //         $('#rate').val('1'); // Rate değerini 1 olarak ayarla
         //     }
         // });
-
-
-
 
         function showLocation() {
             var location = document.getElementById('locationInput').value;
