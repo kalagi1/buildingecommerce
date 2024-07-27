@@ -80,12 +80,6 @@
                                                         </a>
                                                     </li>
                                                     
-                                                    <script>
-                                                        function copyLinkAndShare(link) {
-                                                            const whatsappUrl = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                            window.location.href = whatsappUrl;
-                                                        }
-                                                    </script>
                                                     
                                                 </ul>
 
@@ -674,5 +668,10 @@
                 event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
             });
         });
+
+        function copyLinkAndShare(link) {
+                                                            const whatsappUrl = "whatsapp://send?text=" + encodeURIComponent(link);
+                                                            window.location.href = whatsappUrl;
+                                                        }
     </script>
 @endsection
