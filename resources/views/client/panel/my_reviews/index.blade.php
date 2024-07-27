@@ -164,7 +164,7 @@
                                             type: 'POST',
                                             data: $('#edit-comment-form').serialize(),
                                             success: function() {
-                                                Swal.fire('Başarıyla Güncellendi', '', 'success');
+                                                Swal.fire('Başarıyla Güncellendi. Admin onayına gönderildi.', '', 'success');
                                                 location.reload(); // Reload the page to reflect changes
                                             },
                                             error: function() {
