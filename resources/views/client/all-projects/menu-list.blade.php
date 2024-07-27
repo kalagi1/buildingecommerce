@@ -797,15 +797,22 @@
 
 
     <script>// Using jQuery
- $(document).ready(function() {
+$(document).ready(function() {
     $('#city, #county, #neighborhood').on('focus', function() {
-        $('.address-overlay').fadeIn();
+        $('.address-overlay').addClass('show');
     });
-    
-    $('#city, #county, #neighborhood').on('blur', function() {
-        $('.address-overlay').fadeOut();
+
+    // Use `focusout` instead of `blur` to handle clicks outside the select
+    $('#city, #county, #neighborhood').on('focusout', function() {
+        // Delay hiding to ensure the user clicks inside the select or its options
+        setTimeout(function() {
+            if (!$('.address-overlay').is(':focus')) {
+                $('.address-overlay').removeClass('show');
+            }
+        }, 100);
     });
 });
+
 
         $(document).ready(function() {
             $(".tab").click(function() {

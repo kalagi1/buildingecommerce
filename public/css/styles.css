@@ -32171,3 +32171,7 @@ a {
   z-index: 999; /* Ensure it sits above other elements */
   display: none; /* Hidden by default */
 }
+.address-overlay.show {
+  display: block; /* Show the overlay */
+}
+  
