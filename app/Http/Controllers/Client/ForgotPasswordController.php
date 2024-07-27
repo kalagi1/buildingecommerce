@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\CustomResetPassword;
 
 class ForgotPasswordController extends Controller {
     /**
@@ -37,16 +38,23 @@ class ForgotPasswordController extends Controller {
     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     */
 
-    public function sendResetLinkEmail( Request $request ) {
-        $this->validateEmail( $request );
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validateEmail($request);
+    
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
         );
-
-
-        return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($request, $response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+    
+        if ($response == Password::RESET_LINK_SENT) {
+            $user = $this->broker()->getUser($this->credentials($request));
+            if ($user) {
+                $user->notify(new CustomResetPassword($response));
+            }
+            return $this->sendResetLinkResponse($request, $response);
+        }
+    
+        return $this->sendResetLinkFailedResponse($request, $response);
     }
 
     /**
