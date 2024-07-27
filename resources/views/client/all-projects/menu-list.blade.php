@@ -908,7 +908,7 @@ $(document).ready(function() {
     $(document).on('click', '.select2-container', function() {
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
-            // Add close button to the dropdown
+            // Add close button to the dropdown if it doesn't exist
             $('.select2-container--open').each(function() {
                 if ($(this).find('.select2-close').length === 0) {
                     $(this).append('<div class="select2-close">×</div>');
