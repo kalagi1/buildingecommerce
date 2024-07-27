@@ -111,7 +111,7 @@
                                                                                 
                                         <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
 
-                                        <div class="social-account-login-buttons pb-3 col-6">
+                                        <div class="social-account-login-buttons pb-3 col-12 p-0">
                                             {{-- <div class="q-layout social-login-button flex flex-1">
 
                                                 <div class="social-login-icon" style="background-color: #007bff;">
