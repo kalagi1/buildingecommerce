@@ -81,10 +81,10 @@ class ForgotPasswordController extends Controller {
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()
-                    ? new JsonResponse(['message' => trans($response)], 200)
-                    : back()->with('status', trans($response));
+                    ? new JsonResponse(['message' => trans('passwords.' . $response)], 200)
+                    : back()->with('status', trans('passwords.' . $response));
     }
-
+    
     /**
      * Get the response for a failed password reset link.
      *
@@ -98,13 +98,13 @@ class ForgotPasswordController extends Controller {
     {
         if ($request->wantsJson()) {
             throw ValidationException::withMessages([
-                'email' => [trans($response)],
+                'email' => [trans('passwords.' . $response)],
             ]);
         }
-
+    
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans( $response ) ] );
+                ->withErrors(['email' => trans('passwords.' . $response)]);
     }
 
     /**

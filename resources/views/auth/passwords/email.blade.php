@@ -14,11 +14,11 @@
         <section>
             <div class="single homes-content details mb-30">
                 @if (session('status'))
-                    <div class="alert alert-success text-white" role="alert">
-                        <span>{{ session('status') }}</span>
-                    </div>
-                @endif
-
+                <div class="alert alert-success text-white" role="alert">
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
+            
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
 
