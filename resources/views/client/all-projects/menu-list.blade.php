@@ -798,7 +798,7 @@
 
     <script>// Using jQuery
 $(document).ready(function() {
-    $('#city, #county, #neighborhood').on('click', function() {
+    $('#city, #county, #neighborhood').on('focus', function() {
         $('.address-overlay').addClass('show');
     });
 
@@ -806,7 +806,7 @@ $(document).ready(function() {
     $('#city, #county, #neighborhood').on('focusout', function() {
         // Delay hiding to ensure the user clicks inside the select or its options
         setTimeout(function() {
-            if (!$('.address-overlay').is(':focus')) {
+            if (!$('.address-overlay').is(':focus') && !$('.address-overlay').has(':focus').length) {
                 $('.address-overlay').removeClass('show');
             }
         }, 100);
@@ -882,26 +882,43 @@ $(document).ready(function() {
         });
 
         $(document).ready(function() {
-            $('#city').select2({
-                placeholder: 'İl',
-                width: '100%',
-                searchInputPlaceholder: 'Ara...',
+    // Initialize Select2 for each element
+    $('#city').select2({
+        placeholder: 'İl',
+        width: '100%',
+        searchInputPlaceholder: 'Ara...'
+    });
+    $("#project_type").select2({    
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
+    $('#county').select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
+    $('#neighborhood').select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
 
-            });
-            $("#project_type").select2({    
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#county').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#neighborhood').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
+    // Show overlay when a Select2 dropdown is opened
+    $('.select2').on('select2:open', function() {
+        $('.address-overlay').addClass('show');
+    });
 
-        });
+    // Hide overlay when a Select2 dropdown is closed
+    $('.select2').on('select2:close', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    // Additionally, you may need to handle the overlay hiding for clicks outside the select
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.select2-container').length) {
+            $('.address-overlay').removeClass('show');
+        }
+    });
+});
+
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
