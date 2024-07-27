@@ -3,6 +3,50 @@
 // app/Helpers/helpers.php
 
 use Illuminate\Support\Facades\Crypt;
+use App\Models\HousingComment;
+use App\Models\ProjectComment;
+use Illuminate\Support\Facades\Auth;
+
+
+// app/Helpers/CommentHelper.php
+if (!function_exists('canUserAddComment')) {
+    function canUserAddComment($housingId)
+    {
+        $user = Auth::user();
+
+        // Check if the user is logged in
+        if ($user) {
+            // Check if a comment already exists for this housing by the logged-in user
+            $commentExists = HousingComment::where('user_id', $user->id)
+                                           ->where('housing_id', $housingId)
+                                           ->exists();
+            
+            return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
+        }
+
+        return false; // Return false if user is not logged in
+    }
+}
+
+if (!function_exists('canUserAddProjectComment')) {
+    function canUserAddProjectComment($projecyId)
+    {
+        $user = Auth::user();
+
+        // Check if the user is logged in
+        if ($user) {
+            // Check if a comment already exists for this housing by the logged-in user
+            $commentExists = ProjectComment::where('user_id', $user->id)
+                                           ->where('project_id', $projecyId)
+                                           ->exists();
+            
+            return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
+        }
+
+        return false; // Return false if user is not logged in
+    }
+}
+
 
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)

@@ -155,6 +155,7 @@ Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+
 });
 Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
 Route::get('/get-project-comment/{id}', [ClientProjectController::class, 'getComment'])->name('project.get-comment');
@@ -1200,6 +1201,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 });
 
 Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
+
+Route::post('/order/comment', [HomeController::class, 'commentAfterPayment'])->name('client.commentAfterPayment');
 
 Route::get('/share/approve/{share}', [HomeController::class, 'approveShare'])->name('client.approve-share');
 Route::get('/share/unapprove/{share}', [HomeController::class, 'unapproveShare'])->name('client.unapprove-share');
