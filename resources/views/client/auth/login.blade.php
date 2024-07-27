@@ -853,7 +853,19 @@
                     }
                 });
             }
+  // Show overlay when a Select2 dropdown is opened
+  $(document).on('click', '.select2-container', function() {
+                if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
+            const searchField = $('.select2-search__field');
+        if (searchField.length) {
+            searchField.attr('placeholder', 'Ara...');
+        }
 
+        } else {
+            $('.address-overlay').removeClass('show');
+        }
+    });
 
             if (countyId) {
                 $.ajax({
