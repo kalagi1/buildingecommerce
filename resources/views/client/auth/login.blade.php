@@ -4,7 +4,7 @@
     <section class="loginItems">
         <div class="container">
             <div class="row">
-                <div class="col-md-10 mx-auto">
+                <div class="col-md-9 mx-auto">
                     <div class="login-container">
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
