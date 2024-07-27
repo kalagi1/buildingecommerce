@@ -839,7 +839,7 @@
                         }).prop('disabled', false);
                         countySelect.empty();
                         countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data, function(index, county) {
+                        $.each(data.counties, function(index, county) {
                             var selectedAttribute = (county.ilce_key == countyId) ?
                                 'selected' : '';
 
