@@ -996,11 +996,9 @@
                     method: "GET",
                     url: "{{ url('get-counties') }}/" + $(this).val(),
                     success: function(res) {
-                        $('#county').empty();
-                        $('#neighborhood').empty();
+                        $('#county').empty().append('<option value="#" selected disabled>İlçe</option>');
+                $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
 
-                        $("#county").val("#");
-                        $("#neighborhood").val("#");
                         $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
