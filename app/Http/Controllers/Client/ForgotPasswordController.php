@@ -81,8 +81,8 @@ class ForgotPasswordController extends Controller {
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()
-                    ? new JsonResponse(['message' => trans('passwords.' . $response)], 200)
-                    : back()->with('status', trans('passwords.' . $response));
+                    ? new JsonResponse(['message' => trans($response)], 200)
+                    : back()->with('status', trans($response));
     }
     
     /**
@@ -98,13 +98,13 @@ class ForgotPasswordController extends Controller {
     {
         if ($request->wantsJson()) {
             throw ValidationException::withMessages([
-                'email' => [trans('passwords.' . $response)],
+                'email' => [trans($response)],
             ]);
         }
     
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans('passwords.' . $response)]);
+                ->withErrors(['email' => trans($response)]);
     }
 
     /**
