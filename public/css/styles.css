@@ -27714,7 +27714,7 @@ h4 {
   font-size: 11px;
   line-height: 18px;
   padding: 0;
-  color: #333;
+  color: black !important;
   margin-bottom: 10px;
 }
 

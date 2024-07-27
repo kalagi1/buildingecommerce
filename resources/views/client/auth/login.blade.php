@@ -1,6 +1,73 @@
 @extends('client.layouts.master')
 
 @section('content')
+<section class="loginItems">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 aos-init aos-animate" data-aos="fade-left">
+                <h2 class="pl-3">Explore Your City</h2>
+                <p class="pl-3">The best places are waiting for you.</p>
+                 <!-- Search Form -->
+                 <div class="trip-search">
+                     <form class="form">
+                         <!-- Form Lookin for -->
+                         <div class="form-group looking">
+                             <div class="first-select wide">
+                                 <div class="main-search-input-item">
+                                     <input type="text" placeholder="What are you looking for?" value="">
+                                 </div>
+                             </div>
+                         </div>
+                         <!--/ End Form Lookin for -->
+                         <!-- Form Location -->
+                         <div class="form-group location">
+                             <div class="nice-select form-control wide" tabindex="0"><span class="current"><i class="fa fa-map-marker"></i>Location</span>
+                                 <ul class="list">
+                                     <li data-value="1" class="option selected ">New York</li>
+                                     <li data-value="2" class="option">Los Angeles</li>
+                                     <li data-value="3" class="option">Chicago</li>
+                                     <li data-value="3" class="option">Philadelphia</li>
+                                     <li data-value="3" class="option">San Francisco</li>
+                                     <li data-value="3" class="option">Miami</li>
+                                     <li data-value="3" class="option">Houston</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         <!--/ End Form Location -->
+                         <!-- Form Categories -->
+                         <div class="form-group categories">
+                             <div class="nice-select form-control wide" tabindex="0"><span class="current"><i class="fa fa-list" aria-hidden="true"></i>All Categories</span>
+                                 <ul class="list">
+                                     <li data-value="1" class="option selected ">Hotels</li>
+                                     <li data-value="2" class="option">Restaurants</li>
+                                     <li data-value="3" class="option">Events</li>
+                                     <li data-value="3" class="option">Fitness</li>
+                                     <li data-value="3" class="option">Cinema</li>
+                                     <li data-value="3" class="option">Shops</li>
+                                     <li data-value="3" class="option">Car Dealer</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         <!--/ End Form Categories -->
+                         <!-- Form Button -->
+                         <div class="form-group button">
+                             <button type="submit" class="btn">Search</button>
+                         </div>
+                         <!--/ End Form Button -->
+                     </form>
+                 </div>
+                 <!--/ End Search Form -->
+             </div>
+
+             <div class="col-md-6 mx-auto">
+                <img src="https://code-theme.com/html/listifind/images/bg/slider1.png" class="w-100 h-100">
+            </div>
+        </div>
+       
+
+      
+    </div>
+</section>
     <section class="loginItems">
         <div class="container">
             <div class="row">
