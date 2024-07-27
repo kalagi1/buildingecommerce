@@ -53,8 +53,42 @@
                     </ul>
                 </div>
             @endforeach
+        </div><div id="user-list-table-body">
+            @foreach ($neighborViews as $key => $neighborView)
+                @php
+                    $cart = json_decode($neighborView->order->cart, true);
+                    $statusText = $neighborView->status == 1 ? 'Ödeme onaylandı' : 'Ödeme onayı bekleniyor';
+                    $nameDisplay = $neighborView->status == 1 ? $neighborView->owner->name : substr($neighborView->owner->name, 0, 3) . str_repeat('*', strlen($neighborView->owner->name) - 3);
+                    $phoneDisplay = $neighborView->status == 1 ? $neighborView->owner->mobile_phone : substr($neighborView->owner->mobile_phone, 0, 3) . str_repeat('*', strlen($neighborView->owner->mobile_phone) - 3);
+                @endphp
+                <div class="project-table-content user-item">
+                    <ul>
+                        <li style="width: 5%;">{{ $key + 1 }}</li>
+                        <li>Komşu İsmi: {{ $nameDisplay }}</li>
+                        <li>Komşu Cep No: {{ $phoneDisplay }}</li>
+                        <li>Proje: {{ $neighborView->project->project_title }} {{ $cart['item']['housing'] }} No'lu İlan</li>
+                        <li>{{ $statusText }} (250 TL)</li>
+                        <li>
+                            <a href="{{ $cart['type'] == 'housing'
+                                    ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                    : route('project.housings.detail', [
+                                        'projectSlug' =>
+                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                        'housingOrder' => $cart['item']['housing'],
+                                    ]) }}">
+                                <div class="mobile">İlanı Gör</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            @endforeach
         </div>
-    </section>
+        
 @endsection
 
 
