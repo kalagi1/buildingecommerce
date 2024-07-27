@@ -888,14 +888,17 @@ $(document).ready(function() {
         width: '100%',
         searchInputPlaceholder: 'Ara...'
     });
+
     $("#project_type").select2({
         minimumResultsForSearch: -1,
         width: '100%'
     });
+
     $('#county').select2({
         minimumResultsForSearch: -1,
         width: '100%'
     });
+
     $('#neighborhood').select2({
         minimumResultsForSearch: -1,
         width: '100%'
@@ -905,18 +908,32 @@ $(document).ready(function() {
     $(document).on('click', '.select2-container', function() {
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
+            // Add close button to the dropdown
+            $('.select2-container--open').each(function() {
+                if ($(this).find('.select2-close').length === 0) {
+                    $(this).append('<div class="select2-close">×</div>');
+                }
+            });
         } else {
             $('.address-overlay').removeClass('show');
         }
     });
 
-    // Hide overlay when clicking outside any Select2 dropdown
+    // Hide overlay and close dropdown when clicking outside
     $(document).on('click', function(event) {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
+            $('.select2-container--open').removeClass('select2-container--open');
         }
     });
+
+    // Close Select2 dropdown when the close button is clicked
+    $(document).on('click', '.select2-close', function() {
+        $(this).closest('.select2-container--open').removeClass('select2-container--open');
+        $('.address-overlay').removeClass('show');
+    });
 });
+
 
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
