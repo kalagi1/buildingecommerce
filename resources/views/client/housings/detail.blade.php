@@ -389,6 +389,9 @@
                                                                         stroke-width="2" />
                                                                 </svg>
                                                             @endfor
+                                                            @if(auth()->check() && auth()->user()->id == $comment->user_id)
+                                                                <button class="btn btn-primary" style="display:block;margin-left:80px;margin-top:10px;" onclick="editComment({{ $comment->id }})">Düzenle</button>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="body py-3">
@@ -866,8 +869,6 @@
                             </div>
                         </div>
 
-
-
                         <!-- Fiyat Güncelleme Modal -->
                         <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
                             aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
@@ -944,7 +945,6 @@
                                 document.getElementById('price-update-form').submit();
                             });
                         </script>
-
 
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
@@ -1993,6 +1993,53 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            function editComment(commentId) {
+                $.ajax({
+                    url: `{{ url('get-housing-comment') }}/${commentId}`,
+                    type: 'GET',
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'Yorumu Düzenle',
+                            html: `
+                                <form id="edit-comment-form">
+                                    <input type="hidden" name="id" value="${response.data.id}">
+                                  
+                                    <div class="form-group">
+                                        <label for="comment">Yorumunuz/label>
+                                        <textarea id="comment" name="comment" class="form-control">${response.data.comment}</textarea>
+                                    </div>
+                                </form>
+                            `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Güncelle',
+                            cancelButtonText: 'İptal',
+                            preConfirm: () => {
+                                const formData = new FormData(document.getElementById('edit-comment-form'));
+                                formData.append('_token', $('meta[name="csrf-token"]').attr('content')); 
+                                return $.ajax({
+                                    url: "{{ route('housing.update-comment') }}",
+                                    type: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (response) {
+                                        Swal.fire('Başarılı!', 'Yorum başarıyla güncellendi.', 'success');
+                                        location.reload(); // Reload the page
+                                    },
+                                    error: function (error) {
+                                        Swal.fire('Hata!', 'Yorum güncellenirken bir hata oluştu.', 'error');
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
+                    }
+                });
+            }
+        </script>
     <script>
         $(document).ready(function() {
             $('#selectImageButton').on('click', function() {
@@ -2117,10 +2164,10 @@
         });
     </script>
     <script>
-        $('#selectImageButton').on('click', function() {
-            console.log("a");
-            $('.fileinput').click();
-        });
+        // $('#selectImageButton').on('click', function() {
+        //     console.log("a");
+        //     $('.fileinput').click();
+        // });
         $(function() {
             $('.fa-info-circle').tooltip()
         })
@@ -2206,44 +2253,61 @@
 
         function submitForm() {
 
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; 
 
-            if (!validateForm()) {
-                toastr.error('Lütfen tüm gerekli alanları doldurun.');
-                return;
-            }
-            // Rate değerini al
-            var rateValue = $('#rate').val();
-
-            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
-            if (rateValue === '' || rateValue === '0') {
-                $('#rate').val('1');
-            }
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            console.log(csrfToken);
-            var formData = new FormData($('#commentForm')[0]);
-            // Append CSRF token to form data
-            formData.append('_token', csrfToken);
-
-            $.ajax({
-                url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Yorum Gönderildi',
-                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
-                    }).then(function() {
-                        location.reload(); // Reload the page
-                    });
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    //console.log(error);
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Giriş Yapmanız Gerekiyor',
+                    text: 'Lütfen yorum yapabilmek için giriş yapınız.',
+                    confirmButtonText: 'Giriş Yap',
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    cancelButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to login page
+                    }
+                });
+            } else {
+                if (!validateForm()) {
+                    toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                    return;
                 }
-            });
+                // Rate değerini al
+                var rateValue = $('#rate').val();
+
+                // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+                if (rateValue === '' || rateValue === '0') {
+                    $('#rate').val('1');
+                }
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                console.log(csrfToken);
+                var formData = new FormData($('#commentForm')[0]);
+                // Append CSRF token to form data
+                formData.append('_token', csrfToken);
+
+                $.ajax({
+                    url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Yorum Gönderildi',
+                            text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                        }).then(function() {
+                            location.reload(); // Reload the page
+                        });
+                    },
+                    error: function(error) {
+                        window.location.href = "/giris-yap";
+                        //console.log(error);
+                    }
+                });
+            }                
         }
 
         $(document).ready(function() {
