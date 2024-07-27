@@ -47,7 +47,13 @@ class RealEstateController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
-            ->where('housings.is_sold', '!=', 1)
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('cart_orders')
+                    ->whereRaw('JSON_EXTRACT(cart, "$.type") = "housing"')
+                    ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
+                    ->where('status', "!=", 1);
+            })
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('housings.created_at');
         }else{
