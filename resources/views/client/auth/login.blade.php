@@ -552,7 +552,7 @@
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi No</label>
-                                                            <input type="text" id="taxNumber" name="taxNumber"
+                                                            <input type="number" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
                                                                 value="{{ old('taxNumber') }}"  maxlength="10">
                                                             @if ($errors->has('taxNumber'))
@@ -584,7 +584,7 @@
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
-                                                            <input type="text" id="idNumber" name="idNumber"
+                                                            <input type="number" id="idNumber" name="idNumber"
                                                                 class="form-control" value="{{ old('idNumber') }}"  maxlength="11">
                                                         </div>
                                                     </div>
