@@ -869,27 +869,22 @@
 
         $(document).ready(function() {
     // Initialize Select2 for each element
-   
-    $("#project_type").select2({
-        minimumResultsForSearch: -1,
-        width: '100%'
-    });
     $('#city').select2({
         placeholder: 'İl',
         width: '100%',
         searchInputPlaceholder: 'Ara...'
     });
-
+    $("#project_type").select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
     $('#county').select2({
-        placeholder: 'İlçe',
-        width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        minimumResultsForSearch: -1,
+        width: '100%'
     }).prop('disabled', true);
-
     $('#neighborhood').select2({
-        placeholder: 'Mahalle',
-        width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        minimumResultsForSearch: -1,
+        width: '100%'
     }).prop('disabled', true);
 
     // Show overlay when a Select2 dropdown is opened
@@ -1040,7 +1035,6 @@
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
                         });
-                        $('#county').prop('disabled', false).select2();
 
                         if (countyID) {
                             selectCountyByID(countyID);
@@ -1078,7 +1072,6 @@
                                 `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
                             );
                         });
-                        $('#neighborhood').prop('disabled', false).select2();
 
                         $('#neighborhood').select2({
                             placeholder: 'Mahalle',
