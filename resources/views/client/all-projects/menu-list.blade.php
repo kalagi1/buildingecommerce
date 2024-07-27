@@ -302,12 +302,12 @@
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="county" class="bg-white filter-now mobile-button" name="counties[]" multiple="multiple">
+                                        <select id="county" class="bg-white filter-now mobile-button" >
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="neighborhood" class="bg-white filter-now mobile-button" name="neighborhoods[]" multiple="multiple">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
                                     </div>
@@ -894,7 +894,7 @@ $(document).ready(function() {
     });
     $('#county').select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
     });
     $('#neighborhood').select2({
         minimumResultsForSearch: -1,
