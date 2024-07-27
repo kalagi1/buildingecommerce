@@ -42,14 +42,12 @@ class ForgotPasswordController extends Controller {
     {
         $this->validateEmail($request);
     
-        $response = $this->broker()->sendResetLink(
-            $this->credentials($request)
-        );
+        $response = $this->broker()->sendResetLink($this->credentials($request));
     
         if ($response == Password::RESET_LINK_SENT) {
             $user = $this->broker()->getUser($this->credentials($request));
             if ($user) {
-                // Create a new instance of CustomResetPassword with the token
+                // CustomResetPassword ile kullanıcının e-posta adresine bildirim gönder
                 $user->notify(new CustomResetPassword($this->broker()->createToken($user)));
             }
             return $this->sendResetLinkResponse($request, $response);
@@ -57,7 +55,7 @@ class ForgotPasswordController extends Controller {
     
         return $this->sendResetLinkFailedResponse($request, $response);
     }
-
+    
     /**
      * Validate the email for the given request.
      *
