@@ -853,7 +853,6 @@
     <script>
         
         $(document).ready(function() {
-            $('.select2-search__field').val('ara').trigger('input'); // Insert "ara" and trigger input event
 
             $("#clear-filters").click(function() {
                 $("#city").val("#").trigger('change'); // İl seçeneğini sıfırla
@@ -874,8 +873,13 @@
     $('#city').select2({
         placeholder: 'İl',
         width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
     });
+
     
     $("#project_type").select2({
         minimumResultsForSearch: -1,
