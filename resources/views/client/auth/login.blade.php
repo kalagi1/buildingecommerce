@@ -993,7 +993,7 @@
                     neighborhoodSelect.empty();
                     neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
                     $('#neighborhoodSelect').select2({
-                            placeholder: 'İlçe',
+                            placeholder: 'Mahalle',
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
                         }).prop('disabled', false);
