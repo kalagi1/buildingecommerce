@@ -1353,38 +1353,58 @@
 
         function submitForm() {
 
-            var rateValue = $('#rate').val();
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; 
 
-            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
-            if (rateValue === '' || rateValue === '0') {
-                $('#rate').val('1');
-            }
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Giriş Yapmanız Gerekiyor',
+                    text: 'Lütfen yorum yapabilmek için giriş yapınız.',
+                    confirmButtonText: 'Giriş Yap',
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    cancelButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to login page
+                    }
+                });
+            } else {
+                                var rateValue = $('#rate').val();
 
-            var formData = new FormData($('#commentForm')[0]);
-            // Append CSRF token to form data
-            formData.append('_token', csrfToken);
-            $.ajax({
-                url: "{{ route('project.send-comment', ['id' => $project->id]) }}",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Yorum Gönderildi',
-                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
-                    }).then(function() {
-                        location.reload(); // Reload the page
-                    });
-                },
-                error: function(error) {
-                    console.log(xhr.responseText);
-                    // window.location.href = "/giris-yap";
-                    //console.log(error);
+                // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+                if (rateValue === '' || rateValue === '0') {
+                    $('#rate').val('1');
                 }
-            });
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                var formData = new FormData($('#commentForm')[0]);
+                // Append CSRF token to form data
+                formData.append('_token', csrfToken);
+                $.ajax({
+                    url: "{{ route('project.send-comment', ['id' => $project->id]) }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Yorum Gönderildi',
+                            text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                        }).then(function() {
+                            location.reload(); // Reload the page
+                        });
+                    },
+                    error: function(error) {
+                        console.log(xhr.responseText);
+                        // window.location.href = "/giris-yap";
+                        //console.log(error);
+                    }
+                });
+            }
+
+           
             }
     </script>
 
