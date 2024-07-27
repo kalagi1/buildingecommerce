@@ -832,6 +832,11 @@
                     url: '/get-counties/' + cityId,
                     success: function(data) {
                         var countySelect = $('#countySelect');
+                        $('#countySelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                         countySelect.empty();
                         countySelect.append('<option value="">İlçe Seçiniz</option>');
                         $.each(data, function(index, county) {
@@ -856,6 +861,11 @@
                     url: '/get-neighborhoods/' + countyId,
                     success: function(data) {
                         var neighborhoodSelect = $('#neighborhoodSelect');
+                        $('#neighborhoodSelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                         neighborhoodSelect.empty();
                         neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
 
