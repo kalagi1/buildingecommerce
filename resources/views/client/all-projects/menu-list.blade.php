@@ -302,7 +302,6 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button" >
-                                            <option value="#" class="selected" selected disabled>İlçe</option>
 
                                         </select>
                                     </div>
