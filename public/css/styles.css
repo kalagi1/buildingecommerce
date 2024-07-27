@@ -6183,6 +6183,11 @@ element.style {
 
 .homepage-2 .portfolio .project-head {
   border: none;
+  height: 185px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
 }
 
 .button-effect-2 .btn {
