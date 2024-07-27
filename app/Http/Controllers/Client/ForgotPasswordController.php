@@ -18,7 +18,8 @@ class ForgotPasswordController extends Controller {
         $pageInfo = [
             "meta_title" => "Şifremi Sıfırla",
             "meta_keywords" => "Emlak Sepette,Şifremi Sıfırla",
-            "meta_description" => "Emlak Sepette Şifremi Sıfırla, hesabınızı güvende tutmak için kolay ve güvenli bir şekilde şifrenizi yenileyin. Hemen başlayın ve güvenle devam edin!",
+            "meta_description" => "Emlak Sepette Şifremi Sıfırla, hesabınızı güvende tutmak için kolay ve güvenli bir şekilde şifrenizi yenileyin. 
+                Hemen başlayın ve güvenle devam edin!",
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -74,8 +75,8 @@ class ForgotPasswordController extends Controller {
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()
-                    ? new JsonResponse(['message' => trans($response)], 200)
-                    : back()->with('status', trans($response));
+                    ? new JsonResponse(['message' => trans('passwords.' . $response)], 200)
+                    : back()->with('status', trans('passwords.' . $response));
     }
 
     /**
@@ -91,13 +92,13 @@ class ForgotPasswordController extends Controller {
     {
         if ($request->wantsJson()) {
             throw ValidationException::withMessages([
-                'email' => [trans($response)],
+                'email' => [trans('passwords.' . $response)],
             ]);
         }
 
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans($response)]);
+                ->withErrors(['email' => trans('passwords.' . $response)]);
     }
 
     /**
