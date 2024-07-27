@@ -16,6 +16,8 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use App\Models\CartOrder;
+use App\Models\SharerPrice;
+use App\Models\CartPrice;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\District;
@@ -1727,5 +1729,38 @@ class HomeController extends Controller
 
 
         return view("client.search.index", compact('term', 'housings', 'housingTotalCount', 'projects', 'projectTotalCount', 'merchants', 'merchant_count'));
+    }
+
+
+    public function approveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapproveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
+    }
+
+    public function approvePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapprovePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
     }
 }

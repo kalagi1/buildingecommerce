@@ -211,108 +211,119 @@
                         </div>
                     </div>
                 </div>
-                @if ($order && $order->status && $order->status == 1)
-                    <div class="order-detail-inner mb-3">
-                        <div class="title mb-3">
-                            <i class="fa fa-shopping-cart"></i>
-                            <h4>Sipariş Onaylama Durumu</h4>
-                        </div>
-                        <div class="container mt-5">
+
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
 
 
-                            @if ($order->payment_result)
-                                <div class="status-card bg-light-blue">
-                                    <div class="status-icon text-primary box-shadow-blue ">
-                                        <i class=""><img class="pay-icon"
-                                                src="{{ asset('images/template/pay-icon.png') }}" alt=""></i>
-                                    </div>
-                                    <div class="status-header">
-                                        <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
-                                        <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
-                                            sipariş
-                                            tamamlandığında alacak.</div>
-                                    </div>
-                                    <div class="status-timestamp">{{$order->created_at}}</div>
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödeme Onay Aşamasındadır</div>
+                                    <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
                                 </div>
-                                <div class="horizontal-line"></div>
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
                             @else
-                                @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
-                                    <div class="status-card bg-light">
-                                        <div class="status-icon text-success box-shadow-light">
-                                            <i class=""><img class="pay-icon"
-                                                    src="{{ asset('images/template/success-icon.png') }}"
-                                                    alt=""></i>
-                                        </div>
-                                        <div class="status-header">
-                                            <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
-                                            <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
-                                                değerlendirme
-                                                yapabilirsiniz.</div>
-                                        </div>
-                                        {{-- <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
-                                    </div> --}}
-                                        <div class="status-timestamp">{{$order->created_at}}</div>
-                                    </div>
-
-                                    <div class="horizontal-line"></div>
-                                @else
-                                    <div class="status-card bg-light-green">
-                                        <div class="status-icon box-shadow-green text-success">
-                                            <i class=""><img class="pay-icon"
-                                                    src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
-                                        </div>
-                                        <div class="status-header">
-                                            <div class="status-title text-success">Kaparonız Emlak Sepette ile Güvende</div>
-                                            <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
-                                                onaylamanız
-                                                bekleniyor.</div>
-                                        </div>
-                                        @if (isset($order->share))
-                                            <div class="approve-button">
-                                                <a class="btn btn-success"  href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
-                                                    @if ($order->share->status == 1) disabled @endif>Hakedişleri
-                                                    Onayla</a>
-                                                {{-- <button class="btn btn-danger"
-                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
-                                                @if ($order->share->status != 1) disabled @endif>Hakedişleri
-                                                Reddet</button> --}}
-
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">İptal Et</button>
-                                            </div>
-
-                                            <div class="status-timestamp">{{$order->created_at}}</div>
-                                            
-                                        @endif
-
-                                        @if (isset($order->price))
-                                            <div class="approve-button">
-                                        
-                                                <a class="btn btn-success"  href="{{ route('client.approve-price', ['price' => $order->price->id]) }}"
-                                                    @if ($order->price->status == 1) disabled @endif>Onayla
-                                                </a>
-                                                {{-- <button class="btn btn-danger"
-                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
-                                                @if ($order->price->status != 1) disabled @endif>Hakedişleri
-                                                Reddet</button> --}}
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">İptal Et</button>
-                                            </div>
-                                            <div class="status-timestamp">{{$order->created_at}}</div>
-                                        @endif
-                                        
-                                    </div>
-                                @endif
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
+                                    <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
+                                        sipariş
+                                        tamamlandığında alacak.</div>
+                                </div>
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
                             @endif
 
+
                         </div>
+                        <div class="horizontal-line"></div>
+
+
+
+                        @if ($order && $order->status && $order->status == 1)
+                            <div class="status-card bg-light-green">
+                                <div class="status-icon box-shadow-green text-success">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">Kaparonız Emlak Sepette ile Güvende</div>
+                                    <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
+                                        onaylamanız
+                                        bekleniyor.</div>
+                                </div>
+
+                                @if (isset($order->share) && optional($order->share)->status != 1)
+                                    <div class="approve-button">
+                                        <a class="btn btn-success"
+                                            href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                            @if ($order->share->status == 1) disabled @endif>
+                                            Onayla</a>
+                                        {{-- <button class="btn btn-danger"
+                                            onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
+                                            @if ($order->share->status != 1) disabled @endif>Hakedişleri
+                                            Reddet</button> --}}
+
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İptal Et</button>
+                                    </div>
+                                @endif
+
+                                @if (isset($order->price) && optional($order->price)->status != 1)
+                                    <div class="approve-button">
+
+                                        <a class="btn btn-success"
+                                            href="{{ route('client.approve-price', ['price' => $order->price->id]) }}"
+                                            @if ($order->price->status == 1) disabled @endif>Onayla
+                                        </a>
+                                        {{-- <button class="btn btn-danger"
+                                            onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
+                                            @if ($order->price->status != 1) disabled @endif>Hakedişleri
+                                            Reddet</button> --}}
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İptal Et</button>
+                                    </div>
+                                @endif
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+
+                            @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
+                                <div class="status-card bg-light">
+                                    <div class="status-icon text-success box-shadow-light">
+                                        <i class=""><img class="pay-icon"
+                                                src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
+                                    </div>
+                                    <div class="status-header">
+                                        <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
+                                        <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
+                                            değerlendirme
+                                            yapabilirsiniz.</div>
+                                    </div>
+                                    {{-- <div class="rating">
+                                      
+                                    </div> --}}
+
+
+                                    <div class="status-timestamp">{{ $order->created_at }}</div>
+                                </div>
+
+                                <div class="horizontal-line"></div>
+                            @endif
+                        @endif
                     </div>
-                @endif
+                </div>
+
                 <div class="order-detail-inner">
                     <div class="title mb-3">
                         <i class="fa fa-edit"></i>
@@ -320,10 +331,10 @@
                     </div>
                     <textarea class="form-control" style="height: 150px" readonly>
                       @if ($order->notes)
-                    {!! $order->notes !!}
-                    @else
-                    Sipariş Notu eklenmedi
-                    @endif
+{!! $order->notes !!}
+@else
+Sipariş Notu eklenmedi
+@endif
                     </textarea>
                 </div>
 
@@ -494,7 +505,6 @@
                                                         <p class="text-center mb-4">İade İşlemi</p>
                                                         <div class="mb-3">
                                                             @if (file_exists(public_path('refundpolicy/iadeislemleri.pdf')))
-
                                                                 <iframe
                                                                     src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
                                                                     width="100%" height="400px">
@@ -535,16 +545,15 @@
                                                             @csrf
 
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
-                                                                            Soyad</label><input class="form-control"
-                                                                            type="text" name="name"
-                                                                            placeholder="Ad Soyad"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                    Soyad</label><input class="form-control"
+                                                                    type="text" name="name" placeholder="Ad Soyad"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
                                                             <div class="mb-2"><label class="form-label"
                                                                     for="bootstrap-wizard-validation-wizard-phone">Ad
                                                                     Soyad</label><input class="form-control"
@@ -920,7 +929,6 @@
 
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
@@ -950,8 +958,6 @@
         });
     </script>
     <script>
-
-
         function formatIBAN(input) {
             // TR ile başlat
             var formattedIBAN = "TR";
@@ -1152,8 +1158,9 @@
 
     <style>
         a.btn.btn-success {
-    border-radius: 20px !important;
-}
+            border-radius: 20px !important;
+        }
+
         img.pay-icon {
             margin-bottom: 30px;
         }
@@ -1277,7 +1284,6 @@
     </style>
 
     <style>
-        
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1591,6 +1597,7 @@
             border-radius: 12px;
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
         }
+
         .step {
             display: none;
         }
@@ -1606,10 +1613,12 @@
             border: 1px solid #e3e3e3;
             border-radius: 5px;
         }
+
         input:focus {
             border: 1px solid #009688;
             outline: 0;
         }
+
         .invalid {
             border: 1px solid #ffaba5;
         }
@@ -1627,16 +1636,19 @@
             margin-top: 5px;
             transition: background-color 0.3s ease;
         }
+
         #prevBtn {
             background-color: #ffffff;
             color: #009688;
             border: 1px solid #009688;
         }
+
         #prevBtn:hover,
         #nextBtn:hover {
             background-color: #00796b;
             color: #ffffff;
         }
+
         .progress {
             margin-bottom: 20px;
         }
@@ -1648,11 +1660,13 @@
             width: 20px;
             height: 20px;
         }
+
         .custom-checkbox input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .checkmark {
             position: absolute;
             top: 0;
@@ -1662,6 +1676,7 @@
             background-color: #ccc;
             border-radius: 4px;
         }
+
         .custom-checkbox input:checked~.checkmark {
             background-color: #28a745;
             /* Checkbox seçiliyse yeşil */
@@ -1681,6 +1696,7 @@
             position: absolute;
             display: none;
         }
+
         .custom-checkbox input:checked~.checkmark:after {
             display: block;
         }
