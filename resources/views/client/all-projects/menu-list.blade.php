@@ -286,7 +286,7 @@
 
 
 
-                                <div class="trip-search  @if (isset($items)) mt-3 @endif">
+                                <div class="trip-search @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>Adres</span>
                                     </div>
@@ -296,27 +296,26 @@
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
-                                                    {{ $city['title'] }}</option>
+                                                    {{ $city['title'] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
-
-
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
-
-
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="neighborhood" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
-
-
                                     </div>
                                 </div>
+                                
+                                <!-- Address overlay added here -->
+                                <div class="address-overlay"></div>
+
 
 
                                 @if (!$projects)
@@ -786,6 +785,7 @@
 
         </div>
     </section>
+   
 
 
 @endsection
@@ -796,7 +796,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-    <script>
+    <script>// Using jQuery
+ $(document).ready(function() {
+    $('#city, #county, #neighborhood').on('focus', function() {
+        $('.address-overlay').fadeIn();
+    });
+    
+    $('#city, #county, #neighborhood').on('blur', function() {
+        $('.address-overlay').fadeOut();
+    });
+});
+
         $(document).ready(function() {
             $(".tab").click(function() {
                 $(".tab label").removeClass("activeTab");
