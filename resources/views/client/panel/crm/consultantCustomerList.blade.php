@@ -122,6 +122,7 @@
                     </ul>
                 </div>
                 <div id="user-list-table-body-favoriler">
+                    @if($favoriteCustomers)
                     @foreach ($favoriteCustomers as $key => $item)
                         <div class="project-table-content user-item">
                             <ul  style="gap: 20px" >
@@ -174,6 +175,9 @@
                             </ul>
                         </div>
                     @endforeach
+                    @else
+                        <li style="width: 100%">Favoride müşteriniz bulunmamaktadır.</li>
+                    @endif
                 </div>
                 <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
                     <button id="prev-page4" class="btn btn-primary" disabled>Önceki</button>
