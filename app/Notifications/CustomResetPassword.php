@@ -1,30 +1,37 @@
 <?php
-
 namespace App\Notifications;
 
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CustomResetPassword extends ResetPasswordNotification
+class CustomResetPassword extends Notification
 {
-    /**
-     * Get the notification's mail representation.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
+    protected $token;
+
+    public function __construct($token)
+    {
+        $this->token = $token;
+    }
+
+    public function via($notifiable)
+    {
+        return ['mail'];
+    }
+
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject(__('auth.reset_password_subject'))
-                    ->line(__('auth.reset_password_intro'))
-                    ->line(__('auth.reset_password_line1'))
-                    ->action(__('auth.reset_password_action'), url('password/reset', $this->token))
-                    ->line(__('auth.reset_password_expiry'))
-                    ->line(__('auth.reset_password_footer'))
-                    ->line(__('auth.reset_password_signoff'))
-                    ->line(__('auth.reset_password_sender'))
-                    ->line(__('auth.reset_password_url', ['url' => url('password/reset', $this->token)]));
+        $resetUrl = url('password/reset', $this->token);
 
+        return (new MailMessage)
+            ->subject(__('auth.reset_password_subject'))
+            ->view('emails.password_reset', [
+                'subject' => __('auth.reset_password_subject'),
+                'content' => __('auth.reset_password_intro') . '<br><br>'
+                            . __('auth.reset_password_line1') . '<br><br>'
+                            . '<a href="' . $resetUrl . '" style="font-size: 16px; font-weight: bold; color: #1d72b8; text-decoration: none;">' 
+                            . __('auth.reset_password_action') . '</a><br><br>'
+                            . __('auth.reset_password_expiry') . '<br><br>'
+                            . __('auth.reset_password_footer'),
+            ]);
     }
 }
