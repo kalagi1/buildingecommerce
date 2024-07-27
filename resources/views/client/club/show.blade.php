@@ -82,7 +82,7 @@
                                     @endif
                                 @endif
                             @endforeach --}}
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="project-filter-reverse blog-pots">
                                 <table class="table">
                                     <tbody class="collection-title">
 
