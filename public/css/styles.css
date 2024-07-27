@@ -32174,7 +32174,7 @@ a {
 .address-overlay.show {
   display: block; /* Show the overlay */
 }
-.custom-dropdown .select2-search {
+.select2-search {
   position: relative;
 }
 
