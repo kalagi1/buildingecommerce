@@ -2127,7 +2127,7 @@
                 // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
                 if ($('#takas_tercihi').val() === 'araç') {
                     var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
-                        'arac_satis_rakami'
+                        'arac_satis_rakami','ruhsat_belgesi'
                     ];
 
                     for (var i = 0; i < requiredFields.length; i++) {
