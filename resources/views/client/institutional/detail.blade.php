@@ -59,6 +59,7 @@
                                         Konum
                                     @endif
                                 </span><span class="seller-info-container__wrapper__text-container__value">
+                                    {{dd($institutional->neighborhood)}}
                                     {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                     {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
                                     {{ $institutional->neighborhood->mahalle_title }} </span>
