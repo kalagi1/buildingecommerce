@@ -10,6 +10,7 @@ use App\Models\HousingTypeParent;
 use App\Models\Invoice;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\ProjectComment;
 use App\Models\ProjectFavorite;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -405,4 +407,51 @@ class ProjectController extends Controller
             "status" => true,
         ]);
     }
+
+    public function getCommentsByProject($projectId){
+        // Verilen proje ID'sine ait yorumları al
+        $comments = ProjectComment::where('project_id', $projectId)->get();
+        return response()->json($comments);
+    }//End
+
+    public function projectCommentPost(Request $request,$projectId){
+               // Yorum eklemek için gerekli validation kurallarını tanımla
+               $validator = Validator::make($request->all(), [
+                'user_id'    => 'required|exists:users,id',
+                'comment'    => 'required',
+                'project_id' => 'required',
+            ]);
+    
+            // Validation hata varsa dön
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validator->errors()
+                ], 400);
+            }
+
+                // Resimleri işle
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = $image->store('public/images');
+                    $imagePaths[] = $path;
+                }
+            }
+        
+            // Yorum verilerini al
+            $data = $request->only('user_id', 'comment', 'rate', 'owner_id');
+            $data['project_id'] = $projectId;
+            $data['images'] = json_encode($imagePaths); // Resim yollarını JSON formatında sakla
+    
+           // Yeni yorumu oluştur
+            $comment = ProjectComment::create($data);
+    
+            // Başarı mesajı döndür
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Comment added successfully',
+                'data' => $comment
+            ], 201);
+    }//End    
 }

@@ -897,6 +897,7 @@ class HomeController extends Controller
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
+            ->whereNull('housings.is_sold')
             ->with(['city', 'county']);
 
         if ($request->input("slug") == "al-sat-acil") {
@@ -1330,6 +1331,7 @@ class HomeController extends Controller
                         $query->orWhere('id', '=', (int)$term - 2000000);
                     })
                     ->orderByDesc('housings.created_at')
+                    ->whereNull('housings.is_sold')
                     ->get()
                     ->map(function ($item) {
                         return [
@@ -1375,6 +1377,7 @@ class HomeController extends Controller
                     'housings.id',
                     'housings.title AS housing_title',
                     'housings.created_at',
+                    'housings.is_sold',
                     'housings.step1_slug',
                     'housings.step2_slug',
                     'housings.slug',
@@ -1419,7 +1422,8 @@ class HomeController extends Controller
                         ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
                         ->where('status', "!=", 1);
                 })
-                ->orderByDesc('housings.created_at')
+                ->orderByDesc('housings.created_at')  
+                ->whereNull('housings.is_sold')
                 ->paginate(12);
         } elseif ($title === 'project') {
             // Project sorgusu

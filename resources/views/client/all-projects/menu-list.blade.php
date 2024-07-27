@@ -286,37 +286,33 @@
 
 
 
-                                <div class="trip-search  @if (isset($items)) mt-3 @endif">
+                                <div class="trip-search @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>Adres</span>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
-                                                    {{ $city['title'] }}</option>
+                                                    {{ $city['title'] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
-
-
                                     <div class="mt-md-2">
-                                        <select id="county" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled>İlçe</option>
+                                        <select id="county" class="bg-white filter-now mobile-button" >
                                         </select>
-
-
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="neighborhood" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
-
-
                                     </div>
                                 </div>
+                                
+                                <!-- Address overlay added here -->
+                                <div class="address-overlay"></div>
+
 
 
                                 @if (!$projects)
@@ -786,6 +782,7 @@
 
         </div>
     </section>
+   
 
 
 @endsection
@@ -796,7 +793,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-    <script>
+    <script>// Using jQuery
+
         $(document).ready(function() {
             $(".tab").click(function() {
                 $(".tab label").removeClass("activeTab");
@@ -865,26 +863,59 @@
         });
 
         $(document).ready(function() {
-            $('#city').select2({
-                placeholder: 'İl',
-                width: '100%',
-                searchInputPlaceholder: 'Ara...',
+    // Initialize Select2 for each element
+    $('#city').select2({
+        placeholder: 'İl',
+        width: '100%',
+        searchInputPlaceholder: 'Ara...'
+    });
+    $("#project_type").select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
+    $('#county').select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
+    $('#neighborhood').select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
 
-            });
-            $("#project_type").select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#county').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#neighborhood').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
+    // Show overlay when a Select2 dropdown is opened
+    $(document).on('click', '.select2-container', function() {
+        if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
+        } else {
+            $('.address-overlay').removeClass('show');
+        }
+    });
 
-        });
+    // Hide overlay when clicking outside any Select2 dropdown
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.select2-container').length) {
+            $('.address-overlay').removeClass('show');
+        }
+    });
+
+    // Hide overlay when a selection is made
+    $('#city').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#project_type').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#county').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#neighborhood').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+});
+
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>

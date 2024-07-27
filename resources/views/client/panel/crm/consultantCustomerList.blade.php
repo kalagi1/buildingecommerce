@@ -128,6 +128,7 @@
                         <li style="width: 20%;">İşlemler</li>
                     </ul>
                 </div>
+
                 <div id="user-list-table-body-favoriler"> 
                         {{-- @foreach ($favoriteCustomers as $key => $item)
                             <div class="project-table-content user-item">
@@ -155,6 +156,7 @@
                                     <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
                                         <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal">
                                             <i class="fas fa-user"></i>
+
                                         </button>
                                         @if ($item->parent_id)
                                             <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
@@ -169,6 +171,7 @@
                                         <button id="favorite-btn-{{ $item->id }}" class="{{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
                                             <i class="fas fa-heart"></i>
                                         </button>
+
                                         <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -184,6 +187,7 @@
                 </div>
                 <div id="no-data-message-favorite" class="project-table-content">
                     Favori müşteriniz bulunmamaktadır.
+
                 </div>
                 <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
                     <button id="prev-page4" class="btn btn-primary" disabled>Önceki</button>
