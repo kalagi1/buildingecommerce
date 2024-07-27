@@ -302,12 +302,12 @@
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="county" class="bg-white filter-now mobile-button">
+                                        <select id="county" class="bg-white filter-now mobile-button" name="counties[]" multiple="multiple">
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button" name="neighborhoods[]" multiple="multiple">
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
                                     </div>
