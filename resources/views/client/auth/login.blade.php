@@ -902,6 +902,24 @@
             }
         }
     });
+    $('#taxOfficeCity').select2({
+        placeholder: 'Vergi Dairesi İli',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
+    $('#taxOffice').select2({
+        placeholder: 'Vergi Dairesi',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
     $('#countySelect').select2({
         minimumResultsForSearch: -1,
         width: '100%',
@@ -979,6 +997,15 @@
                 success: function(data) {
                     var taxOffice = $('#taxOffice');
                     taxOffice.empty();
+                    $('#taxOffice').select2({
+        placeholder: 'Vergi Dairesi',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
                     $.each(data, function(index, office) {
                         taxOffice.append('<option value="' + office.id + '">' + office
                             .daire +
