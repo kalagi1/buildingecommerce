@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
+<div class="container">
 <div class="d-flex justify-content-between align-items-center mb-5">
     <div class="table-breadcrumb">
         <ul>
@@ -12,7 +13,6 @@
 <section>
     <div class="single homes-content details mb-30">
 
-        <div class="container">
             @if (session('status'))
             <div class="alert alert-success text-white" role="alert">
                 <span>{{ session('status') }}</span>
@@ -47,4 +47,5 @@
         </div>
     </div>
 </section>
+</div>
 @endsection
