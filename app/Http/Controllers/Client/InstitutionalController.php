@@ -39,6 +39,7 @@ class InstitutionalController extends Controller
             'neighborhood'
         ])
         ->where('status', 1)
+        ->whereNull('is_sold')
         ->whereHas('listItems', function($query) {
             $query->where('item_type', 2);
         })
@@ -95,6 +96,7 @@ class InstitutionalController extends Controller
                     'neighborhood'
                 ])
                 ->where('status', 1)
+                ->whereNull('is_sold')
                 ->whereHas('listItems', function($query) {
                     $query->where('item_type', 2);
                 })
@@ -186,6 +188,7 @@ class InstitutionalController extends Controller
                     'neighborhood'
                 ])
                 ->where('status', 1)
+                ->whereNull('is_sold')
                 ->whereHas('listItems', function($query) {
                     $query->where('item_type', 2);
                 })
