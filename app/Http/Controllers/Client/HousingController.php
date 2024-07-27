@@ -262,4 +262,35 @@ class HousingController extends Controller {
 
     }
 
+    public function getComment($id){
+        $comment = HousingComment::find($id);
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+        return response()->json(['data' => $comment]);
+    }//End
+
+    public function updateComment(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:project_comments,id',
+            // 'rate' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $comment = HousingComment::find($request->input('id'));
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+
+        // $comment->rate = $request->input('rate');
+        $comment->comment = $request->input('comment');
+        $comment->save();
+
+        return response()->json(['message' => 'Yorum başarıyla güncellendi.']);
+    }//End
+
 }
