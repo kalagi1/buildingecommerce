@@ -853,7 +853,7 @@
     <script>
         
         $(document).ready(function() {
-            $('.select2-search__field').val('ara').trigger('input');
+            $('.select2-search__field').val('ara').trigger('input'); // Insert "ara" and trigger input event
 
             $("#clear-filters").click(function() {
                 $("#city").val("#").trigger('change'); // İl seçeneğini sıfırla
