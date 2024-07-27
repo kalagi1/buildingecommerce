@@ -893,7 +893,8 @@
     $(document).on('click', '.select2-container', function() {
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
-            $("#select2-city-result-s0tj-#").remove();
+            $('#city option:first-child').remove();
+
         } else {
             $('.address-overlay').removeClass('show');
         }
