@@ -904,32 +904,34 @@ $(document).ready(function() {
         width: '100%'
     });
 
-    // Show overlay when a Select2 dropdown is opened
-    $(document).on('click', '.select2-container', function() {
-        if ($(this).hasClass('select2-container--open')) {
-            $('.address-overlay').addClass('show');
-            // Add close button to the dropdown if it doesn't exist
-            $('.select2-container--open').each(function() {
-                if ($(this).find('.select2-close').length === 0) {
-                    $(this).append('<div class="select2-close">×</div>');
-                }
-            });
-        } else {
-            $('.address-overlay').removeClass('show');
+    // Show overlay and add close button when a Select2 dropdown is opened
+    $(document).on('select2:open', function(e) {
+        // Hide existing close buttons
+        $('.select2-close').remove();
+
+        // Add close button to the opened Select2 dropdown
+        var $container = $(e.target).closest('.select2-container');
+        if (!$container.find('.select2-close').length) {
+            $container.append('<div class="select2-close">×</div>');
         }
+        
+        $('.address-overlay').addClass('show');
     });
 
     // Hide overlay and close dropdown when clicking outside
     $(document).on('click', function(event) {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
-            $('.select2-container--open').removeClass('select2-container--open');
+            $('.select2-container--open').each(function() {
+                $(this).removeClass('select2-container--open');
+            });
         }
     });
 
     // Close Select2 dropdown when the close button is clicked
-    $(document).on('click', '.select2-close', function() {
-        $(this).closest('.select2-container--open').removeClass('select2-container--open');
+    $(document).on('click', '.select2-close', function(event) {
+        event.stopPropagation(); // Prevent closing on the click event of this button
+        $(this).closest('.select2-container').removeClass('select2-container--open');
         $('.address-overlay').removeClass('show');
     });
 });
