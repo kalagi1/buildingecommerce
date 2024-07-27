@@ -8,5 +8,7 @@ return [
     'reset_password_expiry' => 'Bu bağlantı 60 dakika içinde geçerlidir.',
     'reset_password_footer' => 'Şifre sıfırlama talebinde bulunmadıysanız, bu e-postayı göz ardı edebilirsiniz.',
     'reset_password_signoff' => 'Saygılarımızla,',
-    'reset_password_sender' => 'Laravel',
+    'reset_password_sender' => 'Emlak Sepette',
+    'reset_password_url' => 'Eğer "Şifreyi Sıfırla" düğmesine tıklamada sorun yaşıyorsanız, aşağıdaki URL’yi kopyalayıp tarayıcınıza yapıştırın: :url',
+
 ];
