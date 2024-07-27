@@ -929,6 +929,11 @@
                 url: '/get-counties/' + selectedCity,
                 success: function(data) {
                     var countySelect = $('#countySelect');
+                    $('#countySelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                     countySelect.empty();
                     countySelect.append('<option value="">İlçe Seçiniz</option>');
                     $.each(data.counties, function(index, county) {
@@ -950,7 +955,11 @@
                     var neighborhoodSelect = $('#neighborhoodSelect');
                     neighborhoodSelect.empty();
                     neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
-
+                    $('#neighborhoodSelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                     $.each(data, function(index, county) {
                         neighborhoodSelect.append('<option value="' + county.mahalle_key +
                             '">' +
