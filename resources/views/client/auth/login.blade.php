@@ -411,7 +411,7 @@
                                                     </div>   
                                                 </div>
                                                 <div class="col-md-8 pl-0">
-                                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
+                                                    <input type="number" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
                                                 </div>    
                                             </div>                                            
 
@@ -892,7 +892,34 @@
                 }
             });
         });
+        $('#citySelect').select2({
+        placeholder: 'İl',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
+    $('#countySelect').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
 
+    $('#neighborhoodSelect').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
         $('#citySelect').change(function() {
             var selectedCity = $(this).val();
 

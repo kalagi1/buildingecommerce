@@ -292,7 +292,7 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="default-option" selected disabled hidden>İl</option>
+                                            <option value="#" class="default-option" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
@@ -907,7 +907,6 @@
 
     // Show overlay when a Select2 dropdown is opened
     $(document).on('click', '.select2-container', function() {
-        $('#city option[value="#"]').hide(); 
                 if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
             const searchField = $('.select2-search__field');
