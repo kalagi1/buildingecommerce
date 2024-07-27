@@ -31959,24 +31959,14 @@ a {
         align-items: center;
     }
 
-    .modal-footer{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background: #fff;
-        width: 100%;
-        box-shadow: 0px 1px 1px #888, 0px -2px 4px #888;
-    }
+   
 
     .modal-footer .last-change{
         display: flex;
     }
 
     .modal-footer .last-change span{
-        display: block;
+        display: block; 
         margin-left: 15px;
     }
 
