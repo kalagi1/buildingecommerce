@@ -14,20 +14,15 @@ class ForgotPasswordController extends Controller {
     *
     * @return \Illuminate\View\View
     */
-
     public function showLinkRequestForm() {
-        
         $pageInfo = [
             "meta_title" => "Şifremi Sıfırla",
             "meta_keywords" => "Emlak Sepette,Şifremi Sıfırla",
-            "meta_description" => "Emlak Sepette Şifremi Sıfırla, hesabınızı güvende tutmak için kolay ve güvenli bir şekilde şifrenizi yenileyin. 
-                Hemen başlayın ve güvenle devam edin!",
+            "meta_description" => "Emlak Sepette Şifremi Sıfırla, hesabınızı güvende tutmak için kolay ve güvenli bir şekilde şifrenizi yenileyin. Hemen başlayın ve güvenle devam edin!",
             "meta_author" => "Emlak Sepette",
         ];
 
-        $pageInfo = json_encode($pageInfo);
-        $pageInfo = json_decode($pageInfo);
-        return view( 'auth.passwords.email',compact('pageInfo') );
+        return view('auth.passwords.email', compact('pageInfo'));
     }
 
     /**
@@ -36,13 +31,11 @@ class ForgotPasswordController extends Controller {
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     */
-
-    public function sendResetLinkEmail( Request $request ) {
-        $this->validateEmail( $request );
+    public function sendResetLinkEmail(Request $request) {
+        $this->validateEmail($request);
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
         );
-
 
         return $response == Password::RESET_LINK_SENT
                     ? $this->sendResetLinkResponse($request, $response)
@@ -50,34 +43,34 @@ class ForgotPasswordController extends Controller {
     }
 
     /**
-     * Validate the email for the given request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
+    * Validate the email for the given request.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return void
+    */
     protected function validateEmail(Request $request)
     {
         $request->validate(['email' => 'required|email']);
     }
 
     /**
-     * Get the needed authentication credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
+    * Get the needed authentication credentials from the request.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return array
+    */
     protected function credentials(Request $request)
     {
         return $request->only('email');
     }
 
     /**
-     * Get the response for a successful password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
+    * Get the response for a successful password reset link.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  string  $response
+    * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+    */
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()
@@ -86,14 +79,14 @@ class ForgotPasswordController extends Controller {
     }
 
     /**
-     * Get the response for a failed password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    * Get the response for a failed password reset link.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  string  $response
+    * @return \Illuminate\Http\RedirectResponse
+    *
+    * @throws \Illuminate\Validation\ValidationException
+    */
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
         if ($request->wantsJson()) {
@@ -104,7 +97,7 @@ class ForgotPasswordController extends Controller {
 
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans( $response ) ] );
+                ->withErrors(['email' => trans($response)]);
     }
 
     /**
@@ -112,7 +105,6 @@ class ForgotPasswordController extends Controller {
     *
     * @return \Illuminate\Contracts\Auth\PasswordBroker
     */
-
     public function broker() {
         return Password::broker();
     }
