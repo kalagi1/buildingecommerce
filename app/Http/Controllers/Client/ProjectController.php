@@ -1842,6 +1842,7 @@ class ProjectController extends Controller
 
         // $comment->rate = $request->input('rate');
         $comment->comment = $request->input('comment');
+        $comment->status  = 0;
         $comment->save();
 
         return response()->json(['message' => 'Yorum başarıyla güncellendi.']);
