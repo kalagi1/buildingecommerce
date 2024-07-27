@@ -49,7 +49,8 @@ class ForgotPasswordController extends Controller {
         if ($response == Password::RESET_LINK_SENT) {
             $user = $this->broker()->getUser($this->credentials($request));
             if ($user) {
-                $user->notify(new CustomResetPassword($response));
+                // Create a new instance of CustomResetPassword with the token
+                $user->notify(new CustomResetPassword($this->broker()->createToken($user)));
             }
             return $this->sendResetLinkResponse($request, $response);
         }

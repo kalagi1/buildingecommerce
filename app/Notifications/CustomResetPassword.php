@@ -14,9 +14,9 @@ class CustomResetPassword extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        parent::__construct($token);
     }
 
     /**
