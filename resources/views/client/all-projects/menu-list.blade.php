@@ -886,53 +886,56 @@ $(document).ready(function() {
     $('#city').select2({
         placeholder: 'İl',
         width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        searchInputPlaceholder: 'Ara...',
+        dropdownCssClass: 'custom-dropdown'
     });
-
     $("#project_type").select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
+        dropdownCssClass: 'custom-dropdown'
     });
-
     $('#county').select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
+        dropdownCssClass: 'custom-dropdown'
     });
-
     $('#neighborhood').select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
+        dropdownCssClass: 'custom-dropdown'
     });
 
-    // Show overlay and add close button when a Select2 dropdown is opened
-    $(document).on('select2:open', function(e) {
-        // Hide existing close buttons
-        $('.select2-close').remove();
-
-        // Add close button to the opened Select2 dropdown
-        var $container = $(e.target).closest('.select2-container');
-        if (!$container.find('.select2-close').length) {
-            $container.append('<div class="select2-close">×</div>');
+    // Show overlay when a Select2 dropdown is opened
+    $(document).on('click', '.select2-container', function() {
+        if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
+        } else {
+            $('.address-overlay').removeClass('show');
         }
-        
-        $('.address-overlay').addClass('show');
     });
 
-    // Hide overlay and close dropdown when clicking outside
+    // Hide overlay when clicking outside any Select2 dropdown
     $(document).on('click', function(event) {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
-            $('.select2-container--open').each(function() {
-                $(this).removeClass('select2-container--open');
-            });
         }
     });
 
-    // Close Select2 dropdown when the close button is clicked
-    $(document).on('click', '.select2-close', function(event) {
-        event.stopPropagation(); // Prevent closing on the click event of this button
-        $(this).closest('.select2-container').removeClass('select2-container--open');
-        $('.address-overlay').removeClass('show');
+    // Add clear button to search input of Select2
+    $('.select2-container').on('select2:open', function() {
+        let search = $(this).siblings('.select2').find('.select2-search');
+        if (search.length) {
+            // Add clear button next to search input
+            if (!$('.select2-clear-button').length) {
+                search.append('<button class="select2-clear-button" type="button">&#x2716;</button>');
+            }
+        }
+    });
+
+    // Clear search input on clear button click
+    $(document).on('click', '.select2-clear-button', function() {
+        $(this).siblings('.select2-search__field').val('');
+        $(this).siblings('.select2-search__field').trigger('keyup'); // Trigger keyup event to update results
     });
 });
 

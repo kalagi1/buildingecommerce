@@ -32174,23 +32174,21 @@ a {
 .address-overlay.show {
   display: block; /* Show the overlay */
 }
-.select2-container--open {
-  position: relative; /* Ensure the close button is positioned relative to the Select2 container */
+.custom-dropdown .select2-search {
+  position: relative;
 }
 
-.select2-close {
+.select2-clear-button {
   position: absolute;
-  top: 10px; /* Adjust as needed to position it correctly */
-  right: 10px; /* Adjust as needed to position it correctly */
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  font-size: 14px;
   cursor: pointer;
-  font-size: 20px;
-  color: #333;
-  z-index: 1000;
-  background: white; /* Ensure the button has a background to make it visible */
-  border-radius: 50%; /* Optional: round button */
-  padding: 5px; /* Adjust padding to ensure button is clickable */
 }
 
-.select2-container--default .select2-search--dropdown {
-  padding-right: 40px; /* Add padding to prevent overlap with close button */
+.select2-clear-button:hover {
+  color: red;
 }
