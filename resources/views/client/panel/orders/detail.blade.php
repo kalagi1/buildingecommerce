@@ -320,7 +320,7 @@
 
                                 <div class="horizontal-line"></div>
 
-                                @if ($cartType == "housing" && canUserAddComment($cartId) && !canUserAddProjectComment($cartId))
+                                @if ($cartType == "housing" && canUserAddComment($cartId))
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
@@ -429,7 +429,7 @@
                                         </div>
 
                                     </div>
-                                @elseif ( $cartType == "project" && canUserAddProjectComment($cartId) && !canUserAddComment($cartId) )
+                                @elseif ($cartType == "project" && canUserAddProjectComment($cartId))
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
@@ -1228,90 +1228,93 @@ Sipariş Notu eklenmedi
 
     <script>
         let currentTab = 0;
+     // Başlangıç tabı
+
+    function showTab(n) {
+        let tabs = document.getElementsByClassName("step");
+        tabs[n].style.display = "block";
+        document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+        document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
+    }
+
+    function nextPrev(n) {
+        let tabs = document.getElementsByClassName("step");
+        
+        // Mevcut adımı gizle
+        tabs[currentTab].style.display = "none";
+        
+        // Yeni adımı güncelle
+        currentTab += n;
+        
+        // Eğer tüm adımlar tamamlandıysa formu gönder
+        if (currentTab >= tabs.length) {
+            submitForms(); // formu gönder
+            return false;
+        }
+        
+        // Adımı göster
         showTab(currentTab);
+    }
 
-        function showTab(n) {
-            let x = document.getElementsByClassName("step");
-            x[n].style.display = "block";
-            let progress = (n / (x.length - 1)) * 100;
-            document.querySelector(".progress-bar")
-                .style.width = progress + "%";
-            document.querySelector(".progress-bar")
-                .setAttribute("aria-valuenow", progress);
-            document.getElementById("prevBtn")
-                .style.display = n == 0 ? "none" : "inline";
-            document.getElementById("nextBtn")
-                .innerHTML = n == x.length - 1 ? "Tamamla" : "İleri";
+    function validateForm() {
+    let valid = true;
+    let step = document.getElementsByClassName("step")[currentTab];
+    
+    // Input ve textarea elementlerini seç
+    let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+    let checkboxes = step.querySelectorAll("input[type='checkbox']");
+
+    // Her input ve textarea için doğrulama
+    inputs.forEach(input => {
+        if (input.value.trim() === "") {
+            input.classList.add("invalid");
+            valid = false;
+        } else {
+            input.classList.remove("invalid");
         }
+    });
 
-        function nextPrev(n) {
-            let x = document.getElementsByClassName("step");
-            if (n == 1 && !validateForm()) return false;
-            x[currentTab].style.display = "none";
-            currentTab += n;
-            if (currentTab >= x.length) {
-                submitForms();
-
-                return false;
-            }
-            showTab(currentTab);
+    // Checkbox doğrulaması
+    checkboxes.forEach(checkbox => {
+        if (!checkbox.checked) {
+            checkbox.classList.add("invalid-checkbox");
+            valid = false;
+        } else {
+            checkbox.classList.remove("invalid-checkbox");
         }
+    });
 
-        function validateForm() {
-            let valid = true;
-            let x = document.getElementsByClassName("step");
-            let y = x[currentTab].getElementsByTagName("input");
-            let z = x[currentTab].getElementsByTagName("textarea");
-            let checkboxes = x[currentTab].getElementsByTagName("input");
+    // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
+    // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
+    inputs.forEach(input => {
+        input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
+        input.addEventListener('input', handleInputChange);
+    });
 
-            for (let i = 0; i < y.length; i++) {
-                if (y[i].type !== "checkbox" && y[i].value == "") {
-                    y[i].classList.add("invalid");
-                    valid = false;
-                } else if (y[i].type !== "checkbox") {
-                    y[i].classList.remove("invalid");
-                }
-                y[i].addEventListener('input', function() {
-                    if (this.value != "") {
-                        this.classList.remove("invalid");
-                    }
-                });
-            }
+    checkboxes.forEach(checkbox => {
+        checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
 
-            for (let i = 0; i < z.length; i++) {
-                if (z[i].value == "") {
-                    z[i].classList.add("invalid");
-                    valid = false;
-                } else {
-                    z[i].classList.remove("invalid");
-                }
-                z[i].addEventListener('input', function() {
-                    if (this.value != "") {
-                        this.classList.remove("invalid");
-                    }
-                });
-            }
-
-            for (let i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].type === "checkbox") {
-                    if (!checkboxes[i].checked) {
-                        checkboxes[i].classList.add("invalid-checkbox");
-                        valid = false;
-                    } else {
-                        checkboxes[i].classList.remove("invalid-checkbox");
-                    }
-                    checkboxes[i].addEventListener('change', function() {
-                        if (this.checked) {
-                            this.classList.remove("invalid-checkbox");
-                        } else {
-                            this.classList.add("invalid-checkbox");
-                        }
-                    });
-                }
-            }
-
-            return valid;
+    function handleInputChange() {
+        if (this.value.trim() !== "") {
+            this.classList.remove("invalid");
+        } else {
+            this.classList.add("invalid");
         }
+    }
+
+    function handleCheckboxChange() {
+        if (this.checked) {
+            this.classList.remove("invalid-checkbox");
+        } else {
+            this.classList.add("invalid-checkbox");
+        }
+    }
+
+    return valid;
+}
+
 
 
 
@@ -1465,12 +1468,12 @@ Sipariş Notu eklenmedi
 @section('styles')
     <style>
         .invalid-checkbox {
-            color: #ff0000;
+            color: #ff0000 !important;
         }
     </style>
     <style>
         .invalid {
-            background-color: #ffdddd;
+            background-color: #ffdddd !important;
         }
     </style>
 
