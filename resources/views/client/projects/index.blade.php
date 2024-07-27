@@ -1100,7 +1100,11 @@
                                                             stroke-width="2" />
                                                     </svg>
                                                 @endfor
+                                                @if(auth()->check() && auth()->user()->id == $comment->user_id)
+                                                    <button class="btn btn-primary" style="display:block;margin-left:80px;margin-top:10px;" onclick="editComment({{ $comment->id }})">Düzenle</button>
+                                                @endif
                                             </div>
+                                           
                                         </div>
                                         <div class="body py-3">
                                             {{ $comment->comment }}
@@ -1277,8 +1281,78 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
+        function editComment(commentId) {
+            $.ajax({
+                url: `{{ url('get-project-comment') }}/${commentId}`,
+                type: 'GET',
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Yorumu Düzenle',
+                        html: `
+                            <form id="edit-comment-form">
+                                <input type="hidden" name="id" value="${response.data.id}">
+                              
+                                <div class="form-group">
+                                    <label for="comment">Yorumunuz/label>
+                                    <textarea id="comment" name="comment" class="form-control">${response.data.comment}</textarea>
+                                </div>
+                            </form>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Güncelle',
+                        cancelButtonText: 'İptal',
+                        preConfirm: () => {
+                            const formData = new FormData(document.getElementById('edit-comment-form'));
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content')); 
+                            return $.ajax({
+                                url: "{{ route('project.update-comment') }}",
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    Swal.fire('Başarılı!', 'Yorum başarıyla güncellendi.', 'success');
+                                    location.reload(); // Reload the page
+                                },
+                                error: function (error) {
+                                    Swal.fire('Hata!', 'Yorum güncellenirken bir hata oluştu.', 'error');
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function (error) {
+                    Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#selectImageButton').on('click', function() {
+                $('.fileinput').click();
+            });
+
+            $('.fileinput').on('change', function(event) {
+                var previewContainer = $('#previewContainer');
+                previewContainer.empty(); // Clear previous previews
+
+                var files = event.target.files;
+                if (files) {
+                    $.each(files, function(index, file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var img = $('<img>').attr('src', e.target.result);
+                            previewContainer.append(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+        });
+
         function submitForm() {
-            // Rate değerini al
+
             var rateValue = $('#rate').val();
 
             // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
@@ -1286,11 +1360,10 @@
                 $('#rate').val('1');
             }
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            console.log(csrfToken);
+
             var formData = new FormData($('#commentForm')[0]);
             // Append CSRF token to form data
             formData.append('_token', csrfToken);
-console.log('DERSİMLEEEEEEEEEEEEEEEEEEEEEEE')
             $.ajax({
                 url: "{{ route('project.send-comment', ['id' => $project->id]) }}",
                 type: 'POST',
@@ -1307,12 +1380,37 @@ console.log('DERSİMLEEEEEEEEEEEEEEEEEEEEEEE')
                     });
                 },
                 error: function(error) {
-                    window.location.href = "/giris-yap";
+                    console.log(xhr.responseText);
+                    // window.location.href = "/giris-yap";
                     //console.log(error);
                 }
             });
-        }
+            }
     </script>
+
+    <script>
+            $(document).ready(function() {
+                jQuery('.rating-area .rating').on('mouseover', function() {
+                jQuery('.rating-area .rating polygon').attr('fill', 'none');
+                for (var i = 0; i <= $(this).index(); ++i)
+                    jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
+            });
+
+            jQuery('.rating-area .rating').on('mouseleave', function() {
+                jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
+            });
+
+            jQuery('.rating-area .rating').on('click', function() {
+                jQuery('.rating-area .rating').removeClass('selected');
+                for (var i = 0; i <= $(this).index(); ++i)
+                    jQuery('.rating-area .rating').eq(i).addClass('selected');
+
+                $('#rate').val($(this).index() + 1);
+            });
+            }); 
+    </script>
+
+   
     <script>
         function openLightbox(index) {
             const slideNumber = index.toString();
