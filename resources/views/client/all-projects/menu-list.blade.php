@@ -851,11 +851,7 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-    $('#city').change(function() {
-        $('.default-option').hide();
-    });
-});
+        
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
@@ -878,6 +874,23 @@
         placeholder: 'İl',
         width: '100%',
         searchInputPlaceholder: 'Ara...'
+    });
+    $('#city').on('select2:open', function() {
+        // Placeholder seçeneğini gizle
+        $('.select2-results__option').each(function() {
+            if ($(this).text().trim() === 'İl') {
+                $(this).hide();
+            }
+        });
+    });
+
+    $('#city').on('select2:select', function() {
+        // Varsayılan seçeneği gizle
+        $('.select2-results__option').each(function() {
+            if ($(this).text().trim() === 'İl') {
+                $(this).hide();
+            }
+        });
     });
     $("#project_type").select2({
         minimumResultsForSearch: -1,
