@@ -539,13 +539,13 @@ function ReactTable(props) {
           horizontal: 'center',
         }}
       >
-        <ul className="popover-project-actions">
-          <li>
+        <ul className="popover-project-actions p-relative">
+          <li className="d-flex">
             <a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
-          <li><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
-          <li><a href={`https://private.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
-          <li>
+          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li className="d-flex" style={{ padding : '10px 20px' }}>
             {selectedRow?.status == 2 ? (
               <span className="badge badge-phoenix badge-phoenix-warning">
                 Admin Onayının Arından işlem Yapabilirsiniz
@@ -568,7 +568,7 @@ function ReactTable(props) {
               </span>
             )}
           </li>
-          <li>
+          <li className="d-flex" style={{ padding : '10px 20px' }}>
             <span onClick={() => { remove(selectedRow.id); }}>
               Sil
             </span>

@@ -1001,38 +1001,46 @@ function CreateProject(props) {
 
         blocks.forEach((block, blockIndex) => {
           block.rooms.forEach((room, roomIndex) => {
-              
-              const formDataRoom = new FormData();
-              formDataRoom.append('project_id',res.data.project.id)
-              formDataRoom.append('room_order',housingTemp);
-              Object.keys(room).forEach(key => {
-                  if(key == "payDecs"){
-                      room.payDecs.forEach((payDec,payDecIndex) => {
-                          formDataRoom.append(`room[payDecs][${payDecIndex}][price]`, payDec.price);
-                          formDataRoom.append(`room[payDecs][${payDecIndex}][date]`, payDec.date);
-                      })
-                  }else{
-                      if(!key.includes('imagex')){
-                          formDataRoom.append(`room[${key.replace('[]','')}]`, room[key]);
-                      }
-                  }
-              });
+            const formDataRoom = new FormData();
+            formDataRoom.append("project_id", res.data.project.id);
+            formDataRoom.append("room_order", housingTemp);
+            Object.keys(room).forEach((key) => {
+              if (key == "payDecs") {
+                room.payDecs.forEach((payDec, payDecIndex) => {
+                  formDataRoom.append(
+                    `room[payDecs][${payDecIndex}][price]`,
+                    payDec.price
+                  );
+                  formDataRoom.append(
+                    `room[payDecs][${payDecIndex}][date]`,
+                    payDec.date
+                  );
+                });
+              } else {
+                if (!key.includes("imagex")) {
+                  formDataRoom.append(
+                    `room[${key.replace("[]", "")}]`,
+                    room[key]
+                  );
+                }
+              }
+            });
 
-              const callCreateRoom = () => {
-                  return new Promise(resolve => {
-                      setTimeout(async () => {
-                          const result = await createRoomAsync(formDataRoom);
-                          resolve(result);
-                      }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
-                  });
-              };
-      
-              // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
-              requestPromises.push(callCreateRoom());
-      
-              housingTemp++; // Oda sırasını arttırma
+            const callCreateRoom = () => {
+              return new Promise((resolve) => {
+                setTimeout(async () => {
+                  const result = await createRoomAsync(formDataRoom);
+                  resolve(result);
+                }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+              });
+            };
+
+            // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+            requestPromises.push(callCreateRoom());
+
+            housingTemp++; // Oda sırasını arttırma
           });
-      });
+        });
         await Promise.all(requestPromises);
         clearInterval(progressInterval);
         setProgress(100); // Set progress to 100% when all requests are complete

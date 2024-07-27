@@ -31310,6 +31310,9 @@ a {
     background-color: #6c757d;
   }
 
+.p-relative{
+  position: relative !important;
+}
 
   #cover_image.upload-container,
   #authority_certificate.upload-container,
