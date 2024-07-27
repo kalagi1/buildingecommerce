@@ -90,15 +90,6 @@ function CreateProject(props) {
   const [progress, setProgress] = useState(
     () => JSON.parse(localStorage.getItem("progress")) || 0
   );
-  const convertFileToBinary = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
-      reader.onload = () => resolve(reader.result); // Resolve with the ArrayBuffer result
-      reader.onerror = (error) => reject(error); // Reject on error
-    });
-  };
-
   useEffect(() => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
@@ -199,44 +190,13 @@ function CreateProject(props) {
     localStorage.setItem("progress", JSON.stringify(progress));
   }, [progress]);
 
-  const setProjectDataFunc = async (key, value) => {
-    let newValue = value;
-
-    // Convert files to Binary
-    if (value instanceof File) {
-      newValue = await convertFileToBinary(value);
-    } else if (Array.isArray(value)) {
-      newValue = await Promise.all(
-        value.map(async (item) => {
-          if (item instanceof File) {
-            return await convertFileToBinary(item);
-          }
-          return item;
-        })
-      );
-    } else if (typeof value === "object" && value !== null) {
-      newValue = {};
-      for (const [subKey, subValue] of Object.entries(value)) {
-        if (subValue instanceof File) {
-          newValue[subKey] = await convertFileToBinary(subValue);
-        } else {
-          newValue[subKey] = subValue;
-        }
-      }
-    }
-
+  const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
-      const newProjectData = { ...prev, [key]: newValue };
-      try {
-        const compressedData = compressToUTF16(JSON.stringify(newProjectData));
-        localStorage.setItem("projectData", compressedData);
-      } catch (e) {
-        console.error("Error compressing or storing data:", e);
-      }
+      const newProjectData = { ...prev, [key]: value };
+      localStorage.setItem("projectData", JSON.stringify(newProjectData));
       return newProjectData;
     });
   };
-
   const getFileFromBinary = (binaryData, mimeType) => {
     return new Blob([binaryData], { type: mimeType });
   };
