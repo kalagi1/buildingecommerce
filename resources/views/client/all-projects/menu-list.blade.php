@@ -910,10 +910,9 @@
 
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
-         // Insert "ARA..." into the search field
-        const searchField = $('.select2-search__field');
+            const searchField = $('.select2-search__field');
         if (searchField.length) {
-            searchField.val('ARA...').trigger('input');
+            searchField.attr('placeholder', 'ARA...');
         }
 
         } else {
