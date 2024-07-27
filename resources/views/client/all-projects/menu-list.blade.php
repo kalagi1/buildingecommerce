@@ -794,22 +794,6 @@
 
 
     <script>// Using jQuery
-$(document).ready(function() {
-    $('#city, #county, #neighborhood').on('focus', function() {
-        $('.address-overlay').addClass('show');
-    });
-
-    // Use `focusout` instead of `blur` to handle clicks outside the select
-    $('#city, #county, #neighborhood').on('focusout', function() {
-        // Delay hiding to ensure the user clicks inside the select or its options
-        setTimeout(function() {
-            if (!$('.address-overlay').is(':focus') && !$('.address-overlay').has(':focus').length) {
-                $('.address-overlay').removeClass('show');
-            }
-        }, 100);
-    });
-});
-
 
         $(document).ready(function() {
             $(".tab").click(function() {
@@ -878,7 +862,7 @@ $(document).ready(function() {
             });
         });
 
-     $(document).ready(function() {
+        $(document).ready(function() {
     // Initialize Select2 for each element
     $('#city').select2({
         placeholder: 'İl',
@@ -891,7 +875,7 @@ $(document).ready(function() {
     });
     $('#county').select2({
         minimumResultsForSearch: -1,
-        width: '100%',
+        width: '100%'
     });
     $('#neighborhood').select2({
         minimumResultsForSearch: -1,
@@ -912,6 +896,23 @@ $(document).ready(function() {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
         }
+    });
+
+    // Hide overlay when a selection is made
+    $('#city').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#project_type').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#county').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#neighborhood').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
     });
 });
 
