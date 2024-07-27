@@ -142,7 +142,6 @@ class CrmController extends Controller
         $geri_donus_yapilacak_musteriler = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
             ->get();
-            // print_r($geri_donus_yapilacak_musteriler);die;
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
@@ -347,13 +346,6 @@ class CrmController extends Controller
                 return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
             }
         }
-
-
-        
-      
-
-   
-
     }//End
 
     public function danismanDashboard(){
