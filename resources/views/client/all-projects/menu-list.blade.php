@@ -292,7 +292,7 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled hidden>İl</option>
+                                            <option value="#" class="default-option" selected disabled hidden>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
@@ -851,6 +851,11 @@
     </script>
 
     <script>
+        $(document).ready(function() {
+    $('#city').change(function() {
+        $('.default-option').hide();
+    });
+});
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
