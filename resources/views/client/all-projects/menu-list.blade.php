@@ -1034,7 +1034,7 @@
                             placeholder: 'İlçe',
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
-                        });
+                        }).prop('disabled', false);
 
                         if (countyID) {
                             selectCountyByID(countyID);
@@ -1077,7 +1077,7 @@
                             placeholder: 'Mahalle',
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
-                        });
+                        }).prop('disabled', false);
 
                         if (neighborhoodID) {
                             selectNeighborhoodByID(neighborhoodID);
