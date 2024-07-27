@@ -23,7 +23,7 @@ class CustomResetPassword extends ResetPasswordNotification
                     ->line(__('auth.reset_password_expiry'))
                     ->line(__('auth.reset_password_footer'))
                     ->line(__('auth.reset_password_signoff'))
-                    ->line(__('auth.reset_password_sender'));
+                    ->line(__('auth.reset_password_sender'))
                     ->line(__('auth.reset_password_url', ['url' => url('password/reset', $this->token)]));
 
     }
