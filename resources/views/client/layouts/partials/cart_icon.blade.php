@@ -27,7 +27,7 @@
             text-align: center;
             position: absolute;
             top: -2px;
-            left: 127px;
+            left: 116px;
             display: flex;
             padding: 0;
             font-size: 10px;
