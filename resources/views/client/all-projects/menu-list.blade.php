@@ -887,11 +887,22 @@
     });
     $('#county').select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
     }).prop('disabled', true);
+
     $('#neighborhood').select2({
         minimumResultsForSearch: -1,
-        width: '100%'
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
     }).prop('disabled', true);
 
     // Show overlay when a Select2 dropdown is opened
@@ -899,7 +910,11 @@
 
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
-         
+         // Insert "ARA..." into the search field
+        const searchField = $('.select2-search__field');
+        if (searchField.length) {
+            searchField.val('ARA...').trigger('input');
+        }
 
         } else {
             $('.address-overlay').removeClass('show');
