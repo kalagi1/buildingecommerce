@@ -291,12 +291,8 @@
                                         <span>Adres</span>
                                     </div>
                                     <div class="mt-md-2">
-                                        <!-- "İl" seçeneğini burada göstermek için bir span kullanabilirsiniz -->
-                                        <span class="selected-city">İl</span>
-                                    
-                                        <!-- Select elementini burada tanımlayın -->
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" disabled hidden>İl</option>
+                                            <option value="#" class="selected" selected disabled hidden>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
@@ -305,7 +301,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button" disabled>
                                             <option value="#" class="selected" selected disabled>İlçe</option>
@@ -2473,12 +2468,5 @@
             padding: 0px 5px;
             color: black;
         }
-        .selected-city {
-    display: block;
-    font-weight: bold;
-    color: #333; /* Örneğin, istediğiniz renkte */
-    margin-bottom: 0.5rem;
-}
-
     </style>
 @endsection
