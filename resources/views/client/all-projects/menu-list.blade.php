@@ -865,28 +865,26 @@
         });
 
         $(document).ready(function() {
-    $('#city').select2({
-        placeholder: 'İl',
-        width: '100%',
-        dropdownCssClass: 'custom-dropdown' // Add custom class
-    });
-    $("#project_type").select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        dropdownCssClass: 'custom-dropdown' // Add custom class
-    });
-    $('#county').select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        dropdownCssClass: 'custom-dropdown' // Add custom class
-    });
-    $('#neighborhood').select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        dropdownCssClass: 'custom-dropdown' // Add custom class
-    });
-});
+            $('#city').select2({
+                placeholder: 'İl',
+                width: '100%',
+                searchInputPlaceholder: 'Ara...',
 
+            });
+            $("#project_type").select2({    
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+            $('#county').select2({
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+            $('#neighborhood').select2({
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+
+        });
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
@@ -2434,25 +2432,5 @@
             padding: 0px 5px;
             color: black;
         }
-
-        /* Style for the Select2 dropdown */
-.select2-dropdown {
-    background-color: rgba(0, 0, 0, 0.8); /* Dark background with 80% opacity */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for the dropdown */
-    border-radius: 4px; /* Rounded corners */
-}
-
-/* Style for the dropdown items */
-.select2-results__options {
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background for options */
-}
-
-/* Style for the search input */
-.select2-search--dropdown .select2-search__field {
-    background-color: #f9f9f9; /* Light background for search input */
-    border: 1px solid #ddd; /* Border for the search input */
-    border-radius: 4px; /* Rounded corners for the search input */
-}
-
     </style>
 @endsection
