@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
+<div style="background-color: ghostwhite;">
 <div class="container pb-5 pt-5">
 <div class="d-flex justify-content-between align-items-center mb-5">
     <div class="table-breadcrumb">
@@ -48,4 +49,6 @@
     </div>
 </section>
 </div>
+</div>
+
 @endsection
