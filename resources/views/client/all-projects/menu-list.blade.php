@@ -302,12 +302,10 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button" >
-
                                         </select>
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="neighborhood" class="bg-white filter-now mobile-button">                                            <option value="#" class="selected" selected disabled>Mahalle</option>
-
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
                                         </select>
                                     </div>
                                 </div>
@@ -864,7 +862,7 @@
             });
         });
 
-        $(document).ready(function() {
+   $(document).ready(function() {
     // Initialize Select2 for each element
     $('#city').select2({
         placeholder: 'İl',
@@ -995,9 +993,11 @@
                     method: "GET",
                     url: "{{ url('get-counties') }}/" + $(this).val(),
                     success: function(res) {
-                        $('#county').empty().append('<option value="#" selected disabled>İlçe</option>');
-                $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
+                        $('#county').empty();
+                        $('#neighborhood').empty();
 
+                        $("#county").val("#");
+                        $("#neighborhood").val("#");
                         $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
@@ -1015,6 +1015,9 @@
 
                         cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
                             'href', newUrl);
+
+                        $('#county').append(`<option value="#">İlçe</option>`);
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
 
                         res.counties.forEach((e) => {
                             $('#county').append(
@@ -1058,6 +1061,7 @@
 
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
                         res.neighborhoods.forEach((e) => {
                             $('#neighborhood').append(
                                 `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
