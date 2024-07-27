@@ -891,7 +891,8 @@
 
     // Show overlay when a Select2 dropdown is opened
     $(document).on('click', '.select2-container', function() {
-        
+        $('.select2-search__field').val('Ara');
+
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
          
