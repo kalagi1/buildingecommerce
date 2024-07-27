@@ -875,23 +875,7 @@
         width: '100%',
         searchInputPlaceholder: 'Ara...'
     });
-    $('#city').on('select2:open', function() {
-        // Placeholder seçeneğini gizle
-        $('.select2-results__option').each(function() {
-            if ($(this).text().trim() === 'İl') {
-                $(this).hide();
-            }
-        });
-    });
-
-    $('#city').on('select2:select', function() {
-        // Varsayılan seçeneği gizle
-        $('.select2-results__option').each(function() {
-            if ($(this).text().trim() === 'İl') {
-                $(this).hide();
-            }
-        });
-    });
+    
     $("#project_type").select2({
         minimumResultsForSearch: -1,
         width: '100%'
@@ -909,6 +893,7 @@
     $(document).on('click', '.select2-container', function() {
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
+            $("#select2-city-result-s0tj-#").remove();
         } else {
             $('.address-overlay').removeClass('show');
         }
