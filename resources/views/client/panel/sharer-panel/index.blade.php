@@ -74,10 +74,10 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
+                                                        <button class="dropdown-item" type="button" onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
-                                                        </a>
+                                                        </button>
                                                     </li>
                                                     
                                                     
