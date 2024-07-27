@@ -31314,6 +31314,11 @@ a {
   position: relative !important;
 }
 
+.table-row-image img{
+  max-height: 50px !important;
+}
+
+
   #cover_image.upload-container,
   #authority_certificate.upload-container,
   #document.upload-container,

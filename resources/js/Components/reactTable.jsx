@@ -550,7 +550,7 @@ function ReactTable(props) {
               <span className="badge badge-phoenix badge-phoenix-warning">
                 Admin Onayının Arından işlem Yapabilirsiniz
               </span>
-            ) : selectedRow?.status == 0 ? (
+            ) : selectedRow?.status == 0 &&(
               <span
                 onClick={() => {
                   active(selectedRow?.id);
@@ -558,20 +558,7 @@ function ReactTable(props) {
               >
                 Aktife Al
               </span>
-            ) : (
-              <span
-                onClick={() => {
-                  deactive(selectedRow?.id);
-                }}
-              >
-                Pasife Al
-              </span>
             )}
-          </li>
-          <li className="d-flex" style={{ padding : '10px 20px' }}>
-            <span onClick={() => { remove(selectedRow.id); }}>
-              Sil
-            </span>
           </li>
         </ul>
       </Popover>
