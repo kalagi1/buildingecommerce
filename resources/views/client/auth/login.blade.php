@@ -130,7 +130,7 @@
                                             </div> --}}
 
 
-                                            <div class="q-layout social-login-button flex flex-1">
+                                            <div class="q-layout social-login-button  w-100 m-0">
                                                 <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
                                                     <i class="fa fa-google"></i>
                                                 </div>
