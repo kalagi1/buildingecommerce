@@ -55,6 +55,7 @@
                                                     style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
 
                                                     @foreach ($projects as $project)
+                                                    {{-- {{dd($projects)}} --}}
                                                         <div class="form-check mt-3">
                                                             <input type="hidden" name="user_id"
                                                                 value="{{ $item->id }}">
