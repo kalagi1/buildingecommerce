@@ -901,18 +901,10 @@ $(document).ready(function() {
         width: '100%'
     });
 
-  // Show overlay when a Select2 dropdown is opened
-  $(document).on('click', '.select2-container', function() {
-        if ($(this).hasClass('select2-container--open')) {             $('.address-overlay').addClass('show');
-                 let search = $(this).find('.select2-search');
-                 if (search.length) {
-            // Add clear button next to search input
-            if (!$('.select2-clear-button').length) {
-                search.append('<button class="select2-clear-button" type="button">&#x2716;</button>');
-            }
-        }
-
-  
+    // Show overlay when a Select2 dropdown is opened
+    $(document).on('click', '.select2-container', function() {
+        if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
         } else {
             $('.address-overlay').removeClass('show');
         }
@@ -923,13 +915,6 @@ $(document).ready(function() {
         if (!$(event.target).closest('.select2-container').length) {
             $('.address-overlay').removeClass('show');
         }
-    });
-
-
-    // Clear search input on clear button click
-    $(document).on('click', '.select2-clear-button', function() {
-        $(this).siblings('.select2-search__field').val('');
-        $(this).siblings('.select2-search__field').trigger('keyup'); // Trigger keyup event to update results
     });
 });
 
