@@ -74,19 +74,21 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item"
-                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        <a class="dropdown-item" href="#" onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
+                                                    
+                                                    <script>
+                                                        function copyLinkAndShare(link) {
+                                                            const whatsappUrl = "whatsapp://send?text=" + encodeURIComponent(link);
+                                                            window.location.href = whatsappUrl;
+                                                        }
+                                                    </script>
+                                                    
                                                 </ul>
 
-                                                <script>
-                                                    function copyLinkAndShare(link) {
-                                                        window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                    }
-                                                </script>
                                             </div>
                                         </li>
 
