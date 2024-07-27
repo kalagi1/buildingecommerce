@@ -2157,7 +2157,8 @@
 
                 if (isEmpty) {
                     e.preventDefault();
-                    alert('Tüm zorunlu alanları doldurunuz!');
+                    toastr.error('Lütfen tüm gerekli alanları doldurun.');
+
                 }
 
             });
