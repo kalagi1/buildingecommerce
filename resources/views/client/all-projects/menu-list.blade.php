@@ -891,9 +891,10 @@
 
     // Show overlay when a Select2 dropdown is opened
     $(document).on('click', '.select2-container', function() {
+        $('#city option:first-child').remove();
         if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
-            $('#city option:first-child').remove();
+         
 
         } else {
             $('.address-overlay').removeClass('show');
