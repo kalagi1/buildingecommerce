@@ -74,7 +74,9 @@ h5 {
 .top-headings-section {
   padding-bottom: 2rem;
 }
-
+.select2-results{
+  padding: 4px !important;
+}
 .top-headings-section p {
   margin-left: auto;
   margin-right: auto;
