@@ -537,6 +537,7 @@ class ProjectController extends Controller
                     'housings.slug',
                     'housings.title AS housing_title',
                     'housings.created_at',
+                    "housings.is_sold",
                     'housings.step1_slug',
                     'housings.step2_slug',
                     'housing_types.title as housing_type_title',
@@ -566,6 +567,7 @@ class ProjectController extends Controller
                 ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
+                ->whereNull('housings.is_sold')
                 ->get();
         }
 
@@ -580,6 +582,7 @@ class ProjectController extends Controller
                 ->select(
                     'housings.id',
                     'housings.slug',
+                    'housings.is_sold',
                     'housings.title AS housing_title',
                     'housings.created_at',
                     'housings.step1_slug',
@@ -612,6 +615,7 @@ class ProjectController extends Controller
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
+                ->whereNull('housings.is_sold')
                 ->get();
         }
 
@@ -800,7 +804,7 @@ class ProjectController extends Controller
                     ->get()
                     ->concat($anotherProjects);
             } else {
-                $query = Housing::with('images', "city", "county");
+                $query = Housing::with('images', "city", "county")->whereNull('housings.is_sold');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -821,7 +825,7 @@ class ProjectController extends Controller
                 $secondhandHousings = $query->get();
             }
         } else {
-            $query = Housing::with('images', "city", "county");
+            $query = Housing::with('images', "city", "county")->whereNull('housings.is_sold');
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -1326,7 +1330,7 @@ class ProjectController extends Controller
                 $projects = Project::all();
             } elseif ($status->id == 4) {
                 $projects = [];
-                $secondhandHousings = Housing::with('images', "city", "county")->get();
+                $secondhandHousings = Housing::with('images', "city", "county")->whereNull('is_sold')->get();
             } else {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $status->id)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
