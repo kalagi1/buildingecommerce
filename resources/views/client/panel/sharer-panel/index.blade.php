@@ -74,11 +74,21 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <button class="dropdown-item" type="button" onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
+                                                        <a class="dropdown-item" href="#" onclick="shareOnWhatsApp('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
-                                                        </button>
+                                                        </a>
                                                     </li>
+                                                    
+                                                    <script>
+                                                        function shareOnWhatsApp(url) {
+                                                            // URL'yi WhatsApp paylaşım URL'sine dönüştür
+                                                            const whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(url);
+                                                            
+                                                            // Yeni sekmede WhatsApp paylaşım sayfasını aç
+                                                            window.open(whatsappUrl, '_blank');
+                                                        }
+                                                    </script>
                                                     
                                                     
                                                 </ul>
@@ -668,10 +678,5 @@
                 event.stopPropagation(); // Bu olayın diğer elementlere yayılmasını engeller
             });
         });
-
-        function copyLinkAndShare(link) {
-                                                            const whatsappUrl = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                            window.location.href = whatsappUrl;
-                                                        }
     </script>
 @endsection
