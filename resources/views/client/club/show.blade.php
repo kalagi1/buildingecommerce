@@ -215,7 +215,7 @@
 
                                                                     $price = $defaultPrice - $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price - ( (float) $price * (float) $discountRate) / 100;
                                                                 } elseif ($item['item_type'] == 1) {
                                                                     $discountRate =
                                                                         $item['project_values']['discount_rate[]'] ?? 0;
@@ -228,7 +228,7 @@
                                                                         $item['project_values']['price[]'] -
                                                                         $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price - ((float) $price * (float) $discountRate) / 100;
                                                                 }
                                                             @endphp
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -693,7 +693,7 @@
 
                                                             $price = $defaultPrice - $item['discount_amount'];
 
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            $discountedPrice = $price - ((float) $price * (float) $discountRate) / 100;
                                                         } elseif ($item['item_type'] == 1) {
                                                             $discountRate =
                                                                 $item['project_values']['discount_rate[]'] ?? 0;
