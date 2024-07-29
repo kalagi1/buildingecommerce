@@ -505,7 +505,7 @@ class ReservationController extends Controller
                 $sales_rate_club = $rates->last()->sales_rate_club;
             }
 
-            return $earnMoney;
+            return $share_percent_balance;
                 
             $estateclubrate = ($earnMoney - $share_percent_balance) * $sales_rate_club;
             $remaining = $earnMoney - $estateclubrate;
