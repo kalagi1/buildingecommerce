@@ -29905,7 +29905,7 @@ font {
   background-color: black !important;
   right: 10px;
   text-align: center;
-  width: 100px !important;
+  width: auto !important;
   margin-top: 10px;
   position: absolute;
 }
