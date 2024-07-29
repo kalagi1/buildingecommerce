@@ -53,7 +53,7 @@
                                 <li class="order_image " >
                                 <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}" class="d-flex align-items-center text-body">
                                 <div class="avatar avatar-m">
-                            <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px">
+                            <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px;object-fit:cover">
                         </div>
                                     #{{ $housing->id + 2000000 }}</a>
                                 </li>
