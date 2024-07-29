@@ -410,13 +410,18 @@ class ReservationController extends Controller
             'owner_id' => 'required',
             'price' => 'required|numeric|min:0',
             'key' => 'required',
-
             'fullName' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'tc' => 'required|numeric',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
         ]);
+
+        $hasReference = null;
+
+        if ($request->input('reference_code')) {
+            $hasReference = User::where('code', $request->input('reference_code'))->first();
+        }
 
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => 'Geçersiz istek.', 'errors' => $validator->errors()]);
@@ -454,6 +459,8 @@ class ReservationController extends Controller
         $reservation->check_out_date = $request->input('check_out_date');
         $reservation->person_count = $request->input('person_count');
         $reservation->owner_id = $request->input('owner_id');
+        $reservation->reference_id = $hasReference ? $hasReference->id : null;
+
         $reservation->status = 0;
         if ($request->input('money_trusted') == true) {
             $reservation->money_trusted = 1;
