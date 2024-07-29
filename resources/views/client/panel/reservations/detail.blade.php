@@ -99,19 +99,19 @@
                 </div>
                 <div class="order-item-body">
 
-                    <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image ?? null) }}"
+                    <img src="{{ asset('housing_images/' . json_decode($order->housing->housing_type_data)->image ?? null) }}"
                         style="object-fit: cover;width:100px;height:75px" alt="">
 
 
                     <div class="order-item-details">
-                        <h5><strong>{{ $housing->title }}</strong></h5>
+                        <h5><strong>{{ $order->housing->title }}</strong></h5>
                         <span class="badge badge-danger">İlan No:
-                            {{ $housing->id + 2000000 }}</span>
+                            {{ $order->housing->id + 2000000 }}</span>
                     </div>
 
                     <div class="order-item-quantity">
                         <p class="text-muted">
-                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent, 0, ',', '.') }}₺</p>
+                            {{ number_format(json_decode($order->housing->housing_type_data)->daily_rent, 0, ',', '.') }}₺</p>
                     </div>
 
                 </div>
@@ -121,12 +121,12 @@
                         $storeImage = null;
                         $initial = null;
                         $userName = null;
-                        if ($housing->user->profile_image) {
-                            $storeImage = url('storage/profile_images/' . $housing->user->profile_image);
+                        if ($order->housing->user->profile_image) {
+                            $storeImage = url('storage/profile_images/' . $order->housing->user->profile_image);
                         } else {
-                            $initial = $housing->user->name ? strtoupper(substr($housing->user->name, 0, 1)) : '';
+                            $initial = $order->housing->user->name ? strtoupper(substr($order->housing->user->name, 0, 1)) : '';
                         }
-                        $userName = $housing->user->name;
+                        $userName = $order->housing->user->name;
 
                     @endphp
 
@@ -145,7 +145,7 @@
 
                         <button class="btn btn-outline-primary">
                             <a
-                                href="{{ route('institutional.dashboard', ['slug' => $housing->user->name, 'userID' => $housing->user->id]) }}">Mağazayı
+                                href="{{ route('institutional.dashboard', ['slug' => $order->housing->user->name, 'userID' => $order->housing->user->id]) }}">Mağazayı
                                 Gör</a>
                         </button>
                         {{-- @if ($order->invoice)
