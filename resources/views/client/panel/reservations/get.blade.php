@@ -96,7 +96,7 @@
                                     {{ $order->owner->email }}
                                 </li>
                                  <li style="width: 5%">
-                                            <span class="project-table-content-actions-button" data-toggle="popover-{{ $housingType->id }}">
+                                            <span class="project-table-content-actions-button" data-toggle="popover-{{ $order->id }}">
                                                 <i class="fa fa-chevron-down"></i>
                                             </span>
                                         </li>
