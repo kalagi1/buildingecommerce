@@ -8,10 +8,17 @@
                 <div class="homes">
                     <div class="homes-img">
                         <div class="homes-tag button alt featured" style="width:90px !important">
-                            No: {{ $housing->id + 2000000 }}
+                            {{-- No: {{ $housing->id + 2000000 }} --}}  
+                            @if ($housing->step2_slug == 'kiralik')
+                                Kiralık
+                                @elseif ($housing->step2_slug == 'gunluk-kiralik')
+                                    Günlük Kiralık
+                                @else
+                                    Satılık
+                                @endif
                         </div>
 
-                        <div class="type-tag button alt featured">
+                        {{-- <div class="type-tag button alt featured">
                             @if ($housing->step2_slug == 'kiralik')
                                 Kiralık
                             @elseif ($housing->step2_slug == 'gunluk-kiralik')
@@ -19,7 +26,11 @@
                             @else
                                 Satılık
                             @endif
-                        </div>
+                        </div> --}}
+
+                        @if($housing->step2_slug == 'gunluk-kiralik')
+                        <p class="chakra-text css-1nm0gly">2 kişi / en az 5 gece</p>
+                        @endif
                         @if (checkIfUserCanAddToCart($housing->id))
 
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
