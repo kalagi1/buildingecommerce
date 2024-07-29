@@ -223,9 +223,7 @@
                             </div>
                             <div class="status-header">
                                 <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
-                                <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
-                                    onaylamanız
-                                    bekleniyor.</div>
+                                <div class="status-description">Rezervasyon onayınız bekleniyor.</div>
                             </div>
 
                             @if (isset($order->share) && optional($order->share)->status != 1)
@@ -259,11 +257,14 @@
                                             src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
                                 </div>
                                 <div class="status-header">
-                                    <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
-                                    <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
-                                        değerlendirme
-                                        yapabilirsiniz.</div>
+                                    <div class="status-title text-success">
+                                        Rezervasyonunuz Başarıyla Tamamlandı!
+                                    </div>
+                                    <div class="status-description">
+                                        Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve ilan hakkında değerlendirme yapabilirsiniz. İyi tatiller dileriz!
+                                    </div>
                                 </div>
+                                
                                 {{-- <div class="rating">
                                   
                                 </div> --}}
