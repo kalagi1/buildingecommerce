@@ -286,7 +286,7 @@
                                                 <input type="hidden" name="type" id="type"
                                                     value="housing" />
                                                 <input type="hidden" name="id" id="id"
-                                                    value="{{ $housing->id }}" />
+                                                    value="{{ $order->housing->id }}" />
 
                                                 <div class="d-flex align-items-center w-full" style="gap: 6px;">
                                                     <div class="d-flex rating-area">
