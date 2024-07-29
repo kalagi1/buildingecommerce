@@ -515,7 +515,7 @@ class ReservationController extends Controller
                 'user_id' => $collection->user_id,
                 'status' => '0',
                 'balance' => $estateclubrate,
-                'earn' => $earnMoney * $share_percent_balance,
+                'earn' => $earnMoney - ($estateclubrate + $remaining ),
                 'earn2' => $remaining,
                 'is_reservation' => 1,
                 'reservation_id' => $reservation->id,
