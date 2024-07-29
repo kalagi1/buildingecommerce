@@ -1,14 +1,12 @@
 <?php
 
-// app/Helpers/helpers.php
+// app/Helpers/CommentHelper.php
 
 use Illuminate\Support\Facades\Crypt;
 use App\Models\HousingComment;
 use App\Models\ProjectComment;
 use Illuminate\Support\Facades\Auth;
 
-
-// app/Helpers/CommentHelper.php
 if (!function_exists('canUserAddComment')) {
     function canUserAddComment($housingId)
     {
@@ -16,8 +14,15 @@ if (!function_exists('canUserAddComment')) {
 
         // Check if the user is logged in
         if ($user) {
-            // Check if a comment already exists for this housing by the logged-in user
-            $commentExists = HousingComment::where('user_id', $user->id)
+            $userId = $user->id;
+
+            // Check if the user is a parent user and use the parent user if available
+            if ($user->parent_id) {
+                $userId = $user->parent_id;
+            }
+
+            // Check if a comment already exists for this housing by the user or the parent user
+            $commentExists = HousingComment::where('user_id', $userId)
                                            ->where('housing_id', $housingId)
                                            ->exists();
             
@@ -29,15 +34,22 @@ if (!function_exists('canUserAddComment')) {
 }
 
 if (!function_exists('canUserAddProjectComment')) {
-    function canUserAddProjectComment($projecyId)
+    function canUserAddProjectComment($projectId)
     {
         $user = Auth::user();
 
         // Check if the user is logged in
         if ($user) {
-            // Check if a comment already exists for this housing by the logged-in user
-            $commentExists = ProjectComment::where('user_id', $user->id)
-                                           ->where('project_id', $projecyId)
+            $userId = $user->id;
+
+            // Check if the user is a parent user and use the parent user if available
+            if ($user->parent_id) {
+                $userId = $user->parent_id;
+            }
+
+            // Check if a comment already exists for this project by the user or the parent user
+            $commentExists = ProjectComment::where('user_id', $userId)
+                                           ->where('project_id', $projectId)
                                            ->exists();
             
             return !$commentExists; // Return true if the user can add a comment (no existing comment found), false otherwise
@@ -47,7 +59,6 @@ if (!function_exists('canUserAddProjectComment')) {
     }
 }
 
-
 if (!function_exists('checkIfUserCanAddToCart')) {
     function checkIfUserCanAddToCart($housingId)
     {
@@ -55,22 +66,20 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 
         // Check if the user is logged in
         if ($user) {
-            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+            $userId = $user->id;
+
+            // Check if the user is a parent user and use the parent user if available
+            if ($user->parent_id) {
+                $userId = $user->parent_id;
+            }
+
+            // Check if there exists a housing record with the given $housingId and user_id matching the user or the parent user
             $exists = $user->housings()->where('id', $housingId)->exists();
             return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
         }
 
         return true; // Return false if user is not logged in
     }
-}
-function hash_id($id)
-{
-    return Crypt::encryptString($id);
-}
-
-function decode_id($hashedId)
-{
-    return Crypt::decryptString($hashedId);
 }
 
 if (!function_exists('checkIfUserCanAddToProject')) {
@@ -79,8 +88,14 @@ if (!function_exists('checkIfUserCanAddToProject')) {
         $user = auth()->user();
 
         if ($user) {
+            $userId = $user->id;
 
-            $exists = $user->Projects()->where('id', $projectId)->exists();
+            // Check if the user is a parent user and use the parent user if available
+            if ($user->parent_id) {
+                $userId = $user->parent_id;
+            }
+
+            $exists = $user->projects()->where('id', $projectId)->exists();
             return !$exists;
         }
 
@@ -94,6 +109,13 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
         $user = auth()->user();
 
         if ($user) {
+            $userId = $user->id;
+
+            // Check if the user is a parent user and use the parent user if available
+            if ($user->parent_id) {
+                $userId = $user->parent_id;
+            }
+
             $exists = $user->projects()
                 ->where('id', $projectId)
                 ->whereHas('housings', function ($query) use ($keyIndex) {
@@ -107,7 +129,6 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     }
 }
 
-
 if (!function_exists('getInitials')) {
     function getInitials($name)
     {
@@ -120,4 +141,14 @@ if (!function_exists('getInitials')) {
 
         return $initials;
     }
+}
+
+function hash_id($id)
+{
+    return Crypt::encryptString($id);
+}
+
+function decode_id($hashedId)
+{
+    return Crypt::decryptString($hashedId);
 }
