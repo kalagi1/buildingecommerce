@@ -1076,6 +1076,299 @@
             input.value = formattedIBAN.trim();
         }
     </script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+     <script>
+         $(document).ready(function() {
+             $(".phoneControl").on("input blur", function() {
+                 var phoneNumber = $(this).val();
+                 var pattern = /^5[0-9]\d{8}$/;
+ 
+                 if (!pattern.test(phoneNumber)) {
+                     $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                 } else {
+                     $("#error_message").text("");
+                 }
+                 // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                 $('.phoneControl').on('keypress', function(e) {
+                     var max_length = 10;
+                     // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                     if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                         // Olayın işlenmesini durdur
+                         e.preventDefault();
+                     }
+                 });
+             });
+         });
+     </script>
+     <script>
+         function formatIBAN(input) {
+             // TR ile başlat
+             var formattedIBAN = "TR";
+ 
+             // Gelen değerden sadece rakamları al
+             var numbersOnly = input.value.replace(/\D/g, '');
+ 
+             // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+             if (numbersOnly.length > 24) {
+                 numbersOnly = numbersOnly.substring(0, 24);
+             }
+ 
+             // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+             for (var i = 0; i < numbersOnly.length; i += 4) {
+                 formattedIBAN += numbersOnly.substr(i, 4) + " ";
+             }
+ 
+             // Formatlanmış İBAN'ı input değerine ata
+             input.value = formattedIBAN.trim();
+         }
+     </script>
+     <script>
+         function copyTrackingNumber() {
+             var copyText = document.querySelector('.tracking input');
+             copyText.select();
+             copyText.setSelectionRange(0, 99999); /* For mobile devices */
+             document.execCommand("copy");
+         }
+     </script>
+ 
+     <script>
+         let currentTab = 0;
+         // Başlangıç tabı
+ 
+         function showTab(n) {
+             let tabs = document.getElementsByClassName("step");
+             tabs[n].style.display = "block";
+             document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+             document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
+         }
+ 
+         function nextPrev(n) {
+             let tabs = document.getElementsByClassName("step");
+ 
+             // Mevcut adımı gizle
+             tabs[currentTab].style.display = "none";
+ 
+             // Yeni adımı güncelle
+             currentTab += n;
+ 
+             // Eğer tüm adımlar tamamlandıysa formu gönder
+             if (currentTab >= tabs.length) {
+                 submitForms(); // formu gönder
+                 return false;
+             }
+ 
+             // Adımı göster
+             showTab(currentTab);
+         }
+ 
+         function validateForm() {
+             let valid = true;
+             let step = document.getElementsByClassName("step")[currentTab];
+ 
+             // Input ve textarea elementlerini seç
+             let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+             let checkboxes = step.querySelectorAll("input[type='checkbox']");
+ 
+             // Her input ve textarea için doğrulama
+             inputs.forEach(input => {
+                 if (input.value.trim() === "") {
+                     input.classList.add("invalid");
+                     valid = false;
+                 } else {
+                     input.classList.remove("invalid");
+                 }
+             });
+ 
+             // Checkbox doğrulaması
+             checkboxes.forEach(checkbox => {
+                 if (!checkbox.checked) {
+                     checkbox.classList.add("invalid-checkbox");
+                     valid = false;
+                 } else {
+                     checkbox.classList.remove("invalid-checkbox");
+                 }
+             });
+ 
+             // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
+             // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
+             inputs.forEach(input => {
+                 input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
+                 input.addEventListener('input', handleInputChange);
+             });
+ 
+             checkboxes.forEach(checkbox => {
+                 checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
+                 checkbox.addEventListener('change', handleCheckboxChange);
+             });
+ 
+             function handleInputChange() {
+                 if (this.value.trim() !== "") {
+                     this.classList.remove("invalid");
+                 } else {
+                     this.classList.add("invalid");
+                 }
+             }
+ 
+             function handleCheckboxChange() {
+                 if (this.checked) {
+                     this.classList.remove("invalid-checkbox");
+                 } else {
+                     this.classList.add("invalid-checkbox");
+                 }
+             }
+ 
+             return valid;
+         }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+         var csrfToken = "{{ csrf_token() }}";
+ 
+         // Form verilerini topla ve gönder
+         function submitForms() {
+             var form1 = $("#wizardValidationForm1");
+             var form2 = $("#wizardValidationForm2");
+             var form3 = $("#wizardValidationForm3");
+ 
+             var formData = {
+                 "_token": csrfToken,
+                 "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                 "name": form2.find("input[name='name']").val(),
+                 "phone": form2.find("input[name='phone']").val(),
+                 "email": form2.find("input[name='email']").val(),
+                 "return_bank": form2.find("input[name='return_bank']").val(),
+                 "return_iban": form2.find("input[name='return_iban']").val(),
+                 "content": form3.find("textarea[name='content']").val(),
+                 "cart_order_id": "{{ $order->id }}"
+             };
+ 
+             $.ajax({
+                 type: "POST",
+                 url: "{{ route('institutional.order.refund') }}",
+                 data: formData,
+                 success: function(response) {
+                     // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
+                     toastr.success('İade talebi başarıyla gönderildi.');
+                     console.log("Form başarıyla gönderildi.");
+                     resetForm();
+                     location.reload();
+ 
+                 },
+                 error: function(xhr, status, error) {
+                     // Hata durumunda burada bir işlem yapabilirsiniz
+                     toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+                     console.error(error);
+                 }
+             });
+         }
+ 
+         function resetForm() {
+             let x = document.getElementsByClassName("step");
+             for (var i = 0; i < x.length; i++) {
+                 x[i].style.display = "none";
+             }
+             let inputs = document.querySelectorAll("input");
+             inputs.forEach(input => {
+                 input.value = "";
+                 input.className = "";
+             });
+             currentTab = 0;
+             showTab(currentTab);
+             document.querySelector(".progress-bar")
+                 .style.width = "0%";
+             document.querySelector(".progress-bar")
+                 .setAttribute("aria-valuenow", 0);
+             document.getElementById("prevBtn")
+                 .style.display = "none";
+         }
+     </script>
+ 
+ 
+     <script>
+         jQuery('.rating-area .rating').on('mouseover', function() {
+             jQuery('.rating-area .rating polygon').attr('fill', 'none');
+             for (var i = 0; i <= $(this).index(); ++i)
+                 jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
+         });
+ 
+         jQuery('.rating-area .rating').on('mouseleave', function() {
+             jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
+         });
+ 
+         jQuery('.rating-area .rating').on('click', function() {
+             jQuery('.rating-area .rating').removeClass('selected');
+             for (var i = 0; i <= $(this).index(); ++i)
+                 jQuery('.rating-area .rating').eq(i).addClass('selected');
+ 
+             $('#rate').val($(this).index() + 1);
+         });
+ 
+         function validateForm() {
+             let isValid = true;
+ 
+             // Gerekli inputları seç ve kontrol et
+             const requiredFields = ['comment']; // Gerekli input isimlerini ekleyin
+             requiredFields.forEach(fieldName => {
+                 const field = document.querySelector(`[name="${fieldName}"]`);
+                 if (field && (field.value === '' || field.value == null)) {
+                     field.classList.add('is-invalid'); // Bootstrap kullanıyorsanız
+                     isValid = false;
+                 } else {
+                     field.classList.remove('is-invalid'); // Bootstrap kullanıyorsanız
+                 }
+             });
+ 
+             return isValid;
+         }
+ 
+         function submitForm() {
+ 
+ 
+             if (!validateForm()) {
+                 toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                 return;
+             }
+             // Rate değerini al
+             var rateValue = $('#rate').val();
+ 
+             // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+             if (rateValue === '' || rateValue === '0') {
+                 $('#rate').val('1');
+             }
+ 
+ 
+             var formData = new FormData($('#commentForm')[0]);
+ 
+ 
+ 
+             $.ajax({
+                 url: "{{ route('client.commentAfterPayment') }}",
+                 type: 'POST',
+                 data: formData,
+                 processData: false,
+                 contentType: false,
+                 success: function(response) {
+                     Swal.fire({
+                         icon: 'success',
+                         title: 'Yorum Gönderildi',
+                         text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                     }).then(function() {
+                         location.reload(); // Reload the page
+                     });
+                 },
+                 error: function(error) {
+                     console.error('AJAX Error:', error);
+                     //console.log(error);
+                 }
+             });
+         }
+     </script>
 @endsection
 
 @section('styles')
