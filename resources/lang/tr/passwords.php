@@ -8,5 +8,9 @@ return [
     'reset_password_no_action' => 'Eğer şifre sıfırlama talebinde bulunmadıysanız, başka bir işlem yapmanıza gerek yoktur.',
     'reset_password_regards' => 'Saygılarımızla,',
     'reset_password_trouble' => 'Eğer "Şifre Sıfırla" düğmesine tıklamakta zorlanıyorsanız, aşağıdaki URL\'yi web tarayıcınıza kopyalayıp yapıştırabilirsiniz:',
-
+    'reset' => 'Şifreniz sıfırlandı!',
+    'sent' => 'Şifre sıfırlama bağlantınız e-posta ile gönderildi!',
+    'throttled' => 'Lütfen tekrar denemeden önce bekleyin.',
+    'token' => 'Bu şifre sıfırlama kodu geçersiz.',
+    'user' => 'Bu e-posta adresine sahip bir kullanıcı bulunamadı.',
 ];

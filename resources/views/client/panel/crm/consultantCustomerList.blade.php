@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content">
-        <div class="table-breadcrumb">
+        <div class="table-breadcrumb mb-3">
             <ul>
                 <li>Hesabım</li>
                 <li>CRM</li>
@@ -72,6 +72,10 @@
                 </ul>
             </div>
             <div id="user-list-table-body-geridonus"></div>
+            <div id="no-data-message" style="display: none;background:white;" class="project-table-content">
+                Dönüş yapılacak müşteriniz bulunmamaktadır.
+            </div>
+            
             <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
                 <button id="prev-page2" class="btn btn-primary" disabled>Önceki</button>
                 <span id="page-info2"></span>
@@ -97,6 +101,9 @@
                     </ul>
                 </div>
                 <div id="user-list-table-body-musteriler"></div>
+                <div id="no-data-message-customers" style="display: none;background:white;" class="project-table-content">
+                  Müşteriniz bulunmamaktadır.
+                </div>
                 <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
                     <button id="prev-page3" class="btn btn-primary" disabled>Önceki</button>
                     <span id="page-info3"></span>
@@ -121,63 +128,66 @@
                         <li style="width: 20%;">İşlemler</li>
                     </ul>
                 </div>
-                <div id="user-list-table-body-favoriler">
-                    @if($favoriteCustomers)
-                    @foreach ($favoriteCustomers as $key => $item)
-                        <div class="project-table-content user-item">
-                            <ul  style="gap: 20px" >
-                                <li style="width: 0%;">{{ $key + 1 }}</li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->name }}</span>
-                                </li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->email }}</span>
-                                </li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->phone }}</span>
-                                </li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->job_title }}</span>
-                                </li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->province }}</span>
-                                </li>
-                                <li style="width: 10%; align-items: flex-start;">
-                                    <span>{{ $item->project_name }}</span>
-                                </li>
-                              
-                                <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
-                                    <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal">
-                                        <i class="fas fa-user"></i>
-                                    </button>
-                                    @if ($item->parent_id)
-                                        <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
-                                            <i class="fas fa-history"></i>
+
+                <div id="user-list-table-body-favoriler"> 
+                        {{-- @foreach ($favoriteCustomers as $key => $item)
+                            <div class="project-table-content user-item">
+                                <ul  style="gap: 20px" >
+                                    <li style="width: 0%;">{{ $key + 1 }}</li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->name }}</span>
+                                    </li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->email }}</span>
+                                    </li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->phone }}</span>
+                                    </li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->job_title }}</span>
+                                    </li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->province }}</span>
+                                    </li>
+                                    <li style="width: 10%; align-items: flex-start;">
+                                        <span>{{ $item->project_name }}</span>
+                                    </li>
+                                
+                                    <li style="width: 20%; display: flex; gap: 5px; flex-direction: row;">
+                                        <button class="action-btn" title="Kişi Kartı" onclick="fetchUserDetails({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#userModal">
+                                            <i class="fas fa-user"></i>
+
                                         </button>
-                                    @endif
-                                    @php
-                                        $isFavorited = DB::table('favorite_customers')
-                                        ->where('customer_id', $item->id)->where('danisman_id', Auth::id())
-                                        ->exists();
-                                    @endphp
-                                    <button id="favorite-btn-{{ $item->id }}" class="{{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
-                                        <button class="whatsapp-btn" title="WhatsApp Web">
-                                            <i class="fab fa-whatsapp"></i>
+                                        @if ($item->parent_id)
+                                            <button class="action-btn" title="Geçmiş Görüşmeler" onclick="fetchCustomerCalls({{ $item->parent_id }})" data-bs-toggle="modal" data-bs-target="#pastConversationsModal">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        @endif
+                                        @php
+                                            $isFavorited = DB::table('favorite_customers')
+                                            ->where('customer_id', $item->id)->where('danisman_id', Auth::id())
+                                            ->exists();
+                                        @endphp
+                                        <button id="favorite-btn-{{ $item->id }}" class="{{ $isFavorited ? 'favorited' : 'not-favorited' }}" title="{{ $isFavorited ? 'Favori' : 'Favoriye Al' }}" onclick="toggleFavorite({{ $item->id }})">
+                                            <i class="fas fa-heart"></i>
                                         </button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    @endforeach
-                    @else
-                        <li style="width: 100%">Favoride müşteriniz bulunmamaktadır.</li>
-                    @endif
+
+                                        <button class="action-btn-blue" title="Yeni Görüşme Giriş" onclick="addNewCall({{ $item->id }})" data-bs-toggle="modal" data-bs-target="#newCallsModal">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <a href="https://wa.me/{{ str_replace('p:+', '', $item->phone) }}" target="_blank">
+                                            <button class="whatsapp-btn" title="WhatsApp Web">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endforeach --}}    
+                </div>
+                <div id="no-data-message-favorite" class="project-table-content">
+                    Favori müşteriniz bulunmamaktadır.
+
                 </div>
                 <div id="pagination-controls" class="d-flex" style="margin-top: 20px;justify-content: space-between !important;">
                     <button id="prev-page4" class="btn btn-primary" disabled>Önceki</button>
@@ -879,16 +889,23 @@
             const $prevPage = $('#prev-page2');
             const $nextPage = $('#next-page2');
             const $pageInfo = $('#page-info2');
-
+            const $noDataMessage = $('#no-data-message');
             // Müşteri verilerinizi buraya JSON formatında yerleştirin
-            const geri_donus_yapilacak_musteriler = @json($geri_donus_yapilacak_musteriler); // Laravel Blade'den JSON olarak veri
-
+            const geri_donus_yapilacak_musteriler = @json($geri_donus_yapilacak_musteriler);
+            // Eğer veri yoksa
+            if (geri_donus_yapilacak_musteriler.length === 0) {
+                            $noDataMessage.show(); // Boş veri mesajını göster
+             
+            }
             function renderPage(page) {
                 const start = (page - 1) * itemsPerPage;
                 const end = start + itemsPerPage;
                 const paginatedItems = geri_donus_yapilacak_musteriler.slice(start, end);
                 let cleanedPhone = item.phone ? item.phone.replace(/^p:\+/, '') .replace(/^\+9/, '') .replace(/^9/, '') : '-';
                 let html = '';
+
+                // Veri varsa
+                $noDataMessage.hide(); // Boş veri mesajını gizle
                 paginatedItems.forEach((item, index) => {
                     html += `
                         <div class="project-table-content user-item">
@@ -980,9 +997,12 @@
             const $prevPage = $('#prev-page3');
             const $nextPage = $('#next-page3');
             const $pageInfo = $('#page-info3');
-
+            const $noDataMessageCustomers = $('#no-data-message-customers');
             // Müşteri verilerinizi buraya JSON formatında yerleştirin
-            const tumMusteriler = @json($tum_musteriler); // Laravel Blade'den JSON olarak veri
+            const tumMusteriler = @json($tum_musteriler); 
+            if (tumMusteriler.length === 0) {
+                $noDataMessageCustomers.show();
+            }
 
             function renderPage(page) {
                 const start = (page - 1) * itemsPerPage;
@@ -1082,9 +1102,13 @@
             const $prevPage = $('#prev-page4');
             const $nextPage = $('#next-page4');
             const $pageInfo = $('#page-info4');
+            const $noDataMessageFavorite = $('#no-data-message-favorite');
 
             // Müşteri verilerinizi buraya JSON formatında yerleştirin
-            const favoriteCustomers = @json($favoriteCustomers); // Laravel Blade'den JSON olarak veri
+            const favoriteCustomers = @json($favoriteCustomers); 
+            if (favoriteCustomers.length === 0) {
+                $noDataMessageFavorite.show();
+            }
 
             function renderPage(page) {
                 const start = (page - 1) * itemsPerPage;
@@ -1727,7 +1751,7 @@
         }
 
         .page-header-title2{
-            background: linear-gradient(to top, #EA2B2E, #84181A);  
+            background: linear-gradient(to top, #D32729, #84181A);  
             padding: 10px;
             font-size: 18px;
             color: white;
@@ -1748,9 +1772,9 @@
 
         .favorited {
             background-color: white;
-            color: #EA2B2E;
+            color: #D32729;
 
-                border: 1px solid #EA2B2E;
+                border: 1px solid #D32729;
                 margin: 2px;
                 padding: 5px 10px;
                 border-radius: 5px;
@@ -1760,8 +1784,8 @@
                 border-radius: 4px !important;
         }
         .not-favorited {
-            background-color: #EA2B2E;
-                border: 1px solid #EA2B2E;
+            background-color: #D32729;
+                border: 1px solid #D32729;
                 color: white;
                 margin: 2px;
                 padding: 5px 10px;
@@ -1932,20 +1956,20 @@
         }
 
         .btn.active {
-            background-color: #EA2B2E !important;
+            background-color: #D32729 !important;
             color: white !important;
-            border-color: #EA2B2E !important;
+            border-color: #D32729 !important;
         }
 
         .btn.active:hover{
             background-color: white !important;
-            color: #EA2B2E !important;
-            border-color: #EA2B2E !important;
+            color: #D32729 !important;
+            border-color: #D32729 !important;
         }
 
         .action-btn {
-            background-color: #EA2B2E;
-            border: 1px solid #EA2B2E;
+            background-color: #D32729;
+            border: 1px solid #D32729;
             color: white;
             margin: 2px;
             padding: 5px 10px;
@@ -1962,7 +1986,7 @@
 
         .action-btn:hover {
             background-color: white;
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         .action-buttons {
@@ -1997,8 +2021,8 @@
         }
 
         .btnSubmit{
-            background-color: #EA2B2E !important;
-            border: 1px solid #EA2B2E !important;
+            background-color: #D32729 !important;
+            border: 1px solid #D32729 !important;
             color: white;
             margin: 2px;
             padding: 5px 10px;
@@ -2011,8 +2035,8 @@
 
         .btnSubmit:hover{
             background-color: white !important;
-            color: #EA2B2E !important;
-            border: 1px solid #EA2B2E !important;
+            color: #D32729 !important;
+            border: 1px solid #D32729 !important;
         }     
 
     </style>

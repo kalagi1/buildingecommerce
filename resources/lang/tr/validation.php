@@ -14,4 +14,5 @@ return [
             'max' => 'IBAN en fazla :max karakter olabilir.',
         ],
     ],
+
 ];

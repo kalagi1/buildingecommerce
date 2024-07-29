@@ -79,16 +79,16 @@
 @section('styles')
     <style>
         .btnDanisman {
-            background: linear-gradient(to top, #EA2B2E, #84181A) !important;
+            background: linear-gradient(to top, #D32729, #84181A) !important;
             color: #ffffff;
-            border-color: #EA2B2E !important;
+            border-color: #D32729 !important;
             padding: 5px 25px;
             border-radius: 6px !important; 
             margin-top: 15px;
         }
         .btnDanisman:hover {
             color: white;
-            background: linear-gradient(to top, #84181A, #EA2B2E) !important;
+            background: linear-gradient(to top, #84181A, #D32729) !important;
         }
     </style>
 @endsection

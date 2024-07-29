@@ -11,7 +11,7 @@
 
                 <div class="mb-5" style="font-size:13px ">
                     <strong style="font-weight: bold !important">"{{ $term }}"</strong> aramanız için <span
-                        style="color:#EA2B2E !important"> {{ $totalCount }} </span> sonuç bulundu.
+                        style="color:#D32729 !important"> {{ $totalCount }} </span> sonuç bulundu.
                 </div>
 
 

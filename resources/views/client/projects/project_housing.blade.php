@@ -316,10 +316,10 @@
                                             $sold->status != '2' &&
                                             $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share);
 
-                                    $style = "style='background: #EA2B2E !important; width: 100%; color: White;'";
+                                    $style = "style='background: #D32729 !important; width: 100%; color: White;'";
                                     $rezerveStyle = "style='background: orange !important; color: White; width: 100%;'";
                                     $satildiStyle =
-                                        "style='background: #EA2B2E !important; color: White; width: 100%;'";
+                                        "style='background: #D32729 !important; color: White; width: 100%;'";
 
                                     if (
                                         ($sold &&
@@ -364,7 +364,7 @@
                                                 <h4>
                                                     <div style="text-align: center">
                                                         <svg viewBox="0 0 24 24" width="18" height="18"
-                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                            stroke="#D32729" stroke-width="2" fill="#D32729"
                                                             stroke-linecap="round" stroke-linejoin="round"
                                                             class="css-i6dzq1">
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -1017,7 +1017,7 @@
                                         <table class="table">
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
-                                                    <span class="det" style="color: #EA2B2E !important;">
+                                                    <span class="det" style="color: #D32729 !important;">
                                                         {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                         @if ($project->neighbourhood)
                                                             {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}

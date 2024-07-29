@@ -211,108 +211,341 @@
                         </div>
                     </div>
                 </div>
-                @if ($order && $order->status && $order->status == 1)
-                    <div class="order-detail-inner mb-3">
-                        <div class="title mb-3">
-                            <i class="fa fa-shopping-cart"></i>
-                            <h4>Sipariş Onaylama Durumu</h4>
+
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
+
+
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödeme Onay Aşamasındadır</div>
+                                    <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
+                                </div>
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                            @else
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
+                                    <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
+                                        sipariş
+                                        tamamlandığında alacak.</div>
+                                </div>
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                            @endif
+
+
                         </div>
-                        <div class="container mt-5">
+                        <div class="horizontal-line"></div>
 
 
-                            @if ($order->payment_result)
-                                <div class="status-card bg-light-blue">
-                                    <div class="status-icon text-primary box-shadow-blue ">
+
+                        @if ($order && $order->status && $order->status == 1)
+                            <div class="status-card bg-light-green">
+                                <div class="status-icon box-shadow-green text-success">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
+                                    <div class="status-description">Sipariş onayınız bekleniyor.</div>
+                                </div>
+
+                                @if (isset($order->share) && optional($order->share)->status != 1)
+                                    <div class="approve-button">
+                                        <a class="btn btn-success"
+                                            href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                            @if ($order->share->status == 1) disabled @endif>
+                                            Onayla</a>
+                                        {{-- <button class="btn btn-danger"
+                                            onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
+                                            @if ($order->share->status != 1) disabled @endif>Hakedişleri
+                                            Reddet</button> --}}
+
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İptal Et</button>
+                                    </div>
+                                @endif
+
+
+                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+
+                            @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
+                                <div class="status-card bg-light">
+                                    <div class="status-icon text-success box-shadow-light">
                                         <i class=""><img class="pay-icon"
-                                                src="{{ asset('images/template/pay-icon.png') }}" alt=""></i>
+                                                src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
                                     </div>
                                     <div class="status-header">
-                                        <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
-                                        <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
-                                            sipariş
-                                            tamamlandığında alacak.</div>
+                                        <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
+                                        <div class="status-description"> Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve
+                                            ilan hakkında değerlendirme
+                                            yapabilirsiniz. </div>
                                     </div>
-                                    <div class="status-timestamp">{{$order->created_at}}</div>
-                                </div>
-                                <div class="horizontal-line"></div>
-                            @else
-                                @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
-                                    <div class="status-card bg-light">
-                                        <div class="status-icon text-success box-shadow-light">
-                                            <i class=""><img class="pay-icon"
-                                                    src="{{ asset('images/template/success-icon.png') }}"
-                                                    alt=""></i>
-                                        </div>
-                                        <div class="status-header">
-                                            <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
-                                            <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
-                                                değerlendirme
-                                                yapabilirsiniz.</div>
-                                        </div>
-                                        {{-- <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
+                                    {{-- <div class="rating">
+                                      
                                     </div> --}}
-                                        <div class="status-timestamp">{{$order->created_at}}</div>
+
+
+                                    <div class="status-timestamp">{{ $order->created_at }}</div>
+                                </div>
+
+                                <div class="horizontal-line"></div>
+
+                                @if ($cartType == 'housing' && canUserAddComment($cartId))
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                    Yorum Ekle
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
+
+                                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                                        @csrf
+                                                        <input type="hidden" name="rate" id="rate" />
+
+                                                        <input type="hidden" name="type" id="type"
+                                                            value="{{ $cartType }}" />
+                                                        <input type="hidden" name="id" id="id"
+                                                            value="{{ $cartId }}" />
+
+                                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                            <div class="d-flex rating-area">
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                                <input type="file" style="display: none;"
+                                                                    class="fileinput" name="images[]" multiple
+                                                                    accept="image/*" />
+                                                                <button type="button" class="btn btn-primary q-button"
+                                                                    id="selectImageButton">Resimleri Seç</button>
+                                                            </div>
+                                                        </div>
+                                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                                            onclick="submitForm()">Yorumu
+                                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                        <div id="previewContainer"
+                                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                                                        </div>
+
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
+                                @elseif ($cartType == 'project' && canUserAddProjectComment($cartId))
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                    Yorum Ekle
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
 
-                                    <div class="horizontal-line"></div>
+                                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                                        @csrf
+                                                        <input type="hidden" name="rate" id="rate" />
+
+                                                        <input type="hidden" name="type" id="type"
+                                                            value="{{ $cartType }}" />
+                                                        <input type="hidden" name="id" id="id"
+                                                            value="{{ $cartId }}" />
+
+                                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                            <div class="d-flex rating-area">
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                                <input type="file" style="display: none;"
+                                                                    class="fileinput" name="images[]" multiple
+                                                                    accept="image/*" />
+                                                                <button type="button" class="btn btn-primary q-button"
+                                                                    id="selectImageButton">Resimleri Seç</button>
+                                                            </div>
+                                                        </div>
+                                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                                            onclick="submitForm()">Yorumu
+                                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                        <div id="previewContainer"
+                                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                                                        </div>
+
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 @else
-                                    <div class="status-card bg-light-green">
-                                        <div class="status-icon box-shadow-green text-success">
-                                            <i class=""><img class="pay-icon"
-                                                    src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
-                                        </div>
-                                        <div class="status-header">
-                                            <div class="status-title text-success">Kaparonız Emlak Sepette ile Güvende</div>
-                                            <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
-                                                onaylamanız
-                                                bekleniyor.</div>
-                                        </div>
-                                        @if (isset($order->share))
-                                            <div class="approve-button">
-                                                <a class="btn btn-success"  href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
-                                                    @if ($order->share->status == 1) disabled @endif>Hakedişleri
-                                                    Onayla</a>
-                                                {{-- <button class="btn btn-danger"
-                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
-                                                @if ($order->share->status != 1) disabled @endif>Hakedişleri
-                                                Reddet</button> --}}
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
 
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">İptal Et</button>
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
+                                                    Yorumunuz Başarılıyla Gönderilmiştir.
+                                                </div>
                                             </div>
+                                        </div>
 
-                                            <div class="status-timestamp">{{$order->created_at}}</div>
-                                            
-                                        @endif
-
-                                        @if (isset($order->price))
-                                            <div class="approve-button">
-                                        
-                                                <a class="btn btn-success"  href="{{ route('client.approve-price', ['price' => $order->price->id]) }}"
-                                                    @if ($order->price->status == 1) disabled @endif>Onayla
-                                                </a>
-                                                {{-- <button class="btn btn-danger"
-                                                onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
-                                                @if ($order->price->status != 1) disabled @endif>Hakedişleri
-                                                Reddet</button> --}}
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">İptal Et</button>
-                                            </div>
-                                            <div class="status-timestamp">{{$order->created_at}}</div>
-                                        @endif
-                                        
                                     </div>
                                 @endif
                             @endif
-
-                        </div>
+                        @endif
                     </div>
-                @endif
+                </div>
+
                 <div class="order-detail-inner">
                     <div class="title mb-3">
                         <i class="fa fa-edit"></i>
@@ -320,10 +553,10 @@
                     </div>
                     <textarea class="form-control" style="height: 150px" readonly>
                       @if ($order->notes)
-                    {!! $order->notes !!}
-                    @else
-                    Sipariş Notu eklenmedi
-                    @endif
+{!! $order->notes !!}
+@else
+Sipariş Notu eklenmedi
+@endif
                     </textarea>
                 </div>
 
@@ -494,7 +727,6 @@
                                                         <p class="text-center mb-4">İade İşlemi</p>
                                                         <div class="mb-3">
                                                             @if (file_exists(public_path('refundpolicy/iadeislemleri.pdf')))
-
                                                                 <iframe
                                                                     src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
                                                                     width="100%" height="400px">
@@ -535,16 +767,15 @@
                                                             @csrf
 
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
-                                                                            Soyad</label><input class="form-control"
-                                                                            type="text" name="name"
-                                                                            placeholder="Ad Soyad"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                    Soyad</label><input class="form-control"
+                                                                    type="text" name="name" placeholder="Ad Soyad"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
                                                             <div class="mb-2"><label class="form-label"
                                                                     for="bootstrap-wizard-validation-wizard-phone">Ad
                                                                     Soyad</label><input class="form-control"
@@ -920,7 +1151,6 @@
 
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
@@ -950,8 +1180,6 @@
         });
     </script>
     <script>
-
-
         function formatIBAN(input) {
             // TR ile başlat
             var formattedIBAN = "TR";
@@ -984,90 +1212,93 @@
 
     <script>
         let currentTab = 0;
-        showTab(currentTab);
+        // Başlangıç tabı
 
         function showTab(n) {
-            let x = document.getElementsByClassName("step");
-            x[n].style.display = "block";
-            let progress = (n / (x.length - 1)) * 100;
-            document.querySelector(".progress-bar")
-                .style.width = progress + "%";
-            document.querySelector(".progress-bar")
-                .setAttribute("aria-valuenow", progress);
-            document.getElementById("prevBtn")
-                .style.display = n == 0 ? "none" : "inline";
-            document.getElementById("nextBtn")
-                .innerHTML = n == x.length - 1 ? "Tamamla" : "İleri";
+            let tabs = document.getElementsByClassName("step");
+            tabs[n].style.display = "block";
+            document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+            document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
         }
 
         function nextPrev(n) {
-            let x = document.getElementsByClassName("step");
-            if (n == 1 && !validateForm()) return false;
-            x[currentTab].style.display = "none";
-            currentTab += n;
-            if (currentTab >= x.length) {
-                submitForms();
+            let tabs = document.getElementsByClassName("step");
 
+            // Mevcut adımı gizle
+            tabs[currentTab].style.display = "none";
+
+            // Yeni adımı güncelle
+            currentTab += n;
+
+            // Eğer tüm adımlar tamamlandıysa formu gönder
+            if (currentTab >= tabs.length) {
+                submitForms(); // formu gönder
                 return false;
             }
+
+            // Adımı göster
             showTab(currentTab);
         }
 
         function validateForm() {
             let valid = true;
-            let x = document.getElementsByClassName("step");
-            let y = x[currentTab].getElementsByTagName("input");
-            let z = x[currentTab].getElementsByTagName("textarea");
-            let checkboxes = x[currentTab].getElementsByTagName("input");
+            let step = document.getElementsByClassName("step")[currentTab];
 
-            for (let i = 0; i < y.length; i++) {
-                if (y[i].type !== "checkbox" && y[i].value == "") {
-                    y[i].classList.add("invalid");
-                    valid = false;
-                } else if (y[i].type !== "checkbox") {
-                    y[i].classList.remove("invalid");
-                }
-                y[i].addEventListener('input', function() {
-                    if (this.value != "") {
-                        this.classList.remove("invalid");
-                    }
-                });
-            }
+            // Input ve textarea elementlerini seç
+            let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+            let checkboxes = step.querySelectorAll("input[type='checkbox']");
 
-            for (let i = 0; i < z.length; i++) {
-                if (z[i].value == "") {
-                    z[i].classList.add("invalid");
+            // Her input ve textarea için doğrulama
+            inputs.forEach(input => {
+                if (input.value.trim() === "") {
+                    input.classList.add("invalid");
                     valid = false;
                 } else {
-                    z[i].classList.remove("invalid");
+                    input.classList.remove("invalid");
                 }
-                z[i].addEventListener('input', function() {
-                    if (this.value != "") {
-                        this.classList.remove("invalid");
-                    }
-                });
+            });
+
+            // Checkbox doğrulaması
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    checkbox.classList.add("invalid-checkbox");
+                    valid = false;
+                } else {
+                    checkbox.classList.remove("invalid-checkbox");
+                }
+            });
+
+            // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
+            // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
+            inputs.forEach(input => {
+                input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
+                input.addEventListener('input', handleInputChange);
+            });
+
+            checkboxes.forEach(checkbox => {
+                checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
+                checkbox.addEventListener('change', handleCheckboxChange);
+            });
+
+            function handleInputChange() {
+                if (this.value.trim() !== "") {
+                    this.classList.remove("invalid");
+                } else {
+                    this.classList.add("invalid");
+                }
             }
 
-            for (let i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].type === "checkbox") {
-                    if (!checkboxes[i].checked) {
-                        checkboxes[i].classList.add("invalid-checkbox");
-                        valid = false;
-                    } else {
-                        checkboxes[i].classList.remove("invalid-checkbox");
-                    }
-                    checkboxes[i].addEventListener('change', function() {
-                        if (this.checked) {
-                            this.classList.remove("invalid-checkbox");
-                        } else {
-                            this.classList.add("invalid-checkbox");
-                        }
-                    });
+            function handleCheckboxChange() {
+                if (this.checked) {
+                    this.classList.remove("invalid-checkbox");
+                } else {
+                    this.classList.add("invalid-checkbox");
                 }
             }
 
             return valid;
         }
+
 
 
 
@@ -1135,25 +1366,107 @@
                 .style.display = "none";
         }
     </script>
+
+
+    <script>
+        jQuery('.rating-area .rating').on('mouseover', function() {
+            jQuery('.rating-area .rating polygon').attr('fill', 'none');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
+        });
+
+        jQuery('.rating-area .rating').on('mouseleave', function() {
+            jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
+        });
+
+        jQuery('.rating-area .rating').on('click', function() {
+            jQuery('.rating-area .rating').removeClass('selected');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating').eq(i).addClass('selected');
+
+            $('#rate').val($(this).index() + 1);
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            // Gerekli inputları seç ve kontrol et
+            const requiredFields = ['comment']; // Gerekli input isimlerini ekleyin
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`[name="${fieldName}"]`);
+                if (field && (field.value === '' || field.value == null)) {
+                    field.classList.add('is-invalid'); // Bootstrap kullanıyorsanız
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid'); // Bootstrap kullanıyorsanız
+                }
+            });
+
+            return isValid;
+        }
+
+        function submitForm() {
+
+
+            if (!validateForm()) {
+                toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                return;
+            }
+            // Rate değerini al
+            var rateValue = $('#rate').val();
+
+            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+            if (rateValue === '' || rateValue === '0') {
+                $('#rate').val('1');
+            }
+
+
+            var formData = new FormData($('#commentForm')[0]);
+
+
+
+            $.ajax({
+                url: "{{ route('client.commentAfterPayment') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Yorum Gönderildi',
+                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                    }).then(function() {
+                        location.reload(); // Reload the page
+                    });
+                },
+                error: function(error) {
+                    console.error('AJAX Error:', error);
+                    //console.log(error);
+                }
+            });
+        }
+    </script>
 @endsection
 
 @section('styles')
     <style>
         .invalid-checkbox {
-            color: #ff0000;
+            color: #ff0000 !important;
         }
     </style>
     <style>
         .invalid {
-            background-color: #ffdddd;
+            background-color: #ffdddd !important;
         }
     </style>
 
 
     <style>
         a.btn.btn-success {
-    border-radius: 20px !important;
-}
+            border-radius: 20px !important;
+        }
+
         img.pay-icon {
             margin-bottom: 30px;
         }
@@ -1205,9 +1518,6 @@
 
         }
 
-        .status-header {
-            margin-top: 30px;
-        }
 
         .status-title {
             font-size: 18px;
@@ -1277,7 +1587,6 @@
     </style>
 
     <style>
-        
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1591,6 +1900,7 @@
             border-radius: 12px;
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
         }
+
         .step {
             display: none;
         }
@@ -1606,10 +1916,12 @@
             border: 1px solid #e3e3e3;
             border-radius: 5px;
         }
+
         input:focus {
             border: 1px solid #009688;
             outline: 0;
         }
+
         .invalid {
             border: 1px solid #ffaba5;
         }
@@ -1627,16 +1939,19 @@
             margin-top: 5px;
             transition: background-color 0.3s ease;
         }
+
         #prevBtn {
             background-color: #ffffff;
             color: #009688;
             border: 1px solid #009688;
         }
+
         #prevBtn:hover,
         #nextBtn:hover {
             background-color: #00796b;
             color: #ffffff;
         }
+
         .progress {
             margin-bottom: 20px;
         }
@@ -1648,11 +1963,13 @@
             width: 20px;
             height: 20px;
         }
+
         .custom-checkbox input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .checkmark {
             position: absolute;
             top: 0;
@@ -1662,6 +1979,7 @@
             background-color: #ccc;
             border-radius: 4px;
         }
+
         .custom-checkbox input:checked~.checkmark {
             background-color: #28a745;
             /* Checkbox seçiliyse yeşil */
@@ -1681,6 +1999,7 @@
             position: absolute;
             display: none;
         }
+
         .custom-checkbox input:checked~.checkmark:after {
             display: block;
         }
