@@ -157,6 +157,110 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-xl-4 col-xxl-3">
+            <div class="col-12">
+                <div class="card mb-3 summary-padding">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Sipariş Özeti</h3>
+                        <div>
+                            <!-- Ödeme Yöntemi -->
+                            <div class="d-flex justify-content-between">
+                                <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
+                                <p class="text-body-emphasis fw-semibold">
+                                    @if ($order->payment_result && $order->payment_result !== '')
+                                        Kredi Kartı
+                                    @else
+                                        EFT/Havale
+                                    @endif
+                                </p>
+                            </div>
+
+                            <!-- İlan Fiyatı -->
+                            <div class="d-flex justify-content-between">
+                                <p class="text-body fw-semibold">İlan Fiyatı:</p>
+                                <p class="text-body-emphasis fw-semibold">
+                                    {{ number_format($order->price, 0, ',', '.') }}₺
+                                </p>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <p class="text-body fw-semibold">Toplam Fiyat:</p>
+                                <p class="text-body-emphasis fw-semibold">
+                                    {{ number_format($order->total_price, 0, ',', '.') }}₺
+                                </p>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <p class="text-body fw-semibold">Param Güvende Fiyatı:</p>
+                                <p class="text-body-emphasis fw-semibold">
+                                    {{ number_format($order->money_is_safe, 0, ',', '.') }}₺
+                                </p>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <p class="text-body fw-semibold">Ödenen Fiyat:</p>
+                                <p class="text-body-emphasis fw-semibold">
+                                    {{ number_format($order->total_price / 2 + $order->money_is_safe, 0, ',', '.') }}₺
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buyer Information -->
+                <div class="card mb-3 summary-padding">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Alıcı Bilgileri <img
+                                src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                alt="Verified Icon" class="verifiedIcon"></h3>
+                        <div class="event">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <img src="{{ $order->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->user->profile_image)) ? url('storage/profile_images/' . $order->user->profile_image) : url('storage/profile_images/indir.png') }}"
+                                        alt="Store Image">
+                                    {{ $order->user->name }}
+                                </li>
+                                <li class="list-group-item"><i class="fa fa-phone"></i>
+                                    {{ $order->user->phone ?: $order->user->mobile_phone }}
+                                </li>
+                                <li class="list-group-item"><i class="fa fa-envelope"></i>
+                                    {{ $order->user->email }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seller Information -->
+                <div class="card mb-3 summary-padding">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Satıcı Bilgileri <img
+                                src="https://img.icons8.com/ios-filled/50/EA2A28/verified-account.png"
+                                alt="Verified Icon" class="verifiedIcon"></h3>
+                        <div class="event">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <img src="{{ $order->housing->user->profile_image && file_exists(public_path('storage/profile_images/' . $order->housing->user->profile_image)) ? url('storage/profile_images/' . $order->housing->user->profile_image) : url('storage/profile_images/indir.png') }}"
+                                        alt="Store Image">
+                                    {{ $order->housing->user->name }}
+                                </li>
+                                <li class="list-group-item"><i class="fa fa-phone"></i>
+                                    {{ $order->housing->user->phone ?: $order->housing->user->mobile_phone }}
+                                </li>
+                                <li class="list-group-item"><i class="fa fa-envelope"></i>
+                                    {{ $order->housing->user->email }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
@@ -211,7 +315,7 @@
 
                         {{-- 
                         @if ($order->reference)
-                            @if ($order->store_id == Auth::user()->id)
+                            @if ($order->housing->user_id == Auth::user()->id)
                                 <div class="order-status-container mt-3" style="background-color : #1581f5 ">
                                     <div class="left">
                                         <i class="fa fa-check"></i>
