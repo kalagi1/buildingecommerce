@@ -163,7 +163,16 @@
         "url": "admin.index",
         "activePath": "qR9zLp2xS6y/secured/"
     },
-
+    {
+        "id": "locations",
+        "label": "Konumlar",
+        "icon": "map-pin", 
+        "text": "Konum Seo Yönetimi",
+        "key": "ManageLocations",
+        "url": "admin.locations.index",
+        "activePath": "qR9zLp2xS6y/secured/locations"
+    }
+    
 
     {
         "id": "housing",
