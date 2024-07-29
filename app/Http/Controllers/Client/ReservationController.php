@@ -509,7 +509,6 @@ class ReservationController extends Controller
                 
             $estateclubrate = ($earnMoney - ($earnMoney * $share_percent_balance)) * $sales_rate_club;
             $remaining = $earnMoney - $estateclubrate;
-            return $estateclubrate;
 
             SharerPrice::create([
                 'collection_id' => $lastClick->collection_id,
