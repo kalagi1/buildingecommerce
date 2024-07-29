@@ -454,6 +454,19 @@ class ProjectController extends Controller
                 'message' => 'Comment added successfully',
                 'data' => $comment
             ], 201);
+
+    }//End   
+    
+    public function deleteComment($commentId){
+        $comment = ProjectComment::find($commentId);
+        $comment->delete();
+        return response()->json([
+            'status'=> 'success',
+            'message'=> 'Yorum başarıyla silindi.'
+            ],0);
+         
+    }//End
+
     }//End    
 
     public function userComments(Request $request, $userId){
@@ -514,4 +527,5 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Yorum başarıyla güncellendi.', 'comment' => $userComment]);
     }
      
+
 }
