@@ -26,6 +26,10 @@ class Reservation extends Model
     {
         return $this->hasOne(User::class, "id", "owner_id");
     }
+    public function reference()
+    {
+        return $this->belongsTo(User::class, 'reference_id');
+    }
 
     public function price()
     {

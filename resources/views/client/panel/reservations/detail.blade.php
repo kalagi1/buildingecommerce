@@ -88,6 +88,26 @@
             </div>
 
 
+            @if ($order->reference)
+            <div class="order-status-container mb-3" style="background-color: #1581f536">
+                <div class="left">
+                    <i class="fa fa-check"></i>
+                    <span>
+                        @php
+                            $referenceName = $order->reference->name;
+
+                        @endphp
+
+                        @if ($isStoreOwner)
+                            Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
+                            gerçekleşmiştir.
+                        @elseif ($isUserOwner)
+                            Satış danışmanınız: <strong>{{ $referenceName }}</strong>
+                        @endif
+                    </span>
+                </div>
+            </div>
+        @endif
 
             <div class="order-item mb-3">
                 <div class="order-item-header">
