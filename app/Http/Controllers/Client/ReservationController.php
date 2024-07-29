@@ -492,8 +492,8 @@ class ReservationController extends Controller
             $sales_rate_club = null;
 
             foreach ($rates as $rate) {
-                if (isset($collection->user) && $collection->user->corporate_type == $rate->institution->name) {
-,                    $sales_rate_club = $rate->sales_rate_club;
+                if (isset($collection->user) && $collection->user->corporate_type == $rate->institution->name   || $collection->user->type == 1 && $rate->institution->name == "Diğer") {
+            $sales_rate_club = $rate->sales_rate_club;
                 }
                 if ($housing->user->corporate_type == $rate->institution->name || $housing->user->type == 1 && $rate->institution->name == "Diğer") {
                     $share_percent_earn =  $rate->default_deposit_rate;
