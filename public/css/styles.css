@@ -29903,9 +29903,9 @@ font {
 
 .type-tag {
   background-color: black !important;
-  right: 100px;
+  right: 10px;
   text-align: center;
-  width: 50px !important;
+  width: 100px !important;
   margin-top: 10px;
   position: absolute;
 }
