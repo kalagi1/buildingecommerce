@@ -285,7 +285,11 @@ class ProfileController extends Controller
     public function editPhone(Request $request)
     {
 
-      
+        $validated = $request->validate([
+            'new_phone_number' => 'required|digits_between:10,11', // Telefon numarası 10 veya 11 rakamlı olmalı
+            'uploaded_file' => 'nullable|json', // Dosya varsa JSON formatında olmalı
+        ]);
+        
         // Form verilerini doğrula
         $user = Auth::user(); // Giriş yapmış kullanıcıyı al
     

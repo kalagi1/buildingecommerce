@@ -1074,7 +1074,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
         Route::post('/bireysel/profil', [InstitutionalProfileController::class, "individualProfileUpdate"])->name('individual.profile.update');
 
-        Route::get('/profil/duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
+        Route::get('/profil-duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
 
