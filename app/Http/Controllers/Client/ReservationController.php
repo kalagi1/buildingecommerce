@@ -441,6 +441,7 @@ class ReservationController extends Controller
             ->where('created_at', '>=', now()->subDays(24))
             ->latest('created_at')
             ->first();
+            return $lastClick;
 
         $shareOpen = isset(
             json_decode(Housing::find($request->input('housing_id') ?? 0)->housing_type_data ?? '[]')->{'share-open1'}
