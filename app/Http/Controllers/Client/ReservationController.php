@@ -441,7 +441,6 @@ class ReservationController extends Controller
             ->where('created_at', '>=', now()->subDays(24))
             ->latest('created_at')
             ->first();
-            return $lastClick;
 
         $shareOpen = isset(
             json_decode(Housing::find($request->input('housing_id') ?? 0)->housing_type_data ?? '[]')->{'share-open1'}
@@ -481,10 +480,13 @@ class ReservationController extends Controller
 
         $reservation->save();
         $earnMoney = intval($request->input('down_payment'));
-
+        $collection = null;
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
-            return $collection;
+
+        }
+
+        if ($collection != null) {
             $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
