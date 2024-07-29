@@ -63,12 +63,12 @@
             <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
 
-                    <h4 style="height: 25px">
+                    <h4 class="mb-0" >
                         {{ $housing->title }}
                     </h4>
 
 
-                    <p class="homes-address mb-3">
+                    <p class="homes-address mb-1">
 
 
 
