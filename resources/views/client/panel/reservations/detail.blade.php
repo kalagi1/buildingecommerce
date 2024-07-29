@@ -261,10 +261,11 @@
                                         Rezervasyonunuz Başarıyla Tamamlandı!
                                     </div>
                                     <div class="status-description">
-                                        Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve ilan hakkında değerlendirme yapabilirsiniz. İyi tatiller dileriz!
+                                        Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve ilan hakkında değerlendirme
+                                        yapabilirsiniz. İyi tatiller dileriz!
                                     </div>
                                 </div>
-                                
+
                                 {{-- <div class="rating">
                                   
                                 </div> --}}

@@ -235,7 +235,7 @@
                                 <div class="status-timestamp">{{ $order->created_at }}</div>
                             @else
                                 <div class="status-header">
-                                    <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
+                                    <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
                                     <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
                                         sipariş
                                         tamamlandığında alacak.</div>
@@ -256,10 +256,8 @@
                                             src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
                                 </div>
                                 <div class="status-header">
-                                    <div class="status-title text-success">Kaparonız Emlak Sepette ile Güvende</div>
-                                    <div class="status-description">Satıcı satışı gerçekleştirdi. Siparişi inceleyip
-                                        onaylamanız
-                                        bekleniyor.</div>
+                                    <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
+                                    <div class="status-description">Sipariş onayınız bekleniyor.</div>
                                 </div>
 
                                 @if (isset($order->share) && optional($order->share)->status != 1)
@@ -278,7 +276,7 @@
                                     </div>
                                 @endif
 
-                               
+
                                 <div class="status-timestamp">{{ $order->created_at }}</div>
                             </div>
 
@@ -292,9 +290,9 @@
                                     </div>
                                     <div class="status-header">
                                         <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
-                                        <div class="status-description">Ödemeniz satıcıya aktarılacak. Satıcı hakkında
-                                            değerlendirme
-                                            yapabilirsiniz.</div>
+                                        <div class="status-description"> Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve
+                                            ilan hakkında değerlendirme
+                                            yapabilirsiniz. </div>
                                     </div>
                                     {{-- <div class="rating">
                                       
@@ -306,7 +304,7 @@
 
                                 <div class="horizontal-line"></div>
 
-                                @if ($cartType == "housing" && canUserAddComment($cartId))
+                                @if ($cartType == 'housing' && canUserAddComment($cartId))
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
@@ -415,7 +413,7 @@
                                         </div>
 
                                     </div>
-                                @elseif ($cartType == "project" && canUserAddProjectComment($cartId))
+                                @elseif ($cartType == 'project' && canUserAddProjectComment($cartId))
                                     <div class="accordion" id="accordionPanelsStayOpenExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
@@ -1214,92 +1212,92 @@ Sipariş Notu eklenmedi
 
     <script>
         let currentTab = 0;
-     // Başlangıç tabı
+        // Başlangıç tabı
 
-    function showTab(n) {
-        let tabs = document.getElementsByClassName("step");
-        tabs[n].style.display = "block";
-        document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
-        document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
-    }
-
-    function nextPrev(n) {
-        let tabs = document.getElementsByClassName("step");
-        
-        // Mevcut adımı gizle
-        tabs[currentTab].style.display = "none";
-        
-        // Yeni adımı güncelle
-        currentTab += n;
-        
-        // Eğer tüm adımlar tamamlandıysa formu gönder
-        if (currentTab >= tabs.length) {
-            submitForms(); // formu gönder
-            return false;
+        function showTab(n) {
+            let tabs = document.getElementsByClassName("step");
+            tabs[n].style.display = "block";
+            document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+            document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
         }
-        
-        // Adımı göster
-        showTab(currentTab);
-    }
 
-    function validateForm() {
-    let valid = true;
-    let step = document.getElementsByClassName("step")[currentTab];
-    
-    // Input ve textarea elementlerini seç
-    let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
-    let checkboxes = step.querySelectorAll("input[type='checkbox']");
+        function nextPrev(n) {
+            let tabs = document.getElementsByClassName("step");
 
-    // Her input ve textarea için doğrulama
-    inputs.forEach(input => {
-        if (input.value.trim() === "") {
-            input.classList.add("invalid");
-            valid = false;
-        } else {
-            input.classList.remove("invalid");
+            // Mevcut adımı gizle
+            tabs[currentTab].style.display = "none";
+
+            // Yeni adımı güncelle
+            currentTab += n;
+
+            // Eğer tüm adımlar tamamlandıysa formu gönder
+            if (currentTab >= tabs.length) {
+                submitForms(); // formu gönder
+                return false;
+            }
+
+            // Adımı göster
+            showTab(currentTab);
         }
-    });
 
-    // Checkbox doğrulaması
-    checkboxes.forEach(checkbox => {
-        if (!checkbox.checked) {
-            checkbox.classList.add("invalid-checkbox");
-            valid = false;
-        } else {
-            checkbox.classList.remove("invalid-checkbox");
+        function validateForm() {
+            let valid = true;
+            let step = document.getElementsByClassName("step")[currentTab];
+
+            // Input ve textarea elementlerini seç
+            let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+            let checkboxes = step.querySelectorAll("input[type='checkbox']");
+
+            // Her input ve textarea için doğrulama
+            inputs.forEach(input => {
+                if (input.value.trim() === "") {
+                    input.classList.add("invalid");
+                    valid = false;
+                } else {
+                    input.classList.remove("invalid");
+                }
+            });
+
+            // Checkbox doğrulaması
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    checkbox.classList.add("invalid-checkbox");
+                    valid = false;
+                } else {
+                    checkbox.classList.remove("invalid-checkbox");
+                }
+            });
+
+            // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
+            // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
+            inputs.forEach(input => {
+                input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
+                input.addEventListener('input', handleInputChange);
+            });
+
+            checkboxes.forEach(checkbox => {
+                checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
+                checkbox.addEventListener('change', handleCheckboxChange);
+            });
+
+            function handleInputChange() {
+                if (this.value.trim() !== "") {
+                    this.classList.remove("invalid");
+                } else {
+                    this.classList.add("invalid");
+                }
+            }
+
+            function handleCheckboxChange() {
+                if (this.checked) {
+                    this.classList.remove("invalid-checkbox");
+                } else {
+                    this.classList.add("invalid-checkbox");
+                }
+            }
+
+            return valid;
         }
-    });
-
-    // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
-    // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
-    inputs.forEach(input => {
-        input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
-        input.addEventListener('input', handleInputChange);
-    });
-
-    checkboxes.forEach(checkbox => {
-        checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
-        checkbox.addEventListener('change', handleCheckboxChange);
-    });
-
-    function handleInputChange() {
-        if (this.value.trim() !== "") {
-            this.classList.remove("invalid");
-        } else {
-            this.classList.add("invalid");
-        }
-    }
-
-    function handleCheckboxChange() {
-        if (this.checked) {
-            this.classList.remove("invalid-checkbox");
-        } else {
-            this.classList.add("invalid-checkbox");
-        }
-    }
-
-    return valid;
-}
 
 
 
