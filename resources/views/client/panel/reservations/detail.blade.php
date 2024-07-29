@@ -231,11 +231,11 @@
                             @if (isset($order->share) && optional($order->share)->status != 1)
                                 <div class="approve-button">
                                     <a class="btn btn-success"
-                                        href="{{ route('client.approve-reservation', ['reservation' => $order->share->id]) }}"
+                                        href="{{ route('institutional.approve-reservation', ['reservation' => $order->share->id]) }}"
                                         @if ($order->share->status == 1) disabled @endif>
                                         Onayla</a>
                                     {{-- <button class="btn btn-danger"
-                                        onclick="submitFormPriceAndShare('{{ route('client.unapprove-reservation', ['reservation' => $order->share->id]) }}')"
+                                        onclick="submitFormPriceAndShare('{{ route('institutional.unapprove-reservation', ['reservation' => $order->share->id]) }}')"
                                         @if ($order->share->status != 1) disabled @endif>Hakedişleri
                                         Reddet</button> --}}
 
@@ -246,21 +246,7 @@
 
 
 
-                            @if (isset($order->cartPrice) && optional($order->cartPrice)->status != 1)
-                                <div class="approve-button">
-
-                                    <a class="btn btn-success"
-                                        href="{{ route('client.approve-price', ['price' => $order->cartPrice->id]) }}"
-                                        @if ($order->cartPrice->status == 1) disabled @endif>Onayla
-                                    </a>
-                                    {{-- <button class="btn btn-danger"
-                                        onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
-                                        @if ($order->price->status != 1) disabled @endif>Hakedişleri
-                                        Reddet</button> --}}
-                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">İptal Et</button>
-                                </div>
-                            @endif
+                          
                             <div class="status-timestamp">{{ $order->created_at }}</div>
                         </div>
 
