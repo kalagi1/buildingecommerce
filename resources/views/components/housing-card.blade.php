@@ -143,7 +143,7 @@
 
                 <ul class="homes-list clearfix mb-2"
                     style="display: flex; justify-content: space-between;align-items:center">
-                    <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
+                    <li style="font-size: 15px; font-weight: 700;width:100%; white-space:nowrap">
                         @if ($housing->discount_amount)
                             <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2"
                                 fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
