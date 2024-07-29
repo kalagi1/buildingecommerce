@@ -29,7 +29,7 @@
                         </div> --}}
 
                         @if($housing->step2_slug == 'gunluk-kiralik')
-                        <p class="chakra-text css-1nm0gly">2 kişi / en az 5 gece</p>
+                        <p class="chakra-text css-1nm0gly">Max {{json_decode($housing->housing_type_data)->max_user[0]}} kişi</p>
                         @endif
                         @if (checkIfUserCanAddToCart($housing->id))
 
