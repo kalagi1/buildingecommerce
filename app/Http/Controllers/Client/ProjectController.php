@@ -158,6 +158,8 @@ class ProjectController extends Controller
         });
 
         if ($project) {
+            $project->increment( 'view_count');
+
 
             $projectHousing = $project->roomInfo->keyBy('name');
             $sumCartOrderQt = DB::table('cart_orders')
