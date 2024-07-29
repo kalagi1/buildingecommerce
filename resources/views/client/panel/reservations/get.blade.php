@@ -60,24 +60,24 @@
                                 <li class="order_amount" style="width: 10%">
                                     {{ number_format($order->total_price, 0, ',', '.') }} ₺
                                 </li>
-                                <li class="order_amount" style="width: 15%">
+                                {{-- <li class="order_amount" style="width: 15%">
                                     {{ number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.') }}₺
                                     ({{ $order->money_is_safe }}₺ Param Güvende Ödemesi)
+                                </li> --}}
+                                <li class="order_date" style="width: 10%">
+                                    Giriş: {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}
                                 </li>
                                 <li class="order_date" style="width: 10%">
-                                    {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}
+                                    Çıkış: {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
                                 </li>
-                                <li class="order_date" style="width: 10%">
-                                    {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
-                                </li>
-                                <li class="order_date" style="width: 10%">
+                                {{-- <li class="order_date" style="width: 10%">
                                     <span style="color:#EA2B2E; font-weight:600;font-size:16px">
                                         <i class="fas fa-calendar"></i>
                                         {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }} gün
                                     </span>
-                                </li>
+                                </li> --}}
                                 <li class="order_date" style="width: 10%">
-                                    {{ $order->person_count }}
+                                    {{ $order->person_count }} Kişi
                                 </li>
                                 <li class="order_status" style="width: 10%">
                                     {!! [
@@ -87,14 +87,14 @@
                                         '3' => '<span class="text-danger">Rezervasyon iptal edildi</span>',
                                     ][$order->status] !!}
                                 </li>
-                                <li class="order_user" style="width: 15%">
+                                {{-- <li class="order_user" style="width: 15%">
                                     {{ $order->user->name }} <br>
                                     {{ $order->user->email }}
                                 </li>
                                 <li class="order_user" style="width: 15%">
                                     {{ $order->owner->name }} <br>
                                     {{ $order->owner->email }}
-                                </li>
+                                </li> --}}
                                  <li style="width: 5%">
                                             <span class="project-table-content-actions-button" data-toggle="popover-{{ $order->id }}">
                                                 <i class="fa fa-chevron-down"></i>
@@ -105,7 +105,7 @@
                                  <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
                                         <ul class="list-unstyled">
                                                 <li>
-                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" >Rezervasyon Detayı</a>
                                                 </li>
 
 
