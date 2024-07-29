@@ -175,7 +175,7 @@
                         </div>
 
                         <div class="moneys fs-30 fw-7 lh-45 text-color-3">
-                            {{ number_format($discountedPrice, 0, ',', '.') }}
+                            {{ number_format($reservation['total_price'], 0, ',', '.') }}
                             TL</div>
 
                         <div class="show-mobile">
