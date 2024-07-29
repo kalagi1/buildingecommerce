@@ -74,7 +74,9 @@ h5 {
 .top-headings-section {
   padding-bottom: 2rem;
 }
-
+.select2-results{
+  padding: 4px !important;
+}
 .top-headings-section p {
   margin-left: auto;
   margin-right: auto;
@@ -6181,6 +6183,7 @@ element.style {
 
 .homepage-2 .portfolio .project-head {
   border: none;
+
 }
 
 .button-effect-2 .btn {
@@ -27712,7 +27715,7 @@ h4 {
   font-size: 11px;
   line-height: 18px;
   padding: 0;
-  color: #333;
+  color: black !important;
   margin-bottom: 10px;
 }
 
@@ -31959,24 +31962,14 @@ a {
         align-items: center;
     }
 
-    .modal-footer{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background: #fff;
-        width: 100%;
-        box-shadow: 0px 1px 1px #888, 0px -2px 4px #888;
-    }
+   
 
     .modal-footer .last-change{
         display: flex;
     }
 
     .modal-footer .last-change span{
-        display: block;
+        display: block; 
         margin-left: 15px;
     }
 
@@ -32169,4 +32162,40 @@ a {
   display: block;
   color: #1c6c09;
   background-color: #d9fbd0;
+}
+
+.address-overlay {
+  position: fixed; /* Ensures the overlay covers the viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background with opacity */
+  z-index: 999; /* Ensure it sits above other elements */
+  display: none; /* Hidden by default */
+}
+.address-overlay.show {
+  display: block; /* Show the overlay */
+}
+.select2-search {
+  position: relative;
+}
+
+.select2-clear-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#submit-filters{
+  height: 40px !important;
+}
+
+.select2-clear-button:hover {
+  color: red;
 }

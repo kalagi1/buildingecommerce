@@ -1,8 +1,8 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-<div class="table-breadcrumb mb-5">
-    <ul>
+    <div class="table-breadcrumb mb-5">
+        <ul>
             <li>
                 Hesabım
             </li>
@@ -18,17 +18,17 @@
 
         @foreach ($mergedItems as $key => $item)
             @php
-                $discountedPrice = null;
-                $price = null;
-                $share_sale = null;
-                $number_of_share = null;
-                $deposit_rate = 0.02;
+                $discountedPrice = (float) 0;
+                $price = (float) 0;
+                $share_sale = (float) 0;
+                $number_of_share = (float) 0;
+                $deposit_rate = (float) 0.02;
 
                 if (
                     $item['item_type'] == 2 &&
                     isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                 ) {
-                    $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                    $discountRate = (float) json_decode($item['housing']['housing_type_data'])->discount_rate[0];
 
                     $defaultPrice =
                         json_decode($item['housing']['housing_type_data'])->price[0] ??

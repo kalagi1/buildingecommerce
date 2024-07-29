@@ -16,6 +16,8 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use App\Models\CartOrder;
+use App\Models\SharerPrice;
+use App\Models\CartPrice;
 use App\Models\City;
 use App\Models\Collection;
 use App\Models\District;
@@ -24,7 +26,10 @@ use App\Models\HousingTypeParentConnection;
 use App\Models\Neighborhood;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
+use App\Models\HousingComment;
+use App\Models\ProjectComment;
 use App\Models\ProjectListItem;
+use Illuminate\Support\Facades\Validator;
 use App\Models\ShareLink;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
@@ -897,6 +902,7 @@ class HomeController extends Controller
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
+            ->whereNull('housings.is_sold')
             ->with(['city', 'county']);
 
         if ($request->input("slug") == "al-sat-acil") {
@@ -1330,6 +1336,7 @@ class HomeController extends Controller
                         $query->orWhere('id', '=', (int)$term - 2000000);
                     })
                     ->orderByDesc('housings.created_at')
+                    ->whereNull('housings.is_sold')
                     ->get()
                     ->map(function ($item) {
                         return [
@@ -1375,6 +1382,7 @@ class HomeController extends Controller
                     'housings.id',
                     'housings.title AS housing_title',
                     'housings.created_at',
+                    'housings.is_sold',
                     'housings.step1_slug',
                     'housings.step2_slug',
                     'housings.slug',
@@ -1419,7 +1427,8 @@ class HomeController extends Controller
                         ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
                         ->where('status', "!=", 1);
                 })
-                ->orderByDesc('housings.created_at')
+                ->orderByDesc('housings.created_at')  
+                ->whereNull('housings.is_sold')
                 ->paginate(12);
         } elseif ($title === 'project') {
             // Project sorgusu
@@ -1723,5 +1732,102 @@ class HomeController extends Controller
 
 
         return view("client.search.index", compact('term', 'housings', 'housingTotalCount', 'projects', 'projectTotalCount', 'merchants', 'merchant_count'));
+    }
+
+    public function commentAfterPayment(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+                'type' => 'required|string|in:housing,project',
+                'id' => 'required|integer',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Optional validation for images
+            ]
+        );
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
+        $rate = $request->input('rate');
+        $comment = $request->input('comment');
+        $type = $request->input('type');
+        $id = $request->input('id');
+    
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $images[] = $image->store('public/' . ($type === 'housing' ? 'housing-comment-images' : 'project-comment-images'));
+            }
+        }
+    
+        if ($type === 'housing') {
+            $housing = Housing::where('id', $id)->with('user')->first();
+            if (!$housing) {
+                return response()->json(['error' => 'Housing not found'], 404);
+            }
+    
+            HousingComment::create([
+                'user_id' => auth()->user()->id,
+                'housing_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'images' => json_encode($images),
+                'owner_id' => $housing->user_id,
+            ]);
+        } else {
+            $project = Project::where('id', $id)->with('user')->first();
+            if (!$project) {
+                return response()->json(['error' => 'Project not found'], 404);
+            }
+    
+            ProjectComment::create([
+                'user_id' => auth()->user()->id,
+                'project_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'status' => 0,
+                'images' => json_encode($images),
+                'owner_id' => $project->user_id,
+            ]);
+        }
+    
+        return response()->json(['message' => 'Comment submitted successfully']);
+    }
+    
+
+    public function approveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapproveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
+    }
+
+    public function approvePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
+        return redirect()->back();
+    }
+
+    public function unapprovePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
     }
 }

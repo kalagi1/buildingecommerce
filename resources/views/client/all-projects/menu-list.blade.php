@@ -286,37 +286,37 @@
 
 
 
-                                <div class="trip-search  @if (isset($items)) mt-3 @endif">
+                                <div class="trip-search @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>Adres</span>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled>İl</option>
+                                            <option value="#" class="default-option" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
-                                                    {{ $city['title'] }}</option>
+                                                    {{ $city['title'] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
-
-
                                     <div class="mt-md-2">
-                                        <select id="county" class="bg-white filter-now mobile-button">
+                                        <select id="county" class="bg-white filter-now mobile-button" disabled>
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
-
-
                                     </div>
                                     <div class="mt-md-2">
-                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button" disabled>
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
-
-
                                     </div>
                                 </div>
+                                
+                                
+                                <!-- Address overlay added here -->
+                                <div class="address-overlay"></div>
+
 
 
                                 @if (!$projects)
@@ -786,6 +786,7 @@
 
         </div>
     </section>
+   
 
 
 @endsection
@@ -796,7 +797,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-    <script>
+    <script>// Using jQuery
+
+
         $(document).ready(function() {
             $(".tab").click(function() {
                 $(".tab label").removeClass("activeTab");
@@ -848,6 +851,7 @@
     </script>
 
     <script>
+        
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
@@ -865,26 +869,81 @@
         });
 
         $(document).ready(function() {
-            $('#city').select2({
-                placeholder: 'İl',
-                width: '100%',
-                searchInputPlaceholder: 'Ara...',
+    // Initialize Select2 for each element
+    $('#city').select2({
+        placeholder: 'İl',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
 
-            });
-            $("#project_type").select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#county').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
-            $('#neighborhood').select2({
-                minimumResultsForSearch: -1,
-                width: '100%',
-            });
+    
+    $("#project_type").select2({
+        minimumResultsForSearch: -1,
+        width: '100%'
+    });
+    $('#county').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
 
-        });
+    $('#neighborhood').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
+
+    // Show overlay when a Select2 dropdown is opened
+    $(document).on('click', '.select2-container', function() {
+                if ($(this).hasClass('select2-container--open')) {
+            $('.address-overlay').addClass('show');
+            const searchField = $('.select2-search__field');
+        if (searchField.length) {
+            searchField.attr('placeholder', 'Ara...');
+        }
+
+        } else {
+            $('.address-overlay').removeClass('show');
+        }
+    });
+
+    // Hide overlay when clicking outside any Select2 dropdown
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.select2-container').length) {
+            $('.address-overlay').removeClass('show');
+        }
+    });
+
+    // Hide overlay when a selection is made
+    $('#city').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#project_type').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#county').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+
+    $('#neighborhood').on('select2:select', function() {
+        $('.address-overlay').removeClass('show');
+    });
+});
+
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
@@ -984,8 +1043,8 @@
 
                         cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
                             'href', newUrl);
-
-                        $('#county').append(`<option value="#">İlçe</option>`);
+                            
+                            $('#county').empty();
                         $('#neighborhood').append(`<option value="#">Mahalle</option>`);
 
                         res.counties.forEach((e) => {
@@ -998,7 +1057,7 @@
                             placeholder: 'İlçe',
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
-                        });
+                        }).prop('disabled', false);
 
                         if (countyID) {
                             selectCountyByID(countyID);
@@ -1041,7 +1100,7 @@
                             placeholder: 'Mahalle',
                             width: '100%',
                             searchInputPlaceholder: 'Ara...'
-                        });
+                        }).prop('disabled', false);
 
                         if (neighborhoodID) {
                             selectNeighborhoodByID(neighborhoodID);

@@ -1,7 +1,7 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="table-breadcrumb">
+    <div class="table-breadcrumb mb-5">
         <ul>
             <li>
                 Hesabım
@@ -74,19 +74,25 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item"
-                                                            href="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}">
+                                                        <a class="dropdown-item" href="#" onclick="shareOnWhatsApp('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                             <i class="fas fa-share-alt mr-2"></i>
                                                             Whatsapp'ta Paylaş
                                                         </a>
                                                     </li>
+                                                    
+                                                    <script>
+                                                        function shareOnWhatsApp(url) {
+                                                            // URL'yi WhatsApp paylaşım URL'sine dönüştür
+                                                            const whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(url);
+                                                            
+                                                            // Yeni sekmede WhatsApp paylaşım sayfasını aç
+                                                            window.open(whatsappUrl, '_blank');
+                                                        }
+                                                    </script>
+                                                    
+                                                    
                                                 </ul>
 
-                                                <script>
-                                                    function copyLinkAndShare(link) {
-                                                        window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
-                                                    }
-                                                </script>
                                             </div>
                                         </li>
 

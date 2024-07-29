@@ -26,12 +26,14 @@
                 @php
                     $cart = json_decode($neighborView->order->cart, true);
                     $statusText = $neighborView->status == 1 ? 'Ödeme onaylandı' : 'Ödeme onayı bekleniyor';
+                    $nameDisplay = $neighborView->status == 1 ? $neighborView->owner->name : substr($neighborView->owner->name, 0, 3) . str_repeat('*', strlen($neighborView->owner->name) - 3);
+                    $phoneDisplay = $neighborView->status == 1 ? $neighborView->owner->mobile_phone : substr($neighborView->owner->mobile_phone, 0, 3) . str_repeat('*', strlen($neighborView->owner->mobile_phone) - 3);
                 @endphp
                 <div class="project-table-content user-item">
                     <ul>
-                        <li style="width: 5%;">{{ $key +1 }}</li>
-                        <li>Komşu İsmi: {{ $neighborView->owner->name }}</li>
-                        <li>Komşu Cep No: {{ $neighborView->owner->mobile_phone }}</li>
+                        <li style="width: 5%;">{{ $key + 1 }}</li>
+                        <li>Komşu İsmi: {{ $nameDisplay }}</li>
+                        <li>Komşu Cep No: {{ $phoneDisplay }}</li>
                         <li>Proje: {{ $neighborView->project->project_title }} {{ $cart['item']['housing'] }} No'lu İlan</li>
                         <li>{{ $statusText }} (250 TL)</li>
                         <li>
@@ -54,7 +56,7 @@
                 </div>
             @endforeach
         </div>
-    </section>
+        
 @endsection
 
 
