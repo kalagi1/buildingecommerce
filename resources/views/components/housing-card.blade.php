@@ -67,20 +67,36 @@
                         {{ $housing->title }}
                     </h4>
 
+<p class="homes-address mb-1">
+    <i class="fa fa-map-marker"></i>
+    <span>
+        @php
+            // Initialize an empty array to hold the address parts
+            $addressParts = [];
 
-                    <p class="homes-address mb-1">
+            // Add city if it exists
+            if ($housing->city) {
+                $addressParts[] = ucfirst($housing->city->title);
+            }
 
+            // Add district if it exists
+            if ($housing->district) {
+                $addressParts[] = ucfirst($housing->district->ilce_title);
+            }
 
+            // Add neighborhood if it exists
+            if ($housing->neighborhood) {
+                $addressParts[] = ucfirst($housing->neighborhood->mahalle_title);
+            }
 
-                        <i class="fa fa-map-marker"></i>
-                        <span>
-                            {{ $housing->city ? $housing->city->title : '' }}
-                            {{ $housing->city ? ($housing->district ? '/ ' . $housing->district->ilce_title : '') : ($housing->district ? $housing->district->ilce_title : '') }}
-                            {{ $housing->city || $housing->district ? ($housing->neighborhood ? '/ ' . $housing->neighborhood->mahalle_title : '') : ($housing->neighborhood ? $housing->neighborhood->mahalle_title : '') }}
-                        </span>
+            // Join all parts with ' / ' and ensure that there's no trailing or leading space
+            $formattedAddress = implode(' / ', $addressParts);
+        @endphp
 
+        {{ $formattedAddress }}
+    </span>
+</p>
 
-                    </p>
                 </span>
                 <!-- homes List -->
                 <ul class="homes-list clearfix mb-2 pb-1" style="display: flex; justify-content: space-between">
