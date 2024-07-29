@@ -489,7 +489,7 @@ class ReservationController extends Controller
             $sales_rate_club = null;
 
             foreach ($rates as $rate) {
-                if ($collection->user->corporate_type == $rate->institution->name) {
+                if (isset($collection->user) && $collection->user->corporate_type == $rate->institution->name) {
                     // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                     $sales_rate_club = $rate->sales_rate_club;
                 }
