@@ -1795,11 +1795,11 @@ class ProjectController extends Controller
         $comment = $request->input( 'comment' );
 
         $images = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                // Görseli kaydet
-                $path = $image->store('public/housing-comment-images');
-                $images[] = $path; // Yolunu diziye ekle
+
+        if ( is_array( $request->images ) ) {
+            foreach ( $request->images as $image ) {
+                $images[] = $image->store( 'public/project-comment-images' );
+
             }
         }
 
