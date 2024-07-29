@@ -1,4 +1,3 @@
-
 @extends('client.layouts.masterPanel')
 
 @section('content')
@@ -10,87 +9,84 @@
             </ul>
         </div>
     </div>
-<section>
-<div class="alert alert-info">
+    <section>
+        <div class="alert alert-info">
             Emlak Sepette platformunda yaptığınız tüm kiralama işlemlerine aşağıdaki alandan ulaşabilirsiniz.
         </div>
-    <div class="front-project-tabs">
-        <ul class="mt-3 mb-3" id="reservationTabs">
+        <div class="front-project-tabs">
+            <ul class="mt-3 mb-3" id="reservationTabs">
+                @foreach ([['id' => 'housingReservations', 'text' => 'Onaylanan Rezervasyonlar', 'count' => $housingReservations->count()], ['id' => 'confirmReservations', 'text' => 'Onay Bekleyen Rezervasyonlar', 'count' => $confirmReservations->count()], ['id' => 'cancelRequestReservations', 'text' => 'İptal Talebi Bekleyen Rezervasyonlar', 'count' => $cancelRequestReservations->count()], ['id' => 'expiredReservations', 'text' => 'Geçmiş Rezervasyonlar', 'count' => $expiredReservations->count()], ['id' => 'cancelReservations', 'text' => 'Reddedilmiş Rezervasyonlar', 'count' => $cancelReservations->count()], ['id' => 'refundedReservations', 'text' => 'İptal Edilen Rezervasyonlar', 'count' => $refundedReservations->count()]] as $tab)
+                    <li class="tab-item {{ $loop->first ? 'active' : '' }}" id="{{ $tab['id'] }}-tab">
+                        {{ $tab['text'] }} ({{ $tab['count'] }})
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="tab-content">
             @foreach ([
-                ['id' => 'housingReservations', 'text' => 'Onaylanan Rezervasyonlar', 'count' => $housingReservations->count()],
-                ['id' => 'confirmReservations', 'text' => 'Onay Bekleyen Rezervasyonlar', 'count' => $confirmReservations->count()],
-                ['id' => 'cancelRequestReservations', 'text' => 'İptal Talebi Bekleyen Rezervasyonlar', 'count' => $cancelRequestReservations->count()],
-                ['id' => 'expiredReservations', 'text' => 'Geçmiş Rezervasyonlar', 'count' => $expiredReservations->count()],
-                ['id' => 'cancelReservations', 'text' => 'Reddedilmiş Rezervasyonlar', 'count' => $cancelReservations->count()],
-                ['id' => 'refundedReservations', 'text' => 'İptal Edilen Rezervasyonlar', 'count' => $refundedReservations->count()]
-            ] as $tab)
-                <li class="tab-item {{ $loop->first ? 'active' : '' }}" id="{{ $tab['id'] }}-tab">
-                    {{ $tab['text'] }} ({{ $tab['count'] }})
-                </li>
-            @endforeach
-        </ul>
-    </div>
-    <div class="tab-content">
-        @foreach ([
             'housingReservations' => $housingReservations,
             'confirmReservations' => $confirmReservations,
             'cancelRequestReservations' => $cancelRequestReservations,
             'expiredReservations' => $expiredReservations,
             'cancelReservations' => $cancelReservations,
-            'refundedReservations' => $refundedReservations
+            'refundedReservations' => $refundedReservations,
         ] as $tabId => $reservations)
-            <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
-                @if ($reservations->isEmpty())
-                    <div class="project-table-content">
-                        <p class="text-center mb-0">Rezervasyon bulunamadı</p>
-                    </div>
-                @else
-                    <div class="project-table-content">
-                        @foreach ($reservations as $order)
-                            @php
-                                $housing = App\Models\Housing::with('user')->find($order->housing_id);
-                                $image = json_decode($housing->housing_type_data ?? '[]')->image ?? null;
-                            @endphp
-                            <ul class="list-unstyled d-flex housing-item">
-                                <li class="order_no" style="width: 10%">{{ $order->key }}</li>
-                                <li class="order_image " >
-                                <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}" class="d-flex align-items-center text-body">
-                                <div class="avatar avatar-m">
-                            <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px;object-fit:cover">
+                <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
+                    @if ($reservations->isEmpty())
+                        <div class="project-table-content">
+                            <p class="text-center mb-0">Rezervasyon bulunamadı</p>
                         </div>
-                                   <p style="margin-left: 10px"> #{{ $housing->id + 2000000 }} </p></a>
-                                </li>
-                                <li class="order_amount" style="width: 10%">
-                                    {{ number_format($order->total_price, 0, ',', '.') }} ₺
-                                </li>
-                                {{-- <li class="order_amount" style="width: 15%">
+                    @else
+                      
+                            @foreach ($reservations as $order)
+                            <div class="project-table-content">
+                                @php
+                                    $housing = App\Models\Housing::with('user')->find($order->housing_id);
+                                    $image = json_decode($housing->housing_type_data ?? '[]')->image ?? null;
+                                @endphp
+                                <ul class="list-unstyled d-flex housing-item">
+                                    <li class="order_no" style="width: 10%">{{ $order->key }}</li>
+                                    <li class="order_image ">
+                                        <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}"
+                                            class="d-flex align-items-center text-body">
+                                            <div class="avatar avatar-m">
+                                                <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}"
+                                                    alt="" style="width:35px;height:35px;object-fit:cover">
+                                            </div>
+                                            <p style="margin-left: 10px"> #{{ $housing->id + 2000000 }} </p>
+                                        </a>
+                                    </li>
+                                    <li class="order_amount" style="width: 10%">
+                                        {{ number_format($order->total_price, 0, ',', '.') }} ₺
+                                    </li>
+                                    {{-- <li class="order_amount" style="width: 15%">
                                     {{ number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.') }}₺
                                     ({{ $order->money_is_safe }}₺ Param Güvende Ödemesi)
                                 </li> --}}
-                                <li class="order_date" style="width: 10%">
-                                    Giriş: {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}
-                                </li>
-                                <li class="order_date" style="width: 10%">
-                                    Çıkış: {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
-                                </li>
-                                {{-- <li class="order_date" style="width: 10%">
+                                    <li class="order_date" style="width: 10%">
+                                        Giriş: {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}
+                                    </li>
+                                    <li class="order_date" style="width: 10%">
+                                        Çıkış: {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
+                                    </li>
+                                    {{-- <li class="order_date" style="width: 10%">
                                     <span style="color:#EA2B2E; font-weight:600;font-size:16px">
                                         <i class="fas fa-calendar"></i>
                                         {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }} gün
                                     </span>
                                 </li> --}}
-                                <li class="order_date" style="width: 10%">
-                                    {{ $order->person_count }} Kişi
-                                </li>
-                                <li class="order_status" style="width: 10%">
-                                    {!! [
-                                        '0' => '<span class="text-warning">Rezerve Edildi</span>',
-                                        '1' => '<span class="text-success">Rezervasyon Onaylandı</span>',
-                                        '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
-                                        '3' => '<span class="text-danger">Rezervasyon iptal edildi</span>',
-                                    ][$order->status] !!}
-                                </li>
-                                {{-- <li class="order_user" style="width: 15%">
+                                    <li class="order_date" style="width: 10%">
+                                        {{ $order->person_count }} Kişi
+                                    </li>
+                                    <li class="order_status" style="width: 10%">
+                                        {!! [
+                                            '0' => '<span class="text-warning">Rezerve Edildi</span>',
+                                            '1' => '<span class="text-success">Rezervasyon Onaylandı</span>',
+                                            '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
+                                            '3' => '<span class="text-danger">Rezervasyon iptal edildi</span>',
+                                        ][$order->status] !!}
+                                    </li>
+                                    {{-- <li class="order_user" style="width: 15%">
                                     {{ $order->user->name }} <br>
                                     {{ $order->user->email }}
                                 </li>
@@ -98,30 +94,33 @@
                                     {{ $order->owner->name }} <br>
                                     {{ $order->owner->email }}
                                 </li> --}}
-                                 <li style="width: 5%">
-                                            <span class="project-table-content-actions-button" data-toggle="popover-{{ $order->id }}">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </span>
+                                    <li style="width: 5%">
+                                        <span class="project-table-content-actions-button"
+                                            data-toggle="popover-{{ $order->id }}">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a
+                                                href="{{ route('institutional.reservation.order.detail', ['reservation_id' => hash_id($order->id)]) }}">Rezervasyon
+                                                Detayı</a>
                                         </li>
-                            </ul>
-
-                                 <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
-                                        <ul class="list-unstyled">
-                                                <li>
-                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => hash_id($order->id)]) }}" >Rezervasyon Detayı</a>
-                                                </li>
 
 
-                                        </ul>
-                                    </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        @endforeach
-    </div>
-</section>
-
+                                    </ul>
+                                </div>
+                            </div>
+                            @endforeach
+                      
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    </section>
 @endsection
 
 @section('scripts')
@@ -132,10 +131,10 @@
         $(document).ready(function() {
             $('#reservationTabs .tab-item').on('click', function() {
                 var targetId = $(this).attr('id').replace('-tab', '');
-                
+
                 // Remove active class from all tabs
                 $('#reservationTabs .tab-item').removeClass('active');
-                
+
                 // Add active class to the clicked tab
                 $(this).addClass('active');
 
@@ -168,8 +167,8 @@
         });
 
 
-          // Search functionality
-          $('#searchInput').on('input', function() {
+        // Search functionality
+        $('#searchInput').on('input', function() {
             var query = $(this).val().toLowerCase();
             $('.tab-pane').each(function() {
                 var $tabPane = $(this);
