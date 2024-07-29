@@ -255,4 +255,4 @@ Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
 Route::get('/project/{projectId}/comments',[InstitutionalProjectController::class,'getCommentsByProject']);
 Route::post('/project/{projectId}/add-comment', [InstitutionalProjectController::class,'projectCommentPost']);
 
-Route::post('/delete/comment',[ProjectController::class,'deleteComment']);
+Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComment']);
