@@ -28,9 +28,9 @@
                             @endif
                         </div> --}}
 
-                        @if($housing->step2_slug == 'gunluk-kiralik')
+                        {{-- @if($housing->step2_slug == 'gunluk-kiralik')
                         <p class="chakra-text css-1nm0gly">Max {{json_decode($housing->housing_type_data)->max_user[0]}} kişi</p>
-                        @endif
+                        @endif --}}
                         @if (checkIfUserCanAddToCart($housing->id))
 
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
