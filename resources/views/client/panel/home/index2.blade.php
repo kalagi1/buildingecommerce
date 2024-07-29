@@ -27,15 +27,18 @@
             <section id="content" class="mt-3 mb-5">
                 <div class="container">
                     <div class="row mb-3">
-                        <div class="col-3 pb-3">
-                            <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
-                                <div class="d-flex flex-column">
-                                    <div class="">Alt Çalışan Sayısı</div>
-                                    <div class=""><strong>22,000</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                     
+                        @if ($user && $user->user_type == 2)
+                            <div class="col-3 pb-3">
+                                <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A; padding: 20px; border: 1px solid #ebebeb; background: white;">
+                                    <div class="d-flex flex-column">
+                                        <div class="">Alt Çalışan Sayısı</div>
+                                        <div class=""><strong>{{$subWorkerCount}}</strong></div>
+                                        <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="col-3 pb-3">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
