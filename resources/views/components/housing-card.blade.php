@@ -83,7 +83,7 @@
                     </p>
                 </span>
                 <!-- homes List -->
-                <ul class="homes-list clearfix mb-3" style="display: flex; justify-content: space-between">
+                <ul class="homes-list clearfix mb-2" style="display: flex; justify-content: space-between">
                     @if (isset($housing->listItems->column1_name) &&
                             isset(json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0]) &&
                             json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] != 'Belirtilmemiş')
@@ -141,7 +141,7 @@
                     @endif
                 </ul>
 
-                <ul class="homes-list clearfix mb-3"
+                <ul class="homes-list clearfix mb-2"
                     style="display: flex; justify-content: space-between;align-items:center">
                     <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
                         @if ($housing->discount_amount)
