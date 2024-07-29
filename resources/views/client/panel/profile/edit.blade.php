@@ -322,13 +322,13 @@
         </div>
     </div> --}}
 
-    <div class="table-breadcrumb mb-5">
+    <div class="table-breadcrumb mb-5 pl-4">
         <ul>
             <li>
                 Hesabım
             </li>
             <li>
-                Düzenleme
+               Profil Düzenleme
             </li>
         </ul>
     </div>
@@ -466,25 +466,29 @@
                                     <h4>Telefon Numarasını Güncelleme</h4>
 
                                     <div class="agent-contact-form-sidebar">
-                                        <form name="contact_form" method="POST" enctype="multipart/form-data"
-                                            action="{{ route('institutional.edit.phone') }}">
+                                        <form name="contact_form" method="POST" enctype="multipart/form-data" action="{{ route('institutional.edit.phone') }}">
                                             @csrf
-                                            <input type="text" id="phone" name="phone"
-                                                placeholder="Mevcut Telefon Numarası" value="{!! $user->mobile_phone !!}"
-                                                disabled>
-                                            <input type="text" id="new_phone_number" name="new_phone_number"
-                                                placeholder="Yeni Telefon Numarası" required="" maxlength="11">
-                                            <div id="error-message" class="error-message"></div>
-                                            @error('mobile_phone')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                            <input type="hidden" id="form2_file_input" name="uploaded_file"
-                                                value="">
-                                            <button type="submit" class="btn btn-primary">
-                                                Güncelle </button>
+                                    
+                                            <!-- Mevcut telefon numarası, sadece görüntüleme -->
+                                            <input type="text" id="phone" name="phone" placeholder="Mevcut Telefon Numarası" value="{!! $user->mobile_phone !!}" disabled>
+                                    
+                                            <!-- Yeni telefon numarası için doğrulama -->
+                                            <input type="text" id="new_phone_number" name="new_phone_number" placeholder="Yeni Telefon Numarası" required maxlength="11" pattern="\d{10,11}" title="Telefon numarası 10 veya 11 rakamdan oluşmalıdır." class="@error('new_phone_number') is-invalid @enderror">
+                                    
+                                            <!-- Hata mesajı için yer -->
+                                            <div id="error-message" class="error-message">
+                                                @error('new_phone_number')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                    
+                                            <!-- Yüklenen dosyanın JSON verisi için gizli alan -->
+                                            <input type="hidden" id="form2_file_input" name="uploaded_file" value="">
+                                    
+                                            <!-- Gönder butonu -->
+                                            <button type="submit" class="btn btn-primary">Güncelle</button>
                                         </form>
                                     </div>
-
 
                                 </div>
 
@@ -1939,4 +1943,5 @@
             /* Odaklandığında kenarlık rengi */
         }
     </style>
+    
 @endsection
