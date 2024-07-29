@@ -108,7 +108,7 @@
                                  <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
                                         <ul class="list-unstyled">
                                                 <li>
-                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" >Rezervasyon Detayı</a>
+                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => hash_id($order->id)]) }}" >Rezervasyon Detayı</a>
                                                 </li>
 
 

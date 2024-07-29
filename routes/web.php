@@ -1196,7 +1196,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/faturayi-goruntule/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
-        Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
+        Route::get('rezervasyon-detayi/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');

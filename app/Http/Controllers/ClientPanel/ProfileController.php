@@ -110,8 +110,9 @@ class ProfileController extends Controller
         return view('client.panel.orders.detail', compact('order','cartId','cartType'));
     }
 
-    public function reservationDetail($id)
+    public function reservationDetail($hashedId)
     {
+        $id = decode_id($hashedId);
         $order = Reservation::where('id', $id)->first();
 
         return view('client.panel.reservations.detail', compact('order'));
