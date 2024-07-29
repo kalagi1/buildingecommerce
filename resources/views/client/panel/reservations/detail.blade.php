@@ -17,18 +17,80 @@
             'Aralık',
         ];
     @endphp
-
-    <div class="content">
-
-        <div class="breadcrumb">
+   <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="table-breadcrumb">
             <ul>
-                {{-- bireysel ise  hesabım kurumsal ise  mağazam  --}}
-                <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
+              <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
                 <li>Rezervasyonlar</li>
                 <li>Tüm Rezervasyonlar</li>
                 <li>#{{ $order->key }} Nolu Rezervasyon Detayı</li>
+
             </ul>
         </div>
+
+    </div>
+
+    
+    <div class="row g-5 gy-7">
+        <div class="col-12 col-xl-8 col-xxl-9">
+            <div class="order-detail-content">
+                <div class="order-details mb-3">
+                    <div class="order-header">
+
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000"
+                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+
+                        <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Durumu</h3>
+                    </div>
+
+                    <div class="order-status">
+                        <div class="status">
+                            <p>
+                                @if ($order->refund != null)
+                                    @switch($order->refund->status)
+                                        @case(2)
+                                            İADE TALEBİ REDDEDİLDİ
+                                        @break
+
+                                        @case(1)
+                                            SİPARİŞ REDDEDİLDİ
+                                        @break
+
+                                        @case(3)
+                                            İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
+                                        @break
+
+                                        @default
+                                            İADE TALEBİ İÇİN ONAY BEKLENİYOR
+                                    @endswitch
+                                @else
+                                    @switch($order->status)
+                                        @case(2)
+                                            SİPARİŞ REDDEDİLDİ
+                                        @break
+
+                                        @case(1)
+                                            SİPARİŞ ONAYLANDI
+                                        @break
+
+                                        @default
+                                            ÖDEME ONAYI BEKLENİYOR
+                                    @endswitch
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+
+
+    <div class="content">
         <div class="row g-5 gy-7">
             <div class="col-12 col-xl-8 col-xxl-9">
                 <div class="card p-3">
