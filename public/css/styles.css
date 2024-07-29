@@ -21238,6 +21238,7 @@ body.dashboard-bd {
   -webkit-box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);
   box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);
   padding: 10px;
+  overflow-x: auto;
 }
 
 .my-properties table {
@@ -28583,7 +28584,7 @@ font {
 }
 
 .payment-plan-pop-content {
-  width: 70% !important;
+  width: 85% !important;
   background-color: white;
   z-index: 9999;
   position: relative;
