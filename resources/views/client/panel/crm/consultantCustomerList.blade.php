@@ -1751,7 +1751,7 @@
         }
 
         .page-header-title2{
-            background: linear-gradient(to top, #EA2B2E, #84181A);  
+            background: linear-gradient(to top, #D32729, #84181A);  
             padding: 10px;
             font-size: 18px;
             color: white;
@@ -1772,9 +1772,9 @@
 
         .favorited {
             background-color: white;
-            color: #EA2B2E;
+            color: #D32729;
 
-                border: 1px solid #EA2B2E;
+                border: 1px solid #D32729;
                 margin: 2px;
                 padding: 5px 10px;
                 border-radius: 5px;
@@ -1784,8 +1784,8 @@
                 border-radius: 4px !important;
         }
         .not-favorited {
-            background-color: #EA2B2E;
-                border: 1px solid #EA2B2E;
+            background-color: #D32729;
+                border: 1px solid #D32729;
                 color: white;
                 margin: 2px;
                 padding: 5px 10px;
@@ -1956,20 +1956,20 @@
         }
 
         .btn.active {
-            background-color: #EA2B2E !important;
+            background-color: #D32729 !important;
             color: white !important;
-            border-color: #EA2B2E !important;
+            border-color: #D32729 !important;
         }
 
         .btn.active:hover{
             background-color: white !important;
-            color: #EA2B2E !important;
-            border-color: #EA2B2E !important;
+            color: #D32729 !important;
+            border-color: #D32729 !important;
         }
 
         .action-btn {
-            background-color: #EA2B2E;
-            border: 1px solid #EA2B2E;
+            background-color: #D32729;
+            border: 1px solid #D32729;
             color: white;
             margin: 2px;
             padding: 5px 10px;
@@ -1986,7 +1986,7 @@
 
         .action-btn:hover {
             background-color: white;
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         .action-buttons {
@@ -2021,8 +2021,8 @@
         }
 
         .btnSubmit{
-            background-color: #EA2B2E !important;
-            border: 1px solid #EA2B2E !important;
+            background-color: #D32729 !important;
+            border: 1px solid #D32729 !important;
             color: white;
             margin: 2px;
             padding: 5px 10px;
@@ -2035,8 +2035,8 @@
 
         .btnSubmit:hover{
             background-color: white !important;
-            color: #EA2B2E !important;
-            border: 1px solid #EA2B2E !important;
+            color: #D32729 !important;
+            border: 1px solid #D32729 !important;
         }     
 
     </style>

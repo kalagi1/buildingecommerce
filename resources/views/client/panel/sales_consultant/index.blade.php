@@ -187,16 +187,16 @@
 
         .btnProjectAssign {
             width: 95%;
-            border-color: #EA2B2E;
-            background-color: #EA2B2E;
+            border-color: #D32729;
+            background-color: #D32729;
             color: white;
             border-radius: 6px !important;
         }
 
         .btnProjectAssign:hover {
             background-color: white !important;
-            color: #EA2B2E;
-            border-color: #EA2B2E;
+            color: #D32729;
+            border-color: #D32729;
         }
 
         .dataTables_length select {

@@ -340,7 +340,7 @@
         }
 
         .header-title {
-            border-bottom: 2px solid #EA2B2E !important;
+            border-bottom: 2px solid #D32729 !important;
             color: black;
             margin: 0;
             padding: 10px;
@@ -535,7 +535,7 @@
             justify-content: center;
             margin: 0 auto;
             margin-top: 10px;
-            color: #EA2B2E !important;
+            color: #D32729 !important;
 
         }
 
@@ -568,7 +568,7 @@
         }
 
         .collection-content a {
-            color: #EA2B2E;
+            color: #D32729;
             text-align: center;
             padding: 10px 0;
             transition: all 0.3s ease-out;

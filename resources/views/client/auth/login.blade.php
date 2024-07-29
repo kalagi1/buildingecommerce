@@ -1182,7 +1182,7 @@
         }
 
         .error-border {
-            border-color: #EA2B2E !important;
+            border-color: #D32729 !important;
         }
 
         .error-message {

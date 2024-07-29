@@ -2332,7 +2332,7 @@
         }
 
         .modal-btn-gonder {
-            background-color: #ea2b2e;
+            background-color: #D32729;
             color: #fff;
         }
 

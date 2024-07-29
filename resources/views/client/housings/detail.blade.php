@@ -564,14 +564,14 @@
                                                                 @endphp
                                                                 @if ($discountAmount)
                                                                     <svg viewBox="0 0 24 24" width="18"
-                                                                        height="18" stroke="#EA2B2E" stroke-width="2"
-                                                                        fill="#EA2B2E" stroke-linecap="round"
+                                                                        height="18" stroke="#D32729" stroke-width="2"
+                                                                        fill="#D32729" stroke-linecap="round"
                                                                         stroke-linejoin="round" class="css-i6dzq1">
                                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                         </polyline>
                                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                                     </svg>
-                                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                                    <del style="font-size:11px; color:#D32729">
                                                                         {{ number_format($price, 0, ',', '.') }}
                                                                     </del>
                                                                 @endif
@@ -579,7 +579,7 @@
                                                                     id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                                 ₺
                                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                    <span style="font-size:12px; color:#EA2B2E">(1
+                                                                    <span style="font-size:12px; color:#D32729">(1
                                                                         Gece)</span>
                                                                 @endif
                                                             @endif
@@ -602,14 +602,14 @@
                                                             @endphp
                                                             @if ($discountAmount)
                                                                 <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                    stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                    stroke="#D32729" stroke-width="2" fill="#D32729"
                                                                     stroke-linecap="round" stroke-linejoin="round"
                                                                     class="css-i6dzq1">
                                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                     </polyline>
                                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                                 </svg>
-                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                <del style="font-size:11px; color:#D32729">
                                                                     {{ number_format($price, 0, ',', '.') }}
                                                                 </del>
                                                             @endif
@@ -617,7 +617,7 @@
                                                                 id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                             ₺
                                                             @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                                <span style="font-size:12px; color:#D32729">1 Gece</span>
                                                             @endif
                                                         @endif
                                                     </h4>
@@ -636,7 +636,7 @@
                                                     @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                                         <div class="col-md-12 col-12 p-0 ml-3">
                                                             <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                                style="color:#EA2B2E !important;cursor: pointer; ">
+                                                                style="color:#D32729 !important;cursor: pointer; ">
                                                                 Pazarlık Yap <i class="fa fa-handshake"></i>
                                                             </a>
                                                         </div>
@@ -650,7 +650,7 @@
                                             class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6 @else col-md-12 col-12 @endif p-0">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn"
-                                                    style="background: #EA2B2E !important; width:100%; color:White">
+                                                    style="background: #D32729 !important; width:100%; color:White">
                                                     <span class="text">Satışa Kapatıldı</span>
                                                 </button>
                                             @else
@@ -664,7 +664,7 @@
                                                             $buttonText = 'Rezerve Edildi';
                                                         } else {
                                                             $buttonStyle =
-                                                                'background: #EA2B2E !important; width: 100%; color: white;';
+                                                                'background: #D32729 !important; width: 100%; color: white;';
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp
@@ -828,14 +828,14 @@
                                                 @endphp
                                                 @if ($discountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke="#D32729" stroke-width="2" fill="#D32729"
                                                         stroke-linecap="round" stroke-linejoin="round"
                                                         class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                         </polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
-                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                    <del style="font-size:11px; color:#D32729">
                                                         {{ number_format($price, 0, ',', '.') }}
                                                     </del>
                                                 @endif
@@ -843,7 +843,7 @@
                                                     id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                 ₺
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                    <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                    <span style="font-size:12px; color:#D32729">1 Gece</span>
                                                 @endif
                                             @endif
                                         </h4></p> --}}
@@ -1536,7 +1536,7 @@
 
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
-                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                        <span class="det" style="color: #D32729 !important;">
                                                             {!! optional($housing->city)->title .
                                                                 ' / ' .
                                                                 optional($housing->county)->title .
@@ -3509,7 +3509,7 @@
             left: 0;
             display: block;
             border-radius: 50px;
-            background: #EA2B2E;
+            background: #D32729;
             width: 45px;
             height: 45px;
             transition: all 0.3s ease;

@@ -130,7 +130,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                         <div class="d-flex" style="height: 100%;">
                             <div
-                                style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
+                                style="background-color: #D32729 !important; border-radius: 0px 8px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
                                     {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
@@ -242,7 +242,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                                 @if ($projectDiscountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke="#D32729" stroke-width="2" fill="#D32729"
                                                         stroke-linecap="round" stroke-linejoin="round"
                                                         class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -467,7 +467,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
+                                        style="background: #D32729 !important; width: 100%; color: White; height: @if( $off_sale_check &&
                                         ( isset($share_sale) &&
                                             $share_sale != '[]' &&
                                             isset($sumCartOrderQt[$keyIndex]) &&
@@ -477,7 +477,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     </button>
                                 @elseif ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                     <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: @if( $off_sale_check &&
+                                        style="background: #D32729 !important; width: 100%; color: White; height: @if( $off_sale_check &&
                                         ( isset($share_sale) &&
                                             $share_sale != '[]' &&
                                             isset($sumCartOrderQt[$keyIndex]) &&
@@ -501,8 +501,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                         isset($sumCartOrderQt[$keyIndex]) &&
                                                         $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White; height: auto !important"
                                     @elseif ($sold->status == '1')
-                                        style="background: #EA2B2E !important; color: White; height: auto !important"
-                                    @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
+                                        style="background: #D32729 !important; color: White; height: auto !important"
+                                    @else  style="background: #D32729 !important; color: White; height: auto !important" @endif>
                                             @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
                                                 <span class="text">Rezerve Edildi</span>
                                             @elseif (
@@ -678,11 +678,11 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                         <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                             edin:</span>
                                         <ul>
-                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
                                                     aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen
                                                 tutarı ödediğiniz taktirde,
                                             </li>
-                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                            <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
                                                     aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                                 düğmesi
                                                 aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>

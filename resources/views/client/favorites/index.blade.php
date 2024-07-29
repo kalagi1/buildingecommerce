@@ -122,7 +122,7 @@
                                         <td>
                                             @if (getHouse($project, 'off_sale[]', $housingId)->value != '[]')
                                                 <button class="btn mobileBtn second-btn"
-                                                    style="background: #EA2B2E !important;width:100%;color:White">
+                                                    style="background: #D32729 !important;width:100%;color:White">
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
@@ -131,7 +131,7 @@
                                             @else
                                                 @if ($sold && $sold[0]->status != '2')
                                                     <button class="btn second-btn"
-                                                        style="@if ($sold[0]->status == '0') background: orange !important;width:100%;color:White @else background: #EA2B2E !important;width:100%;color:White @endif">
+                                                        style="@if ($sold[0]->status == '0') background: orange !important;width:100%;color:White @else background: #D32729 !important;width:100%;color:White @endif">
                                                         @if ($sold[0]->status == '0')
                                                             <span class="text">Rezerve Edildi</span>
                                                         @else
