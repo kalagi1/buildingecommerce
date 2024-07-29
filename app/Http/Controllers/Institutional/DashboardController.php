@@ -446,8 +446,13 @@ class DashboardController extends Controller
         $monthlyCounts = $this->getMonthlyCounts();
         $monthlyCollectionCounts = $this->getMonthlyCollectionCounts(); // Adjusted variable name
 
-        $subWorkerCount = $this->subWorkerCount();
-
+        $subWorkerCount  = $this->subWorkerCount();
+        $activeAdvert    = $this->activeAdverts();
+        $pendingAdverts  = $this->pendingAdverts();
+        $passiveAdverts  = $this->passiveAdverts();
+        $collectionCount = $this->collectionCount();
+        $viewCount       = $this->viewCount();
+        $bidsCount       = $this->bidsCount();
 
         return view('client.panel.home.index2', compact(
             'housingViews',
@@ -456,19 +461,85 @@ class DashboardController extends Controller
             'pendingJobs',
             'monthlyCounts',
             'monthlyCollectionCounts', 
-          
-
+            'subWorkerCount',
+            'activeAdvert',
+            'pendingAdverts',
+            'totalAdverts',
+            'passiveAdverts',
+            'collectionCount',
+            'viewCount',
+            'bidsCount'
         ));
     }
-    
-    //alt çalışan sayısı
+    //sadece kurumsallar için yapıldı 
 
+    //alt çalışan sayısı
     private function subWorkerCount(){
         $user = Auth::user();
         $subWorkerCount = User::where('parent_id', $user->id)->count();
         return $subWorkerCount;
-    }
+    }//End
 
+    //aktif ilan sayısı
+    private function activeAdverts(){
+        $user = Auth::user();
+        $activeAdvertProjects = Project::where('status','1')->where('user_id', $user->id)->count();
+        $activeAdvertHousings = Housing::where('status','1')->where('user_id', $user->id)->count();
+        $activeAdverts = $activeAdvertProjects + $activeAdvertHousings;
+        return $activeAdverts;
+    }//End    
+
+    //onay bekleyen ilanlar
+    private function pendingAdverts(){
+        $user = Auth::user();
+        $pendingAdvertProjects = Project::where('status','2')->where('user_id', $user->id)->count();
+        $pendingAdvertHousings = Housing::where('status','2')->where('user_id', $user->id)->count();
+        $pendingAdverts = $pendingAdvertProjects + $pendingAdvertHousings;
+        return $pendingAdverts;
+    }//End
+
+    //toplam ilan sayısı
+    private function totalAdverts(){
+        $user = Auth::user();
+        $totalAdvertProjects = Project::where('user_id', $user->id)->count();
+        $totalAdvertHousings = Housing::where('user_id', $user->id)->count();
+        $totalAdverts = $totalAdvertProjects + $totalAdvertHousings;
+        return $totalAdverts;
+    }//End
+    
+    //pasif ilan sayısı
+    private function passiveAdverts(){
+        $user = Auth::user();
+        $passiveAdvertProjects = Project::where('status','0')->where('user_id', $user->id)->count();
+        $passiveAdvertHousings = Housing::where('status','0')->where('user_id', $user->id)->count();
+        $passiveAdverts = $passiveAdvertProjects + $passiveAdvertHousings;
+        return $passiveAdverts;
+    }//End   
+
+    //Koleksiyon Sayısı
+    private function collectionCount(){
+        $user = Auth::user();
+        $collectionCount = Collection::where('user_id', $user->id)->count();
+        return $collectionCount;
+    }//End    
+
+    //Görüntülenme Sayısı
+    private function viewCount(){
+        $user = Auth::user();
+        $viewCountProject = Project::where('user_id', $user->id)->pluck('view_count');
+        $viewCountHousing = Housing::where('user_id', $user->id)->pluck('view_count');
+        $viewCount = $viewCountProject + $viewCountHousing;
+        return $viewCount;
+    }//End    
+
+    //Pazar Teklifleri
+    private function bidsCount(){
+        $user = Auth::user();
+        $bidsCount = Bid::where('user_id',$user->id)->count();
+        return $bidsCount;    
+    }//End    
+    
+    
     /**
      * TODO: Ziyaretci Sayısı son 24 saat
      * TODO: Grafik-Performans Verileri (yayındaki ilanlar , Görüntülenme, Favoriye Alınma, Koleksiyona Alınma)
