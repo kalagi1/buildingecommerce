@@ -1790,7 +1790,7 @@ class ProjectController extends Controller
         $images = [];
         if ( is_array( $request->images ) ) {
             foreach ( $request->images as $image ) {
-                $images[] = $image->store( 'public/housing-comment-images' );
+                $images[] = $image->store( 'public/project-comment-images' );
             }
         }
 
