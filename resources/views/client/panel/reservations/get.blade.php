@@ -95,10 +95,22 @@
                                     {{ $order->owner->name }} <br>
                                     {{ $order->owner->email }}
                                 </li>
-                                <li class="order_details" style="width: 10%">
-                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
-                                </li>
+                                 <li style="width: 5%">
+                                            <span class="project-table-content-actions-button" data-toggle="popover-{{ $housingType->id }}">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </span>
+                                        </li>
                             </ul>
+
+                                 <div class="popover-project-actions d-none" id="popover-{{ $order->id }}">
+                                        <ul class="list-unstyled">
+                                                <li>
+                                    <a href="{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyon Detayı</a>
+                                                </li>
+
+
+                                        </ul>
+                                    </div>
                         @endforeach
                     </div>
                 @endif
