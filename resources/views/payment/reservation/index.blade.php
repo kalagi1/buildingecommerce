@@ -1204,10 +1204,10 @@
                                     var reservationId = response.reservation;
 
                                     console.log("dekont" + reservationId)
-                                    var redirectUrl =
-                                        "{{ route('reservation.pay.success', ['reservation' => ':reservationId']) }}";
-                                    window.location.href = redirectUrl.replace(
-                                        ':reservationId', reservationId);
+                                    // var redirectUrl =
+                                    //     "{{ route('reservation.pay.success', ['reservation' => ':reservationId']) }}";
+                                    // window.location.href = redirectUrl.replace(
+                                    //     ':reservationId', reservationId);
 
                                 },
                                 error: function(error) {
