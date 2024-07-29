@@ -27,6 +27,10 @@ class Reservation extends Model
         return $this->hasOne(User::class, "id", "owner_id");
     }
 
+    public function price()
+    {
+        return $this->belongsTo(CartPrice::class, 'id', 'reservation_id');
+    }
     public function sharer(){
         return $this->hasOne(SharerPrice::class,"reservation_id","id");
     }
