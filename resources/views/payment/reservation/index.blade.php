@@ -85,7 +85,7 @@
                         </div>
                         <div class="title-heading fs-30 fw-7 lh-45">{{ $housing->housing_title }}</div>
                         <div class="inner flex">
-                            <div class="sales px-2 py-4 mb-1
+                            {{-- <div class="sales px-2 py-4 mb-1
                              fs-12 fw-7 font-2 text-color-1">
                                 @if ($housing->step2_slug == 'kiralik')
                                     Kiralık {{ $housing->housing_type_title }}
@@ -94,7 +94,7 @@
                                 @else
                                     Satılık {{ $housing->housing_type_title }}
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="years-icon flex align-center">
                                 <i class="fa fa-map-marker"></i>
                                 <p class="text-color-2">
