@@ -525,7 +525,7 @@ class ProjectController extends Controller
     
         // Güncellenmiş yorumu döndür
         return response()->json(['message' => 'Yorum başarıyla güncellendi.', 'comment' => $userComment]);
-    }
+    }//End
      
 
 }

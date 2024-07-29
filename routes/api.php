@@ -258,3 +258,6 @@ Route::get('/project/{projectId}/comments',[InstitutionalProjectController::clas
 Route::post('/project/{projectId}/add-comment', [InstitutionalProjectController::class,'projectCommentPost']);
 
 Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComment']);
+
+Route::get('/user/{userId}/comments',[ProjectController::class,'userComments']);
+Route::post('/user/{userId}/{projectId}/comments/{commentId}/update', [ProjectController::class, 'userCommentUpdate']);
