@@ -89,25 +89,25 @@
 
 
             @if ($order->reference)
-            <div class="order-status-container mb-3" style="background-color: #1581f536">
-                <div class="left">
-                    <i class="fa fa-check"></i>
-                    <span>
-                        @php
-                            $referenceName = $order->reference->name;
+                <div class="order-status-container mb-3" style="background-color: #1581f536">
+                    <div class="left">
+                        <i class="fa fa-check"></i>
+                        <span>
+                            @php
+                                $referenceName = $order->reference->name;
 
-                        @endphp
+                            @endphp
 
-                        @if ($isStoreOwner)
-                            Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
-                            gerçekleşmiştir.
-                        @elseif ($isUserOwner)
-                            Satış danışmanınız: <strong>{{ $referenceName }}</strong>
-                        @endif
-                    </span>
+                            @if ($isStoreOwner)
+                                Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
+                                gerçekleşmiştir.
+                            @elseif ($isUserOwner)
+                                Satış danışmanınız: <strong>{{ $referenceName }}</strong>
+                            @endif
+                        </span>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
 
             <div class="order-item mb-3">
                 <div class="order-item-header">
@@ -201,7 +201,7 @@
                             <div class="status-timestamp">{{ $order->created_at }}</div>
                         @else
                             <div class="status-header">
-                                <div class="status-title text-primary">Ödeme İşlemi Tamamlandı</div>
+                                <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
                                 <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
                                     sipariş
                                     tamamlandığında alacak.</div>
@@ -246,7 +246,7 @@
 
 
 
-                          
+
                             <div class="status-timestamp">{{ $order->created_at }}</div>
                         </div>
 
@@ -289,8 +289,7 @@
                                                 @csrf
                                                 <input type="hidden" name="rate" id="rate" />
 
-                                                <input type="hidden" name="type" id="type"
-                                                    value="housing" />
+                                                <input type="hidden" name="type" id="type" value="housing" />
                                                 <input type="hidden" name="id" id="id"
                                                     value="{{ $order->housing->id }}" />
 
@@ -612,7 +611,8 @@
         }
 
         img.pay-icon {
-            margin-bottom: 30px;
+            width: 100%;
+            height: 100%;
         }
 
         .box-shadow-green {
@@ -656,15 +656,14 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 20px;
-
             border-radius: 50%;
             padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
         }
 
-        .status-header {
-            margin-top: 30px;
-        }
 
         .status-title {
             font-size: 18px;
