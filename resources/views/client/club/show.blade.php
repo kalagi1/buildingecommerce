@@ -82,7 +82,7 @@
                                     @endif
                                 @endif
                             @endforeach --}}
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="project-filter-reverse blog-pots">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -215,7 +215,8 @@
 
                                                                     $price = $defaultPrice - $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price -
+                                                                        ((float) $price * (float) $discountRate) / 100;
                                                                 } elseif ($item['item_type'] == 1) {
                                                                     $discountRate =
                                                                         $item['project_values']['discount_rate[]'] ?? 0;
@@ -228,7 +229,8 @@
                                                                         $item['project_values']['price[]'] -
                                                                         $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price -
+                                                                        ((float) $price * (float) $discountRate) / 100;
                                                                 }
                                                             @endphp
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -329,7 +331,7 @@
                                                                             <span class="text">Ödeme Bekleniyor</span>
                                                                         </button>
                                                                     @elseif ($item['action'] == 'tryBuy')
-                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                             <button class="CartBtn mobileCBtn"
                                                                                 data-type='housing'
                                                                                 data-id='{{ $item['housing']->id }}'>
@@ -340,7 +342,7 @@
                                                                                 <span class="text">Sepete Ekle</span>
                                                                             </button>
                                                                         @else
-                                                                            <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
+                                                                            {{-- <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                                 class="btn btn-success"
                                                                                 style="width: 100%;
                                                                                             height: 40px;
@@ -355,10 +357,10 @@
                                                                                             overflow: hidden;
                                                                                             position: relative;">
                                                                                 <span class="text">İlanı Düzenle</span>
-                                                                            </a>
+                                                                            </a> --}}
                                                                         @endif
                                                                     @else
-                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                             <button class="CartBtn mobileCBtn"
                                                                                 data-type='housing'
                                                                                 data-id='{{ $item['housing']->id }}'>
@@ -389,7 +391,7 @@
                                                                     @endif
                                                                 @endif
                                                             @else
-                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                     <button onclick="redirectToReservation()"
                                                                         class="reservationBtn mobileCBtn">
                                                                         <span class="IconContainer">
@@ -405,7 +407,7 @@
                                                                         }
                                                                     </script>
                                                                 @else
-                                                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
+                                                                    {{-- <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                         class="btn btn-success"
                                                                         style="width: 100%;
                 height: 40px;
@@ -420,7 +422,7 @@
                 overflow: hidden;
                 position: relative;">
                                                                         <span class="text">İlanı Düzenle</span>
-                                                                    </a>
+                                                                    </a> --}}
                                                                 @endif
                                                             @endif
                                                         @else
@@ -693,7 +695,8 @@
 
                                                             $price = $defaultPrice - $item['discount_amount'];
 
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            $discountedPrice =
+                                                                $price - ((float) $price * (float) $discountRate) / 100;
                                                         } elseif ($item['item_type'] == 1) {
                                                             $discountRate =
                                                                 $item['project_values']['discount_rate[]'] ?? 0;
@@ -704,7 +707,8 @@
                                                             $price =
                                                                 $item['project_values']['price[]'] -
                                                                 $item['discount_amount'];
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            $discountedPrice =
+                                                                $price - ((float) $price * (float) $discountRate) / 100;
                                                         }
                                                     @endphp
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -802,7 +806,7 @@
                                                                         <span class="text">Ödeme Bekleniyor</span>
                                                                     </button>
                                                                 @elseif ($item['action'] == 'tryBuy')
-                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
                                                                             data-id='{{ $item['housing']->id }}'>
@@ -831,7 +835,7 @@
                                                                         </a>
                                                                     @endif
                                                                 @else
-                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
                                                                             data-id='{{ $item['housing']->id }}'>
@@ -925,7 +929,7 @@
 
 
 
-                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                     <button class="CartBtn second-btn mobileCBtn "
                                                                         data-type='project'
                                                                         data-project='{{ $item['project']->id }}'

@@ -846,13 +846,13 @@
                                                     <div class='cd-numbers'>
                                                         <label>Kart Numarası</label>
                                                         <div class='fields'>
-                                                            <input type='text' name="creditcard[]" class='1'
+                                                            <input type='number' name="creditcard[]" class='1'
                                                                 maxlength="4" />
-                                                            <input type='text' name="creditcard[]" class='2'
+                                                            <input type='number' name="creditcard[]" class='2'
                                                                 maxlength="4" />
-                                                            <input type='text' name="creditcard[]" class='3'
+                                                            <input type='number' name="creditcard[]" class='3'
                                                                 maxlength="4" />
-                                                            <input type='text' name="creditcard[]" class='4'
+                                                            <input type='number' name="creditcard[]" class='4'
                                                                 maxlength="4" />
                                                         </div>
                                                     </div>

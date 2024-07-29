@@ -158,6 +158,8 @@ class ProjectController extends Controller
         });
 
         if ($project) {
+            $project->increment( 'view_count');
+
 
             $projectHousing = $project->roomInfo->keyBy('name');
             $sumCartOrderQt = DB::table('cart_orders')
@@ -1781,6 +1783,7 @@ class ProjectController extends Controller
             [
                 'rate' => 'required|string|in:1,2,3,4,5',
                 'comment' => 'required|string',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]
         );
 
@@ -1792,9 +1795,11 @@ class ProjectController extends Controller
         $comment = $request->input( 'comment' );
 
         $images = [];
-        if ( is_array( $request->images ) ) {
-            foreach ( $request->images as $image ) {
-                $images[] = $image->store( 'public/housing-comment-images' );
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Görseli kaydet
+                $path = $image->store('public/housing-comment-images');
+                $images[] = $path; // Yolunu diziye ekle
             }
         }
 
@@ -1811,6 +1816,38 @@ class ProjectController extends Controller
         );
 
         return redirect()->back();
+    }//End
+
+    public function getComment($id){
+        $comment = ProjectComment::find($id);
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+        return response()->json(['data' => $comment]);
+    }//End
+
+    public function updateComment(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:project_comments,id',
+            // 'rate' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $comment = ProjectComment::find($request->input('id'));
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+
+        // $comment->rate = $request->input('rate');
+        $comment->comment = $request->input('comment');
+        $comment->status  = 0;
+        $comment->save();
+
+        return response()->json(['message' => 'Yorum başarıyla güncellendi.']);
     }//End
 
     public function approveComment(Request $request, $id){

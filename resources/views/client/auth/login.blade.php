@@ -4,7 +4,7 @@
     <section class="loginItems">
         <div class="container">
             <div class="row">
-                <div class="col-md-7 mx-auto">
+                <div class="col-md-8 mx-auto">
                     <div class="login-container">
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -111,7 +111,7 @@
                                                                                 
                                         <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
 
-                                        <div class="social-account-login-buttons pb-3 col-6">
+                                        <div class="social-account-login-buttons pb-3 col-12 p-0">
                                             {{-- <div class="q-layout social-login-button flex flex-1">
 
                                                 <div class="social-login-icon" style="background-color: #007bff;">
@@ -130,7 +130,7 @@
                                             </div> --}}
 
 
-                                            <div class="q-layout social-login-button flex flex-1">
+                                            <div class="q-layout social-login-button  w-100 m-0">
                                                 <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
                                                     <i class="fa fa-google"></i>
                                                 </div>
@@ -411,7 +411,7 @@
                                                     </div>   
                                                 </div>
                                                 <div class="col-md-8 pl-0">
-                                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
+                                                    <input type="number" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
                                                 </div>    
                                             </div>                                            
 
@@ -552,7 +552,7 @@
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi No</label>
-                                                            <input type="text" id="taxNumber" name="taxNumber"
+                                                            <input type="number" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
                                                                 value="{{ old('taxNumber') }}"  maxlength="10">
                                                             @if ($errors->has('taxNumber'))
@@ -584,7 +584,7 @@
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
-                                                            <input type="text" id="idNumber" name="idNumber"
+                                                            <input type="number" id="idNumber" name="idNumber"
                                                                 class="form-control" value="{{ old('idNumber') }}"  maxlength="11">
                                                         </div>
                                                     </div>
@@ -686,7 +686,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -831,9 +832,14 @@
                     url: '/get-counties/' + cityId,
                     success: function(data) {
                         var countySelect = $('#countySelect');
+                        $('#countySelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                         countySelect.empty();
                         countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data, function(index, county) {
+                        $.each(data.counties, function(index, county) {
                             var selectedAttribute = (county.ilce_key == countyId) ?
                                 'selected' : '';
 
@@ -847,7 +853,16 @@
                     }
                 });
             }
+  // Show overlay when a Select2 dropdown is opened
+  $(document).on('click', '.select2-container', function() {
+                if ($(this).hasClass('select2-container--open')) {
+            const searchField = $('.select2-search__field');
+        if (searchField.length) {
+            searchField.attr('placeholder', 'Ara...');
+        }
 
+        }
+    });
 
             if (countyId) {
                 $.ajax({
@@ -855,6 +870,11 @@
                     url: '/get-neighborhoods/' + countyId,
                     success: function(data) {
                         var neighborhoodSelect = $('#neighborhoodSelect');
+                        $('#neighborhoodSelect').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                         neighborhoodSelect.empty();
                         neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
 
@@ -892,7 +912,52 @@
                 }
             });
         });
+        $('#citySelect').select2({
+        placeholder: 'İl',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
+    $('#taxOfficeCity').select2({
+        placeholder: 'Vergi Dairesi İli',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
+    $('#taxOffice').select2({
+        placeholder: 'Vergi Dairesi',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
+    $('#countySelect').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
 
+    $('#neighborhoodSelect').select2({
+        minimumResultsForSearch: -1,
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', true);
         $('#citySelect').change(function() {
             var selectedCity = $(this).val();
 
@@ -901,6 +966,11 @@
                 url: '/get-counties/' + selectedCity,
                 success: function(data) {
                     var countySelect = $('#countySelect');
+                    $('#countySelect').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                     countySelect.empty();
                     countySelect.append('<option value="">İlçe Seçiniz</option>');
                     $.each(data.counties, function(index, county) {
@@ -922,7 +992,11 @@
                     var neighborhoodSelect = $('#neighborhoodSelect');
                     neighborhoodSelect.empty();
                     neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
-
+                    $('#neighborhoodSelect').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
                     $.each(data, function(index, county) {
                         neighborhoodSelect.append('<option value="' + county.mahalle_key +
                             '">' +
@@ -942,6 +1016,15 @@
                 success: function(data) {
                     var taxOffice = $('#taxOffice');
                     taxOffice.empty();
+                    $('#taxOffice').select2({
+        placeholder: 'Vergi Dairesi',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    }).prop('disabled', false);
                     $.each(data, function(index, office) {
                         taxOffice.append('<option value="' + office.id + '">' + office
                             .daire +

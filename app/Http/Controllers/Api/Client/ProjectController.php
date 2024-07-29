@@ -438,11 +438,12 @@ class ProjectController extends Controller
                     $imagePaths[] = $path;
                 }
             }
-        
+            
             // Yorum verilerini al
             $data = $request->only('user_id', 'comment', 'rate', 'owner_id');
             $data['project_id'] = $projectId;
-            $data['images'] = json_encode($imagePaths); // Resim yollarını JSON formatında sakla
+            $data['status'] = 0;
+            $data['images'] = json_encode($imagePaths); 
     
            // Yeni yorumu oluştur
             $comment = ProjectComment::create($data);

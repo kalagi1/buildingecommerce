@@ -1100,7 +1100,11 @@
                                                             stroke-width="2" />
                                                     </svg>
                                                 @endfor
+                                                @if(auth()->check() && auth()->user()->id == $comment->user_id)
+                                                    <button class="btn btn-primary" style="display:block;margin-left:80px;margin-top:10px;" onclick="editComment({{ $comment->id }})">Düzenle</button>
+                                                @endif
                                             </div>
+                                           
                                         </div>
                                         <div class="body py-3">
                                             {{ $comment->comment }}
@@ -1130,50 +1134,25 @@
 
                                 <div class="d-flex align-items-center w-full" style="gap: 6px;">
                                     <div class="d-flex rating-area">
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <rect fill="none" height="50" width="50" />
-                                            <polygon fill="none"
-                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                         </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <rect fill="none" height="50" width="50" />
-                                            <polygon fill="none"
-                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                         </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <rect fill="none" height="50" width="50" />
-                                            <polygon fill="none"
-                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                         </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <rect fill="none" height="50" width="50" />
-                                            <polygon fill="none"
-                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                         </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <rect fill="none" height="50" width="50" />
-                                            <polygon fill="none"
-                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                         </svg>
                                     </div>
                                     <div class="ml-auto">
@@ -1185,13 +1164,11 @@
                                 </div>
                                 <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
                                 <button type="button" class="ud-btn btn-white2 mt-3"
-                                    onclick="submitForm()">Yorumu
-                                    Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                    onclick="submitForm()">Yorumu Gönder<i class="fal fa-arrow-right-long"></i></button>
                                     <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
                             </form>
                         @endif
-
 
                     </div>
                     </div>
@@ -1277,42 +1254,164 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        function submitForm() {
-            // Rate değerini al
-            var rateValue = $('#rate').val();
-
-            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
-            if (rateValue === '' || rateValue === '0') {
-                $('#rate').val('1');
-            }
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            console.log(csrfToken);
-            var formData = new FormData($('#commentForm')[0]);
-            // Append CSRF token to form data
-            formData.append('_token', csrfToken);
-console.log('DERSİMLEEEEEEEEEEEEEEEEEEEEEEE')
+        function editComment(commentId) {
             $.ajax({
-                url: "{{ route('project.send-comment', ['id' => $project->id]) }}",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
+                url: `{{ url('get-project-comment') }}/${commentId}`,
+                type: 'GET',
+                success: function (response) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Yorum Gönderildi',
-                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
-                    }).then(function() {
-                        location.reload(); // Reload the page
+                        title: 'Yorumu Düzenle',
+                        html: `
+                            <form id="edit-comment-form">
+                                <input type="hidden" name="id" value="${response.data.id}">
+                              
+                                <div class="form-group">
+                                    <label for="comment">Yorumunuz/label>
+                                    <textarea id="comment" name="comment" class="form-control" style="height:125px !important>${response.data.comment}</textarea>
+                                </div>
+                            </form>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Güncelle',
+                        cancelButtonText: 'İptal',
+                        preConfirm: () => {
+                            const formData = new FormData(document.getElementById('edit-comment-form'));
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content')); 
+                            return $.ajax({
+                                url: "{{ route('project.update-comment') }}",
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    Swal.fire('Başarılı!', 'Yorum başarıyla güncellendi.', 'success');
+                                    location.reload(); // Reload the page
+                                },
+                                error: function (error) {
+                                    Swal.fire('Hata!', 'Yorum güncellenirken bir hata oluştu.', 'error');
+                                }
+                            });
+                        }
                     });
                 },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    //console.log(error);
+                error: function (error) {
+                    Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
                 }
             });
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            // Yıldızlara fare ile gelindiğinde
+            $('.rating-area .rating').on('mouseover', function() {
+                var index = $(this).index();
+                $('.rating-area .rating-polygon').each(function(i) {
+                    $(this).attr('fill', i <= index ? 'gold' : 'none');
+                    $(this).attr('stroke', i <= index ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                });
+            });
+
+            // Fare yıldızların üzerinden ayrıldığında
+            $('.rating-area').on('mouseleave', function() {
+                var selectedIndex = $('.rating-area .rating.selected').last().index();
+                $('.rating-area .rating-polygon').each(function(i) {
+                    $(this).attr('fill', i <= selectedIndex ? 'gold' : 'none');
+                    $(this).attr('stroke', i <= selectedIndex ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                });
+            });
+
+            // Yıldızlara tıklama işlemi
+            $('.rating-area .rating').on('click', function() {
+                var index = $(this).index();
+                $('.rating-area .rating').removeClass('selected').each(function(i) {
+                    if (i <= index) $(this).addClass('selected');
+                });
+                $('#rate').val(index + 1);
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#selectImageButton').on('click', function() {
+                $('.fileinput').click();
+            });
+
+            $('.fileinput').on('change', function(event) {
+                var previewContainer = $('#previewContainer');
+                previewContainer.empty(); // Clear previous previews
+
+                var files = event.target.files;
+                if (files) {
+                    $.each(files, function(index, file) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var img = $('<img>').attr('src', e.target.result);
+                            previewContainer.append(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+        });    
+
+        function submitForm() {
+
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; 
+
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Giriş Yapmanız Gerekiyor',
+                    text: 'Lütfen yorum yapabilmek için giriş yapınız.',
+                    confirmButtonText: 'Giriş Yap',
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    cancelButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to login page
+                    }
+                });
+            } else {
+                                var rateValue = $('#rate').val();
+
+                // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+                if (rateValue === '' || rateValue === '0') {
+                    $('#rate').val('1');
+                }
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                var formData = new FormData($('#commentForm')[0]);
+                // Append CSRF token to form data
+                formData.append('_token', csrfToken);
+                $.ajax({
+                    url: "{{ route('project.send-comment', ['id' => $project->id]) }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Yorum Gönderildi',
+                            text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                        }).then(function() {
+                            location.reload(); // Reload the page
+                        });
+                    },
+                    error: function(error) {
+                        console.log(xhr.responseText);
+                        // window.location.href = "/giris-yap";
+                        //console.log(error);
+                    }
+                });
+            }
+
+           
+            }
+    </script>
+
     <script>
         function openLightbox(index) {
             const slideNumber = index.toString();
@@ -1927,6 +2026,8 @@ console.log('DERSİMLEEEEEEEEEEEEEEEEEEEEEEE')
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
+
+
         .fixed-button {
             position: fixed;
             bottom: 70px;

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\CustomResetPassword;
 
 class ForgotPasswordController extends Controller {
     /**
@@ -37,18 +38,24 @@ class ForgotPasswordController extends Controller {
     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     */
 
-    public function sendResetLinkEmail( Request $request ) {
-        $this->validateEmail( $request );
-        $response = $this->broker()->sendResetLink(
-            $this->credentials($request)
-        );
-
-
-        return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($request, $response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validateEmail($request);
+    
+        $response = $this->broker()->sendResetLink($this->credentials($request));
+    
+        if ($response == Password::RESET_LINK_SENT) {
+            $user = $this->broker()->getUser($this->credentials($request));
+            if ($user) {
+                // CustomResetPassword ile kullanıcının e-posta adresine bildirim gönder
+                $user->notify(new CustomResetPassword($this->broker()->createToken($user)));
+            }
+            return $this->sendResetLinkResponse($request, $response);
+        }
+    
+        return $this->sendResetLinkFailedResponse($request, $response);
     }
-
+    
     /**
      * Validate the email for the given request.
      *
@@ -84,7 +91,7 @@ class ForgotPasswordController extends Controller {
                     ? new JsonResponse(['message' => trans($response)], 200)
                     : back()->with('status', trans($response));
     }
-
+    
     /**
      * Get the response for a failed password reset link.
      *
@@ -101,10 +108,10 @@ class ForgotPasswordController extends Controller {
                 'email' => [trans($response)],
             ]);
         }
-
+    
         return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => trans( $response ) ] );
+                ->withErrors(['email' => trans($response)]);
     }
 
     /**

@@ -94,4 +94,5 @@ class UpdateHousingTypesSeeder extends Seeder
         }
         return $formJson;
     }
+    
 }

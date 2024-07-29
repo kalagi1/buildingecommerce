@@ -468,7 +468,6 @@
         }
 
         .dropdown-menu li {
-            padding: 20px 28px;
             cursor: pointer;
             text-align: center;
             font-size: 12px;
