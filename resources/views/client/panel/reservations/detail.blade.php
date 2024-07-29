@@ -231,7 +231,7 @@
                             @if (isset($order->share) && optional($order->share)->status != 1)
                                 <div class="approve-button">
                                     <a class="btn btn-success"
-                                        href="{{ route('client.approve-share', ['reservation' => $order->share->id]) }}"
+                                        href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
                                         @if ($order->share->status == 1) disabled @endif>
                                         Onayla</a>
                                     {{-- <button class="btn btn-danger"
