@@ -29907,12 +29907,12 @@ font {
   font-weight: 600;
   font-size: 10px;
   color: #fff;
-  background: #003499;
+  background: #3E9E65;
   z-index: 2;
   bottom: 6px;
   left: 0px;
   -webkit-padding-start: 0.75rem;
-  padding-inline-start: 0.75rem;
+  padding-inline-start: 1rem;
   -webkit-padding-end: 0.75rem;
   padding-inline-end: 0.75rem;
   /* padding-top: 0.25rem; */
