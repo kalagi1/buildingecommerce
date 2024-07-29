@@ -8,7 +8,9 @@ use App\Models\AssignedUser;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Award;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +21,16 @@ class CrmController extends Controller
     public function index(){
         return view('client.panel.crm.index');
     }
+    public function approveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '1' ] );
+        return redirect()->back();
+    }
 
+    public function unapproveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '3' ] );
+        CancelRequest::where( 'reservation_id', $reservation->id )->delete();
+        return redirect()->back();
+    }
     public function projectAssigment(){
         return view('client.panel.crm.project_assigment');
     }//End
