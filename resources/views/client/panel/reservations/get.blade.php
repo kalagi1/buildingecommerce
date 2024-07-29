@@ -58,7 +58,7 @@
                                 <div class="avatar avatar-m">
                             <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px;object-fit:cover">
                         </div>
-                                    #{{ $housing->id + 2000000 }}</a>
+                                   <p style="margin-left: 10px"> #{{ $housing->id + 2000000 }} </p></a>
                                 </li>
                                 <li class="order_amount" style="width: 10%">
                                     {{ number_format($order->total_price, 0, ',', '.') }} ₺
