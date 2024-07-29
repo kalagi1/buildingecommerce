@@ -445,7 +445,7 @@ class InfoController extends Controller
                         $this->createExpenseExport($item, $returnAmount, $advertNo, 'earn2');
                     }
 
-                    if ($item['balance'] && $item['user'] && $item['source'] == 'sharerPrices' && $item['balance'] != 0) {
+                    if (isset($item['balance']) && $item['user'] && $item['source'] == 'sharerPrices' && $item['balance'] != 0) {
                         $this->createExpenseExport($item, $returnAmount, $advertNo, 'balance');
                     }
                 }
@@ -472,31 +472,31 @@ class InfoController extends Controller
         $advertDate = '';
 
         // Kullanılacak değişkenleri belirle
-        if ($item['reservation'] && $item['reservation']['refund']) {
+        if (isset($item['reservation']) && $item['reservation']['refund']) {
             $name = $item['reservation']['user']['name'] ?? null;
             $email = $item['reservation']['user']['email'] ?? null;
             $phone = $item['reservation']['user']['phone'] ?? null;
             $bank_name = $item['reservation']['user']['bank_name'] ?? null;
             $iban = $item['reservation']['user']['iban'] ?? null;
-        } elseif ($item['cart'] && $item['cart']['refund']) {
+        } elseif (isset($item['cart']) && $item['cart']['refund']) {
             $name = $item['cart']['user']['name'] ?? null;
             $email = $item['cart']['user']['email'] ?? null;
             $phone = $item['cart']['user']['phone'] ?? null;
             $bank_name = $item['cart']['user']['bank_name'] ?? null;
             $iban = $item['cart']['user']['iban'] ?? null;
-        } elseif ($item['source'] == 'cartPrices' && $item['earn2'] && $item['earn2'] != 0) {
+        } elseif ($item['source'] == 'cartPrices' && isset($item['earn2']) && $item['earn2'] != 0) {
             $name = $item['cart']['store']['name'] ?? $item['reservation']['owner']['name'] ?? null;
             $email = $item['cart']['store']['email'] ?? $item['reservation']['owner']['email'] ?? null;
             $phone = $item['cart']['store']['phone'] ?? $item['reservation']['owner']['phone'] ?? null;
             $bank_name = $item['cart']['store']['bank_name'] ?? $item['reservation']['owner']['bank_name'] ?? null;
             $iban = $item['cart']['store']['iban'] ?? $item['reservation']['owner']['iban'] ?? null;
-        } elseif ($item['source'] == 'sharerPrices' && $item['earn2'] && $item['earn2'] != 0 && $type == 'earn2') {
+        } elseif ($item['source'] == 'sharerPrices' && isset($item['earn2']) && $item['earn2'] != 0 && $type == 'earn2') {
             $name = $item['cart']['store']['name'] ?? $item['reservation']['owner']['name'] ?? null;
             $email = $item['cart']['store']['email'] ?? $item['reservation']['owner']['email'] ?? null;
             $phone = $item['cart']['store']['phone'] ?? $item['reservation']['owner']['phone'] ?? null;
             $bank_name = $item['cart']['store']['bank_name'] ?? $item['reservation']['owner']['bank_name'] ?? null;
             $iban = $item['cart']['store']['iban'] ?? $item['reservation']['owner']['iban'] ?? null;
-        } elseif ($item['balance'] && $item['user'] && $item['source'] == 'sharerPrices' && $item['balance'] != 0 && $type == 'balance') {
+        } elseif (isset($item['balance']) && $item['user'] && $item['source'] == 'sharerPrices' && $item['balance'] != 0 && $type == 'balance') {
             $name = $item['user']['name'] ?? null;
             $email = $item['user']['email'] ?? null;
             $phone = $item['user']['phone'] ?? null;
