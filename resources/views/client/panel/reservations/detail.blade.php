@@ -31,7 +31,6 @@
 
     </div>
 
-{{ dd($order) }}
     <div class="row g-5 gy-7">
         <div class="col-12 col-xl-8 col-xxl-9">
             <div class="order-detail-content">
@@ -87,91 +86,76 @@
                     </div>
                 </div>
             </div>
-            
-            @if ($order->reference)
-            <div class="order-status-container mb-3" style="background-color: #1581f536">
-                <div class="left">
-                    <i class="fa fa-check"></i>
-                    <span>
-                        @php
-                            $referenceName = $order->reference->name;
 
-                        @endphp
 
-                        @if ($isStoreOwner)
-                            Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
-                            gerçekleşmiştir.
-                        @elseif ($isUserOwner)
-                            Satış danışmanınız: <strong>{{ $referenceName }}</strong>
-                        @endif
-                    </span>
+
+            <div class="order-item mb-3">
+                <div class="order-item-header">
+                    <div class="order-item-title">
+                        <h5>Rezervasyon Yapılan İlan
+                        </h5>
+
+                    </div>
                 </div>
-            </div>
-        @endif
+                <div class="order-item-body">
 
-
-        <div class="order-item mb-3">
-            <div class="order-item-header">
-                <div class="order-item-title">
-                    <h5>Sipariş Edilen Ürün Listesi
-                    </h5>
-
-                </div>
-            </div>
-            <div class="order-item-body">
-                @php
-                    $o = json_decode($order->cart);
-                    $itemImage = $o->item->image ?? null;
-                @endphp
-
-                @if ($o->type == 'housing')
-                    <img src="{{ asset('housing_images/' . optional(App\Models\Housing::find($o->item->id ?? 0)->housing_type_data)->image ?? null) }}"
+                    <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image ?? null) }}"
                         style="object-fit: cover;width:100px;height:75px" alt="">
-                @else
-                    <img src="{{ $itemImage }}" style="object-fit: cover;width:100px;height:75px" alt="Görsel">
-                @endif
 
-                <div class="order-item-details">
-                    <h5><strong>{{ $o->item->title }}
-                            {{ $o->type == 'project' ? $o->item->housing . ' No\'lu Konut' : '' }}</strong></h5>
-                    <span class="badge badge-danger">İlan No:
-                        {{ $o->type == 'housing' ? $o->item->id + 2000000 : optional(App\Models\Project::find($o->item->id ?? 0))->id + 1000000 . '-' . $o->item->housing }}</span>
+
+                    <div class="order-item-details">
+                        <h5><strong>{{ $housing->title }}</strong></h5>
+                        <span class="badge badge-danger">İlan No:
+                            {{ $housing->id + 2000000 }}</span>
+                    </div>
+
+                    <div class="order-item-quantity">
+                        <p class="text-muted">
+                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent, 0, ',', '.') }}₺</p>
+                    </div>
+
                 </div>
+                <div class="order-item-footer">
 
-                <div class="order-item-quantity">
-                    <p class="text-muted">{{ number_format($o->item->price, 0, ',', '.') }}₺</p>
+                    @php
+                        $storeImage = null;
+                        $initial = null;
+                        $userName = null;
+                        if ($housing->user->profile_image) {
+                            $storeImage = url('storage/profile_images/' . $housing->user->profile_image);
+                        } else {
+                            $initial = $housing->user->name ? strtoupper(substr($housing->user->name, 0, 1)) : '';
+                        }
+                        $userName = $housing->user->name;
+
+                    @endphp
+
+                    <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
+                        @if ($storeImage)
+                            <img class="rounded-circle" src="{{ $storeImage }}" alt=""
+                                style="width: 20px;height: 20px">
+                        @else
+                            <span style="width: 20px;height: 20px">{{ $initial }}</span>
+                        @endif
+                        <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
+                            {{ $userName }}</p>
+                    </div>
+
+                    <div>
+
+                        <button class="btn btn-outline-primary">
+                            <a
+                                href="{{ route('institutional.dashboard', ['slug' => $housing->user->name, 'userID' => $housing->user->id]) }}">Mağazayı
+                                Gör</a>
+                        </button>
+                        {{-- @if ($order->invoice)
+                            <a href="{{ route('institutional.invoice.show', hash_id($order->id)) }}"
+                                class="btn btn-primary">Faturayı Görüntüle</a>
+                        @endif --}}
+
+                    </div>
                 </div>
-
             </div>
-            <div class="order-item-footer">
-
-
-                <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
-                    @if ($storeImage)
-                        <img class="rounded-circle" src="{{ $storeImage }}" alt=""
-                            style="width: 20px;height: 20px">
-                    @else
-                        <span style="width: 20px;height: 20px">{{ $initial }}</span>
-                    @endif
-                    <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
-                        {{ $userName }}</p>
-                </div>
-
-                <div>
-
-                    <button class="btn btn-outline-primary">
-                        <a
-                            href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
-                            Gör</a>
-                    </button>
-                    @if ($order->invoice)
-                        <a href="{{ route('institutional.invoice.show', hash_id($order->id)) }}"
-                            class="btn btn-primary">Faturayı Görüntüle</a>
-                    @endif
-
-                </div>
-            </div>
-        </div>
         </div>
     </div>
 
@@ -520,15 +504,15 @@
                                             '0' =>
                                                 '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                             '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
                                             '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                         ][$order->status] !!}
                                     </span>
 

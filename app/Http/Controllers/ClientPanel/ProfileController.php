@@ -113,7 +113,7 @@ class ProfileController extends Controller
     public function reservationDetail($hashedId)
     {
         $id = decode_id($hashedId);
-        $order = Reservation::where('id', $id)->first();
+        $order = Reservation::where('id', $id)->with("housing.user")->first();
 
         return view('client.panel.reservations.detail', compact('order'));
     }
