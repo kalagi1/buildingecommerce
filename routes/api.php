@@ -254,3 +254,6 @@ Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
 
 Route::get('/project/{projectId}/comments',[InstitutionalProjectController::class,'getCommentsByProject']);
 Route::post('/project/{projectId}/add-comment', [InstitutionalProjectController::class,'projectCommentPost']);
+
+Route::get('/user/{userId}/comments',[ProjectController::class,'userComments']);
+Route::post('/user/{userId}/{projectId}/comments/{commentId}/update',[ProjectController::class,'userCommentUpdate']);
