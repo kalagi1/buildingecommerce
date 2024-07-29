@@ -618,11 +618,17 @@
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
                                     <td class="order_status align-middle text-center fw-semibold text-body-highlight">
-                                        {!! [
-                                            '0' => '<span class="text-warning">Onay Bekleniyor</span>',
-                                            '1' => '<span class="text-success">Satış Onaylandı</span>',
-                                            '2' => '<span class="text-danger">Satış Reddedildi</span>',
-                                        ][$order->status] !!} <br>
+                                       @php
+    $statusMessages = [
+        '0' => '<span class="text-warning">Onay Bekleniyor</span>',
+        '1' => '<span class="text-success">Satış Onaylandı</span>',
+        '2' => '<span class="text-danger">Satış Reddedildi</span>',
+    ];
+    $status = $statusMessages[$order->status] ?? '<span class="text-muted">Durum Bilinmiyor</span>';
+@endphp
+
+{!! $status !!}
+ <br>
 
                                         @if (isset($order->sharer))
                                             <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
