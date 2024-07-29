@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
 use App\Http\Controllers\Admin\CrmController as AdminCrmController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -266,7 +267,10 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
-
+    Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
+    Route::get('districts', [LocationController::class, 'getDistricts'])->name('locations.getDistricts');
+    Route::get('neighborhoods', [LocationController::class, 'getNeighborhoods'])->name('locations.getNeighborhoods');
+    Route::post('saveMetaDescriptions', [LocationController::class, 'saveMetaDescriptions'])->name('locations.saveMetaDescriptions');
 
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
