@@ -455,4 +455,63 @@ class ProjectController extends Controller
                 'data' => $comment
             ], 201);
     }//End    
+
+    public function userComments(Request $request, $userId){
+    
+        $userComments = ProjectComment::where('user_id', $userId)->where('status', 1)->get();
+
+    
+        // Yorumlardaki project_id değerlerini al
+        $projectIds = $userComments->pluck('project_id')->unique();
+    
+        // Eğer project_id'ler varsa, projeleri al
+        $projects = [];
+        if ($projectIds->isNotEmpty()) {
+            $projects = DB::table('projects')
+                          ->whereIn('id', $projectIds)
+                          ->get();
+        }
+    
+        // Yorumları ve projeleri birleştir
+        $commentsWithProjects = $userComments->map(function ($comment) use ($projects) {
+            $project = $projects->firstWhere('id', $comment->project_id);
+            return [
+                'comment' => $comment,
+                'project' => $project
+            ];
+        });
+    
+        return response()->json($commentsWithProjects);
+    }//End
+       
+
+    public function userCommentUpdate(Request $request, $userId, $projectId, $commentId)
+    {
+        // İstekten gelen verileri al
+        $validatedData = $request->validate([
+            'comment' => 'required|string|max:255',
+            'rate' => 'nullable|integer|min:1|max:5',
+        ]);
+    
+        // Kullanıcının belirttiği proje ve kullanıcı kimliği ile yorumu bul
+        $userComment = ProjectComment::where('user_id', $userId)
+                                     ->where('project_id', $projectId)
+                                     ->where('id', $commentId)
+                                     ->where('status', 1)
+                                     ->first();
+    
+        // Eğer yorum bulunamazsa, hata mesajı döndür
+        if (!$userComment) {
+            return response()->json(['error' => 'Yorum bulunamadı veya bu yorumu düzenleme yetkiniz yok.'], 404);
+        }
+    
+        // Yorum verilerini güncelle
+        $userComment->comment = $validatedData['comment'];
+        $userComment->rate = $validatedData['rate'] ?? $userComment->rate;
+        $userComment->save();
+    
+        // Güncellenmiş yorumu döndür
+        return response()->json(['message' => 'Yorum başarıyla güncellendi.', 'comment' => $userComment]);
+    }
+     
 }
