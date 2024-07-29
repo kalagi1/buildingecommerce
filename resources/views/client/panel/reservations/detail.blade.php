@@ -44,7 +44,7 @@
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                         </svg>
 
-                        <h3 style="margin-left: 10px">#{{ $order->id }} Nolu Sipariş Durumu</h3>
+                        <h3 style="margin-left: 10px">#{{ $order->key }} Nolu Rezervasyon Durumu</h3>
                     </div>
 
                     <div class="order-status">
@@ -57,7 +57,7 @@
                                         @break
 
                                         @case(1)
-                                            SİPARİŞ REDDEDİLDİ
+                                            REZERVASYON REDDEDİLDİ
                                         @break
 
                                         @case(3)
@@ -70,11 +70,11 @@
                                 @else
                                     @switch($order->status)
                                         @case(2)
-                                            SİPARİŞ REDDEDİLDİ
+                                            REZERVASYON REDDEDİLDİ
                                         @break
 
                                         @case(1)
-                                            SİPARİŞ ONAYLANDI
+                                            REZERVASYON ONAYLANDI
                                         @break
 
                                         @default
@@ -380,7 +380,7 @@
                         {{-- <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
                                 <i class="fa fa-shopping-bag"></i>
-                                <h4>Sipariş Edilen Ürün Listesi</h4>
+                                <h4>Rezervasyon Edilen Ürün Listesi</h4>
                             </div>
                             <div class="row py-3 px-3">
                                 <div class="order-detail-product px-3 py-3">
@@ -815,9 +815,9 @@
                                                                         <div class="row gx-3 gy-2">
                                                                             <div class="col-12"><label class="form-label"
                                                                                     for="bootstrap-wizard-validation-card-number">
-                                                                                    Sipariş İptal Sebebiniz
+                                                                                    Rezervasyon İptal Sebebiniz
                                                                                 </label>
-                                                                                <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
+                                                                                <textarea id="editor" class="form-control" name="content" placeholder="Rezervasyon İptal Sebebiniz"
                                                                                     style="height: 300px; width: 100%; resize: vertical;" required></textarea>
 
 
