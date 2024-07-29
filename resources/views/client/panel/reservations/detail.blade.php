@@ -1230,43 +1230,7 @@
  
          var csrfToken = "{{ csrf_token() }}";
  
-         // Form verilerini topla ve gönder
-         function submitForms() {
-             var form1 = $("#wizardValidationForm1");
-             var form2 = $("#wizardValidationForm2");
-             var form3 = $("#wizardValidationForm3");
- 
-             var formData = {
-                 "_token": csrfToken,
-                 "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-                 "name": form2.find("input[name='name']").val(),
-                 "phone": form2.find("input[name='phone']").val(),
-                 "email": form2.find("input[name='email']").val(),
-                 "return_bank": form2.find("input[name='return_bank']").val(),
-                 "return_iban": form2.find("input[name='return_iban']").val(),
-                 "content": form3.find("textarea[name='content']").val(),
-                 "cart_order_id": "{{ $order->id }}"
-             };
- 
-             $.ajax({
-                 type: "POST",
-                 url: "{{ route('institutional.order.refund') }}",
-                 data: formData,
-                 success: function(response) {
-                     // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
-                     toastr.success('İade talebi başarıyla gönderildi.');
-                     console.log("Form başarıyla gönderildi.");
-                     resetForm();
-                     location.reload();
- 
-                 },
-                 error: function(xhr, status, error) {
-                     // Hata durumunda burada bir işlem yapabilirsiniz
-                     toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-                     console.error(error);
-                 }
-             });
-         }
+         
  
          function resetForm() {
              let x = document.getElementsByClassName("step");
