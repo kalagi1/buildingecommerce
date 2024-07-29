@@ -2757,8 +2757,8 @@
                                 // $('.modal-backdrop').remove();
                                 toastr.success(response.message);
                                 console.log(response);
-                                window.location.href =
-                                    "{{ route('payment.reservation.index', ['housing' => $housing->id]) }}";
+                                // window.location.href =
+                                //     "{{ route('payment.reservation.index', ['housing' => $housing->id]) }}";
                             }
 
                         },
