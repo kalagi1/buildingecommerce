@@ -163,7 +163,7 @@
                                                     @endif
                                                     @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
                                                         <br>
-                                                        <span style="color:#EA2B2E"
+                                                        <span style="color:#D32729"
                                                             class="mt-3">{{ json_decode($order->cart)->item->qt }} adet
                                                             hisse
                                                             satın alındı
@@ -191,7 +191,7 @@
                                                         @if(isset($order->dekont) && file_exists(public_path('dekont/' . $order->dekont)))
                                                             <a href="{{ asset('dekont/' . $order->dekont) }}"style="color: hsla(229, 100%, 50%, 0.89)">Dekontu Görüntüle</a><br>
                                                         @else
-                                                            <span style="color: #EA2B2E">Dekont Eklenmedi</span>
+                                                            <span style="color: #D32729">Dekont Eklenmedi</span>
                                                         @endif
                                                 @endif
                                             </td>

@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Api\Client\NeighborViewController;
 use App\Http\Controllers\Api\SupportController as ApiSupportController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\MarkerController;
 
 /*
@@ -251,6 +252,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
+
 
 Route::get('/project/{projectId}/comments',[InstitutionalProjectController::class,'getCommentsByProject']);
 Route::post('/project/{projectId}/add-comment', [InstitutionalProjectController::class,'projectCommentPost']);

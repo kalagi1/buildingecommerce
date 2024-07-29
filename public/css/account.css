@@ -5853,7 +5853,7 @@ textarea.form-control {
 }
 
 .ps-block--bought-toggether .ps-block__total p strong {
-    color: #EA2B2E;
+    color: #D32729;
     font-size: 20px;
     font-weight: 500;
 }
@@ -5896,7 +5896,7 @@ textarea.form-control {
 }
 
 .ps-block--bought-toggether .ps-block__footer .ps-checkbox label span {
-    color: #EA2B2E;
+    color: #D32729;
     font-weight: 500;
 }
 
@@ -7691,7 +7691,7 @@ textarea.form-control {
 .widget_best-sale {
     padding: 15px 10px;
     border: 1px solid #d9d9d9;
-    border-bottom: 5px solid #EA2B2E;
+    border-bottom: 5px solid #D32729;
     max-height: 500px;
 }
 
@@ -9321,7 +9321,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product--detail .ps-product__desc .ps-tag--out-stock {
-    color: #EA2B2E;
+    color: #D32729;
     text-transform: none;
     font-size: 11px;
 }
@@ -9764,7 +9764,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     background-color: #ffffff;
     border: 1px solid #ccc;
     font-size: 30px;
-    color: #EA2B2E;
+    color: #D32729;
     font-weight: 600;
 }
 
@@ -11640,7 +11640,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-table--product-groupped .ps-tag--out-stock {
-    color: #EA2B2E;
+    color: #D32729;
     font-weight: 500;
 }
 
@@ -12129,7 +12129,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-cart--mini .ps-cart__footer h3 strong {
     float: right;
-    color: #EA2B2E;
+    color: #D32729;
 }
 
 .ps-cart--mini figure {
@@ -12168,7 +12168,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-cart--mobile .ps-cart__footer h3 strong {
     float: right;
-    color: #EA2B2E;
+    color: #D32729;
 }
 
 .ps-cart--mobile figure {
@@ -15129,7 +15129,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 #homepage-1 .ps-deal-of-day .ps-product .ps-product__price small {
     margin-left: 10px;
-    color: #EA2B2E;
+    color: #D32729;
 }
 
 #homepage-1 .ps-top-categories {

@@ -292,7 +292,7 @@
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
-                                            <option value="#" class="selected" selected disabled>İl</option>
+                                            <option value="#" class="default-option" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city['id'] }}" data-city="{{ $city['title'] }}"
                                                     @if (isset($cityID) && $cityID == $city['id']) selected @endif>
@@ -561,7 +561,7 @@
                             position: fixed;
                             bottom: 10px;
                             width: 255px;
-                            background: #EA2B2E !important;
+                            background: #D32729 !important;
                             color: white;
                             z-index:9999"
                                 id="submit-filters" onclick="$('.filters-input-area').slideToggle();">Filtrele</button>
@@ -851,6 +851,7 @@
     </script>
 
     <script>
+        
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
@@ -869,33 +870,50 @@
 
         $(document).ready(function() {
     // Initialize Select2 for each element
-   
+    $('#city').select2({
+        placeholder: 'İl',
+        width: '100%',
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
+    });
+
+    
     $("#project_type").select2({
         minimumResultsForSearch: -1,
         width: '100%'
     });
-    $('#city').select2({
-        placeholder: 'İl',
-        width: '100%',
-        searchInputPlaceholder: 'Ara...'
-    });
-
     $('#county').select2({
-        placeholder: 'İlçe',
+        minimumResultsForSearch: -1,
         width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
     }).prop('disabled', true);
 
     $('#neighborhood').select2({
-        placeholder: 'Mahalle',
+        minimumResultsForSearch: -1,
         width: '100%',
-        searchInputPlaceholder: 'Ara...'
+        language: {
+            noResults: function() {
+                return 'Arama sonuç bulunamadı';
+            }
+        }
     }).prop('disabled', true);
 
     // Show overlay when a Select2 dropdown is opened
     $(document).on('click', '.select2-container', function() {
-        if ($(this).hasClass('select2-container--open')) {
+                if ($(this).hasClass('select2-container--open')) {
             $('.address-overlay').addClass('show');
+            const searchField = $('.select2-search__field');
+        if (searchField.length) {
+            searchField.attr('placeholder', 'Ara...');
+        }
+
         } else {
             $('.address-overlay').removeClass('show');
         }
@@ -998,55 +1016,98 @@
                 return currentUrl.origin + newPathParts.join('/');
             }
 
-       
-    $('#city').on('change', function() {
-        let cityID = $(this).val();
-        if (cityID !== '#') {
-            $.ajax({
-                method: "GET",
-                url: "{{ url('get-counties') }}/" + cityID,
-                success: function(res) {
-                    $('#county').empty().append('<option value="#" selected disabled>İlçe</option>');
-                    $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
+            $('#city').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-counties') }}/" + $(this).val(),
+                    success: function(res) {
+                        $('#county').empty();
+                        $('#neighborhood').empty();
 
-                    $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
-                    $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+                        $("#county").val("#");
+                        $("#neighborhood").val("#");
+                        $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
+                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
-                    res.counties.forEach((e) => {
-                        $('#county').append(`<option value="${e.ilce_key}">${e.ilce_title}</option>`);
-                    });
+                        var citySlug = res.citySlug;
+                        var newUrl = buildNewUrl(citySlug, 'city');
 
-                    $('#county').prop('disabled', false).select2();
-                }
+                        updateURL(newUrl);
+
+                        $(".hiddenCityName").removeClass("d-none").addClass("d-flex");
+
+                        var cityNameElement = $(".hiddenCityName").find(".cityNameP");
+                        if (cityNameElement.parent('a').length) {
+                            cityNameElement.unwrap();
+                        }
+
+                        cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
+                            'href', newUrl);
+                            
+                            $('#county').empty();
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+
+                        res.counties.forEach((e) => {
+                            $('#county').append(
+                                `<option value="${e.ilce_key}">${e.ilce_title}</option>`
+                            );
+                        });
+
+                        $('#county').select2({
+                            placeholder: 'İlçe',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
+
+                        if (countyID) {
+                            selectCountyByID(countyID);
+                        }
+                    }
+                });
             });
-        } else {
-            $('#county').prop('disabled', true).select2();
-            $('#neighborhood').prop('disabled', true).select2();
-        }
-    });
 
-    $('#county').on('change', function() {
-        let countyID = $(this).val();
-        if (countyID !== '#') {
-            $.ajax({
-                method: "GET",
-                url: "{{ url('get-neighborhoods-for-client') }}/" + countyID,
-                success: function(res) {
-                    $('#neighborhood').empty().append('<option value="#" selected disabled>Mahalle</option>');
+            $('#county').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
+                    success: function(res) {
+                        $('#neighborhood').empty();
+                        var countySlug = res.countySlug;
+                        var newUrl = buildNewUrl(countySlug, 'county');
 
-                    $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
+                        updateURL(newUrl);
 
-                    res.neighborhoods.forEach((e) => {
-                        $('#neighborhood').append(`<option value="${e.mahalle_id}">${e.mahalle_title}</option>`);
-                    });
+                        $(".hiddenCountyName").removeClass("d-none").addClass("d-flex");
 
-                    $('#neighborhood').prop('disabled', false).select2();
-                }
+                        var countyNameElement = $(".hiddenCountyName").find(".countyNameP");
+                        if (countyNameElement.parent('a').length) {
+                            countyNameElement.unwrap();
+                        }
+
+                        countyNameElement.html(res.countyName).wrap('<a></a>').parent('a').attr(
+                            'href', newUrl);
+
+                        $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
+
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        res.neighborhoods.forEach((e) => {
+                            $('#neighborhood').append(
+                                `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
+                            );
+                        });
+
+                        $('#neighborhood').select2({
+                            placeholder: 'Mahalle',
+                            width: '100%',
+                            searchInputPlaceholder: 'Ara...'
+                        }).prop('disabled', false);
+
+                        if (neighborhoodID) {
+                            selectNeighborhoodByID(neighborhoodID);
+                        }
+                    }
+                });
             });
-        } else {
-            $('#neighborhood').prop('disabled', true).select2();
-        }
-    });
 
             $('#neighborhood').on('change', function() {
                 $.ajax({
@@ -1253,26 +1314,26 @@
 
 
                     // if (count > 0 && term != null) {
-                    //     $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + count +
+                    //     $(".countArray").html('<span style="color: #D32729; font-size: 13px;">' + count +
                     //         '</span>');
                     //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
                     //     var searchResultsText = '<span style="font-weight: bold;">( "' + term + '"</span>' +
                     //         " araması için " + "<span> toplam " +
-                    //         '<span style="color: #EA2B2E; font-size: 13px;">' + count +
+                    //         '<span style="color: #D32729; font-size: 13px;">' + count +
                     //         '</span> sonuç bulundu. )</span>';
 
                     //     $("#searchResultsText").html(searchResultsText);
 
 
                     // } else {
-                    //     $(".countArray").html('<span style="color: #EA2B2E; font-size: 13px;">' + response
+                    //     $(".countArray").html('<span style="color: #D32729; font-size: 13px;">' + response
                     //         .totalCount +
                     //         '</span>');
                     //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
                     //     var searchResultsText = "( Toplam " +
-                    //         '<span style="color: #EA2B2E; font-size: 13px;">' + response.totalCount +
+                    //         '<span style="color: #D32729; font-size: 13px;">' + response.totalCount +
                     //         '</span> ilan bulundu. )</span>';
 
                     //     $("#searchResultsText").html(searchResultsText);
@@ -1455,7 +1516,7 @@
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EA2B2E !important' class='mobilePriceStyle'>1 Gece</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>1 Gece</span>"
                                                                 }
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
@@ -1465,13 +1526,13 @@
                                                         <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: center;">
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
-                                                                    `<button class="btn second-btn " style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı</button>`
+                                                                    `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapatıldı</button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                         :
                                                                         res.action === 'sold' ?
-                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
+                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                             : 
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
@@ -1612,20 +1673,20 @@
                                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
-                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EA2B2E !important' class='mobilePriceStyle'>1 Gece</span>"
+                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>1 Gece</span>"
                                                                             }
                                                                         </li>
                                                                     </ul>
                                                                     <ul class="homes-list clearfix" style="display: flex; justify-content: center;">
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                                             res.offSale ?
-                                                                                `<button class="btn second-btn " style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı</button>`
+                                                                                `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapatıldı</button>`
                                                                                 :
                                                                                 res.action === 'payment_await' ?
                                                                                     `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                                     :
                                                                                     res.action === 'sold' ?
-                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
+                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                                         :
 
 
@@ -1746,7 +1807,7 @@
                                                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        style="background: #D32729 !important;width:100%;color:White">
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <span class="text">Satışa Kapatıldı</span>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </button>`
@@ -1760,7 +1821,7 @@
                                                                         res.action === 'sold' ?
                                                                             `<button
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </button>`
                                                                             :
                                                                             res.checkIfUserCanAddHousings === true ?
@@ -2148,7 +2209,7 @@
             position: fixed;
             bottom: 10px;
             width: 255px;
-            background: #EA2B2E !important;
+            background: #D32729 !important;
             color: white;
             z-index: 9999;
             transition: position 0.3s ease;

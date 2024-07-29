@@ -249,7 +249,7 @@ class ReservationController extends Controller
                                 // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
                                 $sales_rate_club = $rate->sales_rate_club;
                             }
-                            if ($housing->user->corporate_type == $rate->institution->name) {
+                            if ($housing->user->corporate_type == $rate->institution->name || $housing->user->type == 1 && $rate->institution->name == "Diğer") {
                                 $share_percent_earn =  $rate->default_deposit_rate;
                                 $share_percent_balance = 1.0 - $share_percent_earn;
                             }
@@ -280,7 +280,7 @@ class ReservationController extends Controller
                     $rates = Rate::where("housing_id", $reservation->housing_id)->get();
 
                     foreach ($rates as $key => $rate) {
-                        if ($housing->user->corporate_type == $rate->institution->name) {
+                        if ($housing->user->corporate_type == $rate->institution->name || $housing->user->type == 1 && $rate->institution->name == "Diğer") {
                             $share_percent_earn =  $rate->default_deposit_rate;
                             $share_percent_balance = 1.0 - $share_percent_earn;
                         }
@@ -410,13 +410,18 @@ class ReservationController extends Controller
             'owner_id' => 'required',
             'price' => 'required|numeric|min:0',
             'key' => 'required',
-
             'fullName' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'tc' => 'required|numeric',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
         ]);
+
+        $hasReference = null;
+
+        if ($request->input('reference_code')) {
+            $hasReference = User::where('code', $request->input('reference_code'))->first();
+        }
 
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => 'Geçersiz istek.', 'errors' => $validator->errors()]);
@@ -454,6 +459,8 @@ class ReservationController extends Controller
         $reservation->check_out_date = $request->input('check_out_date');
         $reservation->person_count = $request->input('person_count');
         $reservation->owner_id = $request->input('owner_id');
+        $reservation->reference_id = $hasReference ? $hasReference->id : null;
+
         $reservation->status = 0;
         if ($request->input('money_trusted') == true) {
             $reservation->money_trusted = 1;
@@ -480,41 +487,42 @@ class ReservationController extends Controller
 
         $reservation->save();
         $earnMoney = intval($request->input('down_payment'));
-
+        $collection = null;
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
+        }
+
+        if ($collection != null) {
             $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
             $sales_rate_club = null;
 
             foreach ($rates as $rate) {
-                if ($collection->user->corporate_type == $rate->institution->name) {
-                    // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
-                    $sales_rate_club = $rate->sales_rate_club;
+                if (isset($collection->user) && $collection->user->corporate_type == $rate->institution->name   || $collection->user->type == 1 && $rate->institution->name == "Diğer") {
+            $sales_rate_club = $rate->sales_rate_club;
                 }
-                if ($housing->user->corporate_type == $rate->institution->name) {
+                if ($housing->user->corporate_type == $rate->institution->name || $housing->user->type == 1 && $rate->institution->name == "Diğer") {
                     $share_percent_earn =  $rate->default_deposit_rate;
                     $share_percent_balance = 1.0 - $share_percent_earn;
                 }
             }
 
-            // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
             if ($sales_rate_club === null && count($rates) > 0) {
                 $sales_rate_club = $rates->last()->sales_rate_club;
             }
 
+    
                 
-            $estateclubrate = ($earnMoney - $share_percent_balance) * $sales_rate_club;
-            $remaining = $earnMoney - $estateclubrate;
-
+            $estateclubrate = ($earnMoney - ($earnMoney * $share_percent_balance)) * $sales_rate_club;
+            $remaining = ($earnMoney - ($earnMoney * $share_percent_balance)) - $estateclubrate;
 
             SharerPrice::create([
                 'collection_id' => $lastClick->collection_id,
                 'user_id' => $collection->user_id,
                 'status' => '0',
                 'balance' => $estateclubrate,
-                'earn' => ($earnMoney * $share_percent_balance) - $estateclubrate,
+                'earn' => $earnMoney * $share_percent_balance,
                 'earn2' => $remaining,
                 'is_reservation' => 1,
                 'reservation_id' => $reservation->id,
@@ -524,7 +532,7 @@ class ReservationController extends Controller
             $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
 
             foreach ($rates as $key => $rate) {
-                if ($housing->user->corporate_type == $rate->institution->name) {
+                if ($housing->user->corporate_type == $rate->institution->name || $housing->user->type == 1 && $rate->institution->name == "Diğer") {
                     $share_percent_earn =  $rate->default_deposit_rate;
                     $share_percent_balance = 1.0 - $share_percent_earn;
                 }

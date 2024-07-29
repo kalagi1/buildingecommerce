@@ -185,7 +185,15 @@
         "url": "admin.is_share.housings.index",
         "activePath": "qR9zLp2xS6y/secured/housings/is-share"
     },
-
+    {
+        "id": "locations",
+        "label": "Konumlar",
+        "icon": "map-pin", 
+        "text": "Konum Seo Yönetimi",
+        "key": "ManageLocations",
+        "url": "admin.locations.index",
+        "activePath": "qR9zLp2xS6y/secured/locations"
+    },
     {
         "id": "user",
         "label": "Üye Yönetimi",

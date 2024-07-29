@@ -103,12 +103,17 @@ class ProfileController extends Controller
 
         $order = CartOrder::with("store")->where('id', $cartOrderId)->first();
 
-        return view('client.panel.orders.detail', compact('order'));
+        $data = json_decode($order->cart, true);
+        $cartId = $data['item']['id'];
+        $cartType =$data['type']; 
+      
+        return view('client.panel.orders.detail', compact('order','cartId','cartType'));
     }
 
-    public function reservationDetail($id)
+    public function reservationDetail($hashedId)
     {
-        $order = Reservation::where('id', $id)->first();
+        $id = decode_id($hashedId);
+        $order = Reservation::where('id', $id)->with("housing.user","share","cartPrice","reference")->first();
 
         return view('client.panel.reservations.detail', compact('order'));
     }
