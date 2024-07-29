@@ -967,7 +967,146 @@
 
 @endsection
 
-@section('css')
+@section('styles')
+    <style>
+        .invalid-checkbox {
+            color: #ff0000 !important;
+        }
+    </style>
+    <style>
+        .invalid {
+            background-color: #ffdddd !important;
+        }
+    </style>
+
+
+    <style>
+        a.btn.btn-success {
+            border-radius: 20px !important;
+        }
+
+        img.pay-icon {
+            margin-bottom: 30px;
+        }
+
+        .box-shadow-green {
+            box-shadow: 0 0 10px rgba(0, 177, 18, 0.5);
+        }
+
+        .box-shadow-light {
+            box-shadow: 0 0 10px rgba(0, 154, 56, 0.5);
+        }
+
+        .box-shadow-blue {
+            box-shadow: 0 0 10px rgba(9, 74, 187, 0.5);
+        }
+
+        .status-icon.box-shadow-green.text-success {
+            background-color: #0E713D;
+        }
+
+        .status-icon.text-primary.box-shadow-blue {
+            background-color: #2F7DF7;
+        }
+
+        .status-icon.text-success.box-shadow-light {
+            background-color: #0FA958;
+        }
+
+        .status-card {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+
+            border-radius: 50%;
+            padding: 10px;
+
+        }
+
+        .status-header {
+            margin-top: 30px;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status-description {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .status-timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .approve-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .rating {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .horizontal-line {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            margin-bottom: 30px !important;
+        }
+
+        .bg-light-blue {
+            background-color: #e9f5ff;
+        }
+
+        .bg-light-green {
+            background-color: rgba(116, 190, 151, 0.5);
+        }
+
+        .bg-light {
+            background-color: #E0F2E3 !important;
+        }
+
+        .status-icon i {
+            color: #007bff;
+        }
+
+        .bg-light-green .status-icon i {
+            color: #28a745;
+        }
+
+        .bg-light .status-icon i {
+            color: #28a745;
+        }
+
+        button.btn.btn-success {
+            border-radius: 20px !important;
+        }
+
+        button.btn.btn-danger {
+            border-radius: 20px !important;
+        }
+    </style>
+
     <style>
         .error-message {
             color: #e54242;
@@ -981,5 +1120,420 @@
         #table_filter {
             margin-bottom: 20px;
         }
+
+        .table-breadcrumb {
+            margin-bottom: 0
+        }
+
+        .order-details {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .order-header-image {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            background-color: black;
+            border-radius: 50%;
+        }
+
+        .order-header h3 {
+            margin: 0;
+        }
+
+        .order-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+        }
+
+        .status p {
+            margin-bottom: 0 !important;
+        }
+
+        .status img {
+            width: 20px;
+            margin-right: 5px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 5px;
+            background-color: #eee;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            /* Default color */
+
+            /* Change this value to reflect progress */
+        }
+
+        .order-status-container {
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .order-status-container .left {
+            display: flex;
+            align-items: center;
+        }
+
+        .order-status-container .left i {
+            margin-right: 5px;
+        }
+
+        .order-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .timeline,
+        .shipment {
+            width: 45%;
+        }
+
+        .timeline h3,
+        .shipment h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+
+        .event time {
+            display: block;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .event p {
+            margin: 5px 0;
+        }
+
+        .event img {
+            width: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+            border-radius: 50%;
+            height: 20px;
+        }
+
+        .shipment .detail img {
+            width: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .shipment .tracking {
+            display: flex;
+            align-items: center;
+        }
+
+        .shipment .tracking input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100%;
+            margin-right: 10px;
+        }
+
+        .shipment .tracking button {
+            background-color: #ddd;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .verifiedIcon {
+            width: 15px !important;
+            margin-left: 5px
+        }
+
+        .event .list-group-item {
+            width: 100%;
+            border: none;
+            padding: 0;
+            padding-bottom: 10px;
+
+        }
+
+        .order-item {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 100%;
+            width: 100%;
+            border: none;
+            position: relative;
+        }
+
+        .order-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-item-header .badge {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-item-body {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .order-item-body img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .order-item-details {
+            margin-left: 20px;
+            flex-grow: 1;
+        }
+
+        .order-item-details h5 {
+            margin: 0 0 10px;
+        }
+
+        .order-item-details .text-muted {
+            margin: 5px 0;
+        }
+
+        .order-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .order-detail-inner {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 100%;
+            width: 100%;
+            border: none;
+            position: relative;
+        }
+
+        .order-detail-inner .title {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem
+        }
+
+        .order-detail-inner .title i {
+            margin-right: 8px;
+        }
+
+        .order-detail-inner .timeline {
+            padding: 16px;
+        }
+
+        .order-detail-inner .timeline h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .order-detail-inner .timeline p {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 16px;
+        }
+
+        .order-detail-inner .event {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .order-detail-inner .event .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .order-detail-inner .event .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .order-detail-inner .row {
+            padding: 16px;
+        }
+
+        .order-detail-inner textarea.form-control {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .file-input,
+        .file-drop-area {
+            height: 120px !important
+        }
+    </style>
+    <style>
+        .main {
+            max-width: 500px;
+            background-color: #ffffff;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        input {
+            padding: 15px 20px;
+            width: 100%;
+            font-size: 1em;
+            border: 1px solid #e3e3e3;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            border: 1px solid #009688;
+            outline: 0;
+        }
+
+        .invalid {
+            border: 1px solid #ffaba5;
+        }
+
+        #nextBtn,
+        #prevBtn {
+            background-color: #009688;
+            color: #ffffff;
+            border: none;
+            padding: 13px 30px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            flex: 1;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #prevBtn {
+            background-color: #ffffff;
+            color: #009688;
+            border: 1px solid #009688;
+        }
+
+        #prevBtn:hover,
+        #nextBtn:hover {
+            background-color: #00796b;
+            color: #ffffff;
+        }
+
+        .progress {
+            margin-bottom: 20px;
+        }
+    </style>
+    <style>
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+        }
+
+        .custom-checkbox input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .custom-checkbox input:checked~.checkmark {
+            background-color: #28a745;
+            /* Checkbox seçiliyse yeşil */
+        }
+
+        .custom-checkbox input:invalid~.checkmark {
+            background-color: #ff0000;
+            /* Checkbox seçili değilse kırmızı */
+        }
+
+        .custom-checkbox input:focus~.checkmark {
+            box-shadow: 0 0 2px 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
     </style>
 @endsection
+
