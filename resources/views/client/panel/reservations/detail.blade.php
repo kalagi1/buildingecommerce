@@ -17,10 +17,11 @@
             'Aralık',
         ];
     @endphp
-   <div class="d-flex justify-content-between align-items-center mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <div class="table-breadcrumb">
             <ul>
-              <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
+                <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
                 <li>Rezervasyonlar</li>
                 <li>Tüm Rezervasyonlar</li>
                 <li>#{{ $order->key }} Nolu Rezervasyon Detayı</li>
@@ -30,15 +31,15 @@
 
     </div>
 
-    
+{{ dd($order) }}
     <div class="row g-5 gy-7">
         <div class="col-12 col-xl-8 col-xxl-9">
             <div class="order-detail-content">
                 <div class="order-details mb-3">
                     <div class="order-header">
 
-                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2" fill="#000000"
-                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#000000" stroke-width="2"
+                            fill="#000000" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                             <circle cx="9" cy="21" r="1"></circle>
                             <circle cx="20" cy="21" r="1"></circle>
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -85,9 +86,94 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            @if ($order->reference)
+            <div class="order-status-container mb-3" style="background-color: #1581f536">
+                <div class="left">
+                    <i class="fa fa-check"></i>
+                    <span>
+                        @php
+                            $referenceName = $order->reference->name;
+
+                        @endphp
+
+                        @if ($isStoreOwner)
+                            Bu satış <strong>{{ $referenceName }}</strong> isimli çalışanızın referansı ile
+                            gerçekleşmiştir.
+                        @elseif ($isUserOwner)
+                            Satış danışmanınız: <strong>{{ $referenceName }}</strong>
+                        @endif
+                    </span>
                 </div>
+            </div>
+        @endif
+
+
+        <div class="order-item mb-3">
+            <div class="order-item-header">
+                <div class="order-item-title">
+                    <h5>Sipariş Edilen Ürün Listesi
+                    </h5>
+
                 </div>
+            </div>
+            <div class="order-item-body">
+                @php
+                    $o = json_decode($order->cart);
+                    $itemImage = $o->item->image ?? null;
+                @endphp
+
+                @if ($o->type == 'housing')
+                    <img src="{{ asset('housing_images/' . optional(App\Models\Housing::find($o->item->id ?? 0)->housing_type_data)->image ?? null) }}"
+                        style="object-fit: cover;width:100px;height:75px" alt="">
+                @else
+                    <img src="{{ $itemImage }}" style="object-fit: cover;width:100px;height:75px" alt="Görsel">
+                @endif
+
+                <div class="order-item-details">
+                    <h5><strong>{{ $o->item->title }}
+                            {{ $o->type == 'project' ? $o->item->housing . ' No\'lu Konut' : '' }}</strong></h5>
+                    <span class="badge badge-danger">İlan No:
+                        {{ $o->type == 'housing' ? $o->item->id + 2000000 : optional(App\Models\Project::find($o->item->id ?? 0))->id + 1000000 . '-' . $o->item->housing }}</span>
                 </div>
+
+                <div class="order-item-quantity">
+                    <p class="text-muted">{{ number_format($o->item->price, 0, ',', '.') }}₺</p>
+                </div>
+
+            </div>
+            <div class="order-item-footer">
+
+
+                <div class="avatar avatar-m" style="display: flex;align-items: center;justify-content: center;">
+                    @if ($storeImage)
+                        <img class="rounded-circle" src="{{ $storeImage }}" alt=""
+                            style="width: 20px;height: 20px">
+                    @else
+                        <span style="width: 20px;height: 20px">{{ $initial }}</span>
+                    @endif
+                    <p class="text-muted" style="padding-bottom: 0 ; margin-bottom: 0;margin-left: 10px">
+                        {{ $userName }}</p>
+                </div>
+
+                <div>
+
+                    <button class="btn btn-outline-primary">
+                        <a
+                            href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}">Mağazayı
+                            Gör</a>
+                    </button>
+                    @if ($order->invoice)
+                        <a href="{{ route('institutional.invoice.show', hash_id($order->id)) }}"
+                            class="btn btn-primary">Faturayı Görüntüle</a>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
 
     <div class="content">
@@ -95,12 +181,13 @@
             <div class="col-12 col-xl-8 col-xxl-9">
                 <div class="card p-3">
                     <div>
-                        <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i class="fa fa-angle-left"></i>
+                        <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i
+                                class="fa fa-angle-left"></i>
                             Geri
                             Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
-                        <h5>#{{ $order->key}} Nolu Rezervasyon Detayı</h5>
+                        <h5>#{{ $order->key }} Nolu Rezervasyon Detayı</h5>
 
                         @if ($order->refund != null)
                             <div class="order-status-container mt-3"
@@ -137,8 +224,8 @@
                                 </div>
                             </div>
                         @endif
-                       
-{{-- 
+
+                        {{-- 
                         @if ($order->reference)
                             @if ($order->store_id == Auth::user()->id)
                                 <div class="order-status-container mt-3" style="background-color : #1581f5 ">
@@ -176,12 +263,10 @@
                                 <div class="col-md-2 text-center">
                                     <p>İlan No</p>
                                     <a target="_blank"
-                                        href="{{   route('housing.show', [
+                                        href="{{ route('housing.show', [
                                             'housingSlug' => $order->housing->slug,
                                             'housingID' => $order->housing->id + 2000000,
-                                        ])
-
-                                            }}">
+                                        ]) }}">
                                         {{ $order->housing->id + 2000000 }}
                                     </a>
                                 </div>
@@ -210,7 +295,7 @@
 
 
 
-                    
+
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
                                 <i class="fa fa-user"></i>
@@ -387,7 +472,7 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">İlan Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->price, 0, ',', '.')}}₺
+                                            {{ number_format($order->price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -395,7 +480,7 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Toplam Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->total_price, 0, ',', '.')}}₺
+                                            {{ number_format($order->total_price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -403,7 +488,7 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Param Güvende Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format($order->money_is_safe, 0, ',', '.')}}₺
+                                            {{ number_format($order->money_is_safe, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -411,7 +496,7 @@
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödenen Fiyat:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{number_format(($order->total_price / 2) + $order->money_is_safe, 0, ',', '.')}}₺
+                                            {{ number_format($order->total_price / 2 + $order->money_is_safe, 0, ',', '.') }}₺
                                         </p>
                                     </div>
 
@@ -435,15 +520,15 @@
                                             '0' =>
                                                 '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                             '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
                                             '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                         ][$order->status] !!}
                                     </span>
 
@@ -468,7 +553,6 @@
                                     <h3 class="card-title mb-4">Sözleşme Ekleme</h3>
                                     <h6 class="mb-2"></h6>
                                     @if (isset($order->path))
-                                       
                                         <a href="{{ asset($order->path) }}" target="_blank">
                                             <i class="fa fa-file"></i> Dosyayı Görüntüle
                                         </a>
@@ -477,8 +561,8 @@
                                     @endif
 
                                     <div class="order_status mt-3">
-                                        <form action="{{ route('institutional.reservation.contract.upload.pdf') }}" method="POST"
-                                            enctype="multipart/form-data">
+                                        <form action="{{ route('institutional.reservation.contract.upload.pdf') }}"
+                                            method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="reservation_id" value="{{ $order->id }}">
                                             <div class="mb-3">
@@ -510,7 +594,7 @@
                                         aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                               
+
                                                 <div class="modal-body">
 
 
@@ -724,7 +808,8 @@
                                                                                     class="form-control" type="text"
                                                                                     name="return_iban" placeholder="IBAN"
                                                                                     id="bootstrap-wizard-validation-wizard-phone"
-                                                                                    required="required" oninput="formatIBAN(this)">
+                                                                                    required="required"
+                                                                                    oninput="formatIBAN(this)">
                                                                                 <div class="invalid-feedback">Alan
                                                                                     Zorunludur.
                                                                                 </div>
@@ -781,7 +866,9 @@
                                                                                 Kısa Süre İçerisinde Tarafınıza
                                                                                 İletilecektir</p>
 
-                                                                                <a class="btn btn-primary px-6" onclick="submitForms()">İade Talebi Oluştur</a>
+                                                                            <a class="btn btn-primary px-6"
+                                                                                onclick="submitForms()">İade Talebi
+                                                                                Oluştur</a>
 
                                                                         </div>
                                                                     </div>
@@ -890,81 +977,80 @@
         });
     </script>
 
-   <script>
-    // CSRF tokenını al
-    var csrfToken = "{{ csrf_token() }}";
+    <script>
+        // CSRF tokenını al
+        var csrfToken = "{{ csrf_token() }}";
 
-    // Form verilerini topla ve gönder
-    function submitForms() {
-        var form1 = $("#wizardValidationForm1");
-        var form2 = $("#wizardValidationForm2");
-        var form3 = $("#wizardValidationForm3");
+        // Form verilerini topla ve gönder
+        function submitForms() {
+            var form1 = $("#wizardValidationForm1");
+            var form2 = $("#wizardValidationForm2");
+            var form3 = $("#wizardValidationForm3");
 
-        var formData = {
-            "_token": csrfToken,
-            "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-            "name": form2.find("input[name='name']").val(),
-            "phone": form2.find("input[name='phone']").val(),
-            "email": form2.find("input[name='email']").val(),
-            "return_bank": form2.find("input[name='return_bank']").val(),
-            "return_iban": form2.find("input[name='return_iban']").val(),
-            "content": form3.find("textarea[name='content']").val(),
-            "reservation_id": "{{ $order->id }}"
-        };
+            var formData = {
+                "_token": csrfToken,
+                "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                "name": form2.find("input[name='name']").val(),
+                "phone": form2.find("input[name='phone']").val(),
+                "email": form2.find("input[name='email']").val(),
+                "return_bank": form2.find("input[name='return_bank']").val(),
+                "return_iban": form2.find("input[name='return_iban']").val(),
+                "content": form3.find("textarea[name='content']").val(),
+                "reservation_id": "{{ $order->id }}"
+            };
 
-        console.log(formData);
-        // AJAX isteğiyle sunucuya form verilerini gönder
-        $.ajax({
-            type: "POST",
-            url: "{{ route('institutional.reservation.order.refund') }}",
-            data: formData,
-            success: function(response) {
-                // Sunucudan başarılı bir yanıt alındığında yönlendirme yap
-                toastr.success('İade talebi başarıyla gönderildi.');
-                console.log("Form başarıyla gönderildi.");
-                location.href = "{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}";
-            },
-            error: function(xhr, status, error) {
-                // Hata durumunda burada bir işlem yapabilirsiniz
-                console.log(error);
-                toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+            console.log(formData);
+            // AJAX isteğiyle sunucuya form verilerini gönder
+            $.ajax({
+                type: "POST",
+                url: "{{ route('institutional.reservation.order.refund') }}",
+                data: formData,
+                success: function(response) {
+                    // Sunucudan başarılı bir yanıt alındığında yönlendirme yap
+                    toastr.success('İade talebi başarıyla gönderildi.');
+                    console.log("Form başarıyla gönderildi.");
+                    location.href =
+                        "{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}";
+                },
+                error: function(xhr, status, error) {
+                    // Hata durumunda burada bir işlem yapabilirsiniz
+                    console.log(error);
+                    toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
+                }
+            });
+        }
+
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            number = number.toFixed(decimals);
+            var parts = number.toString().split(dec_point);
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+            return parts.join(dec_point);
+        }
+    </script>
+
+    <script>
+        function formatIBAN(input) {
+            // TR ile başlat
+            var value = input.value.toUpperCase().replace(/\s+/g, '');
+            var formattedIBAN = 'TR';
+
+            // TR harflerini başa eklemek için
+            if (value.startsWith('TR')) {
+                value = value.substring(2);
             }
-        });
-    }
 
-    function number_format(number, decimals, dec_point, thousands_sep) {
-        number = number.toFixed(decimals);
-        var parts = number.toString().split(dec_point);
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
-        return parts.join(dec_point);
-    }
-</script>
+            // Gelen değerden sadece rakamları al ve ilk 24 karakteri sınırla
+            var numbersOnly = value.replace(/[^0-9]/g, '').substring(0, 22);
 
-<script>
-    function formatIBAN(input) {
-        // TR ile başlat
-        var value = input.value.toUpperCase().replace(/\s+/g, '');
-        var formattedIBAN = 'TR';
+            // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+            for (var i = 0; i < numbersOnly.length; i += 4) {
+                formattedIBAN += ' ' + numbersOnly.substr(i, 4);
+            }
 
-        // TR harflerini başa eklemek için
-        if (value.startsWith('TR')) {
-            value = value.substring(2);
+            // Formatlanmış IBAN'ı input değerine ata
+            input.value = formattedIBAN.trim();
         }
-
-        // Gelen değerden sadece rakamları al ve ilk 24 karakteri sınırla
-        var numbersOnly = value.replace(/[^0-9]/g, '').substring(0, 22);
-
-        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
-        for (var i = 0; i < numbersOnly.length; i += 4) {
-            formattedIBAN += ' ' + numbersOnly.substr(i, 4);
-        }
-
-        // Formatlanmış IBAN'ı input değerine ata
-        input.value = formattedIBAN.trim();
-    }
-</script>
-
-
+    </script>
 @endsection
 
 @section('styles')
@@ -1536,4 +1622,3 @@
         }
     </style>
 @endsection
-
