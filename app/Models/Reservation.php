@@ -31,12 +31,6 @@ class Reservation extends Model
     {
         return $this->belongsTo(CartPrice::class, 'id', 'reservation_id');
     }
-    public function share()
-    {
-        return $this->belongsTo(SharerPrice::class, 'id', 'reservation_id');
-    }
-
-
     
     public function sharer(){
         return $this->hasOne(SharerPrice::class,"reservation_id","id");

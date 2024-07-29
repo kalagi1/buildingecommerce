@@ -224,15 +224,14 @@
                                 </div>
                             @endif
 
-                            {{ dd($order->price)}}
                         
 
-                            @if (isset($order->price) && optional($order->price)->status != 1)
+                            @if (isset($order->cartPrice) && optional($order->cartPrice)->status != 1)
                                 <div class="approve-button">
 
                                     <a class="btn btn-success"
-                                        href="{{ route('client.approve-price', ['price' => $order->price->id]) }}"
-                                        @if ($order->price->status == 1) disabled @endif>Onayla
+                                        href="{{ route('client.approve-price', ['price' => $order->cartPrice->id]) }}"
+                                        @if ($order->cartPrice->status == 1) disabled @endif>Onayla
                                     </a>
                                     {{-- <button class="btn btn-danger"
                                         onclick="submitFormPriceAndShare('{{ route('client.unapprove-price', ['price' => $order->price->id]) }}')"
@@ -247,7 +246,7 @@
 
                         <div class="horizontal-line"></div>
 
-                        @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
+                        @if (($order->share && $order->share->status == 1) || ($order->cartPrice && $order->cartPrice->status == 1))
                             <div class="status-card bg-light">
                                 <div class="status-icon text-success box-shadow-light">
                                     <i class=""><img class="pay-icon"
