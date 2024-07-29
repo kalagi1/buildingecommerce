@@ -1,3 +1,260 @@
+
+@extends('client.layouts.masterPanel')
+
+@section('content')
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="table-breadcrumb">
+            <ul>
+                <li>Hesabım</li>
+                <li>Kiraladıklarım</li>
+            </ul>
+        </div>
+    </div>
+
+  <section>
+    <div class="front-project-tabs">
+        <ul class="mt-3 mb-3" id="reservationTabs">
+            @foreach ([
+                ['id' => 'housingReservations', 'text' => 'Onaylanan Rezervasyonlar', 'count' => $housingReservations->count()],
+                ['id' => 'confirmReservations', 'text' => 'Onay Bekleyen Rezervasyonlar', 'count' => $confirmReservations->count()],
+                ['id' => 'cancelRequestReservations', 'text' => 'İptal Talebi Bekleyen Rezervasyonlar', 'count' => $cancelRequestReservations->count()],
+                ['id' => 'expiredReservations', 'text' => 'Geçmiş Rezervasyonlar', 'count' => $expiredReservations->count()],
+                ['id' => 'cancelReservations', 'text' => 'Reddedilmiş Rezervasyonlar', 'count' => $cancelReservations->count()],
+                ['id' => 'refundedReservations', 'text' => 'İptal Edilen Rezervasyonlar', 'count' => $refundedReservations->count()]
+            ] as $tab)
+                <li class="tab-item {{ $loop->first ? 'active' : '' }}" id="{{ $tab['id'] }}-tab" data-target="{{ $tab['id'] }}">
+                    {{ $tab['text'] }} ({{ $tab['count'] }})
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        @foreach ([
+            'housingReservations' => $housingReservations,
+            'confirmReservations' => $confirmReservations,
+            'cancelRequestReservations' => $cancelRequestReservations,
+            'expiredReservations' => $expiredReservations,
+            'cancelReservations' => $cancelReservations,
+            'refundedReservations' => $refundedReservations
+        ] as $tabId => $reservations)
+            <div class="tab-pane {{ $loop->first ? 'show active' : '' }}" id="{{ $tabId }}">
+                @if ($reservations->isEmpty())
+                    <div class="project-table-content">
+                        <p class="text-center mb-0">Rezervasyon bulunamadı</p>
+                    </div>
+                @else
+                    <div class="project-table">
+                        @foreach ($reservations as $index => $reservation)
+                            <div class="project-table-content">
+                                <ul class="list-unstyled d-flex housing-item">
+                                    <!-- Index -->
+                                    <li style="width: 5%">{{ $index + 1 }}</li>
+                                    <li style="width: 5%">{{ $reservation->id + 2000000 }}</li>
+
+                                    <!-- Title -->
+                                    <li style="width: 45%">
+                                        <div>
+                                            <p class="project-table-content-title">{{ $reservation->title }}</p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Type -->
+                                    <li style="width: 10%">
+                                        <div>
+                                            <p class="project-table-content-title">{{ $reservation->type }}</p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Consultant or User -->
+                                    <li style="width: 10%">
+                                        <div>
+                                            <p class="project-table-content-title">
+                                                @if (!empty($reservation->consultant) && !empty($reservation->consultant->name))
+                                                    {{ $reservation->consultant->name }}
+                                                @elseif (!empty($reservation->user) && !empty($reservation->user->name))
+                                                    {{ $reservation->user->name }}
+                                                @else
+                                                    Mağaza Yöneticisi
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Created At -->
+                                    <li style="width: 10%">
+                                        <div>
+                                            <p class="project-table-content-title">
+                                                {{ \Carbon\Carbon::parse($reservation->created_at)->format('d.m.Y H:i') }}
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Status -->
+                                    <li style="width: 10%">
+                                        <div>
+                                            <p class="project-table-content-title">
+                                                @php
+                                                    $status = $reservation->status;
+                                                    switch ($status) {
+                                                        case 1:
+                                                            $badge = '<span class="badge badge-success">Aktif</span>';
+                                                            break;
+                                                        case 2:
+                                                            $badge = '<span class="badge badge-warning">Onay Bekleniyor</span>';
+                                                            break;
+                                                        case 3:
+                                                            $badge = '<span class="badge badge-danger">Yönetim Tarafından Reddedildi</span>';
+                                                            break;
+                                                        default:
+                                                            $badge = '<span class="badge badge-danger">Pasif</span>';
+                                                            break;
+                                                    }
+                                                @endphp
+                                                {!! $badge !!}
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <!-- Actions -->
+                                    <li style="width: 5%">
+                                        <span class="project-table-content-actions-button" data-toggle="popover-{{ $reservation->id }}">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <!-- Popover Actions -->
+                                <div class="popover-project-actions d-none" id="popover-{{ $reservation->id }}">
+                                    <ul class="list-unstyled">
+                                        @if (in_array('UpdateReservation', $userPermissions))
+                                            <li>
+                                                <a href="{{ route('institutional.reservation.edit', ['id' => hash_id($reservation->id)]) }}">Rezervasyonu Düzenle</a>
+                                            </li>
+                                        @endif
+
+                                        @if (in_array('UpdateReservation', $userPermissions))
+                                            <li>
+                                                <a href="{{ route('institutional.reservation.images.update', ['id' => hash_id($reservation->id)]) }}">Resimleri Düzenle</a>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <a href="{{ route('institutional.bids.index', ['reservation' => hash_id($reservation->id)]) }}">Pazarlık Teklifleri</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+</section>
+
+@endsection
+
+@section('scripts')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#reservationTabs .tab-item').on('click', function() {
+                var targetId = $(this).attr('id').replace('-tab', '');
+                
+                // Remove active class from all tabs
+                $('#reservationTabs .tab-item').removeClass('active');
+                
+                // Add active class to the clicked tab
+                $(this).addClass('active');
+
+                // Hide all tab panes
+                $('.tab-pane').removeClass('show active');
+
+                // Show the corresponding tab pane
+                $('#' + targetId).addClass('show active');
+            });
+
+            $('.project-table-content-actions-button').on('click', function() {
+                var targetId = $(this).data('toggle');
+                var $popover = $('#' + targetId);
+
+                console.log("sas");
+
+                // Hide other popovers
+                $('.popover-project-actions').not($popover).addClass('d-none');
+
+                // Toggle current popover
+                $popover.toggleClass('d-none');
+            });
+
+            // Close popover when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.project-table-content').length) {
+                    $('.popover-project-actions').addClass('d-none');
+                }
+            });
+        });
+
+
+          // Search functionality
+          $('#searchInput').on('input', function() {
+            var query = $(this).val().toLowerCase();
+            $('.tab-pane').each(function() {
+                var $tabPane = $(this);
+                $tabPane.find('.housing-item').each(function() {
+                    var $item = $(this);
+                    var text = $item.text().toLowerCase();
+                    if (text.indexOf(query) > -1) {
+                        $item.show();
+                    } else {
+                        $item.hide();
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
+
+<style>
+    #reservationTabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #reservationTabs .tab-item {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    #reservationTabs .tab-item.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    #reservationTabs .tab-item:not(.active):hover {
+        background-color: #f1f1f1;
+    }
+
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.show {
+        display: block;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+    }
+</style>
+
 @extends('client.layouts.masterPanel')
 
 @section('content')
