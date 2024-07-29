@@ -483,6 +483,7 @@ class ReservationController extends Controller
 
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
+            return $collection;
             $rates = Rate::where('housing_id', $request->input('housing_id'))->get();
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
