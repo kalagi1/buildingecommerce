@@ -224,6 +224,9 @@
                                 </div>
                             @endif
 
+                            {{ dd($order->price)}}
+                        
+
                             @if (isset($order->price) && optional($order->price)->status != 1)
                                 <div class="approve-button">
 
