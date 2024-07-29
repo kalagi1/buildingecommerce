@@ -242,45 +242,6 @@
 
                             </div>
                         </div>
-                        {{-- <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
-                            <div class="title">
-                                <i class="fa fa-shopping-bag"></i>
-                                <h4>Sipariş Edilen Ürün Listesi</h4>
-                            </div>
-                            <div class="row py-3 px-3">
-                                <div class="order-detail-product px-3 py-3">
-                                    <div class="d-flex jc-space-between pb-4">
-                                        <div class="product-info flex-1">
-                                            <div class="product-info-img">
-                                                @php
-                                                    $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
-                                                    $itemImage = isset($orderCartData['item']['image'])
-                                                        ? $orderCartData['item']['image']
-                                                        : null; // item özelliğine eriş
-                                                @endphp
-                                                @php($o = json_decode($order->cart))
-
-                                                @if ($o->type == 'housing')
-                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        style="object-fit: cover;width:100px;height:75px" alt="">
-                                                @else
-                                                    <img src="{{ $itemImage }}"
-                                                        style="object-fit: cover;width:100px;height:75px" alt="Görsel">
-                                                @endif
-
-                                            </div>
-                                            <div class="product-text-info ">
-                                                <p><strong>{{ json_decode($order->cart)->item->title }}
-                                                        <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}
-                                                            No'lu Konut </strong></strong></p>
-
-                                                <p>İlan No : <strong>{{ $order->key }}</strong></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
                                 <i class="fa fa-edit"></i>
