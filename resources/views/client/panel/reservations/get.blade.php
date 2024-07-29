@@ -50,11 +50,12 @@
                             @endphp
                             <ul class="list-unstyled d-flex housing-item">
                                 <li class="order_no" style="width: 10%">{{ $order->key }}</li>
-                                <li class="order_image" >
+                                <li class="order_image " >
+                                <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}" class="d-flex align-items-center text-body">
                                 <div class="avatar avatar-m">
                             <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px">
                         </div>
-                                    {{ $housing->title }}
+                                    #{{ $housing->id + 2000000 }}</a>
                                 </li>
                                 <li class="order_amount" style="width: 10%">
                                     {{ number_format($order->total_price, 0, ',', '.') }} ₺
