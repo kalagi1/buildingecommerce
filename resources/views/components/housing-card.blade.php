@@ -212,12 +212,12 @@
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
                                         ₺
                                         <span style="font-size:11px; color:#EA2B2E">
-                                            / gecelik<</span>
+                                            / gecelik</span>
                                     @else
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                         ₺
                                         <span style="font-size:11px; color:#EA2B2E">
-                                            / gecelik<</span>
+                                            / gecelik</span>
                                     @endif
                                 @else
                                     @if ($housing->discount_amount)
