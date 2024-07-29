@@ -484,7 +484,7 @@
                     </div>
                 </div>
             </div>
-            @if (Auth::check() && Auth::user()->id == $order->store->id)
+            @if (Auth::check() && Auth::user()->id == $order->housing->user->id)
             <div class="col-12">
                 <div class="card summary-padding">
                     <div class="card-body">
@@ -497,7 +497,7 @@
                         @endif
 
                         <div class="order_status mt-3">
-                            <form action="{{ route('institutional.contract.upload.pdf') }}" method="POST"
+                            <form action="{{ route('institutional.reservation.contract.upload.pdf') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
