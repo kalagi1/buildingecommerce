@@ -194,6 +194,8 @@
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
 
+                                                            echo $discountedPrice;
+
                                             $total = $discountedPrice * 0.02 * $share_percent_earn;
 
                                             $earningAmount = $total * $sales_rate_club;
