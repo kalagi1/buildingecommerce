@@ -109,10 +109,10 @@
                             {{ $order->housing->id + 2000000 }}</span>
                     </div>
 
-                    {{-- <div class="order-item-quantity">
+                    <div class="order-item-quantity">
                         <p class="text-muted">
-                            {{ number_format(json_decode($order->housing->housing_type_data)->daily_rent, 0, ',', '.') }}₺</p>
-                    </div> --}}
+                            {{ number_format($order->price, 0, ',', '.') }}₺</p>
+                    </div>
 
                 </div>
                 <div class="order-item-footer">
