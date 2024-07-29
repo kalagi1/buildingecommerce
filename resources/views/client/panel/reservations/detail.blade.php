@@ -198,8 +198,8 @@
                     @if ($order && $order->status && $order->status == 1)
                         <div class="status-card bg-light-green">
                             <div class="status-icon box-shadow-green text-success">
-                                <i class=""><img class="pay-icon"
-                                        src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/guard-icon.png') }}"
+                                        alt=""></i>
                             </div>
                             <div class="status-header">
                                 <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
@@ -211,11 +211,11 @@
                             @if (isset($order->share) && optional($order->share)->status != 1)
                                 <div class="approve-button">
                                     <a class="btn btn-success"
-                                        href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                        href="{{ route('client.approve-reservation', ['reservation' => $order->share->id]) }}"
                                         @if ($order->share->status == 1) disabled @endif>
                                         Onayla</a>
                                     {{-- <button class="btn btn-danger"
-                                        onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
+                                        onclick="submitFormPriceAndShare('{{ route('client.unapprove-reservation', ['reservation' => $order->share->id]) }}')"
                                         @if ($order->share->status != 1) disabled @endif>Hakedişleri
                                         Reddet</button> --}}
 
@@ -224,7 +224,7 @@
                                 </div>
                             @endif
 
-                        
+
 
                             @if (isset($order->cartPrice) && optional($order->cartPrice)->status != 1)
                                 <div class="approve-button">
@@ -292,8 +292,7 @@
                                                     <div class="d-flex rating-area">
                                                         <svg class="rating" enable-background="new 0 0 50 50"
                                                             height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
@@ -304,8 +303,7 @@
                                                         </svg>
                                                         <svg class="rating" enable-background="new 0 0 50 50"
                                                             height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
@@ -316,8 +314,7 @@
                                                         </svg>
                                                         <svg class="rating" enable-background="new 0 0 50 50"
                                                             height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
@@ -328,8 +325,7 @@
                                                         </svg>
                                                         <svg class="rating" enable-background="new 0 0 50 50"
                                                             height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
@@ -340,8 +336,7 @@
                                                         </svg>
                                                         <svg class="rating" enable-background="new 0 0 50 50"
                                                             height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve"
+                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
@@ -352,9 +347,8 @@
                                                         </svg>
                                                     </div>
                                                     <div class="ml-auto">
-                                                        <input type="file" style="display: none;"
-                                                            class="fileinput" name="images[]" multiple
-                                                            accept="image/*" />
+                                                        <input type="file" style="display: none;" class="fileinput"
+                                                            name="images[]" multiple accept="image/*" />
                                                         <button type="button" class="btn btn-primary q-button"
                                                             id="selectImageButton">Resimleri Seç</button>
                                                     </div>
