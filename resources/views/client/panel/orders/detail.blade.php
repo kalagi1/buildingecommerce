@@ -1518,9 +1518,6 @@ Sipariş Notu eklenmedi
 
         }
 
-        .status-header {
-            margin-top: 30px;
-        }
 
         .status-title {
             font-size: 18px;
