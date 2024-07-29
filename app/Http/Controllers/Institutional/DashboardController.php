@@ -446,7 +446,10 @@ class DashboardController extends Controller
         $monthlyCounts = $this->getMonthlyCounts();
         $monthlyCollectionCounts = $this->getMonthlyCollectionCounts(); // Adjusted variable name
 
-        return view('client.panel.home.index', compact(
+        $subWorkerCount = $this->subWorkerCount();
+
+
+        return view('client.panel.home.index2', compact(
             'housingViews',
             'housingSalesStatistics',
             'housings',
@@ -458,6 +461,13 @@ class DashboardController extends Controller
         ));
     }
     
+    //alt çalışan sayısı
+
+    private function subWorkerCount(){
+        $user = Auth::user();
+        $subWorkerCount = User::where('parent_id', $user->id)->count();
+        return $subWorkerCount;
+    }
 
     /**
      * TODO: Ziyaretci Sayısı son 24 saat
@@ -527,8 +537,7 @@ class DashboardController extends Controller
             'user' => $user,
             
         ];
-    }
-        
+    }        
         
     public function getMonthlyCounts()
     {
