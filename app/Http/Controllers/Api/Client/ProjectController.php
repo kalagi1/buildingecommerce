@@ -463,11 +463,11 @@ class ProjectController extends Controller
         return response()->json([
             'status'=> 'success',
             'message'=> 'Yorum başarıyla silindi.'
-            ],0);
+            ],201);
          
     }//End
 
-    }//End    
+   
 
     public function userComments(Request $request, $userId){
     
