@@ -87,12 +87,13 @@
                                                 </td>
 
                                                 <td>
-                                                    @if (isset($item->earn))
-                                                        <span class="text-success">Kazanç:
-                                                            {{ number_format((float) $item->earn, 0, ',', '.') ?? null }}
-                                                            ₺</span>
-                                                    @endif
-                                                </td>
+    @if (isset($item->earn))
+        <span class="text-success">Kazanç:
+            {{ number_format($item->earn, 2, ',', '.') }} ₺
+        </span>
+    @endif
+</td>
+
 
                                                 <td>{{ number_format($reservation->down_payment, 2, ',', '.') }} ₺<br>
                                                     @if ($reservation->money_trusted)
