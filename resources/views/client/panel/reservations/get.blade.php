@@ -11,6 +11,9 @@
         </div>
     </div>
 <section>
+<div class="alert alert-info">
+            Emlak Sepette platformunda yaptığınız tüm kiralama işlemlerine aşağıdaki alandan ulaşabilirsiniz.
+        </div>
     <div class="front-project-tabs">
         <ul class="mt-3 mb-3" id="reservationTabs">
             @foreach ([
