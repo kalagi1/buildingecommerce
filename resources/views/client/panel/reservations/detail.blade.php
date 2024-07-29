@@ -1035,7 +1035,7 @@
                     toastr.success('İade talebi başarıyla gönderildi.');
                     console.log("Form başarıyla gönderildi.");
                     location.href =
-                        "{{ route('institutional.reservation.order.detail', ['reservation_id' => $order->id]) }}";
+                        "{{ route('institutional.reservation.order.detail', ['reservation_id' => hash_id($order->id)]) }}";
                 },
                 error: function(xhr, status, error) {
                     // Hata durumunda burada bir işlem yapabilirsiniz
