@@ -12,16 +12,11 @@ if (!function_exists('canUserAddComment')) {
     {
         $user = Auth::user();
 
-        // Check if the user is logged in
         if ($user) {
-            $userId = $user->id;
+            // Determine the user ID to use (parent ID if available)
+            $userId = $user->parent_id ?: $user->id;
 
-            // Check if the user is a parent user and use the parent user if available
-            if ($user->parent_id) {
-                $userId = $user->parent_id;
-            }
-
-            // Check if a comment already exists for this housing by the user or the parent user
+            // Check if a comment already exists for this housing by the user or their parent
             $commentExists = HousingComment::where('user_id', $userId)
                                            ->where('housing_id', $housingId)
                                            ->exists();
@@ -38,16 +33,11 @@ if (!function_exists('canUserAddProjectComment')) {
     {
         $user = Auth::user();
 
-        // Check if the user is logged in
         if ($user) {
-            $userId = $user->id;
+            // Determine the user ID to use (parent ID if available)
+            $userId = $user->parent_id ?: $user->id;
 
-            // Check if the user is a parent user and use the parent user if available
-            if ($user->parent_id) {
-                $userId = $user->parent_id;
-            }
-
-            // Check if a comment already exists for this project by the user or the parent user
+            // Check if a comment already exists for this project by the user or their parent
             $commentExists = ProjectComment::where('user_id', $userId)
                                            ->where('project_id', $projectId)
                                            ->exists();
@@ -64,23 +54,32 @@ if (!function_exists('checkIfUserCanAddToCart')) {
     {
         $user = auth()->user();
 
-        // Check if the user is logged in
         if ($user) {
-            $userId = $user->id;
-
-            // Check if the user is a parent user and use the parent user if available
+            // Determine the user ID to use (parent ID if available)
             if ($user->parent_id) {
-                $userId = $user->parent_id;
+                // Get the parent user
+                $parentUser = \App\Models\User::find($user->parent_id);
+
+                if ($parentUser) {
+                    // Check if the housing exists for the parent user
+                    $exists = $parentUser->housings()->where('id', $housingId)->exists();
+                } else {
+                    // If the parent user is not found, fallback to current user
+                    $exists = $user->housings()->where('id', $housingId)->exists();
+                }
+            } else {
+                // No parent ID, use the current user
+                $exists = $user->housings()->where('id', $housingId)->exists();
             }
 
-            // Check if there exists a housing record with the given $housingId and user_id matching the user or the parent user
-            $exists = $user->housings()->where('id', $housingId)->exists();
-            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+            // Return true if the housing does not exist (i.e., the user can add it)
+            return !$exists;
         }
 
-        return true; // Return false if user is not logged in
+        return true; // Return true if the user is not logged in
     }
 }
+
 
 if (!function_exists('checkIfUserCanAddToProject')) {
     function checkIfUserCanAddToProject($projectId)
@@ -88,18 +87,34 @@ if (!function_exists('checkIfUserCanAddToProject')) {
         $user = auth()->user();
 
         if ($user) {
-            $userId = $user->id;
-
-            // Check if the user is a parent user and use the parent user if available
+            // Determine the user ID to use (parent ID if available)
             if ($user->parent_id) {
-                $userId = $user->parent_id;
-            }
+                // Get the parent user
+                $parentUser = \App\Models\User::find($user->parent_id);
 
-            $exists = $user->projects()->where('id', $projectId)->exists();
+                if ($parentUser) {
+                    // Check if the project exists for the parent user
+                    $exists = $parentUser->projects()
+                        ->where('id', $projectId)
+                        ->exists();
+                } else {
+                    // If the parent user is not found, fallback to current user
+                    $exists = $user->projects()
+                        ->where('id', $projectId)
+                        ->exists();
+                }
+            } else {
+                // No parent ID, use the current user
+                $exists = $user->projects()
+                    ->where('id', $projectId)
+                    ->exists();
+            }
+            
+            // Return true if the project does not exist (i.e., the user can add it)
             return !$exists;
         }
 
-        return true;
+        return true; // Return true if the user is not logged in
     }
 }
 
@@ -109,23 +124,21 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
         $user = auth()->user();
 
         if ($user) {
-            $userId = $user->id;
+            // Determine the user ID to use (parent ID if available)
+            $userId = $user->parent_id ?: $user->id;
 
-            // Check if the user is a parent user and use the parent user if available
-            if ($user->parent_id) {
-                $userId = $user->parent_id;
-            }
-
+            // Check if the project contains housing with the given key index for the user or their parent
             $exists = $user->projects()
                 ->where('id', $projectId)
                 ->whereHas('housings', function ($query) use ($keyIndex) {
                     $query->where('room_order', $keyIndex);
                 })
                 ->exists();
-            return !$exists;
+                
+            return !$exists; // Return true if the user can add the housing (housing not found), false otherwise
         }
 
-        return true;
+        return true; // Return true if user is not logged in
     }
 }
 
