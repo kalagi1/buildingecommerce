@@ -156,8 +156,9 @@ class ProjectController extends Controller
                 return $comparison;
             }
         });
-
+s
         if ($project) {
+            $project->increment( 'view_count' );
 
             $projectHousing = $project->roomInfo->keyBy('name');
             $sumCartOrderQt = DB::table('cart_orders')
