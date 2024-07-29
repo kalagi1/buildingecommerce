@@ -50,12 +50,10 @@
                             @endphp
                             <ul class="list-unstyled d-flex housing-item">
                                 <li class="order_no" style="width: 10%">{{ $order->key }}</li>
-                                <li class="order_image" style="width: 20%">
+                                <li class="order_image" >
                                 <div class="avatar avatar-m">
-                            <img class="rounded-circle" src="https://private.emlaksepette.com/storage/profile_images/1722239152_profile_image.jpg" alt="" style="width:35px;height:35px">
+                            <img class="rounded-circle" src="{{ asset('housing_images/' . $image) }}" alt="" style="width:35px;height:35px">
                         </div>
-                                    <img src="{{ asset('housing_images/' . $image) }}" width="100px" style="object-fit: contain;" />
-                                    <br>
                                     {{ $housing->title }}
                                 </li>
                                 <li class="order_amount" style="width: 10%">
