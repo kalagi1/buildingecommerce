@@ -57,38 +57,32 @@
 
                                         <form method="POST" class="form w-100" action="{{ route('client.submit.login') }}">
                                             @csrf
-
                                             <input type="hidden" name="backurl" value="{{ request('backurl') }}">
                                             @if ($errors->has('login_error'))
                                                 <div class="alert alert-danger text-white">
                                                     {{ $errors->first('login_error') }}
                                                 </div>
                                             @endif
-
-
+                                        
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control"
-                                                    value="{{ old('email') }}">
-
+                                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
                                             </div>
-
+                                        
+                                            <!-- Şifre -->
                                             <div class="mt-3">
                                                 <label class="q-label">Şifre</label>
-
-                                                <input type="password" name="password" id="passwordInput"
-                                                    class="form-control">
-                                                <i id="eyeIcon" class="fa fa-eye-slash field-icon"
-                                                    onclick="togglePassword()"></i>
-
+                                                <input type="password" name="password" id="passwordInput" class="form-control">
+                                                <i id="eyeIcon" class="fa fa-eye-slash field-icon" onclick="togglePassword()"></i>
                                             </div>
-                                            <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
+                                        
+                                            <!-- Scripts for toggling password visibility -->
                                             <script>
                                                 function togglePassword() {
                                                     var passwordInput = document.getElementById("passwordInput");
                                                     var eyeIcon = document.getElementById("eyeIcon");
-
+                                        
                                                     if (passwordInput.type === "password") {
                                                         passwordInput.type = "text";
                                                         eyeIcon.classList.remove("fa-eye-slash");
@@ -100,70 +94,42 @@
                                                     }
                                                 }
                                             </script>
-
-
+                                        
+                                            <!-- Remember me and forgot password links -->
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-check-inline" style="margin-top:12px;">
-                                                        <input type="checkbox" class="form-check-input" id="remember"
-                                                            name="remember">
-                                                        <label class="form-check-label" for="remember"
-                                                            style="margin-top:2px;">Beni Hatırla</label>
+                                                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                                        <label class="form-check-label" for="remember" style="margin-top:2px;">Beni Hatırla</label>
                                                     </div>
                                                 </div>
-
                                                 <div class="col">
                                                     <div class="forgot-password d-flex justify-content-end">
-                                                        <a href="{{ route('password.request') }}"><span>Şifremi
-                                                                Unuttum</span></a>
+                                                        <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
                                                     </div>
                                                 </div>
-
                                             </div>
-
-
+                                        
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
-
+                                        
                                             <div class="social-account-login-buttons pb-3 col-12 p-0">
-                                                {{-- <div class="q-layout social-login-button flex flex-1">
-    
-                                                    <div class="social-login-icon" style="background-color: #007bff;">
-                                                        <i class="fa fa-facebook"></i>
-                                                    </div>
-                                                    <div class="flex flex-column">
-                                                        <div>
-                                                            <a href="{{ route('login.facebook') }}"
-                                                                style="color: black;text-decoration:none">
-                                                                <div style="text-transform: capitalize;">facebook</div>
-                                                                <small>ile giriş yap</small>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-    
-                                                </div> --}}
-
-
+                                                <!-- Social login buttons -->
                                                 <div class="q-layout social-login-button  w-100 m-0">
-                                                    <div class="social-login-icon"
-                                                        style="background-color: rgb(241, 66, 54);">
+                                                    <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
                                                         <i class="fa fa-google"></i>
                                                     </div>
                                                     <div class="flex flex-column">
                                                         <div>
-                                                            <a href="{{ route('client.google.login') }}"
-                                                                style="color: black;text-decoration:none">
+                                                            <a href="{{ route('client.google.login') }}" style="color: black;text-decoration:none">
                                                                 <div style="text-transform: capitalize;">google</div>
-                                                                <small>ile
-                                                                    giriş yap</small>
+                                                                <small>ile giriş yap</small>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
-
                                         </form>
+                                        
 
                                     </div>
 
