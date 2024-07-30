@@ -26,7 +26,7 @@
             initMap(filters, city);
         });
 
-        function initMap(filters) {
+        function initMap(filters, city) {
             // Default center coordinates if city data is not available
             var centerCoordinates = [38.9334, 32.8597];
 
