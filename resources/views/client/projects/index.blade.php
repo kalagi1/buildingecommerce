@@ -963,7 +963,7 @@
                                                 $blockName = null;
                                             @endphp
 
-                                            <div class="row project-filter-reverse blog-pots" id="project-room">
+                                            <div class="row project-filter-reverse blog-pots w-100 m-auto" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
 
