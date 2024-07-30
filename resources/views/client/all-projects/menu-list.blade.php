@@ -1496,7 +1496,7 @@
                                                                 <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
                                                             </a>
                                                         </p>
-                                                    <ul class="homes-list clearfix pb-1 mb-2" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+                                                    <ul class="homes-list clearfix pb-1 mb-2" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                                         ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                                                                                                                 <i class='fa fa-circle circleIcon mr-1'></i>
                                                                                                                 <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
