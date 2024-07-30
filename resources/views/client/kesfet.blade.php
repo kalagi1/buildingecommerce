@@ -34,7 +34,7 @@
             // If city data is available, use its coordinates and zoom level
             if (city) {
                 centerCoordinates = [city.lat, city.lng];
-                zoomLevel = 10;
+                zoomLevel = 8;
             }
 
             var map = L.map('map-leaflet', {
