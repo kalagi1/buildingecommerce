@@ -844,7 +844,7 @@ class MarkerController extends Controller
                 'icon' => "<i class='fa fa-home'></i>",
                 'title' => $housing->project_title, // Title for the marker
                 'desc' => $desc,
-                'price' => $priceRange, // Display price range or default value
+                'price' => $projectHousing, // Display price range or default value
                 'image' => url(str_replace('public/', 'storage/', $housing->image)),
                 'link' => route('project.detail', [
                     'slug' =>
