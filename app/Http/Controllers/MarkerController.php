@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\URL;
 
 class MarkerController extends Controller
 {
-    public function index()
+    public function index(Reqeust $request)
     {   function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
