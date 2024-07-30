@@ -1243,10 +1243,11 @@
             // Convert the currentData object into a query string
             const queryString = $.param(currentData);
 
-            var secondhandHousings = @json($secondhandHousings ?? null);
+            var secondhandHousings = @json($secondhandHousings ?? null)
+            console.log(secondhandHousings);
 
 
-            if (secondhandHousings) {
+            if (secondhandHousings != null) {
                 // secondhandHousings true ise bu sayfaya yönlendir
                 window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
             } else {
