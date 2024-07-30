@@ -1262,7 +1262,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            @foreach ($projectHousingSetting as $housingSetting)
+                                            {{-- @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
                                                     $value = '';
@@ -1323,7 +1323,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                            @endforeach
+                                            @endforeach --}}
 
 
                                         </tbody>
