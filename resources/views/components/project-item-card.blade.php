@@ -106,7 +106,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
-    <div class="col-md-12 col-12">
+    <div class="col-md-12 col-12 p-0">
         <div class="project-card mb-3">
             <div class="row">
                 <div class="col-md-3">
@@ -181,7 +181,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     </a>
                 </div>
 
-                <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
+                <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate p-0" data-aos="fade-up">
 
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
