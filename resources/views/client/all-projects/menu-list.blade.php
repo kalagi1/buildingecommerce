@@ -1240,20 +1240,22 @@
                 }
             });
 
-            // Convert the currentData object into a query string
-            const queryString = $.param(currentData);
+          // Convert the currentData object into a query string
+const queryString = $.param(currentData);
 
-            var secondhandHousings = @json($secondhandHousings ?? null);
-            console.log(secondhandHousings);
+// PHP'den alınan secondhandHousings verisini JavaScript'e aktarıyoruz
+var secondhandHousings = @json($secondhandHousings ?? []); // Boş dizi varsayılan değer olarak ayarlandı
 
+console.log(secondhandHousings);
 
-            if (secondhandHousings != null) {
-                // secondhandHousings true ise bu sayfaya yönlendir
-                window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
-            } else {
-                // secondhandHousings false ise bu sayfaya yönlendir
-                window.location.href = '/proje-kesfet?' + queryString;
-            }
+// secondhandHousings boş bir dizi olup olmadığını kontrol et
+if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
+    // secondhandHousings boş değilse bu sayfaya yönlendir
+    window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
+} else {
+    // secondhandHousings boş ise bu sayfaya yönlendir
+    window.location.href = '/proje-kesfet?' + queryString;
+}
 
         }
 
