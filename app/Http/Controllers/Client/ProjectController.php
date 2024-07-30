@@ -1455,7 +1455,6 @@ class ProjectController extends Controller
 
     // Optionally, you can keyBy 'name' if needed
     $projectHousing = $filteredRoomInfo->keyBy('name');
-    return $projectHousing ;
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
