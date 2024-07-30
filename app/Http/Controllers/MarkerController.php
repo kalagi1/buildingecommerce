@@ -545,7 +545,7 @@ class MarkerController extends Controller
         }
         // dd($slug,$housingTypeSlug,$housingType);
 
-        $query = Project::query()->where('projects.status', 1);
+        $query = Project::query()->where('projects.status', 1)->with("roomInfo");
 
         if ($request->input('city') &&  $request->input('city') != "#") {
             $query->where('city_id', $request->input('city'));
@@ -774,10 +774,8 @@ class MarkerController extends Controller
         $projects = $query->get();
         $term = $request->input('term') ?? null;
 
-      
 
         $markers = $projects->map(function ($housing) use ($request) {
-            $finalPrice = null;
             $descParts = [];
         
             if ($housing->city) {
@@ -796,17 +794,29 @@ class MarkerController extends Controller
             $latitude = trim($coordinates[0]);
             $longitude = trim($coordinates[1]);
         
+            // Get the price range
+            $roomPrices = $housing->roomInfo->pluck('price')->filter()->all(); // Collect non-null prices
+        
+            if (count($roomPrices) > 0) {
+                $minPrice = min($roomPrices);
+                $maxPrice = max($roomPrices);
+                $priceRange = ($minPrice === $maxPrice) ? number_format($minPrice, 2) : number_format($minPrice, 2) . ' - ' . number_format($maxPrice, 2);
+            } else {
+                // If there are no room prices, use daily_rent from ProjectHousing table or a default value
+                $priceRange = $housing->daily_rent ? number_format($housing->daily_rent, 2) : 'Price not available';
+            }
+        
             // Return marker data
             return [
                 'id' => 'marker-' . $housing->id,
                 'center' => [
-                    'lat' => $latitude, 
+                    'lat' => $latitude,
                     'lng' => $longitude
                 ], // Latitude ve Longitude
                 'icon' => "<i class='fa fa-home'></i>",
                 'title' => $housing->project_title, // Title for the marker
                 'desc' => $desc,
-                'price' => null, // Format the price
+                'price' => $priceRange, // Display price range or default value
                 'image' => url(str_replace('public/', 'storage/', $housing->image)),
                 'link' => route('project.detail', [
                     'slug' =>
@@ -828,7 +838,6 @@ class MarkerController extends Controller
             ];
         });
         
-
         return response()->json(['data' => $markers]);
     }
 }
