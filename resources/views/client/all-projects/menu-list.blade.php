@@ -1449,7 +1449,6 @@ function formatDate(dateString) {
 
 // Tarih verisini al
 var tarih = formatDate(res.created_at);
-console.log(tarih); // Örneğin: 29.11.2024
 
                                 const isAvailable = res.housing_type.open_share1 == true;
 
