@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Housing;
+use App\Models\ShareLink;
 use Illuminate\Support\Facades\DB;
 
 class HousingObserver
@@ -12,18 +13,18 @@ class HousingObserver
      */
     public function created(Housing $housing): void
     {
-        //
+        // Code for handling the created event
     }
 
     /**
      * Handle the Housing "updated" event.
      */
-    public function updating(Housing $housing)
+    public function updated(Housing $housing): void
     {
-        // Check if the status is being set to 0
-        if ($housing->status == 0) {
-            // Remove entries from the collections table where housing_id matches the current housing's id
-            DB::table('share_links')->where('item_id', $housing->id)->where("item_type", "2")->delete();
+        // Check if the status was updated to 0
+        if ($housing->wasChanged('status') && $housing->status == 0) {
+            // Remove entries from the share_links table where housing_id matches the current housing's id
+            DB::table('share_links')->where('item_id', $housing->id)->where('item_type', 2)->delete();
         }
     }
 
@@ -32,7 +33,8 @@ class HousingObserver
      */
     public function deleted(Housing $housing): void
     {
-        //
+        // Remove entries from the share_links table where housing_id matches the current housing's id
+        ShareLink::where('item_type', 2)->where('item_id', $housing->id)->delete();
     }
 
     /**
@@ -40,7 +42,7 @@ class HousingObserver
      */
     public function restored(Housing $housing): void
     {
-        //
+        // Code for handling the restored event
     }
 
     /**
@@ -48,6 +50,6 @@ class HousingObserver
      */
     public function forceDeleted(Housing $housing): void
     {
-        //
+        // Code for handling the force deleted event
     }
 }
