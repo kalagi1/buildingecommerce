@@ -1434,20 +1434,23 @@
                                 // Metni kırp ve üç nokta ekle
                                 var kisaltilmisBaslik = kisalt(res.title, 45);
 
-                                // Tarihi almak için bir fonksiyon
-                                function formatDate(dateString) {
-                                    var options = {
-                                        day: 'numeric',
-                                        month: 'long',
-                                        year: 'numeric'
-                                    };
-                                    var date = new Date(dateString);
-                                    return date.toLocaleDateString('tr-TR',
-                                        options); // 'tr-TR' Türkçe tarih formatını temsil eder
-                                }
+                            // Tarihi almak için bir fonksiyon
+function formatDate(dateString) {
+    var options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        // Use the Turkish locale for proper formatting
+        timeZone: 'Europe/Istanbul'
+    };
+    var date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', options); // 'tr-TR' Türkçe tarih formatını temsil eder
+}
 
-                                // Tarih verisini al
-                                var tarih = formatDate(res.created_at);
+// Tarih verisini al
+var tarih = formatDate(res.created_at);
+console.log(tarih); // Örneğin: 29.11.2024
+
                                 const isAvailable = res.housing_type.open_share1 == true;
 
                                 // Class assignment with nested conditions
@@ -1513,7 +1516,7 @@
 
                                                         <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:10px !important">
                                                             
-                                                            <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
+                                                            <li style="font-size: 15px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
@@ -1623,7 +1626,7 @@
                                                                     <div class="button-effect-div">
                                                                     
                                                                         ` + `
-                                                                        <span class="${spanClass}" data-type="housing" data-id="${res.id}">
+                                                                       th <span class="${spanClass}" data-type="housing" data-id="${res.id}">
                                                                             <i class="fa fa-bookmark-o"></i>
                                                                         </span>  ` +
                                     ` 
@@ -1670,7 +1673,7 @@
 
                                                                                                                                 <div class="col-md-4 p-0 m-0">
                                                                                                                                     <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;text-align:center">
-                                                                        <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
+                                                                        <li style="font-size: 15px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
