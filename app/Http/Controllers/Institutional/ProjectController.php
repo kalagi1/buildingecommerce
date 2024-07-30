@@ -159,10 +159,7 @@ class ProjectController extends Controller
             $query->where('item_type', 2);
         })
         ->orderBy('created_at', 'desc')
-        ->offset(($page - 1) * $perPage) // Sayfalamada offset kullanımı
-        ->limit($perPage) // Sayfalamada limit kullanımı
         ->get();   
-        return ($page - 1) * $perPage;
 
         // $housings =  Housing::with( 'images',
         //         'housing_type',
