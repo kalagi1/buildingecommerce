@@ -28,7 +28,7 @@
                     $item['item_type'] == 2 &&
                     isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                 ) {
-                    $discountRate = (float) json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                    $discountRate = (float) json_decode($item['housing']['housing_type_data'])->discount_rate[0] ?? 0;
 
                     $defaultPrice =
                         json_decode($item['housing']['housing_type_data'])->price[0] ??
