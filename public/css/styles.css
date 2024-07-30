@@ -24017,7 +24017,7 @@ a.btn_1 {
 }
 
 .btn{
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
 
 .inner-pages .input-group-btn .btn-primary {
