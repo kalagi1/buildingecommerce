@@ -109,7 +109,6 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
     <div class="col-md-12 col-12 p-0 mb-3"
     style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
     padding: 10px !important;
-    margin-bottom: 10px;
     margin-top: 10px;
 }">
         <div class="project-card">
