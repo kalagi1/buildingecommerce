@@ -27,24 +27,25 @@
         });
 
         function initMap(filters, city) {
-            // Default center coordinates if city data is not available
+            // Default center coordinates and zoom level if city data is not available
             var centerCoordinates = [38.9334, 32.8597];
+            var zoomLevel = 6;
 
-            console.log(city);
-            // If city data is available, use its coordinates
-            if (city && city.lat && city.lang) {
+            // If city data is available, use its coordinates and zoom level
+            if (city) {
                 centerCoordinates = [city.lat, city.lang];
+                zoomLevel = 10;
             }
 
             var map = L.map('map-leaflet', {
-                zoom: 8,
+                zoom: zoomLevel,
                 maxZoom: 20,
                 tap: false,
                 gestureHandling: true,
-                center: [40.155312,26.41416]
+                center: centerCoordinates
             });
-            var marker_cluster = L.markerClusterGroup();
 
+            var marker_cluster = L.markerClusterGroup();
             map.scrollWheelZoom.disable();
 
             var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
