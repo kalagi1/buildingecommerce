@@ -731,7 +731,58 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            @foreach ($projectHousingSetting as $housingSetting)
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Toplam
+                                                            {{ ucfirst($project->step1_slug) }}
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->room_count }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satışa Açık
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satılan
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->cartOrders }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satışa Kapalı
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
+                                                </td>
+                                            {{-- @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
                                                     $value = '';
@@ -783,7 +834,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-                                            @endforeach
+                                            @endforeach --}}
 
 
                                         </tbody>
