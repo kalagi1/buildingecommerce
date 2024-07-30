@@ -28354,7 +28354,9 @@ font {
 #home div b {
   font-weight: 700 !important;
 }
-
+.reservationBtn{
+  background-color:#D32729 !important;
+}
 .CartBtn,
 .reservationBtn,
 .soldBtn {

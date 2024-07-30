@@ -1516,7 +1516,7 @@
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>1 Gece</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>/ gecelik</span>"
                                                                 }
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
@@ -1673,7 +1673,7 @@
                                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
-                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>1 Gece</span>"
+                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>/ gecelik</span>"
                                                                             }
                                                                         </li>
                                                                     </ul>
@@ -1887,7 +1887,7 @@
                                                                     ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
                                                                         ? " "
                                                                         : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red' class='mobilePriceStyle'>1 Gece</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red' class='mobilePriceStyle'>/ gecelik</span>"
                                                                 }
                                                             </span>
                                                         </div>
