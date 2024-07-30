@@ -442,8 +442,8 @@ class MarkerController extends Controller
             $housingTypeData = json_decode($housing->housing_type_data);
     
             // Fiyatları belirle
-            $price = isset( getData($item, 'price')) ?  getData($item, 'price') : 0;
-            $dailyRent = isset( getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : 0;
+            $price = getData($item, 'price') ?  getData($item, 'price') : 0;
+            $dailyRent = getData($item, 'daily_rent') ? getData($item, 'daily_rent') : 0;
     
             $finalPrice = $housing->step2_slug == 'gunluk-kiralik' ? $dailyRent : $price;
     
