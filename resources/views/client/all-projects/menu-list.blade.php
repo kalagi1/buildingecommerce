@@ -285,8 +285,17 @@
                                     </div>
                                 @endif
 
-
-
+                                <div id="searchResultLeft" class="search-filter-section">
+                                    <a href="/kesfet" title="Harita Görünümü">
+                                        <div class="map-container">
+                                            <div class="map-marker">
+                                                <img src="path/to/marker-icon.png" alt="Map Marker" />
+                                                <span>Harita Görünümü</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                
                                 <div class="trip-search @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>Adres</span>

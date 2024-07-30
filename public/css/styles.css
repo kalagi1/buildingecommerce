@@ -28350,6 +28350,53 @@ font {
 #home li {
   font-size: 12px !important;
 }
+#searchResultLeft {
+  position: relative;
+  width: 300px; /* Adjust the width as needed */
+  height: 200px; /* Adjust the height as needed */
+  background-image: url('https://img.freepik.com/premium-vector/world-map-centered-america-with-magnified-turkey_292608-25499.jpg?ga=GA1.1.1041215577.1720872967'); /* Map image as background */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Box shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden; /* Ensures content does not overflow */
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Text color */
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  border-radius: 10px; /* Rounded corners to match container */
+}
+
+.map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+}
+
+.map-marker img {
+  width: 24px; /* Adjust the size of the marker icon */
+  height: 24px;
+}
+
+.map-marker span {
+  font-size: 16px; /* Adjust the font size as needed */
+  font-weight: bold;
+}
 
 #home div b {
   font-weight: 700 !important;
