@@ -61,6 +61,7 @@ class HomeController extends Controller
             $city = City::find($cityId);
         }
     
+        return $city;
         // Pass the filter data and city data to the view
         return view('client.kesfet', [
             'filters' => $filters,
