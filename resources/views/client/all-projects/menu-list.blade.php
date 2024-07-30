@@ -634,11 +634,11 @@
                         <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0">
                             @if ($secondhandHousings)
                                 <div class="mobile-hidden">
-                                    <a href="#" id="list-view-btn" class="change-view-btn lde"
+                                    <a href="" id="list-view-btn" class="change-view-btn lde"
                                         onclick="changeView('list')">
                                         <i class="fa fa-th-list"></i>
                                     </a>
-                                    <a href="#" id="grid-view-btn" class="change-view-btn mr-3 active-view-btn"
+                                    <a href="" id="grid-view-btn" class="change-view-btn mr-3 active-view-btn"
                                         onclick="changeView('grid')">
                                         <i class="fa fa-th-large"></i>
                                     </a>
@@ -836,7 +836,7 @@
         function changeView(view) {
             // Aktif görünüm düğmesinin rengini güncelle
             $(".change-view-btn").removeClass("active-view-btn");
-            $("#" + view + "-view-btn").addClass("active-view-btn");
+            $("" + view + "-view-btn").addClass("active-view-btn");
 
             if (view === "grid") {
                 $(".pp-row").show();
@@ -862,9 +862,9 @@
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
-                $("#city").val("#").trigger('change'); // İl seçeneğini sıfırla
-                $("#county").val("#").trigger('change'); // İlçe seçeneğini sıfırla
-                $("#neighborhood").val("#").trigger('change'); // Mahalle seçeneğini sıfırla
+                $("#city").val("").trigger('change'); // İl seçeneğini sıfırla
+                $("#county").val("").trigger('change'); // İlçe seçeneğini sıfırla
+                $("#neighborhood").val("").trigger('change'); // Mahalle seçeneğini sıfırla
                 $("input[type='checkbox']").prop('checked', false);
                 $("input").val("");
                 $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
@@ -1030,8 +1030,6 @@
                         $('#county').empty();
                         $('#neighborhood').empty();
 
-                        $("#county").val("#");
-                        $("#neighborhood").val("#");
                         $(".hiddenCountyName").removeClass("d-flex").addClass("d-none");
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
@@ -1050,9 +1048,9 @@
                         cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
                             'href', newUrl);
 
-                        $('#county').append(`<option value="#">İlçe</option>`);
+                        $('#county').append(`<option value="">İlçe</option>`);
 
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        $('#neighborhood').append(`<option value="">Mahalle</option>`);
 
                         res.counties.forEach((e) => {
                             $('#county').append(
@@ -1078,7 +1076,7 @@
                     method: "GET",
                     url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                     success: function(res) {
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        $('#neighborhood').append(`<option value="">Mahalle</option>`);
                         ;
                         var countySlug = res.countySlug;
                         var newUrl = buildNewUrl(countySlug, 'county');
@@ -1097,7 +1095,7 @@
 
                         $(".hiddenNeighborhoodName").removeClass("d-flex").addClass("d-none");
 
-                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        $('#neighborhood').append(`<option value="">Mahalle</option>`);
                         res.neighborhoods.forEach((e) => {
                             $('#neighborhood').append(
                                 `<option value="${e.mahalle_id}">${e.mahalle_title}</option>`
