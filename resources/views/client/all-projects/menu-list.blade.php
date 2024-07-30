@@ -333,7 +333,7 @@
 
                                             <div class="mt-md-2 filtreArea" style="display: none !important">
 
-                                                <div class="mb-2 d-flex align-items-center">
+                                                <div class="mb-2 mt-1 d-flex align-items-center">
                                                     <input class="filter-now form-control" type="radio"
                                                         name="corporate_type" id="all" value="all">
                                                     <label class="form-check-label w-100 ml-4" for="all">Tümü
@@ -342,7 +342,7 @@
 
 
                                                 @if ($detachedHoliday != 1)
-                                                    <div class="mb-2 d-flex align-items-center">
+                                                    <div class="mb-2 mt-1 d-flex align-items-center">
                                                         <input class="filter-now form-control" type="radio"
                                                             name="corporate_type" id="EmlakOfisi" value="Emlak Ofisi">
                                                         <label class="form-check-label w-100 ml-4" for="EmlakOfisi">Emlak
@@ -350,7 +350,7 @@
                                                         </label>
                                                     </div>
 
-                                                    <div class="mb-2 d-flex align-items-center">
+                                                    <div class="mb-2 mt-1 d-flex align-items-center">
                                                         <input class="filter-now form-control" type="radio"
                                                             name="corporate_type" id="İnsaatOfisi" value="İnşaat Ofisi">
                                                         <label class="form-check-label w-100 ml-4"
@@ -359,7 +359,7 @@
                                                         </label>
                                                     </div>
 
-                                                    <div class="mb-2 d-flex align-items-center">
+                                                    <div class="mb-2 mt-1 d-flex align-items-center">
                                                         <input class="filter-now form-control" type="radio"
                                                             name="corporate_type" id="banka" value="Banka">
                                                         <label class="form-check-label w-100 ml-4"
@@ -368,7 +368,7 @@
                                                     </div>
                                                 @endif
 
-                                                <div class="mb-2 d-flex align-items-center">
+                                                <div class="mb-2 mt-1 d-flex align-items-center">
                                                     <input class="filter-now form-control" type="radio"
                                                         name="corporate_type" id="TurizmAmaçliKiralama"
                                                         value="Turizm Amaçlı Kiralama">
@@ -376,7 +376,7 @@
                                                         for="TurizmAmaçliKiralama">Turizm İşletmesinden
                                                     </label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center">
+                                                <div class="mb-2 mt-1 d-flex align-items-center">
                                                     <input class="filter-now form-control" type="radio"
                                                         name="corporate_type" id="Sahibinden" value="Sahibinden">
                                                     <label class="form-check-label w-100 ml-4" for="Sahibinden">Sahibinden
@@ -399,35 +399,35 @@
                                             </span>
                                         </div>
                                         <div class="mt-md-2 filtreArea" style="display: none !important">
-                                            <div class="mb-2 d-flex align-items-center">
+                                            <div class="mb-2 mt-1 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_24_hours" value="24">
                                                 <label class="form-check-label w-100 ml-4" for="last_24_hours">Son 24
                                                     Saat</label>
                                             </div>
 
-                                            <div class="mb-2 d-flex align-items-center">
+                                            <div class="mb-2 mt-1 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_3_days" value="3">
                                                 <label class="form-check-label w-100 ml-4" for="last_3_days">Son 3
                                                     Gün</label>
                                             </div>
 
-                                            <div class="mb-2 d-flex align-items-center">
+                                            <div class="mb-2 mt-1 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_7_days" value="7">
                                                 <label class="form-check-label w-100 ml-4" for="last_7_days">Son 7
                                                     Gün</label>
                                             </div>
 
-                                            <div class="mb-2 d-flex align-items-center">
+                                            <div class="mb-2 mt-1 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_15_days" value="15">
                                                 <label class="form-check-label w-100 ml-4" for="last_15_days">Son 15
                                                     Gün</label>
                                             </div>
 
-                                            <div class="mb-2 d-flex align-items-center">
+                                            <div class="mb-2 mt-1 d-flex align-items-center">
                                                 <input class="filter-now form-control" type="radio" name="listing_date"
                                                     id="last_30_days" value="30">
                                                 <label class="form-check-label w-100 ml-4" for="last_30_days">Son 30
@@ -462,7 +462,7 @@
                                                             @if (isset($filter['toggle']) && $filter['toggle'] == true)
                                                                 <!-- Switch-slider öğesi -->
 
-                                                                <div class="mb-2 d-flex align-items-center">
+                                                                <div class="mb-2 mt-1 d-flex align-items-center">
                                                                     <label class="switch-slider">
                                                                         <input name="{{ $filter['name'] }}[]"
                                                                             type="checkbox" value="{{ $value->value }}"
@@ -476,7 +476,7 @@
                                                             @else
                                                                 @if ($filter['type'] == 'select')
                                                                     @if ($key != 0)
-                                                                        <div class="mb-2 d-flex align-items-center">
+                                                                        <div class="mb-2 mt-1 d-flex align-items-center">
                                                                             <input name="{{ $filter['name'] }}[]"
                                                                                 type="checkbox"
                                                                                 value="{{ $value->value }}"
@@ -487,7 +487,7 @@
                                                                         </div>
                                                                     @endif
                                                                 @elseif($filter['type'] == 'checkbox-group')
-                                                                    <div class="mb-2 d-flex align-items-center">
+                                                                    <div class="mb-2 mt-1 d-flex align-items-center">
                                                                         <input name="{{ $filter['name'] }}[]"
                                                                             type="checkbox" value="{{ $value->value }}"
                                                                             class="filter-now form-control"
