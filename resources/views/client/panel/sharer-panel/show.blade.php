@@ -194,11 +194,14 @@
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
 
-                                                            echo $discountedPrice;
-                                                            echo $item['housing']["step2_slug"];
+                                            echo $discountedPrice;
+                                            echo $item['housing']['step2_slug'];
 
-
-                                            $total = $discountedPrice * 0.02 * $share_percent_earn;
+                                            if ($item['housing']['step2_slug'] != 'gunluk-kiralik') {
+                                                $total = $discountedPrice * 0.02 * $share_percent_earn;
+                                            }else{
+                                                $total = $discountedPrice * $share_percent_earn;
+                                            }
 
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
