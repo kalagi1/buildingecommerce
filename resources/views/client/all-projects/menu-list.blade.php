@@ -1488,15 +1488,15 @@
                                                     <!-- homes content -->
                                                     <div class="homes-content px-3 py-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
                                                         <!-- homes address -->
-                                                        <a href="${res.housing_url}">
-                                                            <h4>${kisaltilmisBaslik}</h4>
+                                                        <a href="${res.housing_url}" class="mb-1">
+                                                            <h4  class="mb-1">${kisaltilmisBaslik}</h4>
                                                         </a>
-                                                        <p class="homes-address mb-3">
+                                                        <p class="homes-address mb-1">
                                                             <a href="${res.housing_url}">
                                                                 <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood}  </span>
                                                             </a>
                                                         </p>
-                                                    <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
+                                                    <ul class="homes-list clearfix pb-1 mb-2" style="display: flex; justify-content: space-evenly; align-items: center; width: 100%;">
                                                         ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
                                                                                                                 <i class='fa fa-circle circleIcon mr-1'></i>
                                                                                                                 <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
@@ -2239,13 +2239,10 @@
         }
 
         hr {
-            width: 100%;
+            width: 100%;    
             height: 100%;
         }
 
-        .homes-content h4 {
-            height: 30px !important;
-        }
 
 
         .brand-head .brands-square {

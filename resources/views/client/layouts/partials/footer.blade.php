@@ -882,7 +882,7 @@
                                                             .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice  * numberOfShares)) /
                                                 parseInt(installementData)) / numberOfShares) +
                                             "₺" : formatPrice((parseFloat(getDataJS(
                                                         response,
@@ -890,7 +890,7 @@
                                                         .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice)) /
                                                 parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;
