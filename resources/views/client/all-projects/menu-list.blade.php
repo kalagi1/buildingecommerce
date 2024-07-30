@@ -1243,14 +1243,19 @@
             // Convert the currentData object into a query string
             const queryString = $.param(currentData);
 
-            if ($secondhandHousings) {
-                // Redirect to the kesfet page with the query parameters
-                window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
-            } else {
-                // Redirect to the kesfet page with the query parameters
-                window.location.href = '/proje-kesfet?' + queryString;
-            }
+          // Varsayılan olarak secondhandHousings PHP'den alındı
+    var secondhandHousings = @json($secondhandHousings ?? null);
+    
+    // Diğer değişkenler (queryString gibi) varsa onları da tanımlayın
+    var queryString = 'param1=value1&param2=value2'; // Örnek query string
 
+    if (secondhandHousings) {
+        // secondhandHousings true ise bu sayfaya yönlendir
+        window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
+    } else {
+        // secondhandHousings false ise bu sayfaya yönlendir
+        window.location.href = '/proje-kesfet?' + queryString;
+    }
 
         }
 
