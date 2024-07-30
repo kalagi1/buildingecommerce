@@ -121,7 +121,8 @@ Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
-Route::get('/kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+Route::get('/emlak-ilanlarini-kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+Route::get('/projeleri-kesfet', [HomeController::class, "kesfetProje"])->name('kesfetProje');
 
 Route::post('/preview-housing', [HomeController::class, "previewHousing"])->name('previewHousing');
 

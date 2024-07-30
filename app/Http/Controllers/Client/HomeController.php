@@ -67,7 +67,27 @@ class HomeController extends Controller
             'city' => $city
         ]);
     }
+
+    public function kesfetProje(Request $request)
+    {
+        // Extract filter data from the request query parameters
+        $filters = $request->query(); // Retrieve all query parameters
     
+        // Retrieve city_id from filters
+        $cityId = $filters['city'] ?? null;
+    
+        // If city_id is provided, fetch the corresponding city data
+        $city = null;
+        if ($cityId) {
+            $city = City::find($cityId);
+        }
+    
+        // Pass the filter data and city data to the view
+        return view('client.kesfetProje', [
+            'filters' => $filters,
+            'city' => $city
+        ]);
+    }
 
     public function previewHousing(Request $request)
     {
