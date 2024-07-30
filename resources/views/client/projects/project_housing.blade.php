@@ -1270,7 +1270,7 @@
                                         
                                                 // Filtreleme: Eğer mevcutsa ve 'housingOrder' ile eşleşiyorsa veriyi al
                                                 if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null, true);
+                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
                                         
                                                     if ($isArrayCheck && isset($valueArray)) {
                                                         $value = implodeData($valueArray);
@@ -1280,9 +1280,11 @@
                                                         foreach ($project->roomInfo as $roomInfo) {
                                                             // 'room_order' kontrolü yaparak doğru veriyi çek
                                                             if ($roomInfo['name'] === $housingSetting->column_name . '[]' && $roomInfo['room_order'] == $housingOrder) {
-                                                                $decodedValue = json_decode($roomInfo['value'], true);
-                                                                $value = is_array($decodedValue) ? (isset($decodedValue[0]) ? $decodedValue[0] : '') : $decodedValue;
-                                                                $value = $value == 'on' ? 'Evet' : ($value == 'off' ? 'Hayır' : $value);
+                                                                $value = $roomInfo['value'] == '["on"]'
+                                                                    ? 'Evet'
+                                                                    : ($roomInfo['value'] == '["off"]'
+                                                                        ? 'Hayır'
+                                                                        : $roomInfo['value']);
                                                                 break;
                                                             }
                                                         }
@@ -1308,7 +1310,6 @@
                                                 </tr>
                                             @endif
                                         @endforeach
-                                        
                                         
 
 
