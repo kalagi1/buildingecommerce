@@ -3,12 +3,17 @@
 @section('content')
     <section class="loginItems">
         <div class="container">
-            <div class="single homes-content details mb-30 ">
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="single homes-content details mb-30 ">
+
+                            
                         <img src="{{ asset('login/loginImage.png') }}" alt="" style="width:100%;height:auto !important">
+                        </div>
                     </div>
                     <div class="col-md-6">
+                        <div class="single homes-content details mb-30 ">
+
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -710,6 +715,7 @@
                             </div>
                         </div>
                     </div>
+                
                 </div>
             </div>
 
