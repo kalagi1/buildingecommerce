@@ -281,46 +281,47 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'type' => 'required',
-            'mobile_phone' => 'required',
-            'title' => 'required',
-            'is_active' => 'nullable',
+            'type' => 'required|string', // Örneğin belirli değerlerle sınırlama yapabilirsiniz.
+            'mobile_phone' => 'required|string',
+            'title' => 'required|string',
+            'is_active' => 'nullable|boolean',
+            'password' => 'nullable|string|min:6', // Şifre doğrulama kuralı
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // İmaj doğrulama kuralı
         ];
-
+    
         try {
             // Form doğrulama işlemini gerçekleştirin
             $validatedData = $request->validate($rules);
-
+    
             // Kullanıcıyı bulun veya hata döndürün
             $user = User::findOrFail($id);
-
+    
             // Kullanıcıyı güncelleyin
             $user->name = $validatedData['name'];
             $user->email = $validatedData['email'];
             $user->title = $validatedData['title'];
             $user->mobile_phone = $validatedData['mobile_phone'];
             $user->type = $validatedData['type'];
-            $user->status = $request->has('is_active') ? 5 : 0;
-
+            $user->status = $request->boolean('is_active') ? 5 : 0; // `boolean` olarak kontrol edin
+    
             if ($request->hasFile('profile_image')) {
                 $image = $request->file('profile_image');
                 $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('profile_images', $imageFileName, 'public');
                 $user->profile_image = $imageFileName;
             }
-
+    
             // Şifre güncelleme işlemini kontrol edin
             if ($request->filled('password')) {
                 $user->password = bcrypt($request->input('password'));
             }
-
+    
             // Kullanıcıyı veritabanına kaydedin
             $user->save();
-
+    
             // Başarılı bir işlem sonrası JSON yanıtı
             return response()->json([
                 'success' => true,
@@ -335,10 +336,11 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Beklenmedik bir hata oluştu.'
+                'message' => 'Beklenmedik bir hata oluştu: ' . $e->getMessage()
             ], 500);
         }
     }
+    
 
 
     public function destroy($id)
