@@ -106,8 +106,13 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
-    <div class="col-md-12 col-12 p-0">
-        <div class="project-card mb-3">
+    <div class="col-md-12 col-12 p-0 mb-3"
+    style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    padding: 10px !important;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}">
+        <div class="project-card">
             <div class="row">
                 <div class="col-md-3">
                     <a href="{{ route('project.housings.detail', [
@@ -130,7 +135,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                         <div class="d-flex" style="height: 100%;">
                             <div
-                                style="background-color: #D32729 !important; border-radius: 0px 8px 0px 8px; height:100%">
+                                style="background-color: #D32729 !important; border-radius: 0px 0px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
                                     {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
