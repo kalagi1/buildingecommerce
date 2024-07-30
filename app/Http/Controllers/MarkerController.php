@@ -782,7 +782,7 @@ class MarkerController extends Controller
                 $descParts[] = $housing->city->title;
             }
             if ($housing->county) {
-                $descParts[] = $housing->county->title;
+                $descParts[] = $housing->county->ilce_title;
             }
             if ($housing->neighbourhood) {
                 $descParts[] = $housing->neighbourhood->mahalle_title;
