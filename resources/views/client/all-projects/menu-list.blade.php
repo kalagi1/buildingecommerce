@@ -1254,7 +1254,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
     window.location.href = '/emlak-ilanlarini-kesfet?' + queryString;
 } else {
     // secondhandHousings boş ise bu sayfaya yönlendir
-    window.location.href = '/proje-kesfet?' + queryString;
+    window.location.href = '/projeleri-kesfet?' + queryString;
 }
 
         }
