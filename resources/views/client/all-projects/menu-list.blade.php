@@ -2187,7 +2187,7 @@ var tarih = formatDate(res.created_at);
 
             $('#sort-select').on('change', filterNow);
             $("#submit-filters").on("change", filterNow);
-            $("#searchResultLeft").on("change", filterNowMap);
+            $("#searchResultLeft").on("click", filterNowMap);
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
@@ -2637,6 +2637,10 @@ var tarih = formatDate(res.created_at);
             margin: 0;
             padding: 0px 5px;
             color: black;
+        }
+
+        #searchResultLeft{
+            cursor: pointer;
         }
     </style>
 @endsection
