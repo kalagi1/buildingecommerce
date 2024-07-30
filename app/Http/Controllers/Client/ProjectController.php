@@ -1455,6 +1455,7 @@ class ProjectController extends Controller
 
     // Optionally, you can keyBy 'name' if needed
     $projectHousing = $filteredRoomInfo->keyBy('name');
+    return $projectHousing ;
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
@@ -1567,8 +1568,6 @@ class ProjectController extends Controller
 
         $active = isset($active) ? 'active' : null;
 
-        return $projectHousingSetting;
-        
  
         return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
