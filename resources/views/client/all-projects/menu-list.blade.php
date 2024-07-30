@@ -167,7 +167,7 @@
 
                             <div class="mobile-filters">
                                 <a id="clear-filters"
-                                    style="font-size: 9px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
+                                    style="font-size: 9px;text-decoration: underline !important;color: #ea2a28 !important;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 @if (isset($items) && count($items) > 0)
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
