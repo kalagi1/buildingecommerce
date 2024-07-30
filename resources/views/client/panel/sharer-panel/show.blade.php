@@ -201,9 +201,6 @@
                                                 $total = $discountedPrice * $share_percent_earn;
                                             }
 
-                                            echo $share_percent_earn;
-                                            echo $sales_rate_club;
-
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
                                         <strong>
