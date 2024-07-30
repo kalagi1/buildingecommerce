@@ -1050,7 +1050,8 @@
                         cityNameElement.html(res.cityName).wrap('<a></a>').parent('a').attr(
                             'href', newUrl);
 
-                        $('#county').empty();
+                        $('#county').append(`<option value="#">İlçe</option>`);
+
                         $('#neighborhood').append(`<option value="#">Mahalle</option>`);
 
                         res.counties.forEach((e) => {
@@ -1077,7 +1078,8 @@
                     method: "GET",
                     url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                     success: function(res) {
-                        $('#neighborhood').empty();
+                        $('#neighborhood').append(`<option value="#">Mahalle</option>`);
+                        ;
                         var countySlug = res.countySlug;
                         var newUrl = buildNewUrl(countySlug, 'county');
 
