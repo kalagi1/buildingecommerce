@@ -52,9 +52,8 @@ class HomeController extends Controller
         // Extract filter data from the request query parameters
         $filters = $request->query(); // Retrieve all query parameters
     
-        return $filters["city"];
         // Retrieve city_id from filters
-        $cityId = $filters['city_id'] ?? null;
+        $cityId = $filters['city'] ?? null;
     
         // If city_id is provided, fetch the corresponding city data
         $city = null;
