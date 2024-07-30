@@ -464,6 +464,7 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane d-lg-none fade blog-info details mb-30 single homes-content" id="general"
+                        
                             role="tabpanel" aria-labelledby="general-tab">
 
                             <table class="table" style="margin-bottom: 0 !important">
@@ -871,12 +872,13 @@
                         </div>
 
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
+                         style="border: none !important;box-shadow: none !important; padding: 0 !important"
                             role="tabpanel" aria-labelledby="contact-tab">
 
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
-                                    <div class="container">
+                                    <div class="container p-0">
 
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 ">
@@ -956,7 +958,7 @@
                             @else
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
-                                        <div class="container">
+                                        <div class="container p-0">
                                             @php
                                                 $blockName = null;
                                             @endphp
