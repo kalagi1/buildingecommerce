@@ -776,12 +776,10 @@ class MarkerController extends Controller
 
       
 
-
         $markers = $projects->map(function ($housing) use ($request) {
-
-
             $finalPrice = null;
             $descParts = [];
+        
             if ($housing->city) {
                 $descParts[] = $housing->city->title;
             }
@@ -792,11 +790,19 @@ class MarkerController extends Controller
                 $descParts[] = $housing->neighborhood->mahalle_title;
             }
             $desc = implode('/ ', $descParts);
-
+        
+            // Ayrıştırılmış koordinatları kullan
+            $coordinates = explode(',', $housing->location); // Örneğin: "40.78946343745801,35.06030160839845"
+            $latitude = trim($coordinates[0]);
+            $longitude = trim($coordinates[1]);
+        
             // Return marker data
             return [
                 'id' => 'marker-' . $housing->id,
-                'center' => [$housing->location], // Assuming these fields exist
+                'center' => [
+                    'lat' => $latitude, 
+                    'lng' => $longitude
+                ], // Latitude ve Longitude
                 'icon' => "<i class='fa fa-home'></i>",
                 'title' => $housing->project_title, // Title for the marker
                 'desc' => $desc,
@@ -821,6 +827,7 @@ class MarkerController extends Controller
                 ]),
             ];
         });
+        
 
         return response()->json(['data' => $markers]);
     }
