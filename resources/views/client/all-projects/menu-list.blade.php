@@ -285,11 +285,11 @@
                                     </div>
                                 @endif
 
-                                <div id="searchResultLeft" class="search-filter-section">
+                                <div id="searchResultLeft" class="search-filter-section mt-3">
                                     <a href="/kesfet" title="Harita Görünümü">
                                         <div class="map-container">
-                                            <div class="map-marker">
-                                                <img src="path/to/marker-icon.png" alt="Map Marker" />
+                                            <div class="mapmarker">
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                                                 <span>Harita Görünümü</span>
                                             </div>
                                         </div>

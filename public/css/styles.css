@@ -28352,13 +28352,11 @@ font {
 }
 #searchResultLeft {
   position: relative;
-  width: 300px; /* Adjust the width as needed */
-  height: 200px; /* Adjust the height as needed */
+  width: 100%; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
   background-image: url('https://img.freepik.com/premium-vector/world-map-centered-america-with-magnified-turkey_292608-25499.jpg?ga=GA1.1.1041215577.1720872967'); /* Map image as background */
   background-size: cover;
   background-position: center;
-  border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Box shadow */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28377,8 +28375,7 @@ font {
   justify-content: center;
   color: white; /* Text color */
   padding: 10px;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  border-radius: 10px; /* Rounded corners to match container */
+  background: rgb(0 0 0 / 17%)
 }
 
 .map-marker {
