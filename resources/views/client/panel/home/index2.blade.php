@@ -28,7 +28,7 @@
                 <div class="container">
                     <div class="row mb-3">
                      
-                        @if ($user && $user->user_type == 2)
+                        @if ($user && $user->type == 2)
                             <div class="col-3 pb-3">
                                 <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A; padding: 20px; border: 1px solid #ebebeb; background: white;">
                                     <div class="d-flex flex-column">
@@ -43,7 +43,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Aktif İlanlar</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $activeAdvertHousings }}</strong></div>
                                     <div class="">Son 1 Ayda</div>
                                 </div>
                             </div>
