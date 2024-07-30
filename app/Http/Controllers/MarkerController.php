@@ -774,22 +774,7 @@ class MarkerController extends Controller
         $projects = $query->get();
         $term = $request->input('term') ?? null;
 
-        $renderedProjects = $projects->through(function ($item) {
-
-            $statusID = $item->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-            $status = HousingStatus::find($statusID);
-
-            return [
-                'image' => url(str_replace('public/', 'storage/', $item->image)),
-                'url' => route('project.detail', ['slug' => $item->slug . "-" . $status->slug . "-" . $item->step2_slug . "-" . $item->housingtype->slug, "id" => $item->id + 1000000]),
-                'city' => $item->city,
-                'county' => $item->county,
-                'neighborhood' => $item->neighborhood,
-                'profile_user_image' => URL::to('/') . '/storage/profile_images/' . $item->user->profile_image,
-                "title" => $item->project_title,
-                'created_at' => $item->created_at,
-            ];
-        });
+      
 
 
         $markers = $projects->map(function ($housing) use ($request) {
