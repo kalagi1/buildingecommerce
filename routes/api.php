@@ -254,8 +254,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
 
 
-Route::get('/project/{projectId}/comments',[InstitutionalProjectController::class,'getCommentsByProject']);
-Route::post('/project/{projectId}/add-comment', [InstitutionalProjectController::class,'projectCommentPost']);
+Route::get('/project/{projectId}/comments',[ProjectController::class,'getCommentsByProject']);
+Route::post('/project/{projectId}/add-comment', [ProjectController::class,'projectCommentPost']);
 
 Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComment']);
 
