@@ -2473,8 +2473,8 @@
 input[type="radio"]::before {
     content: "";
     display: block;
-    width: 0.65em;
-    height: 0.65em;
+    width: 1em;
+    height: 1em;
     border: 1px solid var(--form-control-color); /* Border color */
     box-shadow: inset 1em 1em var(--form-control-color); /* Inner shadow */
     transition: 120ms transform ease-in-out;
