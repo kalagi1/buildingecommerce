@@ -1262,6 +1262,7 @@
                                                     </span>
                                                 </td>
                                             </tr>
+                                            {{ dd($projectHousing) }}
                                             @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
