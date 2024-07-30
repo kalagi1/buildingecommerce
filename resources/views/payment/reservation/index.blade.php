@@ -37,24 +37,32 @@
             $discountAmount = $offer->discount_amount;
         }
     @endphp
-    @php
-        $itemPrice = $payPrice + $reservation['money_is_safe'];
-        $housingDiscountAmount = 0;
+@php
+// Initialize the discount amount
+$housingDiscountAmount = 0;
 
-        if ($hasCounter) {
-            $housingData = json_decode($housing->housing_type_data);
-            $discountRate = $housingData->discount_rate[0] ?? 0;
+if ($hasCounter) {
+    // Decode housing type data to retrieve the discount rate
+    $housingData = json_decode($housing->housing_type_data);
+    $discountRate = $housingData->discount_rate[0] ?? 0;
 
-            $housingAmount = $itemPrice - $housingDiscountAmount;
-            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-        } else {
-            $discountedPrice = $itemPrice;
-            $discountRate = 0;
-        }
+    // Apply the discount rate to the payPrice
+    $discountedPayPrice = $payPrice - ($payPrice * $discountRate) / 100;
+} else {
+    // If no counter, no discount is applied
+    $discountedPayPrice = $payPrice;
+    $discountRate = 0;
+}
 
-        $deposit_rate = 0.02;
-        $discount_percent = 2;
-    @endphp
+// Calculate the final price including additional amounts
+$itemPrice = $discountedPayPrice + $reservation['money_is_safe'];
+$discountedPrice = $itemPrice - $housingDiscountAmount;
+
+// Define additional rates
+$deposit_rate = 0.02; // 2% deposit rate
+$discount_percent = 2; // Example discount percent for other calculations
+@endphp
+
     <section class="payment-method notfound">
         <div class="container  pt-5">
 
