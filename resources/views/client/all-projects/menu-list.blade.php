@@ -1636,7 +1636,7 @@
                                         </div>
                                         <!-- homes content -->
                                         <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up" style="padding:10px 20px !important">
-                                    <div class="row align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <div class="col-md-8">     <!-- homes address -->
                                             <a href="${res.housing_url}" style="color:black" class="mt-3">
                                                                         <span>${res.title}</span>
