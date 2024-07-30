@@ -5,35 +5,35 @@
         <div class="container">
             <div class="single homes-content details mb-30 ">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <img src="{{ asset('login/loginImage.png') }}" alt="" style="width:100%;height:100%">
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
-                                        id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
-                                        aria-selected="true">
+                                        id="normal-tab" data-toggle="tab" href="#normal" role="tab"
+                                        aria-controls="normal" aria-selected="true">
                                         <h3 class="text-center ">Giriş Yap</h3>
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link @if (($errors->any() && !$errors->has('login_error')) || isset($_GET['uye-ol'])) active show @endif" id="corporate-tab"
-                                        data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
-                                        aria-selected="false">
+                                    <a class="nav-link @if (($errors->any() && !$errors->has('login_error')) || isset($_GET['uye-ol'])) active show @endif"
+                                        id="corporate-tab" data-toggle="tab" href="#corporate" role="tab"
+                                        aria-controls="corporate" aria-selected="false">
                                         <h3 class="text-center ">Kayıt Ol</h3>
                                     </a>
                                 </li>
                             </ul>
-    
+
                             <div class="login-content">
                                 <!-- Sekme İçeriği -->
                                 <div class="tab-content" id="myTabContent">
                                     <!-- Normal Hesap Girişi Sekmesi -->
                                     <div class="tab-pane fade @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
                                         id="normal" role="tabpanel" aria-labelledby="normal-tab">
-    
+
                                         <div class="mt-5">
                                             @if (session()->has('success'))
                                                 <div class="alert alert-success text-white">
@@ -49,40 +49,41 @@
                                                 </div>
                                             @endif
                                         </div>
-    
+
                                         <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
                                             @csrf
-    
+
                                             <input type="hidden" name="backurl" value="{{ request('backurl') }}">
                                             @if ($errors->has('login_error'))
                                                 <div class="alert alert-danger text-white">
                                                     {{ $errors->first('login_error') }}
                                                 </div>
                                             @endif
-    
-    
+
+
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">E-Posta</label>
                                                 <input type="email" name="email" class="form-control"
                                                     value="{{ old('email') }}">
-    
+
                                             </div>
-    
+
                                             <div class="mt-3">
                                                 <label class="q-label">Şifre</label>
-    
-                                                <input type="password" name="password" id="passwordInput" class="form-control">
+
+                                                <input type="password" name="password" id="passwordInput"
+                                                    class="form-control">
                                                 <i id="eyeIcon" class="fa fa-eye-slash field-icon"
                                                     onclick="togglePassword()"></i>
-    
+
                                             </div>
                                             <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
                                             <script>
                                                 function togglePassword() {
                                                     var passwordInput = document.getElementById("passwordInput");
                                                     var eyeIcon = document.getElementById("eyeIcon");
-    
+
                                                     if (passwordInput.type === "password") {
                                                         passwordInput.type = "text";
                                                         eyeIcon.classList.remove("fa-eye-slash");
@@ -94,8 +95,8 @@
                                                     }
                                                 }
                                             </script>
-    
-    
+
+
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-check-inline" style="margin-top:12px;">
@@ -105,19 +106,19 @@
                                                             style="margin-top:2px;">Beni Hatırla</label>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col">
                                                     <div class="forgot-password d-flex justify-content-end">
                                                         <a href="{{ route('password.request') }}"><span>Şifremi
                                                                 Unuttum</span></a>
                                                     </div>
                                                 </div>
-    
+
                                             </div>
-    
-    
+
+
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
-    
+
                                             <div class="social-account-login-buttons pb-3 col-12 p-0">
                                                 {{-- <div class="q-layout social-login-button flex flex-1">
     
@@ -135,36 +136,39 @@
                                                     </div>
     
                                                 </div> --}}
-    
-    
+
+
                                                 <div class="q-layout social-login-button  w-100 m-0">
-                                                    <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
+                                                    <div class="social-login-icon"
+                                                        style="background-color: rgb(241, 66, 54);">
                                                         <i class="fa fa-google"></i>
                                                     </div>
                                                     <div class="flex flex-column">
                                                         <div>
                                                             <a href="{{ route('client.google.login') }}"
                                                                 style="color: black;text-decoration:none">
-                                                                <div style="text-transform: capitalize;">google</div> <small>ile
+                                                                <div style="text-transform: capitalize;">google</div>
+                                                                <small>ile
                                                                     giriş yap</small>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                             </div>
-    
-    
+
+
                                         </form>
-    
+
                                     </div>
-    
+
                                     <!-- Kurumsal Hesap Girişi Sekmesi -->
                                     <div class="tab-pane fade @if (($errors->any() && !$errors->has('login_error')) || isset($_GET['uye-ol'])) active show @endif"
                                         id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
-    
-    
-                                        <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
+
+
+                                        <form method="POST" class="form w-100"
+                                            action="{{ route('client.submit.register') }}">
                                             @csrf
                                             <div class="user-type-selection">
                                                 <label class="q-label">Kullanıcı Türü</label>
@@ -175,7 +179,7 @@
                                                     <button
                                                         class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
                                                         data-user-type="2" type="button">Kurumsal</button>
-    
+
                                                 </div>
                                                 <input type="hidden" name="type" id="user-type-input"
                                                     value="{{ old('type', 1) }}">
@@ -189,14 +193,15 @@
                                                         class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
                                                         value="{{ old('username') }}">
                                                     @if ($errors->has('username'))
-                                                        <span class="error-message">{{ $errors->first('username') }}</span>
+                                                        <span
+                                                            class="error-message">{{ $errors->first('username') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-    
+
                                             <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
                                                 id="individualForm">
-    
+
                                                 <!-- İsim -->
                                                 <div class="mt-3">
                                                     <label class="q-label">İsim Soyisim</label>
@@ -208,8 +213,8 @@
                                                     @endif
                                                 </div>
                                             </div>
-    
-    
+
+
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">E-Posta</label>
@@ -220,8 +225,8 @@
                                                     <span class="error-message">{{ $errors->first('email') }}</span>
                                                 @endif
                                             </div>
-    
-    
+
+
                                             <div class="mt-3">
                                                 <label class="q-label">Cep Telefonu</label>
                                                 <input type="number" name="mobile_phone" id="mobile_phone"
@@ -229,13 +234,14 @@
                                                     value="{{ old('mobile_phone') }}" maxlength="10">
                                                 <span id="error_message" class="error-message"></span>
                                                 @if ($errors->has('mobile_phone'))
-                                                    <span class="error-message">{{ $errors->first('mobile_phone') }}</span>
+                                                    <span
+                                                        class="error-message">{{ $errors->first('mobile_phone') }}</span>
                                                 @endif
                                             </div>
-    
-    
-    
-    
+
+
+
+
                                             <div class="mt-3">
                                                 <label class="q-label">Şifre</label>
                                                 <input type="password" name="password" id="passwordInput2"
@@ -246,12 +252,12 @@
                                                     <span class="error-message">{{ $errors->first('password') }}</span>
                                                 @endif
                                             </div>
-    
+
                                             <script>
                                                 function togglePassword2() {
                                                     var passwordInput = document.getElementById("passwordInput2");
                                                     var eyeIcon = document.getElementById("eyeIcon2");
-    
+
                                                     if (passwordInput.type === "password") {
                                                         passwordInput.type = "text";
                                                         eyeIcon.classList.remove("fa-eye-slash");
@@ -263,11 +269,11 @@
                                                     }
                                                 }
                                             </script>
-    
+
                                             <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
                                                 id="corporateForm">
-    
-    
+
+
                                                 <!-- Firma Adı -->
                                                 <div class="mt-3">
                                                     <label class="q-label">Ticari Unvan
@@ -275,19 +281,20 @@
                                                             data-placement="top"
                                                             title="Firma adını kısaltmadan aynen yazınız."></i>
                                                     </label>
-    
+
                                                     <input type="text" name="store_name"
                                                         class="form-control {{ $errors->has('store_name') ? 'error-border' : '' }}"
                                                         value="{{ old('store_name') }}">
                                                     @if ($errors->has('store_name'))
-                                                        <span class="error-message">{{ $errors->first('store_name') }}</span>
+                                                        <span
+                                                            class="error-message">{{ $errors->first('store_name') }}</span>
                                                     @endif
                                                 </div>
-    
+
                                                 <div class="mt-3">
                                                     <label class="q-label">Mağaza Adı
                                                     </label>
-    
+
                                                     <input type="text" name="name"
                                                         class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
                                                         value="{{ old('name') }}">
@@ -295,7 +302,7 @@
                                                         <span class="error-message">{{ $errors->first('name') }}</span>
                                                     @endif
                                                 </div>
-    
+
                                                 {{-- <div class="mt-3">
                                                     <label class="q-label">Sabit Telefon (Opsiyonel)</label>
                                                     <input type="text" name="phone"
@@ -305,7 +312,7 @@
                                                         <span class="error-message">{{ $errors->first('phone') }}</span>
                                                     @endif
                                                 </div> --}}
-    
+
                                                 <div class="row mt-3">
                                                     <div class="col-md-12">
                                                         <label class="q-label">Sabit Telefon (Opsiyonel)</label>
@@ -419,13 +426,15 @@
                                                     </div>
                                                     <div class="col-md-8 pl-0">
                                                         <input type="number" name="phone" id="phone"
-                                                            class="form-control" value="{{ old('phone') }}" maxlength="7">
+                                                            class="form-control" value="{{ old('phone') }}"
+                                                            maxlength="7">
                                                     </div>
                                                 </div>
-    
+
                                                 <!-- Kurumsal Hesap Türü -->
                                                 <div class="mt-3">
-                                                    <label for="corporate-account-type" class="q-label">Faaliyet Alanı</label>
+                                                    <label for="corporate-account-type" class="q-label">Faaliyet
+                                                        Alanı</label>
                                                     <select name="corporate-account-type" id="corporate-account-type"
                                                         class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
                                                         <option value="" disabled selected>Seçiniz</option>
@@ -447,7 +456,7 @@
                                                             class="error-message">{{ $errors->first('corporate-account-type') }}</span>
                                                     @endif
                                                 </div>
-    
+
                                                 <!-- İl -->
                                                 <div class="mt-3">
                                                     <label for="" class="q-label">İl</label>
@@ -475,7 +484,8 @@
                                                         <option value="">Seçiniz</option>
                                                     </select>
                                                     @if ($errors->has('county_id'))
-                                                        <span class="error-message">{{ $errors->first('county_id') }}</span>
+                                                        <span
+                                                            class="error-message">{{ $errors->first('county_id') }}</span>
                                                     @endif
                                                 </div>
                                                 <div class="mt-3">
@@ -490,18 +500,21 @@
                                                             class="error-message">{{ $errors->first('neighborhood_id') }}</span>
                                                     @endif
                                                 </div>
-    
+
                                                 <!-- İşletme Türü -->
                                                 <div class="mt-3">
                                                     <label for="" class="q-label">İşletme Türü</label>
                                                     <div class="companyType">
-                                                        <label for="of"><input type="radio" class="input-radio off"
-                                                                id="of" name="account_type" value="1"
+                                                        <label for="of"><input type="radio"
+                                                                class="input-radio off" id="of"
+                                                                name="account_type" value="1"
                                                                 {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
                                                             Şirketi</label>
-                                                        <label for="on"><input type="radio" class="input-radio off"
-                                                                id="on" name="account_type" value="2"
-                                                                {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
+                                                        <label for="on"><input type="radio"
+                                                                class="input-radio off" id="on"
+                                                                name="account_type" value="2"
+                                                                {{ old('account_type') == 2 ? 'checked' : '' }}> Limited
+                                                            veya
                                                             Anonim Şirketi</label>
                                                     </div>
                                                 </div>
@@ -532,14 +545,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="split-form corporate-input mt-3">
                                                     <div class="corporate-input input-city">
                                                         <div class="mbdef">
                                                             <div class="select select-tax-office">
                                                                 <label for="" class="q-label">Vergi Dairesi
                                                                 </label>
-    
+
                                                                 <select id="taxOffice"
                                                                     class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
                                                                     name="taxOffice">
@@ -553,7 +566,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <!-- Vergi No -->
                                                 <div class="split-form corporate-input mt-3">
                                                     <div class="corporate-input input-city">
@@ -571,13 +584,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <!-- Yetki Belgesi No -->
                                                 <div class="split-form corporate-input mt-3">
                                                     <div class="corporate-input input-city">
                                                         <div class="mbdef">
                                                             <div class="select select-tax-office">
-                                                                <label for="" class="q-label">Yetki Belgesi No</label>
+                                                                <label for="" class="q-label">Yetki Belgesi
+                                                                    No</label>
                                                                 <input type="text" id="authority_licence"
                                                                     name="authority_licence"
                                                                     value="{{ old('authority_licence') }}"
@@ -586,7 +600,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <!-- TC Kimlik No -->
                                                 <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
                                                     id="idNumberDiv">
@@ -602,19 +616,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                             <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
                                             <div class="fl-wrap filter-tags clearfix mt-3 mb-3">
                                                 <fieldset>
-    
+
                                                     <div class="checkboxes float-left">
                                                         <div class="filter-tags-wrap   {{ old('type') == '1' ? 'd-show ' : '' }}  {{ old('type') == '2' ? 'hidden' : '' }}  {{ $errors->has('check-a') ? 'error-check' : '' }}"
                                                             id="individualFormCheck">
                                                             <input id="check-a" type="checkbox" name="check-a"
                                                                 style="margin-top-10px !important;">
                                                             <label for="check-a" style="font-size: 11px;">
-                                                                <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank"
-                                                                    style="margin-top: 20px;">
+                                                                <a href="/sayfa/bireysel-uyelik-sozlesmesi"
+                                                                    target="_blank" style="margin-top: 20px;">
                                                                     Bireysel üyelik sözleşmesini
                                                                 </a>
                                                                 okudum onaylıyorum.
@@ -628,7 +642,8 @@
                                                             id="corporateFormCheck">
                                                             <input id="check-d" type="checkbox" name="check-d">
                                                             <label for="check-d" style="font-size: 11px;">
-                                                                <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
+                                                                <a href="/sayfa/kurumsal-uyelik-sozlesmesi"
+                                                                    target="_blank">
                                                                     Kurumsal üyelik sözleşmesini
                                                                 </a>
                                                                 okudum onaylıyorum.
@@ -670,22 +685,26 @@
                                                         <div class="filter-tags-wrap">
                                                             <input id="check-e" type="checkbox" name="check-e">
                                                             <label for="check-e" style="font-size: 11px;">
-                                                                İletişim bilgilerime kampanya, tanıtım ve reklam içerikli ticari
-                                                                elektronik ileti gönderilmesine, bu amaçla kişisel verilerimin
+                                                                İletişim bilgilerime kampanya, tanıtım ve reklam içerikli
+                                                                ticari
+                                                                elektronik ileti gönderilmesine, bu amaçla kişisel
+                                                                verilerimin
                                                                 “Emlaksepette” tarafından işlenmesine ve tedarikçileri ve
-                                                                işbirlikçileri ile paylaşılmasına, bu amaçlarla verilerimin yurt
+                                                                işbirlikçileri ile paylaşılmasına, bu amaçlarla verilerimin
+                                                                yurt
                                                                 dışına aktarılmasına izin veriyorum.
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </fieldset>
-    
+
                                             </div>
-    
+
                                             <button class="btn btn-primary q-button mb-3" type="submit"> Üye OL</button>
                                         </form>
                                     </div>
-                                    <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3 284</a>
+                                    <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3
+                                            284</a>
                                     </h4>
                                 </div>
                             </div>
@@ -693,7 +712,7 @@
                     </div>
                 </div>
             </div>
-        
+
         </div>
     </section>
 @endsection
