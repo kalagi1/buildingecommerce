@@ -1513,7 +1513,7 @@
 
                                                         <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:10px !important">
                                                              <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
-                                                             <span  style='font-size:12px; color:#D32729 !important'>${res.views_count}</span>"
+                                                             <span  style='font-size:12px; color:#D32729 !important'>${res.views_count} Görüntülenme <i class="fa fa-eye"></i></span>"
                                                                 
                                                             </li>
                                                             <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
