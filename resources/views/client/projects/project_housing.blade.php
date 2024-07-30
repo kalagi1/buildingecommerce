@@ -1263,67 +1263,64 @@
                                                 </td>
                                             </tr>    
                                          
-                                            @foreach ($projectHousingSetting as $housingSetting)
-                                                @php
-                                                    $isArrayCheck = $housingSetting->is_array;
-                                                    $value = '';
-
-                                                    if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                        $valueArray = json_decode(
-                                                            $projectHousing[$housingSetting->column_name . '[]'][
-                                                                'value'
-                                                            ] ?? null,
-                                                        );
-
-                                                        if ($isArrayCheck && isset($valueArray)) {
-                                                            $value = implodeData($valueArray);
-                                                        } elseif ($housingSetting->is_parent_table) {
-                                                            $value = $project[$housingSetting->column_name] ?? null;
-                                                        } elseif ($project->roomInfo) {
-                                                            foreach ($project->roomInfo as $roomInfo) {
-                                                                if (
-                                                                    $roomInfo['name'] ===
-                                                                        $housingSetting->column_name . '[]'
-                                                                ) {
-                                                                    $value =
-                                                                        $roomInfo['value'] == '["on"]'
-                                                                            ? 'Evet'
-                                                                            : ($roomInfo['value'] == '["off"]'
-                                                                                ? 'Hayır'
-                                                                                : $roomInfo['value']);
-                                                                    break;
-                                                                }
+                                            @php
+                                            // Get filtered project housing settings based on room order
+                                            $filteredHousingSettings = $projectHousingSetting->filter(function ($item) use ($housingOrder) {
+                                                return $item->room_order == $housingOrder;
+                                            });
+                                        @endphp
+                                        
+                                        @foreach ($filteredHousingSettings as $housingSetting)
+                                            @php
+                                                $isArrayCheck = $housingSetting->is_array;
+                                                $value = '';
+                                        
+                                                if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                    $valueArray = json_decode(
+                                                        $projectHousing[$housingSetting->column_name . '[]']['value'] ?? null,
+                                                        true
+                                                    );
+                                        
+                                                    if ($isArrayCheck && isset($valueArray)) {
+                                                        $value = implodeData($valueArray);
+                                                    } elseif ($housingSetting->is_parent_table) {
+                                                        $value = $project[$housingSetting->column_name] ?? null;
+                                                    } elseif ($project->roomInfo) {
+                                                        foreach ($project->roomInfo as $roomInfo) {
+                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                $value = $roomInfo['value'] == '["on"]'
+                                                                    ? 'Evet'
+                                                                    : ($roomInfo['value'] == '["off"]'
+                                                                        ? 'Hayır'
+                                                                        : $roomInfo['value']);
+                                                                break;
                                                             }
                                                         }
                                                     }
-                                                @endphp
-
-                                                @if (
-                                                    !$isArrayCheck &&
-                                                        isset($value) &&
-                                                        $value !== '' &&
-                                                        $housingSetting->label != 'Kapak Resmi' &&
-                                                        $housingSetting->label != 'Taksitli Satış' &&
-                                                        $housingSetting->label != 'Fiyat' &&
-                                                        $housingSetting->label != 'Seçenekler' &&
-                                                        $housingSetting->label != 'Acil Satılık' &&
-                                                        $housingSetting->label != 'İndirim Oranı %' &&
-                                                        $housingSetting->label != 'Yıldız Sayısı' &&
-                                                        $housingSetting->label != 'Yapının Durumu' &&
-                                                        $housingSetting->label != 'Peşinat' &&
-                                                        $housingSetting->label != 'İlan Başlığı' &&
-                                                        $housingSetting->label != 'Günlük Fiyat' &&
-                                                        $housingSetting->label != 'Peşin Fiyat' &&
-                                                        $housingSetting->label != 'Taksitli Toplam Fiyat')
-                                                    <tr>
-                                                        <td>
-                                                            <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                            <span
-                                                                class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
+                                                }
+                                            @endphp
+                                        
+                                            @if (
+                                                !$isArrayCheck &&
+                                                isset($value) &&
+                                                $value !== '' &&
+                                                !in_array($housingSetting->label, [
+                                                    'Kapak Resmi', 'Taksitli Satış', 'Fiyat', 'Seçenekler',
+                                                    'Acil Satılık', 'İndirim Oranı %', 'Yıldız Sayısı', 'Yapının Durumu',
+                                                    'Peşinat', 'İlan Başlığı', 'Günlük Fiyat', 'Peşin Fiyat', 'Taksitli Toplam Fiyat'
+                                                ])
+                                            )
+                                                <tr>
+                                                    <td>
+                                                        <span class="mr-1">{{ $housingSetting->label }}:</span>
+                                                        <span class="det">
+                                                            {{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                        
 
 
                                         </tbody>
