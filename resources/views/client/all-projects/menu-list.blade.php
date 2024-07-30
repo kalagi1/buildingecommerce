@@ -285,14 +285,16 @@
                                     </div>
                                 @endif
 
-                                <div id="searchResultLeft" class="search-filter-section mt-3">
+                                @if (!$projects)
+                                    <div id="searchResultLeft" class="search-filter-section mt-3">
                                         <div class="map-container">
                                             <div class="mapMarker">
                                                 <span>Harita Görünümü</span>
                                             </div>
                                         </div>
-                                </div>
-                                
+                                    </div>
+                                @endif
+
                                 <div class="trip-search @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>Adres</span>
@@ -1076,8 +1078,7 @@
                     method: "GET",
                     url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                     success: function(res) {
-                        $('#neighborhood').append(`<option value="">Mahalle</option>`);
-                        ;
+                        $('#neighborhood').append(`<option value="">Mahalle</option>`);;
                         var countySlug = res.countySlug;
                         var newUrl = buildNewUrl(countySlug, 'county');
 
@@ -1202,50 +1203,51 @@
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
         }
+
         function drawListMap(filters = {}) {
-    function formatDate(rawDate) {
-        const options = {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-        };
-        const date = new Date(rawDate);
-        return new Intl.DateTimeFormat('tr-TR', options).format(date);
-    }
+            function formatDate(rawDate) {
+                const options = {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                };
+                const date = new Date(rawDate);
+                return new Intl.DateTimeFormat('tr-TR', options).format(date);
+            }
 
-    var slug = @json($slug ?? null);
-    var type = @json($housingTypeParentSlug ?? null);
-    var title = @json($housingTypeSlug ?? null);
-    var optional = @json($opt ?? null);
-    var checkTitle = @json($checkTitle ?? null);
-    var term = @json($term ?? null);
+            var slug = @json($slug ?? null);
+            var type = @json($housingTypeParentSlug ?? null);
+            var title = @json($housingTypeSlug ?? null);
+            var optional = @json($opt ?? null);
+            var checkTitle = @json($checkTitle ?? null);
+            var term = @json($term ?? null);
 
-    var data = Object.assign({}, filters, {
-        _token: "{{ csrf_token() }}",
-        slug: slug,
-        type: type,
-        title: title,
-        optional: optional,
-        checkTitle: checkTitle,
-        term: term,
-        city: $("#city").val(),
-        county: $("#county").val(),
-        neighborhood: $("#neighborhood").val()
-    });
+            var data = Object.assign({}, filters, {
+                _token: "{{ csrf_token() }}",
+                slug: slug,
+                type: type,
+                title: title,
+                optional: optional,
+                checkTitle: checkTitle,
+                term: term,
+                city: $("#city").val(),
+                county: $("#county").val(),
+                neighborhood: $("#neighborhood").val()
+            });
 
-    let currentData = {};
-    Object.keys(data).forEach(e => {
-        if (data[e]) {
-            currentData[e] = data[e];
+            let currentData = {};
+            Object.keys(data).forEach(e => {
+                if (data[e]) {
+                    currentData[e] = data[e];
+                }
+            });
+
+            // Convert the currentData object into a query string
+            const queryString = $.param(currentData);
+
+            // Redirect to the kesfet page with the query parameters
+            window.location.href = '/kesfet?' + queryString;
         }
-    });
-
-    // Convert the currentData object into a query string
-    const queryString = $.param(currentData);
-
-    // Redirect to the kesfet page with the query parameters
-    window.location.href = '/kesfet?' + queryString;
-}
 
 
         function drawList(filters = {}) {
@@ -1485,21 +1487,22 @@
                                 // Metni kırp ve üç nokta ekle
                                 var kisaltilmisBaslik = kisalt(res.title, 45);
 
-                            // Tarihi almak için bir fonksiyon
-function formatDate(dateString) {
-    var options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        // Use the Turkish locale for proper formatting
-        timeZone: 'Europe/Istanbul'
-    };
-    var date = new Date(dateString);
-    return date.toLocaleDateString('tr-TR', options); // 'tr-TR' Türkçe tarih formatını temsil eder
-}
+                                // Tarihi almak için bir fonksiyon
+                                function formatDate(dateString) {
+                                    var options = {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        // Use the Turkish locale for proper formatting
+                                        timeZone: 'Europe/Istanbul'
+                                    };
+                                    var date = new Date(dateString);
+                                    return date.toLocaleDateString('tr-TR',
+                                    options); // 'tr-TR' Türkçe tarih formatını temsil eder
+                                }
 
-// Tarih verisini al
-var tarih = formatDate(res.created_at);
+                                // Tarih verisini al
+                                var tarih = formatDate(res.created_at);
 
                                 const isAvailable = res.housing_type.open_share1 == true;
 
@@ -1551,17 +1554,17 @@ var tarih = formatDate(res.created_at);
                                                         </p>
                                                     <ul class="homes-list clearfix pb-1 mb-2" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                                         ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
-                                                                                                                <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
-                                                                                                            </li>` : ''}
+                                                                                                                    <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                                    <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                                                                                                                </li>` : ''}
                                                         ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
-                                                                                                                <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
-                                                                                                            </li>` : ''}
+                                                                                                                    <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                                    <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                                                                                                                </li>` : ''}
                                                         ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                                                                                <i class='fa fa-circle circleIcon mr-1'></i>
-                                                                                                                <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
-                                                                                                            </li>` : ''}
+                                                                                                                    <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                                                                    <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                                                                                                                </li>` : ''}
                                                     </ul>
 
                                                         <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;margin-top:10px !important">
@@ -1590,58 +1593,58 @@ var tarih = formatDate(res.created_at);
                                                                             : 
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                </span>
-                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                </button>`
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                    </button>`
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;"  class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;"  class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `
                                                                             :
                                                                             
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                </span>
-                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                            </button>`
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                </button>`
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;" class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;" class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `
                                                                             
                                                                            
                                                             }
@@ -1702,17 +1705,17 @@ var tarih = formatDate(res.created_at);
                                             <!-- homes List -->
                                             <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
     ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                                                             </li>` : ''}
     ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                                                             </li>` : ''}
     ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                                                             </li>` : ''}
     <li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
         <i class='fa fa-circle circleIcon mr-1'></i>
         <span>${tarih}</span>
@@ -1746,30 +1749,30 @@ var tarih = formatDate(res.created_at);
 
                                                                                         res.checkIfUserCanAddHousings === true ?
                                                                                         `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
-                                                                                                 <span class="IconContainer">
-                                                                                                 <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                 </span>
-                                                                                                 <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                  </button>` 
+                                                                                                     <span class="IconContainer">
+                                                                                                     <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                     </span>
+                                                                                                     <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                      </button>` 
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;" class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;" class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `
                                                                                         
                                                                             
                                                                                           
@@ -1777,30 +1780,30 @@ var tarih = formatDate(res.created_at);
 
                                                                         res.checkIfUserCanAddHousings === true ?
                                                                                     `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                    </span>
-                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                </button>`
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                    </button>`
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;" class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `                     
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;" class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `                     
 
 
                                                                             
@@ -1861,77 +1864,77 @@ var tarih = formatDate(res.created_at);
                                                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: #D32729 !important;width:100%;color:White">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="background: #D32729 !important;width:100%;color:White">
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="text">Satışa Kapatıldı</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: orange !important;color:White">Rezerve Edildi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="background: orange !important;color:White">Rezerve Edildi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    style="border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </button>`
                                                                             :
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''} mobileCBtn" data-type='housing' data-id='${res.id}'>
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                </span>
-                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                </button>`
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                    </button>`
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;" class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;" class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `
                                                                             :
                                                                             
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                </span>
-                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                            </button>`
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                </button>`
                                                                                 :
                                                                                   `   <a href="${res.route}"
-                                                                                                            class="btn btn-success"
-                                                                                                            style="width: 100%;
-                                                                                                                height: 40px;
-                                                                                                                border: none;
-                                                                                                                background-color: green;
-                                                                                                                display: flex;
-                                                                                                                color:white !important;
-                                                                                                                border-radius: 0;
-                                                                                                                align-items: center;
-                                                                                                                justify-content: center;
-                                                                                                                cursor: pointer;
-                                                                                                                transition-duration: .5s;
-                                                                                                                overflow: hidden;
-                                                                                                                position: relative;">
-                                                                                                            <span style="color:white !important;" class="text">İlanı
-                                                                                                                Düzenle</span>
-                                                                                                        </a> `
+                                                                                                                class="btn btn-success"
+                                                                                                                style="width: 100%;
+                                                                                                                    height: 40px;
+                                                                                                                    border: none;
+                                                                                                                    background-color: green;
+                                                                                                                    display: flex;
+                                                                                                                    color:white !important;
+                                                                                                                    border-radius: 0;
+                                                                                                                    align-items: center;
+                                                                                                                    justify-content: center;
+                                                                                                                    cursor: pointer;
+                                                                                                                    transition-duration: .5s;
+                                                                                                                    overflow: hidden;
+                                                                                                                    position: relative;">
+                                                                                                                <span style="color:white !important;" class="text">İlanı
+                                                                                                                    Düzenle</span>
+                                                                                                            </a> `
                                                                             }
                                                                                 </div>
                                                                                 <span class="ml-auto text-primary priceFont"
@@ -1954,17 +1957,17 @@ var tarih = formatDate(res.created_at);
                                                 <ul class="d-flex align-items-center h-100"
     style="list-style: none; padding: 0; font-weight: 600; justify-content: start; margin-bottom: 0 !important">
     ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : ""}</span>
+                                                             </li>` : ''}
     ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : ""}</span>
+                                                             </li>` : ''}
     ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'>
-                                                            <i class='fa fa-circle circleIcon mr-1'></i>
-                                                            <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
-                                                         </li>` : ''}
+                                                                <i class='fa fa-circle circleIcon mr-1'></i>
+                                                                <span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : ""}</span>
+                                                             </li>` : ''}
 </ul>
 
                                                     <span style="font-size: 9px !important">${res.city} ${" / "} ${res.county}  </span>
@@ -2370,7 +2373,7 @@ var tarih = formatDate(res.created_at);
         }
 
         hr {
-            width: 100%;    
+            width: 100%;
             height: 100%;
         }
 
@@ -2639,7 +2642,7 @@ var tarih = formatDate(res.created_at);
             color: black;
         }
 
-        #searchResultLeft{
+        #searchResultLeft {
             cursor: pointer;
         }
     </style>
