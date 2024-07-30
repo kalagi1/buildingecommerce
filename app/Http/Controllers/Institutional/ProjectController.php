@@ -142,7 +142,7 @@ class ProjectController extends Controller
       
         $page = $request->input('page', 1);
 
-        return $perPage;
+     
         $perPage = 20;
 
         $housings = Housing::with([
@@ -162,7 +162,7 @@ class ProjectController extends Controller
         ->offset(($page - 1) * $perPage) // Sayfalamada offset kullanımı
         ->limit($perPage) // Sayfalamada limit kullanımı
         ->get();   
-
+        return ($page - 1) * $perPage;
 
         // $housings =  Housing::with( 'images',
         //         'housing_type',
