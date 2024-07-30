@@ -1585,7 +1585,7 @@
                                                                                                                 transition-duration: .5s;
                                                                                                                 overflow: hidden;
                                                                                                                 position: relative;">
-                                                                                                            <span sytle="color:white !important;" class="text">İlanı
+                                                                                                            <span style="color:white !important;" class="text">İlanı
                                                                                                                 Düzenle</span>
                                                                                                         </a> `
                                                                             
@@ -1713,7 +1713,7 @@
                                                                                                                 transition-duration: .5s;
                                                                                                                 overflow: hidden;
                                                                                                                 position: relative;">
-                                                                                                            <span sytle="color:white !important;" class="text">İlanı
+                                                                                                            <span style="color:white !important;" class="text">İlanı
                                                                                                                 Düzenle</span>
                                                                                                         </a> `
                                                                                         
@@ -1744,7 +1744,7 @@
                                                                                                                 transition-duration: .5s;
                                                                                                                 overflow: hidden;
                                                                                                                 position: relative;">
-                                                                                                            <span sytle="color:white !important;" class="text">İlanı
+                                                                                                            <span style="color:white !important;" class="text">İlanı
                                                                                                                 Düzenle</span>
                                                                                                         </a> `                     
 
@@ -1875,7 +1875,7 @@
                                                                                                                 transition-duration: .5s;
                                                                                                                 overflow: hidden;
                                                                                                                 position: relative;">
-                                                                                                            <span sytle="color:white !important;" class="text">İlanı
+                                                                                                            <span style="color:white !important;" class="text">İlanı
                                                                                                                 Düzenle</span>
                                                                                                         </a> `
                                                                             }
