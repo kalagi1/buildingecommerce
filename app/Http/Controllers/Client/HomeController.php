@@ -52,9 +52,19 @@ class HomeController extends Controller
         // Extract filter data from the request query parameters
         $filters = $request->query(); // Retrieve all query parameters
     
-        // Pass the filter data to the view
+        // Retrieve city_id from filters
+        $cityId = $filters['city_id'] ?? null;
+    
+        // If city_id is provided, fetch the corresponding city data
+        $city = null;
+        if ($cityId) {
+            $city = City::find($cityId);
+        }
+    
+        // Pass the filter data and city data to the view
         return view('client.kesfet', [
-            'filters' => $filters
+            'filters' => $filters,
+            'city' => $city
         ]);
     }
     
