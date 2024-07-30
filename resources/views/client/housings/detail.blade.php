@@ -2722,56 +2722,53 @@
 
                     // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
-                    var housingTypeData = @json($housing->housing_type_data);
 
-        
-        // Extract discount rate and open_sharing flag from housingTypeData
-        var discountRate = housingTypeData.discount_rate || 0;
-        var openSharing = housingTypeData.open_sharing || false;
+                    // AJAX ile sunucuya gönder
+                    $.ajax({
+                        url: "{{ route('reservation.sessions') }}",
+                        type: "POST",
+                        data: {
+                            _token: $('input[name="_token"]').val(),
+                            check_in_date: checkInDate,
+                            check_out_date: checkOutDate,
+                            person_count: personCount,
+                            housing_id: {{ $housing->id }},
+                            owner_id: {{ $housing->user->id }},
+                            price: price,
+                            total_price: price * diffDays,
+                            money_is_safe: moneyIsSafe,
+                            key: key,
+                            // fullName: fullName,
+                            // email: email,
+                            // tc: tc,
+                            // phone: phone,
+                            // address: address,
+                            money_trusted: moneyTrusted
+                        },
+                        success: function(response) {
+                            // $('#finalConfirmationModal').modal('hide');
+                            // $('.modal-backdrop').remove();
+                            // location.reload();
+                            if (!response.success) {
+                                toastr.error(response.message);
+                                // location.reload();
+                            } else {
+                                // $('#finalConfirmationModal').modal('hide');
+                                // $('.modal-backdrop').remove();
+                                toastr.success(response.message);
+                                console.log(response);
+                                window.location.href =
+                                    "{{ route('payment.reservation.index', ['housing' => $housing->id]) }}";
+                            }
 
-        // Initial price
-        var originalPrice = price;
-        var discountedPrice = originalPrice;
+                        },
+                        error: function(xhr, status, error) {
+                            toastr.error(
+                                'İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin veya destek ekibimizle iletişime geçin.'
+                            );
+                        }
 
-        // Apply discount if open_sharing is true and discount_rate exists
-        if (openSharing && discountRate > 0) {
-            discountedPrice = originalPrice - (originalPrice * (discountRate / 100));
-        }
-
-        // AJAX request to the server
-        $.ajax({
-            url: "{{ route('reservation.sessions') }}",
-            type: "POST",
-            data: {
-                _token: $('input[name="_token"]').val(),
-                check_in_date: checkInDate,
-                check_out_date: checkOutDate,
-                person_count: personCount,
-                housing_id: {{ $housing->id }},
-                owner_id: {{ $housing->user->id }},
-                price: discountedPrice, // Use discounted price here
-                total_price: discountedPrice * diffDays,
-                money_is_safe: moneyIsSafe,
-                key: key,
-                money_trusted: moneyTrusted
-                // You can add other fields here as needed
-            },
-            success: function(response) {
-                if (!response.success) {
-                    toastr.error(response.message);
-                } else {
-                    toastr.success(response.message);
-                    console.log(response);
-                    window.location.href =
-                        "{{ route('payment.reservation.index', ['housing' => $housing->id]) }}";
-                }
-            },
-            error: function(xhr, status, error) {
-                toastr.error(
-                    'İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin veya destek ekibimizle iletişime geçin.'
-                );
-            }
-        });
+                    });
                 });
 
             });
