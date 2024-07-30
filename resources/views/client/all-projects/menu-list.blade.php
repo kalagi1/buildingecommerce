@@ -1667,7 +1667,7 @@
 
                                                                                                                                 </div>
 
-                                                                                                                                <div class="col-md-4">
+                                                                                                                                <div class="col-md-4 p-0 m-0">
                                                                                                                                     <ul class="homes-list clearfix pb-4" style="display: flex; justify-content: space-between;text-align:center">
                                                                         <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                             ${res.step2_slug !== "gunluk-kiralik" ?
@@ -1677,7 +1677,7 @@
                                                                             }
                                                                         </li>
                                                                     </ul>
-                                                                    <ul class="homes-list clearfix" style="display: flex; justify-content: center;">
+                                                                    <ul class="homes-list clearfix mn-0 p-0" style="display: flex; justify-content: center;">
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                                             res.offSale ?
                                                                                 `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapatıldı</button>`
