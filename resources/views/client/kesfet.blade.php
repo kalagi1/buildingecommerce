@@ -30,6 +30,7 @@
             // Default center coordinates if city data is not available
             var centerCoordinates = [38.9334, 32.8597];
 
+            console.log(city);
             // If city data is available, use its coordinates
             if (city && city.lat && city.lang) {
                 centerCoordinates = [city.lat, city.lang];
