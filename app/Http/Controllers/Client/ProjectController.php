@@ -1458,7 +1458,7 @@ class ProjectController extends Controller
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
-
+return $projectHousing;
             $projectCartOrders = DB::table('cart_orders')
                 ->select(
                     DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
