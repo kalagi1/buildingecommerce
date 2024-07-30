@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Filter;
 use App\Models\Housing;
+use App\Models\HousingStatus;
+use App\Models\HousingType;
+use App\Models\HousingTypeParent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -442,8 +446,8 @@ class MarkerController extends Controller
             $housingTypeData = json_decode($housing->housing_type_data);
     
             // Fiyatları belirle
-            $price = getData($item, 'price') ?  getData($item, 'price') : 0;
-            $dailyRent = getData($item, 'daily_rent') ? getData($item, 'daily_rent') : 0;
+            $price = getData($housing, 'price') ?  getData($housing, 'price') : 0;
+            $dailyRent = getData($housing, 'daily_rent') ? getData($housing, 'daily_rent') : 0;
     
             $finalPrice = $housing->step2_slug == 'gunluk-kiralik' ? $dailyRent : $price;
     
