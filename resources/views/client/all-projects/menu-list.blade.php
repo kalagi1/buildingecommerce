@@ -2465,23 +2465,31 @@
             transform: scale(1);
         }
 
-        input[type="radio"]::before {
-            transform-origin: bottom left;
-            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-        }
+    input[type="radio"] {
+    position: relative;
+    appearance: none; /* Remove default radio button styling */
+}
 
-        input[type="radio"]::before {
-            background-color: black;
-        }
+input[type="radio"]::before {
+    content: "";
+    display: block;
+    width: 0.65em;
+    height: 0.65em;
+    border: 1px solid var(--form-control-color); /* Border color */
+    box-shadow: inset 1em 1em var(--form-control-color); /* Inner shadow */
+    transition: 120ms transform ease-in-out;
+    background-color: transparent; /* Default background */
+    position: absolute; /* Position relative to radio button */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Center and scale down */
+}
 
-        input[type="radio"]::before {
-            content: "";
-            width: 0.65em;
-            height: 0.65em;
-            transform: scale(0);
-            transition: 120ms transform ease-in-out;
-            box-shadow: inset 1em 1em var(--form-control-color);
-        }
+input[type="radio"]:checked::before {
+    transform: translate(-50%, -50%) scale(1); /* Scale up when checked */
+    background-color: red; /* Red background when checked */
+    box-shadow: none; /* Remove inner shadow when checked */
+}
 
         #termResultCount {
             margin-right: 10px !important;
