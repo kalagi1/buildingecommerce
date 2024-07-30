@@ -33,7 +33,7 @@
 
             // If city data is available, use its coordinates and zoom level
             if (city) {
-                centerCoordinates = [city.lat, city.lang];
+                centerCoordinates = [city.lat, city.lng];
                 zoomLevel = 10;
             }
 
