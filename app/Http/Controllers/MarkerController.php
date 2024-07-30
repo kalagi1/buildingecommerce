@@ -442,46 +442,50 @@ class MarkerController extends Controller
 
         $objPaginated = $obj->get();
 
-        $markers = $objPaginated->through(function ($housing) use ($request) {
+        $markers = $objPaginated->map(function ($housing) use ($request) {
             $housingTypeData = json_decode($housing->housing_type_data);
-    
-            // Fiyatları belirle
-            $price = getData($housing, 'price') ?  getData($housing, 'price') : 0;
-            $dailyRent = getData($housing, 'daily_rent') ? getData($housing, 'daily_rent') : 0;
-    
-            $finalPrice = $housing->step2_slug == 'gunluk-kiralik' ? $dailyRent : $price;
-    
+        
+            // Determine price
+            $price = getData($housing, 'price') ?: 0;
+            $dailyRent = getData($housing, 'daily_rent') ?: 0;
+        
+            // Select the appropriate price based on the step2_slug
+            $finalPrice = ($housing->step2_slug === 'gunluk-kiralik') ? $dailyRent : $price;
+        
+            // Apply discount if available
             if ($housing->discount_amount) {
                 $finalPrice -= $housing->discount_amount;
             }
-    
-
-
-        // Açıklamayı oluştur
-        $desc = '';
-        if ($housing->city) {
-            $desc .= $housing->city->title;
-        }
-        if ($housing->district) {
-            $desc .= ($desc ? '/ ' : '') . $housing->district->ilce_title;
-        }
-        if ($housing->neighborhood) {
-            $desc .= ($desc ? '/ ' : '') . $housing->neighborhood->mahalle_title;
-        }  
-
-
+        
+            // Construct description
+            $descParts = [];
+            if ($housing->city) {
+                $descParts[] = $housing->city->title;
+            }
+            if ($housing->district) {
+                $descParts[] = $housing->district->ilce_title;
+            }
+            if ($housing->neighborhood) {
+                $descParts[] = $housing->neighborhood->mahalle_title;
+            }
+            $desc = implode('/ ', $descParts);
+        
+            // Return marker data
             return [
                 'id' => 'marker-' . $housing->id,
-                'center' => [$housing->latitude, $housing->longitude], // Bu alanın var olduğunu varsayıyorum
+                'center' => [$housing->latitude, $housing->longitude], // Assuming these fields exist
                 'icon' => "<i class='fa fa-home'></i>",
-                'title' => $housing->title, // veya uygun bir başlık
+                'title' => $housing->title, // Title for the marker
                 'desc' => $desc,
-                'price' => number_format($finalPrice, 0, ',', '.'),
-                'image' => URL::to('/') . '/housing_images/' .  getImage($housing, 'image') ,
-                'link' =>  route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) 
+                'price' => number_format($finalPrice, 0, ',', '.'), // Format the price
+                'image' => URL::to('/') . '/housing_images/' . getImage($housing, 'image'),
+                'link' => route('housing.show', [
+                    'housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug,
+                    'housingID' => $housing->id + 2000000 // Example for adjusting ID
+                ]),
             ];
         });
-    
+        
         return response()->json(['data' => $markers]);
     }
     
