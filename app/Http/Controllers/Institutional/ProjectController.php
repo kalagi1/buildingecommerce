@@ -207,9 +207,7 @@ class ProjectController extends Controller
         // ->get();
 
 
-       
-      
-        return $housings;
+
 
         // Eğer daha fazla konut varsa, yeni konutları gönderin
         if ($housings->count() > 0) {
