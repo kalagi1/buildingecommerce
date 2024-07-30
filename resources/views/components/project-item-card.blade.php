@@ -20,26 +20,27 @@
     'blockStart',
 ])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-    function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+        {
+            $user = auth()->user();
 
-        if ($user) {
-            $exists = $user->projects()
-                           ->where('id', $projectId)
-                           ->whereHas('housings', function($query) use ($keyIndex) {
-                               $query->where('room_order', $keyIndex);
-                           })
-                           ->exists();
-            return !$exists;
+            if ($user) {
+                $exists = $user
+                    ->projects()
+                    ->where('id', $projectId)
+                    ->whereHas('housings', function ($query) use ($keyIndex) {
+                        $query->where('room_order', $keyIndex);
+                    })
+                    ->exists();
+                return !$exists;
+            }
+
+            return true;
         }
-
-        return true;
     }
-}
 
 @endphp
 
@@ -106,8 +107,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
-    <div class="col-md-12 col-12 p-0"
-    style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    <div class="col-md-12 col-12 p-0" style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
     margin-top: 10px;
 }">
         <div class="project-card">
@@ -136,7 +136,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                 style="background-color: #D32729 !important; border-radius: 0px 0px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                    {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}<br>
+                                    {{ $projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? 'Etap' : 'No' }}<br>
 
                                     @if (isset($blockStart) && $blockStart)
                                         {{ $i - $blockStart + 1 }}
@@ -163,15 +163,15 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                             <i class="fa fa-bookmark-o"></i>
                                         </span>
-                                  
+
 
                                         @if (!($sold_check && $sold->status == '1'))
-                                        <span class="btn toggle-project-favorite bg-white"
-                                            data-project-housing-id="{{ $keyIndex }}"
-                                            data-project-id={{ $project->id }}>
-                                            <i class="fa fa-heart-o"></i>
-                                        </span>
-                                    @endif
+                                            <span class="btn toggle-project-favorite bg-white"
+                                                data-project-housing-id="{{ $keyIndex }}"
+                                                data-project-id={{ $project->id }}>
+                                                <i class="fa fa-heart-o"></i>
+                                            </span>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="homes position-relative">
@@ -240,7 +240,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
-                                            @if ($off_sale_check && !$sold_check && $share_sale_empty )
+                                            @if ($off_sale_check && !$sold_check && $share_sale_empty)
 
 
                                                 @if ($projectDiscountAmount)
@@ -273,13 +273,14 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
-                                            @elseif( $off_sale_check &&
-                                                ( isset($share_sale) &&
-                                                    $share_sale != '[]' &&
-                                                    isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                            @elseif(
+                                                ($off_sale_check &&
+                                                    (isset($share_sale) &&
+                                                        $share_sale != '[]' &&
+                                                        isset($sumCartOrderQt[$keyIndex]) &&
+                                                        $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
                                                     (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
-                                                @if($off_sale_check)
+                                                @if ($off_sale_check)
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                         <span class="text-center w-100">
                                                             1 / {{ $number_of_share }} Fiyatı
@@ -290,7 +291,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                         @if (
                                                             (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) ||
                                                                 (isset($share_sale) && empty($share_sale) && $number_of_share != 0))
-                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }} 
+                                                            {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                             ₺
                                                         @else
                                                             {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
@@ -433,12 +434,13 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     @endif
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
-                                        @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
+                                        @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                         @else
                                             @if (Auth::user())
                                                 <button class="first-btn payment-plan-button" data-bs-toggle="modal"
@@ -470,22 +472,24 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                     <button class="btn second-btn"
-                                        style="background: #D32729 !important; width: 100%; color: White; height: @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
+                                        style="background: #D32729 !important; width: 100%; color: White; height: @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
                                         <span class="text">Satışa Kapatıldı</span>
                                     </button>
                                 @elseif ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                     <button class="btn second-btn"
-                                        style="background: #D32729 !important; width: 100%; color: White; height: @if( $off_sale_check &&
-                                        ( isset($share_sale) &&
-                                            $share_sale != '[]' &&
-                                            isset($sumCartOrderQt[$keyIndex]) &&
-                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
-                                            (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
+                                        style="background: #D32729 !important; width: 100%; color: White; height: @if (
+                                            ($off_sale_check &&
+                                                (isset($share_sale) &&
+                                                    $share_sale != '[]' &&
+                                                    isset($sumCartOrderQt[$keyIndex]) &&
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) ||
+                                                (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex]))) 100px @else auto @endif  !important">
                                         <span class="text">Satışa Kapatıldı</span>
                                     </button>
                                 @else
@@ -516,9 +520,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             @endif
                                         </button>
                                     @else
-                                    
-                                        @if (checkIfUserCanAddToProjectHousings($project->id,$keyIndex))
-                                        
+                                        @if (checkIfUserCanAddToProjectHousings($project->id, $keyIndex))
                                             <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                                 data-project='{{ $project->id }}' style="height: auto !important"
                                                 data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
@@ -529,9 +531,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                                 <span class="text">Sepete Ekle</span>
                                             </button>
                                         @else
-                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex] ) }}"
+                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $keyIndex]) }}"
                                                 class="second-btn">
-                                                <span class="text" >İlanı Düzenle</span>
+                                                <span class="text">İlanı Düzenle</span>
                                             </a>
                                         @endif
                                     @endif
