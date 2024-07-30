@@ -450,7 +450,7 @@ class DashboardController extends Controller
 
         $activeAdvertProjects    = $this->activeAdvertProjects();
         $activeAdvertHousings    = $this->activeAdvertHousings();
-        
+      
         $pendingAdvertProjects  = $this->pendingAdvertProjects();
         $pendingAdvertHousings  = $this->pendingAdvertHousings();
 
@@ -465,6 +465,9 @@ class DashboardController extends Controller
         $totalAdvertProjects   = $this->totalAdvertProjects();
         $totalAdvertHousings   = $this->totalAdvertHousings();
         $bidsCount       = $this->bidsCount();
+    
+        $topSalesPersonsWithDetailsForMonth = $this->topSalesPersonsWithDetailsForMonth();
+   
 
         return view('client.panel.home.index2', compact(
             'housingViews',
@@ -490,6 +493,7 @@ class DashboardController extends Controller
     }
     //sadece kurumsallar için yapıldı 
 
+ 
     //alt çalışan sayısı
     private function subWorkerCount(){
         $user = Auth::user();
@@ -559,13 +563,13 @@ class DashboardController extends Controller
     //Görüntülenme Sayısı
     private function viewCountProjects(){
         $user = Auth::user();
-        $viewCountProjects = Project::where('user_id', $user->id)->pluck('view_count');
+        $viewCountProjects = Project::where('user_id', $user->id)->pluck('view_count')->sum();
         return $viewCountProjects;
     }//End    
 
     private function viewCountHousings(){
         $user = Auth::user();
-        $viewCountHousings = Housing::where('user_id', $user->id)->pluck('view_count');
+        $viewCountHousings = Housing::where('user_id', $user->id)->pluck('view_count')->sum();
         return $viewCountHousings;
     }//End    
 
@@ -576,7 +580,51 @@ class DashboardController extends Controller
         return $bidsCount;    
     }//End    
     
-    
+    //Ayın Yıldızları
+    //en çok satış yapılan ilan sayısı emlak
+    private function topSalesPersonsWithDetailsForMonth() {
+        $currentUserId = Auth::id();
+        
+        // Aylık tarih aralığını belirleyin
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+        
+        // En çok satış yapan 3 kullanıcıyı belirleyin
+        $topUsers = DB::table('cart_orders')
+            ->join('users', 'cart_orders.reference_id', '=', 'users.id')
+            ->select('users.id', 'users.name', DB::raw('COUNT(cart_orders.id) as total_sales'))
+            ->where('cart_orders.status', '1')
+            ->where('users.parent_id', $currentUserId)
+            ->whereBetween('cart_orders.created_at', [$startDate, $endDate])
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('total_sales', 'desc')
+            ->limit(3)
+            ->get();
+        
+        // Her kullanıcının yaptığı satışları al
+        $salesDetails = [];
+        
+        foreach ($topUsers as $topUser) {
+            $sales = DB::table('cart_orders')
+                ->where('reference_id', $topUser->id)
+                ->where('status', 1)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+            
+            $salesDetails[] = [
+                'user' => $topUser,
+                'sales' => $sales
+            ];
+        }
+        
+        return $salesDetails;
+    }//End
+
+
+
+
+
+
     /**
      * TODO: Ziyaretci Sayısı son 24 saat
      * TODO: Grafik-Performans Verileri (yayındaki ilanlar , Görüntülenme, Favoriye Alınma, Koleksiyona Alınma)

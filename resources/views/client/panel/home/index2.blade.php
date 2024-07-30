@@ -32,9 +32,9 @@
                             <div class="col-3 pb-3">
                                 <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A; padding: 20px; border: 1px solid #ebebeb; background: white;">
                                     <div class="d-flex flex-column">
-                                        <div class="">Alt Çalışan Sayısı</div>
-                                        <div class=""><strong>{{$subWorkerCount}}</strong></div>
-                                        <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                        <div>Alt Çalışan Sayısı</div>
+                                        <div ><strong>{{ $subWorkerCount  }}</strong></div>
+                                        <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Aktif İlanlar</div>
-                                    <div class=""><strong>{{ $activeAdvertHousings }}</strong></div>
+                                    <div class=""><strong>{{ $activeAdvertHousings  }}</strong></div>
                                     <div class="">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Onay Bekleyen İlanlar</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $pendingAdvertHousings  }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Toplam İlan Sayısı</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $totalAdvertHousings  }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Askıya Alınan İlanlar</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $passiveAdvertHousings }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Koleksiyon Sayısı</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $collectionCount  }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Görüntülenme Sayısı</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $viewCountHousings  }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
                                     <div class="">Pazar Teklifleri</div>
-                                    <div class=""><strong>22,000</strong></div>
+                                    <div class=""><strong>{{ $bidsCount  }}</strong></div>
                                     <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
