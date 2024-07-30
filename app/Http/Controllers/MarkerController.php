@@ -806,13 +806,13 @@ class MarkerController extends Controller
             if ($projectHousing->isNotEmpty()) {
                 // Extract price values
                 $prices = $projectHousing->map(function ($housing) {
-                    return $housing->key === 'price[]'
+                    return $housing->name === 'price[]'
                         ? (float) $housing->value
                         : null;
                 })->filter()->values();
         
                 $dailyRents = $projectHousing->map(function ($housing) {
-                    return $housing->key === 'daily_rent[]'
+                    return $housing->name === 'daily_rent[]'
                         ? (float) $housing->value
                         : null;
                 })->filter()->values();
