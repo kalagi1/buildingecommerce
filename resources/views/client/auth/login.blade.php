@@ -55,7 +55,7 @@
                                             @endif
                                         </div>
 
-                                        <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
+                                        <form method="POST" class="form w-100" action="{{ route('client.submit.login') }}">
                                             @csrf
 
                                             <input type="hidden" name="backurl" value="{{ request('backurl') }}">
