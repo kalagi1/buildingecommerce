@@ -1405,20 +1405,20 @@
                             @else
                                 var featuredHtml = '';
 
-                                if (res.doping_time) {
-                                    featuredHtml =
-                                        '<div class="homes-tag button alt featured">Sponsorlu</div>';
-                                } else {
-                                    var total = res.id + 2000000;
-                                    featuredHtml =
-                                        '<div class="homes-tag button alt featured" style="width:90px !important">No: ' +
-                                        total + '</div>';
+                                // if (res.doping_time) {
+                                //     featuredHtml =
+                                //         '<div class="homes-tag button alt featured">Sponsorlu</div>';
+                                // } else {
+                                //     var total = res.id + 2000000;
+                                //     featuredHtml =
+                                //         '<div class="homes-tag button alt featured" style="width:90px !important">No: ' +
+                                //         total + '</div>';
 
-                                    if (res.buysellurgent1) {
-                                        featuredHtml +=
-                                            '<div class="type-tag button alt featured" style="width: 55px !important;background-color: black !important;" >ACİL</div>';
-                                    }
-                                }
+                                //     if (res.buysellurgent1) {
+                                //         featuredHtml +=
+                                //             '<div class="type-tag button alt featured" style="width: 55px !important;background-color: black !important;" >ACİL</div>';
+                                //     }
+                                // }
 
                                 function kisalt(text, uzunluk) {
                                     if (typeof text == "string" && text.length > uzunluk) {
