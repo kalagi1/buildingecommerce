@@ -1445,6 +1445,7 @@ class ProjectController extends Controller
         });
 
         if ($project) {
+            return $project->roomInfo;
             $projectHousing = $project->roomInfo->keyBy('name');
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
