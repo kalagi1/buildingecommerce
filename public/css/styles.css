@@ -28378,7 +28378,7 @@ font {
   background: rgb(0 0 0 / 17%)
 }
 
-.mapmarker {
+.mapMarker {
   display: flex;
   align-items: center;
   justify-content: center;
