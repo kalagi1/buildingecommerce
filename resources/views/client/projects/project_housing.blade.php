@@ -1264,22 +1264,18 @@
                                             </tr>    
                                          
                                             @php
-                                            // Get filtered project housing settings based on room order
-                                            $filteredHousingSettings = $projectHousingSetting->filter(function ($item) use ($housingOrder) {
-                                                return $item->room_order == $housingOrder;
-                                            });
+                                            // Eğer $projectHousing mevcutsa, anahtarları filtreleyin ve anahtarları 'name' ile ayırın
+                                            $projectHousing = $project->roomInfo->keyBy('name');
                                         @endphp
                                         
-                                        @foreach ($filteredHousingSettings as $housingSetting)
+                                        @foreach ($projectHousingSetting as $housingSetting)
                                             @php
                                                 $isArrayCheck = $housingSetting->is_array;
                                                 $value = '';
                                         
+                                                // $housingSetting ile ilişkili veri olup olmadığını kontrol edin
                                                 if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                    $valueArray = json_decode(
-                                                        $projectHousing[$housingSetting->column_name . '[]']['value'] ?? null,
-                                                        true
-                                                    );
+                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null, true);
                                         
                                                     if ($isArrayCheck && isset($valueArray)) {
                                                         $value = implodeData($valueArray);
