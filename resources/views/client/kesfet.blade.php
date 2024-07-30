@@ -37,7 +37,7 @@
             }
 
             var map = L.map('map-leaflet', {
-                zoom: 6,
+                zoom: 8,
                 maxZoom: 20,
                 tap: false,
                 gestureHandling: true,
