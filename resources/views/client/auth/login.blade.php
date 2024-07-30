@@ -54,16 +54,15 @@
                                                 </div>
                                             @endif
                                         </div>
-
+                                        @if ($errors->has('login_error'))
+                                        <div class="alert alert-danger text-white">
+                                            {{ $errors->first('login_error') }}
+                                        </div>
+                                    @endif
+                                
                                         <form method="POST" class="form w-100" action="{{ route('client.submit.login') }}">
                                             @csrf
-                                            <input type="hidden" name="backurl" value="{{ request('backurl') }}">
-                                            @if ($errors->has('login_error'))
-                                                <div class="alert alert-danger text-white">
-                                                    {{ $errors->first('login_error') }}
-                                                </div>
-                                            @endif
-                                        
+                                          
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">E-Posta</label>
@@ -76,24 +75,6 @@
                                                 <input type="password" name="password" id="passwordInput" class="form-control">
                                                 <i id="eyeIcon" class="fa fa-eye-slash field-icon" onclick="togglePassword()"></i>
                                             </div>
-                                        
-                                            <!-- Scripts for toggling password visibility -->
-                                            <script>
-                                                function togglePassword() {
-                                                    var passwordInput = document.getElementById("passwordInput");
-                                                    var eyeIcon = document.getElementById("eyeIcon");
-                                        
-                                                    if (passwordInput.type === "password") {
-                                                        passwordInput.type = "text";
-                                                        eyeIcon.classList.remove("fa-eye-slash");
-                                                        eyeIcon.classList.add("fa-eye");
-                                                    } else {
-                                                        passwordInput.type = "password";
-                                                        eyeIcon.classList.remove("fa-eye");
-                                                        eyeIcon.classList.add("fa-eye-slash");
-                                                    }
-                                                }
-                                            </script>
                                         
                                             <!-- Remember me and forgot password links -->
                                             <div class="row">
@@ -700,6 +681,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+                                            <!-- Scripts for toggling password visibility -->
+                                            <script>
+                                                function togglePassword() {
+                                                    var passwordInput = document.getElementById("passwordInput");
+                                                    var eyeIcon = document.getElementById("eyeIcon");
+                                        
+                                                    if (passwordInput.type === "password") {
+                                                        passwordInput.type = "text";
+                                                        eyeIcon.classList.remove("fa-eye-slash");
+                                                        eyeIcon.classList.add("fa-eye");
+                                                    } else {
+                                                        passwordInput.type = "password";
+                                                        eyeIcon.classList.remove("fa-eye");
+                                                        eyeIcon.classList.add("fa-eye-slash");
+                                                    }
+                                                }
+                                            </script>
+                                        
     <script>
         $(document).ready(function() {
 
