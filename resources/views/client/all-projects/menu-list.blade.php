@@ -1636,7 +1636,7 @@
                                         </div>
                                         <!-- homes content -->
                                         <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up" style="padding:10px 20px !important">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center w-100 h-100">
                                         <div class="col-md-8">     <!-- homes address -->
                                             <a href="${res.housing_url}" style="color:black" class="mt-3">
                                                                         <span>${res.title}</span>
@@ -1677,7 +1677,7 @@
                                                                             }
                                                                         </li>
                                                                     </ul>
-                                                                    <ul class="homes-list clearfix mn-0 p-0" style="display: flex; justify-content: center;">
+                                                                    <ul class="homes-list clearfix mb-0 p-0" style="display: flex; justify-content: center;">
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                                             res.offSale ?
                                                                                 `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapatıldı</button>`
