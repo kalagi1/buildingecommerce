@@ -471,7 +471,7 @@ class ProjectController extends Controller
 
     public function userComments(Request $request, $userId){
     
-        $userComments = ProjectComment::where('user_id', $userId)->where('status', 1)->get();
+        $userComments = ProjectComment::where('user_id', $userId)->get();
 
     
         // Yorumlardaki project_id değerlerini al
