@@ -156,39 +156,47 @@
                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                 <div class="text-dark" style="color:black">
                                     <span>Komisyon Miktarı:</span><br>
-                    
+
                                     @if ($item['item_type'] == 2)
                                         @php
-                                            $rates = App\Models\Rate::where('housing_id', $item['housing']['id'])->get();
+
+                                            $rates = App\Models\Rate::where(
+                                                'housing_id',
+                                                $item['housing']['id'],
+                                            )->get();
                                             $user = App\Models\User::where('id', $item['housing']['user_id'])->first();
-                    
+
                                             $share_percent_earn = null;
                                             $sales_rate_club = null;
-                    
+
                                             foreach ($rates as $key => $rate) {
                                                 if (Auth::user()->corporate_type == $rate->institution->name) {
                                                     $sales_rate_club = $rate->sales_rate_club;
                                                 }
                                                 if (
-                                                    $item['housing']['user']['corporate_type'] == $rate->institution->name ||
+                                                    $item['housing']['user']['corporate_type'] ==
+                                                        $rate->institution->name ||
                                                     ($user->type == 1 && $rate->institution->name == 'Diğer')
                                                 ) {
                                                     $share_percent_earn = $rate->default_deposit_rate;
                                                     $share_percent_balance = 1.0 - $share_percent_earn;
                                                 }
                                             }
-                    
+
                                             if ($sales_rate_club === null && count($rates) > 0) {
                                                 $sales_rate_club = $rates->last()->sales_rate_club;
                                             }
-                    
-                                            $discountedPrice = isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
-                                                ? $discountedPrice
-                                                : (json_decode($item['housing']['housing_type_data'])->price[0]
-                                                    ? json_decode($item['housing']['housing_type_data'])->price[0]
-                                                    : json_decode($item['housing']['housing_type_data'])->daily_rent[0]);
-                    
+                                            $discountedPrice =
+                                                isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                                                    ? $discountedPrice
+                                                    : (json_decode($item['housing']['housing_type_data'])->price[0]
+                                                        ? json_decode($item['housing']['housing_type_data'])->price[0]
+                                                        : json_decode($item['housing']['housing_type_data'])
+                                                            ->daily_rent[0]);
+
+
                                             $total = $discountedPrice * 0.02 * $share_percent_earn;
+
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
                                         <strong>
@@ -197,6 +205,7 @@
                                             @else
                                                 {{ $earningAmount }} ₺
                                             @endif
+
                                         </strong>
                                     @elseif ($item['item_type'] == 1)
                                         @php
@@ -210,18 +219,16 @@
                                             } else {
                                                 $sharePercent = 0.25;
                                             }
-                                            $discountedPrice = isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
-                                                ? $discountedPrice
-                                                : (isset($item['project_values']['price[]'])
-                                                    ? $item['project_values']['price[]']
-                                                    : $item['project_values']['daily_rent[]']);
-                    
-                                            if (isset($item['project_values']['daily_rent[]'])) {
-                                                $dailyRent = $item['project_values']['daily_rent[]'];
-                                                $commissionAmount = $dailyRent * 0.10 * 0.25;
-                                                $earningAmount = $commissionAmount;
-                                            } else {
+                                            $discountedPrice =
+                                                isset($discountRate) && $discountRate != 0 && isset($discountedPrice)
+                                                    ? $discountedPrice
+                                                    : (isset($item['project_values']['price[]'])
+                                                        ? $item['project_values']['price[]']
+                                                        : $item['project_values']['daily_rent[]']);
+                                            if (Auth::user()->corporate_type == 'Emlak Ofisi') {
                                                 $earningAmount = $discountedPrice * $sharePercent;
+                                            } else {
+                                                $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
                                             }
                                         @endphp
                                         <strong>
@@ -242,26 +249,42 @@
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0') ||
                                         ($item['action'] && $item['action'] == 'payment_await'))
                                     <strong style="color: orange">
-                                        <span>Onay Bekleniyor @if (isset($item['share_price']['balance'])) : @endif</span><br>
+                                        <span>Onay Bekleniyor @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
                                         @if (isset($item['share_price']['balance']))
-                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }} ₺
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
                                         @endif
+
                                     </strong>
                                 @elseif (
                                     (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1') ||
                                         ($item['action'] && $item['action'] == 'sold'))
                                     <strong style="color: green">
-                                        <span>Komisyon Kazancınız @if (isset($item['share_price']['balance'])) : @endif</span><br>
+                                        <span>Komisyon Kazancınız @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span>
+                                        <br>
                                         @if (isset($item['share_price']['balance']))
-                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }} ₺
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
                                         @endif
+
                                     </strong>
                                 @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                     <strong style="color: red">
-                                        <span>Kazancınız Reddedildi @if (isset($item['share_price']['balance'])) : @endif</span><br>
+                                        <span>Kazancınız Reddedildi @if (isset($item['share_price']['balance']))
+                                                :
+                                            @endif
+                                        </span><br>
                                         @if (isset($item['share_price']['balance']))
-                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }} ₺
+                                            {{ number_format($item['share_price']['balance'], 0, ',', '.') }}
+                                            ₺
                                         @endif
+
                                     </strong>
                                 @else
                                     -
@@ -269,7 +292,6 @@
                             @endif
                         </span>
                     </li>
-                    
                     <li> <span class="project-table-content-actions-button"
                             data-toggle="popover-{{ $item['item_type'] == 1
                                 ? $item['project']->id + 1000000 . '-' . $item['room_order']
