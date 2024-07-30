@@ -1445,8 +1445,16 @@ class ProjectController extends Controller
         });
 
         if ($project) {
-            return $project->roomInfo;
-            $projectHousing = $project->roomInfo->keyBy('name');
+           // Retrieve roomInfo from the project
+    $roomInfo = $project->roomInfo;
+
+    // Filter the roomInfo based on the housingOrder value
+    $filteredRoomInfo = $roomInfo->filter(function ($item) use ($housingOrder) {
+        return $item->room_order == $housingOrder;
+    });
+
+    // Optionally, you can keyBy 'name' if needed
+    $projectHousing = $filteredRoomInfo->keyBy('name');
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
