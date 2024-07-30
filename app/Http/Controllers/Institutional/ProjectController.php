@@ -142,7 +142,6 @@ class ProjectController extends Controller
       
         $page = $request->input('page', 1);
 
-     
         $perPage = 20;
 
         $housings = Housing::with([
@@ -159,7 +158,10 @@ class ProjectController extends Controller
             $query->where('item_type', 2);
         })
         ->orderBy('created_at', 'desc')
+        ->skip(($page - 1) * $perPage)
+        ->take($perPage)
         ->get();   
+
 
         // $housings =  Housing::with( 'images',
         //         'housing_type',
