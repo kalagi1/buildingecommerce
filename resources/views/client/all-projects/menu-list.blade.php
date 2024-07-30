@@ -2468,6 +2468,7 @@
         input[type="radio"] {
             position: relative;
             appearance: none;
+            cursor: pointer;
             /* Remove default radio button styling */
         }
 
