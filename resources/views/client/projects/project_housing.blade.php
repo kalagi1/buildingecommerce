@@ -1261,7 +1261,97 @@
                                                         {{ $project->id + 1000000 . '-' . $housingOrder }}
                                                     </span>
                                                 </td>
+                                            </tr>    <tr>
+                                                <td>
+                                                    <span class="mr-1">Ada:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->island ? $project->island : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
                                             </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Parsel:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det" style="color: #274abb;">
+                                                        {{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Toplam
+                                                            {{ ucfirst($project->step1_slug) }}
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->room_count }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satışa Açık
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satılan
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->cartOrders }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong class="autoWidthTr"><span>Satışa Kapalı
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                Hisse
+                                                            @else
+                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @endif
+                                                            Sayısı:
+                                                        </span></strong>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
+                                                </td>
                                             @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
@@ -1281,7 +1371,6 @@
                                                         } elseif ($project->roomInfo) {
                                                             foreach ($project->roomInfo as $roomInfo) {
                                                                 if (
-                                                                    $roomInfo->room_order == 1 &&
                                                                     $roomInfo['name'] ===
                                                                         $housingSetting->column_name . '[]'
                                                                 ) {
