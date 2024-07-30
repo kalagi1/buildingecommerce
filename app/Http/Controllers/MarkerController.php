@@ -8,6 +8,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\Project;
+use App\Models\ProjectHousing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
@@ -773,6 +774,7 @@ class MarkerController extends Controller
         }
         $projects = $query->get();
         $term = $request->input('term') ?? null;
+        $projectsWithPriceRanges = [];
 
 
         $markers = $projects->map(function ($housing) use ($request) {
@@ -793,27 +795,39 @@ class MarkerController extends Controller
             $coordinates = explode(',', $housing->location); // Örneğin: "40.78946343745801,35.06030160839845"
             $latitude = trim($coordinates[0]);
             $longitude = trim($coordinates[1]);
+            // Proje ile ilişkilendirilmiş tüm ProjectHousing kayıtlarını al
+    $projectHousing = ProjectHousing::where('project_id', $housing->id)->get();
 
-            // Get the prices based on room count
-            $roomPrices = $housing->roomInfo->groupBy('room_count')->map(function ($rooms) {
-                return [
-                    'min' => $rooms->min('price'),
-                    'max' => $rooms->max('price')
-                ];
-            });
+    // Initialize price range variables
+    $minPrice = null;
+    $maxPrice = null;
 
-            // Calculate overall min and max prices
-            $overallMinPrice = $roomPrices->pluck('min')->filter()->min();
-            $overallMaxPrice = $roomPrices->pluck('max')->filter()->max();
+    if ($projectHousing->isNotEmpty()) {
+        // Group by room count and calculate min and max prices for each room count
+        $pricesByRoomCount = $projectHousing->groupBy('room_count')->map(function ($rooms) {
+            return [
+                'min' => $rooms->min(function ($housing) {
+                    return $housing->price ?? $housing->daily_rent;
+                }),
+                'max' => $rooms->max(function ($housing) {
+                    return $housing->price ?? $housing->daily_rent;
+                })
+            ];
+        });
 
-            if ($overallMinPrice !== null && $overallMaxPrice !== null) {
-                $priceRange = ($overallMinPrice === $overallMaxPrice) ? number_format($overallMinPrice, 2) : number_format($overallMinPrice, 2) . ' - ' . number_format($overallMaxPrice, 2);
-            } else {
-                // If there are no room prices, use daily_rent from ProjectHousing table or a default value
-                $priceRange = $housing->daily_rent ? number_format($housing->daily_rent, 2) : 'Price not available';
-            }
+        // Determine min and max price overall
+        $minPrice = $pricesByRoomCount->pluck('min')->filter()->min();
+        $maxPrice = $pricesByRoomCount->pluck('max')->filter()->max();
+    }
 
-            // Return marker data
+    // Format the price range
+    $priceRange = ($minPrice !== null && $maxPrice !== null)
+        ? ($minPrice === $maxPrice
+            ? number_format($minPrice, 2)
+            : number_format($minPrice, 2) . ' - ' . number_format($maxPrice, 2))
+        : ($housing->price ? number_format($housing->price, 2) : ($housing->daily_rent ? number_format($housing->daily_rent, 2) : 'Price not available'));
+
+    // Store housing data with price range
             return [
                 'id' => 'marker-' . $housing->id,
                 'center' => [
