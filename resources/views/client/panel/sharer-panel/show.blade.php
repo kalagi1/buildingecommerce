@@ -204,6 +204,9 @@
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
                                         <strong>
+                                            @if ($item['housing']['step2_slug'] == 'gunluk-kiralik')
+                                                (Rezerve edilen her gün için) <br>
+                                            @endif
                                             @if (strpos($earningAmount, '.') == false)
                                                 {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                             @else
