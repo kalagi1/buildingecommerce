@@ -41,7 +41,7 @@
                 maxZoom: 20,
                 tap: false,
                 gestureHandling: true,
-                center: centerCoordinates
+                center: [40.155312,26.41416]
             });
             var marker_cluster = L.markerClusterGroup();
 
