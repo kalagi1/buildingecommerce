@@ -47,10 +47,17 @@ use Intervention\Image\ImageManager;
 class HomeController extends Controller
 {
 
-    public function kesfet()
+    public function kesfet(Request $request)
     {
-        return view("client.kesfet");
+        // Extract filter data from the request query parameters
+        $filters = $request->query(); // Retrieve all query parameters
+    
+        // Pass the filter data to the view
+        return view('client.kesfet', [
+            'filters' => $filters
+        ]);
     }
+    
 
     public function previewHousing(Request $request)
     {

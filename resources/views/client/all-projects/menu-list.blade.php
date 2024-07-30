@@ -286,13 +286,11 @@
                                 @endif
 
                                 <div id="searchResultLeft" class="search-filter-section mt-3">
-                                    <a href="/kesfet" title="Harita Görünümü">
                                         <div class="map-container">
                                             <div class="mapMarker">
                                                 <span>Harita Görünümü</span>
                                             </div>
                                         </div>
-                                    </a>
                                 </div>
                                 
                                 <div class="trip-search @if (isset($items)) mt-3 @endif">
@@ -1204,6 +1202,51 @@
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
         }
+        function drawListMap(filters = {}) {
+    function formatDate(rawDate) {
+        const options = {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        };
+        const date = new Date(rawDate);
+        return new Intl.DateTimeFormat('tr-TR', options).format(date);
+    }
+
+    var slug = @json($slug ?? null);
+    var type = @json($housingTypeParentSlug ?? null);
+    var title = @json($housingTypeSlug ?? null);
+    var optional = @json($opt ?? null);
+    var checkTitle = @json($checkTitle ?? null);
+    var term = @json($term ?? null);
+
+    var data = Object.assign({}, filters, {
+        _token: "{{ csrf_token() }}",
+        slug: slug,
+        type: type,
+        title: title,
+        optional: optional,
+        checkTitle: checkTitle,
+        term: term,
+        city: $("#city").val(),
+        county: $("#county").val(),
+        neighborhood: $("#neighborhood").val()
+    });
+
+    let currentData = {};
+    Object.keys(data).forEach(e => {
+        if (data[e]) {
+            currentData[e] = data[e];
+        }
+    });
+
+    // Convert the currentData object into a query string
+    const queryString = $.param(currentData);
+
+    // Redirect to the kesfet page with the query parameters
+    window.location.href = '/kesfet?' + queryString;
+}
+
 
         function drawList(filters = {}) {
             function formatDate(rawDate) {
@@ -1987,6 +2030,83 @@ var tarih = formatDate(res.created_at);
 
             drawList();
 
+            function filterNowMap() {
+                let room_count = [];
+                $('#room_count_field .mb-2').each(function() {
+                    let i = $(this).find('.form-check-input');
+                    if (i.is(':checked')) {
+                        room_count.push(i.attr('id').replace('_', '+'));
+                    }
+                });
+
+                let post_date;
+                $('#post_date_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    if (i.is(':checked')) {
+                        post_date = i.attr('id');
+                        return false;
+                    }
+                });
+
+                let from_owner;
+                $('#from_owner_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    if (i.is(':checked')) {
+                        from_owner = i.attr('id');
+                        return false;
+                    }
+                });
+
+                function getCheckedValues(selector) {
+                    return $(selector + ':checked').map(function() {
+                        return $(this).val();
+                    }).get();
+                }
+
+                function getInputValue(selector) {
+                    var input = $(selector);
+                    return input.length ? input.val() : '';
+                }
+
+                var filterValues = {};
+
+                @foreach ($filters as $filter)
+                    @if ((isset($filter['type']) && $filter['type'] == 'select') || $filter['type'] == 'checkbox-group')
+                        filterValues["{{ $filter['name'] }}"] = getCheckedValues(
+                            'input[name="{{ $filter['name'] }}[]"]');
+                    @else
+                        @if (isset($filter['text_style']) && $filter['text_style'] == 'min-max')
+                            filterValues["{{ $filter['name'] }}-min"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}-min"]').replace(/\./g, "");
+                            filterValues["{{ $filter['name'] }}-max"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}-max"]').replace(/\./g, "");
+                        @else
+                            filterValues["{{ $filter['name'] }}"] = getInputValue(
+                                'input[name="{{ $filter['name'] }}"]');
+                        @endif
+                    @endif
+                @endforeach
+
+                var listingDate = $("input[name='listing_date']:checked").val();
+                var corporateType = $("input[name='corporate_type']:checked").val();
+
+                drawListMap({
+                    page: current_page,
+                    city: $('#city').val(),
+                    county: $('#county').val(),
+                    project_type: $("#project_type").val(),
+                    neighborhood: $('#neighborhood').val(),
+                    filterDate: $(".filter-date:checked").val(),
+                    zoning: $("#zoning").val(),
+                    sort: sortSelectFilters($('#sort-select').val()),
+                    listing_date: listingDate,
+                    corporateType: corporateType,
+
+                    ...filterValues
+                });
+
+            }
+
             function filterNow() {
                 let room_count = [];
                 $('#room_count_field .mb-2').each(function() {
@@ -2067,6 +2187,7 @@ var tarih = formatDate(res.created_at);
 
             $('#sort-select').on('change', filterNow);
             $("#submit-filters").on("change", filterNow);
+            $("#searchResultLeft").on("change", filterNowMap);
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
