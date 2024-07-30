@@ -4,7 +4,10 @@
     <section class="loginItems">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 mx-auto">
+                <div class="col-md-5">
+                    <img src="{{ asset('login/loginImage.png') }}" alt="" style="width:100%;height:100%">
+                </div>
+                <div class="col-md-7">
                     <div class="login-container">
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -95,20 +98,23 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-check-inline" style="margin-top:12px;">
-                                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                                    <label class="form-check-label" for="remember"  style="margin-top:2px;">Beni Hatırla</label>
+                                                    <input type="checkbox" class="form-check-input" id="remember"
+                                                        name="remember">
+                                                    <label class="form-check-label" for="remember"
+                                                        style="margin-top:2px;">Beni Hatırla</label>
                                                 </div>
                                             </div>
 
                                             <div class="col">
                                                 <div class="forgot-password d-flex justify-content-end">
-                                                    <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
+                                                    <a href="{{ route('password.request') }}"><span>Şifremi
+                                                            Unuttum</span></a>
                                                 </div>
                                             </div>
-                                        
+
                                         </div>
 
-                                                                                
+
                                         <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
 
                                         <div class="social-account-login-buttons pb-3 col-12 p-0">
@@ -174,7 +180,7 @@
                                                 value="{{ old('type', 1) }}">
                                         </div>
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
-                                        id="corporateFormNone">
+                                            id="corporateFormNone">
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">Yetkili İsim Soyisim</label>
@@ -351,7 +357,7 @@
                                                                 'İçel (Mersin)' => '324',
                                                                 'İstanbul' => [
                                                                     'Avrupa Yakası' => '212',
-                                                                    'Anadolu Yakası' => '216'
+                                                                    'Anadolu Yakası' => '216',
                                                                 ],
                                                                 'İzmir' => '232',
                                                                 'Kahramanmaraş' => '344',
@@ -392,9 +398,9 @@
                                                                 'Van' => '432',
                                                                 'Yalova' => '226',
                                                                 'Yozgat' => '354',
-                                                                'Zonguldak' => '372'
+                                                                'Zonguldak' => '372',
                                                             ];
-                                                        
+                                                            
                                                             foreach ($alanKodu as $cityName => $cityCode) {
                                                                 if (is_array($cityCode)) {
                                                                     echo '<optgroup label="' . $cityName . '">';
@@ -408,12 +414,13 @@
                                                             }
                                                             ?>
                                                         </select>
-                                                    </div>   
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-8 pl-0">
-                                                    <input type="number" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
-                                                </div>    
-                                            </div>                                            
+                                                    <input type="number" name="phone" id="phone"
+                                                        class="form-control" value="{{ old('phone') }}" maxlength="7">
+                                                </div>
+                                            </div>
 
                                             <!-- Kurumsal Hesap Türü -->
                                             <div class="mt-3">
@@ -438,7 +445,7 @@
                                                     <span
                                                         class="error-message">{{ $errors->first('corporate-account-type') }}</span>
                                                 @endif
-                                            </div>                               
+                                            </div>
 
                                             <!-- İl -->
                                             <div class="mt-3">
@@ -554,7 +561,7 @@
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="number" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
-                                                                value="{{ old('taxNumber') }}"  maxlength="10">
+                                                                value="{{ old('taxNumber') }}" maxlength="10">
                                                             @if ($errors->has('taxNumber'))
                                                                 <span
                                                                     class="error-message">{{ $errors->first('taxNumber') }}</span>
@@ -564,18 +571,20 @@
                                                 </div>
                                             </div>
 
-                                                      <!-- Yetki Belgesi No -->
-                                                      <div class="split-form corporate-input mt-3">
-                                                        <div class="corporate-input input-city">
-                                                            <div class="mbdef">
-                                                                <div class="select select-tax-office">
-                                                                    <label for="" class="q-label">Yetki Belgesi No</label>
-                                                                    <input type="text" id="authority_licence" name="authority_licence"
-                                                                    value="{{ old('authority_licence') }}" class="form-control" maxlength="7">
-                                                                </div>
-                                                            </div>
+                                            <!-- Yetki Belgesi No -->
+                                            <div class="split-form corporate-input mt-3">
+                                                <div class="corporate-input input-city">
+                                                    <div class="mbdef">
+                                                        <div class="select select-tax-office">
+                                                            <label for="" class="q-label">Yetki Belgesi No</label>
+                                                            <input type="text" id="authority_licence"
+                                                                name="authority_licence"
+                                                                value="{{ old('authority_licence') }}"
+                                                                class="form-control" maxlength="7">
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
 
                                             <!-- TC Kimlik No -->
                                             <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
@@ -585,7 +594,8 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="number" id="idNumber" name="idNumber"
-                                                                class="form-control" value="{{ old('idNumber') }}"  maxlength="11">
+                                                                class="form-control" value="{{ old('idNumber') }}"
+                                                                maxlength="11">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -659,7 +669,11 @@
                                                     <div class="filter-tags-wrap">
                                                         <input id="check-e" type="checkbox" name="check-e">
                                                         <label for="check-e" style="font-size: 11px;">
-                                                            İletişim bilgilerime kampanya, tanıtım ve reklam içerikli ticari elektronik ileti gönderilmesine, bu amaçla kişisel verilerimin “Emlaksepette” tarafından işlenmesine ve tedarikçileri ve işbirlikçileri ile paylaşılmasına, bu amaçlarla verilerimin yurt dışına aktarılmasına izin veriyorum.
+                                                            İletişim bilgilerime kampanya, tanıtım ve reklam içerikli ticari
+                                                            elektronik ileti gönderilmesine, bu amaçla kişisel verilerimin
+                                                            “Emlaksepette” tarafından işlenmesine ve tedarikçileri ve
+                                                            işbirlikçileri ile paylaşılmasına, bu amaçlarla verilerimin yurt
+                                                            dışına aktarılmasına izin veriyorum.
                                                         </label>
                                                     </div>
                                                 </div>
@@ -691,12 +705,11 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-   
-    <script>
 
+    <script>
         $(document).ready(function() {
 
-                $('#area_code, #phone').on('input', function() {
+            $('#area_code, #phone').on('input', function() {
                 var areaCode = $('#area_code').val();
                 var phoneNumber = $('#phone').val();
                 // Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
@@ -705,11 +718,9 @@
                     var fullPhoneNumber = areaCode + phoneNumber;
                     // Telefon numarasını konsola yazdır
                     console.log("Telefon numarası: " + fullPhoneNumber);
-                    }
-            }); 
+                }
+            });
         });
-
-
     </script>
     <script>
         $(document).ready(function() {
@@ -853,16 +864,16 @@
                     }
                 });
             }
-  // Show overlay when a Select2 dropdown is opened
-  $(document).on('click', '.select2-container', function() {
+            // Show overlay when a Select2 dropdown is opened
+            $(document).on('click', '.select2-container', function() {
                 if ($(this).hasClass('select2-container--open')) {
-            const searchField = $('.select2-search__field');
-        if (searchField.length) {
-            searchField.attr('placeholder', 'Ara...');
-        }
+                    const searchField = $('.select2-search__field');
+                    if (searchField.length) {
+                        searchField.attr('placeholder', 'Ara...');
+                    }
 
-        }
-    });
+                }
+            });
 
             if (countyId) {
                 $.ajax({
@@ -913,51 +924,51 @@
             });
         });
         $('#citySelect').select2({
-        placeholder: 'İl',
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
+            placeholder: 'İl',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
             }
-        }
-    });
-    $('#taxOfficeCity').select2({
-        placeholder: 'Vergi Dairesi İli',
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
+        });
+        $('#taxOfficeCity').select2({
+            placeholder: 'Vergi Dairesi İli',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
             }
-        }
-    });
-    $('#taxOffice').select2({
-        placeholder: 'Vergi Dairesi',
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
+        });
+        $('#taxOffice').select2({
+            placeholder: 'Vergi Dairesi',
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
             }
-        }
-    }).prop('disabled', true);
-    $('#countySelect').select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
+        }).prop('disabled', true);
+        $('#countySelect').select2({
+            minimumResultsForSearch: -1,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
             }
-        }
-    }).prop('disabled', true);
+        }).prop('disabled', true);
 
-    $('#neighborhoodSelect').select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
+        $('#neighborhoodSelect').select2({
+            minimumResultsForSearch: -1,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return 'Arama sonuç bulunamadı';
+                }
             }
-        }
-    }).prop('disabled', true);
+        }).prop('disabled', true);
         $('#citySelect').change(function() {
             var selectedCity = $(this).val();
 
@@ -967,10 +978,10 @@
                 success: function(data) {
                     var countySelect = $('#countySelect');
                     $('#countySelect').select2({
-                            placeholder: 'İlçe',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        }).prop('disabled', false);
+                        placeholder: 'İlçe',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    }).prop('disabled', false);
                     countySelect.empty();
                     countySelect.append('<option value="">İlçe Seçiniz</option>');
                     $.each(data.counties, function(index, county) {
@@ -993,10 +1004,10 @@
                     neighborhoodSelect.empty();
                     neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
                     $('#neighborhoodSelect').select2({
-                            placeholder: 'Mahalle',
-                            width: '100%',
-                            searchInputPlaceholder: 'Ara...'
-                        }).prop('disabled', false);
+                        placeholder: 'Mahalle',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    }).prop('disabled', false);
                     $.each(data, function(index, county) {
                         neighborhoodSelect.append('<option value="' + county.mahalle_key +
                             '">' +
@@ -1017,14 +1028,14 @@
                     var taxOffice = $('#taxOffice');
                     taxOffice.empty();
                     $('#taxOffice').select2({
-        placeholder: 'Vergi Dairesi',
-        width: '100%',
-        language: {
-            noResults: function() {
-                return 'Arama sonuç bulunamadı';
-            }
-        }
-    }).prop('disabled', false);
+                        placeholder: 'Vergi Dairesi',
+                        width: '100%',
+                        language: {
+                            noResults: function() {
+                                return 'Arama sonuç bulunamadı';
+                            }
+                        }
+                    }).prop('disabled', false);
                     $.each(data, function(index, office) {
                         taxOffice.append('<option value="' + office.id + '">' + office
                             .daire +
@@ -1109,8 +1120,9 @@
 @section('styles')
     <style>
         .form-check-inline .form-check-input[type="checkbox"] {
-    transform: scale(0.7); /* Boyutu %50 oranında küçültür */
-}
+            transform: scale(0.7);
+            /* Boyutu %50 oranında küçültür */
+        }
 
         .inner-pages .checkboxes label:before {
             content: "";
@@ -1162,7 +1174,7 @@
             position: relative;
 
         }
-      
+
         .field-icon {
             float: right;
             margin-right: 12px;
