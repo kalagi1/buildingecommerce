@@ -140,7 +140,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        return $request->all();
 
         $credentials = $request->only('email', 'password');
         if(!Auth::attempt($credentials)){
