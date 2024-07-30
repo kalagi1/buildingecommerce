@@ -796,7 +796,7 @@ class MarkerController extends Controller
         
             // Proje ile ilişkilendirilmiş tüm ProjectHousing kayıtlarını al
             $projectHousing = ProjectHousing::where('project_id', $housing->id)
-                ->whereIn('key', ['price[]', 'daily_rent[]'])
+                ->whereIn('name', ['price[]', 'daily_rent[]'])
                 ->get();
         
             // Initialize price range variables
@@ -844,7 +844,7 @@ class MarkerController extends Controller
                 'icon' => "<i class='fa fa-home'></i>",
                 'title' => $housing->project_title, // Title for the marker
                 'desc' => $desc,
-                'price' => $projectHousing, // Display price range or default value
+                'price' => $priceRange, // Display price range or default value
                 'image' => url(str_replace('public/', 'storage/', $housing->image)),
                 'link' => route('project.detail', [
                     'slug' =>
