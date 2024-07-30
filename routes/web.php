@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
 use App\Http\Controllers\Admin\CrmController as AdminCrmController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -155,8 +156,14 @@ Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+
 });
 Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
+Route::get('/get-project-comment/{id}', [ClientProjectController::class, 'getComment'])->name('project.get-comment');
+Route::post('/project-comments/update', [ClientProjectController::class, 'updateComment'])->name('project.update-comment');
+
+Route::get('/get-housing-comment/{id}', [ClientHousingController::class, 'getComment'])->name('housing.get-comment');
+Route::post('/housing-comments/update', [ClientHousingController::class, 'updateComment'])->name('housing.update-comment');
 
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
     ->name('club.dashboard2');
@@ -260,7 +267,10 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
-
+    Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
+    Route::get('districts', [LocationController::class, 'getDistricts'])->name('locations.getDistricts');
+    Route::get('neighborhoods', [LocationController::class, 'getNeighborhoods'])->name('locations.getNeighborhoods');
+    Route::post('saveMetaDescriptions', [LocationController::class, 'saveMetaDescriptions'])->name('locations.saveMetaDescriptions');
 
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
@@ -1064,7 +1074,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
         Route::post('/bireysel/profil', [InstitutionalProfileController::class, "individualProfileUpdate"])->name('individual.profile.update');
 
-        Route::get('/profil/duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
+        Route::get('/profil-duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
 
@@ -1186,7 +1196,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/faturayi-goruntule/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
-        Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
+        Route::get('rezervasyon-detayi/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
@@ -1195,6 +1205,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 });
 
 Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
+
+Route::post('/order/comment', [HomeController::class, 'commentAfterPayment'])->name('client.commentAfterPayment');
 
 Route::get('/share/approve/{share}', [HomeController::class, 'approveShare'])->name('client.approve-share');
 Route::get('/share/unapprove/{share}', [HomeController::class, 'unapproveShare'])->name('client.unapprove-share');

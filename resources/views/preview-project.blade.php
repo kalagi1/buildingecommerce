@@ -116,7 +116,7 @@
 
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
-                                                    <span class="det" style="color: #EA2B2E !important;">
+                                                    <span class="det" style="color: #D32729 !important;">
                                                         @if (isset($city) || isset($county) || isset($neighbour))
                                                             @if (isset($city))
                                                                 {{ strtoupper($city->title) }}
@@ -413,7 +413,7 @@
 
                                                             <div class="d-flex" style="height: 100%;">
                                                                 <div
-                                                                    style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
+                                                                    style="background-color: #D32729 !important; border-radius: 0px 8px 0px 8px; height:100%">
                                                                     <p
                                                                         style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
                                                                         No<br>

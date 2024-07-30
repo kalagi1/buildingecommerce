@@ -607,7 +607,7 @@
         }
 
         .collection-content a {
-            color: #EA2B2E;
+            color: #D32729;
             text-align: center;
             padding: 10px 0;
             transition: all 0.3s ease-out;

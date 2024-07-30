@@ -244,7 +244,7 @@
 
         .crossmark::after {
             content: '✗';
-            color: #EA2B2E;
+            color: #D32729;
             font-size: 16px;
             margin-left: 5px;
         }

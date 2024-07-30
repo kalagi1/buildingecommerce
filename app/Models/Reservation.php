@@ -26,17 +26,34 @@ class Reservation extends Model
     {
         return $this->hasOne(User::class, "id", "owner_id");
     }
-
-    public function sharer(){
-        return $this->hasOne(SharerPrice::class,"reservation_id","id");
+    public function reference()
+    {
+        return $this->belongsTo(User::class, 'reference_id');
     }
 
-    public function cartPrice(){
-        return $this->hasOne(CartPrice::class,"reservation_id","id");
+    public function price()
+    {
+        return $this->belongsTo(CartPrice::class, 'id', 'reservation_id');
+    }
+    public function share()
+    {
+        return $this->belongsTo(SharerPrice::class, 'id', 'reservation_id');
     }
 
-    public function cancelRequest(){
-        return $this->hasOne(CancelRequest::class,"reservation_id","id")->where('item_type',1);
+
+    public function sharer()
+    {
+        return $this->hasOne(SharerPrice::class, "reservation_id", "id");
+    }
+
+    public function cartPrice()
+    {
+        return $this->hasOne(CartPrice::class, "reservation_id", "id");
+    }
+
+    public function cancelRequest()
+    {
+        return $this->hasOne(CancelRequest::class, "reservation_id", "id")->where('item_type', 1);
     }
 
     public function refund()

@@ -139,7 +139,7 @@
 
                                     <div class="text-sq fs-12 lh-16">
                                         @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                            <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse
+                                            <span style="color:#D32729" class="mt-3">{{ $cart['item']['qt'] }} adet hisse
                                                 satın
                                                 alıyorsunuz!</span>
                                         @endif
@@ -855,7 +855,7 @@
                                                 <div class="invoice-total mt-3">
                                                     <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
                                                     <div class="row mb-3 mt-3 p-0 mx-0">
-                                                        <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
+                                                        <span>1. <strong style="color:#D32729;font-weight:bold !important"
                                                                 id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                                             alanına yazdığınızdan emin olun.</span>
 
@@ -883,7 +883,7 @@
                                                     </div>
                                                     <div id="ibanInfo" style="font-size: 12px !important"></div>
                                                     <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                                        <span style="color:#EA2B2E;font-weight:bold"
+                                                        <span style="color:#D32729;font-weight:bold"
                                                             id="uniqueCode"></span>
                                                         kodu
                                                         kullanarak ödemenizi
@@ -1263,7 +1263,7 @@
 
         .sales {
             padding: 6px, 8px, 6px, 8px;
-            background-color: #EA2B2E;
+            background-color: #D32729;
             width: 100px;
             color: #fff;
             height: 20px;

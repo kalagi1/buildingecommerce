@@ -195,7 +195,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
                             ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
                         <button class="btn second-btn mobileCBtn"
-                            style="background: #EA2B2E !important; width: 100%; color: White;">
+                            style="background: #D32729 !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapatıldı</span>
                         </button>
                     @else
@@ -212,9 +212,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                             isset($sumCartOrderQt[$keyIndex]) &&
                                             $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
                     @elseif ($sold->status == '1')
-                        style="background: #EA2B2E !important; color: White; "
+                        style="background: #D32729 !important; color: White; "
                     @else
-                        style="background: #EA2B2E !important; color: White; " @endif>
+                        style="background: #D32729 !important; color: White; " @endif>
                                 @if ($sold->status == '0' && $share_sale_empty)
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
@@ -661,10 +661,10 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                                     <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                         edin:</span>
                                     <ul>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
                                                 aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
                                             aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
                                                 aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                             düğmesi
                                             aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
