@@ -7,13 +7,15 @@ use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class MarkerController extends Controller
 {
     public function index(Request $request)
-    {   function convertMonthToTurkishCharacter($date)
+    {
+        function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
                 'January' => 'Ocak',
@@ -155,7 +157,7 @@ class MarkerController extends Controller
             }
         }
 
-        $obj =  Housing::with('images', "city", "county","district","neighborhood")
+        $obj =  Housing::with('images', "city", "county", "district", "neighborhood")
             ->select(
                 'housings.*',
                 'housing_types.title as housing_type_title',
@@ -444,19 +446,19 @@ class MarkerController extends Controller
 
         $markers = $objPaginated->map(function ($housing) use ($request) {
             $housingTypeData = json_decode($housing->housing_type_data);
-        
+
             // Determine price
             $price = getData($housing, 'price') ?: 0;
             $dailyRent = getData($housing, 'daily_rent') ?: 0;
-        
+
             // Select the appropriate price based on the step2_slug
             $finalPrice = ($housing->step2_slug === 'gunluk-kiralik') ? $dailyRent : $price;
-        
+
             // Apply discount if available
             if ($housing->discount_amount) {
                 $finalPrice -= $housing->discount_amount;
             }
-        
+
             // Construct description
             $descParts = [];
             if ($housing->city) {
@@ -469,7 +471,7 @@ class MarkerController extends Controller
                 $descParts[] = $housing->neighborhood->mahalle_title;
             }
             $desc = implode('/ ', $descParts);
-        
+
             // Return marker data
             return [
                 'id' => 'marker-' . $housing->id,
@@ -485,8 +487,356 @@ class MarkerController extends Controller
                 ]),
             ];
         });
-        
+
         return response()->json(['data' => $markers]);
     }
-    
+    public function indexProjectMarkers(Request $request)
+    {
+        $parameters = ["slug", "type", "optional", "title"];
+        $secondhandHousings = [];
+        $projects = [];
+        $slug = [];
+        $slugType = null;
+        $slugName = [];
+
+        $housingTypeSlug = [];
+        $housingTypeSlugName = [];
+
+        $housingType = [];
+        $housingTypeName = [];
+
+        $opt = null;
+        $is_project = null;
+
+        $optName = [];
+
+        foreach ($parameters as $paramValue) {
+            if ($paramValue) {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik") {
+                    $opt = $request->input($paramValue);
+                    if ($opt) {
+                        $opt = $opt;
+                        if ($opt == "satilik") {
+                            $optName = "Satılık";
+                        } else {
+                            $optName = "Kiralık";
+                        }
+                    }
+                } else {
+                    $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
+                    $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
+                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+                    if ($item1) {
+                        $slugName = $item1->name;
+                        $slug = $item1->id;
+                    }
+
+                    if ($housingTypeParent) {
+                        $housingTypeSlugName = $housingTypeParent->title;
+                        $housingTypeSlug = $housingTypeParent->slug;
+                    }
+
+                    if ($housingType) {
+                        $housingTypeName = $housingType->title;
+                        $housingType = $housingType->id;
+                    }
+                }
+            }
+        }
+        // dd($slug,$housingTypeSlug,$housingType);
+
+        $query = Project::query()->where('projects.status', 1);
+
+        if ($request->input('city') &&  $request->input('city') != "#") {
+            $query->where('city_id', $request->input('city'));
+        }
+
+        if ($request->input('county') && $request->input('county') != "#") {
+            $query->where('county_id', $request->input('county'));
+        }
+        if ($request->input('listing_date') == 24) {
+            $query = $query->where('projects.created_at', '>=', now()->subDay());
+        }
+
+        if ($request->input('listing_date')) {
+
+            $query = $query->where('projects.created_at', '>=', now()->subDays($request->input('listing_date')));
+        }
+
+        if ($request->has('corporateType') && $request->input('corporateType') !== null) {
+            $query->join('users', 'users.id', '=', 'projects.user_id')
+                ->where('users.corporate_type', $request->input('corporateType'))
+                ->select('projects.*', 'users.corporate_type'); // İlgili sütunları seçin
+        }
+
+        if ($request->input('filterDate')) {
+            $filterDate = $request->input('filterDate');
+
+            switch ($filterDate) {
+                case 'last3Days':
+                    $query->where('created_at', '>=', now()->subDays(3));
+                    break;
+
+                case 'lastWeek':
+                    $query->where('created_at', '>=', now()->subWeek());
+                    break;
+
+                case 'lastMonth':
+                    $query->where('created_at', '>=', now()->subMonth());
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if ($request->input('project_type')) {
+            $slug = $request->input('project_type');
+            $query->whereHas('housingTypes', function ($query) use ($slug) {
+                $query->where('housing_type_id', $slug);
+            });
+        }
+
+        if ($slug && $slug != "1") {
+            $query->whereHas('housingTypes', function ($query) use ($slug) {
+                $query->where('housing_type_id', $slug);
+            });
+        }
+
+        if ($housingTypeSlug) {
+            $query->where("step1_slug", $housingTypeSlug);
+        }
+
+        if ($opt) {
+            $query->where("step2_slug", $opt);
+        }
+
+        if (empty($housingType) && !empty($housingTypeParentSlug)) {
+            $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)->with("parents.connections.housingType")->first();
+
+
+            // HousingTypeParent içindeki bağlantıları al
+            $parentConnections = $connections->parents->pluck('connections')->flatten();
+
+            // Benzersiz housing_type_id değerlerini bul
+            $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
+            $filtersDb = Filter::where('item_type', 2)->whereIn('housing_type_id', $uniqueHousingTypeIds)->get()->keyBy('filter_name')->toArray();
+            $filtersDbx = array_keys($filtersDb);
+            foreach ($filtersDb as $data) {
+                if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                    $inputName = $data['filter_name'];
+                    if ($request->input($inputName)) {
+                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                            $query->where([
+                                ['name', $data->name],
+                            ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
+                        }, '>=', 1);
+                    }
+                } else if ($data['filter_type'] == 'text') {
+                    if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
+                        $inputName = str_replace('[]', '', $data['filter_name']);
+                        if ($request->input($inputName . '-min')) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
+                            }, '>=', 1);
+                        }
+
+                        if ($request->input($inputName . '-max')) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
+                            }, '>=', 1);
+                        }
+                    } else {
+                        $inputName = str_replace('[]', '', $data->name);
+                        if ($request->input($inputName)) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
+                            }, '>=', 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($housingType)) {
+            $query->where('housing_type_id', $housingType);
+            $housingTypeData = HousingType::where('id', $housingType)->first();
+            $tempFilter = 0;
+
+            $formData = json_decode($housingTypeData->form_json);
+            if (isset($formData)) {
+                foreach ($formData as $key => $data) {
+                    if ($data->type == "select" || $data->type == "checkbox-group") {
+                        $inputName = str_replace('[]', '', $data->name);
+                        if ($request->input($inputName)) {
+                            $tempFilter = $tempFilter + 1;
+                        }
+                    }
+                }
+            }
+
+            // Yeni bir dizi oluşturarak selectedCheckboxes ve textInputs değerlerini birleştir
+            $combinedFilters = array_merge($request->input('selectedCheckboxes', []), $request->input('textInputs', []));
+
+            $filtersDb = Filter::where('item_type', 1)
+                ->where('housing_type_id', $housingType)
+                ->get()
+                ->keyBy('filter_name')->toArray();
+
+            $filtersDbx = array_keys($filtersDb);
+            if ($formData) {
+                foreach ($formData as $key => $data) {
+                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                        if (isset($combinedFilters[$data->name])) {
+                            if ($data->type == "select" || $data->type == "checkbox-group") {
+                                $inputName = str_replace('[]', '', $data->name);
+                                if ($request->input($inputName)) {
+                                    $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                        $query->where([
+                                            ['name', $data->name],
+                                        ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
+                                    }, '>=', 1);
+                                }
+                            } elseif ($data->type == 'text') {
+                                if ($filtersDb[str_replace('[]', '', $data->name)]['text_style'] == 'min-max') {
+                                    $inputName = str_replace('[]', '', $data->name);
+                                    if ($request->input($inputName . '-min')) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
+
+                                    if ($request->input($inputName . '-max')) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
+                                } else {
+                                    $inputName = str_replace('[]', '', $data->name);
+                                    if ($request->input($inputName)) {
+                                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                            $query->where([
+                                                ['name', $data->name],
+                                            ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
+                                        }, '>=', 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if ($request->input('neighborhood') && $request->input('neighborhood') != "#") {
+            $query->where('neighbourhood_id', $request->input('neighborhood'));
+        }
+
+        // Sıralama seçeneğini kontrol et
+        if ($request->input('sort')) {
+            switch ($request->input('sort')) {
+                case 'date-asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'date-desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+
+        if ($request->input('term')) {
+            $term = $request->input('term');
+            $query->where(function ($queryf) use ($term) {
+                $queryf->where('project_title', 'LIKE', "%{$term}%")
+                    ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                    ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                    ->orWhere('description', 'LIKE', "%{$term}%")
+                    ->orWhere('id', '=', (int)$term - 1000000)
+                    ->orWhereHas('city', function ($queryf) use ($term) {
+                        $queryf->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($queryf) use ($term) {
+                        $queryf->where('ilce_title', 'LIKE', "%{$term}%");
+                    });
+            })->where("projects.status", 1);
+        }
+        $projects = $query->get();
+        $term = $request->input('term') ?? null;
+
+        $renderedProjects = $projects->through(function ($item) {
+
+            $statusID = $item->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
+
+            return [
+                'image' => url(str_replace('public/', 'storage/', $item->image)),
+                'url' => route('project.detail', ['slug' => $item->slug . "-" . $status->slug . "-" . $item->step2_slug . "-" . $item->housingtype->slug, "id" => $item->id + 1000000]),
+                'city' => $item->city,
+                'county' => $item->county,
+                'neighborhood' => $item->neighborhood,
+                'profile_user_image' => URL::to('/') . '/storage/profile_images/' . $item->user->profile_image,
+                "title" => $item->project_title,
+                'created_at' => $item->created_at,
+            ];
+        });
+
+
+        $markers = $projects->map(function ($housing) use ($request) {
+
+
+            $finalPrice = null;
+            $descParts = [];
+            if ($housing->city) {
+                $descParts[] = $housing->city->title;
+            }
+            if ($housing->district) {
+                $descParts[] = $housing->district->ilce_title;
+            }
+            if ($housing->neighborhood) {
+                $descParts[] = $housing->neighborhood->mahalle_title;
+            }
+            $desc = implode('/ ', $descParts);
+
+            // Return marker data
+            return [
+                'id' => 'marker-' . $housing->id,
+                'center' => [$housing->location], // Assuming these fields exist
+                'icon' => "<i class='fa fa-home'></i>",
+                'title' => $housing->project_title, // Title for the marker
+                'desc' => $desc,
+                'price' => null, // Format the price
+                'image' => url(str_replace('public/', 'storage/', $housing->image)),
+                'link' => route('project.detail', [
+                    'slug' =>
+                    $housing->slug .
+                        '-' .
+                        $housing->step2_slug .
+                        '-' .
+                        $housing->housingtype->slug .
+                        '-' .
+                        $housing->slug .
+                        '-' .
+                        strtolower($housing->city->title) .
+                        '-' .
+                        strtolower($housing->county->ilce_title) .
+                        '-' .
+                        ($housing->neighbourhood ? strtolower($housing->neighbourhood->mahalle_title) : ''),
+                    'id' => $housing->id + 1000000,
+                ]),
+            ];
+        });
+
+        return response()->json(['data' => $markers]);
+    }
 }

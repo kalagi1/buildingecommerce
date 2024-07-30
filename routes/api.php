@@ -53,6 +53,7 @@ use App\Http\Controllers\MarkerController;
 */
 
 Route::get('/markers', [MarkerController::class, 'index']);
+Route::get('/project-markers', [MarkerController::class, 'indexProjectMarkers']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
