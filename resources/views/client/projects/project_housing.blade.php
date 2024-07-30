@@ -1263,19 +1263,14 @@
                                                 </td>
                                             </tr>    
                                          
-                                            @php
-                                            // Eğer $projectHousing mevcutsa, anahtarları filtreleyin ve anahtarları 'name' ile ayırın
-                                            $projectHousing = $project->roomInfo->keyBy('name');
-                                        @endphp
-                                        
-                                        @foreach ($projectHousingSetting as $housingSetting)
+                                            @foreach ($projectHousingSetting as $housingSetting)
                                             @php
                                                 $isArrayCheck = $housingSetting->is_array;
                                                 $value = '';
                                         
-                                                // $housingSetting ile ilişkili veri olup olmadığını kontrol edin
+                                                // Filtreleme: Eğer mevcutsa ve 'housingOrder' ile eşleşiyorsa veriyi al
                                                 if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null, true);
+                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
                                         
                                                     if ($isArrayCheck && isset($valueArray)) {
                                                         $value = implodeData($valueArray);
@@ -1283,7 +1278,8 @@
                                                         $value = $project[$housingSetting->column_name] ?? null;
                                                     } elseif ($project->roomInfo) {
                                                         foreach ($project->roomInfo as $roomInfo) {
-                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                            // 'room_order' kontrolü yaparak doğru veriyi çek
+                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]' && $roomInfo['room_order'] == $housingOrder) {
                                                                 $value = $roomInfo['value'] == '["on"]'
                                                                     ? 'Evet'
                                                                     : ($roomInfo['value'] == '["off"]'
@@ -1309,9 +1305,7 @@
                                                 <tr>
                                                     <td>
                                                         <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                        <span class="det">
-                                                            {{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}
-                                                        </span>
+                                                        <span class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
                                                     </td>
                                                 </tr>
                                             @endif
