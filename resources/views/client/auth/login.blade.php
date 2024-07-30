@@ -1,7 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
-    <section class="loginItems">
+    <section class="single homes-content details mb-30 loginItems">
         <div class="container">
             <div class="row">
                 <div class="col-md-5">
