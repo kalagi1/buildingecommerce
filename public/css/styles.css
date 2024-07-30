@@ -27708,7 +27708,8 @@ h4 {
   height: 48px;
   border-radius: 4px;
   text-transform: uppercase;
-
+  border-color: #D32729 !important;
+background-color:#D32729 !important;
   transition: all 0.3s ease;
   font-size: 11px;
 }
@@ -27797,8 +27798,10 @@ h4 {
 
 .user-type-button.active {
   background-color: transparent;
-  color: #007bff;
-  border-color: #007bff;
+  color: white;
+  border-color: #D32729;
+  background-color: #D32729;
+
 }
 
 .login-tabs li a.active {
