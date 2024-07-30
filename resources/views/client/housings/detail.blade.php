@@ -2722,8 +2722,22 @@
 
                     // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
+                    var housingTypeData = @json($housing->housing_type_data);
+   // Ensure housingTypeData is parsed and available
+   var housingTypeData = @json($housing->housing_type_data);
+        
+        // Extract discount rate from housingTypeData
+        var discountRate = housingTypeData.discount_rate || 0;
 
-                    // AJAX ile sunucuya gönder
+        // Initial price
+        var originalPrice = price;
+        var discountedPrice = originalPrice;
+
+        // Apply discount if discount rate exists
+        if (discountRate > 0) {
+            discountedPrice = originalPrice - (originalPrice * (discountRate / 100));
+        }
+
                     $.ajax({
                         url: "{{ route('reservation.sessions') }}",
                         type: "POST",
@@ -2734,8 +2748,8 @@
                             person_count: personCount,
                             housing_id: {{ $housing->id }},
                             owner_id: {{ $housing->user->id }},
-                            price: price,
-                            total_price: price * diffDays,
+                            price: discountedPrice,
+                            total_price: discountedPrice * diffDays,
                             money_is_safe: moneyIsSafe,
                             key: key,
                             // fullName: fullName,
