@@ -777,7 +777,7 @@ class MarkerController extends Controller
 
         $markers = $projects->map(function ($housing) use ($request) {
             $descParts = [];
-        
+
             if ($housing->city) {
                 $descParts[] = $housing->city->title;
             }
@@ -788,24 +788,31 @@ class MarkerController extends Controller
                 $descParts[] = $housing->neighborhood->mahalle_title;
             }
             $desc = implode('/ ', $descParts);
-        
+
             // Ayrıştırılmış koordinatları kullan
             $coordinates = explode(',', $housing->location); // Örneğin: "40.78946343745801,35.06030160839845"
             $latitude = trim($coordinates[0]);
             $longitude = trim($coordinates[1]);
-        
-            // Get the price range
-            $roomPrices = $housing->roomInfo->pluck('price')->filter()->all(); // Collect non-null prices
-        
-            if (count($roomPrices) > 0) {
-                $minPrice = min($roomPrices);
-                $maxPrice = max($roomPrices);
-                $priceRange = ($minPrice === $maxPrice) ? number_format($minPrice, 2) : number_format($minPrice, 2) . ' - ' . number_format($maxPrice, 2);
+
+            // Get the prices based on room count
+            $roomPrices = $housing->roomInfo->groupBy('room_count')->map(function ($rooms) {
+                return [
+                    'min' => $rooms->min('price'),
+                    'max' => $rooms->max('price')
+                ];
+            });
+
+            // Calculate overall min and max prices
+            $overallMinPrice = $roomPrices->pluck('min')->filter()->min();
+            $overallMaxPrice = $roomPrices->pluck('max')->filter()->max();
+
+            if ($overallMinPrice !== null && $overallMaxPrice !== null) {
+                $priceRange = ($overallMinPrice === $overallMaxPrice) ? number_format($overallMinPrice, 2) : number_format($overallMinPrice, 2) . ' - ' . number_format($overallMaxPrice, 2);
             } else {
                 // If there are no room prices, use daily_rent from ProjectHousing table or a default value
                 $priceRange = $housing->daily_rent ? number_format($housing->daily_rent, 2) : 'Price not available';
             }
-        
+
             // Return marker data
             return [
                 'id' => 'marker-' . $housing->id,
@@ -837,7 +844,7 @@ class MarkerController extends Controller
                 ]),
             ];
         });
-        
+
         return response()->json(['data' => $markers]);
     }
 }
