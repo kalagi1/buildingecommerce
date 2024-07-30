@@ -198,7 +198,7 @@
                                             if ($item['housing']['step2_slug'] != 'gunluk-kiralik') {
                                                 $total = $discountedPrice * 0.02 * $share_percent_earn;
                                             }else{
-                                                $total = $discountedPrice * $share_percent_earn;
+                                                $total = ($discountedPrice / 2) * $share_percent_earn;
                                             }
 
                                             $earningAmount = $total * $sales_rate_club;
