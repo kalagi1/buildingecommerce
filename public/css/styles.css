@@ -24016,6 +24016,10 @@ a.btn_1 {
   cursor: pointer;
 }
 
+.btn{
+  border-radius: 10px;
+}
+
 .inner-pages .input-group-btn .btn-primary {
   background: black;
   border: 1px solid black;
