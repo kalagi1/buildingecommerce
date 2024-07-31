@@ -119,7 +119,7 @@ class HousingController extends Controller
 
         if ($housing) {
 
-            if ($housing->is_sold != NULL) {
+            if ($housing->is_sold !== NULL) {
                 return redirect('/')
                     ->with('error', 'İLAN SATILDI');
             }
