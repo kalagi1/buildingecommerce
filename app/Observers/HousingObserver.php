@@ -30,7 +30,7 @@ class HousingObserver
 
     /**
      * Handle the Housing "deleted" event.
-     */
+     */ 
     public function deleted(Housing $housing): void
     {
         // Remove entries from the share_links table where housing_id matches the current housing's id
