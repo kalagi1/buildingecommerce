@@ -296,7 +296,11 @@
                                         data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                         aria-selected="false">Yorumlar</button>
                                 </li>
-
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
+                                        data-bs-target="#comment" type="button" role="tab" aria-controls="comment"
+                                        aria-selected="false">Yorum Yap</button>
+                                </li>
 
                             </ul>
 
@@ -573,79 +577,84 @@
                                         <span>Bu mağaza için henüz yorum yapılmadı.</span>
                                     @endif
 
-                                    @if (checkIfUserCanAddToCart($housing->id))
-                                        <form id="commentForm" enctype="multipart/form-data" class="mt-5">
-                                            @csrf
-                                            <input type="hidden" name="rate" id="rate" />
-                                            <h5>Yeni Yorum Ekle</h5>
-
-                                            <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                <div class="d-flex rating-area">
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-auto">
-                                                    <input type="file" style="display: none;" class="fileinput"
-                                                        name="images[]" multiple accept="image/*" />
-                                                    <button type="button" class="btn btn-primary q-button"
-                                                        id="selectImageButton">Resimleri Seç</button>
-                                                </div>
-                                            </div>
-                                            <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                            <button type="button" class="ud-btn btn-white2 mt-3"
-                                                onclick="submitForm()">Yorumu
-                                                Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                            <div id="previewContainer"
-                                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
-
-                                        </form>
-                                    @endif
 
 
                                 </div>
+                                <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
+                                aria-labelledby="comment-tab">
+                                @if (checkIfUserCanAddToCart($housing->id))
+                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                        @csrf
+                                        <input type="hidden" name="rate" id="rate" />
+                                        <h5>Yeni Yorum Ekle</h5>
+
+                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                            <div class="d-flex rating-area">
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <input type="file" style="display: none;" class="fileinput"
+                                                    name="images[]" multiple accept="image/*" />
+                                                <button type="button" class="btn btn-primary q-button"
+                                                    id="selectImageButton">Resimleri Seç</button>
+                                            </div>
+                                        </div>
+                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                            onclick="submitForm()">Yorumu
+                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                        <div id="previewContainer"
+                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+
+                                    </form>
+                                @endif
+
+
+                            </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <iframe width="100%" height="100%" frameborder="0" style="border:0;"
