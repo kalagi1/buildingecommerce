@@ -578,9 +578,9 @@
                                     <select class="form-select mb-4" name="status" id="status"
                                         onchange="submitForm()">
                                         <option value="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                            @if ($order->status == 1) selected @endif>Ödemeyi Alındı</option>
+                                            @if ($order->status == 1) selected @endif>Ödeme Alındı</option>
                                         <option value="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                            @if ($order->status != 1) selected @endif>Ödemeyi Alınamadı</option>
+                                            @if ($order->status != 1) selected @endif>Siparişi İptal Et</option>
                                         <option value="" @if ($order->status == 0) selected @endif>Onay
                                             Bekleniyor</option>
 
