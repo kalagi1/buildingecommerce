@@ -561,6 +561,7 @@ $topCaller = [];
 
     public function adminDashboard(){
 
+        $topCaller = [];
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
         $positiveCustomersCount = DB::table('customer_calls')
