@@ -3802,6 +3802,40 @@ function getImage($housing, $key)
 }
 .ps-ratings__stars .ratings {
   margin-top: 3px;
+}.ratings {
+  position: relative;
+  display: flex!important;
+}
+.ratings.readonly {
+  height: 17px;
+}
+.ratings:not(.readonly) {
+  align-items: center;
+}
+.ratings:not(.readonly) .star-w .star {
+  cursor: pointer;
+}
+.star-w {
+  position: relative;
+  margin-right: 2px;
+}
+.star-w .star {
+  width: 14px;
+  height: 14px;
+  transform: scale(0.85);
+}
+.star-w .empty .star {
+  background: url('https://cdn.dsmcdn.com/web/production/rating-and-review-small-star-grey.svg') no-repeat center;
+}
+.star-w .full {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.star-w .full .star {
+  background: url('https://cdn.dsmcdn.com/web/production/rating-and-review-small-star-orange.svg') no-repeat center;
 }
         </style>
 @endsection
