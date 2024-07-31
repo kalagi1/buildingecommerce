@@ -620,7 +620,7 @@
                                                         Giriş Yap
                                                     </a></div>
                                                 <div class="signup-button signup-button-container"><a
-                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        href="{{ route('client.register')}}" class="userIcon"
                                                         style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">
