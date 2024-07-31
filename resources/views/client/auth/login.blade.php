@@ -3,16 +3,17 @@
 @section('content')
     <section class="loginItems">
         <div class="container">
+            <div class="single homes-content details mb-30 ">
+
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="single homes-content details mb-30 ">
 
-                            
-                        <img src="{{ asset('login/loginImage.png') }}" alt="" style="width:100%;height:auto !important">
-                        </div>
+
+                        <img src="{{ asset('login/loginImage.png') }}" alt=""
+                            style="width:100%;height:auto !important">
+
                     </div>
                     <div class="col-md-6">
-                        <div class="single homes-content details mb-30 ">
 
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
@@ -48,53 +49,61 @@
                                             @endif
                                         </div>
                                         @if ($errors->has('login_error'))
-                                        <div class="alert alert-danger text-white">
-                                            {{ $errors->first('login_error') }}
-                                        </div>
-                                    @endif
-                                
+                                            <div class="alert alert-danger text-white">
+                                                {{ $errors->first('login_error') }}
+                                            </div>
+                                        @endif
+
                                         <form method="POST" class="form w-100" action="{{ route('client.submit.login') }}">
                                             @csrf
-                                          
+
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                                                <input type="email" name="email" class="form-control"
+                                                    value="{{ old('email') }}">
                                             </div>
-                                        
+
                                             <!-- Şifre -->
                                             <div class="mt-3">
                                                 <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" id="passwordInput" class="form-control">
-                                                <i id="eyeIcon" class="fa fa-eye-slash field-icon" onclick="togglePassword()"></i>
+                                                <input type="password" name="password" id="passwordInput"
+                                                    class="form-control">
+                                                <i id="eyeIcon" class="fa fa-eye-slash field-icon"
+                                                    onclick="togglePassword()"></i>
                                             </div>
-                                        
+
                                             <!-- Remember me and forgot password links -->
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-check-inline" style="margin-top:12px;">
-                                                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                                        <label class="form-check-label" for="remember" style="margin-top:2px;">Beni Hatırla</label>
+                                                        <input type="checkbox" class="form-check-input" id="remember"
+                                                            name="remember">
+                                                        <label class="form-check-label" for="remember"
+                                                            style="margin-top:2px;">Beni Hatırla</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="forgot-password d-flex justify-content-end">
-                                                        <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
+                                                        <a href="{{ route('password.request') }}"><span>Şifremi
+                                                                Unuttum</span></a>
                                                     </div>
                                                 </div>
                                             </div>
-                                        
+
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
-                                        
+
                                             <div class="social-account-login-buttons pb-3 col-12 p-0">
                                                 <!-- Social login buttons -->
                                                 <div class="q-layout social-login-button  w-100 m-0">
-                                                    <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
+                                                    <div class="social-login-icon"
+                                                        style="background-color: rgb(241, 66, 54);">
                                                         <i class="fa fa-google"></i>
                                                     </div>
                                                     <div class="flex flex-column">
                                                         <div>
-                                                            <a href="{{ route('client.google.login') }}" style="color: black;text-decoration:none">
+                                                            <a href="{{ route('client.google.login') }}"
+                                                                style="color: black;text-decoration:none">
                                                                 <div style="text-transform: capitalize;">google</div>
                                                                 <small>ile giriş yap</small>
                                                             </a>
@@ -103,7 +112,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        
+
 
                                     </div>
                                     <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3
@@ -112,10 +121,11 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                
                 </div>
             </div>
+
 
         </div>
     </section>
@@ -132,24 +142,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-                                            <!-- Scripts for toggling password visibility -->
-                                            <script>
-                                                function togglePassword() {
-                                                    var passwordInput = document.getElementById("passwordInput");
-                                                    var eyeIcon = document.getElementById("eyeIcon");
-                                        
-                                                    if (passwordInput.type === "password") {
-                                                        passwordInput.type = "text";
-                                                        eyeIcon.classList.remove("fa-eye-slash");
-                                                        eyeIcon.classList.add("fa-eye");
-                                                    } else {
-                                                        passwordInput.type = "password";
-                                                        eyeIcon.classList.remove("fa-eye");
-                                                        eyeIcon.classList.add("fa-eye-slash");
-                                                    }
-                                                }
-                                            </script>
-                                        
+    <!-- Scripts for toggling password visibility -->
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("passwordInput");
+            var eyeIcon = document.getElementById("eyeIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
+
     <script>
         $(document).ready(function() {
 
