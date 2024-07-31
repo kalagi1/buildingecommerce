@@ -3,7 +3,6 @@
 @section('content')
     <section class="loginItems">
         <div class="container">
-            <div class="single homes-content details mb-30 ">
 
                 <div class="row">
                     {{-- <div class="col-md-6">
@@ -14,6 +13,7 @@
 
                     </div> --}}
                     <div class="col-md-8 mx-auto">
+                        <div class="single homes-content details mb-30 ">
 
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
