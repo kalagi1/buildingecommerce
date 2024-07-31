@@ -21,7 +21,7 @@
                                 <!-- Sekme İçeriği -->
                                 <div class="tab-content" id="myTabContent">
                                     <!-- Normal Hesap Girişi Sekmesi -->
-                                    <div class="tab-pane fade @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
+                                    <div class="tab-pane fade active show"
                                         id="normal" role="tabpanel" aria-labelledby="normal-tab">
 
                                         <div class="mt-5">
