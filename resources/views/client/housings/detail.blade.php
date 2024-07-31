@@ -583,7 +583,7 @@
                                 <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
                                 aria-labelledby="comment-tab">
                                 @if (checkIfUserCanAddToCart($housing->id))
-                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                    <form id="commentForm" enctype="multipart/form-data" >
                                         @csrf
                                         <input type="hidden" name="rate" id="rate" />
                                         <h5>Yeni Yorum Ekle</h5>
@@ -643,7 +643,8 @@
                                                     id="selectImageButton">Resimleri Seç</button>
                                             </div>
                                         </div>
-                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
+                                        style="padding: 10px !important;height: 100px !important;"></textarea>
                                         <button type="button" class="ud-btn btn-white2 mt-3"
                                             onclick="submitForm()">Yorumu
                                             Gönder<i class="fal fa-arrow-right-long"></i></button>
