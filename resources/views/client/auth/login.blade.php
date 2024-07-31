@@ -92,13 +92,13 @@
                                             </div>
 
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
-                                            <p class="redirect-to-register text-center pt-1">
+                                            <p class="redirect-to-register text-center pt-2">
                                                 <span>Henüz hesabın yok mu?</span>
                                                 <a href="{{route('client.register')}}"> Üye Ol </a>
                                                 
                                             </p>
 
-                                            <div class="social-account-login-buttons pb-3 col-12 p-0">
+                                            <div class="social-account-login-buttons pt-2 pb-3 col-12 p-0">
                                                 <!-- Social login buttons -->
                                                 <div class="q-layout social-login-button  w-100 m-0">
                                                     <div class="social-login-icon"
