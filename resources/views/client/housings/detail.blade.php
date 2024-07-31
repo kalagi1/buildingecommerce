@@ -359,18 +359,53 @@ function getImage($housing, $key)
                                     aria-labelledby="contact-tab">
                                         @if (count($housingComments))
                                         @php
-                                        $totalReviews = count($housingComments);
-                                        $sumRatings = $housingComments->sum('rate');
-                                        $averageRating = $totalReviews > 0 ? round($sumRatings / $totalReviews, 1) : 0;
-                                        $ratingCounts = [0, 0, 0, 0, 0];
-                                    @endphp
-                            
-                                    <!-- Display average rating and total reviews -->
-                                    <div class="rating-summary mb-3">
-                                        <span class="average-rating">Ortalama Puan: {{ $averageRating }} / 5</span><br>
-                                        <span class="total-reviews">Toplam Değerlendirme: {{ $totalReviews }}</span>
-                                    </div>         
-                                    <hr>                                                                         
+        // Initialize rating counts array
+        $ratingCounts = [0, 0, 0, 0, 0];
+
+        // Populate rating counts based on comments
+        foreach ($housingComments as $comment) {
+            if ($comment->rate >= 1 && $comment->rate <= 5) {
+                $ratingCounts[$comment->rate - 1]++;
+            }
+        }
+
+        // Calculate total number of reviews and comments
+        $totalReviews = array_sum($ratingCounts);
+        $totalComments = $housingComments->count();
+
+        // Calculate rating percentages
+        $ratingPercentages = array_map(function ($count) use ($totalReviews) {
+            return $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }, $ratingCounts);
+
+        // Calculate average rating
+        $averageRating = $totalReviews 
+            ? array_sum(array_map(function ($rate, $index) use ($ratingCounts) {
+                return $rate * $ratingCounts[$index];
+            }, [1, 2, 3, 4, 5], array_keys($ratingCounts))) / $totalReviews
+            : 0;
+
+        // Calculate width for the average rating star display
+        $averageRatingWidth = ($averageRating / 5) * 100;
+    @endphp
+    <div class="ps-ratings">
+        <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}</div>
+        <div class="ps-ratings__average">
+            <div>Ortalama</div>
+            <div>Puan</div>
+        </div>
+        <div class="ps-ratings__counts">
+            <div class="ps-ratings__count">
+                <div>{{ number_format($totalReviews) }} Değerlendirme</div>
+            </div>
+            <div class="ps-ratings__divider">•</div>
+            <div class="ps-ratings__count">
+                <div>{{ number_format($totalComments) }} Yorum</div>
+            </div>
+        </div>
+    </div>
+       
+                                    <hr/>                                                                         
                                             <div style="margin-top: 20.5px;"><span
                                                     class="product-review-section-wrapper__wrapper__filter_title">Puana
                                                     Göre Filtrele</span>
