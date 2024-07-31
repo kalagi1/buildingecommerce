@@ -978,13 +978,24 @@
                                                         <div class="col-md-9" >
                                                             <div class="row" style="width: 102%;">
                                                                 <div class="col-md-9" style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
-                                                                    <div class="d-flex" style="justify-content: space-between;">
-                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column1Order]->label}}</li>
-                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column2Order]->label}}</li>
-                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column3Order]->label}}</li>
+                                                                    @if($project->id == 434 || $project->id == 433 || $project->id == 431)
+                                                                    <div class="d-flex">
+                                                                        <li style="width:20%;list-style:none;">Oda Sayısı</li>
+                                                                        <li style="width:20%;list-style:none;">Oda Tipi</li>
+                                                                        <li style="width:20%;list-style:none;">İl/İlçe</li>
                                                                         <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
                                                                         <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
                                                                     </div>
+                                                                @else
+                                                                <div class="d-flex">
+                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column1Order]->label}}</li>
+                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column2Order]->label}}</li>
+                                                                    @if($project->listItemValues->column3_name)
+                                                                    <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column3Order]->label}}</li>@endif
+                                                                    <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
+                                                                    <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
+                                                                </div>
+                                                                @endif
                                                                 </div>
                                                                 <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
 
