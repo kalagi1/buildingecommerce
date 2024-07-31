@@ -171,7 +171,8 @@ class ProfileController extends Controller
 
     public function companyProfileUpdate(Request $request)
     {
-    
+
+        
         $user = Auth::user();
 
         $request->validate([
@@ -183,14 +184,25 @@ class ProfileController extends Controller
         ]);
 
 
+      
         // Update the user's location
         $user->name = $request->input('name');
         $user->iban = $request->input('iban');
         $user->website = $request->input('web_site');
         $user->phone = $request->input('phone_number');
         $user->year = $request->input('sector_year');
-        $user->taxOffice = $request->input('area_code');
-        
+        $user->area_code = $request->input('area_code');
+        $user->store_name = $request->input('store_name');
+        $user->corporate_type = $request->input('corporate-account-type');
+        $user->city_id = $request->input('city_id');
+        $user->county_id = $request->input('county_id');
+        $user->neighborhood_id = $request->input('neighborhood_id');
+        $user->account_type = $request->input('account_type'); 
+        $user->taxOfficeCity = $request->input('taxOffice');
+        $user->taxOffice = $request->input('taxOffice');
+        $user->taxNumber = $request->input('taxNumber');
+        $user->authority_licence = $request->input('authority_licence');
+        $user->idNumber = $request->input('idNumber');
         // Save the updated user
         $user->save();
 
@@ -220,6 +232,8 @@ class ProfileController extends Controller
 
     public function profileImage(Request $request)
     {
+
+
         $user = Auth::user();
         
         if ($request->has('uploaded_file')) {
@@ -270,6 +284,12 @@ class ProfileController extends Controller
 
     public function editPhone(Request $request)
     {
+
+        $validated = $request->validate([
+            'new_phone_number' => 'required|digits_between:10,11', // Telefon numarası 10 veya 11 rakamlı olmalı
+            'uploaded_file' => 'nullable|json', // Dosya varsa JSON formatında olmalı
+        ]);
+        
         // Form verilerini doğrula
         $user = Auth::user(); // Giriş yapmış kullanıcıyı al
     

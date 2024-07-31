@@ -55,6 +55,7 @@
                                                     style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
 
                                                     @foreach ($projects as $project)
+                                                    {{-- {{dd($projects)}} --}}
                                                         <div class="form-check mt-3">
                                                             <input type="hidden" name="user_id"
                                                                 value="{{ $item->id }}">
@@ -186,16 +187,16 @@
 
         .btnProjectAssign {
             width: 95%;
-            border-color: #EA2B2E;
-            background-color: #EA2B2E;
+            border-color: #D32729;
+            background-color: #D32729;
             color: white;
             border-radius: 6px !important;
         }
 
         .btnProjectAssign:hover {
             background-color: white !important;
-            color: #EA2B2E;
-            border-color: #EA2B2E;
+            color: #D32729;
+            border-color: #D32729;
         }
 
         .dataTables_length select {

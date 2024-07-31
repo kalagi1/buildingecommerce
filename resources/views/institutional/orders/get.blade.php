@@ -155,7 +155,7 @@
                                     @endif
                                     @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
                                         <br>
-                                        <span style="color:#EA2B2E"
+                                        <span style="color:#D32729"
                                             class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
                                             satın alındı
                                             !</span>
@@ -325,7 +325,7 @@
                                             @endif
                                             @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
                                                 <br>
-                                                <span style="color:#EA2B2E"
+                                                <span style="color:#D32729"
                                                     class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
                                                     satın alındı
                                                     !</span>
@@ -602,7 +602,7 @@
 
         #orders-container .header-bar .order-search-box-container .osb-give-up span:hover {
             cursor: pointer;
-            color: #EA2B2E;
+            color: #D32729;
             text-decoration: underline;
         }
 
@@ -618,7 +618,7 @@
             position: absolute;
             right: 9px;
             top: 9px;
-            color: #EA2B2E;
+            color: #D32729;
             font-size: 11px;
             cursor: pointer;
         }
@@ -670,7 +670,7 @@
         }
 
         .text-red {
-            color: #EA2B2E !important;
+            color: #D32729 !important;
             font-weight: 600 !important
         }
 
@@ -715,7 +715,7 @@
         }
 
         #orders-container .order .order-header .order-header-info b.orange {
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         #orders-container .order .order-header button {
@@ -776,7 +776,7 @@
         }
 
         #orders-container .order .order-item .order-item-status .title .shipment-info:hover {
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         #orders-container .order .order-item .order-item-status .title.preparing_defective~.description,
@@ -1197,7 +1197,7 @@
             height: 44px;
             margin: 20px;
             border-radius: 6px;
-            background-color: #EA2B2E;
+            background-color: #D32729;
             font-size: 11px;
             font-weight: 600;
         }
@@ -1211,7 +1211,7 @@
             border-radius: 50%;
             background-color: #fff4ec;
             font-size: 40px;
-            color: #EA2B2E;
+            color: #D32729;
             margin-bottom: 10px;
         }
 
@@ -1342,7 +1342,7 @@
             justify-content: center;
             height: 24px;
             background-color: #FEF4EC;
-            color: #EA2B2E;
+            color: #D32729;
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
             padding: 0 6px;
@@ -1418,7 +1418,7 @@
             border-radius: 50%;
             background-color: #fff4ec;
             font-size: 32px;
-            color: #EA2B2E;
+            color: #D32729;
             margin-bottom: 10px;
             box-sizing: border-box;
         }
@@ -1426,7 +1426,7 @@
         #orders-container .no-order-container .no-title {
             font-size: 20px;
             font-weight: 600;
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         #orders-container .no-order-container .no-desc {
@@ -1477,8 +1477,8 @@
 
         #orders-container .status-quick-filters-wrapper .status-quick-filter-tabs-wrapper .filter-tab:hover,
         #orders-container .status-quick-filters-wrapper .status-quick-filter-tabs-wrapper .filter-tab.active {
-            border-color: #EA2B2E;
-            color: #EA2B2E;
+            border-color: #D32729;
+            color: #D32729;
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
         }
 
@@ -1785,7 +1785,7 @@
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>i>span.path1::before {
-            color: #EA2B2E;
+            color: #D32729;
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>p {
@@ -1808,7 +1808,7 @@
             width: 200px;
             height: 28px;
             box-sizing: border-box;
-            background: #EA2B2E;
+            background: #D32729;
             border-radius: 4px;
             padding: 8px;
             transition: 0.3s ease-in;
@@ -1841,7 +1841,7 @@
         }
 
         .type-tag {
-            background: #EA2B2E !important;
+            background: #D32729 !important;
             right: 15px;
             text-align: center;
             width: 60px !important;

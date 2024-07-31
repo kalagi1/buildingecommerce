@@ -10,6 +10,10 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use App\Listeners\LogUserLogin;
 use App\Listeners\LogUserLogout;
+use App\Models\Collection;
+use App\Models\Housing;
+use App\Observers\CollectionObserver;
+use App\Observers\HousingObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -36,7 +40,9 @@ class EventServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        Housing::observe(HousingObserver::class);   
+        Collection::observe(CollectionObserver::class);   
+
     }
 
     /**

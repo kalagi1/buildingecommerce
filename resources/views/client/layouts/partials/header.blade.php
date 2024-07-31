@@ -399,9 +399,9 @@
     <!-- Wrapper -->
     <div id="wrapper">
             <div class="slick-lancersl homeTopBanner">
-                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
-                    <video autoplay loop muted style="width:100%">
-                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;;background-color:#D32729">
+                    <video autoplay loop muted style="width:100%;height:50px">
+                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
                     </video>
                 </div>
             
@@ -620,7 +620,7 @@
                                                         Giriş Yap
                                                     </a></div>
                                                 <div class="signup-button signup-button-container"><a
-                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        href="{{ route('client.register')}}" class="userIcon"
                                                         style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">

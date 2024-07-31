@@ -59,9 +59,19 @@
                                         Konum
                                     @endif
                                 </span><span class="seller-info-container__wrapper__text-container__value">
-                                    {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
-                                    {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
-                                    {{ $institutional->neighborhood->mahalle_title }} </span>
+                                    @if($institutional->town)
+                                        {{ $institutional->town->sehir_title }}
+                                    @endif
+                                    @if($institutional->district)
+                                        <i class="fa fa-angle-right"></i>
+                                        {{ $institutional->district->ilce_title }}
+                                    @endif
+                                    @if($institutional->neighborhood)
+                                        <i class="fa fa-angle-right"></i>
+                                        {{ $institutional->neighborhood->mahalle_title }}
+                                    @endif
+                                </span>
+                                
                             </div>
 
 

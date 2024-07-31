@@ -9,6 +9,8 @@ class Neighborhood extends Model
 {
     protected $guarded = [];
     use HasFactory;
+    protected $primaryKey = 'mahalle_id';
+    public $incrementing = false;
 
     public function housings()
 {

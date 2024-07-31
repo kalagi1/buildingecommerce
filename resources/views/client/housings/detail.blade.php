@@ -10,8 +10,16 @@
         LIMIT 1',
         [$housing->id],
     );
-@endphp
 
+@endphp
+@php
+    function getImage($housing, $key)
+    {
+        $housing_type_data = json_decode($housing->housing_type_data);
+        $a = $housing_type_data->$key;
+        return $a;
+    }
+@endphp
 @php
     function convertMonthToTurkishCharacter($date)
     {
@@ -288,7 +296,11 @@
                                         data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                         aria-selected="false">Yorumlar</button>
                                 </li>
-
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
+                                        data-bs-target="#comment" type="button" role="tab" aria-controls="comment"
+                                        aria-selected="false">Değerlendir</button>
+                                </li>
 
                             </ul>
 
@@ -328,7 +340,8 @@
                                                             <ul class="homes-list clearfix mb-3 checkSquareIcon">
                                                                 @foreach ($val as $item)
                                                                     <li>
-                                                                        <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                        <i class="fa fa-check-square"
+                                                                            aria-hidden="true"></i>
                                                                         <span>{{ $item }}</span>
                                                                     </li>
                                                                 @endforeach
@@ -343,52 +356,204 @@
                                                 <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
                                             @endif
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <h5 class="mt-4">Yorumlar</h5>
                                     @if (count($housingComments))
-                                        <div class="flex flex-col gap-6">
+                                        @php
+                                            // Initialize rating counts array
+                                            $ratingCounts = [0, 0, 0, 0, 0];
+
+                                            // Populate rating counts based on comments
+                                            foreach ($housingComments as $comment) {
+                                                if ($comment->rate >= 1 && $comment->rate <= 5) {
+                                                    $ratingCounts[$comment->rate - 1]++;
+                                                }
+                                            }
+
+                                            // Calculate total number of reviews and comments
+                                            $totalReviews = array_sum($ratingCounts);
+                                            $totalComments = $housingComments->count();
+
+                                            // Calculate rating percentages
+                                            $ratingPercentages = array_map(function ($count) use ($totalReviews) {
+                                                return $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+                                            }, $ratingCounts);
+
+                                            // Calculate average rating
+                                            $averageRating = $totalReviews
+                                                ? array_sum(
+                                                        array_map(
+                                                            function ($rate, $index) use ($ratingCounts) {
+                                                                return $rate * $ratingCounts[$index];
+                                                            },
+                                                            [1, 2, 3, 4, 5],
+                                                            array_keys($ratingCounts),
+                                                        ),
+                                                    ) / $totalReviews
+                                                : 0;
+
+                                            // Calculate width for the average rating star display
+                                            $averageRatingWidth = ($averageRating / 5) * 100;
+                                        @endphp
+                                        <div class="ps-ratings">
+                                            <div class="ps-ratings__stars">
+
+                                                <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}
+                                                </div>
+                                                <div class="ps-ratings__average">
+                                                    <div>Ortalama</div>
+                                                    <div>Puan</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="ps-ratings__counts">
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalReviews) }} Değerlendirme</div>
+                                                </div>
+                                                <div class="ps-ratings__divider">•</div>
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalComments) }} Yorum</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+                                        <div style="margin-top: 20.5px;"><span
+                                                class="product-review-section-wrapper__wrapper__filter_title">Puana
+                                                Göre Filtrele</span>
+                                            <div
+                                                class="product-review-section-wrapper__wrapper__product-rating-filters mb-5">
+
+                                                <!-- Create an array to store counts for each rating (1-5) -->
+                                                @php
+                                                    $ratingCounts = [0, 0, 0, 0, 0];
+                                                @endphp
+
+                                                @foreach ($housingComments as $comment)
+                                                    @if ($comment->rate >= 1 && $comment->rate <= 5)
+                                                        <!-- Increment the corresponding rating count -->
+                                                        @php
+                                                            $ratingCounts[$comment->rate - 1]++;
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+
+                                                @foreach ([5, 4, 3, 2, 1] as $rating)
+                                                    <div class="product-rating-count-container"
+                                                        style="border: 1px solid rgb(230, 230, 230);">
+
+                                                        <div class="product-rating-count-container__star">
+                                                            <div class="star-ratings" title="{{ $rating }} Stars"
+                                                                style="position: relative; box-sizing: border-box; display: inline-block;">
+                                                                @for ($i = 0; $i < $rating; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(255, 192, 0); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
+                                                                @for ($i = $rating; $i < 5; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(203, 211, 227); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
+                                                            </div>
+                                                            <span class="product-rating-count-container__count">
+                                                                ({{ $ratingCounts[$rating - 1] }})
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+
+                                        </div>
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">Fotoğraflı
+                                            Değerlendirmeler</span>
+                                        <div class="slick-agentsc mt-3 mb-3" style="padding: 0 50px">
+                                            @foreach ($housingComments as $comment)
+                                                @if (json_decode($comment->images, true) > 0)
+                                                    @foreach (json_decode($comment->images, true) as $img)
+                                                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                                                            <div class="landscapes">
+                                                                <div class="project-single">
+                                                                    <div class="project-inner project-head">
+                                                                        <div class="homes">
+                                                                            <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                data-lightbox="gallery">
+                                                                                <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                    style="object-fit: cover;width:100%;height:150px" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- homes content -->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <span>Bu konut için fotoğraflı değerlendirme yapılmadı.</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">
+                                            Değerlendirmeler</span>
+                                        <div class="flex flex-col gap-6 mt-3" >
                                             @foreach ($housingComments as $comment)
                                                 <div class="bg-white border rounded-md pb-3 mb-3"
-                                                    style="border-bottom: 1px solid #E6E6E6 !important; ">
+                                                    @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
+                                                 
+                                                    <div class="ml-auto order-2 mt-3 mb-3">
+                                                        @for ($i = 0; $i < $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="gold"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                        @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
                                                     <div class="head d-flex w-full">
                                                         <div>
-                                                            <div>{{ $comment->user->name }}</div>
+                                                            <div class="">{{ $comment->user->name }}</div>
                                                             <i
-                                                                class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
-                                                        </div>
-                                                        {{-- {{dd($comment)}} --}}
-                                                        <div class="ml-auto order-2">
-                                                            @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="gold"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                            @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="none"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
+                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
                                                         </div>
                                                     </div>
                                                     <div class="body py-3">
@@ -396,7 +561,7 @@
                                                     </div>
                                                     <div class="row mt-3">
                                                         @foreach (json_decode($comment->images, true) as $img)
-                                                            <div class="col-md-2 col-3 mb-3">
+                                                            <div class="col-md-1 col-3 mt-3">
                                                                 <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                                     data-lightbox="gallery">
                                                                     <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
@@ -409,81 +574,88 @@
                                             @endforeach
                                         </div>
                                     @else
-                                        <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
+                                        <span>Bu mağaza için henüz yorum yapılmadı.</span>
                                     @endif
-                                    @if (checkIfUserCanAddToCart($housing->id))
-                                        <form id="commentForm" enctype="multipart/form-data" class="mt-5">
-                                            @csrf
-                                            <input type="hidden" name="rate" id="rate" />
-                                            <h5>Yeni Yorum Ekle</h5>
 
-                                            <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                <div class="d-flex rating-area">
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                    <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                        xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                    </svg>
-                                                </div>
-                                                <div class="ml-auto">
-                                                    <input type="file" style="display: none;" class="fileinput"
-                                                        name="images[]" multiple accept="image/*" />
-                                                    <button type="button" class="btn btn-primary q-button"
-                                                        id="selectImageButton">Resimleri Seç</button>
-                                                </div>
-                                            </div>
-                                            <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                            <button type="button" class="ud-btn btn-white2 mt-3"
-                                                onclick="submitForm()">Yorumu
-                                                Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                            <div id="previewContainer"
-                                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
-
-                                        </form>
-                                    @endif
 
 
                                 </div>
+                                <div class="tab-pane fade  blog-info details mb-30" id="comment" role="tabpanel"
+                                aria-labelledby="comment-tab">
+                                @if (checkIfUserCanAddToCart($housing->id))
+                                    <form id="commentForm" enctype="multipart/form-data" >
+                                        @csrf
+                                        <input type="hidden" name="rate" id="rate" />
+                                        <h5>Yeni Yorum Ekle</h5>
+
+                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                            <div class="d-flex rating-area">
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <input type="file" style="display: none;" class="fileinput"
+                                                    name="images[]" multiple accept="image/*" />
+                                                <button type="button" class="btn btn-primary q-button"
+                                                    id="selectImageButton">Resimleri Seç</button>
+                                            </div>
+                                        </div>
+                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required
+                                        style="padding: 10px !important;height: 100px !important;"></textarea>
+                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                            onclick="submitForm()">Yorumu
+                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                        <div id="previewContainer"
+                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+
+                                    </form>
+                                @endif
+
+
+                            </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <iframe width="100%" height="100%" frameborder="0" style="border:0;"
@@ -561,14 +733,14 @@
                                                                 @endphp
                                                                 @if ($discountAmount)
                                                                     <svg viewBox="0 0 24 24" width="18"
-                                                                        height="18" stroke="#EA2B2E" stroke-width="2"
-                                                                        fill="#EA2B2E" stroke-linecap="round"
+                                                                        height="18" stroke="#D32729" stroke-width="2"
+                                                                        fill="#D32729" stroke-linecap="round"
                                                                         stroke-linejoin="round" class="css-i6dzq1">
                                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                         </polyline>
                                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                                     </svg>
-                                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                                    <del style="font-size:11px; color:#D32729">
                                                                         {{ number_format($price, 0, ',', '.') }}
                                                                     </del>
                                                                 @endif
@@ -576,7 +748,7 @@
                                                                     id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                                 ₺
                                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                    <span style="font-size:12px; color:#EA2B2E">(1
+                                                                    <span style="font-size:12px; color:#D32729">(1
                                                                         Gece)</span>
                                                                 @endif
                                                             @endif
@@ -599,14 +771,14 @@
                                                             @endphp
                                                             @if ($discountAmount)
                                                                 <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                    stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                    stroke="#D32729" stroke-width="2" fill="#D32729"
                                                                     stroke-linecap="round" stroke-linejoin="round"
                                                                     class="css-i6dzq1">
                                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                     </polyline>
                                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                                 </svg>
-                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                <del style="font-size:11px; color:#D32729">
                                                                     {{ number_format($price, 0, ',', '.') }}
                                                                 </del>
                                                             @endif
@@ -614,7 +786,7 @@
                                                                 id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                             ₺
                                                             @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                                <span style="font-size:12px; color:#D32729">1 Gece</span>
                                                             @endif
                                                         @endif
                                                     </h4>
@@ -633,7 +805,7 @@
                                                     @if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold)
                                                         <div class="col-md-12 col-12 p-0 ml-3">
                                                             <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                                                style="color:#EA2B2E !important;cursor: pointer; ">
+                                                                style="color:#D32729 !important;cursor: pointer; ">
                                                                 Pazarlık Yap <i class="fa fa-handshake"></i>
                                                             </a>
                                                         </div>
@@ -647,8 +819,8 @@
                                             class="@if (($sold && isset($sold[0]) && $sold[0]->status == '2') || !$sold) col-md-6 col-6 @else col-md-12 col-12 @endif p-0">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn"
-                                                    style="background: #EA2B2E !important; width:100%; color:White">
-                                                    <span class="text">Satışa Kapatıldı</span>
+                                                    style="background: #D32729 !important; width:100%; color:White">
+                                                    <span class="text">Satışa Kapalı</span>
                                                 </button>
                                             @else
                                                 @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
@@ -661,7 +833,7 @@
                                                             $buttonText = 'Rezerve Edildi';
                                                         } else {
                                                             $buttonStyle =
-                                                                'background: #EA2B2E !important; width: 100%; color: white;';
+                                                                'background: #D32729 !important; width: 100%; color: white;';
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp
@@ -825,14 +997,14 @@
                                                 @endphp
                                                 @if ($discountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke="#D32729" stroke-width="2" fill="#D32729"
                                                         stroke-linecap="round" stroke-linejoin="round"
                                                         class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                         </polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
-                                                    <del style="font-size:11px; color:#EA2B2E">
+                                                    <del style="font-size:11px; color:#D32729">
                                                         {{ number_format($price, 0, ',', '.') }}
                                                     </del>
                                                 @endif
@@ -840,7 +1012,7 @@
                                                     id="current-price">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                                 ₺
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                    <span style="font-size:12px; color:#EA2B2E">1 Gece</span>
+                                                    <span style="font-size:12px; color:#D32729">1 Gece</span>
                                                 @endif
                                             @endif
                                         </h4></p> --}}
@@ -865,8 +1037,6 @@
                                 </div>
                             </div>
                         </div>
-
-
 
                         <!-- Fiyat Güncelleme Modal -->
                         <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog"
@@ -944,7 +1114,6 @@
                                 document.getElementById('price-update-form').submit();
                             });
                         </script>
-
 
                         <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
@@ -1316,13 +1485,15 @@
                                                         name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
                                                 </div>
 
-                                                <div id="isyeriyse" style="display: none;" class="mb-3 col-md-12 col-12">
+                                                <div id="isyeriyse" style="display: none;"
+                                                    class="mb-3 col-md-12 col-12">
 
                                                     <label for="ticari_bilgiler" class="form-label">Ticari ile
                                                         ilgili Bilgileri Giriniz:</label>
                                                     <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
 
-                                                    <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz Satış
+                                                    <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz
+                                                        Satış
                                                         Rakamı:</label>
                                                     <input type="text" class="formInput" id="isyeri_satis_rakami"
                                                         name="isyeri_satis_rakami" min="0">
@@ -1536,7 +1707,7 @@
 
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
-                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                        <span class="det" style="color: #D32729 !important;">
                                                             {!! optional($housing->city)->title .
                                                                 ' / ' .
                                                                 optional($housing->county)->title .
@@ -1994,6 +2165,57 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+        function editComment(commentId) {
+            $.ajax({
+                url: `{{ url('get-housing-comment') }}/${commentId}`,
+                type: 'GET',
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Yorumu Düzenle',
+                        html: `
+                                <form id="edit-comment-form">
+                                    <input type="hidden" name="id" value="${response.data.id}">
+                                  
+                                    <div class="form-group">
+                                        <label for="comment">Yorumunuz</label>
+                                        <textarea id="comment" name="comment" class="form-control" style="height:125px !important>${response.data.comment}</textarea>
+                                    </div>
+                                </form>
+                            `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Güncelle',
+                        cancelButtonText: 'İptal',
+                        preConfirm: () => {
+                            const formData = new FormData(document.getElementById(
+                                'edit-comment-form'));
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                            return $.ajax({
+                                url: "{{ route('housing.update-comment') }}",
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                    Swal.fire('Başarılı!',
+                                        'Yorum başarıyla güncellendi.', 'success');
+                                    location.reload(); // Reload the page
+                                },
+                                error: function(error) {
+                                    Swal.fire('Hata!',
+                                        'Yorum güncellenirken bir hata oluştu.',
+                                        'error');
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function(error) {
+                    Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
+                }
+            });
+        }
+    </script>
+    <script>
         $(document).ready(function() {
             $('#selectImageButton').on('click', function() {
                 $('.fileinput').click();
@@ -2043,7 +2265,6 @@
         });
     </script>
 
-
     <script>
         $(document).ready(function() {
             $('#takasFormu').submit(function(e) {
@@ -2056,7 +2277,7 @@
                         var requiredFields = [];
                         if (emlakTipi === 'konut') {
                             requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi',
-                                'oda_sayisi', 'konut_tipi'
+                                'oda_sayisi', 'konut_tipi', 'tapu_belgesi'
                             ];
                         } else if (emlakTipi === 'arsa') {
                             requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel',
@@ -2081,7 +2302,7 @@
                 // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
                 if ($('#takas_tercihi').val() === 'araç') {
                     var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
-                        'arac_satis_rakami'
+                        'arac_satis_rakami', 'ruhsat_belgesi'
                     ];
 
                     for (var i = 0; i < requiredFields.length; i++) {
@@ -2110,17 +2331,18 @@
 
                 if (isEmpty) {
                     e.preventDefault();
-                    alert('Tüm zorunlu alanları doldurunuz!');
+                    toastr.error('Lütfen tüm gerekli alanları doldurun.');
+
                 }
 
             });
         });
     </script>
     <script>
-        $('#selectImageButton').on('click', function() {
-            console.log("a");
-            $('.fileinput').click();
-        });
+        // $('#selectImageButton').on('click', function() {
+        //     console.log("a");
+        //     $('.fileinput').click();
+        // });
         $(function() {
             $('.fa-info-circle').tooltip()
         })
@@ -2206,44 +2428,61 @@
 
         function submitForm() {
 
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
-            if (!validateForm()) {
-                toastr.error('Lütfen tüm gerekli alanları doldurun.');
-                return;
-            }
-            // Rate değerini al
-            var rateValue = $('#rate').val();
-
-            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
-            if (rateValue === '' || rateValue === '0') {
-                $('#rate').val('1');
-            }
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            console.log(csrfToken);
-            var formData = new FormData($('#commentForm')[0]);
-            // Append CSRF token to form data
-            formData.append('_token', csrfToken);
-
-            $.ajax({
-                url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Yorum Gönderildi',
-                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
-                    }).then(function() {
-                        location.reload(); // Reload the page
-                    });
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    //console.log(error);
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Giriş Yapmanız Gerekiyor',
+                    text: 'Lütfen yorum yapabilmek için giriş yapınız.',
+                    confirmButtonText: 'Giriş Yap',
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    cancelButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to login page
+                    }
+                });
+            } else {
+                if (!validateForm()) {
+                    toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                    return;
                 }
-            });
+                // Rate değerini al
+                var rateValue = $('#rate').val();
+
+                // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+                if (rateValue === '' || rateValue === '0') {
+                    $('#rate').val('1');
+                }
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                console.log(csrfToken);
+                var formData = new FormData($('#commentForm')[0]);
+                // Append CSRF token to form data
+                formData.append('_token', csrfToken);
+
+                $.ajax({
+                    url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Yorum Gönderildi',
+                            text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                        }).then(function() {
+                            location.reload(); // Reload the page
+                        });
+                    },
+                    error: function(error) {
+                        window.location.href = "/giris-yap";
+                        //console.log(error);
+                    }
+                });
+            }
         }
 
         $(document).ready(function() {
@@ -2382,10 +2621,6 @@
         });
 
 
-
-
-
-
         jQuery('.rating-area .rating').on('mouseover', function() {
             jQuery('.rating-area .rating polygon').attr('fill', 'none');
             for (var i = 0; i <= $(this).index(); ++i)
@@ -2408,9 +2643,6 @@
         //         $('#rate').val('1'); // Rate değerini 1 olarak ayarla
         //     }
         // });
-
-
-
 
         function showLocation() {
             var location = document.getElementById('locationInput').value;
@@ -3287,38 +3519,7 @@
 
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // jQuery Validation eklentisini form elemanlarına uygula
-            $('#takasFormu').validate({
-                // Türkçe hata mesajlarını tanımla
-                messages: {
-                    ad: {
-                        required: "Lütfen adınızı girin."
-                    },
-                    soyad: {
-                        required: "Lütfen soyadınızı girin."
-                    },
-                    telefon: {
-                        required: "Lütfen telefon numaranızı girin."
-                    },
-                    email: {
-                        required: "Lütfen e-posta adresinizi girin.",
-                        email: "Lütfen geçerli bir e-posta adresi girin."
-                    },
-                    sehir: {
-                        required: "Lütfen bir şehir seçin."
-                    },
-                    ilce: {
-                        required: "Lütfen bir ilçe seçin."
-                    },
-                    takas_tercihi: {
-                        required: "Lütfen takas tercihinizi belirtin."
-                    }
-                }
-            });
-        });
-    </script>
+
     <script>
         // $(document).ready(function() {
         //     $('#price-update-form').on('submit', function(e) {
@@ -3395,10 +3596,8 @@
             line-height: 2.0;
             background-color: #fff;
             background-clip: padding-box;
-            border: 1px solid #b9b9b9;
-            border-radius: .35rem;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
-            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            border: 1px solid #717171;
+            margin-bottom: 10px;
         }
 
         .formInput:focus {
@@ -3485,7 +3684,7 @@
             left: 0;
             display: block;
             border-radius: 50px;
-            background: #EA2B2E;
+            background: #D32729;
             width: 45px;
             height: 45px;
             transition: all 0.3s ease;
@@ -3524,6 +3723,95 @@
 
         .cta:active {
             transform: scale(0.95);
+        }
+    </style>
+    <style>
+        .product-review-container__redirect__span-wrapper {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-review-container__redirect__span-wrapper p {
+            font-family: source_sans_proregular, sans-serif;
+            font-style: normal;
+            font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            line-height: inherit !important;
+        }
+
+        .product-review-container__redirect {
+            display: flex;
+            flex-direction: row;
+            margin-top: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .product-review-container__redirect img {
+            width: 50px;
+            height: 44.95px;
+            border: 1px solid #e6e6e6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .slick-prev {
+            left: 0 !important;
+        }
+
+        .slick-next {
+            right: 0 !important;
+        }
+
+        .product-review-section-wrapper__wrapper__product-rating-filters {
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            align-items: center margin-right: 20px;
+        }
+
+        @media (max-width:768px) {
+            .product-rating-count-container {
+                width: 45% !important;
+                margin-top: 20px !important;
+            }
+        }
+
+        .product-rating-count-container {
+            width: 150px;
+            height: 38px;
+            background: #fff;
+            border: 2px solid #e6e6e6;
+            box-sizing: border-box;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .0511637);
+            border-radius: 6px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .product-rating-count-container__count {
+            margin-left: 7px;
+            margin-top: 3px
+        }
+
+        .product-review-section-wrapper__wrapper__filter_title {
+            font-family: source_sans_proregular, sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 15px;
+            color: #999;
+            margin-bottom: 10px;
         }
     </style>
 @endsection

@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class District extends Model
 {
     protected $guarded = [];
+    protected $primaryKey = 'ilce_id';
+    public $incrementing = false;
     use HasFactory;
 }

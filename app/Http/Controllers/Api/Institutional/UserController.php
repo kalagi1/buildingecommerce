@@ -29,43 +29,47 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-
-        $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-            return $rolePermission->permissions->pluck('key');
-        })->unique()->toArray();
+        // Erişim izinlerini alın
+        $permissions = [];
+        if ($user->role && $user->role->rolePermissions) {
+            $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+                return $rolePermission->permissions ? $rolePermission->permissions->pluck('key') : collect();
+            })->unique()->toArray();
+        }
     
+        // Kullanıcı türüne bağlı izinleri filtreleyin
         if ($user->type != "1" && $user->type != "3") {
+            if ($user->corporate_type) {
+                if ($user->corporate_type == 'Emlak Ofisi') {
+                    $permissions = array_diff($permissions, [
+                        'Projects', 'CreateProject', 'GetProjects', 'GetReceivedOffers', 'DeleteProject', 'UpdateProject', 'GetProjectById'
+                    ]);
+                }
     
-            if ($user->corporate_type != null && $user->corporate_type == 'Emlak Ofisi') {
-                $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "GetReceivedOffers", "DeleteProject", "UpdateProject", 'GetProjectById']);
-            }
+                if ($user->corporate_type == 'İnşaat Ofisi') {
+                    $permissions = array_diff($permissions, [
+                        'Offers', 'CreateOffer', 'DeleteOffer', 'GetOfferById', 'UpdateOffer', 'GetOffers'
+                    ]);
+                }
     
-            if ($user->corporate_type != null && $user->corporate_type != 'İnşaat Ofisi') {
-                $permissions = array_diff($permissions, [
-                    "Offers",
-                    "CreateOffer",
-                    "Offers",
-                    "DeleteOffer",
-                    "GetOfferById",
-                    "UpdateOffer",
-                    "GetOffers"
-                ]);
-            }
-    
-            if ($user->corporate_type != null && $user->corporate_type != 'Turizm Amaçlı Kiralama') {
-                $permissions = array_diff($permissions, ['GetReservations', "CreateReservation", "GetReservations", "DeleteReservation", "UpdateReservation", 'GetReservationById']);
+                if ($user->corporate_type == 'Turizm Amaçlı Kiralama') {
+                    $permissions = array_diff($permissions, [
+                        'GetReservations', 'CreateReservation', 'DeleteReservation', 'UpdateReservation', 'GetReservationById'
+                    ]);
+                }
             }
         }
     
         // Balance ve Collections bilgilerini getir
-        $balanceStatus0Lists = SharerPrice::where("user_id", $user->id)->where("status", "0")->get();
-        $balanceStatus0 = $balanceStatus0Lists->sum('balance');
-    
-        $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)->where("status", "1")->get();
+        $balanceStatus0 = SharerPrice::where("user_id", $user->id)->where("status", "0")->sum('balance');
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user->id)->where("status", "1");
         $balanceStatus1 = $balanceStatus1Lists->sum('balance');
+        $balanceStatus2 = SharerPrice::where("user_id", $user->id)->where("status", "2")->sum('balance');
     
-        $balanceStatus2Lists = SharerPrice::where("user_id", $user->id)->where("status", "2")->get();
-        $balanceStatus2 = $balanceStatus2Lists->sum('balance');
+        $totalStatus1Count = $balanceStatus1Lists->count();
+        $successPercentage = $totalStatus1Count > 0 
+            ? ($totalStatus1Count / ($totalStatus1Count + SharerPrice::where("user_id", $user->id)->where("status", "0")->count() + SharerPrice::where("user_id", $user->id)->where("status", "2")->count())) * 100 
+            : 0;
     
         $collections = Collection::with("links.project", "links.housing", "clicks")
                         ->where("user_id", $user->id)
@@ -73,20 +77,13 @@ class UserController extends Controller
                         ->limit(6)
                         ->get();
     
-        $totalStatus1Count = $balanceStatus1Lists->count();
-        $successPercentage = $totalStatus1Count > 0 
-            ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 
-            : 0;
-    
         $housingFavorites = HousingFavorite::where("user_id", $user->id)->count();
         $projectFavorites = ProjectFavorite::where("user_id", $user->id)->count();
         $cartItem = CartItem::where('user_id', $user->id)->latest()->first();
     
-        // Erişim token'ı oluştur
-    
         // Kullanıcı verilerini bir diziye aktar
         $userData = [
-            "status" => 200,
+            'status' => 200,
             'success' => true,
             'id' => $user->id,
             'facebook_id' => $user->facebook_id,
@@ -154,9 +151,9 @@ class UserController extends Controller
             'authority_licence' => $user->authority_licence,
             'approve_website' => $user->approve_website,
             'approve_website_approve' => $user->approve_website_approve,
-            'role' => $user->role->name,
-            'role_id' => $user->role->id,
-            'slug' => $user->role->slug,
+            'role' => $user->role ? $user->role->name : null,
+            'role_id' => $user->role ? $user->role->id : null,
+            'slug' => $user->role ? $user->role->slug : null,
             'buyerStatus' => $user->status,
             'cartItem' => $cartItem ? $cartItem : null,
             'housingFavoritesCount' => $housingFavorites,
@@ -164,7 +161,7 @@ class UserController extends Controller
             'corporateAccountStatus' => $user->corporate_account_status,
             'email' => $user->email,
             'mobile_phone' => $user->mobile_phone,
-            'rolePermissions' => $user->role->rolePermissions,
+            'rolePermissions' => $user->role ? $user->role->rolePermissions : null,
             'permissions' => $permissions,
             'works' => $user->works,
             'token_type' => 'Bearer',
@@ -185,6 +182,7 @@ class UserController extends Controller
             "permissions" => $permissions,
         ]);
     }
+    
     
 
     public function index()
@@ -283,46 +281,47 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'type' => 'required',
-            'mobile_phone' => 'required',
-            'title' => 'required',
-            'is_active' => 'nullable',
+            'type' => 'required|string', // Örneğin belirli değerlerle sınırlama yapabilirsiniz.
+            'mobile_phone' => 'required|string',
+            'title' => 'required|string',
+            'is_active' => 'nullable|boolean',
+            'password' => 'nullable|string|min:6', // Şifre doğrulama kuralı
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // İmaj doğrulama kuralı
         ];
-
+    
         try {
             // Form doğrulama işlemini gerçekleştirin
             $validatedData = $request->validate($rules);
-
+    
             // Kullanıcıyı bulun veya hata döndürün
             $user = User::findOrFail($id);
-
+    
             // Kullanıcıyı güncelleyin
             $user->name = $validatedData['name'];
             $user->email = $validatedData['email'];
             $user->title = $validatedData['title'];
             $user->mobile_phone = $validatedData['mobile_phone'];
             $user->type = $validatedData['type'];
-            $user->status = $request->has('is_active') ? 5 : 0;
-
+            $user->status = $request->boolean('is_active') ? 5 : 0; // `boolean` olarak kontrol edin
+    
             if ($request->hasFile('profile_image')) {
                 $image = $request->file('profile_image');
                 $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('profile_images', $imageFileName, 'public');
                 $user->profile_image = $imageFileName;
             }
-
+    
             // Şifre güncelleme işlemini kontrol edin
             if ($request->filled('password')) {
                 $user->password = bcrypt($request->input('password'));
             }
-
+    
             // Kullanıcıyı veritabanına kaydedin
             $user->save();
-
+    
             // Başarılı bir işlem sonrası JSON yanıtı
             return response()->json([
                 'success' => true,
@@ -337,10 +336,11 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Beklenmedik bir hata oluştu.'
+                'message' => 'Beklenmedik bir hata oluştu: ' . $e->getMessage()
             ], 500);
         }
     }
+    
 
 
     public function destroy($id)

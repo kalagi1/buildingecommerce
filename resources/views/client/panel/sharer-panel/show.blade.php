@@ -1,8 +1,8 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-<div class="table-breadcrumb mb-5">
-    <ul>
+    <div class="table-breadcrumb mb-5">
+        <ul>
             <li>
                 Hesabım
             </li>
@@ -18,17 +18,17 @@
 
         @foreach ($mergedItems as $key => $item)
             @php
-                $discountedPrice = null;
-                $price = null;
-                $share_sale = null;
-                $number_of_share = null;
-                $deposit_rate = 0.02;
+                $discountedPrice = (float) 0;
+                $price = (float) 0;
+                $share_sale = (float) 0;
+                $number_of_share = (float) 0;
+                $deposit_rate = (float) 0.02;
 
                 if (
                     $item['item_type'] == 2 &&
                     isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
                 ) {
-                    $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                    $discountRate = (float) json_decode($item['housing']['housing_type_data'])->discount_rate[0] ?? 0;
 
                     $defaultPrice =
                         json_decode($item['housing']['housing_type_data'])->price[0] ??
@@ -193,12 +193,20 @@
                                                         ? json_decode($item['housing']['housing_type_data'])->price[0]
                                                         : json_decode($item['housing']['housing_type_data'])
                                                             ->daily_rent[0]);
+                                            
 
-                                            $total = $discountedPrice * 0.02 * $share_percent_earn;
+                                            if ($item['housing']['step2_slug'] != 'gunluk-kiralik') {
+                                                $total = $discountedPrice * 0.02 * $share_percent_earn;
+                                            }else{
+                                                $total = ($discountedPrice / 2) * $share_percent_earn;
+                                            }
 
                                             $earningAmount = $total * $sales_rate_club;
                                         @endphp
                                         <strong>
+                                            @if ($item['housing']['step2_slug'] == 'gunluk-kiralik')
+                                                (Rezerve edilen her gün için) <br>
+                                            @endif
                                             @if (strpos($earningAmount, '.') == false)
                                                 {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                             @else

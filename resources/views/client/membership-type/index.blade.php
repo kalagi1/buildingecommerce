@@ -341,9 +341,8 @@
                                                             <div class="select select-tax-office">
                                                                 <label for="" class="q-label">Yetki Belgesi
                                                                     No</label>
-                                                                <input type="text" id="authority_licence"
-                                                                    name="authority_licence" class="form-control"
-                                                                    maxlength="7">
+                                                                <input type="number" id="authority_licence"
+                                                                    name="authority_licence" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -357,7 +356,7 @@
                                                             <div class="select select-tax-office">
                                                                 <label for="" class="q-label">TC Kimlik No</label>
                                                                 <input type="text" id="idNumber" name="idNumber"
-                                                                    class="form-control" value="{{ old('idNumber') }}">
+                                                                    class="form-control" value="{{ old('idNumber') }}" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -452,6 +451,113 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#idNumber').on('input', function() {
+                var value = $(this).val();
+                var maxLength = 11;
+
+                // Sadece rakamları izin ver
+                var numericValue = value.replace(/\D/g, '');
+
+                // 11 haneli kontrol
+                if (numericValue.length > maxLength) {
+                    numericValue = numericValue.slice(0, maxLength);
+                }
+
+                $(this).val(numericValue);
+
+                // TC Kimlik No geçerlilik kontrolü
+                var isValidLength = numericValue.length === maxLength;
+                var isValid = isValidLength && /^[1-9][0-9]{10}$/.test(numericValue);
+
+                if (!isValid) {
+                    $('#idNumber').addClass('error-border');
+                    $('#idNumberError').text('TC Kimlik No 11 haneli ve sadece rakamlardan oluşmalıdır.');
+                } else {
+                    $('#idNumber').removeClass('error-border');
+                    $('#idNumberError').text('');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#authority_licence').on('input', function() {
+                var value = $(this).val();
+                var maxLength = 15;
+
+                // Sadece rakamları ve harfleri izin ver
+                var alphanumericValue = value.replace(/[^a-zA-Z0-9]/g, '');
+
+                // 15 haneli kontrol
+                if (alphanumericValue.length > maxLength) {
+                    alphanumericValue = alphanumericValue.slice(0, maxLength);
+                }
+
+                $(this).val(alphanumericValue);
+
+                // Hata mesajı ve sınıf güncelleme
+                if (alphanumericValue.length !== maxLength) {
+                    $('#authority_licence').addClass('error-border');
+                    $('#authorityLicenceError').text('Yetki Belgesi numarası 15 haneli olmalıdır.');
+                } else {
+                    $('#authority_licence').removeClass('error-border');
+                    $('#authorityLicenceError').text('');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#taxNumber').on('input', function() {
+                var value = $(this).val();
+                var maxLength = 10;
+                
+                // Sadece rakamları izin ver
+                var numericValue = value.replace(/\D/g, '');
+
+                // 10 haneli kontrol
+                if (numericValue.length > maxLength) {
+                    numericValue = numericValue.slice(0, maxLength);
+                }
+
+                $(this).val(numericValue);
+
+                // Hata mesajı ve sınıf güncelleme
+                if (numericValue.length !== maxLength) {
+                    $('#taxNumber').addClass('error-border');
+                    $('#taxNumberError').text('Vergi numarası 10 haneli olmalıdır.');
+                } else {
+                    $('#taxNumber').removeClass('error-border');
+                    $('#taxNumberError').text('');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#area_code').on('input', function() {
+                var inputValue = $(this).val();
+                var maxLength = 9;
+
+                // Sadece rakamları izin ver
+                var numericValue = inputValue.replace(/\D/g, '');
+
+                if (numericValue.length > maxLength) {
+                    numericValue = numericValue.slice(0, maxLength);
+                }
+
+                $(this).val(numericValue);
+
+                if (numericValue.length > maxLength) {
+                    $('#error-message').text('Telefon numarası 11 haneden fazla olamaz.');
+                } else {
+                    $('#error-message').text('');
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
@@ -868,7 +974,7 @@
         }
 
         .error-border {
-            border-color: #EA2B2E !important;
+            border-color: #D32729 !important;
         }
 
         .error-message {

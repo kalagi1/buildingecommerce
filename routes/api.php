@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Institutional\InfoController;
 use App\Http\Controllers\Api\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Api\Client\NeighborViewController;
 use App\Http\Controllers\Api\SupportController as ApiSupportController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\MarkerController;
 
 /*
@@ -52,6 +53,7 @@ use App\Http\Controllers\MarkerController;
 */
 
 Route::get('/markers', [MarkerController::class, 'index']);
+Route::get('/project-markers', [MarkerController::class, 'indexProjectMarkers']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -251,3 +253,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::post('/preview', [InstitutionalProjectController::class, "getPreview"]);
+
+
+Route::get('/project/{projectId}/comments',[ProjectController::class,'getCommentsByProject']);
+Route::post('/project/{projectId}/add-comment', [ProjectController::class,'projectCommentPost']);
+
+Route::post('/delete/comment/{commentId}',[ProjectController::class,'deleteComment']);
+
+Route::get('/user/{userId}/comments',[ProjectController::class,'userComments']);
+Route::post('/user/{userId}/{projectId}/comments/{commentId}/update', [ProjectController::class, 'userCommentUpdate']);
