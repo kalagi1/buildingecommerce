@@ -622,7 +622,7 @@ class HomeController extends Controller
 
                         if ($housing) {
                             // Update the is_sold field to 0
-                            $housing->is_sold = 0;
+                            $housing->is_sold = NULL;
                             $housing->save();
                         }
                     }
