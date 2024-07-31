@@ -556,6 +556,11 @@
                                             </div>
                 
                                             <button class="btn btn-primary q-button mb-3" type="submit"> Üye OL</button>
+                                             <p class="redirect-to-register text-center pt-2">
+                                                <span>Zaten hesabın var mı?</span>
+                                                <a href="{{route('client.login')}}"> Giriş Yap </a>
+                                                
+                                            </p>
                                         </form>
 
 
