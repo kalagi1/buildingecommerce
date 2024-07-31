@@ -389,11 +389,15 @@ function getImage($housing, $key)
         $averageRatingWidth = ($averageRating / 5) * 100;
     @endphp
     <div class="ps-ratings">
+        <div class="ps-ratings__stars">
+
         <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}</div>
         <div class="ps-ratings__average">
             <div>Ortalama</div>
             <div>Puan</div>
         </div>
+    </div>
+
         <div class="ps-ratings__counts">
             <div class="ps-ratings__count">
                 <div>{{ number_format($totalReviews) }} Değerlendirme</div>
