@@ -163,27 +163,25 @@
                 <div class="row">
                     <canvas id="canvas22"></canvas>
 {{-- {{dd($topCaller)}} --}}
-                    <div class="col-md-6">
-                        <div class="cardDanisman">
-                            <div class="card-title">En Çok Arama Yapan</div>
-                            <div class="card-body">
-                                <hr style="clear: both;">
-                                <span class="medal-icon">🏅</span>
-                                <div class="text-center" style="border-radius: 55%;">
-                                    {{-- <img src="{{ asset('woman.png') }}" class="danismanImg"> --}}
-                                    <img src="{{ 
-                                        $topCaller && $topCaller->profile_image 
-                                        ? asset('storage/profile_images/' . $topCaller->profile_image) 
-                                        : ""
-                                    }}" class="danismanListImg">
-                                    
-                                </div>
-                                <p class="text-center">{{$topCaller->name}} </p>
-                                <p class="text-center" style="  background: linear-gradient(to top, #D32729, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
-                                    {{$danisman->total_calls}} Arama</p>
-                            </div>
-                        </div>                       
-                    </div>
+@if($topCaller)
+<div class="col-md-6">
+    <div class="cardDanisman">
+        <div class="card-title">En Çok Arama Yapan</div>
+        <div class="card-body">
+            <hr style="clear: both;">
+            <span class="medal-icon">🏅</span>
+            <div class="text-center" style="border-radius: 55%;">
+                <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image) }}" class="danismanListImg">
+            </div>
+            <p class="text-center">{{ $topCaller->name }}</p>
+            <p class="text-center" style="background: linear-gradient(to top, #D32729, #84181A) !important; color: white; border-radius: 7px; margin-top: 10px !important;">
+                {{ $danisman->total_calls }} Arama
+            </p>
+        </div>
+    </div>
+</div>
+@endif
+
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Satış Yapan</div>
