@@ -178,79 +178,69 @@
                     </div>
                 </div>
             </div>
-            <div class="order-detail-inner mb-3">
-                <div class="title mb-3">
-                    <i class="fa fa-shopping-cart"></i>
-                    <h4>Sipariş Onaylama Durumu</h4>
-                </div>
-                <div class="container mt-5">
 
+            @if ($order && $order->refund)
 
-
-                    <div class="status-card bg-light-blue">
-                        <div class="status-icon text-primary box-shadow-blue ">
-                            <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
-                                    alt=""></i>
-                        </div>
-                        @if ($order->status == 0)
-                            <div class="status-header">
-                                <div class="status-title text-primary">Ödeme Onay Aşamasındadır</div>
-                                <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
-                                    durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
-                            </div>
-                            <div class="status-timestamp">{{ $order->created_at }}</div>
-                        @else
-                            <div class="status-header">
-                                <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
-                                <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
-                                    sipariş
-                                    tamamlandığında alacak.</div>
-                            </div>
-                            <div class="status-timestamp">{{ $order->created_at }}</div>
-                        @endif
-
-
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
                     </div>
-                    <div class="horizontal-line"></div>
+                    <div class="container mt-5">
 
 
 
-                    @if ($order && $order->status && $order->status == 1)
-                        <div class="status-card bg-light-green">
-                            <div class="status-icon box-shadow-green text-success">
-                                <i class=""><img class="pay-icon" src="{{ asset('images/template/guard-icon.png') }}"
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
                                         alt=""></i>
                             </div>
-                            <div class="status-header">
-                                <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
-                                <div class="status-description">Rezervasyon onayınız bekleniyor.</div>
-                            </div>
-
-                            @if (isset($order->share) && optional($order->share)->status != 1)
-                                <div class="approve-button">
-                                    <a class="btn btn-success"
-                                        href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
-                                        @if ($order->share->status == 1) disabled @endif>
-                                        Onayla</a>
-                                    {{-- <button class="btn btn-danger"
-                                        onclick="submitFormPriceAndShare('{{ route('institutional.unapprove-reservation', ['reservation' => $order->share->id]) }}')"
-                                        @if ($order->share->status != 1) disabled @endif>Hakedişleri
-                                        Reddet</button> --}}
-
-                                    <button class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">İptal Et</button>
+                            @if ($order->refund->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">İptal işlemi Onay Aşamasındadır</div>
+                                    <div class="status-description">İptal İşlemi şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
                                 </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @else
+                                @if ($order->refund->status == 1)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color: #0FA958;">İptal İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İptal talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @elseif ($order->refund->status == 2)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color:#721c24;">İptal işlemi reddedildi</div>
+                                        <div class="status-description">Üzgünüz, iptal talebiniz reddedilmiştir.
+                                            Konuyla ilgili daha fazla bilgi veya destek için lütfen bizimle iletişime
+                                            geçiniz.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @else
+                                    <div class="status-header">
+                                        <div class="status-title " style="color: #0FA958;">İptal İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İptal talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @endif
                             @endif
 
 
-
-
-                            <div class="status-timestamp">{{ $order->created_at }}</div>
                         </div>
-
                         <div class="horizontal-line"></div>
 
-                        @if (($order->share && $order->share->status == 1) || ($order->cartPrice && $order->cartPrice->status == 1))
+                        @if ($order->refund->status == 3)
                             <div class="status-card bg-light">
                                 <div class="status-icon text-success box-shadow-light">
                                     <i class=""><img class="pay-icon"
@@ -258,128 +248,232 @@
                                 </div>
                                 <div class="status-header">
                                     <div class="status-title text-success">
-                                        Rezervasyonunuz Başarıyla Tamamlandı!
+                                        Geri Ödeme Tamamlandı
                                     </div>
                                     <div class="status-description">
-                                        Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve ilan hakkında değerlendirme
-                                        yapabilirsiniz. İyi tatiller dileriz!
+                                        Ücret iadeniz başarıyla gerçekleştirilmiştir.
+                                        İlgili tutarın hesabınıza yansıması birkaç gün sürebilir.
+                                        Herhangi bir sorunuz veya sorun yaşamanız durumunda bizimle iletişime geçmekten
+                                        çekinmeyin.
                                     </div>
                                 </div>
 
-                                {{-- <div class="rating">
+
+
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i')}}</div>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+            @else
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
+
+
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödeme Onay Aşamasındadır</div>
+                                    <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @else
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
+                                    <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
+                                        sipariş
+                                        tamamlandığında alacak.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @endif
+
+
+                        </div>
+                        <div class="horizontal-line"></div>
+
+
+
+                        @if ($order && $order->status && $order->status == 1)
+                            <div class="status-card bg-light-green">
+                                <div class="status-icon box-shadow-green text-success">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
+                                    <div class="status-description">Rezervasyon onayınız bekleniyor.</div>
+                                </div>
+
+                                @if (isset($order->share) && optional($order->share)->status != 1)
+                                    <div class="approve-button">
+                                        <a class="btn btn-success"
+                                            href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                            @if ($order->share->status == 1) disabled @endif>
+                                            Onayla</a>
+                                        {{-- <button class="btn btn-danger"
+                                        onclick="submitFormPriceAndShare('{{ route('institutional.unapprove-reservation', ['reservation' => $order->share->id]) }}')"
+                                        @if ($order->share->status != 1) disabled @endif>Hakedişleri
+                                        Reddet</button> --}}
+
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İptal Et</button>
+                                    </div>
+                                @endif
+
+
+
+
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+
+                            @if (($order->share && $order->share->status == 1) || ($order->cartPrice && $order->cartPrice->status == 1))
+                                <div class="status-card bg-light">
+                                    <div class="status-icon text-success box-shadow-light">
+                                        <i class=""><img class="pay-icon"
+                                                src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
+                                    </div>
+                                    <div class="status-header">
+                                        <div class="status-title text-success">
+                                            Rezervasyonunuz Başarıyla Tamamlandı!
+                                        </div>
+                                        <div class="status-description">
+                                            Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve ilan hakkında değerlendirme
+                                            yapabilirsiniz. İyi tatiller dileriz!
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="rating">
                                   
                                 </div> --}}
 
 
-                                <div class="status-timestamp">{{ $order->created_at }}</div>
-                            </div>
-
-                            <div class="horizontal-line"></div>
-                            <div class="accordion" id="accordionPanelsStayOpenExample">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                            Yorum Ekle
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                                        <div class="accordion-body">
-
-                                            <form id="commentForm" enctype="multipart/form-data" class="mt-5">
-                                                @csrf
-                                                <input type="hidden" name="rate" id="rate" />
-
-                                                <input type="hidden" name="type" id="type" value="housing" />
-                                                <input type="hidden" name="id" id="id"
-                                                    value="{{ $order->housing->id }}" />
-
-                                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                    <div class="d-flex rating-area">
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                    </div>
-                                                    <div class="ml-auto">
-                                                        <input type="file" style="display: none;" class="fileinput"
-                                                            name="images[]" multiple accept="image/*" />
-                                                        <button type="button" class="btn btn-primary q-button"
-                                                            id="selectImageButton">Resimleri Seç</button>
-                                                    </div>
-                                                </div>
-                                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                                <button type="button" class="ud-btn btn-white2 mt-3"
-                                                    onclick="submitForm()">Yorumu
-                                                    Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                                <div id="previewContainer"
-                                                    style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-                                                </div>
-
-                                            </form>
-
-
-                                        </div>
-                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
                                 </div>
 
-                            </div>
+                                <div class="horizontal-line"></div>
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                aria-controls="panelsStayOpen-collapseOne">
+                                                Yorum Ekle
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                            <div class="accordion-body">
+
+                                                <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                                    @csrf
+                                                    <input type="hidden" name="rate" id="rate" />
+
+                                                    <input type="hidden" name="type" id="type"
+                                                        value="housing" />
+                                                    <input type="hidden" name="id" id="id"
+                                                        value="{{ $order->housing->id }}" />
+
+                                                    <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                        <div class="d-flex rating-area">
+                                                            <svg class="rating" enable-background="new 0 0 50 50"
+                                                                height="24px" id="Layer_1" version="1.1"
+                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="#000000" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                            <svg class="rating" enable-background="new 0 0 50 50"
+                                                                height="24px" id="Layer_1" version="1.1"
+                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="#000000" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                            <svg class="rating" enable-background="new 0 0 50 50"
+                                                                height="24px" id="Layer_1" version="1.1"
+                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="#000000" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                            <svg class="rating" enable-background="new 0 0 50 50"
+                                                                height="24px" id="Layer_1" version="1.1"
+                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="#000000" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                            <svg class="rating" enable-background="new 0 0 50 50"
+                                                                height="24px" id="Layer_1" version="1.1"
+                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="#000000" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="ml-auto">
+                                                            <input type="file" style="display: none;"
+                                                                class="fileinput" name="images[]" multiple
+                                                                accept="image/*" />
+                                                            <button type="button" class="btn btn-primary q-button"
+                                                                id="selectImageButton">Resimleri Seç</button>
+                                                        </div>
+                                                    </div>
+                                                    <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                                    <button type="button" class="ud-btn btn-white2 mt-3"
+                                                        onclick="submitForm()">Yorumu
+                                                        Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                    <div id="previewContainer"
+                                                        style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                                                    </div>
+
+                                                </form>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endif
                         @endif
-                    @endif
+                    </div>
                 </div>
-            </div>
+            @endif
+
+
 
         </div>
         <div class="col-12 col-xl-4 col-xxl-3">

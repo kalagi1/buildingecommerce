@@ -212,6 +212,94 @@
                     </div>
                 </div>
 
+                @if ($order && $order->refund)
+
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
+
+
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->refund->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">İade işlemi Onay Aşamasındadır</div>
+                                    <div class="status-description">İade İşlemi şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @else
+                                @if ($order->refund->status == 1)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color: #0FA958;">İade İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İade talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @elseif ($order->refund->status == 2)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color:#721c24;">İade işlemi reddedildi</div>
+                                        <div class="status-description">Üzgünüz, İade talebiniz reddedilmiştir.
+                                            Konuyla ilgili daha fazla bilgi veya destek için lütfen bizimle iletişime
+                                            geçiniz.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i')}}</div>
+                                @else
+                                    <div class="status-header">
+                                        <div class="status-title " style="color: #0FA958;">İade İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İade talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @endif
+                            @endif
+
+
+                        </div>
+                        <div class="horizontal-line"></div>
+
+                        @if ($order->refund->status == 3)
+                            <div class="status-card bg-light">
+                                <div class="status-icon text-success box-shadow-light">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">
+                                        Geri Ödeme Tamamlandı
+                                    </div>
+                                    <div class="status-description">
+                                        Ücret iadeniz başarıyla gerçekleştirilmiştir.
+                                        İlgili tutarın hesabınıza yansıması birkaç gün sürebilir.
+                                        Herhangi bir sorunuz veya sorun yaşamanız durumunda bizimle iletişime geçmekten
+                                        çekinmeyin.
+                                    </div>
+                                </div>
+
+
+
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+                @else
                 <div class="order-detail-inner mb-3">
                     <div class="title mb-3">
                         <i class="fa fa-shopping-cart"></i>
@@ -232,7 +320,7 @@
                                     <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
                                         durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
                                 </div>
-                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
                             @else
                                 <div class="status-header">
                                     <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
@@ -240,7 +328,7 @@
                                         sipariş
                                         tamamlandığında alacak.</div>
                                 </div>
-                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
                             @endif
 
 
@@ -277,7 +365,7 @@
                                 @endif
 
 
-                                <div class="status-timestamp">{{ $order->created_at }}</div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
                             </div>
 
                             <div class="horizontal-line"></div>
@@ -299,7 +387,7 @@
                                     </div> --}}
 
 
-                                    <div class="status-timestamp">{{ $order->created_at }}</div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
                                 </div>
 
                                 <div class="horizontal-line"></div>
@@ -545,6 +633,9 @@
                         @endif
                     </div>
                 </div>
+                @endif
+
+               
 
                 <div class="order-detail-inner">
                     <div class="title mb-3">
