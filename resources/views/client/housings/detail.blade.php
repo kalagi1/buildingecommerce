@@ -512,21 +512,11 @@
 
                                         <span class="product-review-section-wrapper__wrapper__filter_title">
                                             Değerlendirmeler</span>
-                                        <div class="flex flex-col gap-6 mt-3" style="padding: 0 20px">
+                                        <div class="flex flex-col gap-6 mt-3" >
                                             @foreach ($housingComments as $comment)
                                                 <div class="bg-white border rounded-md pb-3 mb-3"
                                                     @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
-                                                    <a href="{{ route('housing.show', ['housingSlug' => $comment->housing->step1_slug . '-' . $comment->housing->step2_slug . '-' . $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
-                                                        class="product-review-container__redirect" target="_blank"><img
-                                                            src="{{ asset('housing_images/' . getImage($comment->housing, 'image')) }}"
-                                                            alt="Ürün Görseli">
-                                                        <div class="product-review-container__redirect__span-wrapper">
-                                                            <p style="font-weight: 600; color: rgb(51, 51, 51);">
-                                                                {{ $comment->housing->title }}</p>
-                                                            <p style="font-weight: 400; color: rgb(157, 157, 157);">
-                                                                {{ $comment->housing->address }}</p>
-                                                        </div>
-                                                    </a>
+                                                 
                                                     <div class="ml-auto order-2 mt-3 mb-3">
                                                         @for ($i = 0; $i < $comment->rate; ++$i)
                                                             <svg enable-background="new 0 0 50 50" height="15px"
