@@ -3792,16 +3792,7 @@ function getImage($housing, $key)
                 margin-left: 20px;
                 margin-bottom: 10px;
             }
-
-            .ps-ratings {
-  margin-top: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: source_sans_prosemibold,serif;
-  -webkit-font-smoothing: antialiased;
-}
-.ps-ratings__stars {
+            .ps-ratings__stars {
   display: flex;
   align-items: center;
 }
@@ -3811,33 +3802,6 @@ function getImage($housing, $key)
 }
 .ps-ratings__stars .ratings {
   margin-top: 3px;
-}
-.ps-ratings__average {
-  height: 20px;
-  color: #999;
-  line-height: 10px;
-  font-size: 10px;
-  font-weight: 600;
-}
-.ps-ratings__count-text {
-  color: #333;
-  line-height: 20px;
-  margin-left: 5px;
-  font-size: 24px;
-  margin-right: 4px;
-  font-weight: 600;
-}
-.ps-ratings__counts {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: 17px;
-  font-weight: 600;
-  color: #333;
-}
-.ps-ratings__divider {
-  margin: 0 16px;
-  color: #999999;
 }
         </style>
 @endsection
