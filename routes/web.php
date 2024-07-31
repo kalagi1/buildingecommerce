@@ -234,6 +234,8 @@ Route::get('/qR9zLp2xS6y/secured/logout', [AdminLoginController::class, "logout"
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
+    Route::get('/uye-ol', [ClientLoginController::class, "showRegisterForm"])->name('client.register');
+
     Route::post('/login-website', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 });
