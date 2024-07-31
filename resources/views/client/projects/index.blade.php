@@ -177,7 +177,7 @@
 
                                         <table class="table homes-content" style="margin-bottom: 0 !important">
                                             <tbody>
-                                                <tr style="border-top: none !important">
+                                                {{-- <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
                                                         <span class="det" style="color: #D32729 !important;">
                                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
@@ -186,9 +186,9 @@
                                                             @endif
                                                         </span>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                </tr> --}}
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
                                                         <span class="autoWidthTr">İlan No:</span>
                                                         <span class="det" style="color: #274abb !important;">
                                                             {{ $project->id + 1000000 }}
