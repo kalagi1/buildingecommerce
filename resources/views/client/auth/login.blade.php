@@ -92,7 +92,7 @@
                                             </div>
 
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
-                                            <p class="redirect-to-register">
+                                            <p class="redirect-to-register text-center pt-1">
                                                 <span>Henüz hesabın yok mu?</span>
                                                 <a href="{{route('client.register')}}"> Üye Ol </a>
                                                 
