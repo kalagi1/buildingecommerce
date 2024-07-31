@@ -105,7 +105,7 @@
                                     <i class="fa fa-check"></i>
                                     <span>
                                         @if ($order->status == 2)
-                                            ÖDEMEYİ REDDETTİNİZ
+                                         Sipariş İptal Edildi
                                         @elseif($order->status == 1)
                                             ÖDEMEYİ ONAYLADINIZ
                                         @else
