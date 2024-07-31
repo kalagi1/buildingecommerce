@@ -866,276 +866,12 @@ Sipariş Notu eklenmedi
                                                     </div>
                                                 </div>
 
-                                                {{-- <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
-                                                    <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
-                                                        <ul class="nav justify-content-between nav-wizard" role="tablist">
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link active fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab1"
-                                                                    data-bs-toggle="tab" data-wizard-step="1"
-                                                                    aria-selected="true" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-lock"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="lock"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Sözleşme</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab2"
-                                                                    data-bs-toggle="tab" data-wizard-step="2"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-user"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="user"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Alıcı
-                                                                            Bilgileri</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab3"
-                                                                    data-bs-toggle="tab" data-wizard-step="3"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-file-lines"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas"
-                                                                                    data-icon="file-lines" role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 384 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M256 0v128h128L256 0zM224 128L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48V160h-127.1C238.3 160 224 145.7 224 128zM272 416h-160C103.2 416 96 408.8 96 400C96 391.2 103.2 384 112 384h160c8.836 0 16 7.162 16 16C288 408.8 280.8 416 272 416zM272 352h-160C103.2 352 96 344.8 96 336C96 327.2 103.2 320 112 320h160c8.836 0 16 7.162 16 16C288 344.8 280.8 352 272 352zM288 272C288 280.8 280.8 288 272 288h-160C103.2 288 96 280.8 96 272C96 263.2 103.2 256 112 256h160C280.8 256 288 263.2 288 272z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Açıklama</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab4"
-                                                                    data-bs-toggle="tab" data-wizard-step="4"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-check"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="check"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Onaylama</span>
-                                                                    </div>
-                                                                </a></li>
-                                                        </ul>
-                                                    </div>
-
-                                                   
-                                                    <div class="card-body pt-4 pb-0">
-                                                        <div class="tab-content">
-                                                            <div class="tab-pane active" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab1"
-                                                                id="bootstrap-wizard-validation-tab1">
-                                                                
-                                                            </div>
-                                                            <div class="tab-pane" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab2"
-                                                                id="bootstrap-wizard-validation-tab2">
-                                                                <form class="needs-validation" id="wizardValidationForm2"
-                                                                    novalidate="novalidate" data-wizard-form="2">
-                                                                    @csrf
 
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
-                                                                            Soyad</label><input class="form-control"
-                                                                            type="text" name="name"
-                                                                            placeholder="Ad Soyad"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                            Numarası</label><input
-                                                                            class="form-control phoneControl"
-                                                                            type="text" name="phone"
-                                                                            placeholder="Telefon Numarası"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required" maxlength="10">
-                                                                        <span id="error_message"
-                                                                            class="error-message"></span>
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
-                                                                            class="form-control" type="email"
-                                                                            name="email" placeholder="E-Posta"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    @if ($order->payment_result && $order->payment_result !== '')
-                                                                    @else
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak Banka</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_bank" placeholder="Banka"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak IBAN</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_iban" placeholder="IBAN"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required"
-                                                                                oninput="formatIBAN(this)">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-                                                                    @endif
-
-
-
-                                                                </form>
-                                                            </div>
-                                                            <div class="tab-pane" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab3"
-                                                                id="bootstrap-wizard-validation-tab3">
-                                                               
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="tab-pane" role="tabpanel"
-                                                            aria-labelledby="bootstrap-wizard-validation-tab4"
-                                                            id="bootstrap-wizard-validation-tab4">
-                                                            <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
-                                                                <div class="col-12 col-sm-auto">
-                                                                    <div class="text-center text-sm-start"><img
-                                                                            class="d-dark-none"
-                                                                            src="../../assets/img/spot-illustrations/38.webp"
-                                                                            alt="" width="220"><img
-                                                                            class="d-light-none"
-                                                                            src="../../assets/img/spot-illustrations/dark_38.webp"
-                                                                            alt="" width="220"></div>
-                                                                </div>
-                                                                <div class="col-12 col-sm-auto">
-                                                                    <div class="text-center ">
-                                                                        <h5 class="mb-3">İptal Talebiniz Alınmıştır
-                                                                        </h5>
-                                                                        <p class="text-body-emphasis fs-9">Talep Sonucu
-                                                                            Kısa Süre İçerisinde Tarafınıza
-                                                                            İletilecektir</p>
-
-                                                                       
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer border-top-0"
-                                                    data-wizard-footer="data-wizard-footer">
-                                                    <div class="d-flex pager wizard list-inline mb-0"><button
-                                                            class="d-none btn btn-link ps-0" type="button"
-                                                            data-wizard-prev-btn="data-wizard-prev-btn"><svg
-                                                                class="svg-inline--fa fa-chevron-left me-1"
-                                                                data-fa-transform="shrink-3" aria-hidden="true"
-                                                                focusable="false" data-prefix="fas"
-                                                                data-icon="chevron-left" role="img"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
-                                                                data-fa-i2svg=""
-                                                                style="transform-origin: 0.3125em 0.5em;">
-                                                                <g transform="translate(160 256)">
-                                                                    <g
-                                                                        transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)">
-                                                                        <path fill="currentColor"
-                                                                            d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"
-                                                                            transform="translate(-160 -256)">
-                                                                        </path>
-                                                                    </g>
-                                                                </g>
-                                                            </svg>Geri
-                                                            Dön</button>
-                                                        <div class="flex-1 text-end"><button
-                                                                class="btn btn-primary px-6 px-sm-6" type="submit"
-                                                                data-wizard-next-btn="data-wizard-next-btn">İleri<svg
-                                                                    class="svg-inline--fa fa-chevron-right ms-1"
-                                                                    data-fa-transform="shrink-3" aria-hidden="true"
-                                                                    focusable="false" data-prefix="fas"
-                                                                    data-icon="chevron-right" role="img"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 320 512" data-fa-i2svg=""
-                                                                    style="transform-origin: 0.3125em 0.5em;">
-                                                                    <g transform="translate(160 256)">
-                                                                        <g
-                                                                            transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)">
-                                                                            <path fill="currentColor"
-                                                                                d="M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z"
-                                                                                transform="translate(-160 -256)">
-                                                                            </path>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg></button>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
                                             </div>
 
-
-
-
-
-
                                         </div>
-                                        {{-- <div class="modal-footer"><button class="btn btn-primary" type="button">Okay</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></div>
-                                    </div> --}}
+
                                     </div>
                                 </div>
 
@@ -1211,160 +947,169 @@ Sipariş Notu eklenmedi
     </script>
 
     <script>
-        let currentTab = 0;
-        // Başlangıç tabı
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentTab = 0;
 
-        function showTab(n) {
-            let tabs = document.getElementsByClassName("step");
-            tabs[n].style.display = "block";
-            document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
-            document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
-        }
+            showTab(currentTab); // Başlangıç tabını göster
 
-        function nextPrev(n) {
-            let tabs = document.getElementsByClassName("step");
+            function showTab(n) {
+                let tabs = document.getElementsByClassName("step");
 
-            // Mevcut adımı gizle
-            tabs[currentTab].style.display = "none";
+                for (let i = 0; i < tabs.length; i++) {
+                    tabs[i].style.display = "none";
+                }
 
-            // Yeni adımı güncelle
-            currentTab += n;
-
-            // Eğer tüm adımlar tamamlandıysa formu gönder
-            if (currentTab >= tabs.length) {
-                submitForms(); // formu gönder
-                return false;
+                tabs[n].style.display = "block";
+                document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+                document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
+                updateProgressBar(n, tabs.length);
             }
 
-            // Adımı göster
-            showTab(currentTab);
-        }
+            function nextPrev(n) {
+                let tabs = document.getElementsByClassName("step");
 
-        function validateForm() {
-            let valid = true;
-            let step = document.getElementsByClassName("step")[currentTab];
+                // Form doğrulama
+                if (!validateForm()) return false;
 
-            // Input ve textarea elementlerini seç
-            let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
-            let checkboxes = step.querySelectorAll("input[type='checkbox']");
+                // Mevcut adımı gizle
+                if (tabs[currentTab]) {
+                    tabs[currentTab].style.display = "none";
+                }
 
-            // Her input ve textarea için doğrulama
-            inputs.forEach(input => {
-                if (input.value.trim() === "") {
-                    input.classList.add("invalid");
-                    valid = false;
-                } else {
+                // Yeni adımı güncelle
+                currentTab += n;
+
+                // Eğer tüm adımlar tamamlandıysa formu gönder
+                if (currentTab >= tabs.length) {
+                    submitForms(); // Formu gönder
+                    return false;
+                }
+
+                // Adımı göster
+                showTab(currentTab);
+            }
+
+            function validateForm() {
+                let valid = true;
+                let step = document.getElementsByClassName("step")[currentTab];
+
+                // Input ve textarea elementlerini seç
+                let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+                let checkboxes = step.querySelectorAll("input[type='checkbox']");
+
+                // Her input ve textarea için doğrulama
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.classList.add("invalid");
+                        valid = false;
+                    } else {
+                        input.classList.remove("invalid");
+                    }
+                });
+
+                // Checkbox doğrulaması
+                checkboxes.forEach(checkbox => {
+                    if (!checkbox.checked) {
+                        checkbox.parentElement.classList.add(
+                        "invalid-checkbox"); // Parent elemente sınıf ekle
+                        valid = false;
+                    } else {
+                        checkbox.parentElement.classList.remove(
+                        "invalid-checkbox"); // Parent elementten sınıf çıkar
+                    }
+                });
+
+                return valid;
+            }
+
+            function submitForms() {
+                let form1 = $("#wizardValidationForm1");
+                let form2 = $("#wizardValidationForm2");
+                let form3 = $("#wizardValidationForm3");
+
+                let formData = {
+                    "_token": "{{ csrf_token() }}",
+                    "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                    "name": form2.find("input[name='name']").val(),
+                    "phone": form2.find("input[name='phone']").val(),
+                    "email": form2.find("input[name='email']").val(),
+                    "return_bank": form2.find("input[name='return_bank']").val(),
+                    "return_iban": form2.find("input[name='return_iban']").val(),
+                    "content": form3.find("textarea[name='content']").val(),
+                    "cart_order_id": "{{ $order->id }}"
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('institutional.order.refund') }}",
+                    data: formData,
+                    success: function(response) {
+                        toastr.success('İade talebi başarıyla gönderildi.');
+                        console.log("Form başarıyla gönderildi.");
+                        resetForm();
+                        location.reload(); // Sayfayı yenile
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar deneyiniz.');
+                        console.error(error);
+                    }
+                });
+            }
+
+            function resetForm() {
+                let steps = document.getElementsByClassName("step");
+                for (let i = 0; i < steps.length; i++) {
+                    steps[i].style.display = "none";
+                }
+
+                let inputs = document.querySelectorAll("input, textarea");
+                inputs.forEach(input => {
+                    input.value = "";
                     input.classList.remove("invalid");
-                }
-            });
+                    if (input.type === "checkbox") {
+                        input.checked = false;
+                        input.parentElement.classList.remove("invalid-checkbox");
+                    }
+                });
 
-            // Checkbox doğrulaması
-            checkboxes.forEach(checkbox => {
-                if (!checkbox.checked) {
-                    checkbox.classList.add("invalid-checkbox");
-                    valid = false;
-                } else {
-                    checkbox.classList.remove("invalid-checkbox");
-                }
-            });
-
-            // Event listener ekleme (Her bir input ve checkbox için bir kez eklenir)
-            // Bu listener'lar, kullanıcı formu doldururken boş olan alanları kontrol eder.
-            inputs.forEach(input => {
-                input.removeEventListener('input', handleInputChange); // Eski event listener'ları temizle
-                input.addEventListener('input', handleInputChange);
-            });
-
-            checkboxes.forEach(checkbox => {
-                checkbox.removeEventListener('change', handleCheckboxChange); // Eski event listener'ları temizle
-                checkbox.addEventListener('change', handleCheckboxChange);
-            });
-
-            function handleInputChange() {
-                if (this.value.trim() !== "") {
-                    this.classList.remove("invalid");
-                } else {
-                    this.classList.add("invalid");
-                }
+                currentTab = 0;
+                showTab(currentTab);
+                document.querySelector(".progress-bar").style.width = "0%";
+                document.querySelector(".progress-bar").setAttribute("aria-valuenow", 0);
+                document.getElementById("prevBtn").style.display = "none";
             }
 
-            function handleCheckboxChange() {
-                if (this.checked) {
-                    this.classList.remove("invalid-checkbox");
-                } else {
-                    this.classList.add("invalid-checkbox");
-                }
+            function updateProgressBar(current, total) {
+                let percent = (current / (total - 1)) * 100;
+                document.querySelector(".progress-bar").style.width = percent + "%";
+                document.querySelector(".progress-bar").setAttribute("aria-valuenow", percent);
             }
 
-            return valid;
-        }
-
-
-
-
-
-
-
-
-        var csrfToken = "{{ csrf_token() }}";
-
-        // Form verilerini topla ve gönder
-        function submitForms() {
-            var form1 = $("#wizardValidationForm1");
-            var form2 = $("#wizardValidationForm2");
-            var form3 = $("#wizardValidationForm3");
-
-            var formData = {
-                "_token": csrfToken,
-                "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-                "name": form2.find("input[name='name']").val(),
-                "phone": form2.find("input[name='phone']").val(),
-                "email": form2.find("input[name='email']").val(),
-                "return_bank": form2.find("input[name='return_bank']").val(),
-                "return_iban": form2.find("input[name='return_iban']").val(),
-                "content": form3.find("textarea[name='content']").val(),
-                "cart_order_id": "{{ $order->id }}"
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "{{ route('institutional.order.refund') }}",
-                data: formData,
-                success: function(response) {
-                    // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
-                    toastr.success('İade talebi başarıyla gönderildi.');
-                    console.log("Form başarıyla gönderildi.");
-                    resetForm();
-                    location.reload();
-
-                },
-                error: function(xhr, status, error) {
-                    // Hata durumunda burada bir işlem yapabilirsiniz
-                    toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-                    console.error(error);
-                }
+            // Form input ve checkbox'lar için event listener ekleme
+            document.querySelectorAll('.needs-validation input, .needs-validation textarea').forEach(element => {
+                element.addEventListener('input', function() {
+                    if (this.value.trim() !== "") {
+                        this.classList.remove("invalid");
+                    } else {
+                        this.classList.add("invalid");
+                    }
+                });
             });
-        }
 
-        function resetForm() {
-            let x = document.getElementsByClassName("step");
-            for (var i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            let inputs = document.querySelectorAll("input");
-            inputs.forEach(input => {
-                input.value = "";
-                input.className = "";
+            document.querySelectorAll('.needs-validation input[type="checkbox"]').forEach(element => {
+                element.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.parentElement.classList.remove("invalid-checkbox");
+                    } else {
+                        this.parentElement.classList.add("invalid-checkbox");
+                    }
+                });
             });
-            currentTab = 0;
-            showTab(currentTab);
-            document.querySelector(".progress-bar")
-                .style.width = "0%";
-            document.querySelector(".progress-bar")
-                .setAttribute("aria-valuenow", 0);
-            document.getElementById("prevBtn")
-                .style.display = "none";
-        }
+
+            // Geri ve İleri butonlarına tıklama olayları ekle
+            document.getElementById("prevBtn").addEventListener("click", () => nextPrev(-1));
+            document.getElementById("nextBtn").addEventListener("click", () => nextPrev(1));
+        });
     </script>
 
 
@@ -1451,6 +1196,10 @@ Sipariş Notu eklenmedi
 
 @section('styles')
     <style>
+        button#prevBtn {
+            display: none;
+        }
+
         .invalid-checkbox {
             color: #ff0000 !important;
         }
