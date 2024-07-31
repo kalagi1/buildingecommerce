@@ -1340,7 +1340,7 @@
                                                 <rect fill="none" height="50" width="50" />
                                                 <polygon class="rating-polygon" fill="none"
                                                     points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
                                             </svg>
                                             <svg class="rating" enable-background="new 0 0 50 50" height="24px"
                                                 id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
@@ -1349,7 +1349,7 @@
                                                 <rect fill="none" height="50" width="50" />
                                                 <polygon class="rating-polygon" fill="none"
                                                     points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
                                             </svg>
                                             <svg class="rating" enable-background="new 0 0 50 50" height="24px"
                                                 id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
@@ -1358,7 +1358,7 @@
                                                 <rect fill="none" height="50" width="50" />
                                                 <polygon class="rating-polygon" fill="none"
                                                     points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
                                             </svg>
                                             <svg class="rating" enable-background="new 0 0 50 50" height="24px"
                                                 id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
@@ -1367,7 +1367,7 @@
                                                 <rect fill="none" height="50" width="50" />
                                                 <polygon class="rating-polygon" fill="none"
                                                     points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
                                             </svg>
                                             <svg class="rating" enable-background="new 0 0 50 50" height="24px"
                                                 id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
@@ -1376,7 +1376,7 @@
                                                 <rect fill="none" height="50" width="50" />
                                                 <polygon class="rating-polygon" fill="none"
                                                     points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                                    stroke="#717171" stroke-miterlimit="10" stroke-width="2" />
                                             </svg>
                                         </div>
                                         <div class="ml-auto">
@@ -1538,7 +1538,7 @@
                 $('.rating-area .rating-polygon').each(function(i) {
                     $(this).attr('fill', i <= index ? 'gold' : 'none');
                     $(this).attr('stroke', i <= index ? 'gold' :
-                        '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                        '#717171'); // Seçili yıldızların kenarlık rengini altın yap
                 });
             });
 
@@ -1548,7 +1548,7 @@
                 $('.rating-area .rating-polygon').each(function(i) {
                     $(this).attr('fill', i <= selectedIndex ? 'gold' : 'none');
                     $(this).attr('stroke', i <= selectedIndex ? 'gold' :
-                        '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                        '#717171'); // Seçili yıldızların kenarlık rengini altın yap
                 });
             });
 
@@ -2371,13 +2371,14 @@
             color: #999;
             margin-bottom: 10px;
         }
+
         #previewContainer img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 5px;
-}
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+        }
     </style>
 @endsection
