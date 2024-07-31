@@ -22,7 +22,7 @@ class HousingObserver
     public function updated(Housing $housing): void
     {
         // Check if the status was updated to 0
-        if ($housing->wasChanged('status') && $housing->status == 0) {
+        if ( $housing->status == 0 || $housing->is_sold == 1) {
             // Remove entries from the share_links table where housing_id matches the current housing's id
             DB::table('share_links')->where('item_id', $housing->id)->where('item_type', 2)->delete();
         }
