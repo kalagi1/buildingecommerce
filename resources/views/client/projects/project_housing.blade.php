@@ -417,7 +417,7 @@
                                     style="display: flex; justify-content: space-between; align-items: center; padding: 0 !important">
                                     @if ($offSale || $saleClosed)
                                         <button class="btn second-btn" {!! $style !!}>
-                                            <span class="text">Satışa Kapatıldı</span>
+                                            <span class="text">Satışa Kapalı</span>
                                         </button>
                                     @elseif ($soldAndNotStatus2)
                                         <button class="btn second-btn" {!! $btnStyle !!}>

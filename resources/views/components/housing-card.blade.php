@@ -250,7 +250,7 @@
                         <button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">
 
                             <span class="text">Satışa
-                                Kapatıldı</span>
+                                Kapalı</span>
                         </button>
                     @else
                         @if ($sold != null && $sold != '2')

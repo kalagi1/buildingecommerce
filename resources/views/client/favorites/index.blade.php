@@ -126,7 +126,7 @@
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
-                                                    <span class="text">Satışa Kapatıldı</span>
+                                                    <span class="text">Satışa Kapalı</span>
                                                 </button>
                                             @else
                                                 @if ($sold && $sold[0]->status != '2')

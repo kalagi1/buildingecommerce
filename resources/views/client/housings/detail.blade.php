@@ -820,7 +820,7 @@
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn"
                                                     style="background: #D32729 !important; width:100%; color:White">
-                                                    <span class="text">Satışa Kapatıldı</span>
+                                                    <span class="text">Satışa Kapalı</span>
                                                 </button>
                                             @else
                                                 @if ($sold && isset($sold[0]) && $sold[0]->status != '2')

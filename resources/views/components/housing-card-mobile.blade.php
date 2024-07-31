@@ -74,7 +74,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                             <button class="btn second-btn  mobileCBtn"
                                 style="background: #D32729 !important;color:White">
 
-                                <span class="text">Satışa Kapatıldı</span>
+                                <span class="text">Satışa Kapalı</span>
                             </button>
                         @else
                             @if ($sold != null && $sold != '2')

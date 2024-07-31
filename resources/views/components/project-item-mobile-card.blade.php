@@ -196,7 +196,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
                         <button class="btn second-btn mobileCBtn"
                             style="background: #D32729 !important; width: 100%; color: White;">
-                            <span class="text">Satışa Kapatıldı</span>
+                            <span class="text">Satışa Kapalı</span>
                         </button>
                     @else
                         @if (

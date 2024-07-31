@@ -434,7 +434,7 @@
                                                                         style="background: #D32729 !important;width:100%;height:40px !important;color:White">
 
                                                                         <span class="text">Satışa
-                                                                            Kapatıldı</span>
+                                                                            Kapalı</span>
                                                                     </button>
                                                                 @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
                                                                     <button class="btn second-btn  mobileCBtn"
@@ -907,7 +907,7 @@
                                                                 <button class="btn second-btn  mobileCBtn"
                                                                     style="background: #D32729 !importantcolor:White">
 
-                                                                    <span class="text">Satışa Kapatıldı</span>
+                                                                    <span class="text">Satışa Kapalı</span>
                                                                 </button>
                                                             @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
                                                                 <button class="btn second-btn"
