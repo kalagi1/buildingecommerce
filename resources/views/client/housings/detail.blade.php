@@ -358,6 +358,30 @@ function getImage($housing, $key)
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                         @if (count($housingComments))
+                                        @php
+
+    // Count the number of reviews for each rating (1-5)
+    $ratingCounts = [0, 0, 0, 0, 0];
+    foreach ($housingComments as $comment) {
+        if ($comment->rate >= 1 && $comment->rate <= 5) {
+            $ratingCounts[$comment->rate - 1]++;
+        }
+    }
+
+    // Calculate the total number of reviews and comments
+    $totalReviews = array_sum($ratingCounts);
+    $totalComments = $housingComments->count();
+
+    // Calculate the percentage for each rating
+    $ratingPercentages = array_map(function ($count) use ($totalReviews) {
+        return ($totalReviews > 0 ? ($count / $totalReviews) * 100 : 0);
+    }, $ratingCounts);
+
+    // Calculate the average rating
+    $averageRating = $totalReviews ? array_sum(array_map(function ($rate, $index) use ($ratingCounts) {
+        return $rate * $ratingCounts[$index];
+    }, [1, 2, 3, 4, 5], array_keys($ratingCounts))) / $totalReviews : 0;
+                                        @endphp
                                         <div class="ps-ratings">
                                             <div class="ps-ratings__stars">
                                                 <div class="ratings readonly">
