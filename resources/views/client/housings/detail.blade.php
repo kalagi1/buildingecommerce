@@ -358,7 +358,6 @@ function getImage($housing, $key)
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <h5 class="mt-4">Yorumlar</h5>
-                                    <div class="single homes-content details mb-30">
                                         @if (count($housingComments))
                                             <div style="margin-top: 20.5px;"><span
                                                     class="product-review-section-wrapper__wrapper__filter_title">Puana
@@ -514,7 +513,6 @@ function getImage($housing, $key)
                                             <span>Bu mağaza için henüz yorum yapılmadı.</span>
                                         @endif
                         
-                                    </div>
                                     @if (checkIfUserCanAddToCart($housing->id))
                                         <form id="commentForm" enctype="multipart/form-data" class="mt-5">
                                             @csrf
