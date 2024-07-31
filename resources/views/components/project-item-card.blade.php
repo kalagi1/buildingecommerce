@@ -551,113 +551,87 @@
 
     <!-- Modal -->
     <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-        aria-labelledby="approveProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content ">
-                <div class="modal-body">
-                    {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                        id="approveProjectModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
-                        için
-                        Teklif Ver</h3>
-                    <hr> --}}
-                    <form method="POST" action="{{ route('give_offer') }}">
-                        @csrf
-                        {{-- {{ $i+1 }} --}}
-                        <input type="hidden" value="{{ $keyIndex }}" name="roomId">
-                        <input type="hidden" value="{{ $project->id }}" name="projectId">
-                        <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+    aria-labelledby="approveProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form method="POST" action="{{ route('give_offer') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $keyIndex }}" name="roomId">
+                    <input type="hidden" value="{{ $project->id }}" name="projectId">
+                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
 
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="surname" class="q-label">Ad Soyad : </label>
-                                    <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
-                                        name="name">
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name" class="q-label">Ad Soyad : </label>
+                                <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="surname" class="q-label">Telefon Numarası : </label>
-                                    <input type="number" class="modal-input" placeholder="Telefon Numarası"
-                                        id="phone" name="phone">
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone" class="q-label">Telefon Numarası : </label>
+                                <input type="tel" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="surname" class="q-label">E-Posta : </label>
-                                    <input type="email" class="modal-input" placeholder="E-Posta" id="email"
-                                        name="email">
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" class="q-label">E-Posta : </label>
+                                <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="surname" class="q-label">Meslek : </label>
-                                    <input type="text" class="modal-input" placeholder="Meslek" id="title"
-                                        name="title">
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="title" class="q-label">Meslek : </label>
+                                <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title" required>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="" class="q-label">İl</label>
-                                    <select
-                                        class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                        name="city_id">
-                                        <option value="">Seçiniz</option>
-                                        @foreach ($towns as $item)
-                                            <option for="{{ $item['sehir_title'] }}"
-                                                value="{{ $item['sehir_key'] }}"
-                                                {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
-                                                {{ $item['sehir_title'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="" class="q-label">İlçe</label>
-                                    <select
-                                        class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                        name="county_id">
-                                        <option value="">Seçiniz</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
-                                    <input type="text" class="modal-input" placeholder="Fiyat" id="price"
-                                        name="price">
-                                </div>
-                            </div>
-
                         </div>
 
-
-
-
-                        <div class="form-group">
-                            <label for="comment" class="q-label">Açıklama:</label>
-                            <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
-                                name="offer_description"></textarea>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city_id" class="q-label">İl</label>
+                                <select class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}" name="city_id" required>
+                                    <option value="">Seçiniz</option>
+                                    @foreach ($towns as $item)
+                                        <option value="{{ $item['sehir_key'] }}" {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                            {{ $item['sehir_title'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="county_id" class="q-label">İlçe</label>
+                                <select class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}" name="county_id" required>
+                                    <option value="">Seçiniz</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
+                                <input type="text" class="modal-input" placeholder="Fiyat" id="price" name="price" required>
+                            </div>
                         </div>
 
-                        <div class="modal-footer" style="justify-content: end !important">
-                            <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                style="width:150px">Kapat</button>
-                        </div>
-                    </form>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="offer_description" class="q-label">Açıklama:</label>
+                        <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;" name="offer_description" required></textarea>
+                    </div>
 
-
-                </div>
-
+                    <div class="modal-footer" style="justify-content: end !important">
+                        <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width:150px">Kapat</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     @if ($sold_check && $sold->status == '1')
 
