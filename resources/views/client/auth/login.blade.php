@@ -18,7 +18,7 @@
                         <div class="login-container">
                             <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
+                                    <a class="nav-link active show "
                                         id="normal-tab" data-toggle="tab" href="#normal" role="tab"
                                         aria-controls="normal" aria-selected="true">
                                         <h3 class="text-center ">Giriş Yap</h3>
