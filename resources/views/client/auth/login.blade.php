@@ -92,6 +92,11 @@
                                             </div>
 
                                             <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
+                                            <p class="redirect-to-register">
+                                                <span>Henüz hesabın yok mu?</span>
+                                                <a href="{{route('client.register')}}"> Üye Ol </a>
+                                                
+                                            </p>
 
                                             <div class="social-account-login-buttons pb-3 col-12 p-0">
                                                 <!-- Social login buttons -->
