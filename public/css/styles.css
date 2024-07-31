@@ -32298,6 +32298,72 @@ a {
   background-color: #d9fbd0;
 }
 
+.add-project-pay-dec-button{
+  background: #EA2B2E;
+  border: 1px solid #EA2B2E;
+  color: #fff;
+  border-radius: 5px !important;
+  outline: 0 !important;
+}
+
+.add-project-pay-dec-button:focus{
+  outline: 0 !important;
+}
+
+.required-span{
+  color: red !important;
+  margin-left: 4px;
+}
+
+.project_imagex .image-checkbox{
+  display: none !important;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 999;
+}
+
+.project_imagex{
+  position: relative;
+}
+
+.project_imagex:hover{
+  background: #33333357;
+}
+
+.project_imagex:hover .image-checkbox{
+  display:block !important;
+}
+
+.project_imagex .remove-area{
+  display: none !important;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  z-index: 999;
+  background: #ea2a28 !important;
+  padding: 3px 5px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.project_imagex:hover .remove-area{
+  display:block !important;
+}
+
+.checked-image{
+  background: #33333357 !important;
+}
+
+.checked-image .remove-area{
+  display: block !important;
+}
+
+.checked-image .image-checkbox{
+  display: block !important;
+}
 .address-overlay {
   position: fixed; /* Ensures the overlay covers the viewport */
   top: 0;

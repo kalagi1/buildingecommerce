@@ -91,21 +91,88 @@ function ProjectForm({
         for (var i = 0; i < block.roomCount; i++) {
           if (blocks[blockIndex].rooms[i]) {
             formDataHousing.forEach((formDataHousing) => {
-              if (!formDataHousing?.className?.includes("project-disabled")) {
-                if (formDataHousing?.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                  } else {
-                    if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                      tempErrors.push(
-                        formDataHousing?.name?.replace("[]", "") +
-                          blockIndex +
-                          i
-                      );
+              if(slug == "satilik"){
+                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "devren-satilik"){
+                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "devren-kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "gunluk-kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
                     }
                   }
                 }
               }
+              
             });
           } else {
             formDataHousing.forEach((formDataHousing) => {
@@ -369,7 +436,7 @@ function ProjectForm({
           Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
           yükümlülüğü metnine{" "}
           <a
-            href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
+            href="http://127.0.0.1:8000/sayfa/kvkk-politikasi"
             target="_blank"
           >
             buradan
@@ -637,6 +704,7 @@ function ProjectForm({
                   type="date"
                   value={projectData.end_date}
                   onChange={(e) => {
+                    console.log(e.target.value,e.target.value.length)
                     if (e.target.value.length <= 10) {
                       setProjectDataFunc("end_date", e.target.value);
                     }

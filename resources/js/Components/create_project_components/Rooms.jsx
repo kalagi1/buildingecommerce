@@ -29,6 +29,8 @@ function Rooms({
   setRoomCount,
   selectedHousingType,
 }) {
+
+
   const [validationErrors, setValidationErrors] = useState(
     () => JSON.parse(localStorage.getItem("validationErrors")) || []
   );
@@ -347,6 +349,7 @@ function Rooms({
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <>
       <div className="section-title mt-5">
@@ -415,12 +418,12 @@ function Rooms({
             <div className="col-md-3">
               <div
                 id="roomNavigator"
-                className={`p-3 mt-3 card ${
-                  isFixed ? "fixed-room-navigator" : "original-room-navigator"
-                }`}
+                className={`p-3 mt-3 card ${isFixed ? "fixed-room-navigator" : "original-room-navigator"
+                  }`}
                 style={{ position: "relative" }}
               >
                 <RoomNavigator
+                  slug={slug}
                   formDataHousing={formDataHousing}
                   haveBlock={false}
                   validationErrors={validationErrors}
@@ -470,9 +473,9 @@ function Rooms({
                                 return (
                                   checkedItem.roomOrder == 0 &&
                                   checkedItem.name ==
-                                    data?.className?.split(
-                                      "--if-show-checked-"
-                                    )[1]
+                                  data?.className?.split(
+                                    "--if-show-checked-"
+                                  )[1]
                                 );
                               });
                             }
@@ -514,7 +517,7 @@ function Rooms({
                                       </div>
                                     </label>
                                     {data?.className?.includes("price-only") ||
-                                    data?.className?.includes("number-only") ? (
+                                      data?.className?.includes("number-only") ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -522,12 +525,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -551,8 +554,8 @@ function Rooms({
                                         }
                                       />
                                     ) : data?.className?.includes(
-                                        "tel-only"
-                                      ) ? (
+                                      "tel-only"
+                                    ) ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -560,12 +563,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -596,12 +599,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -666,645 +669,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
-                                          ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
-                                          : ""
-                                      }
-                                      onChange={(e) => {
-                                        if (e.target.value) {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            e.target.value
-                                          );
-                                        }
-                                      }}
-                                      className={
-                                        "form-control " +
-                                        (validationErrors.includes(data?.name)
-                                          ? "error-border"
-                                          : "") +
-                                        " " +
-                                        (allErrors.includes(
-                                          data?.name.replace("[]", "")
-                                        )
-                                          ? "error-border"
-                                          : "")
-                                      }
-                                    />
-                                  </div>
-                                );
-                              } else if (data.type == "select") {
-                                return (
-                                  <div
-                                    className={
-                                      "form-group " + (isX ? "d-none" : "")
-                                    }
-                                  >
-                                    <label className="font-bold" htmlFor="">
-                                      <div className="d-flex">
-                                        {data.label}
-                                        {data.description != undefined ? (
-                                          <Tooltip
-                                            className="mx-2"
-                                            title={data.description}
-                                            placement="top-start"
-                                          >
-                                            <div>
-                                              <i className="fa fa-circle-info"></i>
-                                            </div>
-                                          </Tooltip>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data.required ? (
-                                          <span className="required-span">
-                                            *
-                                          </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                    </label>
-                                    <select
-                                      id={data?.name.replace("[]", "")}
-                                      name=""
-                                      className={
-                                        "form-control " +
-                                        (validationErrors.includes(data?.name)
-                                          ? "error-border"
-                                          : "") +
-                                        " " +
-                                        (allErrors.includes(
-                                          data?.name.replace("[]", "")
-                                        )
-                                          ? "error-border"
-                                          : "")
-                                      }
-                                      onChange={(e) => {
-                                        blockDataSet(
-                                          selectedBlock,
-                                          data?.name,
-                                          e.target.value
-                                        );
-                                      }}
-                                      value={
-                                        blocks[selectedBlock]?.rooms[
-                                          selectedRoom
-                                        ] &&
-                                        blocks[selectedBlock]?.rooms[
-                                          selectedRoom
-                                        ][data.name]
-                                          ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
-                                          : ""
-                                      }
-                                    >
-                                      {data.values.map((valueSelect) => {
-                                        return (
-                                          <option value={valueSelect.value}>
-                                            {valueSelect.label}
-                                          </option>
-                                        );
-                                      })}
-                                    </select>
-                                  </div>
-                                );
-                              } else if (data.type == "checkbox-group") {
-                                if (data.name == "payment-plan[]") {
-                                  return (
-                                    <div>
-                                      <div>
-                                        <label
-                                          className="mt-3 font-bold"
-                                          htmlFor=""
-                                        >
-                                          <div className="d-flex">
-                                            {data.label}
-                                            {data.description != undefined ? (
-                                              <Tooltip
-                                                className="mx-2"
-                                                title={data.description}
-                                                placement="top-start"
-                                              >
-                                                <div>
-                                                  <i className="fa fa-circle-info"></i>
-                                                </div>
-                                              </Tooltip>
-                                            ) : (
-                                              ""
-                                            )}
-                                            {data.required ? (
-                                              <span className="required-span">
-                                                *
-                                              </span>
-                                            ) : (
-                                              ""
-                                            )}
-                                          </div>
-                                        </label>
-                                        <div
-                                          className="checkbox-groups"
-                                          id={data?.name.replace("[]", "")}
-                                        >
-                                          <div className="row">
-                                            {data.values.map(
-                                              (valueCheckbox) => {
-                                                return (
-                                                  <div className="col-md-3">
-                                                    <FormControlLabel
-                                                      control={
-                                                        <Switch
-                                                          label={
-                                                            valueCheckbox.label
-                                                          }
-                                                          checked={
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ]
-                                                              ? blocks[
-                                                                  selectedBlock
-                                                                ]?.rooms[
-                                                                  selectedRoom
-                                                                ][
-                                                                  data.name
-                                                                ].includes(
-                                                                  valueCheckbox.value
-                                                                )
-                                                              : false
-                                                          }
-                                                          onChange={(e) => {
-                                                            blockCheckboxDataSet(
-                                                              selectedBlock,
-                                                              data?.name,
-                                                              valueCheckbox?.value,
-                                                              e
-                                                            );
-                                                          }}
-                                                        />
-                                                      }
-                                                      label={
-                                                        valueCheckbox.label
-                                                      }
-                                                    />
-                                                  </div>
-                                                );
-                                              }
-                                            )}
-                                            {allErrors.includes(
-                                              data?.name.replace("[]", "")
-                                            ) ? (
-                                              <Alert severity="error">
-                                                Harita üzerine bir konum seçin
-                                              </Alert>
-                                            ) : (
-                                              ""
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        className={
-                                          "pay-decs mb-3 mt-3 " +
-                                          (!(
-                                            blocks[selectedBlock] &&
-                                            blocks[selectedBlock].rooms[
-                                              selectedRoom
-                                            ] &&
-                                            blocks[selectedBlock].rooms[
-                                              selectedRoom
-                                            ]["payment-plan[]"] &&
-                                            blocks[selectedBlock].rooms[
-                                              selectedRoom
-                                            ]["payment-plan[]"].includes(
-                                              "taksitli"
-                                            )
-                                          )
-                                            ? "d-none"
-                                            : "")
-                                        }
-                                      >
-                                        <label htmlFor="" className="font-bold">
-                                          Ödeme Planı
-                                        </label>
-                                        <button
-                                          className="btn btn-primary d-block"
-                                          onClick={() => {
-                                            setPayDecOpen(true);
-                                          }}
-                                        >
-                                          Ödeme Planını Yönet (
-                                          {blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ]
-                                            ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
-                                            : 0}
-                                          )
-                                        </button>
-                                      </div>
-                                    </div>
-                                  );
-                                } else {
-                                  return (
-                                    <div className={isX ? "d-none" : ""}>
-                                      <div className="d-flex">
-                                        {data.label}
-                                        {data.description != undefined ? (
-                                          <Tooltip
-                                            className="mx-2"
-                                            title={data.description}
-                                            placement="top-start"
-                                          >
-                                            <div>
-                                              <i className="fa fa-circle-info"></i>
-                                            </div>
-                                          </Tooltip>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data.required ? (
-                                          <span className="required-span">
-                                            *
-                                          </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      {data?.className?.includes(
-                                        "project-not-change"
-                                      ) ? (
-                                        <div className="info-small-area">
-                                          Bu alan projelerde seçilmesi zorunlu
-                                          alandır değiştiremezsiniz
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      <div className="checkbox-groups">
-                                        <div className="row">
-                                          {data.values.map((valueCheckbox) => {
-                                            return (
-                                              <div className="col-md-3">
-                                                <FormControlLabel
-                                                  control={
-                                                    <Checkbox
-                                                      checked={
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[
-                                                          selectedRoom
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom][
-                                                          data.name
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom]
-                                                          ? blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][
-                                                              data.name
-                                                            ].includes(
-                                                              valueCheckbox.value
-                                                            )
-                                                          : false
-                                                      }
-                                                      onChange={(e) => {
-                                                        if (
-                                                          !data?.className?.includes(
-                                                            "project-not-change"
-                                                          )
-                                                        ) {
-                                                          blockCheckboxDataSet(
-                                                            selectedBlock,
-                                                            data?.name,
-                                                            valueCheckbox?.value,
-                                                            e
-                                                          );
-                                                          setCheckedItemsFunc(
-                                                            data?.name,
-                                                            e.target.checked
-                                                          );
-                                                        }
-                                                      }}
-                                                    />
-                                                  }
-                                                  label={valueCheckbox.label}
-                                                />
-                                              </div>
-                                            );
-                                          })}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  );
-                                }
-                              } else if (data.type == "file") {
-                                return (
-                                  <div
-                                    className={
-                                      "form-group " + (isX ? "d-none" : "")
-                                    }
-                                  >
-                                    <label className="font-bold" htmlFor="">
-                                      {data.label}{" "}
-                                      {data.required ? (
-                                        <span className="required-span">*</span>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </label>
-                                    <input
-                                      id={data?.name.replace("[]", "")}
-                                      accept="image/png, image/gif, image/jpeg"
-                                      onChange={(event) => {
-                                        changeFormImage(
-                                          selectedBlock,
-                                          data?.name,
-                                          event
-                                        );
-                                      }}
-                                      type="file"
-                                      className={
-                                        "form-control " +
-                                        (validationErrors.includes(data?.name)
-                                          ? "error-border"
-                                          : "") +
-                                        " " +
-                                        (allErrors.includes(
-                                          data?.name.replace("[]", "")
-                                        )
-                                          ? "error-border"
-                                          : "")
-                                      }
-                                    />
-                                    <div className="project_imaget">
-                                      <img
-                                        src={
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ] &&
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ][data.name + "_imagex"]
-                                            ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name + "_imagex"]
-                                            : ""
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                  </div>
-                                );
-                              }
-                            }
-                          }
-                        } else if (
-                          slug == "devren-satilik" &&
-                          !data?.className?.includes(
-                            "only-show-project-rent"
-                          ) &&
-                          !data?.className?.includes(
-                            "only-show-project-daliy-rent"
-                          )
-                        ) {
-                          if (!data?.className?.includes("project-disabled")) {
-                            if (
-                              !data?.className?.includes(
-                                "only-not-show-project"
-                              )
-                            ) {
-                              var isX = null;
-                              if (
-                                data?.className?.includes("--if-show-checked-")
-                              ) {
-                                isX = !checkedItems.find((checkedItem) => {
-                                  return (
-                                    checkedItem.roomOrder == 0 &&
-                                    checkedItem.name ==
-                                      data?.className?.split(
-                                        "--if-show-checked-"
-                                      )[1]
-                                  );
-                                });
-                              }
-                              if (data.type == "text") {
-                                return (
-                                  <div
-                                    className={
-                                      "form-group " + (isX ? "d-none" : "")
-                                    }
-                                  >
-                                    <label className="font-bold" htmlFor="">
-                                      <div className="d-flex">
-                                        {data.label}
-                                        {data.description != undefined ? (
-                                          <Tooltip
-                                            className="mx-2"
-                                            title={data.description}
-                                            placement="top-start"
-                                          >
-                                            <div>
-                                              <i className="fa fa-circle-info"></i>
-                                            </div>
-                                          </Tooltip>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data.required ? (
-                                          <span className="required-span">
-                                            *
-                                          </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                    </label>
-                                    {data?.className?.includes("price-only") ||
-                                    data?.className?.includes("number-only") ? (
-                                      <input
-                                        id={data?.name.replace("[]", "")}
-                                        type="text"
-                                        value={
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ] &&
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
                                           ][data.name]
-                                            ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
-                                            : ""
-                                        }
-                                        onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            dotNumberFormat(e.target.value)
-                                          );
-                                        }}
-                                        className={
-                                          "form-control " +
-                                          (validationErrors.includes(data?.name)
-                                            ? "error-border"
-                                            : "") +
-                                          " " +
-                                          (allErrors.includes(
-                                            data?.name.replace("[]", "")
-                                          )
-                                            ? "error-border"
-                                            : "")
-                                        }
-                                      />
-                                    ) : data?.className?.includes(
-                                        "tel-only"
-                                      ) ? (
-                                      <input
-                                        id={data?.name.replace("[]", "")}
-                                        type="text"
-                                        value={
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ] &&
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ][data.name]
-                                            ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
-                                            : ""
-                                        }
-                                        onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            telNumberFormat(e.target.value)
-                                          );
-                                        }}
-                                        className={
-                                          "form-control " +
-                                          (validationErrors.includes(data?.name)
-                                            ? "error-border"
-                                            : "") +
-                                          " " +
-                                          (allErrors.includes(
-                                            data?.name.replace("[]", "")
-                                          )
-                                            ? "error-border"
-                                            : "")
-                                        }
-                                      />
-                                    ) : (
-                                      <input
-                                        id={data?.name.replace("[]", "")}
-                                        type="text"
-                                        value={
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ] &&
-                                          blocks[selectedBlock]?.rooms[
-                                            selectedRoom
-                                          ][data.name]
-                                            ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
-                                            : ""
-                                        }
-                                        onChange={(e) => {
-                                          blockDataSet(
-                                            selectedBlock,
-                                            data?.name,
-                                            e.target.value
-                                          );
-                                        }}
-                                        className={
-                                          "form-control " +
-                                          (validationErrors.includes(data?.name)
-                                            ? "error-border"
-                                            : "") +
-                                          " " +
-                                          (allErrors.includes(
-                                            data?.name.replace("[]", "")
-                                          )
-                                            ? "error-border"
-                                            : "")
-                                        }
-                                      />
-                                    )}
-                                  </div>
-                                );
-                              } else if (data.type == "date") {
-                                return (
-                                  <div
-                                    className={
-                                      "form-group " + (isX ? "d-none" : "")
-                                    }
-                                  >
-                                    <label className="font-bold" htmlFor="">
-                                      <div className="d-flex">
-                                        {data.label}
-                                        {data.description != undefined ? (
-                                          <Tooltip
-                                            className="mx-2"
-                                            title={data.description}
-                                            placement="top-start"
-                                          >
-                                            <div>
-                                              <i className="fa fa-circle-info"></i>
-                                            </div>
-                                          </Tooltip>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {data.required ? (
-                                          <span className="required-span">
-                                            *
-                                          </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                    </label>
-                                    <input
-                                      id={data?.name.replace("[]", "")}
-                                      type="date"
-                                      value={
-                                        blocks[selectedBlock]?.rooms[
-                                          selectedRoom
-                                        ] &&
-                                        blocks[selectedBlock]?.rooms[
-                                          selectedRoom
-                                        ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                       onChange={(e) => {
@@ -1389,12 +759,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                     >
@@ -1410,6 +780,614 @@ function Rooms({
                                 );
                               } else if (data.type == "checkbox-group") {
                                 if (data.name == "payment-plan[]") {
+                                  return (
+                                    <div className={isX ? "d-none" : ""}>
+                                      <div className="d-flex">
+                                        {data.label}
+                                        {data.description != undefined ? (
+                                          <Tooltip
+                                            className="mx-2"
+                                            title={data.description}
+                                            placement="top-start"
+                                          >
+                                            <div>
+                                              <i className="fa fa-circle-info"></i>
+                                            </div>
+                                          </Tooltip>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {data.required ? (
+                                          <span className="required-span">
+                                            *
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                      {data?.className?.includes(
+                                        "project-not-change"
+                                      ) ? (
+                                        <div className="info-small-area">
+                                          Bu alan projelerde seçilmesi zorunlu
+                                          alandır değiştiremezsiniz
+                                        </div>
+                                      ) : (
+                                        ""
+                                      )}
+                                      <div className="checkbox-groups">
+                                        <div className="mb-3">
+                                          <div className="row">
+                                            {data.values.map((valueCheckbox) => {
+                                              return (
+                                                <div className="col-md-3">
+                                                  <FormControlLabel
+                                                    control={
+                                                      <Checkbox
+                                                        checked={
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[
+                                                            selectedRoom
+                                                          ] &&
+                                                            blocks[selectedBlock]
+                                                              ?.rooms[selectedRoom][
+                                                            data.name
+                                                            ] &&
+                                                            blocks[selectedBlock]
+                                                              ?.rooms[selectedRoom]
+                                                            ? blocks[
+                                                              selectedBlock
+                                                            ]?.rooms[
+                                                              selectedRoom
+                                                            ][
+                                                              data.name
+                                                            ].includes(
+                                                              valueCheckbox.value
+                                                            )
+                                                            : false
+                                                        }
+                                                        onChange={(e) => {
+                                                          if (
+                                                            !data?.className?.includes(
+                                                              "project-not-change"
+                                                            )
+                                                          ) {
+                                                            blockCheckboxDataSet(
+                                                              selectedBlock,
+                                                              data?.name,
+                                                              valueCheckbox?.value,
+                                                              e
+                                                            );
+                                                            setCheckedItemsFunc(
+                                                              data?.name,
+                                                              e.target.checked
+                                                            );
+                                                          }
+                                                        }}
+                                                      />
+                                                    }
+                                                    label={valueCheckbox.label}
+                                                  />
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+
+                                          <label htmlFor="" className="font-bold">
+                                            Ödeme Planı
+                                          </label>
+                                          <button
+                                            className="btn btn-primary add-project-pay-dec-button d-block"
+                                            onClick={() => {
+                                              setPayDecOpen(true);
+                                            }}
+                                          >
+                                            Ödeme Planını Yönet (
+                                            {blocks[selectedBlock]?.rooms[
+                                              selectedRoom
+                                            ]
+                                              ? blocks[selectedBlock]?.rooms[
+                                                selectedRoom
+                                              ]?.payDecs?.length
+                                              : 0}
+                                            )
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                } else {
+                                  return (
+                                    <div className={isX ? "d-none" : ""}>
+                                      <div className="d-flex">
+                                        {data.label}
+                                        {data.description != undefined ? (
+                                          <Tooltip
+                                            className="mx-2"
+                                            title={data.description}
+                                            placement="top-start"
+                                          >
+                                            <div>
+                                              <i className="fa fa-circle-info"></i>
+                                            </div>
+                                          </Tooltip>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {data.required ? (
+                                          <span className="required-span">
+                                            *
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                      {data?.className?.includes(
+                                        "project-not-change"
+                                      ) ? (
+                                        <div className="info-small-area">
+                                          Bu alan projelerde seçilmesi zorunlu
+                                          alandır değiştiremezsiniz
+                                        </div>
+                                      ) : (
+                                        ""
+                                      )}
+                                      <div className="checkbox-groups">
+                                        <div className="row">
+                                          {data.values.map((valueCheckbox) => {
+                                            return (
+                                              <div className="col-md-3">
+                                                <FormControlLabel
+                                                  control={
+                                                    <Checkbox
+                                                      checked={
+                                                        blocks[selectedBlock]
+                                                          ?.rooms[
+                                                          selectedRoom
+                                                        ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom][
+                                                          data.name
+                                                          ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom]
+                                                          ? blocks[
+                                                            selectedBlock
+                                                          ]?.rooms[
+                                                            selectedRoom
+                                                          ][
+                                                            data.name
+                                                          ].includes(
+                                                            valueCheckbox.value
+                                                          )
+                                                          : false
+                                                      }
+                                                      onChange={(e) => {
+                                                        if (
+                                                          !data?.className?.includes(
+                                                            "project-not-change"
+                                                          )
+                                                        ) {
+                                                          blockCheckboxDataSet(
+                                                            selectedBlock,
+                                                            data?.name,
+                                                            valueCheckbox?.value,
+                                                            e
+                                                          );
+                                                          setCheckedItemsFunc(
+                                                            data?.name,
+                                                            e.target.checked
+                                                          );
+                                                        }
+                                                      }}
+                                                    />
+                                                  }
+                                                  label={valueCheckbox.label}
+                                                />
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              } else if (data.type == "file") {
+                                return (
+                                  <div
+                                    className={
+                                      "form-group " + (isX ? "d-none" : "")
+                                    }
+                                  >
+                                    <label className="font-bold" htmlFor="">
+                                      {data.label}{" "}
+                                      {data.required ? (
+                                        <span className="required-span">*</span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </label>
+                                    <input
+                                      id={data?.name.replace("[]", "")}
+                                      accept="image/png, image/gif, image/jpeg"
+                                      onChange={(event) => {
+                                        changeFormImage(
+                                          selectedBlock,
+                                          data?.name,
+                                          event
+                                        );
+                                      }}
+                                      type="file"
+                                      className={
+                                        "form-control " +
+                                        (validationErrors.includes(data?.name)
+                                          ? "error-border"
+                                          : "") +
+                                        " " +
+                                        (allErrors.includes(
+                                          data?.name.replace("[]", "")
+                                        )
+                                          ? "error-border"
+                                          : "")
+                                      }
+                                    />
+                                    <div className="project_imaget">
+                                      {
+                                        blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                        ] &&
+                                          blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                          ][data.name + "_imagex"] ? 
+                                          <img
+                                        src={
+                                          blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                          ] &&
+                                            blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
+                                            ? blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
+                                            : ""
+                                        }
+                                        alt=""
+                                      /> : ""
+                                      }
+                                      
+                                    </div>
+                                  </div>
+                                );
+                              }
+                            }
+                          }
+                        } else if (
+                          slug == "devren-satilik" &&
+                          !data?.className?.includes(
+                            "only-show-project-rent"
+                          ) &&
+                          !data?.className?.includes(
+                            "only-show-project-daliy-rent"
+                          )
+                        ) {
+                          if (!data?.className?.includes("project-disabled")) {
+                            if (
+                              !data?.className?.includes(
+                                "only-not-show-project"
+                              )
+                            ) {
+                              var isX = null;
+                              if (
+                                data?.className?.includes("--if-show-checked-")
+                              ) {
+                                isX = !checkedItems.find((checkedItem) => {
+                                  return (
+                                    checkedItem.roomOrder == 0 &&
+                                    checkedItem.name ==
+                                    data?.className?.split(
+                                      "--if-show-checked-"
+                                    )[1]
+                                  );
+                                });
+                              }
+                              if (data.type == "text") {
+                                return (
+                                  <div
+                                    className={
+                                      "form-group " + (isX ? "d-none" : "")
+                                    }
+                                  >
+                                    <label className="font-bold" htmlFor="">
+                                      <div className="d-flex">
+                                        {data.label}
+                                        {data.description != undefined ? (
+                                          <Tooltip
+                                            className="mx-2"
+                                            title={data.description}
+                                            placement="top-start"
+                                          >
+                                            <div>
+                                              <i className="fa fa-circle-info"></i>
+                                            </div>
+                                          </Tooltip>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {data.required ? (
+                                          <span className="required-span">
+                                            *
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                    </label>
+                                    {data?.className?.includes("price-only") ||
+                                      data?.className?.includes("number-only") ? (
+                                      <input
+                                        id={data?.name.replace("[]", "")}
+                                        type="text"
+                                        value={
+                                          blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                          ] &&
+                                            blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            ? blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            : ""
+                                        }
+                                        onChange={(e) => {
+                                          blockDataSet(
+                                            selectedBlock,
+                                            data?.name,
+                                            dotNumberFormat(e.target.value)
+                                          );
+                                        }}
+                                        className={
+                                          "form-control " +
+                                          (validationErrors.includes(data?.name)
+                                            ? "error-border"
+                                            : "") +
+                                          " " +
+                                          (allErrors.includes(
+                                            data?.name.replace("[]", "")
+                                          )
+                                            ? "error-border"
+                                            : "")
+                                        }
+                                      />
+                                    ) : data?.className?.includes(
+                                      "tel-only"
+                                    ) ? (
+                                      <input
+                                        id={data?.name.replace("[]", "")}
+                                        type="text"
+                                        value={
+                                          blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                          ] &&
+                                            blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            ? blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            : ""
+                                        }
+                                        onChange={(e) => {
+                                          blockDataSet(
+                                            selectedBlock,
+                                            data?.name,
+                                            telNumberFormat(e.target.value)
+                                          );
+                                        }}
+                                        className={
+                                          "form-control " +
+                                          (validationErrors.includes(data?.name)
+                                            ? "error-border"
+                                            : "") +
+                                          " " +
+                                          (allErrors.includes(
+                                            data?.name.replace("[]", "")
+                                          )
+                                            ? "error-border"
+                                            : "")
+                                        }
+                                      />
+                                    ) : (
+                                      <input
+                                        id={data?.name.replace("[]", "")}
+                                        type="text"
+                                        value={
+                                          blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                          ] &&
+                                            blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            ? blocks[selectedBlock]?.rooms[
+                                            selectedRoom
+                                            ][data.name]
+                                            : ""
+                                        }
+                                        onChange={(e) => {
+                                          blockDataSet(
+                                            selectedBlock,
+                                            data?.name,
+                                            e.target.value
+                                          );
+                                        }}
+                                        className={
+                                          "form-control " +
+                                          (validationErrors.includes(data?.name)
+                                            ? "error-border"
+                                            : "") +
+                                          " " +
+                                          (allErrors.includes(
+                                            data?.name.replace("[]", "")
+                                          )
+                                            ? "error-border"
+                                            : "")
+                                        }
+                                      />
+                                    )}
+                                  </div>
+                                );
+                              } else if (data.type == "date") {
+                                return (
+                                  <div
+                                    className={
+                                      "form-group " + (isX ? "d-none" : "")
+                                    }
+                                  >
+                                    <label className="font-bold" htmlFor="">
+                                      <div className="d-flex">
+                                        {data.label}
+                                        {data.description != undefined ? (
+                                          <Tooltip
+                                            className="mx-2"
+                                            title={data.description}
+                                            placement="top-start"
+                                          >
+                                            <div>
+                                              <i className="fa fa-circle-info"></i>
+                                            </div>
+                                          </Tooltip>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {data.required ? (
+                                          <span className="required-span">
+                                            *
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                    </label>
+                                    <input
+                                      id={data?.name.replace("[]", "")}
+                                      type="date"
+                                      value={
+                                        blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                        ] &&
+                                          blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                          ][data.name]
+                                          ? blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                          ][data.name]
+                                          : ""
+                                      }
+                                      onChange={(e) => {
+                                        if (e.target.value.length == 10) {
+                                          blockDataSet(
+                                            selectedBlock,
+                                            data?.name,
+                                            e.target.value
+                                          );
+                                        }
+                                      }}
+                                      className={
+                                        "form-control " +
+                                        (validationErrors.includes(data?.name)
+                                          ? "error-border"
+                                          : "") +
+                                        " " +
+                                        (allErrors.includes(
+                                          data?.name.replace("[]", "")
+                                        )
+                                          ? "error-border"
+                                          : "")
+                                      }
+                                    />
+                                  </div>
+                                );
+                              } else if (data.type == "select") {
+                                return (
+                                  <div
+                                    className={
+                                      "form-group " + (isX ? "d-none" : "")
+                                    }
+                                  >
+                                    <label className="font-bold" htmlFor="">
+                                      <div className="d-flex">
+                                        {data.label}
+                                        {data.description != undefined ? (
+                                          <Tooltip
+                                            className="mx-2"
+                                            title={data.description}
+                                            placement="top-start"
+                                          >
+                                            <div>
+                                              <i className="fa fa-circle-info"></i>
+                                            </div>
+                                          </Tooltip>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {data.required ? (
+                                          <span className="required-span">
+                                            *
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                    </label>
+                                    <select
+                                      id={data?.name.replace("[]", "")}
+                                      name=""
+                                      className={
+                                        "form-control " +
+                                        (validationErrors.includes(data?.name)
+                                          ? "error-border"
+                                          : "") +
+                                        " " +
+                                        (allErrors.includes(
+                                          data?.name.replace("[]", "")
+                                        )
+                                          ? "error-border"
+                                          : "")
+                                      }
+                                      onChange={(e) => {
+                                        blockDataSet(
+                                          selectedBlock,
+                                          data?.name,
+                                          e.target.value
+                                        );
+                                      }}
+                                      value={
+                                        blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                        ] &&
+                                          blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                          ][data.name]
+                                          ? blocks[selectedBlock]?.rooms[
+                                          selectedRoom
+                                          ][data.name]
+                                          : ""
+                                      }
+                                    >
+                                      {data.values.map((valueSelect) => {
+                                        return (
+                                          <option value={valueSelect.value}>
+                                            {valueSelect.label}
+                                          </option>
+                                        );
+                                      })}
+                                    </select>
+                                  </div>
+                                );
+                              } else if (data.type == "checkbox-group") {
+                                if (data.name == "payment-plan[]") {
+                                  console.log("asd");
                                   return (
                                     <div>
                                       <div>
@@ -1445,7 +1423,7 @@ function Rooms({
                                           className="checkbox-groups"
                                           id={data?.name.replace("[]", "")}
                                         >
-                                          <div className="row">
+                                          <div className="">
                                             {data.values.map(
                                               (valueCheckbox) => {
                                                 return (
@@ -1462,30 +1440,30 @@ function Rooms({
                                                             ]?.rooms[
                                                               selectedRoom
                                                             ] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ]
+                                                              ]
                                                               ? blocks[
-                                                                  selectedBlock
-                                                                ]?.rooms[
-                                                                  selectedRoom
-                                                                ][
-                                                                  data.name
-                                                                ].includes(
-                                                                  valueCheckbox.value
-                                                                )
+                                                                selectedBlock
+                                                              ]?.rooms[
+                                                                selectedRoom
+                                                              ][
+                                                                data.name
+                                                              ].includes(
+                                                                valueCheckbox.value
+                                                              )
                                                               : false
                                                           }
                                                           onChange={(e) => {
@@ -1506,15 +1484,6 @@ function Rooms({
                                                 );
                                               }
                                             )}
-                                            {allErrors.includes(
-                                              data?.name.replace("[]", "")
-                                            ) ? (
-                                              <Alert severity="error">
-                                                Harita üzerine bir konum seçin
-                                              </Alert>
-                                            ) : (
-                                              ""
-                                            )}
                                           </div>
                                         </div>
                                       </div>
@@ -1524,10 +1493,10 @@ function Rooms({
                                           (!(
                                             blocks[selectedBlock] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ]["payment-plan[]"] &&
                                             blocks[selectedBlock].rooms[
                                               selectedRoom
@@ -1553,8 +1522,8 @@ function Rooms({
                                             selectedRoom
                                           ]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
+                                              selectedRoom
+                                            ]?.payDecs?.length
                                             : 0}
                                           )
                                         </button>
@@ -1610,21 +1579,21 @@ function Rooms({
                                                           ?.rooms[
                                                           selectedRoom
                                                         ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom][
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom][
                                                           data.name
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom]
+                                                          ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom]
                                                           ? blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][
-                                                              data.name
-                                                            ].includes(
-                                                              valueCheckbox.value
-                                                            )
+                                                            selectedBlock
+                                                          ]?.rooms[
+                                                            selectedRoom
+                                                          ][
+                                                            data.name
+                                                          ].includes(
+                                                            valueCheckbox.value
+                                                          )
                                                           : false
                                                       }
                                                       onChange={(e) => {
@@ -1702,12 +1671,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name + "_imagex"]
+                                            ][data.name + "_imagex"]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name + "_imagex"]
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
                                             : ""
                                         }
                                         alt=""
@@ -1741,9 +1710,9 @@ function Rooms({
                                   return (
                                     checkedItem.roomOrder == 0 &&
                                     checkedItem.name ==
-                                      data?.className?.split(
-                                        "--if-show-checked-"
-                                      )[1]
+                                    data?.className?.split(
+                                      "--if-show-checked-"
+                                    )[1]
                                   );
                                 });
                               }
@@ -1780,7 +1749,7 @@ function Rooms({
                                       </div>
                                     </label>
                                     {data?.className?.includes("price-only") ||
-                                    data?.className?.includes("number-only") ? (
+                                      data?.className?.includes("number-only") ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -1788,12 +1757,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -1817,8 +1786,8 @@ function Rooms({
                                         }
                                       />
                                     ) : data?.className?.includes(
-                                        "tel-only"
-                                      ) ? (
+                                      "tel-only"
+                                    ) ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -1826,12 +1795,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -1862,12 +1831,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -1932,12 +1901,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                       onChange={(e) => {
@@ -2022,12 +1991,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                     >
@@ -2095,30 +2064,30 @@ function Rooms({
                                                             ]?.rooms[
                                                               selectedRoom
                                                             ] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ]
+                                                              ]
                                                               ? blocks[
-                                                                  selectedBlock
-                                                                ]?.rooms[
-                                                                  selectedRoom
-                                                                ][
-                                                                  data.name
-                                                                ].includes(
-                                                                  valueCheckbox.value
-                                                                )
+                                                                selectedBlock
+                                                              ]?.rooms[
+                                                                selectedRoom
+                                                              ][
+                                                                data.name
+                                                              ].includes(
+                                                                valueCheckbox.value
+                                                              )
                                                               : false
                                                           }
                                                           onChange={(e) => {
@@ -2157,10 +2126,10 @@ function Rooms({
                                           (!(
                                             blocks[selectedBlock] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ]["payment-plan[]"] &&
                                             blocks[selectedBlock].rooms[
                                               selectedRoom
@@ -2186,8 +2155,8 @@ function Rooms({
                                             selectedRoom
                                           ]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
+                                              selectedRoom
+                                            ]?.payDecs?.length
                                             : 0}
                                           )
                                         </button>
@@ -2243,21 +2212,21 @@ function Rooms({
                                                           ?.rooms[
                                                           selectedRoom
                                                         ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom][
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom][
                                                           data.name
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom]
+                                                          ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom]
                                                           ? blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][
-                                                              data.name
-                                                            ].includes(
-                                                              valueCheckbox.value
-                                                            )
+                                                            selectedBlock
+                                                          ]?.rooms[
+                                                            selectedRoom
+                                                          ][
+                                                            data.name
+                                                          ].includes(
+                                                            valueCheckbox.value
+                                                          )
                                                           : false
                                                       }
                                                       onChange={(e) => {
@@ -2335,12 +2304,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name + "_imagex"]
+                                            ][data.name + "_imagex"]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name + "_imagex"]
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
                                             : ""
                                         }
                                         alt=""
@@ -2374,9 +2343,9 @@ function Rooms({
                                   return (
                                     checkedItem.roomOrder == 0 &&
                                     checkedItem.name ==
-                                      data?.className?.split(
-                                        "--if-show-checked-"
-                                      )[1]
+                                    data?.className?.split(
+                                      "--if-show-checked-"
+                                    )[1]
                                   );
                                 });
                               }
@@ -2415,7 +2384,7 @@ function Rooms({
                                       </div>
                                     </label>
                                     {data?.className?.includes("price-only") ||
-                                    data?.className?.includes("number-only") ? (
+                                      data?.className?.includes("number-only") ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -2423,12 +2392,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -2452,8 +2421,8 @@ function Rooms({
                                         }
                                       />
                                     ) : data?.className?.includes(
-                                        "tel-only"
-                                      ) ? (
+                                      "tel-only"
+                                    ) ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -2461,12 +2430,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -2497,12 +2466,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -2567,12 +2536,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                       onChange={(e) => {
@@ -2657,12 +2626,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                     >
@@ -2730,30 +2699,30 @@ function Rooms({
                                                             ]?.rooms[
                                                               selectedRoom
                                                             ] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ]
+                                                              ]
                                                               ? blocks[
-                                                                  selectedBlock
-                                                                ]?.rooms[
-                                                                  selectedRoom
-                                                                ][
-                                                                  data.name
-                                                                ].includes(
-                                                                  valueCheckbox.value
-                                                                )
+                                                                selectedBlock
+                                                              ]?.rooms[
+                                                                selectedRoom
+                                                              ][
+                                                                data.name
+                                                              ].includes(
+                                                                valueCheckbox.value
+                                                              )
                                                               : false
                                                           }
                                                           onChange={(e) => {
@@ -2796,10 +2765,10 @@ function Rooms({
                                           (!(
                                             blocks[selectedBlock] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ]["payment-plan[]"] &&
                                             blocks[selectedBlock].rooms[
                                               selectedRoom
@@ -2825,8 +2794,8 @@ function Rooms({
                                             selectedRoom
                                           ]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
+                                              selectedRoom
+                                            ]?.payDecs?.length
                                             : 0}
                                           )
                                         </button>
@@ -2882,21 +2851,21 @@ function Rooms({
                                                           ?.rooms[
                                                           selectedRoom
                                                         ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom][
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom][
                                                           data.name
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom]
+                                                          ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom]
                                                           ? blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][
-                                                              data.name
-                                                            ].includes(
-                                                              valueCheckbox.value
-                                                            )
+                                                            selectedBlock
+                                                          ]?.rooms[
+                                                            selectedRoom
+                                                          ][
+                                                            data.name
+                                                          ].includes(
+                                                            valueCheckbox.value
+                                                          )
                                                           : false
                                                       }
                                                       onChange={(e) => {
@@ -2974,12 +2943,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name + "_imagex"]
+                                            ][data.name + "_imagex"]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name + "_imagex"]
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
                                             : ""
                                         }
                                         alt=""
@@ -3011,18 +2980,18 @@ function Rooms({
                                       (!(
                                         blocks[selectedBlock] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ]["payment-plan[]"] &&
                                         blocks[selectedBlock].rooms[
                                           selectedRoom
                                         ]["payment-plan[]"].includes("taksitli")
                                       ) &&
-                                      data.className.includes(
-                                        "second-payment-plan"
-                                      )
+                                        data.className.includes(
+                                          "second-payment-plan"
+                                        )
                                         ? "d-none"
                                         : "")
                                     }
@@ -3053,7 +3022,7 @@ function Rooms({
                                       </div>
                                     </label>
                                     {data?.className?.includes("price-only") ||
-                                    data?.className?.includes("number-only") ? (
+                                      data?.className?.includes("number-only") ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -3061,12 +3030,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -3090,8 +3059,8 @@ function Rooms({
                                         }
                                       />
                                     ) : data?.className?.includes(
-                                        "tel-only"
-                                      ) ? (
+                                      "tel-only"
+                                    ) ? (
                                       <input
                                         id={data?.name.replace("[]", "")}
                                         type="text"
@@ -3099,12 +3068,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -3135,12 +3104,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name]
+                                            ][data.name]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name]
+                                            selectedRoom
+                                            ][data.name]
                                             : ""
                                         }
                                         onChange={(e) => {
@@ -3174,18 +3143,18 @@ function Rooms({
                                       (!(
                                         blocks[selectedBlock] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ]["payment-plan[]"] &&
                                         blocks[selectedBlock].rooms[
                                           selectedRoom
                                         ]["payment-plan[]"].includes("taksitli")
                                       ) &&
-                                      data.className.includes(
-                                        "second-payment-plan"
-                                      )
+                                        data.className.includes(
+                                          "second-payment-plan"
+                                        )
                                         ? "d-none"
                                         : "")
                                     }
@@ -3222,12 +3191,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                       onChange={(e) => {
@@ -3262,18 +3231,18 @@ function Rooms({
                                       (!(
                                         blocks[selectedBlock] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ] &&
                                         blocks[selectedBlock].rooms[
-                                          selectedRoom
+                                        selectedRoom
                                         ]["payment-plan[]"] &&
                                         blocks[selectedBlock].rooms[
                                           selectedRoom
                                         ]["payment-plan[]"].includes("taksitli")
                                       ) &&
-                                      data.className.includes(
-                                        "second-payment-plan"
-                                      )
+                                        data.className.includes(
+                                          "second-payment-plan"
+                                        )
                                         ? "d-none"
                                         : "")
                                     }
@@ -3329,12 +3298,12 @@ function Rooms({
                                         blocks[selectedBlock]?.rooms[
                                           selectedRoom
                                         ] &&
-                                        blocks[selectedBlock]?.rooms[
+                                          blocks[selectedBlock]?.rooms[
                                           selectedRoom
-                                        ][data.name]
+                                          ][data.name]
                                           ? blocks[selectedBlock]?.rooms[
-                                              selectedRoom
-                                            ][data.name]
+                                          selectedRoom
+                                          ][data.name]
                                           : ""
                                       }
                                     >
@@ -3402,30 +3371,30 @@ function Rooms({
                                                             ]?.rooms[
                                                               selectedRoom
                                                             ] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ][data.name] &&
-                                                            blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
+                                                              ][data.name] &&
+                                                              blocks[
+                                                                selectedBlock
+                                                              ]?.rooms[
                                                               selectedRoom
-                                                            ]
+                                                              ]
                                                               ? blocks[
-                                                                  selectedBlock
-                                                                ]?.rooms[
-                                                                  selectedRoom
-                                                                ][
-                                                                  data.name
-                                                                ].includes(
-                                                                  valueCheckbox.value
-                                                                )
+                                                                selectedBlock
+                                                              ]?.rooms[
+                                                                selectedRoom
+                                                              ][
+                                                                data.name
+                                                              ].includes(
+                                                                valueCheckbox.value
+                                                              )
                                                               : false
                                                           }
                                                           onChange={(e) => {
@@ -3464,10 +3433,10 @@ function Rooms({
                                           (!(
                                             blocks[selectedBlock] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ] &&
                                             blocks[selectedBlock].rooms[
-                                              selectedRoom
+                                            selectedRoom
                                             ]["payment-plan[]"] &&
                                             blocks[selectedBlock].rooms[
                                               selectedRoom
@@ -3493,8 +3462,8 @@ function Rooms({
                                             selectedRoom
                                           ]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ]?.payDecs?.length
+                                              selectedRoom
+                                            ]?.payDecs?.length
                                             : 0}
                                           )
                                         </button>
@@ -3550,21 +3519,21 @@ function Rooms({
                                                           ?.rooms[
                                                           selectedRoom
                                                         ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom][
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom][
                                                           data.name
-                                                        ] &&
-                                                        blocks[selectedBlock]
-                                                          ?.rooms[selectedRoom]
+                                                          ] &&
+                                                          blocks[selectedBlock]
+                                                            ?.rooms[selectedRoom]
                                                           ? blocks[
-                                                              selectedBlock
-                                                            ]?.rooms[
-                                                              selectedRoom
-                                                            ][
-                                                              data.name
-                                                            ].includes(
-                                                              valueCheckbox.value
-                                                            )
+                                                            selectedBlock
+                                                          ]?.rooms[
+                                                            selectedRoom
+                                                          ][
+                                                            data.name
+                                                          ].includes(
+                                                            valueCheckbox.value
+                                                          )
                                                           : false
                                                       }
                                                       onChange={(e) => {
@@ -3638,12 +3607,12 @@ function Rooms({
                                           blocks[selectedBlock]?.rooms[
                                             selectedRoom
                                           ] &&
-                                          blocks[selectedBlock]?.rooms[
+                                            blocks[selectedBlock]?.rooms[
                                             selectedRoom
-                                          ][data.name + "_imagex"]
+                                            ][data.name + "_imagex"]
                                             ? blocks[selectedBlock]?.rooms[
-                                                selectedRoom
-                                              ][data.name + "_imagex"]
+                                            selectedRoom
+                                            ][data.name + "_imagex"]
                                             : ""
                                         }
                                         alt=""
