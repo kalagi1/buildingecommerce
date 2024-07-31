@@ -358,25 +358,19 @@ function getImage($housing, $key)
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                         @if (count($housingComments))
-                                        <div class="ps-ratings">
-                                            <div class="ps-ratings__stars">
-                                                <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}</div>
-                                                <div class="ps-ratings__average">
-                                                    <div>Ortalama</div>
-                                                    <div>Puan</div>
-                                                </div>
-                                            </div>
-                                            <div class="ps-ratings__counts">
-                                                <div class="ps-ratings__count">
-                                                    <div>{{ number_format($totalReviews) }} Değerlendirme</div>
-                                                </div>
-                                                <div class="ps-ratings__divider">•</div>
-                                                <div class="ps-ratings__count">
-                                                    <div>{{ number_format($totalComments) }} Yorum</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                                       <hr>                                                                 
+                                        @php
+                                        $totalReviews = count($housingComments);
+                                        $sumRatings = $housingComments->sum('rate');
+                                        $averageRating = $totalReviews > 0 ? round($sumRatings / $totalReviews, 1) : 0;
+                                        $ratingCounts = [0, 0, 0, 0, 0];
+                                    @endphp
+                            
+                                    <!-- Display average rating and total reviews -->
+                                    <div class="rating-summary mb-3">
+                                        <span class="average-rating">Ortalama Puan: {{ $averageRating }} / 5</span><br>
+                                        <span class="total-reviews">Toplam Değerlendirme: {{ $totalReviews }}</span>
+                                    </div>         
+                                    <hr>                                                                         
                                             <div style="margin-top: 20.5px;"><span
                                                     class="product-review-section-wrapper__wrapper__filter_title">Puana
                                                     Göre Filtrele</span>
