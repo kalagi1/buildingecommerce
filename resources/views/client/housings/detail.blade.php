@@ -10,15 +10,15 @@
         LIMIT 1',
         [$housing->id],
     );
-    
+
 @endphp
 @php
-function getImage($housing, $key)
-{
-    $housing_type_data = json_decode($housing->housing_type_data);
-    $a = $housing_type_data->$key;
-    return $a;
-}
+    function getImage($housing, $key)
+    {
+        $housing_type_data = json_decode($housing->housing_type_data);
+        $a = $housing_type_data->$key;
+        return $a;
+    }
 @endphp
 @php
     function convertMonthToTurkishCharacter($date)
@@ -336,7 +336,8 @@ function getImage($housing, $key)
                                                             <ul class="homes-list clearfix mb-3 checkSquareIcon">
                                                                 @foreach ($val as $item)
                                                                     <li>
-                                                                        <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                        <i class="fa fa-check-square"
+                                                                            aria-hidden="true"></i>
                                                                         <span>{{ $item }}</span>
                                                                     </li>
                                                                 @endforeach
@@ -351,219 +352,237 @@ function getImage($housing, $key)
                                                 <span>Bu ilana ait herhangi bir özellik belirtilmemiştir.</span>
                                             @endif
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                        @if (count($housingComments))
+                                    @if (count($housingComments))
                                         @php
-        // Initialize rating counts array
-        $ratingCounts = [0, 0, 0, 0, 0];
+                                            // Initialize rating counts array
+                                            $ratingCounts = [0, 0, 0, 0, 0];
 
-        // Populate rating counts based on comments
-        foreach ($housingComments as $comment) {
-            if ($comment->rate >= 1 && $comment->rate <= 5) {
-                $ratingCounts[$comment->rate - 1]++;
-            }
-        }
+                                            // Populate rating counts based on comments
+                                            foreach ($housingComments as $comment) {
+                                                if ($comment->rate >= 1 && $comment->rate <= 5) {
+                                                    $ratingCounts[$comment->rate - 1]++;
+                                                }
+                                            }
 
-        // Calculate total number of reviews and comments
-        $totalReviews = array_sum($ratingCounts);
-        $totalComments = $housingComments->count();
+                                            // Calculate total number of reviews and comments
+                                            $totalReviews = array_sum($ratingCounts);
+                                            $totalComments = $housingComments->count();
 
-        // Calculate rating percentages
-        $ratingPercentages = array_map(function ($count) use ($totalReviews) {
-            return $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
-        }, $ratingCounts);
+                                            // Calculate rating percentages
+                                            $ratingPercentages = array_map(function ($count) use ($totalReviews) {
+                                                return $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+                                            }, $ratingCounts);
 
-        // Calculate average rating
-        $averageRating = $totalReviews 
-            ? array_sum(array_map(function ($rate, $index) use ($ratingCounts) {
-                return $rate * $ratingCounts[$index];
-            }, [1, 2, 3, 4, 5], array_keys($ratingCounts))) / $totalReviews
-            : 0;
+                                            // Calculate average rating
+                                            $averageRating = $totalReviews
+                                                ? array_sum(
+                                                        array_map(
+                                                            function ($rate, $index) use ($ratingCounts) {
+                                                                return $rate * $ratingCounts[$index];
+                                                            },
+                                                            [1, 2, 3, 4, 5],
+                                                            array_keys($ratingCounts),
+                                                        ),
+                                                    ) / $totalReviews
+                                                : 0;
 
-        // Calculate width for the average rating star display
-        $averageRatingWidth = ($averageRating / 5) * 100;
-    @endphp
-    <div class="ps-ratings">
-        <div class="ps-ratings__stars">
+                                            // Calculate width for the average rating star display
+                                            $averageRatingWidth = ($averageRating / 5) * 100;
+                                        @endphp
+                                        <div class="ps-ratings">
+                                            <div class="ps-ratings__stars">
 
-        <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}</div>
-        <div class="ps-ratings__average">
-            <div>Ortalama</div>
-            <div>Puan</div>
-        </div>
-    </div>
-
-        <div class="ps-ratings__counts">
-            <div class="ps-ratings__count">
-                <div>{{ number_format($totalReviews) }} Değerlendirme</div>
-            </div>
-            <div class="ps-ratings__divider">•</div>
-            <div class="ps-ratings__count">
-                <div>{{ number_format($totalComments) }} Yorum</div>
-            </div>
-        </div>
-    </div>
-       
-                                    <hr/>                                                                         
-                                            <div style="margin-top: 20.5px;"><span
-                                                    class="product-review-section-wrapper__wrapper__filter_title">Puana
-                                                    Göre Filtrele</span>
-                                                <div class="product-review-section-wrapper__wrapper__product-rating-filters mb-5">
-                        
-                                                    <!-- Create an array to store counts for each rating (1-5) -->
-                                                    @php
-                                                        $ratingCounts = [0, 0, 0, 0, 0];
-                                                    @endphp
-                        
-                                                    @foreach ($housingComments as $comment)
-                                                        @if ($comment->rate >= 1 && $comment->rate <= 5)
-                                                            <!-- Increment the corresponding rating count -->
-                                                            @php
-                                                                $ratingCounts[$comment->rate - 1]++;
-                                                            @endphp
-                                                        @endif
-                                                    @endforeach
-                        
-                                                    @foreach ([5, 4, 3, 2, 1] as $rating)
-                                                        <div class="product-rating-count-container" style="border: 1px solid rgb(230, 230, 230);">
-                        
-                                                            <div class="product-rating-count-container__star">
-                                                                <div class="star-ratings" title="{{ $rating }} Stars"
-                                                                    style="position: relative; box-sizing: border-box; display: inline-block;">
-                                                                    @for ($i = 0; $i < $rating; $i++)
-                                                                        <div class="star-container"
-                                                                            style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
-                                                                            <svg viewBox="0 0 14 14" class="widget-svg"
-                                                                                style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
-                                                                                <path class="star"
-                                                                                    d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
-                                                                                    style="fill: rgb(255, 192, 0); transition: fill 0.2s ease-in-out 0s;">
-                                                                                </path>
-                                                                            </svg>
-                                                                        </div>
-                                                                    @endfor
-                                                                    @for ($i = $rating; $i < 5; $i++)
-                                                                        <div class="star-container"
-                                                                            style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
-                                                                            <svg viewBox="0 0 14 14" class="widget-svg"
-                                                                                style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
-                                                                                <path class="star"
-                                                                                    d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
-                                                                                    style="fill: rgb(203, 211, 227); transition: fill 0.2s ease-in-out 0s;">
-                                                                                </path>
-                                                                            </svg>
-                                                                        </div>
-                                                                    @endfor
-                                                                </div>
-                                                                <span class="product-rating-count-container__count">
-                                                                    ({{ $ratingCounts[$rating - 1] }})
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                        
+                                                <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}
                                                 </div>
-                        
+                                                <div class="ps-ratings__average">
+                                                    <div>Ortalama</div>
+                                                    <div>Puan</div>
+                                                </div>
                                             </div>
-                                            <span class="product-review-section-wrapper__wrapper__filter_title">Fotoğraflı Değerlendirmeler</span>
-                                            <div class="slick-agentsc mt-3 mb-3" style="padding: 0 50px">
+
+                                            <div class="ps-ratings__counts">
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalReviews) }} Değerlendirme</div>
+                                                </div>
+                                                <div class="ps-ratings__divider">•</div>
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalComments) }} Yorum</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+                                        <div style="margin-top: 20.5px;"><span
+                                                class="product-review-section-wrapper__wrapper__filter_title">Puana
+                                                Göre Filtrele</span>
+                                            <div
+                                                class="product-review-section-wrapper__wrapper__product-rating-filters mb-5">
+
+                                                <!-- Create an array to store counts for each rating (1-5) -->
+                                                @php
+                                                    $ratingCounts = [0, 0, 0, 0, 0];
+                                                @endphp
+
                                                 @foreach ($housingComments as $comment)
-                                                    @if (json_decode($comment->images, true) > 0)
-                                                        @foreach (json_decode($comment->images, true) as $img)
-                                                            <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                                                                <div class="landscapes">
-                                                                    <div class="project-single">
-                                                                        <div class="project-inner project-head">
-                                                                            <div class="homes">
-                                                                                <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
-                                                                                    data-lightbox="gallery">
-                                                                                    <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
-                                                                                        style="object-fit: cover;width:100%;height:150px" />
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- homes content -->
-                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <span>Bu konut için fotoğraflı değerlendirme yapılmadı.</span>
+                                                    @if ($comment->rate >= 1 && $comment->rate <= 5)
+                                                        <!-- Increment the corresponding rating count -->
+                                                        @php
+                                                            $ratingCounts[$comment->rate - 1]++;
+                                                        @endphp
                                                     @endif
                                                 @endforeach
-                                            </div>
-                        
-                                            <span class="product-review-section-wrapper__wrapper__filter_title"> Değerlendirmeler</span>
-                                            <div class="flex flex-col gap-6 mt-3" style="padding: 0 20px">
-                                                @foreach ($housingComments as $comment)
-                                                    <div class="bg-white border rounded-md pb-3 mb-3"
-                                                        @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
-                                                        <a href="{{ route('housing.show', ['housingSlug' => $comment->housing->step1_slug . '-' . $comment->housing->step2_slug . '-' . $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
-                                                            class="product-review-container__redirect" target="_blank"><img
-                                                                src="{{ asset('housing_images/' . getImage($comment->housing, 'image')) }}"
-                                                                alt="Ürün Görseli">
-                                                            <div class="product-review-container__redirect__span-wrapper">
-                                                                <p style="font-weight: 600; color: rgb(51, 51, 51);">
-                                                                    {{ $comment->housing->title }}</p>
-                                                                <p style="font-weight: 400; color: rgb(157, 157, 157);">
-                                                                    {{ $comment->housing->address }}</p>
+
+                                                @foreach ([5, 4, 3, 2, 1] as $rating)
+                                                    <div class="product-rating-count-container"
+                                                        style="border: 1px solid rgb(230, 230, 230);">
+
+                                                        <div class="product-rating-count-container__star">
+                                                            <div class="star-ratings" title="{{ $rating }} Stars"
+                                                                style="position: relative; box-sizing: border-box; display: inline-block;">
+                                                                @for ($i = 0; $i < $rating; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(255, 192, 0); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
+                                                                @for ($i = $rating; $i < 5; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(203, 211, 227); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
                                                             </div>
-                                                        </a>
-                                                        <div class="ml-auto order-2 mt-3 mb-3">
-                                                            @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="15px" id="Layer_1"
-                                                                    version="1.1" viewBox="0 0 50 50" width="15px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="gold"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10" stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                            @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="15px" id="Layer_1"
-                                                                    version="1.1" viewBox="0 0 50 50" width="15px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="none"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10" stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="head d-flex w-full">
-                                                            <div>
-                                                                <div class="">{{ $comment->user->name }}</div>
-                                                                <i class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="body py-3">
-                                                            {{ $comment->comment }}
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            @foreach (json_decode($comment->images, true) as $img)
-                                                                <div class="col-md-1 col-3 mt-3">
-                                                                    <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                        data-lightbox="gallery">
-                                                                        <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                            style="object-fit: cover;width:100%" />
-                                                                    </a>
-                                                                </div>
-                                                            @endforeach
+                                                            <span class="product-rating-count-container__count">
+                                                                ({{ $ratingCounts[$rating - 1] }})
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 @endforeach
+
                                             </div>
-                                        @else
-                                            <span>Bu mağaza için henüz yorum yapılmadı.</span>
-                                        @endif
-                        
+
+                                        </div>
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">Fotoğraflı
+                                            Değerlendirmeler</span>
+                                        <div class="slick-agentsc mt-3 mb-3" style="padding: 0 50px">
+                                            @foreach ($housingComments as $comment)
+                                                @if (json_decode($comment->images, true) > 0)
+                                                    @foreach (json_decode($comment->images, true) as $img)
+                                                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                                                            <div class="landscapes">
+                                                                <div class="project-single">
+                                                                    <div class="project-inner project-head">
+                                                                        <div class="homes">
+                                                                            <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                data-lightbox="gallery">
+                                                                                <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                    style="object-fit: cover;width:100%;height:150px" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- homes content -->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <span>Bu konut için fotoğraflı değerlendirme yapılmadı.</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">
+                                            Değerlendirmeler</span>
+                                        <div class="flex flex-col gap-6 mt-3" style="padding: 0 20px">
+                                            @foreach ($housingComments as $comment)
+                                                <div class="bg-white border rounded-md pb-3 mb-3"
+                                                    @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
+                                                    <a href="{{ route('housing.show', ['housingSlug' => $comment->housing->step1_slug . '-' . $comment->housing->step2_slug . '-' . $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
+                                                        class="product-review-container__redirect" target="_blank"><img
+                                                            src="{{ asset('housing_images/' . getImage($comment->housing, 'image')) }}"
+                                                            alt="Ürün Görseli">
+                                                        <div class="product-review-container__redirect__span-wrapper">
+                                                            <p style="font-weight: 600; color: rgb(51, 51, 51);">
+                                                                {{ $comment->housing->title }}</p>
+                                                            <p style="font-weight: 400; color: rgb(157, 157, 157);">
+                                                                {{ $comment->housing->address }}</p>
+                                                        </div>
+                                                    </a>
+                                                    <div class="ml-auto order-2 mt-3 mb-3">
+                                                        @for ($i = 0; $i < $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="gold"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                        @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
+                                                    <div class="head d-flex w-full">
+                                                        <div>
+                                                            <div class="">{{ $comment->user->name }}</div>
+                                                            <i
+                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="body py-3">
+                                                        {{ $comment->comment }}
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        @foreach (json_decode($comment->images, true) as $img)
+                                                            <div class="col-md-1 col-3 mt-3">
+                                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                    data-lightbox="gallery">
+                                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                        style="object-fit: cover;width:100%" />
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span>Bu mağaza için henüz yorum yapılmadı.</span>
+                                    @endif
+
                                     @if (checkIfUserCanAddToCart($housing->id))
                                         <form id="commentForm" enctype="multipart/form-data" class="mt-5">
                                             @csrf
@@ -1466,13 +1485,15 @@ function getImage($housing, $key)
                                                         name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
                                                 </div>
 
-                                                <div id="isyeriyse" style="display: none;" class="mb-3 col-md-12 col-12">
+                                                <div id="isyeriyse" style="display: none;"
+                                                    class="mb-3 col-md-12 col-12">
 
                                                     <label for="ticari_bilgiler" class="form-label">Ticari ile
                                                         ilgili Bilgileri Giriniz:</label>
                                                     <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
 
-                                                    <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz Satış
+                                                    <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz
+                                                        Satış
                                                         Rakamı:</label>
                                                     <input type="text" class="formInput" id="isyeri_satis_rakami"
                                                         name="isyeri_satis_rakami" min="0">
@@ -2143,15 +2164,15 @@ function getImage($housing, $key)
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            function editComment(commentId) {
-                $.ajax({
-                    url: `{{ url('get-housing-comment') }}/${commentId}`,
-                    type: 'GET',
-                    success: function (response) {
-                        Swal.fire({
-                            title: 'Yorumu Düzenle',
-                            html: `
+    <script>
+        function editComment(commentId) {
+            $.ajax({
+                url: `{{ url('get-housing-comment') }}/${commentId}`,
+                type: 'GET',
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Yorumu Düzenle',
+                        html: `
                                 <form id="edit-comment-form">
                                     <input type="hidden" name="id" value="${response.data.id}">
                                   
@@ -2161,35 +2182,39 @@ function getImage($housing, $key)
                                     </div>
                                 </form>
                             `,
-                            showCancelButton: true,
-                            confirmButtonText: 'Güncelle',
-                            cancelButtonText: 'İptal',
-                            preConfirm: () => {
-                                const formData = new FormData(document.getElementById('edit-comment-form'));
-                                formData.append('_token', $('meta[name="csrf-token"]').attr('content')); 
-                                return $.ajax({
-                                    url: "{{ route('housing.update-comment') }}",
-                                    type: 'POST',
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function (response) {
-                                        Swal.fire('Başarılı!', 'Yorum başarıyla güncellendi.', 'success');
-                                        location.reload(); // Reload the page
-                                    },
-                                    error: function (error) {
-                                        Swal.fire('Hata!', 'Yorum güncellenirken bir hata oluştu.', 'error');
-                                    }
-                                });
-                            }
-                        });
-                    },
-                    error: function (error) {
-                        Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
-                    }
-                });
-            }
-        </script>
+                        showCancelButton: true,
+                        confirmButtonText: 'Güncelle',
+                        cancelButtonText: 'İptal',
+                        preConfirm: () => {
+                            const formData = new FormData(document.getElementById(
+                                'edit-comment-form'));
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                            return $.ajax({
+                                url: "{{ route('housing.update-comment') }}",
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                    Swal.fire('Başarılı!',
+                                        'Yorum başarıyla güncellendi.', 'success');
+                                    location.reload(); // Reload the page
+                                },
+                                error: function(error) {
+                                    Swal.fire('Hata!',
+                                        'Yorum güncellenirken bir hata oluştu.',
+                                        'error');
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function(error) {
+                    Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
+                }
+            });
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $('#selectImageButton').on('click', function() {
@@ -2277,7 +2302,7 @@ function getImage($housing, $key)
                 // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
                 if ($('#takas_tercihi').val() === 'araç') {
                     var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
-                        'arac_satis_rakami','ruhsat_belgesi'
+                        'arac_satis_rakami', 'ruhsat_belgesi'
                     ];
 
                     for (var i = 0; i < requiredFields.length; i++) {
@@ -2403,7 +2428,7 @@ function getImage($housing, $key)
 
         function submitForm() {
 
-            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; 
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
             if (!isLoggedIn) {
                 Swal.fire({
@@ -2457,7 +2482,7 @@ function getImage($housing, $key)
                         //console.log(error);
                     }
                 });
-            }                
+            }
         }
 
         $(document).ready(function() {
@@ -3565,14 +3590,14 @@ function getImage($housing, $key)
 
         .formInput {
             display: block;
-    width: 100%;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 2.0;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ebebeb;
-    margin-bottom: 10px;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 2.0;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ebebeb;
+            margin-bottom: 10px;
         }
 
         .formInput:focus {
@@ -3700,94 +3725,93 @@ function getImage($housing, $key)
             transform: scale(0.95);
         }
     </style>
-        <style>
-            .product-review-container__redirect__span-wrapper {
-                width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-    
-            .product-review-container__redirect__span-wrapper p {
-                font-family: source_sans_proregular, sans-serif;
-                font-style: normal;
-                font-size: 11px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                margin: 0;
-                line-height: inherit !important;
-            }
-    
-            .product-review-container__redirect {
-                display: flex;
-                flex-direction: row;
-                margin-top: 15px;
-                cursor: pointer;
-                text-decoration: none;
-            }
-    
-            .product-review-container__redirect img {
-                width: 50px;
-                height: 44.95px;
-                border: 1px solid #e6e6e6;
-                box-sizing: border-box;
-                border-radius: 4px;
-                margin-right: 10px;
-            }
-    
-            .slick-prev {
-                left: 0 !important;
-            }
-    
-            .slick-next {
-                right: 0 !important;
-            }
-    
-            .product-review-section-wrapper__wrapper__product-rating-filters {
-                display: flex;
-                flex-direction: row;
-                margin-top: 10px;
-                align-items: center margin-right: 20px;
-            }
-    
-            @media (max-width:768px) {
-                .product-rating-count-container {
-                    width: 45% !important;
-                    margin-top: 20px !important;
-                }
-            }
-    
+    <style>
+        .product-review-container__redirect__span-wrapper {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-review-container__redirect__span-wrapper p {
+            font-family: source_sans_proregular, sans-serif;
+            font-style: normal;
+            font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            line-height: inherit !important;
+        }
+
+        .product-review-container__redirect {
+            display: flex;
+            flex-direction: row;
+            margin-top: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .product-review-container__redirect img {
+            width: 50px;
+            height: 44.95px;
+            border: 1px solid #e6e6e6;
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .slick-prev {
+            left: 0 !important;
+        }
+
+        .slick-next {
+            right: 0 !important;
+        }
+
+        .product-review-section-wrapper__wrapper__product-rating-filters {
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            align-items: center margin-right: 20px;
+        }
+
+        @media (max-width:768px) {
             .product-rating-count-container {
-                width: 150px;
-                height: 38px;
-                background: #fff;
-                border: 2px solid #e6e6e6;
-                box-sizing: border-box;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, .0511637);
-                border-radius: 6px;
-                margin-right: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 11px;
+                width: 45% !important;
+                margin-top: 20px !important;
             }
-    
-            .product-rating-count-container__count {
-                margin-left: 7px;
-                margin-top: 3px
-            }
-    
-            .product-review-section-wrapper__wrapper__filter_title {
-                font-family: source_sans_proregular, sans-serif;
-                font-style: normal;
-                font-weight: 600;
-                font-size: 11px;
-                line-height: 15px;
-                color: #999;
-                margin-left: 20px;
-                margin-bottom: 10px;
-            }
-        </style>
+        }
+
+        .product-rating-count-container {
+            width: 150px;
+            height: 38px;
+            background: #fff;
+            border: 2px solid #e6e6e6;
+            box-sizing: border-box;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .0511637);
+            border-radius: 6px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .product-rating-count-container__count {
+            margin-left: 7px;
+            margin-top: 3px
+        }
+
+        .product-review-section-wrapper__wrapper__filter_title {
+            font-family: source_sans_proregular, sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 15px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+    </style>
 @endsection
