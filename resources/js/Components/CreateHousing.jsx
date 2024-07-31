@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "../define/variables";
+import { baseUrl, getLargeData, saveLargeData } from "../define/variables";
 import TopCreateProjectNavigator from "./create_project_components/TopCreateProjectNavigator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,7 @@ import CustomModal from "./CustomModal";
 import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateHousing(props) {
+  const [loadingStart,setLoadingStart] = useState(false);
   const [step, setStep] = useState(
     () => JSON.parse(localStorage.getItem("step")) || 1
   );
@@ -36,36 +37,7 @@ function CreateHousing(props) {
   const [loadingModalOpen, setLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
   );
-  const [projectData, setProjectData] = useState(() => {
-    const storedData = localStorage.getItem("projectData");
-    if (storedData) {
-      try {
-        const decompressedData = decompressFromUTF16(storedData);
-        return JSON.parse(decompressedData);
-      } catch (e) {
-        console.error("Error decompressing or parsing data:", e);
-        return {};
-      }
-    }
-    return {};
-  });
-
-  useEffect(() => {
-    const storedData = localStorage.getItem("projectData");
-    if (storedData) {
-      try {
-        const decompressedData = decompressFromUTF16(storedData);
-        const parsedData = JSON.parse(decompressedData);
-
-        // Decode Binary data for files
-        decodeBinaryData(parsedData).then((decodedData) => {
-          setProjectData(decodedData);
-        });
-      } catch (e) {
-        console.error("Error decompressing or parsing data:", e);
-      }
-    }
-  }, []);
+  const [projectData, setProjectData] = useState({});
 
   const [selectedHousingType, setSelectedHousingType] = useState(
     () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
@@ -76,16 +48,11 @@ function CreateHousing(props) {
   const [slug, setSlug] = useState(
     () => JSON.parse(localStorage.getItem("slug")) || ""
   );
-  const [blocks, setBlocks] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("blocks")) || [
-        {
-          name: "housing",
-          roomCount: 1,
-          rooms: [{}],
-        },
-      ]
-  );
+  const [blocks, setBlocks] = useState({
+    name: "housing",
+    roomCount: 1,
+    rooms: [{}],
+  });
   const [roomCount, setRoomCount] = useState(
     () => JSON.parse(localStorage.getItem("roomCount")) || 1
   );
@@ -144,13 +111,47 @@ function CreateHousing(props) {
   }, [loadingModalOpen]);
 
   useEffect(() => {
-    try {
-      const compressedData = compressToUTF16(JSON.stringify(projectData));
-      localStorage.setItem("projectData", compressedData);
-    } catch (e) {
-      console.error("Error compressing or storing data:", e);
+    async function saveData() {
+      try {
+        const newData = { ...projectData};
+        console.log('Saving Data:', newData);
+        await saveLargeData('projectData', newData);
+      } catch (e) {
+        console.log(e);
+      }
     }
-  }, [projectData]);
+
+    if (loadingStart) {
+      saveData();
+    }
+  }, [projectData, loadingStart]);
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const storedData = await getLargeData('projectData');
+      if (storedData) {
+        console.log('Fetched Data:', storedData);
+        setProjectData(storedData);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+
+    async function fetchData2() {
+      const storedData2 = await getLargeData('blocks');
+      if (storedData2) {
+        console.log('Fetched Data:', storedData2);
+        setBlocks(storedData2);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+    fetchData();
+    fetchData2();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -168,7 +169,18 @@ function CreateHousing(props) {
   }, [slug]);
 
   useEffect(() => {
-    localStorage.setItem("blocks", JSON.stringify(blocks));
+    async function saveDataBlocks() {
+      try {
+        console.log(blocks);
+        await saveLargeData('blocks', blocks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveDataBlocks();
+    }
   }, [blocks]);
 
   useEffect(() => {
@@ -212,7 +224,6 @@ function CreateHousing(props) {
   const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: value };
-      localStorage.setItem("projectData", JSON.stringify(newProjectData));
       return newProjectData;
     });
   };
