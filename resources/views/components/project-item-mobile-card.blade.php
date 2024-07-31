@@ -20,26 +20,27 @@
     'blockStart',
 ])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToProjectHousings')) {
-    function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToProjectHousings')) {
+        function checkIfUserCanAddToProjectHousings($projectId, $keyIndex)
+        {
+            $user = auth()->user();
 
-        if ($user) {
-            $exists = $user->projects()
-                           ->where('id', $projectId)
-                           ->whereHas('housings', function($query) use ($keyIndex) {
-                               $query->where('room_order', $keyIndex);
-                           })
-                           ->exists();
-            return !$exists;
+            if ($user) {
+                $exists = $user
+                    ->projects()
+                    ->where('id', $projectId)
+                    ->whereHas('housings', function ($query) use ($keyIndex) {
+                        $query->where('room_order', $keyIndex);
+                    })
+                    ->exists();
+                return !$exists;
+            }
+
+            return true;
         }
-
-        return true;
     }
-}
 
 @endphp
 
@@ -128,7 +129,7 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                     </div>
 
                     <span class="mobileNoStyle">
-                        {{$projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? "Etap" : "No"}}
+                        {{ $projectHousingsList[$keyIndex] && isset($projectHousingsList[$keyIndex]['share_sale[]']) && $projectHousingsList[$keyIndex]['share_sale[]'] == '["Var"]' ? 'Etap' : 'No' }}
                         @if (isset($blockStart) && $blockStart)
                             {{ $i - $blockStart + 1 }}
                         @else
@@ -179,11 +180,12 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                             <i class="fa fa-bookmark-o"></i>
                         </span>
-                  
-                    <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
-                        style="color: white;" data-project-id="{{ $project->id }}">
-                        <i class="fa fa-heart-o"></i>
-                    </span>
+
+                        <span class="btn toggle-project-favorite bg-white"
+                            data-project-housing-id="{{ $keyIndex }}" style="color: white;"
+                            data-project-id="{{ $project->id }}">
+                            <i class="fa fa-heart-o"></i>
+                        </span>
                     @endif
                 </div>
             </a>
@@ -506,35 +508,42 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="q-label">Ad Soyad : </label>
-                                <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name" required>
+                                <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
+                                    name="name" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone" class="q-label">Telefon Numarası : </label>
-                                <input type="tel" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone" required>
+                                <input type="tel" class="modal-input" placeholder="Telefon Numarası"
+                                    id="phone" name="phone" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email" class="q-label">E-Posta : </label>
-                                <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email" required>
+                                <input type="email" class="modal-input" placeholder="E-Posta" id="email"
+                                    name="email" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title" class="q-label">Meslek : </label>
-                                <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title" required>
+                                <input type="text" class="modal-input" placeholder="Meslek" id="title"
+                                    name="title" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="city_id" class="q-label">İl</label>
-                                <select class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}" name="city_id" required>
+                                <select
+                                    class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                    name="city_id" required>
                                     <option value="">Seçiniz</option>
                                     @foreach ($towns as $item)
-                                        <option value="{{ $item['sehir_key'] }}" {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                        <option value="{{ $item['sehir_key'] }}"
+                                            {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
                                             {{ $item['sehir_title'] }}
                                         </option>
                                     @endforeach
@@ -544,7 +553,9 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="county_id" class="q-label">İlçe</label>
-                                <select class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}" name="county_id" required>
+                                <select
+                                    class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                    name="county_id" required>
                                     <option value="">Seçiniz</option>
                                 </select>
                             </div>
@@ -552,7 +563,8 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
-                                <input type="text" class="modal-input" placeholder="Fiyat" id="price" name="price" required>
+                                <input type="text" class="modal-input" placeholder="Fiyat" id="price"
+                                    name="price" required>
                             </div>
                         </div>
 
@@ -560,12 +572,14 @@ if (!function_exists('checkIfUserCanAddToProjectHousings')) {
 
                     <div class="form-group">
                         <label for="offer_description" class="q-label">Açıklama:</label>
-                        <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;" name="offer_description" required></textarea>
+                        <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
+                            name="offer_description" required></textarea>
                     </div>
 
                     <div class="modal-footer" style="justify-content: end !important">
                         <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width:150px">Kapat</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="width:150px">Kapat</button>
                     </div>
                 </form>
             </div>

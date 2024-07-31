@@ -461,10 +461,15 @@
                                 data-bs-target="#projectComment" type="button" role="tab" aria-controls="comment"
                                 aria-selected="false">Yorumlar</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="commentSend-tab" data-bs-toggle="tab"
+                                data-bs-target="#commentSend" type="button" role="tab" aria-controls="commentSend"
+                                aria-selected="false">Değerlendir</button>
+                        </li>
+
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane d-lg-none fade blog-info details mb-30 single homes-content" id="general"
-                        
                             role="tabpanel" aria-labelledby="general-tab">
 
                             <table class="table" style="margin-bottom: 0 !important">
@@ -783,7 +788,7 @@
                                                     <span class="det"
                                                         style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
                                                 </td>
-                                            {{-- @foreach ($projectHousingSetting as $housingSetting)
+                                                {{-- @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
                                                     $value = '';
@@ -819,14 +824,7 @@
                                                     }
                                                 @endphp
 
-                                                @if (
-                                                    !$isArrayCheck &&
-                                                        isset($value) &&
-                                                        $value !== '' &&
-                                                        $housingSetting->label != 'Fiyat' &&
-                                                        $housingSetting->label != 'Günlük Fiyat' &&
-                                                        $housingSetting->label != 'Peşin Fiyat' &&
-                                                        $housingSetting->label != 'Taksitli Toplam Fiyat ')
+                                                @if (!$isArrayCheck && isset($value) && $value !== '' && $housingSetting->label != 'Fiyat' && $housingSetting->label != 'Günlük Fiyat' && $housingSetting->label != 'Peşin Fiyat' && $housingSetting->label != 'Taksitli Toplam Fiyat ')
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>
@@ -872,7 +870,7 @@
                         </div>
 
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
-                         style="border: none !important;box-shadow: none !important; padding: 0 !important"
+                            style="border: none !important;box-shadow: none !important; padding: 0 !important"
                             role="tabpanel" aria-labelledby="contact-tab">
 
 
@@ -963,7 +961,8 @@
                                                 $blockName = null;
                                             @endphp
 
-                                            <div class="row project-filter-reverse blog-pots w-100 m-auto" id="project-room">
+                                            <div class="row project-filter-reverse blog-pots w-100 m-auto"
+                                                id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
 
@@ -1112,118 +1111,296 @@
                             </div>
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="projectComment" role="tabpanel"
-                        aria-labelledby="contact-tab">
-                        <h5 class="mt-4">Yorumlar</h5>
-                        @if (count($projectComments))
-                            <div class="flex flex-col gap-6">
-                                @foreach ($projectComments as $comment)
-                                    <div class="bg-white border rounded-md pb-3 mb-3"
-                                        style="border-bottom: 1px solid #E6E6E6 !important; ">
-                                        <div class="head d-flex w-full">
-                                            <div>
-                                                <div>{{ $comment->user->name }}</div>
-                                                <i
-                                                    class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
+                            aria-labelledby="contact-tab">
+                            @if (count($projectComments))
+                                        @php
+                                            // Initialize rating counts array
+                                            $ratingCounts = [0, 0, 0, 0, 0];
+
+                                            // Populate rating counts based on comments
+                                            foreach ($projectComments as $comment) {
+                                                if ($comment->rate >= 1 && $comment->rate <= 5) {
+                                                    $ratingCounts[$comment->rate - 1]++;
+                                                }
+                                            }
+
+                                            // Calculate total number of reviews and comments
+                                            $totalReviews = array_sum($ratingCounts);
+                                            $totalComments = $projectComments->count();
+
+                                            // Calculate rating percentages
+                                            $ratingPercentages = array_map(function ($count) use ($totalReviews) {
+                                                return $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+                                            }, $ratingCounts);
+
+                                            // Calculate average rating
+                                            $averageRating = $totalReviews
+                                                ? array_sum(
+                                                        array_map(
+                                                            function ($rate, $index) use ($ratingCounts) {
+                                                                return $rate * $ratingCounts[$index];
+                                                            },
+                                                            [1, 2, 3, 4, 5],
+                                                            array_keys($ratingCounts),
+                                                        ),
+                                                    ) / $totalReviews
+                                                : 0;
+
+                                            // Calculate width for the average rating star display
+                                            $averageRatingWidth = ($averageRating / 5) * 100;
+                                        @endphp
+                                        <div class="ps-ratings">
+                                            <div class="ps-ratings__stars">
+
+                                                <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}
+                                                </div>
+                                                <div class="ps-ratings__average">
+                                                    <div>Ortalama</div>
+                                                    <div>Puan</div>
+                                                </div>
                                             </div>
-                                         
-                                            <div class="ml-auto order-2">
-                                                @for ($i = 0; $i < $comment->rate; ++$i)
-                                                    <svg enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                        width="24px" xml:space="preserve"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="gold"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="gold" stroke-miterlimit="10"
-                                                            stroke-width="2" />
-                                                    </svg>
-                                                @endfor
-                                                @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                    <svg enable-background="new 0 0 50 50" height="24px"
-                                                        id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                        width="24px" xml:space="preserve"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                        <rect fill="none" height="50" width="50" />
-                                                        <polygon fill="none"
-                                                            points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                            stroke="gold" stroke-miterlimit="10"
-                                                            stroke-width="2" />
-                                                    </svg>
-                                                @endfor
-                                                @if(auth()->check() && auth()->user()->id == $comment->user_id)
-                                                    <button class="btn btn-primary" style="display:block;margin-left:80px;margin-top:10px;" onclick="editComment({{ $comment->id }})">Düzenle</button>
+
+                                            <div class="ps-ratings__counts">
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalReviews) }} Değerlendirme</div>
+                                                </div>
+                                                <div class="ps-ratings__divider">•</div>
+                                                <div class="ps-ratings__count">
+                                                    <div>{{ number_format($totalComments) }} Yorum</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+                                        <div style="margin-top: 20.5px;"><span
+                                                class="product-review-section-wrapper__wrapper__filter_title">Puana
+                                                Göre Filtrele</span>
+                                            <div
+                                                class="product-review-section-wrapper__wrapper__product-rating-filters mb-5">
+
+                                                <!-- Create an array to store counts for each rating (1-5) -->
+                                                @php
+                                                    $ratingCounts = [0, 0, 0, 0, 0];
+                                                @endphp
+
+                                                @foreach ($projectComments as $comment)
+                                                    @if ($comment->rate >= 1 && $comment->rate <= 5)
+                                                        <!-- Increment the corresponding rating count -->
+                                                        @php
+                                                            $ratingCounts[$comment->rate - 1]++;
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+
+                                                @foreach ([5, 4, 3, 2, 1] as $rating)
+                                                    <div class="product-rating-count-container"
+                                                        style="border: 1px solid rgb(230, 230, 230);">
+
+                                                        <div class="product-rating-count-container__star">
+                                                            <div class="star-ratings" title="{{ $rating }} Stars"
+                                                                style="position: relative; box-sizing: border-box; display: inline-block;">
+                                                                @for ($i = 0; $i < $rating; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(255, 192, 0); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
+                                                                @for ($i = $rating; $i < 5; $i++)
+                                                                    <div class="star-container"
+                                                                        style="position: relative; display: inline-block; vertical-align: middle; padding-right: 2px;">
+                                                                        <svg viewBox="0 0 14 14" class="widget-svg"
+                                                                            style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
+                                                                            <path class="star"
+                                                                                d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
+                                                                                style="fill: rgb(203, 211, 227); transition: fill 0.2s ease-in-out 0s;">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </div>
+                                                                @endfor
+                                                            </div>
+                                                            <span class="product-rating-count-container__count">
+                                                                ({{ $ratingCounts[$rating - 1] }})
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+
+                                        </div>
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">Fotoğraflı
+                                            Değerlendirmeler</span>
+                                        <div class="slick-agentsc mt-3 mb-3" style="padding: 0 50px">
+                                            @foreach ($projectComments as $comment)
+                                                @if (json_decode($comment->images, true) > 0)
+                                                    @foreach (json_decode($comment->images, true) as $img)
+                                                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                                                            <div class="landscapes">
+                                                                <div class="project-single">
+                                                                    <div class="project-inner project-head">
+                                                                        <div class="homes">
+                                                                            <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                data-lightbox="gallery">
+                                                                                <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                                    style="object-fit: cover;width:100%;height:150px" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- homes content -->
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <span>Bu konut için fotoğraflı değerlendirme yapılmadı.</span>
                                                 @endif
-                                            </div>
-                                           
+                                            @endforeach
                                         </div>
-                                        <div class="body py-3">
-                                            {{ $comment->comment }}
-                                        </div>
-                                        <div class="row mt-3">
-                                            @foreach (json_decode($comment->images, true) as $img)
-                                                <div class="col-md-2 col-3 mb-3">
-                                                    <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                        data-lightbox="gallery">
-                                                        <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                            style="object-fit: cover;width:100%" />
-                                                    </a>
+
+                                        <span class="product-review-section-wrapper__wrapper__filter_title">
+                                            Değerlendirmeler</span>
+                                        <div class="flex flex-col gap-6 mt-3" >
+                                            @foreach ($projectComments as $comment)
+                                                <div class="bg-white border rounded-md pb-3 mb-3"
+                                                    @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
+                                                 
+                                                    <div class="ml-auto order-2 mt-3 mb-3">
+                                                        @for ($i = 0; $i < $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="gold"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                        @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                            <svg enable-background="new 0 0 50 50" height="15px"
+                                                                id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                                width="15px" xml:space="preserve"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <rect fill="none" height="50" width="50" />
+                                                                <polygon fill="none"
+                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                    stroke="gold" stroke-miterlimit="10"
+                                                                    stroke-width="2" />
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
+                                                    <div class="head d-flex w-full">
+                                                        <div>
+                                                            <div class="">{{ $comment->user->name }}</div>
+                                                            <i
+                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="body py-3">
+                                                        {{ $comment->comment }}
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        @foreach (json_decode($comment->images, true) as $img)
+                                                            <div class="col-md-1 col-3 mt-3">
+                                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                    data-lightbox="gallery">
+                                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                        style="object-fit: cover;width:100%" />
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <span class="mb-3">Bu Proje için henüz yorum yapılmadı.</span>
-                        @endif
-                        @if (checkIfUserCanAddToCart($project->id))
-                            <form id="commentForm" enctype="multipart/form-data" class="mt-5">
-                                @csrf
-                                <input type="hidden" name="rate" id="rate" />
-                                <h5>Yeni Yorum Ekle</h5>
+                                    @else
+                                        <span>Bu mağaza için henüz yorum yapılmadı.</span>
+                                    @endif
 
-                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                    <div class="d-flex rating-area">
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <rect fill="none" height="50" width="50" />
-                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                        </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <rect fill="none" height="50" width="50" />
-                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                        </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <rect fill="none" height="50" width="50" />
-                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                        </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <rect fill="none" height="50" width="50" />
-                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                        </svg>
-                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <rect fill="none" height="50" width="50" />
-                                            <polygon class="rating-polygon" fill="none" points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-auto">
-                                        <input type="file" style="display: none;" class="fileinput"
-                                            name="images[]" multiple accept="image/*" />
-                                        <button type="button" class="btn btn-primary q-button"
-                                            id="selectImageButton">Resimleri Seç</button>
-                                    </div>
-                                </div>
-                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                <button type="button" class="ud-btn btn-white2 mt-3"
-                                    onclick="submitForm()">Yorumu Gönder<i class="fal fa-arrow-right-long"></i></button>
-                                    <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+                        </div>
+                        <div class="tab-pane fade  blog-info details mb-30" id="commentSend" role="tabpanel"
+                            aria-labelledby="commentSend-tab">
+                            @if (checkIfUserCanAddToCart($project->id))
+                                <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                    @csrf
+                                    <input type="hidden" name="rate" id="rate" />
+                                    <h5>Yeni Yorum Ekle</h5>
 
-                            </form>
-                        @endif
+                                    <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                        <div class="d-flex rating-area">
+                                            <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect fill="none" height="50" width="50" />
+                                                <polygon class="rating-polygon" fill="none"
+                                                    points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            </svg>
+                                            <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect fill="none" height="50" width="50" />
+                                                <polygon class="rating-polygon" fill="none"
+                                                    points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            </svg>
+                                            <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect fill="none" height="50" width="50" />
+                                                <polygon class="rating-polygon" fill="none"
+                                                    points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            </svg>
+                                            <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect fill="none" height="50" width="50" />
+                                                <polygon class="rating-polygon" fill="none"
+                                                    points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            </svg>
+                                            <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <rect fill="none" height="50" width="50" />
+                                                <polygon class="rating-polygon" fill="none"
+                                                    points="25,3.553 30.695,18.321 46.5,19.173 34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                    stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <input type="file" style="display: none;" class="fileinput"
+                                                name="images[]" multiple accept="image/*" />
+                                            <button type="button" class="btn btn-primary q-button"
+                                                id="selectImageButton">Resimleri Seç</button>
+                                        </div>
+                                    </div>
+                                    <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                    <button type="button" class="ud-btn btn-white2 mt-3" onclick="submitForm()">Yorumu
+                                        Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                    <div id="previewContainer"
+                                        style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
 
-                    </div>
+                                </form>
+                            @endif
+
+                        </div>
                     </div>
                 </div>
 
@@ -1311,7 +1488,7 @@
             $.ajax({
                 url: `{{ url('get-project-comment') }}/${commentId}`,
                 type: 'GET',
-                success: function (response) {
+                success: function(response) {
                     Swal.fire({
                         title: 'Yorumu Düzenle',
                         html: `
@@ -1328,26 +1505,30 @@
                         confirmButtonText: 'Güncelle',
                         cancelButtonText: 'İptal',
                         preConfirm: () => {
-                            const formData = new FormData(document.getElementById('edit-comment-form'));
-                            formData.append('_token', $('meta[name="csrf-token"]').attr('content')); 
+                            const formData = new FormData(document.getElementById(
+                                'edit-comment-form'));
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
                             return $.ajax({
                                 url: "{{ route('project.update-comment') }}",
                                 type: 'POST',
                                 data: formData,
                                 processData: false,
                                 contentType: false,
-                                success: function (response) {
-                                    Swal.fire('Başarılı!', 'Yorum başarıyla güncellendi.', 'success');
+                                success: function(response) {
+                                    Swal.fire('Başarılı!',
+                                        'Yorum başarıyla güncellendi.', 'success');
                                     location.reload(); // Reload the page
                                 },
-                                error: function (error) {
-                                    Swal.fire('Hata!', 'Yorum güncellenirken bir hata oluştu.', 'error');
+                                error: function(error) {
+                                    Swal.fire('Hata!',
+                                        'Yorum güncellenirken bir hata oluştu.',
+                                        'error');
                                 }
                             });
                         }
                     });
                 },
-                error: function (error) {
+                error: function(error) {
                     Swal.fire('Hata!', 'Yorum bilgileri alınırken bir hata oluştu.', 'error');
                 }
             });
@@ -1360,7 +1541,8 @@
                 var index = $(this).index();
                 $('.rating-area .rating-polygon').each(function(i) {
                     $(this).attr('fill', i <= index ? 'gold' : 'none');
-                    $(this).attr('stroke', i <= index ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                    $(this).attr('stroke', i <= index ? 'gold' :
+                    '#000000'); // Seçili yıldızların kenarlık rengini altın yap
                 });
             });
 
@@ -1369,7 +1551,8 @@
                 var selectedIndex = $('.rating-area .rating.selected').last().index();
                 $('.rating-area .rating-polygon').each(function(i) {
                     $(this).attr('fill', i <= selectedIndex ? 'gold' : 'none');
-                    $(this).attr('stroke', i <= selectedIndex ? 'gold' : '#000000'); // Seçili yıldızların kenarlık rengini altın yap
+                    $(this).attr('stroke', i <= selectedIndex ? 'gold' :
+                    '#000000'); // Seçili yıldızların kenarlık rengini altın yap
                 });
             });
 
@@ -1382,7 +1565,6 @@
                 $('#rate').val(index + 1);
             });
         });
-
     </script>
     <script>
         $(document).ready(function() {
@@ -1406,11 +1588,11 @@
                     });
                 }
             });
-        });    
+        });
 
         function submitForm() {
 
-            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }}; 
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
             if (!isLoggedIn) {
                 Swal.fire({
@@ -1427,7 +1609,7 @@
                     }
                 });
             } else {
-                                var rateValue = $('#rate').val();
+                var rateValue = $('#rate').val();
 
                 // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
                 if (rateValue === '' || rateValue === '0') {
@@ -1461,8 +1643,8 @@
                 });
             }
 
-           
-            }
+
+        }
     </script>
 
     <script>
@@ -2079,8 +2261,6 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
-
-
         .fixed-button {
             position: fixed;
             bottom: 70px;
