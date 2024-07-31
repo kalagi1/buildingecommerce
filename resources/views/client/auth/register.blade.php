@@ -565,9 +565,9 @@
 
 
                                     </div>
-                                    <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3
+                                    {{-- <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3
                                             284</a>
-                                    </h4>
+                                    </h4> --}}
                                 </div>
                             </div>
                         </div>
