@@ -288,6 +288,26 @@ class HomeController extends Controller
     public function unapproveOrder(CartOrder $cartOrder)
     {
         $cartOrder->update(['status' => '2']);
+
+
+        if ($cartOrder) {
+            // Decode the JSON data stored in the cart column
+            $cartData = json_decode($cartOrder->cart, true);
+
+            // Check if the type in the JSON data is 'housing'
+            if (isset($cartData['type']) && $cartData['type'] === 'housing') {
+                // Retrieve the Housing model using the item_id from the JSON data
+                if (isset($cartData['item']['id'])) {
+                    $housing = Housing::find($cartData['item']['id']);
+
+                    if ($housing) {
+                        // Update the is_sold field to 0
+                        $housing->is_sold = NULL;
+                        $housing->save();
+                    }
+                }
+            }
+        }
         $user = User::where('id', $cartOrder->user_id)->first();
 
         DocumentNotification::create([
