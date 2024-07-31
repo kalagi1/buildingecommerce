@@ -12,7 +12,7 @@
                             style="width:100%;height:auto !important">
 
                     </div> --}}
-                    <div class="col-md-8 mx-auto">
+                    <div class="col-md-7 mx-auto">
                         <div class="single homes-content details mb-30 ">
 
                         <div class="login-container">
