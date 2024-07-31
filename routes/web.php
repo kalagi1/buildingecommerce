@@ -1288,6 +1288,8 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
 
     Route::post('add-user', [CrmController::class, 'addUser']);
+    Route::post('write-images-to-file', [ApiProjectController::class, 'writeImagesToFile']);
+    Route::get('get_images_temp', [ApiProjectController::class, 'getImagesTemp']);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

@@ -333,58 +333,62 @@
                                                         </td>
                                                     </tr>
                                                 @endif --}}
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>Toplam
-                                                                {{ ucfirst($project->step1_slug) }}
-                                                                Sayısı:
-                                                            </span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->room_count }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>Satışa Açık
-                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                    Hisse
-                                                                @else
+                                                @if((isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != "[]") || (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != "[]"))
+                                                
+                                                @else 
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <strong class="autoWidthTr"><span>Toplam
                                                                     {{ ucfirst($project->step1_slug) }}
-                                                                @endif
-                                                                Sayısı:
-                                                            </span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>Satılan
-                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                    Hisse
-                                                                @else
-                                                                    {{ ucfirst($project->step1_slug) }}
-                                                                @endif
-                                                                Sayısı:
-                                                            </span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->cartOrders }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>Satışa Kapalı
-                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
-                                                                    Hisse
-                                                                @else
-                                                                    {{ ucfirst($project->step1_slug) }}
-                                                                @endif
-                                                                Sayısı:
-                                                            </span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
-                                                    </td>
-                                                </tr>
+                                                                    Sayısı:
+                                                                </span></strong>
+                                                            <span class="det"
+                                                                style="color: black;">{{ $project->room_count }}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <strong class="autoWidthTr"><span>Satışa Açık
+                                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                        Hisse
+                                                                    @else
+                                                                        {{ ucfirst($project->step1_slug) }}
+                                                                    @endif
+                                                                    Sayısı:
+                                                                </span></strong>
+                                                            <span class="det"
+                                                                style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <strong class="autoWidthTr"><span>Satılan
+                                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                        Hisse
+                                                                    @else
+                                                                        {{ ucfirst($project->step1_slug) }}
+                                                                    @endif
+                                                                    Sayısı:
+                                                                </span></strong>
+                                                            <span class="det"
+                                                                style="color: black;">{{ $project->cartOrders }}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <strong class="autoWidthTr"><span>Satışa Kapalı
+                                                                    @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                        Hisse
+                                                                    @else
+                                                                        {{ ucfirst($project->step1_slug) }}
+                                                                    @endif
+                                                                    Sayısı:
+                                                                </span></strong>
+                                                            <span class="det"
+                                                                style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             </tbody>
 
                                         </table>
@@ -821,7 +825,12 @@
 
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
-
+                            @php
+                                $housingTypeFormJson = json_decode($project->housingType->form_json);
+                                $column1Order = array_search($project->listItemValues->column1_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
+                                $column2Order = array_search($project->listItemValues->column2_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
+                                $column3Order = array_search($project->listItemValues->column3_name."[]",array_column(json_decode($project->housingType->form_json), 'name'));
+                            @endphp
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
@@ -909,7 +918,31 @@
                                             @php
                                                 $blockName = null;
                                             @endphp
+                                            <div class="row" style="margin-bottom:5px">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-3 pr-0">
+                                                            <div style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;"></div>
+                                                        </div>
+                                                        <div class="col-md-9" >
+                                                            <div class="row" style="width: 102%;">
+                                                                <div class="col-md-9" style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
+                                                                    <div class="d-flex" style="justify-content: space-between;">
+                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column1Order]->label}}</li>
+                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column2Order]->label}}</li>
+                                                                        <li style="width:20%;list-style:none;">{{$housingTypeFormJson[$column3Order]->label}}</li>
+                                                                        <li style="width:20%;list-style:none;">Eklenme Tarihi</li>
+                                                                        <li style="width:20%;display:flex;justify-content:center">Fiyat</li>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
@@ -950,7 +983,8 @@
 
                                                         $statusSlug = $status->slug;
                                                     @endphp
-
+                                                    
+                                                    
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :blockStart="0" :towns="$towns" :cities="$cities"
                                                         :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"

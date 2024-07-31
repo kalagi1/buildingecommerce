@@ -38,6 +38,7 @@
         "date-fns": "^3.6.0",
         "dayjs": "^1.11.10",
         "framer-motion": "^11.2.10",
+        "idb": "^8.0.0",
         "laravel-echo": "^1.15.3",
         "lodash": "^4.17.21",
         "lz-string": "^1.5.0",
