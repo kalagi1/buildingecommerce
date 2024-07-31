@@ -10,8 +10,16 @@
         LIMIT 1',
         [$housing->id],
     );
+    
 @endphp
-
+@php
+function getImage($housing, $key)
+{
+    $housing_type_data = json_decode($housing->housing_type_data);
+    $a = $housing_type_data->$key;
+    return $a;
+}
+@endphp
 @php
     function convertMonthToTurkishCharacter($date)
     {
