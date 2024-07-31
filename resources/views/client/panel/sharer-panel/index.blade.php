@@ -185,8 +185,13 @@
                                                 @endphp
 
 
-                                                <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $projectFirstImage : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image }}"
-                                                    alt="product-image">
+                                                <img src="{{ 
+                                                    $link->item_type == 1 
+                                                    ? URL::to('/') . '/project_housing_images/' . $projectFirstImage 
+                                                    : ($link->housing && $link->housing->housing_type_data 
+                                                        ? URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image 
+                                                        : '') 
+                                                }}" alt="product-image">
                                             @endforeach
                                         </div>
                                         {{-- <div class="col-md-5 p-0 m-0">
