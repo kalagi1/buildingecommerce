@@ -12,6 +12,7 @@ function RoomNavigator({
   validationErrors,
   setValidationErrors,
   haveBlock,
+  slug
 }) {
   const [copyValue, setCopyValue] = useState("");
   const [tempItems, setTempItems] = useState([]);
@@ -20,16 +21,74 @@ function RoomNavigator({
   const nextHouse = () => {
     if (selectedRoom + 1 < blocks[selectedBlock]?.roomCount) {
       const errors = formData.reduce((acc, field) => {
-        if (
-          !field?.className?.includes("project-disabled") &&
-          field.required &&
-          (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
-            blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
-            blocks[selectedBlock]?.rooms[selectedRoom][field.name] ===
-              "Seçiniz")
-        ) {
-          acc.push(field.name);
+        if(slug == "satilik"){
+          if (
+            !field?.className?.includes("project-disabled") &&
+            field.required &&
+            (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] ===
+              "Seçiniz") && !field?.className?.includes("only-show-project-rent") &&
+              !field?.className?.includes("only-show-project-daliy-rent") &&
+              !field?.className?.includes("only-not-show-project")
+          ) {
+            acc.push(field.name);
+          }
+        }else if(slug == "kiralik"){
+          if (
+            !field?.className?.includes("project-disabled") &&
+            field.required &&
+            (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "Seçiniz")
+              && !field?.className?.includes("only-show-project-sale") 
+              && !field?.className?.includes("only-show-project-daliy-rent") 
+              && !field?.className?.includes("only-not-show-project") 
+          ) {
+            acc.push(field.name);
+          }
         }
+        else if(slug == "gunluk-kiralik"){
+          if (
+            !field?.className?.includes("project-disabled") &&
+            field.required &&
+            (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "Seçiniz")
+              && !field?.className?.includes("only-show-project-rent") 
+              && !field?.className?.includes("only-show-project-sale") 
+              && !field?.className?.includes("only-not-show-project")  
+          ) {
+            acc.push(field.name);
+          }
+        }else if(slug == "devren-satilik"){
+          if (
+            !field?.className?.includes("project-disabled") &&
+            field.required &&
+            (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] ===
+              "Seçiniz") && !field?.className?.includes("only-show-project-rent") &&
+              !field?.className?.includes("only-show-project-daliy-rent") &&
+              !field?.className?.includes("only-not-show-project")
+          ) {
+            acc.push(field.name);
+          }
+        }else if(slug == "devren-kiralik"){
+          if (
+            !field?.className?.includes("project-disabled") &&
+            field.required &&
+            (!blocks[selectedBlock]?.rooms[selectedRoom][field.name] ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "" ||
+              blocks[selectedBlock]?.rooms[selectedRoom][field.name] === "Seçiniz")
+              && !field?.className?.includes("only-show-project-sale") 
+              && !field?.className?.includes("only-show-project-daliy-rent") 
+              && !field?.className?.includes("only-not-show-project") 
+          ) {
+            acc.push(field.name);
+          }
+        }
+
         return acc;
       }, []);
 
@@ -58,10 +117,38 @@ function RoomNavigator({
   };
 
   const percentOccupancy = () => {
-    const requiredCount = formData.filter(
-      (field) =>
-        !field?.className?.includes("project-disabled") && field.required
-    ).length;
+    var requiredCount = 0;
+    if(slug == "satilik"){
+      requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-rent") && !field?.className?.includes("only-show-project-daliy-rent") && !field?.className?.includes("only-not-show-project") 
+      ).length;
+
+      console.log(requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-rent") && !field?.className?.includes("only-show-project-daliy-rent") && !field?.className?.includes("only-not-show-project") 
+      ));
+    }else if(slug == "kiralik"){
+      requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-sale") && !field?.className?.includes("only-show-project-daliy-rent") && !field?.className?.includes("only-not-show-project") 
+      ).length;
+    }else if(slug == "gunluk-kiralik"){
+      requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-rent") && !field?.className?.includes("only-show-project-sale") && !field?.className?.includes("only-not-show-project") 
+      ).length;
+    }else if(slug == "devren-satilik"){
+      requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-rent") && !field?.className?.includes("only-show-project-daliy-rent") && !field?.className?.includes("only-not-show-project") 
+      ).length;
+    }else if(slug == "devren-kiralik"){
+      requiredCount = formData.filter(
+        (field) =>
+          !field?.className?.includes("project-disabled") && field.required && !field?.className?.includes("only-show-project-sale") && !field?.className?.includes("only-show-project-daliy-rent") && !field?.className?.includes("only-not-show-project") 
+      ).length;
+    }
 
     const filledCount = formData.reduce((acc, field) => {
       if (
@@ -113,25 +200,6 @@ function RoomNavigator({
   }, [selectedBlock, selectedRoom]);
 
   const copyItem = (selectBlock, selectRoom) => {
-    // const errors = formDataHousing.reduce((acc, field) => {
-    //   if (
-    //     !field?.className?.includes("project-disabled") &&
-    //     field.required &&
-    //     (!blocks[selectedBlock].rooms[selectedRoom][field.name] ||
-    //       blocks[selectedBlock].rooms[selectedRoom][field.name] === "")
-    //   ) {
-    //     acc.push(field.name.replace("[]", ""));
-    //   }
-    //   return acc;
-    // }, []);
-
-    // if (errors.length > 0) {
-    //   toast.error(
-    //     "Bu ilanda zorunlu tüm alanlar dolu olmadığı için seçili ilana kopyalama işlemi yapılamaz"
-    //   );
-    //   return;
-    // }
-
     setCopyLoading(true);
     console.log(blocks);
     const newBlocks = blocks.map((block, blockIndex) => {
@@ -163,18 +231,72 @@ function RoomNavigator({
     var tempErrors = [];
     if(blocks.length > 0){
         formDataHousing.forEach((formDataHousing) => {
-            if(!formDataHousing?.className?.includes('project-disabled')){
-                if(formDataHousing.required){
-                    if(blocks.length < 1){
-                        tempErrors.push(formDataHousing.name.replace("[]",""))
-                    }else{
-                        if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
-                            tempErrors.push(formDataHousing.name.replace("[]",""))
-                        }
-                    }
-                    
-                }
+          if(slug == "satilik"){
+            if(!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project") ){
+              if(formDataHousing.required){
+                  if(blocks.length < 1){
+                      tempErrors.push(formDataHousing.name.replace("[]",""))
+                  }else{
+                      if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                          tempErrors.push(formDataHousing.name.replace("[]",""))
+                      }
+                  }
+                  
+              }
             }
+          }else if(slug == "devren-satilik"){
+            if(!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project") ){
+              if(formDataHousing.required){
+                  if(blocks.length < 1){
+                      tempErrors.push(formDataHousing.name.replace("[]",""))
+                  }else{
+                      if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                          tempErrors.push(formDataHousing.name.replace("[]",""))
+                      }
+                  }
+                  
+              }
+            }
+          }else if(slug == "kiralik"){
+            if(!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")  ){
+              if(formDataHousing.required){
+                  if(blocks.length < 1){
+                      tempErrors.push(formDataHousing.name.replace("[]",""))
+                  }else{
+                      if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                          tempErrors.push(formDataHousing.name.replace("[]",""))
+                      }
+                  }
+                  
+              }
+            }
+          }else if(slug == "devren-kiralik"){
+            if(!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")  ){
+              if(formDataHousing.required){
+                  if(blocks.length < 1){
+                      tempErrors.push(formDataHousing.name.replace("[]",""))
+                  }else{
+                      if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                          tempErrors.push(formDataHousing.name.replace("[]",""))
+                      }
+                  }
+                  
+              }
+            }
+          }else if(slug == "gunluk-kiralik"){
+            if(!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")  ){
+              if(formDataHousing.required){
+                  if(blocks.length < 1){
+                      tempErrors.push(formDataHousing.name.replace("[]",""))
+                  }else{
+                      if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                          tempErrors.push(formDataHousing.name.replace("[]",""))
+                      }
+                  }
+                  
+              }
+            }
+          }
         })
     }
 
@@ -209,7 +331,7 @@ function RoomNavigator({
             <div className="row">
               <div className="col-md-12">
                 <div className="row justify-content-between align-items-center">
-                  <div className="col-md-4">
+                  <div className="col-md-4 p-0">
                     <div
                       onClick={() => {
                         if (selectedRoom !== 0) {
@@ -224,7 +346,7 @@ function RoomNavigator({
                       <span>Önceki</span>
                     </div>
                   </div>
-                  <div className="col-md-4 text-center">
+                  <div className="col-md-4 p-0 text-center">
                     <span className="total-house-text">{selectedRoom + 1}</span>
 
                     <span> / </span>
@@ -232,7 +354,7 @@ function RoomNavigator({
                       {blocks[selectedBlock]?.roomCount}
                     </span>
                   </div>
-                  <div className="col-md-4 text-right">
+                  <div className="col-md-4 p-0 text-right">
                     <div
                       className={`button-white next-house-bottom ${
                         selectedRoom === blocks[selectedBlock]?.roomCount - 1
@@ -249,13 +371,14 @@ function RoomNavigator({
                 <hr />
               </div>
               <div className="col-md-12">
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center"
+               style={{ justifyContent: "center", height: "100%", textAlign: "center" }}>
                   <div className="show-houing-order" style={{ width: "100%" }}>
                     <div
                       className="full-load"
                       style={{ width: `${percentOccupancy()}%` }}
                     ></div>
-                    <span>
+                    <span style={{position: "relative", zIndex: "99999"}}>
                       <span className="room-order-progress">
                         {selectedRoom + 1}. İlan /
                       </span>{" "}
@@ -264,20 +387,20 @@ function RoomNavigator({
                       </span>
                     </span>
                   </div>
-                  <div
+                  {/* <div
                     className="icon ml-2"
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Doldurduğunuz ilanın doluluk oranını görüntüleyebilirsiniz"
                   >
                     <i className="fa fa-info-circle"></i>
-                  </div>
+                  </div> */}
                 </div>
                 <hr />
               </div>
 
               {tempItems.length > 1 && selectedRoom != 0 && (
-                <div className="col-md-12">
+                <div className="col-md-12  mt-4 p-0">
                   <div className="d-flex align-items-center">
                     <div className="w-100">
                       <p className="mb-0">Bu ilana,</p>

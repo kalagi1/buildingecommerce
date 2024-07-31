@@ -266,7 +266,7 @@ function ReactTable(props) {
       setLoading(true);
       axios
         .get(
-          "http://127.0.0.1:8000/react/my_projects?status=" +
+          "https://private.emlaksepette.com/react/my_projects?status=" +
             tabIndex +
             "&start=0&take=" +
             rowPerPage
@@ -287,7 +287,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
+        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -303,7 +303,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
+        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -330,7 +330,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "http://127.0.0.1:8000/react/my_projects?status=" +
+                  "https://private.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -400,7 +400,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "http://127.0.0.1:8000/react/my_projects?status=" +
+                  "https://private.emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -459,165 +459,6 @@ function ReactTable(props) {
             );
           })}
         </ul>
-      </div>
-      <div className="estate-table">
-        {loading ? (
-          <TableRowsLoader />
-        ) : rows.length > 0 ? (
-          <>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>No.</TableCell>
-                    <TableCell>Proje Adı</TableCell>
-                    <TableCell>Toplam İlan Sayısı</TableCell>
-                    <TableCell>Satış Adeti</TableCell>
-                    <TableCell>Onaydaki Siparişler</TableCell>
-                    <TableCell>Satışa Kapalı Adet</TableCell>
-                    <TableCell>Satışa Açık Adet</TableCell>
-                    <TableCell>Yayın Durumu</TableCell>
-                    <TableCell>İlanları Düzenle</TableCell>
-                    <TableCell>İşlem Kayıtları & Genel Düzenleme</TableCell>
-                    <TableCell>Sil</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell scope="row">{1000000 + row.id}</TableCell>
-                      <TableCell>
-                        {row.project_title}
-                        <br />
-                        <span
-                          className="table-location"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          {row.city.title} / {row.county.ilce_title} /{" "}
-                          {row.neighbourhood?.mahalle_title}
-                        </span>
-                      </TableCell>
-                      <TableCell>{row.room_count}</TableCell>
-                      <TableCell>{row.cartOrders}</TableCell>
-                      <TableCell>{row.paymentPending}</TableCell>
-                      <TableCell>{row.offSale}</TableCell>
-                      <TableCell>
-                        {row.room_count - (row.cartOrders + row.paymentPending)}
-                      </TableCell>
-                      <TableCell>
-                        {row.status == 1 ? (
-                          <div className="text-success">Yayında</div>
-                        ) : row.status == 2 ? (
-                          <div className="text-warning">
-                            Admin Onayı Bekliyor
-                          </div>
-                        ) : row.status == 3 ? (
-                          <div class="text-danger">Reddedildi</div>
-                        ) : (
-                          <div class="text-danger">Pasif</div>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <a
-                          href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/housings_v2`}
-                          class="badge badge-phoenix badge-phoenix-success"
-                        >
-                          İlanları Düzenle
-                        </a>
-                      </TableCell>
-                      <TableCell>
-                        <div className="d-flex">
-                          <a
-                            class="badge badge-phoenix badge-phoenix-warning"
-                            href={`http://127.0.0.1:8000/hesabim/projects/${row.id}/logs`}
-                          >
-                            İşlem Kayıtları
-                          </a>
-                          <a
-                            class="badge badge-phoenix badge-phoenix-success mx-3"
-                            href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${row.slug}/${row.id}`}
-                          >
-                            Genel Düzenleme
-                          </a>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="d-flex">
-                          {row.status == 2 ? (
-                            <button className="badge badge-phoenix badge-phoenix-warning">
-                              Admin Onayının Arından işlem Yapabilirsiniz
-                            </button>
-                          ) : row.status == 0 ? (
-                            <button
-                              onClick={() => {
-                                active(row.id);
-                              }}
-                              className="badge badge-phoenix badge-phoenix-success"
-                            >
-                              Aktife Al
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                deactive(row.id);
-                              }}
-                              className="badge badge-phoenix badge-phoenix-danger"
-                            >
-                              Pasife Al
-                            </button>
-                          )}
-                          <button
-                            onClick={() => {
-                              remove(row.id);
-                            }}
-                            className="badge badge-phoenix badge-phoenix-danger mx-3"
-                          >
-                            Sil
-                          </button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: 999 }]}
-              colSpan={3}
-              count={totalProjectsCount}
-              rowsPerPage={rowPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                },
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-              labelDisplayedRows={({ from, to, count }) => {
-                return count + " veriden " + from + "-" + to + " gösteriliyor ";
-              }}
-              labelRowsPerPage={"Gösterilen proje sayısı"}
-            />
-          </>
-        ) : (
-          <div className="not-found">
-            <div className="card">
-              <span>Bu kategoride proje bulunamadı</span>
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png"
-                alt=""
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       <div>
@@ -698,18 +539,18 @@ function ReactTable(props) {
           horizontal: 'center',
         }}
       >
-        <ul className="popover-project-actions">
-          <li>
-            <a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
+        <ul className="popover-project-actions p-relative">
+          <li className="d-flex">
+            <a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
-          <li><a href={`http://127.0.0.1:8000/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
-          <li><a href={`http://127.0.0.1:8000/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
-          <li>
+          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li className="d-flex" style={{ padding : '10px 20px' }}>
             {selectedRow?.status == 2 ? (
               <span className="badge badge-phoenix badge-phoenix-warning">
                 Admin Onayının Arından işlem Yapabilirsiniz
               </span>
-            ) : selectedRow?.status == 0 ? (
+            ) : selectedRow?.status == 0 &&(
               <span
                 onClick={() => {
                   active(selectedRow?.id);
@@ -717,20 +558,7 @@ function ReactTable(props) {
               >
                 Aktife Al
               </span>
-            ) : (
-              <span
-                onClick={() => {
-                  deactive(selectedRow?.id);
-                }}
-              >
-                Pasife Al
-              </span>
             )}
-          </li>
-          <li>
-            <span onClick={() => { remove(selectedRow.id); }}>
-              Sil
-            </span>
           </li>
         </ul>
       </Popover>

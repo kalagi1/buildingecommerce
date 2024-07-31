@@ -396,7 +396,7 @@
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #D32729'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
@@ -2025,7 +2025,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@vite('resources/js/app.jsx') 
+
+<script src="{{ URL::to('/') }}/build/assets/app-2a18664f.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>

@@ -636,8 +636,20 @@ class AuthController extends Controller
             'new_password.confirmed' => 'Yeni şifreler uyuşmuyor.',
         ]);
 
+        // Mevcut şifrenin doğru olup olmadığını kontrol et
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'Mevcut şifre hatalı.']);
+            return response()->json([
+                'success' => false,
+                'errors'  => ['current_password' => 'Mevcut şifre hatalı.']
+            ], 400); // 400 Bad Request HTTP kodu döndürülür
+        }
+
+        // Yeni şifre ile mevcut şifrenin aynı olup olmadığını kontrol et
+        if (Hash::check($request->new_password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'errors'  => ['new_password' => 'Yeni şifre mevcut şifrenizle aynı olamaz.']
+            ], 400); // 400 Bad Request HTTP kodu döndürülür
         }
 
         // Yeni şifreyi güncelle
@@ -645,7 +657,8 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'success' => "Şifre başarıyla güncellendi",
+            'success' => true,
+            'message' => "Şifre başarıyla güncellendi",
             'data'    => $user
         ]);
     }

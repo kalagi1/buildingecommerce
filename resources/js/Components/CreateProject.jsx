@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TypeList from "./create_project_components/TypeList";
 import ProjectForm from "./create_project_components/ProjectForm";
 import axios from "axios";
-import { baseUrl } from "../define/variables";
+import { baseUrl, getLargeData, saveLargeData } from "../define/variables";
 import EndSection from "./create_project_components/EndSection";
 import TopCreateProjectNavigator from "./create_project_components/TopCreateProjectNavigator";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,62 +13,291 @@ import PreviewHousing from "./create_project_components/PreviewHousing";
 import PreveiwProject from "./create_project_components/PreviewProject";
 import PreviewProject from "./create_project_components/PreviewProject";
 import LoadingModal from "./LoadingModal";
+import CustomModal from "./CustomModal";
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateProject(props) {
-  const [step, setStep] = React.useState(1);
-  const [loadingModal, setLoadingModal] = React.useState(false);
-  const [loading, setLoading] = React.useState(0);
-  const [housingTypes, setHousingTypes] = React.useState([]);
-  const [selectedTypes, setSelectedTypes] = React.useState([]);
-  const [projectData, setProjectData] = React.useState({});
-  const [selectedHousingType, setSelectedHousingType] = React.useState({});
-  const [haveBlocks, setHaveBlocks] = React.useState(false);
-  const [blocks, setBlocks] = React.useState([]);
-  const [roomCount, setRoomCount] = React.useState(0);
-  const [allErrors, setAllErrors] = React.useState([]);
-  const [selectedBlock, setSelectedBlock] = React.useState(null);
-  const [selectedRoom, setSelectedRoom] = React.useState(0);
-  const [anotherBlockErrors, setAnotherBlockErrors] = React.useState(0);
-  const [slug, setSlug] = React.useState("");
-  const [errorMessages, setErrorMessages] = React.useState([]);
-  const [selectedTypesTitles, setSelectedTypesTitles] = useState([]);
-  const [fillFormData, setFillFormData] = useState([]);
-  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    
+  })
+  const [loadingStart,setLoadingStart] = useState(false);
+  const [step, setStep] = useState(
+    () => JSON.parse(localStorage.getItem("step")) || 1
+  );
+  const [loadingModal, setLoadingModal] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModal")) || false
+  );
+  const [loading, setLoading] = useState(
+    () => JSON.parse(localStorage.getItem("loading")) || 0
+  );
+  const [housingTypes, setHousingTypes] = useState(
+    () => JSON.parse(localStorage.getItem("housingTypes")) || []
+  );
+  const [selectedTypes, setSelectedTypes] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypes")) || []
+  );
+
+  const [projectData, setProjectData] = useState({});
+
+  const [selectedHousingType, setSelectedHousingType] = useState(
+    () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
+  );
+  const [haveBlocks, setHaveBlocks] = useState(
+    () => JSON.parse(localStorage.getItem("haveBlocks")) || false
+  );
+  const [blocks, setBlocks] = useState([]);
+  const [roomCount, setRoomCount] = useState(
+    () => JSON.parse(localStorage.getItem("roomCount")) || 0
+  );
+  const [allErrors, setAllErrors] = useState(
+    () => JSON.parse(localStorage.getItem("allErrors")) || []
+  );
+  const [selectedBlock, setSelectedBlock] = useState(
+    () => JSON.parse(localStorage.getItem("selectedBlock")) || 0
+  );
+  const [selectedRoom, setSelectedRoom] = useState(
+    () => JSON.parse(localStorage.getItem("selectedRoom")) || 0
+  );
+  const [anotherBlockErrors, setAnotherBlockErrors] = useState(
+    () => JSON.parse(localStorage.getItem("anotherBlockErrors")) || 0
+  );
+  const [slug, setSlug] = useState(
+    () => JSON.parse(localStorage.getItem("slug")) || ""
+  );
+  const [errorMessages, setErrorMessages] = useState(
+    () => JSON.parse(localStorage.getItem("errorMessages")) || []
+  );
+  const [selectedTypesTitles, setSelectedTypesTitles] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTypesTitles")) || []
+  );
+  const [fillFormData, setFillFormData] = useState(
+    () => JSON.parse(localStorage.getItem("fillFormData")) || []
+  );
+  const [loadingModalOpen, setLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
+  );
+  const [storageLoadingModalOpen, setStorageLoadingModalOpen] = useState(
+    () => JSON.parse(localStorage.getItem("storageLoadingModalOpen")) || false
+  );
+  const [progress, setProgress] = useState(
+    () => JSON.parse(localStorage.getItem("progress")) || 0
+  );
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(step));
+  }, [step]);
+
+  useEffect(() => {
+    localStorage.setItem("loadingModal", JSON.stringify(loadingModal));
+  }, [loadingModal]);
+
+  useEffect(() => {
+    localStorage.setItem("loading", JSON.stringify(loading));
+  }, [loading]);
+
+  useEffect(() => {
+    localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
+  }, [housingTypes]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
+  }, [selectedTypes]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const storedData = await getLargeData('projectData');
+      if (storedData) {
+        console.log('Fetched Data:', storedData);
+        setProjectData(storedData);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+
+    async function fetchData2() {
+      const storedData2 = await getLargeData('blocks');
+      if (storedData2) {
+        console.log('Fetched Data:', storedData2);
+        setBlocks(storedData2);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+    fetchData();
+    fetchData2();
+  }, []);
+
+  useEffect(() => {
+    async function saveData() {
+      try {
+        const newData = { ...projectData};
+        console.log('Saving Data:', newData);
+        await saveLargeData('projectData', newData);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveData();
+    }
+  }, [projectData, loadingStart]);
+  
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedHousingType",
+      JSON.stringify(selectedHousingType)
+    );
+  }, [selectedHousingType]);
+
+  useEffect(() => {
+    localStorage.setItem("haveBlocks", JSON.stringify(haveBlocks));
+  }, [haveBlocks]);
+
+
+  useEffect(() => {
+    async function saveDataBlocks() {
+      try {
+        console.log(blocks);
+        await saveLargeData('blocks', blocks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveDataBlocks();
+    }
+  }, [blocks]);
+
+  useEffect(() => {
+    localStorage.setItem("roomCount", JSON.stringify(roomCount));
+  }, [roomCount]);
+
+  useEffect(() => {
+    localStorage.setItem("allErrors", JSON.stringify(allErrors));
+  }, [allErrors]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
+  }, [selectedBlock]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedRoom", JSON.stringify(selectedRoom));
+  }, [selectedRoom]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "anotherBlockErrors",
+      JSON.stringify(anotherBlockErrors)
+    );
+  }, [anotherBlockErrors]);
+
+  useEffect(() => {
+    localStorage.setItem("slug", JSON.stringify(slug));
+  }, [slug]);
+
+  useEffect(() => {
+    localStorage.setItem("errorMessages", JSON.stringify(errorMessages));
+  }, [errorMessages]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedTypesTitles",
+      JSON.stringify(selectedTypesTitles)
+    );
+  }, [selectedTypesTitles]);
+
+  useEffect(() => {
+    localStorage.setItem("fillFormData", JSON.stringify(fillFormData));
+  }, [fillFormData]);
+
+  useEffect(() => {
+    localStorage.setItem("loadingModalOpen", JSON.stringify(loadingModalOpen));
+  }, [loadingModalOpen]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "storageLoadingModalOpen",
+      JSON.stringify(storageLoadingModalOpen)
+    );
+  }, [storageLoadingModalOpen]);
+
+  useEffect(() => {
+    localStorage.setItem("progress", JSON.stringify(progress));
+  }, [progress]);
 
   const setProjectDataFunc = (key, value) => {
-    setProjectData({
-      ...projectData,
-      [key]: value,
+    setProjectData((prev) => {
+      const newProjectData = { ...prev, [key]: value };
+      return newProjectData;
     });
   };
+  const getFileFromBinary = (binaryData, mimeType) => {
+    return new Blob([binaryData], { type: mimeType });
+  };
+
+  const decodeBinaryData = async (data) => {
+    if (data instanceof ArrayBuffer) {
+      // Detect the MIME type based on the content (you may need a better way to determine this)
+      const mimeType = "application/pdf"; // Example for PDFs; you might need to adjust for images
+      return getFileFromBinary(data, mimeType);
+    }
+    if (Array.isArray(data)) {
+      return Promise.all(data.map(decodeBinaryData));
+    }
+    if (typeof data === "object" && data !== null) {
+      const result = {};
+      for (const [key, value] of Object.entries(data)) {
+        result[key] = await decodeBinaryData(value);
+      }
+      return result;
+    }
+    return data;
+  };
+
+
+  useEffect(() => {
+    localStorage.setItem("selectedBlock", JSON.stringify(selectedBlock));
+  }, [selectedBlock]);
+
   const prevStep = () => {
     setStep(step - 1);
+    window.scrollTo(0, 0);
   };
+  console.log(projectData);
   const nextStep = () => {
-    setStep(step + 1);
     if (step == 1) {
       setBlocks([]);
       setProjectData([]);
     }
+    setStep(step + 1);
+    window.scrollTo(0, 0);
   };
+
   function getCoords(elem) {
     // crossbrowser version
-    var box = elem.getBoundingClientRect();
+    if (elem && elem.getBoundingClientRect()) {
+      var box = elem.getBoundingClientRect();
 
-    var body = document.body;
-    var docEl = document.documentElement;
+      var body = document.body;
+      var docEl = document.documentElement;
 
-    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+      var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+      var scrollLeft =
+        window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
-    var clientTop = docEl.clientTop || body.clientTop || 0;
-    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+      var clientTop = docEl.clientTop || body.clientTop || 0;
+      var clientLeft = docEl.clientLeft || body.clientLeft || 0;
 
-    var top = box.top + scrollTop - clientTop;
-    var left = box.left + scrollLeft - clientLeft;
+      var top = box.top + scrollTop - clientTop;
+      var left = box.left + scrollLeft - clientLeft;
 
-    return { top: Math.round(top), left: Math.round(left) };
+      return { top: Math.round(top), left: Math.round(left) };
+    }
   }
 
   const createRoom = async (data) => {
@@ -141,30 +370,156 @@ function CreateProject(props) {
         } else {
           var boolCheck = false;
           formDataHousing.forEach((formDataHousing, order) => {
-            if (!formDataHousing?.className?.includes("project-disabled")) {
-              if (formDataHousing.required) {
-                if (blocks.length < 1) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                } else {
-                  if (
-                    !blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ]
-                  ) {
-                    if (!boolCheck) {
-                      var elementDesc = document.getElementById(
-                        formDataHousing.name.replace("[]", "")
-                      );
-                      window.scrollTo({
-                        top:
-                          getCoords(elementDesc).top -
-                          document.getElementById("navbarDefault")
-                            .offsetHeight -
-                          30,
-                        behavior: "smooth", // Yumuşak kaydırma efekti için
-                      });
-
-                      boolCheck = true;
+            if(slug == "satilik"){
+              if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
+                    tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ]
+                    ) {
+                      if (!boolCheck) {
+                        var elementDesc = document.getElementById(
+                          formDataHousing.name.replace("[]", "")
+                        );
+                        window.scrollTo({
+                          top:
+                            getCoords(elementDesc).top -
+                            document.getElementById("navbarDefault")
+                              .offsetHeight -
+                            30,
+                          behavior: "smooth", // Yumuşak kaydırma efekti için
+                        });
+  
+                        boolCheck = true;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if(slug == "devren-satilik"){
+              if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
+                    tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ]
+                    ) {
+                      if (!boolCheck) {
+                        var elementDesc = document.getElementById(
+                          formDataHousing.name.replace("[]", "")
+                        );
+                        window.scrollTo({
+                          top:
+                            getCoords(elementDesc).top -
+                            document.getElementById("navbarDefault")
+                              .offsetHeight -
+                            30,
+                          behavior: "smooth", // Yumuşak kaydırma efekti için
+                        });
+  
+                        boolCheck = true;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if(slug == "kiralik"){
+              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
+                    tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ]
+                    ) {
+                      if (!boolCheck) {
+                        var elementDesc = document.getElementById(
+                          formDataHousing.name.replace("[]", "")
+                        );
+                        window.scrollTo({
+                          top:
+                            getCoords(elementDesc).top -
+                            document.getElementById("navbarDefault")
+                              .offsetHeight -
+                            30,
+                          behavior: "smooth", // Yumuşak kaydırma efekti için
+                        });
+  
+                        boolCheck = true;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if(slug == "devren-kiralik"){
+              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
+                    tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ]
+                    ) {
+                      if (!boolCheck) {
+                        var elementDesc = document.getElementById(
+                          formDataHousing.name.replace("[]", "")
+                        );
+                        window.scrollTo({
+                          top:
+                            getCoords(elementDesc).top -
+                            document.getElementById("navbarDefault")
+                              .offsetHeight -
+                            30,
+                          behavior: "smooth", // Yumuşak kaydırma efekti için
+                        });
+  
+                        boolCheck = true;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if(slug == "gunluk-kiralik"){
+              if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
+                    tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ]
+                    ) {
+                      if (!boolCheck) {
+                        var elementDesc = document.getElementById(
+                          formDataHousing.name.replace("[]", "")
+                        );
+                        window.scrollTo({
+                          top:
+                            getCoords(elementDesc).top -
+                            document.getElementById("navbarDefault")
+                              .offsetHeight -
+                            30,
+                          behavior: "smooth", // Yumuşak kaydırma efekti için
+                        });
+  
+                        boolCheck = true;
+                      }
                     }
                   }
                 }
@@ -434,7 +789,8 @@ function CreateProject(props) {
         if (
           slug == "satilik" &&
           !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")
+          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
+          !formDataHousing?.className?.includes("only-not-show-project")
         ) {
           if (!formDataHousing?.className?.includes("project-disabled")) {
             if (formDataHousing.required) {
@@ -462,7 +818,8 @@ function CreateProject(props) {
         if (
           slug == "devren-satilik" &&
           !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")
+          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
+          !formDataHousing?.className?.includes("only-not-show-project")
         ) {
           if (!formDataHousing?.className?.includes("project-disabled")) {
             if (formDataHousing.required) {
@@ -490,7 +847,8 @@ function CreateProject(props) {
         if (
           slug == "kiralik" &&
           !formDataHousing?.className?.includes("only-show-project-sale") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")
+          !formDataHousing?.className?.includes("only-show-project-daliy-rent") && 
+          !formDataHousing?.className?.includes("only-not-show-project")
         ) {
           if (!formDataHousing?.className?.includes("project-disabled")) {
             if (formDataHousing.required) {
@@ -518,7 +876,8 @@ function CreateProject(props) {
         if (
           slug == "devren-kiralik" &&
           !formDataHousing?.className?.includes("only-show-project-sale") &&
-          !formDataHousing?.className?.includes("only-show-project-daliy-rent")
+          !formDataHousing?.className?.includes("only-show-project-daliy-rent")&& 
+          !formDataHousing?.className?.includes("only-not-show-project")
         ) {
           if (!formDataHousing?.className?.includes("project-disabled")) {
             if (formDataHousing.required) {
@@ -546,7 +905,8 @@ function CreateProject(props) {
         if (
           slug == "gunluk-kiralik" &&
           !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
+          !formDataHousing?.className?.includes("only-show-project-sale") && 
+          !formDataHousing?.className?.includes("only-not-show-project")
         ) {
           if (!formDataHousing?.className?.includes("project-disabled")) {
             if (formDataHousing.required) {
@@ -643,127 +1003,229 @@ function CreateProject(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      const formData = new FormData();
-
-      Object.keys(projectData).forEach((key) => {
-        if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-          if (Array.isArray(projectData[key])) {
-            projectData[key].forEach((data, index) => {
-              formData.append(`projectData[${key}][${index}]`, data);
-            });
-          } else {
-            formData.append(`projectData[${key}]`, projectData[key]);
-          }
-        }
-      });
-
-      blocks.forEach((block, blockIndex) => {
-        formData.append(`blocks[${blockIndex}][name]`, block.name);
-        formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-      });
-
-      formData.append("haveBlocks", haveBlocks);
-      formData.append("totalRoomCount", totalRoomCount());
-      selectedTypes.forEach((data, index) => {
-        formData.append(`selectedTypes[${index}]`, data);
-      });
-     
-      setFillFormData(formData);
       setStep(3);
     }
   };
-  const finishCreateProject = () => {
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("fillFormData");
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      const formData = new FormData();
+      Object.entries(parsedFormData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      setFillFormData(formData);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedStep = localStorage.getItem("step");
+    console.log(storedStep);
+    console.log(blocks);
+    console.log(selectedBlock);
+
+    if (storedStep != 1 && storedStep != 4) {
+      setLoadingModalOpen(false);
+      setStorageLoadingModalOpen(true);
+    } else {
+      setStep(1);
+    }
+  }, []);
+
+  const handleContinue = () => {
+    const storedStep = localStorage.getItem("step");
+    if (storedStep) {
+      setStep(Number(storedStep));
+    }
+    setStorageLoadingModalOpen(false);
+  };
+
+  function base64ToFile(base64, filename) {
+    const arr = base64.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  const handleStartOver = () => {
+    setStep(1);
+    setStorageLoadingModalOpen(false);
+    setLoadingModal(false);
+    setLoading(0);
+    setHousingTypes([]);
+    setSelectedTypes([]);
+    setProjectData({});
+    setSelectedHousingType({});
+    setHaveBlocks(false);
+    setBlocks([]);
+    setRoomCount(0);
+    setAllErrors([]);
+    setSelectedBlock(null);
+    setSelectedRoom(0);
+    setAnotherBlockErrors(0);
+    setSlug("");
+    setErrorMessages([]);
+    setSelectedTypesTitles([]);
+    setFillFormData([]);
+    setLoadingModalOpen(false);
+    setProgress(0);
+
+    localStorage.removeItem("step");
+    localStorage.removeItem("loadingModal");
+    localStorage.removeItem("loading");
+    localStorage.removeItem("housingTypes");
+    localStorage.removeItem("selectedTypes");
+    localStorage.removeItem("projectData");
+    localStorage.removeItem("selectedHousingType");
+    localStorage.removeItem("haveBlocks");
+    localStorage.removeItem("blocks");
+    localStorage.removeItem("roomCount");
+    localStorage.removeItem("allErrors");
+    localStorage.removeItem("selectedBlock");
+    localStorage.removeItem("selectedRoom");
+    localStorage.removeItem("anotherBlockErrors");
+    localStorage.removeItem("slug");
+    localStorage.removeItem("errorMessages");
+    localStorage.removeItem("selectedTypesTitles");
+    localStorage.removeItem("fillFormData");
+    localStorage.removeItem("loadingModalOpen");
+    localStorage.removeItem("progress");
+
+    localStorage.removeItem("formGenerated");
+    localStorage.removeItem("updatedRoomCount");
+    localStorage.removeItem("selectedAccordion");
+    localStorage.removeItem("checkedItems");
+    localStorage.removeItem("payDecOpen");
+    localStorage.removeItem("rendered");
+    localStorage.removeItem("validationErrors");
+    localStorage.removeItem("selectedLocation");
+  };
+  const finishCreateProject = async () => {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
     let requestPromises = [];
-    
+
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
         prev < 90 ? prev + Math.floor(Math.random() * 10) + 1 : 90
       );
     }, 500); // Increase progress every half a second
-  
-    axios
-      .post(baseUrl + "create_project", fillFormData, {
+
+    const formData = new FormData();
+    console.log(projectData);
+    Object.keys(projectData).forEach((key) => {
+      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
+        if (Array.isArray(projectData[key])) {
+          projectData[key].forEach((data, index) => {
+            console.log(key,data);
+            formData.append(`projectData[${key}][${index}]`, data);
+          });
+        } else {
+          formData.append(`projectData[${key}]`, projectData[key]);
+          console.log(key,projectData[key]);
+        }
+      }
+    });
+
+    blocks.forEach((block, blockIndex) => {
+      formData.append(`blocks[${blockIndex}][name]`, block.name);
+      formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
+    });
+
+    formData.append("haveBlocks", haveBlocks);
+    formData.append("totalRoomCount", totalRoomCount());
+    selectedTypes.forEach((data, index) => {
+      formData.append(`selectedTypes[${index}]`, data);
+    });
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    setFillFormData(formData);
+
+    try {
+      const res = await axios.post(baseUrl + "create_project", formData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
           "Content-Type": `multipart/form-data;`,
         },
-      })
-      .then((res) => {
-        if (res.data.status) {
-          var housingTemp = 1;
-          blocks.forEach((block, blockIndex) => {
-            block.rooms.forEach((room, roomIndex) => {
-              const formDataRoom = new FormData();
-              formDataRoom.append("project_id", res.data.project.id);
-              formDataRoom.append("room_order", housingTemp);
-              Object.keys(room).forEach((key) => {
-                if (key === "payDecs") {
-                  room.payDecs.forEach((payDec, payDecIndex) => {
-                    formDataRoom.append(
-                      `room[payDecs][${payDecIndex}][price]`,
-                      payDec.price
-                    );
-                    formDataRoom.append(
-                      `room[payDecs][${payDecIndex}][date]`,
-                      payDec.date
-                    );
-                  });
-                } else {
-                  if (!key.includes("imagex")) {
-                    formDataRoom.append(
-                      `room[${key.replace("[]", "")}]`,
-                      room[key]
-                    );
-                  }
-                }
-              });
-  
-              const callCreateRoom = () => {
-                return new Promise((resolve) => {
-                  setTimeout(async () => {
-                    await createRoomAsync(formDataRoom);
-                    resolve(); // Resolve promise when room creation is done
-                  }, roomIndex * 1000); // Add delay between rooms
-                });
-              };
-  
-              // Add the promise to the requestPromises array
-              requestPromises.push(callCreateRoom());
-  
-              housingTemp++; // Increment room order
-            });
-          });
-  
-          Promise.all(requestPromises).then(() => {
-            clearInterval(progressInterval);
-            setProgress(100); // Set progress to 100% when all requests are complete
-            setLoadingModalOpen(false);
-            setStep(4);
-            setFillFormData(null);
-          });
-        } else {
-          clearInterval(progressInterval);
-          setLoadingModalOpen(false);
-          toast.error(
-            "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-          );
-        }
-      })
-      .catch((error) => {
-        clearInterval(progressInterval);
-        setLoadingModalOpen(false);
-        console.log(error);
-        toast.error(
-          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
-        );
       });
+
+      if (res.data.status) {
+        var housingTemp = 1;
+
+        blocks.forEach((block, blockIndex) => {
+          block.rooms.forEach((room, roomIndex) => {
+            const formDataRoom = new FormData();
+            formDataRoom.append("project_id", res.data.project.id);
+            formDataRoom.append("room_order", housingTemp);
+            Object.keys(room).forEach((key) => {
+              if (key == "payDecs") {
+                room.payDecs.forEach((payDec, payDecIndex) => {
+                  formDataRoom.append(
+                    `room[payDecs][${payDecIndex}][price]`,
+                    payDec.price
+                  );
+                  formDataRoom.append(
+                    `room[payDecs][${payDecIndex}][date]`,
+                    payDec.date
+                  );
+                });
+              } else {
+                if (!key.includes("imagex")) {
+                  formDataRoom.append(
+                    `room[${key.replace("[]", "")}]`,
+                    room[key]
+                  );
+                }
+              }
+            });
+
+            const callCreateRoom = () => {
+              return new Promise((resolve) => {
+                setTimeout(async () => {
+                  const result = await createRoomAsync(formDataRoom);
+                  resolve(result);
+                }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+              });
+            };
+
+            // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+            requestPromises.push(callCreateRoom());
+
+            housingTemp++; // Oda sırasını arttırma
+          });
+        });
+        await Promise.all(requestPromises);
+        clearInterval(progressInterval);
+        setProgress(100); // Set progress to 100% when all requests are complete
+        setLoadingModalOpen(false);
+        setStep(4);
+        setFillFormData(null);
+      } else {
+        throw new Error("Project creation failed");
+      }
+    } catch (error) {
+      clearInterval(progressInterval);
+      setLoadingModalOpen(false);
+      console.error(error);
+      toast.error(
+        "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+      );
+    }
   };
-  
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -852,7 +1314,26 @@ function CreateProject(props) {
       </Modal> */}
 
       <LoadingModal open={loadingModalOpen} progress={progress} />
-
+      <CustomModal
+        isOpen={storageLoadingModalOpen}
+        onClose={() => setStorageLoadingModalOpen(false)}
+      >
+        <div className="custom-modal-header">
+          Kaldığın yerden devam etmek ister misin yoksa sıfırdan mı başlamak
+          istersin?
+        </div>
+        <div className="custom-modal-buttons">
+          <button className="custom-modal-button" onClick={handleContinue}>
+            Devam Et
+          </button>
+          <button
+            className="custom-modal-button custom-modal-button-secondary"
+            onClick={handleStartOver}
+          >
+            Yeni İlan Ekle
+          </button>
+        </div>
+      </CustomModal>
       <ToastContainer />
       {step == 1 ? (
         <TypeList

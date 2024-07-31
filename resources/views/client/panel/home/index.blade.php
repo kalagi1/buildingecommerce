@@ -371,7 +371,7 @@
                                                         @endphp
                                                     </td>
                                                     <td> <a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                                            href="{{ route('institutional.housing.edit', ['id' => $housing->id]) }}">Düzenle</a>
+                                                            href="{{ route('institutional.housing.edit', ['id' => hash_id($housing->id)]) }}">Düzenle</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -18,7 +18,7 @@ function FileUpload({
   const [uploadingOrder, setUploadingOrder] = useState([[]]);
   const [imageLoading, setImageLoading] = useState(false);
   const [loadingImageCount, setLoadingImageCount] = useState(0);
-
+  const [selectedImages,setSelectedImages] = useState([]);
   const fileUpload = async (event) => {
     if (!document) {
       const maxSize = 3 * 1024 * 1024; // 3 MB maksimum dosya boyutu
@@ -72,14 +72,25 @@ function FileUpload({
           }
 
           if (projectData[fileName + "_imagesx"]) {
-            setProjectData({
-              ...projectData,
-              [fileName + "_imagesx"]: [
-                ...projectData[fileName + "_imagesx"],
-                ...tempImages,
-              ],
-              [fileName]: [...projectData[fileName], ...tempImages2],
-            });
+            if(projectData[fileName]){
+              setProjectData({
+                ...projectData,
+                [fileName + "_imagesx"]: [
+                  ...projectData[fileName + "_imagesx"],
+                  ...tempImages,
+                ],
+                [fileName]: [...projectData[fileName], ...tempImages2],
+              });
+            }else{
+              setProjectData({
+                ...projectData,
+                [fileName + "_imagesx"]: [
+                  ...tempImages,
+                ],
+                [fileName]: [...tempImages2],
+              });
+            }
+            
           } else {
             setProjectData({
               ...projectData,
@@ -87,6 +98,7 @@ function FileUpload({
               [fileName]: [...tempImages2],
             });
           }
+
         } else {
           toast.error(
             "Toplam resim sayısı 40'ı geçiyor. Lütfen resim sayısı sınırına dikkat edin"
@@ -125,13 +137,42 @@ function FileUpload({
         };
       }
     } else {
+      const maxSize = 3 * 1024 * 1024; // 3 MB maksimum dosya boyutu
       const file = event.target.files[0];
       if (requiredType) {
         var splitFile = file.type.split("/");
+        
         if (!requiredType.includes(splitFile[splitFile.length - 1])) {
           toast.error("Dosya tipi " + requiredType.join(",") + " olmalıdır");
         } else {
-          setProjectDataFunc(fileName, file);
+          const file = event.target.files[0];
+          const reader = new FileReader();
+
+          if (file) {
+            if (file.size > maxSize) {
+              toast.error(
+                `Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük bir dosya seçin.`
+              );
+              return; // Büyük dosya seçildiği için işlemi sonlandır
+            }
+            reader.readAsDataURL(file);
+          }
+
+          if (requiredType) {
+            var splitFile = file.type.split("/");
+            if (!requiredType.includes(splitFile[splitFile.length - 1])) {
+              toast.error("Dosya tipi " + requiredType.join(",") + " olmalıdır");
+              return; // Büyük dosya seçildiği için işlemi sonlandır
+            }
+          }
+
+          reader.onload = () => {
+            setProjectData({
+              ...projectData,
+              [fileName + "_imagex"]: reader.result,
+              [fileName]: file,
+            });
+          };
         }
       } else {
         setProjectDataFunc(fileName, file);
@@ -246,6 +287,34 @@ function FileUpload({
     });
   };
 
+  const selectedImageChanges = (imageIndex) => {
+    if(selectedImages.find((selectedImage) => selectedImage.index == imageIndex)){
+      var tempImages = selectedImages.filter((selectedImage) => selectedImage.index != imageIndex)
+      setSelectedImages(tempImages);
+    }else{
+      setSelectedImages([
+        ...selectedImages,
+        {
+          index : imageIndex
+        }
+      ])
+    }
+    
+  }
+
+  const removeSelectedImages = () => {
+    var tempImages = projectData[fileName].filter((file,index) =>  {if(selectedImages.find(selectedImage => selectedImage.index == index)){ }else{return file}})
+    var tempImagesx = projectData[fileName+ "_imagesx"].filter((file,index) =>  {if(selectedImages.find(selectedImage => selectedImage.index == index)){ }else{return file}})
+
+    setProjectData({
+      ...projectData,
+      [fileName + "_imagesx"]: tempImagesx,
+      [fileName]: tempImages,
+    })
+
+    setSelectedImages([]);
+  }
+
   return (
     <div class="project_imagex_flex">
       {/* <span className="section-title mt-4 housing_after_step">{title}</span> */}
@@ -293,7 +362,7 @@ function FileUpload({
                 <span class="d-block">Dosya Eklediniz</span>{" "}
                 <a
                   class="btn btn-info"
-                  href="http://127.0.0.1:8000/housing_documents/document_temp106.pdf"
+                  href="https://private.emlaksepette.com/housing_documents/document_temp106.pdf"
                   download=""
                 >
                   Mevcut Dosyayı İndir
@@ -348,66 +417,75 @@ function FileUpload({
                       }}
                       setList={() => {}}
                     >
-                      {projectData[fileName + "_imagesx"].map(
-                        (image, imageIndex) => {
-                          return (
-                            <div className="project_imagex">
-                              <img src={image} />
-                              <div
-                                onClick={() => {
-                                  removeImage(imageIndex);
-                                }}
-                                className="remove-area"
-                              >
-                                <i className="fa fa-trash"></i>
+                      <>
+                        {projectData[fileName + "_imagesx"].map(
+                          (image, imageIndex) => {
+                            return (
+                              <div className={"project_imagex "+(selectedImages.find(selectedImage => selectedImage.index == imageIndex) ? "checked-image" : "")}>
+                                <img src={image} />
+                                <div
+                                  onClick={() => {
+                                    removeImage(imageIndex);
+                                  }}
+                                  className="remove-area"
+                                >
+                                  <i className="fa fa-trash"></i>
+                                </div>
+                                <div className="image-checkbox">
+                                  <input checked={selectedImages.find(selectedImage => selectedImage.index == imageIndex)} onChange={() => {selectedImageChanges(imageIndex)}} type="checkbox" name="" id="" />
+                                </div>
                               </div>
-                            </div>
-                          );
-                        }
-                      )}
+                            );
+                          }
+                        )}
+                        {imageLoading ? (
+                          multiple
+                            ? Array.from({ length: loadingImageCount }).map(
+                                (_, imageIndex) => {
+                                  const imageUrl =
+                                    uploadingOrder[0]?.[imageIndex]; // Güvenli erişim işleci (?.) kullanarak hata kontrolü sağlanıyor
+
+                                  if (imageUrl) {
+                                    return (
+                                      <div className="project_imagex">
+                                        <img src={imageUrl} />
+                                      </div>
+                                    );
+                                  } else {
+                                    return (
+                                      <div className="project_imagex">
+                                        <span
+                                          style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            height: "100%",
+                                          }}
+                                        >
+                                          <i className="fa fa-spinner spinner-borderx"></i>
+                                        </span>
+                                      </div>
+                                    );
+                                  }
+                                }
+                              )
+                            : ""
+                        ) : (
+                          ""
+                        )}
+                      </>
                     </ReactSortable>
                   ) : (
                     ""
                   )}
-                  {imageLoading ? (
-                    <div>
-                      <div className="cover-photo">
-                        {multiple
-                          ? Array.from({ length: loadingImageCount }).map(
-                              (_, imageIndex) => {
-                                const imageUrl =
-                                  uploadingOrder[0]?.[imageIndex]; // Güvenli erişim işleci (?.) kullanarak hata kontrolü sağlanıyor
-
-                                if (imageUrl) {
-                                  return (
-                                    <div className="project_imagex">
-                                      <img src={imageUrl} />
-                                    </div>
-                                  );
-                                } else {
-                                  return (
-                                    <div className="project_imagex">
-                                      <span
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          height: "100%",
-                                        }}
-                                      >
-                                        <i className="fa fa-spinner spinner-borderx"></i>
-                                      </span>
-                                    </div>
-                                  );
-                                }
-                              }
-                            )
-                          : ""}
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                  
+                  {
+                    selectedImages.length > 0 ? 
+                      <button onClick={() => {removeSelectedImages()}} className="add-project-pay-dec-button" style={{margin : "10px"}}>
+                        Seçilen Resimleri Sil
+                      </button>
+                    : ""
+                  }
                 </>
               ) : (
                 <div className="project_imagex">

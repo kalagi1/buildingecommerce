@@ -155,7 +155,7 @@
                                             style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 <div
-                                                    style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px;height:100%">
+                                                    style="background-color: #D32729 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                     <p
                                                         style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                         No <br>
@@ -280,14 +280,14 @@
                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'] - $offer->discount_amount, 0, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
-                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                                        style="color: #D32729 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                         ₺
 
                                                                     </h6>
                                                                 @else
                                                                     <h6
-                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
+                                                                        style="color: #D32729 !important;position: relative;top:4px;font-weight:600">
                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                         ₺
                                                                     </h6>
@@ -308,7 +308,7 @@
                                                     <span class="price-mobile">
                                                         @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                             <h6
-                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
+                                                                style="color: #D32729 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                 ₺
                                                             </h6>
@@ -319,7 +319,7 @@
                                                                 ₺</h6>
                                                         @else
                                                             <h6
-                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
+                                                                style="color: #D32729 !important;position: relative;top:4px;font-weight:600">
                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}₺
                                                             </h6>
                                                         @endif
@@ -337,7 +337,7 @@
                                                         <button class="btn second-btn soldBtn" disabled
                                                             @if ($sold[0]->status == '0') style="background: orange !important;color:White"
                                                     @else 
-                                                    style="background: #EA2B2E !important;color:White" @endif>
+                                                    style="background: #D32729 !important;color:White" @endif>
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Rezerve Edildi</span>
                                                             @else
@@ -486,13 +486,13 @@
                         </div>
                     </div>
                     <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 15px">
-                        <div class="d-flex justify-content-between align-items-center" style="height: 100%">
+                        <div class="d-flex justify-content-between align-items-center mb-5" style="height: 100%">
                             <span
                                 style="    height: 100%;
                             font-size: 11px !important;
                             width: 15% !important;
                             padding: 3px 10px;
-                            background: #EA2B2E !important;
+                            background: #D32729 !important;
                             color: white;
                             text-align: center;">No
                                 <br> {{ $room_order }}</span>

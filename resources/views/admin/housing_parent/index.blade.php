@@ -35,7 +35,7 @@
                                         <i class="fa fa-check"></i>
                                     </div>
                                     <div class="finish-text">
-                                        <p>Kategori Seçimi Tamanlanmıştır</p>
+                                        <p>Kategori Seçimi Tamamlanmıştır</p>
                                     </div>
                                     <div class="finish-button-first">
                                         <button class="btn btn-info">

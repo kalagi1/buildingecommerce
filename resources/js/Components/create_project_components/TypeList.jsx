@@ -244,7 +244,7 @@ function TypeList({
                   <i className="fa fa-check"></i>
                 </div>
                 <div className="finish-text">
-                  <p>Kategori Seçimi Tamanlanmıştır</p>
+                  <p>Kategori Seçimi Tamamlanmıştır</p>
                 </div>
                 <div className="finish-button-first">
                   <button

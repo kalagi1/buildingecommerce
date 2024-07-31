@@ -212,6 +212,431 @@
                     </div>
                 </div>
 
+                @if ($order && $order->refund)
+
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
+
+
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->refund->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">İade işlemi Onay Aşamasındadır</div>
+                                    <div class="status-description">İade İşlemi şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @else
+                                @if ($order->refund->status == 1)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color: #0FA958;">İade İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İade talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @elseif ($order->refund->status == 2)
+                                    <div class="status-header">
+                                        <div class="status-title" style="color:#721c24;">İade işlemi reddedildi</div>
+                                        <div class="status-description">Üzgünüz, İade talebiniz reddedilmiştir.
+                                            Konuyla ilgili daha fazla bilgi veya destek için lütfen bizimle iletişime
+                                            geçiniz.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i')}}</div>
+                                @else
+                                    <div class="status-header">
+                                        <div class="status-title " style="color: #0FA958;">İade İşlemi onaylandı
+                                        </div>
+                                        <div class="status-description">İade talebiniz onaylanmıştır. İşleminizi başarıyla
+                                            gerçekleştirdik.
+                                            Geri ödeme süreci başlatılmıştır ve birkaç gün içerisinde hesabınıza
+                                            yansıyacaktır.
+                                            Herhangi bir sorunuz varsa, bizimle iletişime geçmekten çekinmeyin.</div>
+                                    </div>
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                @endif
+                            @endif
+
+
+                        </div>
+                        <div class="horizontal-line"></div>
+
+                        @if ($order->refund->status == 3)
+                            <div class="status-card bg-light">
+                                <div class="status-icon text-success box-shadow-light">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">
+                                        Geri Ödeme Tamamlandı
+                                    </div>
+                                    <div class="status-description">
+                                        Ücret iadeniz başarıyla gerçekleştirilmiştir.
+                                        İlgili tutarın hesabınıza yansıması birkaç gün sürebilir.
+                                        Herhangi bir sorunuz veya sorun yaşamanız durumunda bizimle iletişime geçmekten
+                                        çekinmeyin.
+                                    </div>
+                                </div>
+
+
+
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->refund->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+                @else
+                <div class="order-detail-inner mb-3">
+                    <div class="title mb-3">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h4>Sipariş Onaylama Durumu</h4>
+                    </div>
+                    <div class="container mt-5">
+
+
+
+                        <div class="status-card bg-light-blue">
+                            <div class="status-icon text-primary box-shadow-blue ">
+                                <i class=""><img class="pay-icon" src="{{ asset('images/template/pay-icon.png') }}"
+                                        alt=""></i>
+                            </div>
+                            @if ($order->status == 0)
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödeme Onay Aşamasındadır</div>
+                                    <div class="status-description">Ödeme şu anda onay aşamasındadır. Sürecin güncel
+                                        durumunu ve gelişmeleri buradan takip edebilirsiniz.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @else
+                                <div class="status-header">
+                                    <div class="status-title text-primary">Ödemenizi Aldık. Teşekkür Ederiz !</div>
+                                    <div class="status-description">Ödeme şu an da havuz hesabında. Satıcı ücretini
+                                        sipariş
+                                        tamamlandığında alacak.</div>
+                                </div>
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            @endif
+
+
+                        </div>
+                        <div class="horizontal-line"></div>
+
+
+
+                        @if ($order && $order->status && $order->status == 1)
+                            <div class="status-card bg-light-green">
+                                <div class="status-icon box-shadow-green text-success">
+                                    <i class=""><img class="pay-icon"
+                                            src="{{ asset('images/template/guard-icon.png') }}" alt=""></i>
+                                </div>
+                                <div class="status-header">
+                                    <div class="status-title text-success">Kaporanız Emlak Sepette ile Güvende</div>
+                                    <div class="status-description">Sipariş onayınız bekleniyor.</div>
+                                </div>
+
+                                @if (isset($order->share) && optional($order->share)->status != 1)
+                                    <div class="approve-button">
+                                        <a class="btn btn-success"
+                                            href="{{ route('client.approve-share', ['share' => $order->share->id]) }}"
+                                            @if ($order->share->status == 1) disabled @endif>
+                                            Onayla</a>
+                                        {{-- <button class="btn btn-danger"
+                                            onclick="submitFormPriceAndShare('{{ route('client.unapprove-share', ['share' => $order->share->id]) }}')"
+                                            @if ($order->share->status != 1) disabled @endif>Hakedişleri
+                                            Reddet</button> --}}
+
+                                        <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İptal Et</button>
+                                    </div>
+                                @endif
+
+
+                                <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+
+                            @if (($order->share && $order->share->status == 1) || ($order->price && $order->price->status == 1))
+                                <div class="status-card bg-light">
+                                    <div class="status-icon text-success box-shadow-light">
+                                        <i class=""><img class="pay-icon"
+                                                src="{{ asset('images/template/success-icon.png') }}" alt=""></i>
+                                    </div>
+                                    <div class="status-header">
+                                        <div class="status-title text-success">Siparişiniz Başarıyla Tamamlandı</div>
+                                        <div class="status-description"> Kapora ödemesi satıcıya aktarılacaktır. Satıcı ve
+                                            ilan hakkında değerlendirme
+                                            yapabilirsiniz. </div>
+                                    </div>
+                                    {{-- <div class="rating">
+                                      
+                                    </div> --}}
+
+
+                                    <div class="status-timestamp">{{ \Carbon\Carbon::parse($order->created_at)->locale('tr')->translatedFormat('d F Y, H:i') }}</div>
+                                </div>
+
+                                <div class="horizontal-line"></div>
+
+                                @if ($cartType == 'housing' && canUserAddComment($cartId))
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                    Yorum Ekle
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
+
+                                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                                        @csrf
+                                                        <input type="hidden" name="rate" id="rate" />
+
+                                                        <input type="hidden" name="type" id="type"
+                                                            value="{{ $cartType }}" />
+                                                        <input type="hidden" name="id" id="id"
+                                                            value="{{ $cartId }}" />
+
+                                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                            <div class="d-flex rating-area">
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                                <input type="file" style="display: none;"
+                                                                    class="fileinput" name="images[]" multiple
+                                                                    accept="image/*" />
+                                                                <button type="button" class="btn btn-primary q-button"
+                                                                    id="selectImageButton">Resimleri Seç</button>
+                                                            </div>
+                                                        </div>
+                                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                                            onclick="submitForm()">Yorumu
+                                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                        <div id="previewContainer"
+                                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                                                        </div>
+
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @elseif ($cartType == 'project' && canUserAddProjectComment($cartId))
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                    Yorum Ekle
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
+
+                                                    <form id="commentForm" enctype="multipart/form-data" class="mt-5">
+                                                        @csrf
+                                                        <input type="hidden" name="rate" id="rate" />
+
+                                                        <input type="hidden" name="type" id="type"
+                                                            value="{{ $cartType }}" />
+                                                        <input type="hidden" name="id" id="id"
+                                                            value="{{ $cartId }}" />
+
+                                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                                            <div class="d-flex rating-area">
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1" version="1.1"
+                                                                    viewBox="0 0 50 50" width="24px"
+                                                                    xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50" width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="#000000" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                                <input type="file" style="display: none;"
+                                                                    class="fileinput" name="images[]" multiple
+                                                                    accept="image/*" />
+                                                                <button type="button" class="btn btn-primary q-button"
+                                                                    id="selectImageButton">Resimleri Seç</button>
+                                                            </div>
+                                                        </div>
+                                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                                        <button type="button" class="ud-btn btn-white2 mt-3"
+                                                            onclick="submitForm()">Yorumu
+                                                            Gönder<i class="fal fa-arrow-right-long"></i></button>
+                                                        <div id="previewContainer"
+                                                            style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                                                        </div>
+
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @else
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                                <div class="accordion-body">
+                                                    Yorumunuz Başarılıyla Gönderilmiştir.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endif
+                            @endif
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+               
+
                 <div class="order-detail-inner">
                     <div class="title mb-3">
                         <i class="fa fa-edit"></i>
@@ -225,8 +650,6 @@ Sipariş Notu eklenmedi
 @endif
                     </textarea>
                 </div>
-
-
 
             </div>
         </div>
@@ -375,7 +798,9 @@ Sipariş Notu eklenmedi
                                     <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
                                 @endif
 
-                                <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1"
+                                    aria-hidden="true">
+
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -384,421 +809,160 @@ Sipariş Notu eklenmedi
                                                 <div class="">
                                                     <div class="progress">
                                                         <div class="progress-bar
-                                                                    progress-bar-striped bg-success" 
-                                                             role="progressbar"
-                                                             style="width: 0%"
-                                                            aria-valuenow="0" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
+                                                                    progress-bar-striped bg-success"
+                                                            role="progressbar" style="width: 0%" aria-valuenow="0"
+                                                            aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
-                                             
+
                                                     <div class="step active">
                                                         <p class="text-center mb-4">İade İşlemi</p>
                                                         <div class="mb-3">
                                                             @if (file_exists(public_path('refundpolicy/iadeislemleri.pdf')))
-                                                                    <iframe
-                                                                        src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
-                                                                        width="100%" height="400px">
-                                                                        Tarayıcınız yerleşik PDF dosyalarını
-                                                                        desteklemiyor. PDF dosyasını indirmek için
-                                                                        lütfen <a
-                                                                            href="{{ asset('refundpolicy/iadeislemleri.pdf') }}">buraya
-                                                                            tıklayın</a>.
-                                                                    </iframe>
-                                                                @else
-                                                                    <p>PDF bulunamadı.</p>
-                                                                @endif
-                                                                <form class="needs-validation was-validated" style="white-space: nowrap;"
-                                                                    id="wizardValidationForm1" novalidate="novalidate"
-                                                                    data-wizard-form="1">
-                                                                    @csrf
-                                                                    <input type="hidden" name="cart_order_id"
-                                                                        value="{{ $order->id }}">
-                                                                    
-                                                                        <div class="custom-checkbox">
-                                                                            <input type="checkbox" name="terms" required="required">
-                                                                            <span class="checkmark"></span>
-                                                                            <label class="form-check-label text-body" for="bootstrap-wizard-validation-wizard-checkbox">
-                                                                                Aydınlatma Metinini Okudum Onaylıyorum
-                                                                            </label>
-                                                                        </div>
-                                                                        
-                                                                </form>
+                                                                <iframe
+                                                                    src="{{ asset('refundpolicy/iadeislemleri.pdf') }}"
+                                                                    width="100%" height="400px">
+                                                                    Tarayıcınız yerleşik PDF dosyalarını
+                                                                    desteklemiyor. PDF dosyasını indirmek için
+                                                                    lütfen <a
+                                                                        href="{{ asset('refundpolicy/iadeislemleri.pdf') }}">buraya
+                                                                        tıklayın</a>.
+                                                                </iframe>
+                                                            @else
+                                                                <p>PDF bulunamadı.</p>
+                                                            @endif
+                                                            <form class="needs-validation was-validated"
+                                                                style="white-space: nowrap;" id="wizardValidationForm1"
+                                                                novalidate="novalidate" data-wizard-form="1">
+                                                                @csrf
+                                                                <input type="hidden" name="cart_order_id"
+                                                                    value="{{ $order->id }}">
+
+                                                                <div class="custom-checkbox">
+                                                                    <input type="checkbox" name="terms"
+                                                                        required="required">
+                                                                    <span class="checkmark"></span>
+                                                                    <label class="form-check-label text-body"
+                                                                        for="bootstrap-wizard-validation-wizard-checkbox">
+                                                                        Aydınlatma Metinini Okudum Onaylıyorum
+                                                                    </label>
+                                                                </div>
+
+                                                            </form>
                                                         </div>
                                                     </div>
-                                             
+
                                                     <div class="step">
                                                         <p class="text-center mb-4">Gerekli Bilgiler</p>
                                                         <form class="needs-validation" id="wizardValidationForm2"
-                                                                    novalidate="novalidate" data-wizard-form="2">
-                                                                    @csrf
+                                                            novalidate="novalidate" data-wizard-form="2">
+                                                            @csrf
 
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
-                                                                            Soyad</label><input class="form-control"
-                                                                            type="text" name="name"
-                                                                            placeholder="Ad Soyad"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                    Soyad</label><input class="form-control"
+                                                                    type="text" name="name" placeholder="Ad Soyad"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Ad
+                                                                    Soyad</label><input class="form-control"
+                                                                    type="text" name="name" placeholder="Ad Soyad"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">Telefon
+                                                                    Numarası</label><input
+                                                                    class="form-control phoneControl" type="text"
+                                                                    name="phone" placeholder="Telefon Numarası"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required" maxlength="10">
+                                                                <span id="error_message" class="error-message"></span>
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-2"><label class="form-label"
+                                                                    for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
+                                                                    class="form-control" type="email" name="email"
+                                                                    placeholder="E-Posta"
+                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                    required="required">
+                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                </div>
+                                                            </div>
+
+                                                            @if ($order->payment_result && $order->payment_result !== '')
+                                                            @else
+                                                                <div class="mb-2"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                        Yapılacak Banka</label><input class="form-control"
+                                                                        type="text" name="return_bank"
+                                                                        placeholder="Banka"
+                                                                        id="bootstrap-wizard-validation-wizard-phone"
+                                                                        required="required">
+                                                                    <div class="invalid-feedback">Alan
+                                                                        Zorunludur.
                                                                     </div>
+                                                                </div>
 
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                            Numarası</label><input
-                                                                            class="form-control phoneControl"
-                                                                            type="text" name="phone"
-                                                                            placeholder="Telefon Numarası"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required" maxlength="10">
-                                                                        <span id="error_message"
-                                                                            class="error-message"></span>
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
+                                                                <div class="mb-2"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                        Yapılacak IBAN</label><input class="form-control"
+                                                                        type="text" name="return_iban"
+                                                                        placeholder="IBAN"
+                                                                        id="bootstrap-wizard-validation-wizard-phone"
+                                                                        required="required" oninput="formatIBAN(this)">
+                                                                    <div class="invalid-feedback">Alan
+                                                                        Zorunludur.
                                                                     </div>
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
-                                                                            class="form-control" type="email"
-                                                                            name="email" placeholder="E-Posta"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    @if ($order->payment_result && $order->payment_result !== '')
-                                                                    @else
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak Banka</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_bank" placeholder="Banka"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak IBAN</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_iban" placeholder="IBAN"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required"
-                                                                                oninput="formatIBAN(this)">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-                                                                    @endif
+                                                                </div>
+                                                            @endif
 
 
 
-                                                                </form>
+                                                        </form>
                                                     </div>
-                                             
+
                                                     <div class="step">
                                                         <p class="text-center mb-4"> Sipariş İptal Sebebiniz</p>
-                                                        <form class="mb-2 needs-validation"
-                                                        id="wizardValidationForm3" novalidate="novalidate"
-                                                        data-wizard-form="3">
-                                                        @csrf
-                                                        <div class="row gx-3 gy-2">
-                                                            <div class="col-12"><label class="form-label"
-                                                                    for="bootstrap-wizard-validation-card-number">
-                                                                   
-                                                                </label>
-                                                                <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
-                                                                    style="height: 300px !important; width: 100%; resize: vertical;" required></textarea>
-                                                            </div>
-                                                        </div>
+                                                        <form class="mb-2 needs-validation" id="wizardValidationForm3"
+                                                            novalidate="novalidate" data-wizard-form="3">
+                                                            @csrf
+                                                            <div class="row gx-3 gy-2">
+                                                                <div class="col-12"><label class="form-label"
+                                                                        for="bootstrap-wizard-validation-card-number">
 
-                                                    </form>
+                                                                    </label>
+                                                                    <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
+                                                                        style="height: 300px !important; width: 100%; resize: vertical;" required></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
                                                     </div>
-                                             
+
                                                     <div class="form-footer d-flex">
                                                         <button type="button" id="prevBtn"
-                                                                onclick="nextPrev(-1)">Geri</button>
+                                                            onclick="nextPrev(-1)">Geri</button>
                                                         <button type="button" id="nextBtn"
-                                                                onclick="nextPrev(1)">İleri</button>
+                                                            onclick="nextPrev(1)">İleri</button>
                                                     </div>
                                                 </div>
-                                             
-
-                                                {{-- <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
-                                                    <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
-                                                        <ul class="nav justify-content-between nav-wizard" role="tablist">
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link active fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab1"
-                                                                    data-bs-toggle="tab" data-wizard-step="1"
-                                                                    aria-selected="true" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-lock"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="lock"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Sözleşme</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab2"
-                                                                    data-bs-toggle="tab" data-wizard-step="2"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-user"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="user"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Alıcı
-                                                                            Bilgileri</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab3"
-                                                                    data-bs-toggle="tab" data-wizard-step="3"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-file-lines"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas"
-                                                                                    data-icon="file-lines" role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 384 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M256 0v128h128L256 0zM224 128L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48V160h-127.1C238.3 160 224 145.7 224 128zM272 416h-160C103.2 416 96 408.8 96 400C96 391.2 103.2 384 112 384h160c8.836 0 16 7.162 16 16C288 408.8 280.8 416 272 416zM272 352h-160C103.2 352 96 344.8 96 336C96 327.2 103.2 320 112 320h160c8.836 0 16 7.162 16 16C288 344.8 280.8 352 272 352zM288 272C288 280.8 280.8 288 272 288h-160C103.2 288 96 280.8 96 272C96 263.2 103.2 256 112 256h160C280.8 256 288 263.2 288 272z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Açıklama</span>
-                                                                    </div>
-                                                                </a></li>
-                                                            <li class="nav-item" role="presentation"><a
-                                                                    class="nav-link fw-semibold"
-                                                                    href="#bootstrap-wizard-validation-tab4"
-                                                                    data-bs-toggle="tab" data-wizard-step="4"
-                                                                    aria-selected="false" tabindex="-1" role="tab">
-                                                                    <div class="text-center d-inline-block"><span
-                                                                            class="nav-item-circle-parent"><span
-                                                                                class="nav-item-circle"><svg
-                                                                                    class="svg-inline--fa fa-check"
-                                                                                    aria-hidden="true" focusable="false"
-                                                                                    data-prefix="fas" data-icon="check"
-                                                                                    role="img"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 448 512"
-                                                                                    data-fa-i2svg="">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z">
-                                                                                    </path>
-                                                                                </svg></span></span><span
-                                                                            class="d-none d-md-block mt-1 fs-9">Onaylama</span>
-                                                                    </div>
-                                                                </a></li>
-                                                        </ul>
-                                                    </div>
-
-                                                   
-                                                    <div class="card-body pt-4 pb-0">
-                                                        <div class="tab-content">
-                                                            <div class="tab-pane active" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab1"
-                                                                id="bootstrap-wizard-validation-tab1">
-                                                                
-                                                            </div>
-                                                            <div class="tab-pane" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab2"
-                                                                id="bootstrap-wizard-validation-tab2">
-                                                                <form class="needs-validation" id="wizardValidationForm2"
-                                                                    novalidate="novalidate" data-wizard-form="2">
-                                                                    @csrf
-
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Ad
-                                                                            Soyad</label><input class="form-control"
-                                                                            type="text" name="name"
-                                                                            placeholder="Ad Soyad"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                            Numarası</label><input
-                                                                            class="form-control phoneControl"
-                                                                            type="text" name="phone"
-                                                                            placeholder="Telefon Numarası"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required" maxlength="10">
-                                                                        <span id="error_message"
-                                                                            class="error-message"></span>
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="mb-2"><label class="form-label"
-                                                                            for="bootstrap-wizard-validation-wizard-phone">E-Posta</label><input
-                                                                            class="form-control" type="email"
-                                                                            name="email" placeholder="E-Posta"
-                                                                            id="bootstrap-wizard-validation-wizard-phone"
-                                                                            required="required">
-                                                                        <div class="invalid-feedback">Alan Zorunludur.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    @if ($order->payment_result && $order->payment_result !== '')
-                                                                    @else
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak Banka</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_bank" placeholder="Banka"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="mb-2"><label class="form-label"
-                                                                                for="bootstrap-wizard-validation-wizard-phone">İade
-                                                                                Yapılacak IBAN</label><input
-                                                                                class="form-control" type="text"
-                                                                                name="return_iban" placeholder="IBAN"
-                                                                                id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required"
-                                                                                oninput="formatIBAN(this)">
-                                                                            <div class="invalid-feedback">Alan
-                                                                                Zorunludur.
-                                                                            </div>
-                                                                        </div>
-                                                                    @endif
 
 
 
-                                                                </form>
-                                                            </div>
-                                                            <div class="tab-pane" role="tabpanel"
-                                                                aria-labelledby="bootstrap-wizard-validation-tab3"
-                                                                id="bootstrap-wizard-validation-tab3">
-                                                               
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="tab-pane" role="tabpanel"
-                                                            aria-labelledby="bootstrap-wizard-validation-tab4"
-                                                            id="bootstrap-wizard-validation-tab4">
-                                                            <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
-                                                                <div class="col-12 col-sm-auto">
-                                                                    <div class="text-center text-sm-start"><img
-                                                                            class="d-dark-none"
-                                                                            src="../../assets/img/spot-illustrations/38.webp"
-                                                                            alt="" width="220"><img
-                                                                            class="d-light-none"
-                                                                            src="../../assets/img/spot-illustrations/dark_38.webp"
-                                                                            alt="" width="220"></div>
-                                                                </div>
-                                                                <div class="col-12 col-sm-auto">
-                                                                    <div class="text-center ">
-                                                                        <h5 class="mb-3">İptal Talebiniz Alınmıştır
-                                                                        </h5>
-                                                                        <p class="text-body-emphasis fs-9">Talep Sonucu
-                                                                            Kısa Süre İçerisinde Tarafınıza
-                                                                            İletilecektir</p>
-
-                                                                       
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer border-top-0"
-                                                    data-wizard-footer="data-wizard-footer">
-                                                    <div class="d-flex pager wizard list-inline mb-0"><button
-                                                            class="d-none btn btn-link ps-0" type="button"
-                                                            data-wizard-prev-btn="data-wizard-prev-btn"><svg
-                                                                class="svg-inline--fa fa-chevron-left me-1"
-                                                                data-fa-transform="shrink-3" aria-hidden="true"
-                                                                focusable="false" data-prefix="fas"
-                                                                data-icon="chevron-left" role="img"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
-                                                                data-fa-i2svg=""
-                                                                style="transform-origin: 0.3125em 0.5em;">
-                                                                <g transform="translate(160 256)">
-                                                                    <g
-                                                                        transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)">
-                                                                        <path fill="currentColor"
-                                                                            d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"
-                                                                            transform="translate(-160 -256)">
-                                                                        </path>
-                                                                    </g>
-                                                                </g>
-                                                            </svg>Geri
-                                                            Dön</button>
-                                                        <div class="flex-1 text-end"><button
-                                                                class="btn btn-primary px-6 px-sm-6" type="submit"
-                                                                data-wizard-next-btn="data-wizard-next-btn">İleri<svg
-                                                                    class="svg-inline--fa fa-chevron-right ms-1"
-                                                                    data-fa-transform="shrink-3" aria-hidden="true"
-                                                                    focusable="false" data-prefix="fas"
-                                                                    data-icon="chevron-right" role="img"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 320 512" data-fa-i2svg=""
-                                                                    style="transform-origin: 0.3125em 0.5em;">
-                                                                    <g transform="translate(160 256)">
-                                                                        <g
-                                                                            transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)">
-                                                                            <path fill="currentColor"
-                                                                                d="M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z"
-                                                                                transform="translate(-160 -256)">
-                                                                            </path>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg></button>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
                                             </div>
 
-
-
-
-
-
                                         </div>
-                                        {{-- <div class="modal-footer"><button class="btn btn-primary" type="button">Okay</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></div>
-                                    </div> --}}
+
                                     </div>
                                 </div>
 
@@ -814,7 +978,6 @@ Sipariş Notu eklenmedi
 
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
@@ -844,9 +1007,6 @@ Sipariş Notu eklenmedi
         });
     </script>
     <script>
-        // CSRF tokenını al
-       
-
         function formatIBAN(input) {
             // TR ile başlat
             var formattedIBAN = "TR";
@@ -877,176 +1037,396 @@ Sipariş Notu eklenmedi
         }
     </script>
 
-<script>
-    let currentTab = 0;
-    showTab(currentTab);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentTab = 0;
 
-    function showTab(n) {
-        let x = document.getElementsByClassName("step");
-        x[n].style.display = "block";
-        let progress = (n / (x.length - 1)) * 100;
-        document.querySelector(".progress-bar")
-          .style.width = progress + "%";
-        document.querySelector(".progress-bar")
-          .setAttribute("aria-valuenow", progress);
-        document.getElementById("prevBtn")
-          .style.display = n == 0 ? "none" : "inline";
-        document.getElementById("nextBtn")
-          .innerHTML = n == x.length - 1 ? "Tamamla" : "İleri";
-    }
+            showTab(currentTab); // Başlangıç tabını göster
 
-    function nextPrev(n) {
-        let x = document.getElementsByClassName("step");
-        if (n == 1 && !validateForm()) return false;
-        x[currentTab].style.display = "none";
-        currentTab += n;
-        if (currentTab >= x.length) {
-            submitForms();
-            
-            return false;
-        }
-        showTab(currentTab);
-    }
+            function showTab(n) {
+                let tabs = document.getElementsByClassName("step");
 
-    function validateForm() {
-    let valid = true;
-    let x = document.getElementsByClassName("step");
-    let y = x[currentTab].getElementsByTagName("input");
-    let z = x[currentTab].getElementsByTagName("textarea");
-    let checkboxes = x[currentTab].getElementsByTagName("input");
+                for (let i = 0; i < tabs.length; i++) {
+                    tabs[i].style.display = "none";
+                }
 
-    for (let i = 0; i < y.length; i++) {
-        if (y[i].type !== "checkbox" && y[i].value == "") {
-            y[i].classList.add("invalid");
-            valid = false;
-        } else if (y[i].type !== "checkbox") {
-            y[i].classList.remove("invalid");
-        }
-        y[i].addEventListener('input', function() {
-            if (this.value != "") {
-                this.classList.remove("invalid");
+                tabs[n].style.display = "block";
+                document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+                document.getElementById("nextBtn").innerHTML = n === tabs.length - 1 ? "Tamamla" : "İleri";
+                updateProgressBar(n, tabs.length);
             }
+
+            function nextPrev(n) {
+                let tabs = document.getElementsByClassName("step");
+
+                // Form doğrulama
+                if (!validateForm()) return false;
+
+                // Mevcut adımı gizle
+                if (tabs[currentTab]) {
+                    tabs[currentTab].style.display = "none";
+                }
+
+                // Yeni adımı güncelle
+                currentTab += n;
+
+                // Eğer tüm adımlar tamamlandıysa formu gönder
+                if (currentTab >= tabs.length) {
+                    submitForms(); // Formu gönder
+                    return false;
+                }
+
+                // Adımı göster
+                showTab(currentTab);
+            }
+
+            function validateForm() {
+                let valid = true;
+                let step = document.getElementsByClassName("step")[currentTab];
+
+                // Input ve textarea elementlerini seç
+                let inputs = step.querySelectorAll("input:not([type='checkbox']), textarea");
+                let checkboxes = step.querySelectorAll("input[type='checkbox']");
+
+                // Her input ve textarea için doğrulama
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.classList.add("invalid");
+                        valid = false;
+                    } else {
+                        input.classList.remove("invalid");
+                    }
+                });
+
+                // Checkbox doğrulaması
+                checkboxes.forEach(checkbox => {
+                    if (!checkbox.checked) {
+                        checkbox.parentElement.classList.add(
+                        "invalid-checkbox"); // Parent elemente sınıf ekle
+                        valid = false;
+                    } else {
+                        checkbox.parentElement.classList.remove(
+                        "invalid-checkbox"); // Parent elementten sınıf çıkar
+                    }
+                });
+
+                return valid;
+            }
+
+            function submitForms() {
+                let form1 = $("#wizardValidationForm1");
+                let form2 = $("#wizardValidationForm2");
+                let form3 = $("#wizardValidationForm3");
+
+                let formData = {
+                    "_token": "{{ csrf_token() }}",
+                    "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                    "name": form2.find("input[name='name']").val(),
+                    "phone": form2.find("input[name='phone']").val(),
+                    "email": form2.find("input[name='email']").val(),
+                    "return_bank": form2.find("input[name='return_bank']").val(),
+                    "return_iban": form2.find("input[name='return_iban']").val(),
+                    "content": form3.find("textarea[name='content']").val(),
+                    "cart_order_id": "{{ $order->id }}"
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('institutional.order.refund') }}",
+                    data: formData,
+                    success: function(response) {
+                        toastr.success('İade talebi başarıyla gönderildi.');
+                        console.log("Form başarıyla gönderildi.");
+                        resetForm();
+                        location.reload(); // Sayfayı yenile
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar deneyiniz.');
+                        console.error(error);
+                    }
+                });
+            }
+
+            function resetForm() {
+                let steps = document.getElementsByClassName("step");
+                for (let i = 0; i < steps.length; i++) {
+                    steps[i].style.display = "none";
+                }
+
+                let inputs = document.querySelectorAll("input, textarea");
+                inputs.forEach(input => {
+                    input.value = "";
+                    input.classList.remove("invalid");
+                    if (input.type === "checkbox") {
+                        input.checked = false;
+                        input.parentElement.classList.remove("invalid-checkbox");
+                    }
+                });
+
+                currentTab = 0;
+                showTab(currentTab);
+                document.querySelector(".progress-bar").style.width = "0%";
+                document.querySelector(".progress-bar").setAttribute("aria-valuenow", 0);
+                document.getElementById("prevBtn").style.display = "none";
+            }
+
+            function updateProgressBar(current, total) {
+                let percent = (current / (total - 1)) * 100;
+                document.querySelector(".progress-bar").style.width = percent + "%";
+                document.querySelector(".progress-bar").setAttribute("aria-valuenow", percent);
+            }
+
+            // Form input ve checkbox'lar için event listener ekleme
+            document.querySelectorAll('.needs-validation input, .needs-validation textarea').forEach(element => {
+                element.addEventListener('input', function() {
+                    if (this.value.trim() !== "") {
+                        this.classList.remove("invalid");
+                    } else {
+                        this.classList.add("invalid");
+                    }
+                });
+            });
+
+            document.querySelectorAll('.needs-validation input[type="checkbox"]').forEach(element => {
+                element.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.parentElement.classList.remove("invalid-checkbox");
+                    } else {
+                        this.parentElement.classList.add("invalid-checkbox");
+                    }
+                });
+            });
+
+            // Geri ve İleri butonlarına tıklama olayları ekle
+            document.getElementById("prevBtn").addEventListener("click", () => nextPrev(-1));
+            document.getElementById("nextBtn").addEventListener("click", () => nextPrev(1));
         });
-    }
+    </script>
 
-    for (let i = 0; i < z.length; i++) {
-        if (z[i].value == "") {
-            z[i].classList.add("invalid");
-            valid = false;
-        } else {
-            z[i].classList.remove("invalid");
-        }
-        z[i].addEventListener('input', function() {
-            if (this.value != "") {
-                this.classList.remove("invalid");
-            }
+
+    <script>
+        jQuery('.rating-area .rating').on('mouseover', function() {
+            jQuery('.rating-area .rating polygon').attr('fill', 'none');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
         });
-    }
 
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].type === "checkbox") {
-            if (!checkboxes[i].checked) {
-                checkboxes[i].classList.add("invalid-checkbox");
-                valid = false;
-            } else {
-                checkboxes[i].classList.remove("invalid-checkbox");
-            }
-            checkboxes[i].addEventListener('change', function() {
-                if (this.checked) {
-                    this.classList.remove("invalid-checkbox");
+        jQuery('.rating-area .rating').on('mouseleave', function() {
+            jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
+        });
+
+        jQuery('.rating-area .rating').on('click', function() {
+            jQuery('.rating-area .rating').removeClass('selected');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating').eq(i).addClass('selected');
+
+            $('#rate').val($(this).index() + 1);
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            // Gerekli inputları seç ve kontrol et
+            const requiredFields = ['comment']; // Gerekli input isimlerini ekleyin
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`[name="${fieldName}"]`);
+                if (field && (field.value === '' || field.value == null)) {
+                    field.classList.add('is-invalid'); // Bootstrap kullanıyorsanız
+                    isValid = false;
                 } else {
-                    this.classList.add("invalid-checkbox");
+                    field.classList.remove('is-invalid'); // Bootstrap kullanıyorsanız
+                }
+            });
+
+            return isValid;
+        }
+
+        function submitForm() {
+
+
+            if (!validateForm()) {
+                toastr.error('Lütfen tüm gerekli alanları doldurun.');
+                return;
+            }
+            // Rate değerini al
+            var rateValue = $('#rate').val();
+
+            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+            if (rateValue === '' || rateValue === '0') {
+                $('#rate').val('1');
+            }
+
+
+            var formData = new FormData($('#commentForm')[0]);
+
+
+
+            $.ajax({
+                url: "{{ route('client.commentAfterPayment') }}",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Yorum Gönderildi',
+                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                    }).then(function() {
+                        location.reload(); // Reload the page
+                    });
+                },
+                error: function(error) {
+                    console.error('AJAX Error:', error);
+                    //console.log(error);
                 }
             });
         }
-    }
-
-    return valid;
-}
-
-
-
-
-
-
-
-    var csrfToken = "{{ csrf_token() }}";
-
-// Form verilerini topla ve gönder
-function submitForms() {
-    var form1 = $("#wizardValidationForm1");
-    var form2 = $("#wizardValidationForm2");
-    var form3 = $("#wizardValidationForm3");
-
-    var formData = {
-        "_token": csrfToken,
-        "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-        "name": form2.find("input[name='name']").val(),
-        "phone": form2.find("input[name='phone']").val(),
-        "email": form2.find("input[name='email']").val(),
-        "return_bank": form2.find("input[name='return_bank']").val(),
-        "return_iban": form2.find("input[name='return_iban']").val(),
-        "content": form3.find("textarea[name='content']").val(),
-        "cart_order_id": "{{ $order->id }}"
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "{{ route('institutional.order.refund') }}",
-        data: formData,
-        success: function(response) {
-            // Sunucudan başarılı bir yanıt alındığında burada bir işlem yapabilirsiniz
-            toastr.success('İade talebi başarıyla gönderildi.');
-            console.log("Form başarıyla gönderildi.");
-            resetForm();
-            location.reload();
-
-        },
-        error: function(xhr, status, error) {
-            // Hata durumunda burada bir işlem yapabilirsiniz
-            toastr.error('İade talebi gönderilirken bir hata oluştu. Tekrar Deneyiniz');
-            console.error(error);
-        }
-    });
-}
-
-    function resetForm() {
-        let x = document.getElementsByClassName("step");
-        for (var i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        let inputs = document.querySelectorAll("input");
-        inputs.forEach(input => {
-            input.value = "";
-            input.className = "";
-        });
-        currentTab = 0;
-        showTab(currentTab);
-        document.querySelector(".progress-bar")
-          .style.width = "0%";
-        document.querySelector(".progress-bar")
-          .setAttribute("aria-valuenow", 0);
-        document.getElementById("prevBtn")
-          .style.display = "none";
-    }
-</script>
+    </script>
 @endsection
 
 @section('styles')
-<style>
-    .invalid-checkbox {
-        color: #ff0000;
-    }
- 
-</style>
-<style>
-    .invalid {
-        background-color: #ffdddd;
-    }
-</style>
+    <style>
+        button#prevBtn {
+            display: none;
+        }
+
+        .invalid-checkbox {
+            color: #ff0000 !important;
+        }
+    </style>
+    <style>
+        .invalid {
+            background-color: #ffdddd !important;
+        }
+    </style>
+
 
     <style>
-        
+        a.btn.btn-success {
+            border-radius: 20px !important;
+        }
+
+        img.pay-icon {
+            margin-bottom: 30px;
+        }
+
+        .box-shadow-green {
+            box-shadow: 0 0 10px rgba(0, 177, 18, 0.5);
+        }
+
+        .box-shadow-light {
+            box-shadow: 0 0 10px rgba(0, 154, 56, 0.5);
+        }
+
+        .box-shadow-blue {
+            box-shadow: 0 0 10px rgba(9, 74, 187, 0.5);
+        }
+
+        .status-icon.box-shadow-green.text-success {
+            background-color: #0E713D;
+        }
+
+        .status-icon.text-primary.box-shadow-blue {
+            background-color: #2F7DF7;
+        }
+
+        .status-icon.text-success.box-shadow-light {
+            background-color: #0FA958;
+        }
+
+        .status-card {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+
+            border-radius: 50%;
+            padding: 10px;
+
+        }
+
+
+        .status-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status-description {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .status-timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .approve-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .rating {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .horizontal-line {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            margin-bottom: 30px !important;
+        }
+
+        .bg-light-blue {
+            background-color: #e9f5ff;
+        }
+
+        .bg-light-green {
+            background-color: rgba(116, 190, 151, 0.5);
+        }
+
+        .bg-light {
+            background-color: #E0F2E3 !important;
+        }
+
+        .status-icon i {
+            color: #007bff;
+        }
+
+        .bg-light-green .status-icon i {
+            color: #28a745;
+        }
+
+        .bg-light .status-icon i {
+            color: #28a745;
+        }
+
+        button.btn.btn-success {
+            border-radius: 20px !important;
+        }
+
+        button.btn.btn-danger {
+            border-radius: 20px !important;
+        }
+    </style>
+
+    <style>
         .error-message {
             color: #e54242;
             font-size: 11px;
@@ -1124,9 +1504,8 @@ function submitForms() {
 
         .progress {
             height: 100%;
-            
             /* Default color */
-            
+
             /* Change this value to reflect progress */
         }
 
@@ -1353,8 +1732,6 @@ function submitForms() {
         }
     </style>
     <style>
-        
- 
         .main {
             max-width: 500px;
             background-color: #ffffff;
@@ -1363,15 +1740,15 @@ function submitForms() {
             border-radius: 12px;
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
         }
- 
+
         .step {
             display: none;
         }
- 
+
         .active {
             display: block;
         }
- 
+
         input {
             padding: 15px 20px;
             width: 100%;
@@ -1379,16 +1756,16 @@ function submitForms() {
             border: 1px solid #e3e3e3;
             border-radius: 5px;
         }
- 
+
         input:focus {
             border: 1px solid #009688;
             outline: 0;
         }
- 
+
         .invalid {
             border: 1px solid #ffaba5;
         }
- 
+
         #nextBtn,
         #prevBtn {
             background-color: #009688;
@@ -1402,19 +1779,19 @@ function submitForms() {
             margin-top: 5px;
             transition: background-color 0.3s ease;
         }
- 
+
         #prevBtn {
             background-color: #ffffff;
             color: #009688;
             border: 1px solid #009688;
         }
- 
+
         #prevBtn:hover,
         #nextBtn:hover {
             background-color: #00796b;
             color: #ffffff;
         }
- 
+
         .progress {
             margin-bottom: 20px;
         }
@@ -1426,13 +1803,13 @@ function submitForms() {
             width: 20px;
             height: 20px;
         }
-    
+
         .custom-checkbox input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-    
+
         .checkmark {
             position: absolute;
             top: 0;
@@ -1442,29 +1819,31 @@ function submitForms() {
             background-color: #ccc;
             border-radius: 4px;
         }
-    
-        .custom-checkbox input:checked ~ .checkmark {
-            background-color: #28a745; /* Checkbox seçiliyse yeşil */
+
+        .custom-checkbox input:checked~.checkmark {
+            background-color: #28a745;
+            /* Checkbox seçiliyse yeşil */
         }
-    
-        .custom-checkbox input:invalid ~ .checkmark {
-            background-color: #ff0000; /* Checkbox seçili değilse kırmızı */
+
+        .custom-checkbox input:invalid~.checkmark {
+            background-color: #ff0000;
+            /* Checkbox seçili değilse kırmızı */
         }
-    
-        .custom-checkbox input:focus ~ .checkmark {
+
+        .custom-checkbox input:focus~.checkmark {
             box-shadow: 0 0 2px 2px rgba(0, 123, 255, 0.25);
         }
-    
+
         .checkmark:after {
             content: "";
             position: absolute;
             display: none;
         }
-    
-        .custom-checkbox input:checked ~ .checkmark:after {
+
+        .custom-checkbox input:checked~.checkmark:after {
             display: block;
         }
-    
+
         .custom-checkbox .checkmark:after {
             left: 7px;
             top: 3px;
@@ -1475,5 +1854,4 @@ function submitForms() {
             transform: rotate(45deg);
         }
     </style>
-    
 @endsection

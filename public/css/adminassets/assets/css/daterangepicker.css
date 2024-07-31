@@ -222,7 +222,7 @@
   z-index: 1;
   width: 15px;
   height: 100%;
-  background-color: #EA2B2E;
+  background-color: #D32729;
   font-size: 0;
   line-height: 0;
   float: left;
@@ -315,7 +315,7 @@
 
 .date-picker-wrapper .drp_top-bar.error .error-top {
   display: block;
-  color: #EA2B2E;
+  color: #D32729;
 }
 
 .date-picker-wrapper .drp_top-bar.normal .default-top {

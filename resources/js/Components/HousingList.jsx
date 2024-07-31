@@ -733,14 +733,14 @@ const HousingList = ({ projectId }) => {
                 horizontal: 'center',
                 }}
             >
-                <ul className="popover-project-actions">
+                <ul className="popover-project-actions p-relative">
                     {
                         isSelectedSold ? 
                             <>
-                                <li>
+                                <li className="d-flex">
                                     <a onClick={(e) => {e.preventDefault();e.stopPropagation();paymentModalFunc(getLastCount() + selectedRow + 1);setAnchorEl(null)}}>Ödeme Planını Düzenle</a>
                                 </li>
-                                <li>
+                                <li className="d-flex">
                                     <a onClick={(e) => {
                                         var anchor = document.createElement('a');
                                         // console.log(frontEndUrl+'react/render_pdf/'+projectId+'/'+(getLastCount() + row.index + 1));
@@ -751,7 +751,7 @@ const HousingList = ({ projectId }) => {
                                 </li>
                             </>
                         : 
-                            <li>
+                            <li className="d-flex">
                                 <a onClick={(e) => {window.location.href = frontEndUrl+'hesabim/projects/'+projectId+'/housings/edit/'+(selectedRow + 1); closeMenu();}}>İlanı Düzenle</a>
                             </li>
                     }

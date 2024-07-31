@@ -66,7 +66,7 @@
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                     @if ((isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]'] != 0) || null)
                                         <div class="col-md-12 col-12" >
-                                            <div class="d-flex justify-content-between align-items-center"
+                                            <div class="d-flex justify-content-between align-items-center mb-5"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
                                                     #{{ $item['project']->id + $item['room_order'] + 1000000 }}
@@ -82,7 +82,7 @@
                                     @endif
                                 @endif
                             @endforeach --}}
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="project-filter-reverse blog-pots">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -215,7 +215,8 @@
 
                                                                     $price = $defaultPrice - $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price -
+                                                                        ((float) $price * (float) $discountRate) / 100;
                                                                 } elseif ($item['item_type'] == 1) {
                                                                     $discountRate =
                                                                         $item['project_values']['discount_rate[]'] ?? 0;
@@ -228,7 +229,8 @@
                                                                         $item['project_values']['price[]'] -
                                                                         $item['discount_amount'];
                                                                     $discountedPrice =
-                                                                        $price - ($price * $discountRate) / 100;
+                                                                        $price -
+                                                                        ((float) $price * (float) $discountRate) / 100;
                                                                 }
                                                             @endphp
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -305,14 +307,14 @@
                                                             @if ($item['housing']->step2_slug != 'gunluk-kiralik')
                                                                 @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
                                                                     <button class="btn second-btn mobileCBtn"
-                                                                        style="background: #EA2B2E !important;width:100%;height:40px !important;color:White">
+                                                                        style="background: #D32729 !important;width:100%;height:40px !important;color:White">
                                                                         <span class="text">Satıldı</span>
                                                                     </button>
                                                                 @else
                                                                     @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                                         <button class="btn mobileCBtn second-btn "
                                                                             @if ($item['action'] == 'payment_await') style="background: orange !important;width:100%;height:40px !important;color:White"
-                                                                @else style="background: #EA2B2E !important;width:100%;height:40px !important;color:White" @endif>
+                                                                @else style="background: #D32729 !important;width:100%;height:40px !important;color:White" @endif>
                                                                             <span class="IconContainer">
                                                                                 <img src="{{ asset('sc.png') }}"
                                                                                     alt="">
@@ -329,7 +331,7 @@
                                                                             <span class="text">Ödeme Bekleniyor</span>
                                                                         </button>
                                                                     @elseif ($item['action'] == 'tryBuy')
-                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                             <button class="CartBtn mobileCBtn"
                                                                                 data-type='housing'
                                                                                 data-id='{{ $item['housing']->id }}'>
@@ -340,7 +342,7 @@
                                                                                 <span class="text">Sepete Ekle</span>
                                                                             </button>
                                                                         @else
-                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                            {{-- <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                                 class="btn btn-success"
                                                                                 style="width: 100%;
                                                                                             height: 40px;
@@ -355,10 +357,10 @@
                                                                                             overflow: hidden;
                                                                                             position: relative;">
                                                                                 <span class="text">İlanı Düzenle</span>
-                                                                            </a>
+                                                                            </a> --}}
                                                                         @endif
                                                                     @else
-                                                                        @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                        @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                             <button class="CartBtn mobileCBtn"
                                                                                 data-type='housing'
                                                                                 data-id='{{ $item['housing']->id }}'>
@@ -369,7 +371,7 @@
                                                                                 <span class="text">Sepete Ekle</span>
                                                                             </button>
                                                                         @else
-                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                            <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                                 class="btn btn-success"
                                                                                 style="width: 100%;
                                                                                         height: 40px;
@@ -389,7 +391,7 @@
                                                                     @endif
                                                                 @endif
                                                             @else
-                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                     <button onclick="redirectToReservation()"
                                                                         class="reservationBtn mobileCBtn">
                                                                         <span class="IconContainer">
@@ -405,7 +407,7 @@
                                                                         }
                                                                     </script>
                                                                 @else
-                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                    {{-- <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                         class="btn btn-success"
                                                                         style="width: 100%;
                 height: 40px;
@@ -420,7 +422,7 @@
                 overflow: hidden;
                 position: relative;">
                                                                         <span class="text">İlanı Düzenle</span>
-                                                                    </a>
+                                                                    </a> --}}
                                                                 @endif
                                                             @endif
                                                         @else
@@ -429,21 +431,21 @@
                                                                     $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
                                                                 @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                                                                     <button class="btn second-btn  mobileCBtn"
-                                                                        style="background: #EA2B2E !important;width:100%;height:40px !important;color:White">
+                                                                        style="background: #D32729 !important;width:100%;height:40px !important;color:White">
 
                                                                         <span class="text">Satışa
-                                                                            Kapatıldı</span>
+                                                                            Kapalı</span>
                                                                     </button>
                                                                 @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
                                                                     <button class="btn second-btn  mobileCBtn"
-                                                                        style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%">
+                                                                        style="background: #D32729 !important;color:White;height: 40px !important;width:100%">
                                                                         <span class="text">Satıldı</span>
 
                                                                     </button>
                                                                 @endif
                                                             @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                                 <button class="btn second-btn  mobileCBtn"
-                                                                    @if ($item['action'] == 'payment_await') style="background: orange !important;color:White;width:100%;height:40px !important;" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
+                                                                    @if ($item['action'] == 'payment_await') style="background: orange !important;color:White;width:100%;height:40px !important;" @else  style="background: #D32729 !important;color:White;height: 40px !important;width:100%" @endif>
                                                                     @if ($item['action'] == 'payment_await')
                                                                         <span class="text">Onay
                                                                             Bekleniyor</span>
@@ -693,7 +695,8 @@
 
                                                             $price = $defaultPrice - $item['discount_amount'];
 
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            $discountedPrice =
+                                                                $price - ((float) $price * (float) $discountRate) / 100;
                                                         } elseif ($item['item_type'] == 1) {
                                                             $discountRate =
                                                                 $item['project_values']['discount_rate[]'] ?? 0;
@@ -704,7 +707,8 @@
                                                             $price =
                                                                 $item['project_values']['price[]'] -
                                                                 $item['discount_amount'];
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            $discountedPrice =
+                                                                $price - ((float) $price * (float) $discountRate) / 100;
                                                         }
                                                     @endphp
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -778,14 +782,14 @@
                                                         @if ($item['housing']->step2_slug != 'gunluk-kiralik')
                                                             @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
                                                                 <button class="btn second-btn mobileCBtn"
-                                                                    style="background: #EA2B2E !important;color:White">
+                                                                    style="background: #D32729 !important;color:White">
                                                                     <span class="text">Satıldı</span>
                                                                 </button>
                                                             @else
                                                                 @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                                     <button class="btn mobileCBtn second-btn "
                                                                         @if ($item['action'] == 'payment_await') style="background: orange !important;color:White"
-                                                            @else style="background: #EA2B2E !important;color:White" @endif>
+                                                            @else style="background: #D32729 !important;color:White" @endif>
                                                                         <span class="IconContainer">
                                                                             <img src="{{ asset('sc.png') }}"
                                                                                 alt="">
@@ -802,7 +806,7 @@
                                                                         <span class="text">Ödeme Bekleniyor</span>
                                                                     </button>
                                                                 @elseif ($item['action'] == 'tryBuy')
-                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
                                                                             data-id='{{ $item['housing']->id }}'>
@@ -813,7 +817,7 @@
                                                                             <span class="text">Sepete Ekle</span>
                                                                         </button>
                                                                     @else
-                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                             class="btn btn-success"
                                                                             style="width: 100%;
                                                                                         height: 40px;
@@ -831,7 +835,7 @@
                                                                         </a>
                                                                     @endif
                                                                 @else
-                                                                    @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                    @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
                                                                             data-id='{{ $item['housing']->id }}'>
@@ -842,7 +846,7 @@
                                                                             <span class="text">Sepete Ekle</span>
                                                                         </button>
                                                                     @else
-                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                             class="btn btn-success"
                                                                             style="width: 100%;
                                                                                         height: 40px;
@@ -877,7 +881,7 @@
                                                                     }
                                                                 </script>
                                                             @else
-                                                                <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                     class="btn btn-success"
                                                                     style="width: 100%;
                 height: 40px;
@@ -901,19 +905,19 @@
                                                                 $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
                                                             @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                                                                 <button class="btn second-btn  mobileCBtn"
-                                                                    style="background: #EA2B2E !importantcolor:White">
+                                                                    style="background: #D32729 !importantcolor:White">
 
-                                                                    <span class="text">Satışa Kapatıldı</span>
+                                                                    <span class="text">Satışa Kapalı</span>
                                                                 </button>
                                                             @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
                                                                 <button class="btn second-btn"
-                                                                    style="background: #EA2B2E !important; color: White; height: auto !important">
+                                                                    style="background: #D32729 !important; color: White; height: auto !important">
                                                                     <span class="text">Satıldı</span>
                                                                 </button>
                                                             @endif
                                                         @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                             <button class="btn second-btn  mobileCBtn"
-                                                                @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
+                                                                @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #D32729 !important;color:White;height: 40px !important;width:100%" @endif>
                                                                 @if ($item['action'] == 'payment_await')
                                                                     <span class="text">Rezerve Edildi</span>
                                                                 @else
@@ -925,7 +929,7 @@
 
 
 
-                                                                @if (checkIfUserCanAddToCart($item['housing']->id))
+                                                                @if (checkIfUserCanAddToCart($item['item_type'] != 1 ? $item['housing']->id : $item['project']->id))
                                                                     <button class="CartBtn second-btn mobileCBtn "
                                                                         data-type='project'
                                                                         data-project='{{ $item['project']->id }}'
@@ -939,7 +943,7 @@
                                                                         <span class="text">Sepete Ekle</span>
                                                                     </button>
                                                                 @else
-                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $item['housing']->id]) }}"
+                                                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($item['housing']->id)]) }}"
                                                                         class="btn btn-success"
                                                                         style="width: 100%;
                                                                                     height: 40px;
@@ -983,7 +987,7 @@
                                                 null)
                                             <div class="w-100"
                                                 style="height:50px;background-color:#8080802e;margin-top:20px">
-                                                <div class="d-flex justify-content-between align-items-center"
+                                                <div class="d-flex justify-content-between align-items-center mb-5"
                                                     style="height: 100%;padding: 10px">
                                                     <span style="color: #e54242;font-size:9px !important">
                                                         #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
@@ -1003,7 +1007,7 @@
                                                 null)
                                             <div class="w-100"
                                                 style="height:50px;background-color:#8080802e;margin-top:20px">
-                                                <div class="d-flex justify-content-between align-items-center"
+                                                <div class="d-flex justify-content-between align-items-center mb-5"
                                                     style="height: 100%;padding: 10px">
                                                     <span style="color: #e54242;font-size:9px !important">
                                                         #{{ $item['project']->id + $item['room_order'] + 1000000 }}

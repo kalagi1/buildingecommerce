@@ -1,71 +1,89 @@
 @extends('client.layouts.masterPanel')
 
 @section('content')
-    <div class="content">
-        <h3 class="mt-2 mb-4">Pazarlık Teklifleri | İlan No : {{ intval(2000000) + $housing->id }}</h3>
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
-            <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table table-sm fs--1 mb-0">
-                    <thead>
-                        <tr>
-                            <th>Ad</th>
-                            <th>Email</th>
-                            <th>Telefon</th>
-                            <th>Teklif Tutarı (₺)</th>
-                            <th>Teklif Tarihi</th>
-                            <th>Durum</th>
-                            {{-- <th>Geçerlilik Süresi</th> --}}
-                            <th>İşlemler</th>
+<div class="table-breadcrumb mb-5">
+    <ul>
+        <li>
+            Hesabım
+        </li>
+        <li>
+            Pazarlık Teklifleri 
+        </li>
+        <li>
+            {{ intval(2000000) + $housing->id }}
+        </li>
+    </ul>
+</div>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($housing->bids as $bid)
-                            <tr>
-                                <td>{{ $bid->user->name }}</td>
-                                <td>{{ $bid->user->email }}</td>
-                                <td>{{ $bid->user->phone }}</td>
-                                <td>{{ number_format($bid->bid_amount, 2, ',', '.') }}</td>
-                                <td>{{ $bid->created_at->format('d.m.Y H:i') }}</td>
-                                <td>
-                                    @if ($bid->status == 'accepted')
-                                        <span class="badge badge-phoenix badge-phoenix-success">Kabul Edildi</span>
-                                    @elseif ($bid->status == 'rejected')
-                                        <span class="badge badge-phoenix badge-phoenix-danger">Rededildi</span>
-                                    @else
-                                        <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
-                                    @endif
-                                </td>
-                                {{-- <td>
-                                    @if ($bid->acceptedBid)
-                                        {{ $bid->acceptedBid->expires_at > now() ? $bid->acceptedBid->expires_at->diffForHumans() : 'Süre Dolmuş' }}
-                                    @else
-                                        -
-                                    @endif
-                                </td> --}}
-                                <td>
-                                    @if (Auth::check() && Auth::user()->id == $housing->user_id)
-                                        <form action="{{ route('bids.accept', $bid->id) }}" method="POST"
-                                            style="display:inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
-                                        </form>
-                                        <form action="{{ route('bids.reject', $bid->id) }}" method="POST"
-                                            style="display:inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+@if($housing->bids && count($housing->bids) > 0)
+@foreach ($housing->bids as $key => $bid)
+<div class="project-table-content">
+    <ul>
+        <li style="width: 5%;">{{ $key + 1 }}</li>
+        <li style="width: 30%;">
+            <div>
+                <p class="project-table-content-title">{{ $bid->user->name }}</p>
             </div>
+        </li>
+        <li style="width: 30%;">
+            <p>{{ $bid->user->email }}</p>
+        </li>
+        <li style="width: 20%;">
+            <p>{{ $bid->user->phone }}</p>
+        </li>
+        <li style="width: 10%;">
+            <p>{{ number_format($bid->bid_amount, 2, ',', '.') }}</p>
+        </li>
+        <li style="width: 15%;">
+            <p>{{ $bid->created_at->format('d.m.Y H:i') }}</p>
+        </li>
+        <li style="width: 10%;">
+            @if ($bid->status == 'accepted')
+                <span class="badge badge-phoenix badge-phoenix-success">Kabul Edildi</span>
+            @elseif ($bid->status == 'rejected')
+                <span class="badge badge-phoenix badge-phoenix-danger">Rededildi</span>
+            @else
+                <span class="badge badge-phoenix badge-phoenix-warning">Beklemede</span>
+            @endif
+        </li>
+        <li style="width: 20%;">
+            @if (Auth::check() && Auth::user()->id == $housing->user_id)
+                <span class="project-table-content-actions-button" data-toggle="popover-{{ $bid->id }}">
+                    <i class="fa fa-chevron-down"></i>
+                </span>
+            @endif
+        </li>
+    </ul>
+    @if (Auth::check() && Auth::user()->id == $housing->user_id)
+        <div class="popover-project-actions d-none" id="popover-{{ $bid->id }}">
+            <ul>
+                <li>
+                    <form action="{{ route('bids.accept', $bid->id) }}" method="POST" style="display:inline">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="{{ route('bids.reject', $bid->id) }}" method="POST" style="display:inline">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-    </div>
+    @endif
+</div>
+@endforeach
+@else
+
+<div class="project-table-content">
+    <p class="text-center mb-0">Henüz pazarlık teklifi almadınız.</p>
+</div>
+@endif
+
+
 @endsection
 
 @section('scripts')

@@ -31,6 +31,7 @@ use App\Models\ProjectImage;
 use App\Models\ProjectSituation;
 use App\Models\Rate;
 use App\Models\ShareLink;
+use App\Models\TempImage;
 use App\Models\TempOrder;
 use App\Models\Town;
 use App\Models\User;
@@ -169,6 +170,7 @@ class ProjectController extends Controller
         ]);
     }
 
+
     public function createProject(Request $request)
     {
         $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
@@ -187,8 +189,6 @@ class ProjectController extends Controller
                 }
             }
         }
-
-       
 
         $manager = new ImageManager(
             new Driver()
@@ -265,9 +265,7 @@ class ProjectController extends Controller
         }
 
 
-
         $totalCount = $request->input('totalRoomCount');
-
         if (isset($request->file('projectData')['document']) && $request->file('projectData')['document']) {
             $file = $request->file('projectData')['document'];
 
@@ -437,127 +435,129 @@ class ProjectController extends Controller
         $paymentPlanOrder = 0;
 
         $projectHousings = [];
-
-        for ($j = 0; $j < count($housingTypeInputs); $j++) {
-            if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
-                if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
-                    if (isset($room['payment-plan']) &&  $room['payment-plan']) {
-                        if (str_contains($room['payment-plan'], 'taksitli')) {
-                            $projectHousings[] = [
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
-                                "project_id" => $project->id,
-                                "room_order" => $housingTemp,
-                            ];
-                            if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
-                                $paymentPlanOrder++;
+        if($request->file('room')['image']){
+            for ($j = 0; $j < count($housingTypeInputs); $j++) {
+                if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
+                    if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
+                        if (isset($room['payment-plan']) &&  $room['payment-plan']) {
+                            if (str_contains($room['payment-plan'], 'taksitli')) {
+                                $projectHousings[] = [
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
+                                    "project_id" => $project->id,
+                                    "room_order" => $housingTemp,
+                                ];
+                                if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
+                                    $paymentPlanOrder++;
+                                }
                             }
-                        }
-                    }
-                } else {
-                    if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
-                        if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-                            $projectHousings[] = [
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
-                                "project_id" => $project->id,
-                                "room_order" => $housingTemp,
-                            ];
                         }
                     } else {
-                        if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-                            $projectHousings[] = [
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => $room[substr($housingTypeInputs[$j]->name, 0, -2)],
-                                "project_id" => $project->id,
-                                "room_order" => $housingTemp,
-                            ];
-                        }
-                    }
-                }
-            } else if ($housingTypeInputs[$j]->type != "file") {
-                $projectHousings[] = [
-                    "key" => $housingTypeInputs[$j]->label,
-                    "name" => $housingTypeInputs[$j]->name,
-                    "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',', $room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
-                    "project_id" => $project->id,
-                    "room_order" => $housingTemp,
-                ];
-            } else if ($housingTypeInputs[$j]->type == "file") {
-                if (!$housingTypeInputs[$j]->multiple) {
-                    $imageRoom = $request->file('room')['image'];
-                    if ($imageRoom) {
-                        $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp).uniqid() . '.' . $imageRoom->getClientOriginalExtension();
-                        $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
-                        if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
-
-                            $imageMg = $manager->read(public_path('project_housing_images/' . $newFileName));
-                            $imageWidth = $imageMg->width();
-                            $imageHeight = $imageMg->height();
-
-                            if ($imageWidth > 1200) {
-                                $newWidth = 1200;
-                                $newHeight = $imageHeight * 1200 / $imageWidth;
-                            } else {
-
-                                $newWidth = $imageWidth;
-                                $newHeight = $imageHeight;
+                        if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
+                            if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
+                                $projectHousings[] = [
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
+                                    "project_id" => $project->id,
+                                    "room_order" => $housingTemp,
+                                ];
                             }
-                            $imageMg->resize($newWidth, $newHeight);
-                            $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                            $encoded->save(public_path('project_housing_images/' . $newFileName));
-                            $projectHousings[] = [
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => $newFileName,
-                                "project_id" => $project->id,
-                                "room_order" => $housingTemp,
-                            ];
+                        } else {
+                            if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
+                                $projectHousings[] = [
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => $room[substr($housingTypeInputs[$j]->name, 0, -2)],
+                                    "project_id" => $project->id,
+                                    "room_order" => $housingTemp,
+                                ];
+                            }
+                        }
+                    }
+                } else if ($housingTypeInputs[$j]->type != "file") {
+                    $projectHousings[] = [
+                        "key" => $housingTypeInputs[$j]->label,
+                        "name" => $housingTypeInputs[$j]->name,
+                        "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',', $room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
+                        "project_id" => $project->id,
+                        "room_order" => $housingTemp,
+                    ];
+                } else if ($housingTypeInputs[$j]->type == "file") {
+                    if (!$housingTypeInputs[$j]->multiple) {
+                        $imageRoom = $request->file('room')['image'];
+                        if ($imageRoom) {
+                            $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp).uniqid() . '.' . $imageRoom->getClientOriginalExtension();
+                            $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
+                            if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
+    
+                                $imageMg = $manager->read(public_path('project_housing_images/' . $newFileName));
+                                $imageWidth = $imageMg->width();
+                                $imageHeight = $imageMg->height();
+    
+                                if ($imageWidth > 1200) {
+                                    $newWidth = 1200;
+                                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                                } else {
+    
+                                    $newWidth = $imageWidth;
+                                    $newHeight = $imageHeight;
+                                }
+                                $imageMg->resize($newWidth, $newHeight);
+                                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                                $encoded->save(public_path('project_housing_images/' . $newFileName));
+                                $projectHousings[] = [
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => $newFileName,
+                                    "project_id" => $project->id,
+                                    "room_order" => $housingTemp,
+                                ];
+                            }
                         }
                     }
                 }
             }
-        }
-
-        ProjectHousing::insert($projectHousings);
-        ProjectHousing::create([
-            "key" => "pay-dec-count" . ($housingTemp),
-            "name" => "pay-dec-count" . ($housingTemp),
-            "value" => isset($room["payDecs"]) && $room["payDecs"] ? count($room["payDecs"]) : 0,
-            "project_id" => $project->id,
-            "room_order" => $housingTemp,
-        ]);
-
-        if (isset($room["payDecs"]) && $room["payDecs"]) {
-            for ($j = 0; $j < count($room["payDecs"]); $j++) {
-                if (isset($room["payDecs"][$j]["price"])) {
-                    ProjectHousing::create([
-                        "key" => "pay_desc_price" . ($housingTemp) . $j,
-                        "name" => "pay_desc_price" . ($housingTemp) . $j,
-                        "value" => str_replace('.', '', $room["payDecs"][$j]["price"]),
-                        "project_id" => $project->id,
-                        "room_order" => $housingTemp,
-                    ]);
-                }
-
-                if (isset($room["payDecs"][$j]["date"])) {
-                    ProjectHousing::create([
-                        "key" => "pay_desc_date" . ($housingTemp) . $j,
-                        "name" => "pay_desc_date" . ($housingTemp) . $j,
-                        "value" => $room["payDecs"][$j]["date"],
-                        "project_id" => $project->id,
-                        "room_order" => $housingTemp,
-                    ]);
+    
+            ProjectHousing::insert($projectHousings);
+            ProjectHousing::create([
+                "key" => "pay-dec-count" . ($housingTemp),
+                "name" => "pay-dec-count" . ($housingTemp),
+                "value" => isset($room["payDecs"]) && $room["payDecs"] ? count($room["payDecs"]) : 0,
+                "project_id" => $project->id,
+                "room_order" => $housingTemp,
+            ]);
+    
+            if (isset($room["payDecs"]) && $room["payDecs"]) {
+                for ($j = 0; $j < count($room["payDecs"]); $j++) {
+                    if (isset($room["payDecs"][$j]["price"])) {
+                        ProjectHousing::create([
+                            "key" => "pay_desc_price" . ($housingTemp) . $j,
+                            "name" => "pay_desc_price" . ($housingTemp) . $j,
+                            "value" => str_replace('.', '', $room["payDecs"][$j]["price"]),
+                            "project_id" => $project->id,
+                            "room_order" => $housingTemp,
+                        ]);
+                    }
+    
+                    if (isset($room["payDecs"][$j]["date"])) {
+                        ProjectHousing::create([
+                            "key" => "pay_desc_date" . ($housingTemp) . $j,
+                            "name" => "pay_desc_date" . ($housingTemp) . $j,
+                            "value" => $room["payDecs"][$j]["date"],
+                            "project_id" => $project->id,
+                            "room_order" => $housingTemp,
+                        ]);
+                    }
                 }
             }
+    
+            return json_encode([
+                "room_order" => $request->input('room_order')
+            ]);
         }
-
-        return json_encode([
-            "room_order" => $request->input('room_order')
-        ]);
+        
     }
 
     public function show($id)
@@ -1726,5 +1726,55 @@ class ProjectController extends Controller
             ], 404);
         }
     }
+
+    public function writeImagesToFile(Request $request){
+        $galleryImages = [];
+        for($i = 0; $i < count($request->file('projectData')["gallery"]); $i++){
+            $file = $request->file('projectData')["gallery"][$i];
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time().$i."_temp.".$extension;
+            $destinationPath = public_path('temp_images');
+            $file->move($destinationPath, $fileName);
+            
+            array_push($galleryImages,$fileName);
+        }
+
+        $hasTempImage = TempImage::where('user_id',auth()->user()->id)->where('ad_type',$request->input('ad_type'))->where('image_type',1)->first();
+        
+        if($hasTempImage){
+            TempImage::where('user_id',auth()->user()->id)
+            ->where('ad_type',$request->input('ad_type'))
+            ->where('image_type',1)->update([
+                "image" => json_encode($galleryImages)
+            ]);
+        }else{
+            if($galleryImages && count($galleryImages) > 0){
+                TempImage::create([
+                    "image" => json_encode($galleryImages),
+                    "image_type" => 1,
+                    "ad_type" => $request->input('ad_type'),
+                    "user_id" => auth()->user()->id
+                ]);
+            }
+        }
+        
+        return json_encode([
+            "status" => true
+        ]);
+    }
     
+    public function getImagesTemp(Request $request){
+        $galleryImages = TempImage::where('user_id',auth()->user()->id)->where('ad_type',$request->input('ad_type'))->where('image_type',1)->first();
+
+        $galleryImagesTemp = [];
+
+        for($i = 0; $i < count(json_decode($galleryImages->image)); $i++){
+            array_push($galleryImagesTemp,URL::to("/")."/temp_images/".json_decode($galleryImages->image)[$i]);
+        }
+
+        
+        return json_encode([
+            "galleryImages" => $galleryImagesTemp
+        ]);
+    }
 }

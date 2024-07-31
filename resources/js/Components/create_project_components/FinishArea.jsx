@@ -19,7 +19,7 @@ function FinishArea({createProject,projectData,setProjectDataFunc,allErrors,next
                 <div className={"finish-tick "+(allErrors.includes('rules_confirm') ? "error-border" : "")} id='finish-tick-id'>
                     <input type="checkbox" checked={projectData.rules_confirm} onChange={() => {setProjectDataFunc('rules_confirm',!projectData.rules_confirm)}} id="rules_confirmx" value="1" className="rules_confirm" />
                     <label for="rules_confirmx" style={{  marginBottom : "0" }}>
-                        <span className="rulesOpen ml-2" onClick={() => {setOpen(true)}}>İlan verme kurallarını</span>
+                        <span className="rulesOpen mx-1" onClick={() => {setOpen(true)}}>İlan verme kurallarını</span>
                         <span>okudum, kabul ediyorum</span>
                     </label>
                 </div>

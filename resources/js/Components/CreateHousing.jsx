@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "../define/variables";
+import { baseUrl, getLargeData, saveLargeData } from "../define/variables";
 import TopCreateProjectNavigator from "./create_project_components/TopCreateProjectNavigator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,8 +11,10 @@ import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
+import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateHousing(props) {
+  const [loadingStart,setLoadingStart] = useState(false);
   const [step, setStep] = useState(
     () => JSON.parse(localStorage.getItem("step")) || 1
   );
@@ -35,9 +37,8 @@ function CreateHousing(props) {
   const [loadingModalOpen, setLoadingModalOpen] = useState(
     () => JSON.parse(localStorage.getItem("loadingModalOpen")) || false
   );
-  const [projectData, setProjectData] = useState(
-    () => JSON.parse(localStorage.getItem("projectData")) || {}
-  );
+  const [projectData, setProjectData] = useState({});
+
   const [selectedHousingType, setSelectedHousingType] = useState(
     () => JSON.parse(localStorage.getItem("selectedHousingType")) || {}
   );
@@ -47,16 +48,11 @@ function CreateHousing(props) {
   const [slug, setSlug] = useState(
     () => JSON.parse(localStorage.getItem("slug")) || ""
   );
-  const [blocks, setBlocks] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("blocks")) || [
-        {
-          name: "housing",
-          roomCount: 1,
-          rooms: [{}],
-        },
-      ]
-  );
+  const [blocks, setBlocks] = useState({
+    name: "housing",
+    roomCount: 1,
+    rooms: [{}],
+  });
   const [roomCount, setRoomCount] = useState(
     () => JSON.parse(localStorage.getItem("roomCount")) || 1
   );
@@ -102,7 +98,6 @@ function CreateHousing(props) {
     localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
   }, [housingTypes]);
 
-
   useEffect(() => {
     localStorage.setItem("selectedTypes", JSON.stringify(selectedTypes));
   }, [selectedTypes]);
@@ -116,8 +111,47 @@ function CreateHousing(props) {
   }, [loadingModalOpen]);
 
   useEffect(() => {
-    localStorage.setItem("projectData", JSON.stringify(projectData));
-  }, [projectData]);
+    async function saveData() {
+      try {
+        const newData = { ...projectData};
+        console.log('Saving Data:', newData);
+        await saveLargeData('projectData', newData);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveData();
+    }
+  }, [projectData, loadingStart]);
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const storedData = await getLargeData('projectData');
+      if (storedData) {
+        console.log('Fetched Data:', storedData);
+        setProjectData(storedData);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+
+    async function fetchData2() {
+      const storedData2 = await getLargeData('blocks');
+      if (storedData2) {
+        console.log('Fetched Data:', storedData2);
+        setBlocks(storedData2);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+    fetchData();
+    fetchData2();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -135,7 +169,18 @@ function CreateHousing(props) {
   }, [slug]);
 
   useEffect(() => {
-    localStorage.setItem("blocks", JSON.stringify(blocks));
+    async function saveDataBlocks() {
+      try {
+        console.log(blocks);
+        await saveLargeData('blocks', blocks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveDataBlocks();
+    }
   }, [blocks]);
 
   useEffect(() => {
@@ -179,7 +224,6 @@ function CreateHousing(props) {
   const setProjectDataFunc = (key, value) => {
     setProjectData((prev) => {
       const newProjectData = { ...prev, [key]: value };
-      localStorage.setItem("projectData", JSON.stringify(newProjectData));
       return newProjectData;
     });
   };
@@ -197,7 +241,7 @@ function CreateHousing(props) {
   const handleContinue = () => {
     const storedStep = localStorage.getItem("step");
     if (storedStep) {
-      setStep(Number(storedStep)); 
+      setStep(Number(storedStep));
     }
     setStorageLoadingModalOpen(false);
   };
@@ -229,7 +273,7 @@ function CreateHousing(props) {
         roomCount: 1,
         rooms: [{}],
       },
-    ]);    
+    ]);
     setStorageLoadingModalOpen(false);
   };
 
@@ -808,64 +852,6 @@ function CreateHousing(props) {
     setAllErrors(tempErrors);
 
     if (tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0) {
-      const formData = new FormData();
-
-      Object.keys(projectData).forEach((key) => {
-        if (!key.includes("_imagex") && !key.includes("_imagesx")) {
-          if (Array.isArray(projectData[key])) {
-            projectData[key].forEach((data, index) => {
-              formData.append(`projectData[${key}][${index}]`, data);
-            });
-          } else {
-            formData.append(`projectData[${key}]`, projectData[key]);
-          }
-        }
-      });
-
-      blocks.forEach((block, blockIndex) => {
-        formData.append(`blocks[${blockIndex}][name]`, block.name);
-        formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-      });
-
-      var housingTemp = 1;
-
-      blocks.forEach((block, blockIndex) => {
-        block.rooms.forEach((room, roomIndex) => {
-          Object.keys(room).forEach((key) => {
-            if (key == "payDecs") {
-              room.payDecs.forEach((payDec, payDecIndex) => {
-                formData.append(
-                  `room[payDecs][${payDecIndex}][price]`,
-                  payDec.price
-                );
-                formData.append(
-                  `room[payDecs][${payDecIndex}][date]`,
-                  payDec.date
-                );
-              });
-            } else {
-              if (!key.includes("imagex")) {
-                formData.append(`room[${key.replace("[]", "")}]`, room[key]);
-              }
-            }
-          });
-
-          housingTemp++;
-        });
-      });
-
-      formData.append("haveBlocks", haveBlocks);
-      formData.append("totalRoomCount", totalRoomCount());
-      selectedTypes.forEach((data, index) => {
-        formData.append(`selectedTypes[${index}]`, data);
-      });
-      let requestPromises = [];  
-      const formDataObj = {};
-      formData.forEach((value, key) => {
-        formDataObj[key] = value;
-      });
-      localStorage.setItem("fillFormData", JSON.stringify(formDataObj));
-      setFillFormData(formData);
       setStep(3);
     }
   };
@@ -888,7 +874,7 @@ function CreateHousing(props) {
     setLoadingModalOpen(true);
     setProgress(0);
     let progressInterval;
-
+    let requestPromises = [];
     // Start the progress bar increment
     progressInterval = setInterval(() => {
       setProgress((prev) =>
@@ -896,11 +882,68 @@ function CreateHousing(props) {
       );
     }, 500);
 
+    console.log(projectData);
+    const formData = new FormData();
+
+    Object.keys(projectData).forEach((key) => {
+      if (!key.includes("_imagex") && !key.includes("_imagesx")) {
+        if (Array.isArray(projectData[key])) {
+          projectData[key].forEach((data, index) => {
+            formData.append(`projectData[${key}][${index}]`, data);
+          });
+        } else {
+          formData.append(`projectData[${key}]`, projectData[key]);
+        }
+      }
+    });
+
+    blocks.forEach((block, blockIndex) => {
+      formData.append(`blocks[${blockIndex}][name]`, block.name);
+      formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
+    });
+
+    var housingTemp = 1;
+
+    blocks.forEach((block, blockIndex) => {
+      block.rooms.forEach((room, roomIndex) => {
+        Object.keys(room).forEach((key) => {
+          if (key == "payDecs") {
+            room.payDecs.forEach((payDec, payDecIndex) => {
+              formData.append(
+                `room[payDecs][${payDecIndex}][price]`,
+                payDec.price
+              );
+              formData.append(
+                `room[payDecs][${payDecIndex}][date]`,
+                payDec.date
+              );
+            });
+          } else {
+            if (!key.includes("imagex")) {
+              formData.append(`room[${key.replace("[]", "")}]`, room[key]);
+            }
+          }
+        });
+
+        housingTemp++;
+      });
+    });
+
+    formData.append("haveBlocks", haveBlocks);
+    formData.append("totalRoomCount", totalRoomCount());
+    selectedTypes.forEach((data, index) => {
+      formData.append(`selectedTypes[${index}]`, data);
+    });
+    const formDataObj = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value;
+    });
+    setFillFormData(formData);
+
     axios
-      .post(baseUrl + "create_housing", fillFormData, {
+      .post(baseUrl + "create_housing", formData, {
         headers: {
-          accept: "application/json",
-          "Accept-Language": "en-US,en;q=0.8",
+          "accept": "application/json",
           "Content-Type": `multipart/form-data;`,
         },
       })
@@ -909,7 +952,7 @@ function CreateHousing(props) {
           clearInterval(progressInterval);
           setProgress(100);
           setTimeout(() => {
-            setLoadingModalOpen(false); 
+            setLoadingModalOpen(false);
             setStep(4);
             setFillFormData(null);
           }, 500);
@@ -918,7 +961,9 @@ function CreateHousing(props) {
       .catch((error) => {
         clearInterval(progressInterval);
         setLoadingModalOpen(false);
-        toast.error("Bir hata oluştu. Lütfen emlak sepette yönetimiyle iletişime geçin.");
+        toast.error(
+          "Bir hata oluştu. Lütfen Emlak Sepette yöneticisi ile iletişime geçiniz."
+        );
       });
   };
 
@@ -943,19 +988,20 @@ function CreateHousing(props) {
   };
 
   const prevStep = () => {
-    setBlocks(  JSON.parse(localStorage.getItem("blocks")) || [
-      {
-        name: "housing",
-        roomCount: 1,
-        rooms: [{}],
-      },
-    ]);
+    setBlocks(
+      JSON.parse(localStorage.getItem("blocks")) || [
+        {
+          name: "housing",
+          roomCount: 1,
+          rooms: [{}],
+        },
+      ]
+    );
     setStep(step - 1);
-  
+    window.scrollTo(0, 0);
   };
 
   const nextStep = () => {
-
     if (step == 1) {
       setBlocks([
         {
@@ -965,7 +1011,9 @@ function CreateHousing(props) {
         },
       ]);
       setProjectData([]);
-  }    setStep(step + 1);
+    }
+    setStep(step + 1);
+    window.scrollTo(0, 0);
   };
   return (
     <>

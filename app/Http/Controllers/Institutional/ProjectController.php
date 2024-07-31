@@ -140,11 +140,9 @@ class ProjectController extends Controller
     {
 
       
-       // AJAX isteğiyle gelen sayfa numarasını al
         $page = $request->input('page', 1);
 
-        // Sayfalama işlemi için, her sayfada kaç konut gösterileceğini belirleyin
-        $perPage = 20;
+        $perPage = 4;
 
         $housings = Housing::with([
             'images',
@@ -156,12 +154,12 @@ class ProjectController extends Controller
         ])
         ->where('status', 1)
         ->whereNull('is_sold')
-        ->whereHas('listItems', function($query) {
+        ->whereHas('listItems', function ($query) {
             $query->where('item_type', 2);
         })
         ->orderBy('created_at', 'desc')
-        ->offset(($page - 1) * $perPage) // Sayfalamada offset kullanımı
-        ->limit($perPage) // Sayfalamada limit kullanımı
+        ->skip(($page - 1) * $perPage)
+        ->take($perPage)
         ->get();   
 
 
@@ -209,8 +207,7 @@ class ProjectController extends Controller
         // ->get();
 
 
-       
-      
+
 
         // Eğer daha fazla konut varsa, yeni konutları gönderin
         if ($housings->count() > 0) {

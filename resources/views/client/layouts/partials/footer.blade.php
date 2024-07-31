@@ -422,7 +422,7 @@
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #D32729'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
@@ -882,7 +882,7 @@
                                                             .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice  * numberOfShares)) /
                                                 parseInt(installementData)) / numberOfShares) +
                                             "₺" : formatPrice((parseFloat(getDataJS(
                                                         response,
@@ -890,7 +890,7 @@
                                                         .room_info[i].room_order)) -
                                                     parseFloat(getDataJS(response,
                                                         "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
+                                                            i].room_order)) - (payDecPrice)) /
                                                 parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;

@@ -25,6 +25,7 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
 use App\Models\ProjectOffers;
+use App\Models\ProjectComment;
 use App\Models\ProjectOffersGiven;
 use App\Models\ProjectOffersReceived;
 use App\Models\StandOutUser;
@@ -36,6 +37,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+
 
 use function PHPSTORM_META\type;
 
@@ -155,6 +158,8 @@ class ProjectController extends Controller
         });
 
         if ($project) {
+            $project->increment( 'view_count');
+
 
             $projectHousing = $project->roomInfo->keyBy('name');
             $sumCartOrderQt = DB::table('cart_orders')
@@ -296,7 +301,10 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
 
-        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
+        //proje yorumlarını getiren değişken
+        $projectComments = ProjectComment::where( 'project_id', $project->id )->where( 'status', 1 )->with( 'user' )->get();
+
+        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','projectComments'));
     }
 
     public function ajaxIndex($slug, Request $request)
@@ -531,6 +539,7 @@ class ProjectController extends Controller
                     'housings.slug',
                     'housings.title AS housing_title',
                     'housings.created_at',
+                    "housings.is_sold",
                     'housings.step1_slug',
                     'housings.step2_slug',
                     'housing_types.title as housing_type_title',
@@ -560,6 +569,7 @@ class ProjectController extends Controller
                 ->whereRaw('JSON_CONTAINS(housings.housing_type_data, \'["Evet"]\', "$.buysellurgent1")')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
+                ->whereNull('housings.is_sold')
                 ->get();
         }
 
@@ -574,6 +584,7 @@ class ProjectController extends Controller
                 ->select(
                     'housings.id',
                     'housings.slug',
+                    'housings.is_sold',
                     'housings.title AS housing_title',
                     'housings.created_at',
                     'housings.step1_slug',
@@ -606,6 +617,7 @@ class ProjectController extends Controller
                 // ->whereRaw('JSON_EXTRACT(housings.housing_type_data, "$.open_sharing1") IS NOT NULL')
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('housings.created_at')
+                ->whereNull('housings.is_sold')
                 ->get();
         }
 
@@ -794,7 +806,7 @@ class ProjectController extends Controller
                     ->get()
                     ->concat($anotherProjects);
             } else {
-                $query = Housing::with('images', "city", "county");
+                $query = Housing::with('images', "city", "county")->whereNull('housings.is_sold');
 
                 if ($housingTypeParentSlug) {
                     $query->where("step1_slug", $housingTypeParentSlug);
@@ -815,7 +827,7 @@ class ProjectController extends Controller
                 $secondhandHousings = $query->get();
             }
         } else {
-            $query = Housing::with('images', "city", "county");
+            $query = Housing::with('images', "city", "county")->whereNull('housings.is_sold');
 
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
@@ -1320,7 +1332,7 @@ class ProjectController extends Controller
                 $projects = Project::all();
             } elseif ($status->id == 4) {
                 $projects = [];
-                $secondhandHousings = Housing::with('images', "city", "county")->get();
+                $secondhandHousings = Housing::with('images', "city", "county")->whereNull('is_sold')->get();
             } else {
                 $oncelikliProjeler = StandOutUser::where('housing_type_id', $status->id)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
@@ -1433,10 +1445,18 @@ class ProjectController extends Controller
         });
 
         if ($project) {
-            $projectHousing = $project->roomInfo->keyBy('name');
+           // Retrieve roomInfo from the project
+    $roomInfo = $project->roomInfo;
+
+    // Filter the roomInfo based on the housingOrder value
+    $filteredRoomInfo = $roomInfo->filter(function ($item) use ($housingOrder) {
+        return $item->room_order == $housingOrder;
+    });
+
+    // Optionally, you can keyBy 'name' if needed
+    $projectHousing = $filteredRoomInfo->keyBy('name');
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
-
 
             $projectCartOrders = DB::table('cart_orders')
                 ->select(
@@ -1547,7 +1567,7 @@ class ProjectController extends Controller
 
         $active = isset($active) ? 'active' : null;
 
-
+ 
         return view('client.projects.project_housing', compact('pageInfo', "blockName", "blockHousingOrder", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
@@ -1764,5 +1784,87 @@ class ProjectController extends Controller
         return redirect()->back()->with('success', 'Yanıtlandı.');
     } //End
 
+    public function sendComment( Request $request, $id ) {
+        $project = Project::where( 'id', $id )->with( 'user' )->first();
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]
+        );
 
+        if ( $validator->fails() ) {
+            return redirect()->back()->withErrors( $validator->errors() );
+        }
+
+        $rate = $request->input( 'rate' );
+        $comment = $request->input( 'comment' );
+
+        $images = [];
+
+        if ( is_array( $request->images ) ) {
+            foreach ( $request->images as $image ) {
+                $images[] = $image->store( 'public/project-comment-images' );
+
+            }
+        }
+
+        ProjectComment::create(
+            [
+                'user_id' => auth()->user()->id,
+                'project_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'status' => 0,
+                'images' => json_encode( $images ),
+                'owner_id' => $project->user_id,
+            ]
+        );
+
+        return redirect()->back();
+    }//End
+
+    public function getComment($id){
+        $comment = ProjectComment::find($id);
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+        return response()->json(['data' => $comment]);
+    }//End
+
+    public function updateComment(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:project_comments,id',
+            // 'rate' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $comment = ProjectComment::find($request->input('id'));
+        if (!$comment) {
+            return response()->json(['error' => 'Yorum bulunamadı.'], 404);
+        }
+
+        // $comment->rate = $request->input('rate');
+        $comment->comment = $request->input('comment');
+        $comment->status  = 0;
+        $comment->save();
+
+        return response()->json(['message' => 'Yorum başarıyla güncellendi.']);
+    }//End
+
+    public function approveComment(Request $request, $id){
+        ProjectComment::where('id', $id)->update(['status' => 1]);
+        return redirect()->back();
+    }//End
+
+    public function unapproveComment(Request $request, $id){
+        ProjectComment::where('id', $id)->update(['status' => 0]);
+        return redirect()->back();
+    }//End
 }

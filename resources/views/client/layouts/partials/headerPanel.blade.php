@@ -468,7 +468,6 @@
         }
 
         .dropdown-menu li {
-            padding: 20px 28px;
             cursor: pointer;
             text-align: center;
             font-size: 12px;
@@ -539,12 +538,11 @@
     <!-- Wrapper -->
     <div id="wrapper">
         <div class="slick-lancersl">
-            @foreach ($adBanners as $adBanner)
-                <div class="home-top-banner d-xl-block d-none d-lg-block"
-                    style="background-color: {{ $adBanner->background_color }};padding:0 !important">
-                    <img src="https://private.emlaksepette.com/storage/ad-banners/zJHy60qzTxBoPuiY2Vo4lOcpSWEmStZzcPMiN5Pn.png" alt="Reklam Bannerı">
-                </div>
-            @endforeach
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;background-color:#D32729">
+                <video autoplay loop muted style="width:100%;height:50px">
+                    <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
+                </video>
+            </div>
         </div>
 
         <!-- START SECTION HEADINGS -->
@@ -636,6 +634,11 @@
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
+                                                ],
+                                                [
                                                     'url' => route('client.logout'),
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
@@ -665,21 +668,13 @@
                                                         'slug' => Str::slug(auth()->user()->name),
                                                         'userID' => auth()->user()->id,
                                                     ]),
-                                                    'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'icon' => 'fa fa-arrow-right',
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Panelim',
-                                                ],
-                                                [
-                                                    'url' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? route('institutional.housing.list')
-                                                            : route('institutional.react.projects'),
-                                                    'icon' => 'fa fa-home',
-                                                    'text' => 'İlanlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
@@ -703,6 +698,11 @@
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),

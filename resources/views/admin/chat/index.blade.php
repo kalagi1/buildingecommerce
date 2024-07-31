@@ -55,7 +55,7 @@
                                                     alt="">
                                             </div>
                                             <div class="flex-1 d-sm-none d-xl-block">
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex justify-content-between align-items-center mb-5">
                                                     <h5 class="text-900 fw-normal name text-nowrap">{{ $chat->user->name }}
                                                     </h5>
                                                     <p class="fs--2 text-600 mb-0 text-nowrap">Just now</p>

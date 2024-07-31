@@ -1071,6 +1071,11 @@
     font-size: 11px;
     color: #333;
     list-style: none;
+    font-weight: 600;
+  }
+
+  .finish-category-select{
+    font-weight: 600;
   }
   
   .area-list li.selected,

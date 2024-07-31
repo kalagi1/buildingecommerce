@@ -34,7 +34,7 @@ function EndSectionHousing(props) {
                 Başarıyla ilan eklediniz
               </div>
               <div className="text">
-                <a href="/hesabim/konutlar" className="btn btn-info">
+                <a href="/hesabim/emlak-ilanlarim" className="btn btn-info">
                   Mağazama Git
                 </a>
                 <a

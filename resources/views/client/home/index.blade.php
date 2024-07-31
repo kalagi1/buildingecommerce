@@ -109,10 +109,10 @@
         <div class="container">
 
             <div class="portfolio ">
-                <div class="section-title mb-3 mobileSectionTitle">
+                <div class="section-title mb-5 mobileSectionTitle">
                     <h2>Popüler İnşaat Markaları</h2>
                 </div>
-                <div class="slick-lancers" style="height: 95px">
+                <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                         <a href="https://private.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
@@ -203,7 +203,7 @@
     </section>
 
 
-    <section class="container justify-content-center">
+    <section class="container justify-content-center mb-5">
 
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
@@ -314,8 +314,6 @@
                 </div>
             </div>
         </section>
-    @else
-        <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
 
 
@@ -324,7 +322,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-12">
-                    <div class="section-title mb-3 mobileSectionTitle">
+                    <div class="section-title mb-5 mobileSectionTitle">
                         <h2>Popüler Gayrimenkul Markaları</h2>
                     </div>
                 </div>
@@ -358,9 +356,30 @@
                                                         style="object-fit:contain;">
                                                 @endif
                                             </a>
-                                            <span
-                                                style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">{{ $brand->name }}</span>
-
+                                            @php
+                                            // Markanın adını al
+                                            $brandName = $brand->name;
+                                        
+                                            // Markanın adını boşluk karakteri ile ayır
+                                            $words = explode(' ', $brandName);
+                                        
+                                            // İlk iki kelimeyi al
+                                            $firstTwoWords = '';
+                                            if (isset($words[0])) {
+                                                $firstTwoWords .= $words[0];
+                                            }
+                                            if (isset($words[1])) {
+                                                $firstTwoWords .= ' ' . $words[1];
+                                            }
+                                        @endphp
+                                        
+                                        <span style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
+                                            {{ $firstTwoWords }}
+                                            @if (count($words) > 2)
+                                                ...
+                                            @endif
+                                        </span>
+                                        
                                         </div>
                                     </div>
                                 </div>
@@ -374,11 +393,12 @@
     <!-- END SECTION RECENTLY PROPERTIES -->
 
 
-   
+
 
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
             <div class="container">
+                
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
@@ -391,8 +411,8 @@
                     </a>
                 </div>
 
-               
-                
+
+
                 <div class="mobile-show">
                     <div id="housingMobileRow">
                         @forelse ($housings->take(4) as $housing)
@@ -426,7 +446,7 @@
                                 @endforelse
                             </div>
                             <div class="text-center">
-                                <button id="loadMoreButton" class="btn btn-primary my-3"
+                                <button id="loadMoreButton" class="btn my-3"
                                     style="display: none; margin: 0 auto;">Daha Fazlasını Gör</button>
                                 <div class="ajax-load" style="display: none;">
                                     <div class="spinner-border" role="status"></div>
@@ -738,7 +758,6 @@
 @endsection
 
 @section('styles')
-
     <style>
         .profile-initial {
             font-size: 20px;

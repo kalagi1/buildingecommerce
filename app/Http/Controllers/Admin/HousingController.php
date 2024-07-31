@@ -13,6 +13,7 @@ use App\Models\HousingType;
 use App\Models\User;
 use App\Models\Log;
 use App\Models\HousingComment;
+use App\Models\ProjectComment;
 use App\Models\HousingTypeParent;
 use App\Models\Institution;
 use App\Models\Rate;
@@ -70,9 +71,6 @@ class HousingController extends Controller
             'district',
             'neighborhood'
         ])
-        ->whereHas('listItems', function($query) {
-            $query->where('item_type', 2);
-        })
         ->orderBy('created_at', 'desc');
 
         // Active housings
@@ -251,13 +249,23 @@ class HousingController extends Controller
      * Display a listing of the comments.
      */
 
-    public function comments()
-    {
-        $housing = HousingComment::all();
-        return view('admin.housings.comments', ['housing' => $housing]);
-        
-    }
-
+     public function comments()
+     {
+         $housing_comments = HousingComment::all()->map(function ($comment) {
+             $comment->type = 'emlak';
+             return $comment;
+         });
+     
+         $project_comments = ProjectComment::all()->map(function ($comment) {
+             $comment->type = 'proje';
+             return $comment;
+         });
+     
+         $comments = $housing_comments->concat($project_comments)->sortByDesc('created_at');
+     
+         return view('admin.housings.comments', ['comments' => $comments]);
+     }
+     
     public function approveComment(Request $request, $id)
     {
         HousingComment::where('id', $id)->update(['status' => 1]);

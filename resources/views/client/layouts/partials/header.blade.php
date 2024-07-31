@@ -399,9 +399,9 @@
     <!-- Wrapper -->
     <div id="wrapper">
             <div class="slick-lancersl homeTopBanner">
-                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px">
-                    <video autoplay loop muted style="width:100%">
-                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4">
+                <div class="home-top-banner d-xl-block d-none d-lg-block" style="height:50px;;background-color:#D32729">
+                    <video autoplay loop muted style="width:100%;height:50px">
+                        <source src="{{ asset('/emlaksepettegif.mp4') }}" type="video/mp4" style="height:50px;display:block">
                     </video>
                 </div>
             
@@ -502,6 +502,11 @@
                                                     'text' => 'Favorilerim',
                                                 ],
                                                 [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
+                                                ],
+                                                [
                                                     'url' => route('client.logout'),
                                                     'icon' => 'fa fa-sign-out',
                                                     'text' => 'Çıkış Yap',
@@ -528,21 +533,13 @@
                                             'links' => [
                                                 [
                                                     'url' =>  route('institutional.dashboard', ['slug' =>Str::slug(auth()->user()->name), 'userID' => auth()->user()->id]),
-                                                    'icon' => 'fas fa-store',
-                                                    'text' => 'Mağazam',
+                                                    'icon' => 'fa fa-arrow-right',
+                                                    'text' => 'Mağazama Git',
                                                 ],
                                                 [
                                                     'url' => route('institutional.index'),
                                                     'icon' => 'fa fa-user',
                                                     'text' => 'Panelim',
-                                                ],
-                                                [
-                                                    'url' =>
-                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
-                                                            ? route('institutional.housing.list')
-                                                            : route('institutional.react.projects'),
-                                                    'icon' => 'fa fa-home',
-                                                    'text' => 'İlanlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.sharer.index'),
@@ -566,6 +563,11 @@
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('my.reviews'),
+                                                    'icon' => 'fa fa-comment',
+                                                    'text' => 'Değerlendirmelerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
@@ -618,7 +620,7 @@
                                                         Giriş Yap
                                                     </a></div>
                                                 <div class="signup-button signup-button-container"><a
-                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        href="{{ route('client.register')}}" class="userIcon"
                                                         style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">
@@ -627,7 +629,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('cart') }}"
+                                    <a href="{{ auth()->check() ? route('cart') : route('client.login') }}"
                                         style="border-left: 1px solid #666;
                                     padding-left: 15px;">
                                         @include('client.layouts.partials.cart_icon', [

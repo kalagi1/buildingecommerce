@@ -175,14 +175,14 @@
                                                         @if ($result['step2_slug'] != 'gunluk-kiralik')
                                                             @if (isset(json_decode($result['housing_type_data'])->off_sale1[0]))
                                                                 <button class="btn second-btn  mobileCBtn"
-                                                                    style="background: #EA2B2E !important;width:100%;color:White">
+                                                                    style="background: #D32729 !important;width:100%;color:White">
 
                                                                     <span class="text">Satıldı</span>
                                                                 </button>
                                                             @else
                                                                 @if ($sold && $sold[0]->status != '2')
                                                                     <button class="btn second-btn  mobileCBtn"
-                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
+                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #D32729 !important;width:100%;color:White" @endif>
                                                                         @if ($sold[0]->status == '0')
                                                                             <span class="text">Onay
                                                                                 Bekleniyor</span>
@@ -203,7 +203,7 @@
                                                                             <span class="text">Sepete Ekle</span>
                                                                         </button>
                                                                     @else
-                                                                        <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                        <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
                                                                             class="btn btn-success"
                                                                             style="width: 100%;
                                                                                     height: 40px;
@@ -239,7 +239,7 @@
                                                                     }
                                                                 </script>
                                                             @else
-                                                                <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
                                                                     class="btn btn-success"
                                                                     style="width: 100%;
                                                                                 height: 40px;
@@ -301,7 +301,7 @@
                                         </div>
                                     </div>
                                     <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-                                        <div class="d-flex justify-content-between align-items-center"
+                                        <div class="d-flex justify-content-between align-items-center mb-5"
                                             style="height: 100%;padding: 10px">
                                             <ul class="d-flex align-items-center h-100"
                                                 style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
@@ -403,7 +403,7 @@
                                                                                     </div>
                                                                                     @if ($discount_amount)
                                                                                         <div class="homes-tag button alt sale"
-                                                                                            style="background-color:#EA2B2E!important">
+                                                                                            style="background-color:#D32729!important">
                                                                                             İNDİRİM
                                                                                         </div>
                                                                                     @endif
@@ -530,7 +530,7 @@
                                                                                                     {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                                     ₺
                                                                                                     <span
-                                                                                                        style="font-size:11px; color:#EA2B2E"
+                                                                                                        style="font-size:11px; color:#D32729"
                                                                                                         class="mobilePriceStyle">
                                                                                                         1
                                                                                                         Gece</span>
@@ -544,7 +544,7 @@
                                                                                                 {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                                 ₺
                                                                                                 <span
-                                                                                                    style="font-size:11px; color:#EA2B2E"
+                                                                                                    style="font-size:11px; color:#D32729"
                                                                                                     class="mobilePriceStyle">
                                                                                                     1
                                                                                                     Gece</span>
@@ -566,14 +566,14 @@
                                                                             @if ($result['step2_slug'] != 'gunluk-kiralik')
                                                                                 @if (isset(json_decode($result['housing_type_data'])->off_sale1[0]))
                                                                                     <button class="btn second-btn "
-                                                                                        style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                        style="background: #D32729 !important;width:100%;color:White">
 
                                                                                         <span class="text">Satıldı</span>
                                                                                     </button>
                                                                                 @else
                                                                                     @if ($sold && $sold[0]->status != '2')
                                                                                         <button class="btn second-btn "
-                                                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
+                                                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #D32729 !important;width:100%;color:White" @endif>
                                                                                             @if ($sold[0]->status == '0')
                                                                                                 <span class="text">Onay
                                                                                                     Bekleniyor</span>
@@ -597,7 +597,7 @@
                                                                                                     Ekle</span>
                                                                                             </button>
                                                                                         @else
-                                                                                            <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                                            <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
                                                                                                 class="btn btn-success"
                                                                                                 style="width: 100%;
                                                                                                     height: 40px;
@@ -637,7 +637,7 @@
                                                                                         }
                                                                                     </script>
                                                                                 @else
-                                                                                    <a href="{{ route('institutional.housing.edit', ['id' => $result['id']]) }}"
+                                                                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
                                                                                         class="btn btn-success"
                                                                                         style="width: 100%;
             height: 40px;

@@ -19,8 +19,14 @@ $(document).ready(function () {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        $.ajax('js/markers2.json', {
-            success: function (markers) {
+        // API'den veri çekmek için AJAX isteği
+        $.ajax({
+            url: '/api/markers', // API'nizin URL'sini buraya koyun
+            method: 'GET',
+            success: function (response) {
+                // API'den gelen veriyi işleme
+                var markers = response.data; // API'den dönen verinin yapısına göre ayarlayın
+
                 $.each(markers, function (index, value) {
                     var icon = L.divIcon({
                         html: value.icon,
@@ -52,8 +58,10 @@ $(document).ready(function () {
                 });
 
                 map.addLayer(marker_cluster);
+            },
+            error: function (xhr, status, error) {
+                console.error('API çağrısı sırasında bir hata oluştu:', error);
             }
         });
     }
-
 });

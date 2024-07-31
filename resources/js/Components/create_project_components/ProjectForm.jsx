@@ -59,7 +59,15 @@ function ProjectForm({
     language: "tr",
   });
 
-  const [selectedLocation, setSelectedLocation] = useState({});
+  const [selectedLocation, setSelectedLocation] = useState(
+    () => JSON.parse(localStorage.getItem("selectedLocation")) || {}
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+  }, [selectedLocation]);
+
+  
   const setProjectTitle = (projectTitle) => {
     if (projectTitle.length <= 70) {
       setProjectDataFunc("project_title", projectTitle);
@@ -83,21 +91,88 @@ function ProjectForm({
         for (var i = 0; i < block.roomCount; i++) {
           if (blocks[blockIndex].rooms[i]) {
             formDataHousing.forEach((formDataHousing) => {
-              if (!formDataHousing?.className?.includes("project-disabled")) {
-                if (formDataHousing?.required) {
-                  if (blocks.length < 1) {
-                    tempErrors.push(formDataHousing?.name?.replace("[]", ""));
-                  } else {
-                    if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
-                      tempErrors.push(
-                        formDataHousing?.name?.replace("[]", "") +
-                          blockIndex +
-                          i
-                      );
+              if(slug == "satilik"){
+                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "devren-satilik"){
+                if (!formDataHousing?.className?.includes("project-disabled") && !formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "devren-kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-show-project-daliy-rent") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
+                    }
+                  }
+                }
+              }else if(slug == "gunluk-kiralik"){
+                if (!formDataHousing?.className?.includes('project-disabled') && !formDataHousing?.className?.includes("only-show-project-rent") && !formDataHousing?.className?.includes("only-show-project-sale") && !formDataHousing?.className?.includes("only-not-show-project")) {
+                  if (formDataHousing?.required) {
+                    if (blocks.length < 1) {
+                      tempErrors.push(formDataHousing?.name?.replace("[]", ""));
+                    } else {
+                      if (!blocks[blockIndex].rooms[i][formDataHousing.name]) {
+                        tempErrors.push(
+                          formDataHousing?.name?.replace("[]", "") +
+                            blockIndex +
+                            i
+                        );
+                      }
                     }
                   }
                 }
               }
+              
             });
           } else {
             formDataHousing.forEach((formDataHousing) => {
@@ -257,30 +332,27 @@ function ProjectForm({
       const isWithinTurkey =
         lat >= 35.8 && lat <= 42.1 && lng >= 25.8 && lng <= 44.8;
 
-      if (isShowRef.current) {
-        console.log("Clicked LatLng:", latLng);
+      // Check if projectData has required fields
+      if (!projectData.city_id || !projectData.county_id || !projectData.neighbourhood_id) {
+        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        return;
+      }
 
-        if (isWithinTurkey) {
-          console.log("Inside bounds:", latLng);
-          setSelectedLocation({ lat, lng });
+      if (isWithinTurkey) {
+        setSelectedLocation({ lat, lng });
 
-          if (markerRef.current) {
-            markerRef.current.setMap(null);
-          }
-
-          markerRef.current = new google.maps.Marker({
-            position: { lat, lng },
-            map: mapRef.current,
-            title: "Selected Location",
-          });
-          setError(null);
-        } else {
-          console.log("Outside bounds or outside Turkey:", latLng);
-          setError(" Türkiye sınırları içinde bir nokta seçiniz.");
+        if (markerRef.current) {
+          markerRef.current.setMap(null);
         }
+
+        markerRef.current = new google.maps.Marker({
+          position: { lat, lng },
+          map: map,
+          title: "Selected Location",
+        });
         setError(null);
       } else {
-        setError("Lütfen il, ilçe ve mahalle seçimini tamamlayınız.");
+        setError("Türkiye sınırları içinde bir nokta seçiniz.");
       }
     };
 
@@ -364,7 +436,7 @@ function ProjectForm({
           Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
           yükümlülüğü metnine{" "}
           <a
-            href="http://127.0.0.1:8000/sayfa/kvkk-politikasi"
+            href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
             target="_blank"
           >
             buradan
@@ -632,6 +704,7 @@ function ProjectForm({
                   type="date"
                   value={projectData.end_date}
                   onChange={(e) => {
+                    console.log(e.target.value,e.target.value.length)
                     if (e.target.value.length <= 10) {
                       setProjectDataFunc("end_date", e.target.value);
                     }
@@ -801,7 +874,7 @@ function ProjectForm({
               </select>
             </div>
           </div>
-          {allErrors.includes("coordinates") ? (
+          {  !selectedLocation ? (
             <Alert
               severity="error"
               className="mt-3"

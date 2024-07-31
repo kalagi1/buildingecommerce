@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\HousingComment;
 use App\Models\Page;
+use App\Models\ProjectComment;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -39,5 +41,26 @@ class PageController extends Controller
             return response()->json(['error' => 'İçerik bulunamadı'], 404);
         }
     }//End
+
+    public function myReviews(Request $request)
+    {
+        // Retrieve comments from both tables for the authenticated user
+        $housing_comments = HousingComment::where('user_id', auth()->user()->id)->get();
+        $project_comments = ProjectComment::where('user_id', auth()->user()->id)->get();
+        
+        // Merge comments and add a type field to distinguish between them
+        $all_comments = $housing_comments->map(function ($comment) {
+            $comment->type = 'Emlak'; // Set type for housing comments
+            return $comment;
+        })->concat($project_comments->map(function ($comment) {
+            $comment->type = 'Proje'; // Set type for project comments
+            return $comment;
+        }))->sortByDesc('created_at'); // Sort comments by creation date
+        
+        // Return view with the merged and sorted comments
+        return view('client.panel.my_reviews.index', compact('all_comments'));
+    }
+    
+    
     
 }

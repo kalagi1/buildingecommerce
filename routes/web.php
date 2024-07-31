@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
 use App\Http\Controllers\Admin\CrmController as AdminCrmController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -120,7 +121,9 @@ Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])
 Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('sitemap.xml', [SitemapController::class, "index"])->name('sitemap');
 Route::get('/', [HomeController::class, "index"])->name('index');
-Route::get('/kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+Route::get('/emlak-ilanlarini-kesfet', [HomeController::class, "kesfet"])->name('kesfet');
+Route::get('/projeleri-kesfet', [HomeController::class, "kesfetProje"])->name('kesfetProje');
+
 Route::post('/preview-housing', [HomeController::class, "previewHousing"])->name('previewHousing');
 
 Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.index.view');
@@ -155,7 +158,14 @@ Route::get('/get-sell-type', [SellTypeController::class, 'getSellType'])->name('
 Route::post('/update-sell-type', [SellTypeController::class, 'updateSellType'])->name('update_sell_type');
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+
 });
+Route::post('/project/{id}/send-comment', [ClientProjectController::class, "sendComment"])->name('project.send-comment');
+Route::get('/get-project-comment/{id}', [ClientProjectController::class, 'getComment'])->name('project.get-comment');
+Route::post('/project-comments/update', [ClientProjectController::class, 'updateComment'])->name('project.update-comment');
+
+Route::get('/get-housing-comment/{id}', [ClientHousingController::class, 'getComment'])->name('housing.get-comment');
+Route::post('/housing-comments/update', [ClientHousingController::class, 'updateComment'])->name('housing.update-comment');
 
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard2"])
     ->name('club.dashboard2');
@@ -224,7 +234,9 @@ Route::get('/qR9zLp2xS6y/secured/logout', [AdminLoginController::class, "logout"
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
-    Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
+    Route::get('/uye-ol', [ClientLoginController::class, "showRegisterForm"])->name('client.register');
+
+    Route::post('/login-website', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 });
 
@@ -259,7 +271,10 @@ Route::patch('/bids/{bid}/accept', [BidController::class, 'accept'])->name('bids
 Route::patch('/bids/{bid}/reject', [BidController::class, 'reject'])->name('bids.reject');
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
-
+    Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
+    Route::get('districts', [LocationController::class, 'getDistricts'])->name('locations.getDistricts');
+    Route::get('neighborhoods', [LocationController::class, 'getNeighborhoods'])->name('locations.getNeighborhoods');
+    Route::post('saveMetaDescriptions', [LocationController::class, 'saveMetaDescriptions'])->name('locations.saveMetaDescriptions');
 
     Route::get('/islem-kayitlari', [UserController::class, 'logs'])->name('logs');
 
@@ -469,6 +484,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housing/comment/approve/{id}', [HousingController::class, 'approveComment'])->name('housings.approve');
         Route::get('/housing/comment/unapprove/{id}', [HousingController::class, 'unapproveComment'])->name('housings.unapprove');
     });
+
+    Route::get('/projects/comment/approve/{id}', [ClientProjectController::class, 'approveComment'])->name('projects.approve');
+    Route::get('/projects/comment/unapprove/{id}', [ClientProjectController::class, 'unapproveComment'])->name('projects.unapprove');
 
     Route::middleware(['checkPermission:DeleteHousing'])->group(function () {
         Route::delete('/housings/{housing}', [HousingController::class, 'destroy'])->name('housings.destroy');
@@ -842,8 +860,8 @@ Route::put('/project/{id}/{room}/update-price', [ApiClientProjectController::cla
 Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     // Route::get('/danismana/musteri/atama',[InstitutionalCrmController::class,'assignConsultantCustomer'])->name('assign.consultant.customer');
 
-    //sıfırdan crm rotaları
 
+    //sıfırdan crm rotaları
     //satış danışmanlarını listele ve proje atama
     Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('crm.danisman.proje.atama');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
@@ -878,14 +896,14 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/awards/{id}',[InstitutionalCrmController::class,'awardUpdate'])->name('crm.award.update');
 
 
-    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/proje-ilanlarim', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/crm', [InstitutionalCrmController::class, 'index'])->name('react.crm');
     Route::get('/project_assigment', [InstitutionalCrmController::class, 'projectAssigment'])->name('react.project.assigment');
     Route::get('/gelen-takas-basvurulari', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
     Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
     Route::get('/komsumu-gor', [NeighborViewController::class, 'index'])->name('neighbors.index');
     Route::get('/hemen-basvur-kayitlari', [ClientProjectController::class, 'applyNowRecords'])->name('apply_now_records'); //Mağazanın aldıgı tekliflerin listesi
-    Route::get('/housing/{housing}/bids', [BidController::class, 'index'])->name('bids.index');
+    Route::get('/pazarlik-teklifleri/{housing}', [BidController::class, 'index'])->name('bids.index');
 
     Route::get('projelerime-gelen-basvurular', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('projelere-yaptigim-basvurular', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -1060,7 +1078,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
         Route::post('/bireysel/profil', [InstitutionalProfileController::class, "individualProfileUpdate"])->name('individual.profile.update');
 
-        Route::get('/profil/duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
+        Route::get('/profil-duzenleme', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
 
@@ -1160,9 +1178,9 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
-        Route::get('/konut-duzenleme/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
+        Route::get('/emlak-ilani-duzenle/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
         Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
-        Route::get('/gorsel-duzenleme/{id}', [InstitutionalHousingController::class, 'editImages'])->name('housing.images.update');
+        Route::get('/emlak-ilani-gorsel-duzenle/{id}', [InstitutionalHousingController::class, 'editImages'])->name('housing.images.update');
         Route::post('/add_image/{id}', [InstitutionalHousingController::class, 'addProjectImage'])->name('housing.image.add');
         Route::post('/delete_image/{id}', [InstitutionalHousingController::class, 'deleteProjectImage'])->name('housing.image.delete');
         Route::post('/update_orders/{id}', [InstitutionalHousingController::class, 'updateOrders'])->name('housing.update.orders');
@@ -1171,7 +1189,7 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
     });
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
-        Route::get('/konutlar', [InstitutionalHousingController::class, 'index'])->name('housing.list');
+        Route::get('/emlak-ilanlarim', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
     Route::get('/kiraladiklarim', [DashboardController::class, 'getMyReservations'])->name('myreservations');
 
@@ -1182,13 +1200,23 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
         Route::get('/faturayi-goruntule/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/siparis_detayi/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
-        Route::get('reservation/order_detail/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
+        Route::get('rezervasyon-detayi/{reservation_id}', [ClientPanelProfileController::class, 'reservationDetail'])->name('reservation.order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('reservation/upload/pdf', [ClientPanelProfileController::class, 'reservationUpload'])->name('reservation.contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
     });
     Route::post('/reservation/refund', [ClientPanelProfileController::class, 'reservationRefund'])->name('reservation.order.refund');
 });
+
+Route::get('/degerlendirmelerim',[ClientPageController::class,'myReviews'])->name('my.reviews');
+
+Route::post('/order/comment', [HomeController::class, 'commentAfterPayment'])->name('client.commentAfterPayment');
+
+Route::get('/share/approve/{share}', [HomeController::class, 'approveShare'])->name('client.approve-share');
+Route::get('/share/unapprove/{share}', [HomeController::class, 'unapproveShare'])->name('client.unapprove-share');
+
+Route::get('/price/approve/{price}', [HomeController::class, 'approvePrice'])->name('client.approve-price');
+Route::get('/price/unapprove/{price}', [HomeController::class, 'unapprovePrice'])->name('client.unapprove-price');
 
 
 Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
@@ -1276,6 +1304,8 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('remove-project-assignment', [CrmController::class, 'removeProjectAssignment']);
 
     Route::post('add-user', [CrmController::class, 'addUser']);
+    Route::post('write-images-to-file', [ApiProjectController::class, 'writeImagesToFile']);
+    Route::get('get_images_temp', [ApiProjectController::class, 'getImagesTemp']);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

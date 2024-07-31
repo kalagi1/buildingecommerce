@@ -8,7 +8,9 @@ use App\Models\AssignedUser;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Award;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,16 +21,37 @@ class CrmController extends Controller
     public function index(){
         return view('client.panel.crm.index');
     }
+    public function approveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '1' ] );
+        return redirect()->back();
+    }
 
+    public function unapproveReservation( Reservation $reservation ) {
+        $reservation->update( [ 'status' => '3' ] );
+        CancelRequest::where( 'reservation_id', $reservation->id )->delete();
+        return redirect()->back();
+    }
     public function projectAssigment(){
         return view('client.panel.crm.project_assigment');
     }//End
 
-    public function salesConsultantList(){
-        $sales_consultant = User::where('project_authority','on')->get(); 
-        $projects = Project::where('status','1')->get();
-        // print_r(count($projects));die;
-        return view('client.panel.sales_consultant.index',compact('sales_consultant','projects'));
+    public function salesConsultantList() {
+        $sales_consultant = User::where('project_authority', 'on')->get();
+        $projects = Project::where('status', '1')->get();
+        // print_r($sales_consultant);die;
+    
+        // Danışmanlar için atanmış projeleri çek
+        $consultantsWithProjects = [];
+        foreach ($sales_consultant as $consultant) {
+            $assignedProjects = DB::table('project_assigment')
+                ->where('user_id', $consultant->id)
+                ->pluck('project_id')
+                ->toArray();
+    
+            $consultantsWithProjects[$consultant->id] = $assignedProjects;
+        }
+    
+        return view('client.panel.sales_consultant.index', compact('sales_consultant', 'projects', 'consultantsWithProjects'));
     }//End
 
     public function assignProjectUser(Request $request){
@@ -131,7 +154,6 @@ class CrmController extends Controller
         $geri_donus_yapilacak_musteriler = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
             ->get();
-            // print_r($geri_donus_yapilacak_musteriler);die;
 
         $geri_donus_yapilacak_musterilerCount = DB::table('assigned_users')
             ->whereIn('id', $uniqueCustomerIds)
@@ -336,13 +358,6 @@ class CrmController extends Controller
                 return response()->json(['success' => false, 'message' => 'Müşteri Eklenirken hata oluştu. Lütfen tekrar deneyiniz.']);
             }
         }
-
-
-        
-      
-
-   
-
     }//End
 
     public function danismanDashboard(){

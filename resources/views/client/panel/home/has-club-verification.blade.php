@@ -36,7 +36,7 @@
                                                         @if (Auth::check() && Auth::user()->type == '1')
                                                             <div class="mt-3">
                                                                 <label class="form-label">Tc Kimlik No</label>
-                                                                <input type="number" name="idNumber"
+                                                                <input type="number" name="idNumber" id="idNumber"
                                                                     class="form-control @error('idNumber') is-invalid @enderror"
                                                                     value="{{ old('idNumber', $user->idNumber) }}">
                                                                 @error('idNumber')
@@ -104,6 +104,55 @@
 @endsection
 
 @section('scripts')
+<script>
+    function formatIBAN(input) {
+        var value = $(input).val();
+        var maxLength = 26;
+
+        // Sadece rakamları ve harfleri izin ver
+        var alphanumericValue = value.replace(/[^a-zA-Z0-9]/g, '');
+
+        // IBAN uzunluğunu kontrol et
+        if (alphanumericValue.length > maxLength) {
+            alphanumericValue = alphanumericValue.slice(0, maxLength);
+        }
+
+        $(input).val(alphanumericValue);
+
+        // IBAN uzunluğu kontrolü
+        if (alphanumericValue.length !== maxLength) {
+            $(input).addClass('is-invalid');
+            $(input).siblings('.invalid-feedback').text('IBAN numarası 26 haneli olmalıdır.');
+        } else {
+            $(input).removeClass('is-invalid');
+            $(input).siblings('.invalid-feedback').text('');
+        }
+    }
+</script>
+    <script>
+        $(document).ready(function() {
+            $('#idNumber').on('input', function() {
+                var inputValue = $(this).val();
+                var maxLength = 11;
+
+                // Sadece rakamları izin ver
+                var numericValue = inputValue.replace(/\D/g, '');
+
+                if (numericValue.length > maxLength) {
+                    numericValue = numericValue.slice(0, maxLength);
+                }
+
+                $(this).val(numericValue);
+
+                if (numericValue.length > maxLength) {
+                    $('#error-message').text('Telefon numarası 11 haneden fazla olamaz.');
+                } else {
+                    $('#error-message').text('');
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $("#phone").on("input blur", function() {
@@ -195,7 +244,7 @@
 
         .crossmark::after {
             content: '✗';
-            color: #EA2B2E;
+            color: #D32729;
             font-size: 16px;
             margin-left: 5px;
         }
