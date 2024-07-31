@@ -299,7 +299,7 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="comment-tab" data-bs-toggle="tab"
                                         data-bs-target="#comment" type="button" role="tab" aria-controls="comment"
-                                        aria-selected="false">Yorum Yap</button>
+                                        aria-selected="false">Değerlendir</button>
                                 </li>
 
                             </ul>
