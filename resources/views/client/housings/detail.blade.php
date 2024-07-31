@@ -358,44 +358,8 @@ function getImage($housing, $key)
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                         @if (count($housingComments))
-                                        @php
-
-    // Count the number of reviews for each rating (1-5)
-    $ratingCounts = [0, 0, 0, 0, 0];
-    foreach ($housingComments as $comment) {
-        if ($comment->rate >= 1 && $comment->rate <= 5) {
-            $ratingCounts[$comment->rate - 1]++;
-        }
-    }
-
-    // Calculate the total number of reviews and comments
-    $totalReviews = array_sum($ratingCounts);
-    $totalComments = $housingComments->count();
-
-    // Calculate the percentage for each rating
-    $ratingPercentages = array_map(function ($count) use ($totalReviews) {
-        return ($totalReviews > 0 ? ($count / $totalReviews) * 100 : 0);
-    }, $ratingCounts);
-
-    // Calculate the average rating
-    $averageRating = $totalReviews ? array_sum(array_map(function ($rate, $index) use ($ratingCounts) {
-        return $rate * $ratingCounts[$index];
-    }, [1, 2, 3, 4, 5], array_keys($ratingCounts))) / $totalReviews : 0;
-                                        @endphp
                                         <div class="ps-ratings">
                                             <div class="ps-ratings__stars">
-                                                <div class="ratings readonly">
-                                                    @for ($i = 0; $i < 5; $i++)
-                                                        <div class="star-w">
-                                                            <div class="empty">
-                                                                <div class="star"></div>
-                                                            </div>
-                                                            <div class="full" style="width: {{ $ratingPercentages[$i] }}%; max-width: 100%;">
-                                                                <div class="star"></div>
-                                                            </div>
-                                                        </div>
-                                                    @endfor
-                                                </div>
                                                 <div class="ps-ratings__count-text">{{ number_format($averageRating, 1) }}</div>
                                                 <div class="ps-ratings__average">
                                                     <div>Ortalama</div>
@@ -412,7 +376,7 @@ function getImage($housing, $key)
                                                 </div>
                                             </div>
                                         </div>
-                                                                                                                        
+                                                       <hr>                                                                 
                                             <div style="margin-top: 20.5px;"><span
                                                     class="product-review-section-wrapper__wrapper__filter_title">Puana
                                                     Göre Filtrele</span>
@@ -3792,50 +3756,5 @@ function getImage($housing, $key)
                 margin-left: 20px;
                 margin-bottom: 10px;
             }
-            .ps-ratings__stars {
-  display: flex;
-  align-items: center;
-}
-.ps-ratings__stars .star-w {
-  scale: 1.25;
-  margin-right: 6px;
-}
-.ps-ratings__stars .ratings {
-  margin-top: 3px;
-}.ratings {
-  position: relative;
-  display: flex!important;
-}
-.ratings.readonly {
-  height: 17px;
-}
-.ratings:not(.readonly) {
-  align-items: center;
-}
-.ratings:not(.readonly) .star-w .star {
-  cursor: pointer;
-}
-.star-w {
-  position: relative;
-  margin-right: 2px;
-}
-.star-w .star {
-  width: 14px;
-  height: 14px;
-  transform: scale(0.85);
-}
-.star-w .empty .star {
-  background: url('https://cdn.dsmcdn.com/web/production/rating-and-review-small-star-grey.svg') no-repeat center;
-}
-.star-w .full {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.star-w .full .star {
-  background: url('https://cdn.dsmcdn.com/web/production/rating-and-review-small-star-orange.svg') no-repeat center;
-}
         </style>
 @endsection
