@@ -357,8 +357,19 @@ function getImage($housing, $key)
                                 </div>
                                 <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
-                                    <h5 class="mt-4">Yorumlar</h5>
                                         @if (count($housingComments))
+                                        @php
+                                        $totalReviews = count($housingComments);
+                                        $sumRatings = $housingComments->sum('rate');
+                                        $averageRating = $totalReviews > 0 ? round($sumRatings / $totalReviews, 1) : 0;
+                                        $ratingCounts = [0, 0, 0, 0, 0];
+                                    @endphp
+                            
+                                    <!-- Display average rating and total reviews -->
+                                    <div class="rating-summary mb-3">
+                                        <span class="average-rating">Ortalama Puan: {{ $averageRating }} / 5</span><br>
+                                        <span class="total-reviews">Toplam Değerlendirme: {{ $totalReviews }}</span>
+                                    </div>
                                             <div style="margin-top: 20.5px;"><span
                                                     class="product-review-section-wrapper__wrapper__filter_title">Puana
                                                     Göre Filtrele</span>
@@ -3697,8 +3708,6 @@ function getImage($housing, $key)
             .product-review-section-wrapper__wrapper__product-rating-filters {
                 display: flex;
                 flex-direction: row;
-                flex-wrap: wrap;
-                margin-left: 20px;
                 margin-top: 10px;
                 align-items: center margin-right: 20px;
             }
