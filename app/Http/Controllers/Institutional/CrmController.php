@@ -361,7 +361,7 @@ class CrmController extends Controller
     }//End
 
     public function danismanDashboard(){
-
+$topCaller = [];
         // $totalCustomers = DB::table('assigned_users')->where('danisman_id',Auth::id())->count(); //Tüm Müşteriler
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
