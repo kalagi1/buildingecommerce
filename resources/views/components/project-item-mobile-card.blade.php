@@ -243,7 +243,7 @@
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -265,7 +265,7 @@
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                 ₺
