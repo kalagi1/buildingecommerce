@@ -44,11 +44,11 @@
                     <div class="title">
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
-                    <div class="content">
-                        <span class="text-green-600 ml-2">Etkin</span>
-
-                        <input type="checkbox" id="targeting-cookies" class="ml-2">
-
+                    <div class="content flex items-center">
+                        <input type="checkbox" id="targeting-cookies" checked class="form-switch mr-2">
+                        <span class="text-green-600">Etkin</span>
+                    </div>
+                    <div class="content-description mt-4">
                         <p>
                             Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar, ilgili
                             şirketler tarafından ilgi alanları profilinizi oluşturmak ve diğer sitelerde alakalı
@@ -59,6 +59,7 @@
                         </p>
                     </div>
                 </li>
+                
                 <li class="">
                     <div class="title">
                         <span>Zorunlu Tanımlama Bilgileri
