@@ -31,7 +31,7 @@
     background: #fff;
     color: #D32729;
     border: none;
-    padding: 8px 20px;
+    padding:10px !important;
     cursor: pointer;
     font-weight: bold;
     /* Düğme üst boşluğu */
@@ -73,11 +73,13 @@
     color: rgba(196, 218, 214, 0.76);
     /* Hover durumunda düğme arka plan rengi */
 }
+
 /* Modal Arka Plan */
 
-#cookie-management-modal.hidden{
+#cookie-management-modal.hidden {
     display: none !important;
 }
+
 #cookie-management-modal {
     display: none;
     position: fixed;
@@ -92,9 +94,10 @@
 }
 
 
-#close-modal{
-border: none !important;
+#close-modal {
+    border: none !important;
 }
+
 /* Modal İçeriği */
 #cookie-management-modal .bg-white {
     background: #ffffff;
@@ -159,8 +162,11 @@ border: none !important;
 
 @media (max-width:768px) {
     .js-cookie-consent button {
-        width:100% !important;
+        width: 100% !important;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
+
     .js-cookie-consent {
         position: fixed;
         bottom: 70px;
