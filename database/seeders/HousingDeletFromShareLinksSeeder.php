@@ -20,7 +20,7 @@ class HousingDeletFromShareLinksSeeder extends Seeder
         // Delete from share_links where item_type is 2 and item_id is not in the housings table
         DB::table('share_links')
             ->where('item_type', 2)
-            ->whereNotIn('item_id', $housingIds)
+            ->whereIn('item_id', $housingIds)
             ->delete();
     }
 }

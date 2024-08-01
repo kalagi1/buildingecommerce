@@ -18,7 +18,7 @@ class ProjectDeletFromShareLinksSeeder extends Seeder
         // Delete from share_links where item_type is 1 and item_id is not in the projects table
         DB::table('share_links')
             ->where('item_type', 1)
-            ->whereNotIn('item_id', $projectIds)
+            ->whereIn('item_id', $projectIds)
             ->delete();
     }
 }
