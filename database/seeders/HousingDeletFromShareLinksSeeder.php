@@ -15,13 +15,12 @@ class HousingDeletFromShareLinksSeeder extends Seeder
     public function run(): void
     {
         // Get the IDs from the housings table
-        $housingIds = DB::table('housings')->pluck('id')->toArray();
+        $housingIds = DB::table('housings')->pluck('id')->whereNotNull('deleted_at')->toArray();
 
         // Delete from share_links where item_type is 2 and item_id is not in the housings table
         DB::table('share_links')
             ->where('item_type', 2)
             ->whereNotIn('item_id', $housingIds)
-            ->orWhereNotNull('deleted_at')
             ->delete();
     }
 }

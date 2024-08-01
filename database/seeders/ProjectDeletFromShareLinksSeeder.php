@@ -13,13 +13,12 @@ class ProjectDeletFromShareLinksSeeder extends Seeder
     public function run(): void
     {
         // Get the IDs from the projects table
-        $projectIds = DB::table('projects')->pluck('id')->toArray();
+        $projectIds = DB::table('projects')->pluck('id')->whereNotNull('deleted_at')->toArray();
 
         // Delete from share_links where item_type is 1 and item_id is not in the projects table
         DB::table('share_links')
             ->where('item_type', 1)
             ->whereNotIn('item_id', $projectIds)
-            ->orWhereNotNull('deleted_at')
             ->delete();
     }
 }
