@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="robots" content="noindex, nofollow" />
     @if (isset($pageInfo))
         <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
         <meta name="description" content="{{ $pageInfo->meta_description }}">
@@ -13,12 +12,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://private.emlaksepette.com/" />
+        <meta property="og:url"content="https://emlaksepette.com/" />
         <meta property="og:type"content="website" />
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://private.emlaksepette.com/images/mini_logo.png';
+            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrl }}" />

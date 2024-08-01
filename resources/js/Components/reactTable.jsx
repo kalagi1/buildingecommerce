@@ -266,7 +266,7 @@ function ReactTable(props) {
       setLoading(true);
       axios
         .get(
-          "https://private.emlaksepette.com/react/my_projects?status=" +
+          "https://emlaksepette.com/react/my_projects?status=" +
             tabIndex +
             "&start=0&take=" +
             rowPerPage
@@ -287,7 +287,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
+        `https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -303,7 +303,7 @@ function ReactTable(props) {
 
     axios
       .get(
-        `https://private.emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
+        `https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`
       )
       .then((res) => {
         setRows(res.data.data);
@@ -330,7 +330,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://private.emlaksepette.com/react/my_projects?status=" +
+                  "https://emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -400,7 +400,7 @@ function ReactTable(props) {
 
               axios
                 .get(
-                  "https://private.emlaksepette.com/react/my_projects?status=" +
+                  "https://emlaksepette.com/react/my_projects?status=" +
                     tabIndex +
                     "&start=0&take=" +
                     rowPerPage
@@ -541,10 +541,10 @@ function ReactTable(props) {
       >
         <ul className="popover-project-actions p-relative">
           <li className="d-flex">
-            <a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
+            <a href={`https://emlaksepette.com/hesabim/projects/${selectedRow?.id}/housings_v2`}>İlanları Düzenle</a>
           </li>
-          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
-          <li className="d-flex"><a href={`https://private.emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
+          <li className="d-flex"><a href={`https://emlaksepette.com/hesabim/projects/${selectedRow?.id}/logs`}>İşlem Kayıtları</a></li>
+          <li className="d-flex"><a href={`https://emlaksepette.com/hesabim/edit_project_v2/${selectedRow?.slug}/${selectedRow?.id}`}>Genel Düzenleme</a></li>
           <li className="d-flex" style={{ padding : '10px 20px' }}>
             {selectedRow?.status == 2 ? (
               <span className="badge badge-phoenix badge-phoenix-warning">
