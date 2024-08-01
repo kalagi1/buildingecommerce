@@ -78,11 +78,13 @@ class CrmController extends Controller
         $customers = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->whereNull('customer_calls.customer_id')
+            ->where('danisman_id',Auth::id())
             ->select('assigned_users.*')
             ->get();
             $customerCount = DB::table('assigned_users')
             ->leftJoin('customer_calls', 'assigned_users.id', '=', 'customer_calls.customer_id')
             ->whereNull('customer_calls.customer_id')
+            ->where('danisman_id',Auth::id())
             ->select('assigned_users.*')
             ->count();   
 
