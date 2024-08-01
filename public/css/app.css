@@ -158,7 +158,7 @@ border: none !important;
 }
 
 @media (max-width:768px) {
-    .js-cookie-consent-agree button {
+    .js-cookie-consent button {
         width:100% !important;
     }
     .js-cookie-consent {
