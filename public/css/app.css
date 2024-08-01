@@ -73,6 +73,69 @@
     color: rgba(196, 218, 214, 0.76);
     /* Hover durumunda düğme arka plan rengi */
 }
+/* Modal Arka Plan */
+#cookie-management-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal İçeriği */
+#cookie-management-modal .bg-white {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* Modal Başlık */
+#cookie-management-modal h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Modal Paragraf */
+#cookie-management-modal p {
+    margin-bottom: 16px;
+}
+
+/* Çerez Seçenekleri */
+#cookie-management-modal .space-y-4 {
+    margin-bottom: 24px;
+}
+
+#cookie-management-modal .flex {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+#cookie-management-modal input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+/* Modal Kapatma Butonu */
+#cookie-management-modal .flex button {
+    background-color: #e2e2e2;
+    color: #333;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#cookie-management-modal .flex button:hover {
+    background-color: #d0d0d0;
+}
 
 
 .cookie-consent__message {

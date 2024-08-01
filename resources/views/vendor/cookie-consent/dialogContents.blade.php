@@ -1,11 +1,32 @@
+<!-- Çerez Yönetimi Modalı -->
 <div id="cookie-management-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg p-6 w-11/12 max-w-lg">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
         <h2 class="text-xl font-semibold mb-4">Çerez Yönetimi</h2>
-        <p>Burada çerezlerinizin ayarlarını yönetebilirsiniz.</p>
-        <!-- Çerez yönetim seçenekleri buraya eklenebilir -->
-        <button id="close-modal" class="mt-4 px-4 py-2 bg-gray-300 rounded-md">Kapat</button>
+        <p class="mb-4">Çerezlerinizin ayarlarını burada yönetebilirsiniz. Aşağıdaki seçenekleri kullanarak çerez tercihlerinizi güncelleyebilirsiniz:</p>
+        
+        <!-- Çerez Yönetim Seçenekleri -->
+        <div class="space-y-4">
+            <div class="flex items-center">
+                <input type="checkbox" id="essential-cookies" checked disabled class="mr-2">
+                <label for="essential-cookies" class="text-sm">Zorunlu Çerezler</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="analytics-cookies" class="mr-2">
+                <label for="analytics-cookies" class="text-sm">Analitik Çerezler</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="marketing-cookies" class="mr-2">
+                <label for="marketing-cookies" class="text-sm">Pazarlama Çerezleri</label>
+            </div>
+        </div>
+        
+        <!-- Modal Kapatma Butonu -->
+        <div class="mt-6 flex justify-end">
+            <button id="close-modal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm font-medium rounded-md">Kapat</button>
+        </div>
     </div>
 </div>
+
 
 <div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2 show">
     <div class="container">
