@@ -18,7 +18,17 @@
             }
 
             function manageCookies() {
-                window.location.href = '{{ url('sayfa/cerez-yönetimi') }}'; // Çerez yönetim sayfası URL'si
+                const modal = document.getElementById('cookie-management-modal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                }
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('cookie-management-modal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                }
             }
 
             function cookieExists(name) {
@@ -59,6 +69,11 @@
             const manageButtons = document.getElementsByClassName('js-cookie-consent-manage');
             for (let i = 0; i < manageButtons.length; ++i) {
                 manageButtons[i].addEventListener('click', manageCookies);
+            }
+
+            const closeModalButton = document.getElementById('close-modal');
+            if (closeModalButton) {
+                closeModalButton.addEventListener('click', closeModal);
             }
 
             return {

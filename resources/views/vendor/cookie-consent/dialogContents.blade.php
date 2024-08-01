@@ -1,3 +1,12 @@
+<div id="cookie-management-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg p-6 w-11/12 max-w-lg">
+        <h2 class="text-xl font-semibold mb-4">Çerez Yönetimi</h2>
+        <p>Burada çerezlerinizin ayarlarını yönetebilirsiniz.</p>
+        <!-- Çerez yönetim seçenekleri buraya eklenebilir -->
+        <button id="close-modal" class="mt-4 px-4 py-2 bg-gray-300 rounded-md">Kapat</button>
+    </div>
+</div>
+
 <div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2 show">
     <div class="container">
         <div class="p-2 rounded-lg bg-yellow-100">
