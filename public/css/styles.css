@@ -5341,9 +5341,9 @@ section.counterup {
 }
 
 @media screen and (max-width: 768px) {
-  .mobileHousingBrands {
+  /* .mobileHousingBrands {
     height: 200px !important;
-  }
+  } */
 
   .first-footer .logo img {
     width: 50%;

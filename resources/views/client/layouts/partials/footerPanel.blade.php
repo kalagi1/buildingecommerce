@@ -341,7 +341,7 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Çerez tercihlerinin durumunu güncelle
         function updateStatusText() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -366,7 +366,7 @@
         });
 
         // Modal kapama butonu işlevi
-        document.getElementById('close-modal').addEventListener('click', function () {
+        document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('cookie-management-modal').classList.add('hidden');
         });
     });
