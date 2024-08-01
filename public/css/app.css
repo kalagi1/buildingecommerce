@@ -92,6 +92,9 @@
 }
 
 
+#close-modal{
+border: none !important;
+}
 /* Modal İçeriği */
 #cookie-management-modal .bg-white {
     background: #ffffff;
