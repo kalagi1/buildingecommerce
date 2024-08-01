@@ -68,11 +68,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                 </div>
               <!-- Map icon, make sure to include an icon library or replace with a suitable icon -->
 <span class="inline-flex items-center text-xs font-medium text-gray-600">
-    <!-- Replace with your preferred icon library or use an inline SVG -->
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10l1.293-1.293a1 1 0 011.414 0L12 12l6.293-6.293a1 1 0 011.414 0L21 10m-7-7v10a1 1 0 01-1 1H8a1 1 0 01-1-1V3m-2 8h12a1 1 0 001-1V7a1 1 0 00-1-1H6a1 1 0 00-1 1v3a1 1 0 001 1z"/>
-    </svg>
-    <!-- Display the location information -->
+
     {{ $housing->city ? $housing->city->title : '' }}
     {{ $housing->city && $housing->district ? ' / ' : '' }}
     {{ $housing->district ? $housing->district->ilce_title : '' }}
