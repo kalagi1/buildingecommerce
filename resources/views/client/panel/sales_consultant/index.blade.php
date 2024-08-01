@@ -101,49 +101,11 @@
     </div>
 @endsection
 @section('scripts')
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-    <!-- DataTables JS -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+ 
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>' +
-                        '<option value="10">10</option>' +
-                        '<option value="50">50</option>' +
-                        '<option value="100">100</option>' +
-                        '<option value="-1">Tüm</option>' +
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
+          
             $('.today-working-checkbox').on('change', function() {
                 var userId = $(this).data('user-id');
                 var isChecked = $(this).is(':checked');

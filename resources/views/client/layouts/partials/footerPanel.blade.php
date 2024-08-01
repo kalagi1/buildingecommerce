@@ -341,7 +341,7 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Çerez tercihlerinin durumunu güncelle
         function updateStatusText() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -366,7 +366,7 @@
         });
 
         // Modal kapama butonu işlevi
-        document.getElementById('close-modal').addEventListener('click', function () {
+        document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('cookie-management-modal').classList.add('hidden');
         });
     });
@@ -2098,7 +2098,7 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{ URL::to('/') }}/build/assets/app-2a18664f.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-f1a40e54.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
