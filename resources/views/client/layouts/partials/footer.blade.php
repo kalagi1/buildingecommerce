@@ -282,6 +282,64 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Çerez tercihlerinin durumunu güncelle
+        function updateStatusText() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                const statusText = checkbox.previousElementSibling;
+                if (checkbox.checked) {
+                    statusText.textContent = 'Etkin';
+                    statusText.style.color = 'green';
+                } else {
+                    statusText.textContent = 'Devre Dışı';
+                    statusText.style.color = 'gray';
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde durumları güncelle
+        updateStatusText();
+
+        // Checkbox durumunu değiştirdiğinde metni güncelle
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateStatusText);
+        });
+
+        // Modal kapama butonu işlevi
+        document.getElementById('close-modal').addEventListener('click', function () {
+            document.getElementById('cookie-management-modal').classList.add('hidden');
+        });
+    });
+</script>
+
+<style>
+    .accordion {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .accordion li {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .accordion .title {
+        cursor: pointer;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    .accordion .content {
+        padding: 10px;
+        display: none;
+    }
+
+    .accordion .active .content {
+        display: block;
+    }
+</style>
+
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
 <script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js"></script>
