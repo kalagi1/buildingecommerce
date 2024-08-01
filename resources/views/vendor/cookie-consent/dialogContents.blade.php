@@ -2,7 +2,12 @@
 <div id="cookie-management-modal"
     class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
-        <h2 class="text-xl font-semibold mb-4">Çerez Yönetimi</h2>
+        <div class="d-flex justify-content-between">
+            <h2 class="text-xl font-semibold mb-4">Çerez Yönetimi</h2>
+
+            <button id="close-modal"
+                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm font-medium rounded-md">Kapat</button>
+        </div>
         <p class="mb-4">Çerezlerinizin ayarlarını burada yönetebilirsiniz. Aşağıdaki seçenekleri kullanarak çerez
             tercihlerinizi güncelleyebilirsiniz:</p>
 
@@ -30,7 +35,7 @@
                             başlıklarına tıklayabilirsiniz.</p>
                     </div>
                 </li>
-                <li  class="active">
+                <li class="active">
                     <div class="title">
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
@@ -100,12 +105,7 @@
         </div>
 
     </div>
-    
-        <!-- Modal Kapatma Butonu -->
-        <div class="mt-6 flex justify-end">
-            <button id="close-modal"
-                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm font-medium rounded-md">Kapat</button>
-        </div>
+
 </div>
 
 
@@ -128,15 +128,15 @@
                         class="js-cookie-consent-agree cookie-consent__agree cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
                     </button>
-              
+
                     <button style="color: black"
                         class="js-cookie-consent-manage cookie-consent__manage cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-blue-800 bg-blue-400 hover:bg-blue-300">
                         {{ trans('cookie-consent::texts.manage') }}
                     </button>
                     <button style="color: black"
-                    class="js-cookie-consent-decline cookie-consent__decline cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
-                    {{ trans('cookie-consent::texts.decline') }}
-                </button>
+                        class="js-cookie-consent-decline cookie-consent__decline cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
+                        {{ trans('cookie-consent::texts.decline') }}
+                    </button>
                 </div>
             </div>
         </div>
