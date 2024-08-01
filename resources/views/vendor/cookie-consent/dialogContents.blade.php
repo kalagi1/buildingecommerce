@@ -115,7 +115,7 @@
 <div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2 show">
     <div class="container">
         <div class="p-2 rounded-lg bg-yellow-100">
-            <div class="flex items-center justify-between flex-wrap">
+            <div class="items-center justify-between flex-wrap">
                 <div class="w-0 flex-1 items-center hidden md:inline text-left">
                     <span class="text-white cookie-consent__message mb-2">
                         {!! trans('cookie-consent::texts.message') !!}
@@ -127,7 +127,7 @@
                 </div>
 
                 <!-- Butonlar için flex-col ve md:flex-row sınıflarını kullanarak mobil ve masaüstü görünümünü ayarlayın -->
-                <div class="flex flex-col sm:flex-row gap-2 mt-2">
+                <div class="flex flex-col sm:flex-row gap-2 mt-2 justify-content-end">
                     <button
                         class="js-cookie-consent-agree cookie-consent__agree w-full sm:w-auto cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
