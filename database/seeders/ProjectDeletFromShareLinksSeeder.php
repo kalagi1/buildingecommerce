@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,13 +12,14 @@ class ProjectDeletFromShareLinksSeeder extends Seeder
      */
     public function run(): void
     {
-          // Get the IDs from the housings table
-          $housingIds = DB::table( 'projects' )->pluck( 'id' )->toArray();
+        // Get the IDs from the projects table
+        $projectIds = DB::table('projects')->pluck('id')->toArray();
 
-          // Delete from share_links where item_type is 2 and item_id is not in the housings table
-          DB::table( 'share_links' )
-          ->where( 'item_type', 1 )
-          ->whereNotIn( 'item_id', $housingIds )
-          ->delete();
+        // Delete from share_links where item_type is 1 and item_id is not in the projects table
+        DB::table('share_links')
+            ->where('item_type', 1)
+            ->whereNotIn('item_id', $projectIds)
+            ->orWhereNotNull('deleted_at')
+            ->delete();
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Project;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +12,7 @@ class CleanShareLinksSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get all cart orders
         $cartOrders = DB::table('cart_orders')->get();
 
         foreach ($cartOrders as $cartOrder) {
@@ -21,15 +20,26 @@ class CleanShareLinksSeeder extends Seeder
             $cartData = json_decode($cartOrder->cart, true);
 
             // Check if the type in the JSON data is 'project'
-            if (isset($cartData['type']) && $cartData['type'] === 'project') {
-                // Retrieve the Housing model using the item_id from the JSON data
-                if (isset($cartData['item']['id'])) {
-                    $project = Project::find($cartData['item']['id']);
+            if (isset($cartData['type']) && $cartData['type'] === 'project' && ($cartOrder->status == 1 || $cartOrder->status == 0)) {
+                // Ensure that 'item' key and its 'id' and 'housing' fields exist
+                if (isset($cartData['item']['id']) && isset($cartData['item']['housing'])) {
+                    DB::table('share_links')
+                        ->where('item_type', 1)
+                        ->where('item_id', $cartData['item']['id'])
+                        ->where('room_order', $cartData['item']['housing'])
+                        ->delete();
+                }
+            }
 
-                    if ($project) {
-                        $project->is_sold = NULL;
-                        $project->save();
-                    }
+
+            // Check if the type in the JSON data is 'project'
+            if (isset($cartData['type']) && $cartData['type'] === 'housing' && ($cartOrder->status == 1 || $cartOrder->status == 0)) {
+                // Ensure that 'item' key and its 'id' and 'housing' fields exist
+                if (isset($cartData['item']['id'])) {
+                    DB::table('share_links')
+                        ->where('item_type', 2)
+                        ->where('item_id', $cartData['item']['id'])
+                        ->delete();
                 }
             }
         }
