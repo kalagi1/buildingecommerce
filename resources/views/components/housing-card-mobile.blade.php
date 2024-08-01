@@ -66,21 +66,17 @@
                     </div>
 
                 </div>
-                <!-- Map icon, make sure to include an icon library or replace with a suitable icon -->
-                <span class="inline-flex items-center text-xs font-medium text-gray-600 mt-3">
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    {{ $housing->city ? $housing->city->title : '' }}
-                    {{ $housing->city && $housing->district ? ' / ' : '' }}
-                    {{ $housing->district ? $housing->district->ilce_title : '' }}
-                    {{ $housing->district && $housing->neighborhood ? ' / ' : '' }}
-                    {{ $housing->neighborhood ? $housing->neighborhood->mahalle_title : '' }}
-
-
-                </span>
+                <p class="homes-address mb-1">
+                    <i class="fa fa-map-marker"></i>
+                    <span>
+                        
+                        {{ $housing->city ? $housing->city->title : '' }}
+                        {{ $housing->city && $housing->district ? ' / ' : '' }}
+                        {{ $housing->district ? $housing->district->ilce_title : '' }}
+                        {{ $housing->district && $housing->neighborhood ? ' / ' : '' }}
+                        {{ $housing->neighborhood ? $housing->neighborhood->mahalle_title : '' }}
+                    </span>
+                </p>
 
             </a>
             <div class="d-flex" style="align-items:Center">
