@@ -26,7 +26,7 @@
             <a
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
 
-                <div class="homes">
+                <div class="homes h-100">
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 115px; height: 128px;">
 
 
