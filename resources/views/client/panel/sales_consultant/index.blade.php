@@ -105,38 +105,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                "language": {
-                    "decimal": "",
-                    "emptyTable": "Tabloda veri yok",
-                    "info": "_START_ - _END_ arasındaki kayıtlar gösteriliyor. Toplam: _TOTAL_ kayıt",
-                    "infoEmpty": "Kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "infoPostFix": "",
-                    "thousands": ".",
-                    "lengthMenu": '<select>' +
-                        '<option value="10">10</option>' +
-                        '<option value="50">50</option>' +
-                        '<option value="100">100</option>' +
-                        '<option value="-1">Tüm</option>' +
-                        '</select><span> kayıt gösteriliyor</span>',
-                    "loadingRecords": "Yükleniyor...",
-                    "processing": "İşleniyor...",
-                    "search": "Ara:",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    },
-                    "aria": {
-                        "sortAscending": ": artan sırala",
-                        "sortDescending": ": azalan sırala"
-                    }
-                }
-            });
-
+          
             $('.today-working-checkbox').on('change', function() {
                 var userId = $(this).data('user-id');
                 var isChecked = $(this).is(':checked');
