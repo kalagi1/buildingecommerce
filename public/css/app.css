@@ -27,7 +27,7 @@
     /* İleti alt boşluğu */
 }
 
-.js-cookie-consent .js-cookie-consent-agree {
+.js-cookie-consent button {
     background: #fff;
     color: #D32729;
     border: none;
