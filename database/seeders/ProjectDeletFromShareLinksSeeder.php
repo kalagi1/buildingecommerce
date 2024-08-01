@@ -12,10 +12,22 @@ class ProjectDeletFromShareLinksSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get the IDs from the projects table
-        $projectIds = DB::table('projects')->pluck('id')->whereNotNull('deleted_at')->toArray();
+        // Get the IDs from the projects table where `deleted_at` is not null
+        $deletedProjectIds = DB::table('projects')
+            ->whereNotNull('deleted_at')
+            ->pluck('id')
+            ->toArray();
 
-        // Delete from share_links where item_type is 1 and item_id is not in the projects table
+        // Get the IDs from the projects table where `status` is 0
+        $statusZeroProjectIds = DB::table('projects')
+            ->where('status', 0)
+            ->pluck('id')
+            ->toArray();
+
+        // Merge the two arrays to create a combined list of IDs
+        $projectIds = array_merge($deletedProjectIds, $statusZeroProjectIds);
+
+        // Delete from share_links where `item_type` is 1 and `item_id` is in the combined list of project IDs
         DB::table('share_links')
             ->where('item_type', 1)
             ->whereIn('item_id', $projectIds)
