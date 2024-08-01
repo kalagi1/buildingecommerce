@@ -169,7 +169,7 @@
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
                                     {{-- <img src="{{asset('woman.png')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
+                                    <img src="{{ asset($topCaller->profile_image ? 'storage/profile_images/' . $topCaller->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg">
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center" style="background: linear-gradient(to top, #D32729, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
@@ -182,12 +182,14 @@
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Satış Yapan</div>
+                            @if($enCokSatisYapan)
                             <hr style="clear: both;">
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+                                 
+                                  
+                                    <img src="{{ asset($enCokSatisYapan->profile_image ? 'storage/profile_images/' . $enCokSatisYapan->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg" onerror="this.style.display='none';">
 
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
@@ -195,6 +197,9 @@
                                     {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '' }} Adet Satış
                                 </p>
                             </div>
+                            @else
+                                Henüz satış bulunmamaktadır.
+                            @endif
                         </div>
                     </div>
                 </div>
