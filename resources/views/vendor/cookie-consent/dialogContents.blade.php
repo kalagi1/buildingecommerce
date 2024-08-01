@@ -44,22 +44,28 @@
                     <div class="title">
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
-                    <div class="content flex items-center">
-                        <input type="checkbox" id="targeting-cookies" checked class="form-switch mr-2">
-                        <span class="text-green-600">Etkin</span>
+                    <div class="content">
+                        <div class=" flex items-center">
+                            <div class="checkbox-option pull-right checked">
+                                <div class="inner"></div>
+                                <input type="checkbox" name="checkbox" value="Checkbox">
+                            </div>                            <span class="text-green-600">Etkin</span>
+                        </div>
+                        <div class="content-description mt-4">
+                            <p>
+                                Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar,
+                                ilgili
+                                şirketler tarafından ilgi alanları profilinizi oluşturmak ve diğer sitelerde alakalı
+                                reklamlar göstermek için kullanılabilir. Benzersiz olarak tarayıcınızı ve cihazınızı
+                                belirleyerek çalışırlar. Bu kapsamda tarayıcınıza piksel ve çerez yerleşimi
+                                yapılabilmektedir. Bu tanımlama bilgilerine izin vermezseniz farklı sitelerde size özel
+                                reklam deneyimi sunamayız.
+                            </p>
+                        </div>
                     </div>
-                    <div class="content-description mt-4">
-                        <p>
-                            Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar, ilgili
-                            şirketler tarafından ilgi alanları profilinizi oluşturmak ve diğer sitelerde alakalı
-                            reklamlar göstermek için kullanılabilir. Benzersiz olarak tarayıcınızı ve cihazınızı
-                            belirleyerek çalışırlar. Bu kapsamda tarayıcınıza piksel ve çerez yerleşimi
-                            yapılabilmektedir. Bu tanımlama bilgilerine izin vermezseniz farklı sitelerde size özel
-                            reklam deneyimi sunamayız.
-                        </p>
-                    </div>
+
                 </li>
-                
+
                 <li class="">
                     <div class="title">
                         <span>Zorunlu Tanımlama Bilgileri
