@@ -11,37 +11,108 @@
             <ul class="accordion accordion-1 one-open">
                 <li class="active">
                     <div class="title">
-                        <span>Simple Panels</span>
+                        <span>Gizliliğiniz</span>
                     </div>
                     <div class="content">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
+                            Herhangi bir internet sitesini ziyaret ettiğinizde, sitenin işlevlerinden en iyi şekilde
+                            faydalanabilmeniz için kullandığınız tarayıcı üzerinden genellikle “tanımlama bilgileri”
+                            başlığı altında çeşitli bilgiler alınabilir ve depolanabilir.
+                        </p>
+                        <p>
+                            Söz konusu bilgiler kullanım tercihleriniz veya kullandığınız cihaz hakkında olabilir veya
+                            sitenin doğru ve beklediğiniz şekilde çalıştırılabilmesi için kullanılabilir.
+                        </p>
+                        <p>
+                            Bilgiler çoğunlukla sizi doğrudan ve kişisel olarak tanımlamaz; ancak size ve kullanım
+                            alışkanlıklarınıza daha uygun bir internet deneyimi sunarak, internet sitemizden en kapsamlı
+                            şekilde faydalanmanızı sağlar.
+                        </p>
+                        <p>
+                            Bazı tanımlama bilgisi tiplerinin sitemiz tarafından kullanılmasına izin vermemeyi tercih
+                            edebilirsiniz. Ancak bu durumda sitemizdeki deneyiminizin ve size sunacağımız bazı
+                            hizmetlerin bu tercihinizden olumsuz şekilde etkilenebileceğini hatırlatmak isteriz.
+                        </p>
+                        <p>
+                            Tanımlama bilgisi kategorileri hakkında daha fazla bilgi almak, sitemizden en iyi şekilde
+                            faydalanabilmek ve önceden belirlediğimiz ayarları değiştirmek için aşağıdaki kategori
+                            başlıklarına tıklayabilirsiniz.
                         </p>
                     </div>
                 </li>
                 <li class="">
                     <div class="title">
-                        <span>Toggle Information</span>
+                        <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
+                        <span class="text-green-600 ml-2">Etkin</span>
+
+                        <input type="checkbox" id="targeting-cookies" class="ml-2">
+
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
+                            Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar, ilgili
+                            şirketler tarafından ilgi alanları profilinizi oluşturmak ve diğer sitelerde alakalı
+                            reklamlar göstermek için kullanılabilir. Benzersiz olarak tarayıcınızı ve cihazınızı
+                            belirleyerek çalışırlar. Bu kapsamda tarayıcınıza piksel ve çerez yerleşimi
+                            yapılabilmektedir. Bu tanımlama bilgilerine izin vermezseniz farklı sitelerde size özel
+                            reklam deneyimi sunamayız.
                         </p>
                     </div>
                 </li>
                 <li class="">
                     <div class="title">
-                        <span>Nice Touch</span>
+                        <span>Zorunlu Tanımlama Bilgileri
+                        </span>
                     </div>
                     <div class="content">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
+                            Bu tanımlama bilgileri, web sitesinin çalışması için gereklidir ve sistemlerimizde
+                            kapatılamaz. Bunlar genellikle yalnızca sizin işlemlerinizi gerçekleştirmek için
+                            ayarlanmıştır. Bu işlemler, gizlilik tercihlerinizi belirlemek, oturum açmak veya form
+                            doldurmak gibi hizmet taleplerinizi içerir. Tarayıcınızı, bu tanımlama bilgilerini
+                            engelleyecek veya bunlar hakkında sizi uyaracak şekilde ayarlayabilirsiniz ancak bu durumda
+                            sitenin bazı bölümleri çalışmayabilir.
+
+
+                        </p>
+                    </div>
+                </li>
+                <li class="">
+                    <div class="title">
+                        <span>İşlevsel Tanımlama Bilgileri
+                        </span>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Bu tanımlama bilgileri, videolar ile canlı sohbet gibi gelişmiş işlevler ve kişiselleştirme
+                            olanağı sunabilmemizi sağlar. Bunlar, bizim tarafımızdan veya sayfalarımızda hizmetlerinden
+                            faydalandığımız üçüncü taraf sağlayıcılarca ayarlanabilir. Bu tanımlama bilgilerine izin
+                            vermezseniz bu işlevlerden tümü veya bazıları doğru şekilde çalışmayabilir.
+
+
+
+
+                        </p>
+                    </div>
+                </li>
+                <li class="">
+                    <div class="title">
+                        <span>Performans Tanımlama Bilgileri
+                        </span>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Bu tanımlama bilgileri, sitemizin performansını ölçebilmemiz ve iyileştirebilmemiz için
+                            sitenin ziyaret edilme sayısını ve trafik kaynaklarını sayabilmemizi sağlar. Hangi
+                            sayfaların en fazla ve en az ziyaret edildiğini ve ziyaretçilerin sitede nasıl
+                            gezindiklerini öğrenmemize yardımcı olurlar. Bu tanımlama bilgilerinin topladığı tüm
+                            bilgiler derlenir ve bu nedenle anonimdir. Bu tanımlama bilgilerine izin vermezseniz
+                            sitemizi ne zaman ziyaret ettiğinizi bilemeyiz.
+
+
+
+
+
                         </p>
                     </div>
                 </li>
