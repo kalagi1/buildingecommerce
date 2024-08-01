@@ -185,7 +185,7 @@
                             </div>
                         @endforeach --}}    
                 </div>
-                <div id="no-data-message-favorite" class="project-table-content">
+                <div id="no-data-message-favorite" class="project-table-content" style="display: none">
                     Favori müşteriniz bulunmamaktadır.
 
                 </div>
@@ -884,7 +884,7 @@
         $(document).ready(function() {
             const itemsPerPage = 10; // Her sayfada göstermek istediğiniz müşteri sayısı
             let currentPage = 1;
-            const $list = $('#user-list-table-body-geri');
+            const $list = $('#user-list-table-body-geridonus');
             const $paginationControls = $('#pagination-controls');
             const $prevPage = $('#prev-page2');
             const $nextPage = $('#next-page2');
@@ -901,12 +901,13 @@
                 const start = (page - 1) * itemsPerPage;
                 const end = start + itemsPerPage;
                 const paginatedItems = geri_donus_yapilacak_musteriler.slice(start, end);
-                let cleanedPhone = item.phone ? item.phone.replace(/^p:\+/, '') .replace(/^\+9/, '') .replace(/^9/, '') : '-';
                 let html = '';
 
                 // Veri varsa
                 $noDataMessage.hide(); // Boş veri mesajını gizle
                 paginatedItems.forEach((item, index) => {
+                let cleanedPhone = item.phone ? item.phone.replace(/^p:\+/, '') .replace(/^\+9/, '') .replace(/^9/, '') : '-';
+
                     html += `
                         <div class="project-table-content user-item">
                             <ul style="gap: 20px">
@@ -914,7 +915,7 @@
                                 <li style="width: 10%; align-items: flex-start;">
                                     <span>${item.name}</span>
                                 </li>
-                                <li style="width: 15%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
+                                <li style="width: 10%; align-items: flex-start; word-wrap: break-word; word-break: break-all;">
                                     <span>${item.email}</span>
                                 </li>
                                 <li style="width: 10%; align-items: flex-start;">
@@ -956,6 +957,7 @@
                 });
 
                 $list.html(html);
+                console.log(html)
                 updatePaginationControls();
             }
 
