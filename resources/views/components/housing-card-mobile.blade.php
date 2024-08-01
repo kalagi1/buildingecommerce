@@ -50,6 +50,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
                         {{ $housing->title }} </h4>
+                        
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span
@@ -64,6 +65,16 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                         </span>
                     </div>
 
+                </div>
+                <div class="homes-tag button alt featured" style="width:auto !important">
+                    {{-- No: {{ $housing->id + 2000000 }} --}}  
+                    @if ($housing->step2_slug == 'kiralik')
+                        Kiralık
+                        @elseif ($housing->step2_slug == 'gunluk-kiralik')
+                            Günlük Kiralık
+                        @else
+                            Satılık
+                        @endif
                 </div>
             </a>
             <div class="d-flex" style="align-items:Center">
