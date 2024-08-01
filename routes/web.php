@@ -863,6 +863,8 @@ Route::group(['prefix' => 'hesabim', "as" => "institutional.", 'middleware' => [
 
     //sıfırdan crm rotaları
     //satış danışmanlarını listele ve proje atama
+    Route::post('/update-today-working', [InstitutionalCrmController::class, 'updateTodayWorking'])->name('update.today.working');
+
     Route::get('/crm/danisman/projeleri', [InstitutionalCrmController::class, 'salesConsultantList'])->name('crm.danisman.proje.atama');
     Route::post('/kullaniciya/proje/atama', [InstitutionalCrmController::class, 'assignProjectUser'])->name('assign.project.user');
 

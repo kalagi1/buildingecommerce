@@ -363,7 +363,7 @@ class CrmController extends Controller
     }//End
 
     public function danismanDashboard(){
-$topCaller = [];
+        $topCaller = [];
         // $totalCustomers = DB::table('assigned_users')->where('danisman_id',Auth::id())->count(); //Tüm Müşteriler
         $totalCustomers = DB::table('assigned_users')->count(); //Tüm Müşteriler
 
@@ -765,4 +765,21 @@ $topCaller = [];
 
         return response()->json(['message' => 'Ödül başarıyla güncellendi']);
     }//End
+
+    public function updateTodayWorking(Request $request) {
+        $userId = $request->input('user_id');
+        $todayWorking = $request->input('today_working');
+    
+        // Veritabanında güncelleme yap
+        // DB::table('users')
+        //     ->where('id', $userId)
+        //     ->update(['today_working' => $todayWorking]);
+
+        $user = User::find($userId);
+        $user->today_working = $todayWorking;
+        $user->save();
+    
+        return response()->json(['status' => 'success']);
+    }//End
+    
 }

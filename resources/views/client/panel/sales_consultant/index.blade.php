@@ -14,6 +14,7 @@
                         <th>Unvan</th>
                         <th>Atanmış Projeler</th>
                         <th>Proje Ataması Yap</th>
+                        <th>Bugün çalışıyor mu ?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,10 @@
                                     data-bs-target="#exampleModal{{ $index }}">
                                     Proje Ata
                                 </button>
+                            </td>
+                            <td style="display: flex;align-items:center;justify-content:center;">
+                                <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
+                                {{ $item->today_working ? 'checked' : '' }}>
                             </td>
                         </tr>
                         <!-- Modal -->
@@ -102,6 +107,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
@@ -135,8 +143,47 @@
                     }
                 }
             });
+
+            $('.today-working-checkbox').on('change', function() {
+                var userId = $(this).data('user-id');
+                var isChecked = $(this).is(':checked');
+                var todayWorkingStatus = isChecked ? 1 : 0;
+
+                $.ajax({
+                    url: '{{ route('institutional.update.today.working') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        user_id: userId,
+                        today_working: todayWorkingStatus
+                    },
+                    success: function(response) {
+                        if (todayWorkingStatus === 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarı!',
+                                text: 'Danışman çalışıyor olarak işaretlendi.',
+                                confirmButtonText: 'Tamam'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Bilgi',
+                                text: 'Danışman bugün çalışmıyor olarak işaretlendi.',
+                                confirmButtonText: 'Tamam'
+                            });
+                        }
+                        console.log('Today working status updated successfully');
+                    },
+                    error: function(xhr) {
+                        console.error('Error updating today working status');
+                    }
+                });
+            });
         });
     </script>
+
+
 @endsection
 @section('styles')
     <style>
