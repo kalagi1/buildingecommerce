@@ -3,24 +3,21 @@
     <section>
         <div class="">
             <section id="header">
-                <div class="container">
-        
+                <div class="container">        
                     <div class="row mt-3">
                         <div class="col-md-12 ">
                             <div class="card shadow">
                                 <ul class="nav nav-tabs justify-content-start">
-                                    <li class="nav-item col-1">
-                                        <a class="nav-link actived" href="index.php">Emlak</a>
+                                    <li class="nav-item col-1" id="housingsTab">
+                                        <a class="nav-link actived" id="housingTabA">Emlak</a>
                                     </li>
-                                    <li class="nav-item col-1">
-                                        <a class="nav-link" href="index.php">Projeler</a>
+                                    <li class="nav-item col-1" id="projectsTab">
+                                        <a class="nav-link" id="projectTabA">Projeler</a>
                                     </li>
                                 </ul>
-                            </div>
-        
+                            </div>        
                         </div>
-                    </div>
-        
+                    </div>        
                 </div>
             </section>
         
@@ -42,54 +39,54 @@
                         <div class="col-3 pb-3">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Aktif İlanlar</div>
-                                    <div class=""><strong>{{ $activeAdvertHousings  }}</strong></div>
-                                    <div class="">Son 1 Ayda</div>
+                                    <div >Aktif İlanlar</div>
+                                    <div id="activeAdvert" class=""><strong>{{ $activeAdvertHousings  }}</strong></div>
+                                    <div >Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 pb-3">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Onay Bekleyen İlanlar</div>
-                                    <div class=""><strong>{{ $pendingAdvertHousings  }}</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    <div >Onay Bekleyen İlanlar</div>
+                                    <div id="pendingAdvert"><strong>{{ $pendingAdvertHousings  }}</strong></div>
+                                    <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 pb-3">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Toplam İlan Sayısı</div>
-                                    <div class=""><strong>{{ $totalAdvertHousings  }}</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    <div >Toplam İlan Sayısı</div>
+                                    <div id="totalAdvert"><strong>{{ $totalAdvertHousings  }}</strong></div>
+                                    <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 ">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Askıya Alınan İlanlar</div>
-                                    <div class=""><strong>{{ $passiveAdvertHousings }}</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    <div >Askıya Alınan İlanlar</div>
+                                    <div id="passiveAdvert"><strong>{{ $passiveAdvertHousings }}</strong></div>
+                                    <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 ">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Koleksiyon Sayısı</div>
-                                    <div class=""><strong>{{ $collectionCount  }}</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    <div >Koleksiyon Sayısı</div>
+                                    <div ><strong>{{ $collectionCount  }}</strong></div>
+                                    <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 ">
                             <div class="card" style="box-shadow: 0px 2px 5px 0px #0000001A;padding: 20px;border: 1px solid #ebebeb;background: white;">
                                 <div class="d-flex flex-column">
-                                    <div class="">Görüntülenme Sayısı</div>
-                                    <div class=""><strong>{{ $viewCountHousings  }}</strong></div>
-                                    <div class="" style="color: #6B6B6B9E;">Son 1 Ayda</div>
+                                    <div >Görüntülenme Sayısı</div>
+                                    <div id="viewCount"><strong>{{ $viewCountHousings  }}</strong></div>
+                                    <div style="color: #6B6B6B9E;">Son 1 Ayda</div>
                                 </div>
                             </div>
                         </div>
@@ -108,52 +105,27 @@
                             <div class="card shadow rounded" style="padding:10px;">
                                 <div class="card-header" style="background-color:#FFFFFF;">
                                     <div class="row p-2">
-                                        <h5 class="pl-2" style="border-left: 4px solid red;">Master Realtor Ayın Yıldızları</h5>
+                                        <h5 class="pl-2" style="border-left: 4px solid red;">
+                                            {{ Auth::user()->name }} Ayın Yıldızları
+                                        </h5>
                                     </div>
                                 </div>
                                 <div class="table-responsive" style="background-color: white;">
-                                    <table class="table m-0" style="background-color: white;">
+                                    <table id="salesTable" class="table m-0" style="background-color: white;">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
-                                                <th scope="col">Satışı Yapılan İlan Sayısı</th>
-                                                <th scope="col">Toplam Kazanç</th>
+                                                <th scope="col">Satışı Yapılan Emlak İlanı Sayısı</th>
+                                                <th scope="col">Emlak Kulüp Kazancı</th>
                                                 <th scope="col">Koleksiyon Satışları</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                                    <span class="badge text-small">Ahmet Koç</span>
-                                                </td>
-                                                <td>12000</td>
-                                                <td>143,432.54</td>
-                                                <td>143,432.54</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                                    <span class="badge text-small">Ahmet Koç</span>
-                                                </td>
-                                                <td>11000</td>
-                                                <td>11000</td>
-                                                <td>11000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                                    <span class="badge text-small">Ahmet Koç</span>
-                                                </td>
-                                                <td>10000</td>
-                                                <td>130,000.00</td>
-                                                <td>130,000.00</td>
-                                            </tr>
+                                            <!-- Dinamik olarak güncellenen satırlar buraya gelecek -->
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-        
+                            </div>                            
                         </div>
                         <div class="col-6">
                             <div class="shadow card rounded" style="height: 100%;padding:10px;">
@@ -176,162 +148,68 @@
                                     <div class="card-header" style="background-color:#FFFFFF;">
         
                                         <div class="row p-2">
-                                            <h5 class="pl-2" style="border-left: 4px solid red;">Emlak Sepette Ayın Kurumsal Üye 1.si</h5>
+                                            <h5 class="pl-2" style="font-size:11px;border-left: 4px solid red;">Emlak Sepette Ayın Kurumsal Üye 1.si</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <img src="https://via.placeholder.com/50">
+                                        <img src="{{ URL::to('/storage/profile_images/'.$getTopCorporateStore->profile_image) }}" style="width: 60px">
+                                        <span>{{ $getTopCorporateStore->name }}</span>
+
                                     </div>
                                 </div>
                                 <div class="card mt-1 mb-1" style="height: 100%;padding:10px;">
                                     <div class="card-header" style="background-color:#FFFFFF;">
         
                                         <div class="row p-2">
-                                            <h5 class="pl-2" style="border-left: 4px solid red;">Emlak Sepette Ayın Kurumsal Üye 1.si</h5>
+                                            <h5 class="pl-2" style="font-size:11px;border-left: 4px solid red;">Emlak Sepette Ayın En Çok Satış Yapan Danışmanı</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <img src="https://via.placeholder.com/50">
+                                        <img src="{{ URL::to('/storage/profile_images/'.$getTopConsultantForCorporate->profile_image) }}" style="width: 60px">
+                                        <span>{{ $getTopConsultantForCorporate->name }}</span>
                                     </div>
                                 </div>
                                 <div class="card mt-1" style="height: 100%;padding:10px;">
                                     <div class="card-header" style="background-color:#FFFFFF;">
         
                                         <div class="row p-2">
-                                            <h5 class="pl-2" style="border-left: 4px solid red;">Emlak Sepette Ayın Kurumsal Üye 1.si</h5>
+                                            <h5 class="pl-2" style="font-size:11px;border-left: 4px solid red;">Emlak Kulüp Ayın En Çok Satış Yapan Üyesi</h5>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <img src="https://via.placeholder.com/50">
+                                        <img src="{{ URL::to('/storage/profile_images/'.$getTopCorporateUser->profile_image) }}" style="width: 60px">
+                                        <span>{{ $getTopCorporateUser->name }}</span>
                                     </div>
                                 </div>
                             </div>
-        
                         </div>
-                        <div class="col-4 ">
-                            <div class="card" style="height: 100%;padding:10px">
+                        <div class="col-4 ">               
+                            <div class="card shadow rounded" style="height: 100%; padding: 10px;">
                                 <div class="d-flex flex-column" style="height: 100%;">
-                                    <div class="p-2" style="height: 100%;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex flex-column">
-                                                    <div class="fs-4">İlan Detayları</div>
-                                                    <div class="fs-6">İlan Detayları</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <button type="button" class="btn btn-danger">İncele</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2" style="height: 100%;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex flex-column">
-                                                    <div class="fs-4">İlan Detayları</div>
-                                                    <div class="fs-6">İlan Detayları</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <button type="button" class="btn btn-danger">İncele</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2" style="height: 100%;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex flex-column">
-                                                    <div class="fs-4">İlan Detayları</div>
-                                                    <div class="fs-6">İlan Detayları</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <button type="button" class="btn btn-danger">İncele</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2" style="height: 100%;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex flex-column">
-                                                    <div class="fs-4">İlan Detayları</div>
-                                                    <div class="fs-6">İlan Detayları</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <button type="button" class="btn btn-danger">İncele</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2" style="height: 100%;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="d-flex flex-column">
-                                                    <div class="fs-4">İlan Detayları</div>
-                                                    <div class="fs-6">İlan Detayları</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <button type="button" class="btn btn-danger">İncele</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h5 id="mostViewedCountH5" class="pl-2" style="font-size:11px;border-left: 4px solid red;">En Çok Ziyaret Edilen Emlak İlanları</h5>
+                                    <div id="mostViewedContent"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="d-flex flex-column" style="height: 100%;">
-                                <div class="card shadow mb-1" style="height: 50%;padding:10px;">
+                                <div class="card shadow mb-1" style="height: 100%;padding:10px;">
                                     <div class="card-header" style="background-color:#FFFFFF;">
                                         <div class="row p-2">
-                                            <h5 class="pl-2" style="border-left: 4px solid red;">Satış İstatistikleri</h5>
+                                            <h5 class="pl-2" style="border-left: 4px solid red;">Satılık / Kiralık İstatistikleri</h5>
                                         </div>
                                     </div>
         
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-12">
                                             <canvas id="revenueChart"></canvas>
                                         </div>
-                                        <div class="col-8">
+                                        {{-- <div class="col-12">
                                             <div class="d-flex flex-column">
-                                                <div class="p-2">Satış İstatistikleri</div>
+                                                <div class="p-2">Satış / Kira İstatistikleri</div>
                                                 <div class="p-2">%123,4353</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card shadow mt-1" style="height: 50%;padding:10px;">
-                                    <div class="card-header" style="background-color:#FFFFFF;">
-                                        <div class="row p-2">
-                                            <h5 class="pl-2" style="border-left: 4px solid red;">Kira İstatistikleri</h5>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">
-        
-                                            <canvas id="salesChart"></canvas>
-                                        </div>
-                                        <div class="col-8">
-                                            <div class="d-flex flex-column">
-                                                <div class="p-2">Kira İstatistikleri</div>
-                                                <div class="p-2">%123,4353</div>
-                                            </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -345,55 +223,18 @@
                                         <h5 class="pl-2" style="border-left: 4px solid red;">Satışı Yapılanlar</h5>
                                     </div>
                                 </div>
-                                <table class="table  m-0" style="height: 100%;">
-                                    <tbody>
+                                <table class="table m-0" style="height: 100%;" id="satisiYapilanlar">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40" alt="Ahmet Koç">
-                                                <span class="badge ">Ahmet Koç</span>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>130,000.00</td>
-                                            <td>130,000.00</td>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Emlak Başlığı</th>
+                                            <th scope="col">Görüntülenme Sayısı</th>
+                                            <th scope="col">Ödenen Kapora Bedeli</th>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40" alt="Ahmet Koç">
-                                                <span class="badge ">Ahmet Koç</span>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>130,000.00</td>
-                                            <td>130,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40" alt="Ahmet Koç">
-                                                <span class="badge ">Ahmet Koç</span>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>130,000.00</td>
-                                            <td>130,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40" alt="Ahmet Koç">
-                                                <span class="badge ">Ahmet Koç</span>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>130,000.00</td>
-                                            <td>130,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="https://via.placeholder.com/40" alt="Ahmet Koç">
-                                                <span class="badge ">Ahmet Koç</span>
-                                            </td>
-                                            <td>10000</td>
-                                            <td>130,000.00</td>
-                                            <td>130,000.00</td>
-                                        </tr>
-                                    </tbody>
+                                    </thead>
+                                    <tbody></tbody>
                                 </table>
+                                
                                 <div class="d-flex justify-content-end pt-3">
                                     <nav aria-label="Page navigation example ">
                                         <ul class="pagination">
@@ -522,101 +363,32 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="pl-2 mt-2" style="border-left: 4px solid red;">Müşteriler</h5>
-                                </div>
-                                <div class="col-6">
-                                </div>
-                                <div class="col">
+                                </div>                              
+                                {{-- <div class="col">
                                     <div class="d-flex justify-content-end">
                                         <div class="date-range-display">
                                             <i class="far fa-calendar-alt"></i>
                                             <span>20 Haz - 20 Tem</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <table class="table m-0">
                             <thead>
-                                <tr>
-                                    <th scope="col"></th>
+                                <tr>                               
                                     <th scope="col">Müşteri No</th>
                                     <th scope="col">Müşteri Adı</th>
                                     <th scope="col">Satın Alma Şekli</th>
                                     <th scope="col">İlandaki Fiyat</th>
                                     <th scope="col">Ödeme Durumu</th>
                                     <th scope="col">Satın Alma Tarihi</th>
-        
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
-                                    <td>#345454555</td>
-                                    <td>
-                                        <span><img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            <span class="badge text-small">Ahmet Koç</span></span>
-                                    </td>
-                                    <td>Emlak Kulüp</td>
-                                    <td>1,423,242,335</td>
-                                    <td>İade</td>
-                                    <td>22.07.2024</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
-                                    <td>#345454555</td>
-                                    <td>
-                                        <span><img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            <span class="badge text-small">Ahmet Koç</span></span>
-                                    </td>
-                                    <td>Emlak Kulüp</td>
-                                    <td>1,423,242,335</td>
-                                    <td>İade</td>
-                                    <td>22.07.2024</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
-                                    <td>#345454555</td>
-                                    <td>
-                                        <span><img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            <span class="badge text-small">Ahmet Koç</span></span>
-                                    </td>
-                                    <td>Emlak Kulüp</td>
-                                    <td>1,423,242,335</td>
-                                    <td>İade</td>
-                                    <td>22.07.2024</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="" id=""></td>
-                                    <td>#345454555</td>
-                                    <td>
-                                        <span><img src="https://via.placeholder.com/60" alt="Ahmet Koç">
-                                            <span class="badge text-small">Ahmet Koç</span></span>
-                                    </td>
-                                    <td>Emlak Kulüp</td>
-                                    <td>1,423,242,335</td>
-                                    <td>İade</td>
-                                    <td>22.07.2024</td>
-                                </tr>
-                            </tbody>
+                            <tbody id="customerTableBody"></tbody>
                         </table>
-                        <div class="d-flex justify-content-end  pt-3 pr-2">
-                            <nav aria-label="Page navigation example pr-2">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                        <div class="d-flex justify-content-end pt-3 pr-2">
+                            {{ $salesHousingsCustomerInfo->links() }} <!-- Pagination links -->
                         </div>
                     </div>
                 </div>
@@ -629,72 +401,312 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-5o8GF3Euf0cMnxLvsZG6g0Iu/R6fybQ4yQvlkZ5KhA2Sy8Y02v65J1ueZMEt1C7F" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    {{-- emlak ve proje değişim kodları --}}
     <script>
-        const ctx1 = document.getElementById('statisticsChart').getContext('2d');
-        const ctx2 = document.getElementById('salesChart').getContext('2d');
-        const ctx3 = document.getElementById('revenueChart').getContext('2d');
+        $(document).ready(function() {
 
-        new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'],
-                datasets: [{
-                    label: 'Projeler',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: true
+            //ayın yıldızları tablosu
+            updateTable('housings');
+            updateMostViewedContent('housings');
+            updateSalesAdvertTable('housing');
+            updateCustomerTable('housing');
+
+            $('#projectsTab').click(function() {           
+                $('#housingTabA').removeClass('actived');
+                $('#projectTabA').addClass('actived');
+                
+                $('#activeAdvert') .html('<strong>{{ $activeAdvertProjects }}</strong>');
+                $('#pendingAdvert').html('<strong>{{ $pendingAdvertProjects }}</strong>');
+                $('#totalAdvert')  .html('<strong>{{ $totalAdvertProjects }}</strong>');
+                $('#passiveAdvert').html('<strong>{{ $passiveAdvertProjects }}</strong>');
+                $('#viewCount')    .html('<strong>{{ $viewCountProjects }}</strong>');
+
+                updateTable('projects');
+                updateMostViewedContent('projects');
+                updateSalesAdvertTable('projects');
+                updateCustomerTable('projects');
+            });
+
+            // Emlak tıklandığında çalışacak fonksiyon
+            $('#housingsTab').click(function() {
+                $('#projectTabA').removeClass('actived');
+                $('#housingTabA').addClass('actived');
+
+                $('#activeAdvert') .html('<strong>{{ $activeAdvertHousings }}</strong>');
+                $('#pendingAdvert').html('<strong>{{ $pendingAdvertHousings }}</strong>');
+                $('#totalAdvert')  .html('<strong>{{ $totalAdvertHousings }}</strong>');
+                $('#passiveAdvert').html('<strong>{{ $passiveAdvertHousings }}</strong>');
+                $('#viewCount')    .html('<strong>{{ $viewCountHousings }}</strong>');
+
+                updateTable('housings');
+                updateMostViewedContent('housings');
+                updateSalesAdvertTable('housing');
+                updateCustomerTable('housing');
+            });
+        });
+
+        //ayın yıldızları tablosu
+        function updateTable(type) {
+            var data;
+            if (type === 'projects') {
+                data = @json($salesDetailsProjects);
+            } else {
+                data = @json($salesDetailsHousings);
+            }
+  
+            var tableBody = $('#salesTable tbody');
+            tableBody.empty();
+
+            $.each(data, function(index, detail) {
+                var row = `
+                    <tr>
+                        <td>
+                            <img src="https://via.placeholder.com/60" alt="image">
+                            <span class="badge text-small text-black d-block">${detail.user.name}</span>
+                        </td>
+                        <td>${detail.totalSales}</td>
+                        <td>${detail.totalEarnings}</td>
+                        <td>${detail.totalCollectionSales}</td>
+                    </tr>
+                `;
+                tableBody.append(row);
+            });
+        }
+
+        // En çok ziyaret edilen tablosunu güncelleme fonksiyonu
+        function updateMostViewedContent(type) {
+            var data;
+            var contentContainer = $('#mostViewedContent');
+            contentContainer.empty();
+            if (type === 'projects') {
+                data = @json($mostViewedProjects);
+                $('#mostViewedCountH5').text('En Çok Ziyaret Edilen Proje İlanları');
+            } else {
+                data = @json($mostViewedHousings);
+                $('#mostViewedCountH5').text('En Çok Ziyaret Edilen Emlak İlanları');
+            }
+
+        
+
+            $.each(data, function(index, item) {
+                var imageUrl;
+                if (type === 'projects') {
+                    imageUrl =  '{{ URL::to("/") }}/' + (item.image || 'default.jpg');;
+                    var title = item.project_title;
+                } else {
+                    // Housing türündeki veriler için image URL'sini belirleme
+                    var housingTypeData = JSON.parse(item.housing_type_data);
+                    imageUrl = '{{ URL::to("/housing_images/") }}/' + (housingTypeData.image || 'default.jpg');
+                    var title = item.title;
+                }
+                
+                var row = `
+                    <div class="row p-2">
+                        <div class="col-3">
+                            <img src="${imageUrl}" alt="image" class="img-fluid" style="width:60px;height:60px">
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex flex-column">
+                                <div class="fs-5">${title}</div>
+                                <div class="fs-6">${item.step1_slug}</div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <a href="${item.link}" class="btn btn-danger">İncele</a>
+                        </div>
+                    </div>
+                `;
+                contentContainer.append(row);
+            });
+        }
+
+        function updateSalesAdvertTable(type) {
+            var data;
+            var url;
+            if (type === 'projects') {
+                data = @json($salesAdvertProject);
+                url = '{{ URL::to('/') }}';
+            } else {
+                data = @json($salesAdvertHousing);
+                url = '{{ URL::to('/housing_images/') }}';
+            }
+
+            var tbody = $('#satisiYapilanlar tbody');
+            tbody.empty();
+
+            $.each(data, function(index, item) {
+                var imageUrl = type === 'projects' ? item.image : (item.housing_type_data ? JSON.parse(item.housing_type_data).image : 'default.jpg');
+                var imageSrc = type === 'projects' ? url + '/' + imageUrl : url + '/' + imageUrl;
+
+                var row = `
+                    <tr>
+                        <td>
+                            <img src="${imageSrc}" alt="image" class="img-fluid">
+                        </td>
+                        <td><span class="badge text-black">${type === 'projects' ? item.project_title : item.title}</span></td>
+                        <td>${item.view_count}</td>
+                        <td>${item.amount}</td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        function updateCustomerTable(type) {
+            var salesHousingsCustomerInfo = @json($salesHousingsCustomerInfo);
+            var salesProjectsCustomerInfo = @json($salesProjectsCustomerInfo);
+            var data;
+            var url;
+            var paginationLinks;
+            
+            if (type === 'projects') {
+                data = salesProjectsCustomerInfo.data;
+                //url = '{{ URL::to('/') }}'; // Projeler için uygun URL
+                paginationLinks = salesProjectsCustomerInfo.links;
+            } else {
+                data = salesHousingsCustomerInfo.data;
+                //url = '{{ URL::to('/housing_images/') }}'; // Emlaklar için uygun URL
+                paginationLinks = salesHousingsCustomerInfo.links;
+            }
+
+            var tbody = $('#customerTableBody');
+            tbody.empty();
+            var rows = '';
+
+            $.each(data, function(index, item) {
+                try {
+                    var cartData = JSON.parse(item.cart || '{}');
+                    var imageSrc ='{{ URL::to('/storage/profile_images/') }}' + (item.customer.profile_image ?? 'default.jpg');
+
+                    var purchaseType = item.payment_result ? 'Kredi Kartı' : 'EFT / Havale';
+                    var status = '';
+                    if (item.status == 1) {
+                        status = 'Ödendi';
+                    } else if (item.status == 2) {
+                        status = 'Reddedildi';
+                    } else {
+                        status = 'Ödeme Onayı Bekliyor';
+                    }
+
+                    rows += `
+                        <tr style="height: 80px;">        
+                            <td>#${item.id}</td>
+                            <td>
+                                <span style="float:left;margin-left:10px"><img src="${imageSrc}" alt="image" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <span class="badge text-black">${item.customer.name || 'Başlık Yok'}</span></span>
+                            </td>
+                            <td>${purchaseType}</td>
+                            <td>${item.amount}</td>
+                            <td>${status}</td>
+                            <td>${item.status == 1 ? item.updated_at : ''}</td>
+                        </tr>
+                    `;
+                } catch (e) {
+                    console.error('JSON ayrıştırma hatası:', e);
+                }
+            });
+
+            tbody.html(rows);
+            $('#paginationLinks').html(paginationLinks);
+        }
+
+    </script>
+   
+
+    {{-- görüntülenme sayısı grafiği --}}
+    <script>
+            var mostViewedHousings = @json($mostViewedHousings);
+            document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('statisticsChart').getContext('2d');
+
+            // Verileri işleyin
+            var labels = mostViewedHousings.map(function(item) {
+                return item.title; // Emlak isimleri
+            });
+            var data = mostViewedHousings.map(function(item) {
+                return item.view_count; // Görüntülenme sayıları
+            });
+
+            // Chart.js ile bar grafiği oluşturun
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Görüntülenme Sayısı',
+                        data: data,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
+            });
         });
+    </script>
 
-        new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: ['Satışlar', 'Kazanç'],
-                datasets: [{
-                    label: 'Satış İstatistikleri',
-                    data: [12, 19],
-                    backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
-                    borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
-                }]
-            },
-            options: {
-                responsive: true,
-            }
-        });
+    <script>
+         var salesAdvertHousing = @json($salesAdvertHousing);
+            document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('revenueChart').getContext('2d');
 
-        new Chart(ctx3, {
-            type: 'doughnut',
-            data: {
-                labels: ['Kâr', 'Zarar'],
+            // Verileri işleyin
+            var saleCount = salesAdvertHousing.filter(item => item.step2_slug === 'satilik').length;
+            var rentalCount = salesAdvertHousing.filter(item => item.step2_slug === 'kiralik').length;
+
+            var data = {
+                labels: ['Satılık', 'Kiralık'],
                 datasets: [{
-                    label: 'Kazanç İstatistikleri',
-                    data: [15, 5],
-                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                    label: 'Satış / Kira Dağılımı',
+                    data: [saleCount, rentalCount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
                 }]
-            },
-            options: {
-                responsive: true,
-            }
+            };
+
+            // Chart.js ile pasta grafiği oluşturun
+            new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    var label = tooltipItem.label || '';
+                                    if (label) {
+                                        label += ': ' + tooltipItem.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         });
     </script>
     {{-- <script>
@@ -848,6 +860,9 @@
 
 @section('styles')
     <style>
+         /* #satisiYapilanlar tr {
+            height: 80px; 
+        } */
        a.actived {
             color: #EA2B2E !important; /* Yazı rengini kırmızı yap */
             text-decoration: none; /* Varsayılan alt çizgiyi kaldır */
@@ -930,9 +945,9 @@
         color: red;
         }
 
-        /* li a:active {
-        color: orange;
-        } */
+      .nav-item{
+        cursor: pointer;
+      }
 
         .nav-tabs .nav-link {
             display: flex;

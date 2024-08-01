@@ -446,30 +446,38 @@ class DashboardController extends Controller
         $monthlyCounts = $this->getMonthlyCounts();
         $monthlyCollectionCounts = $this->getMonthlyCollectionCounts(); // Adjusted variable name
 
-        $subWorkerCount  = $this->subWorkerCount();
+        $subWorkerCount               = $this->subWorkerCount();
+        $collectionCount              = $this->collectionCount();
+        $bidsCount                    = $this->bidsCount();  
+        $getTopCorporateStore         = $this->getTopCorporateStore();
+        $getTopCorporateUser          = $this->getTopCorporateUser();
+        $getTopConsultantForCorporate = $this->getTopConsultantForCorporate();  
 
-        $activeAdvertProjects    = $this->activeAdvertProjects();
-        $activeAdvertHousings    = $this->activeAdvertHousings();
+        //Proje fonk.
+        $activeAdvertProjects         = $this->activeAdvertProjects();
+        $pendingAdvertProjects        = $this->pendingAdvertProjects();
+        $passiveAdvertProjects        = $this->passiveAdvertProjects();
+        $viewCountProjects            = $this->viewCountProjects();
+        $totalAdvertProjects          = $this->totalAdvertProjects();
+        $salesDetailsProjects         = $this->salesDetailsProjects();
+        $mostViewedProjects           = $this->mostViewedProjects();
+        $salesAdvertProject           = $this->salesAdvertProject();
+        $salesProjectsCustomerInfo    = $this->salesProjectsCustomerInfo();
+
+        //Emlak fonk. 
+        $activeAdvertHousings         = $this->activeAdvertHousings();      
+        $pendingAdvertHousings        = $this->pendingAdvertHousings();
+        $passiveAdvertHousings        = $this->passiveAdvertHousings();
+        $viewCountHousings            = $this->viewCountHousings();
+        $totalAdvertHousings          = $this->totalAdvertHousings();
+        $salesDetailsHousings         = $this->salesDetailsHousings();
+        $mostViewedHousings           = $this->mostViewedHousings();
+        $salesAdvertHousing           = $this->salesAdvertHousing();
+        $salesHousingsCustomerInfo    = $this->salesHousingsCustomerInfo();
+
       
-        $pendingAdvertProjects  = $this->pendingAdvertProjects();
-        $pendingAdvertHousings  = $this->pendingAdvertHousings();
-
-        $passiveAdvertProjects  = $this->passiveAdvertProjects();
-        $passiveAdvertHousings  = $this->passiveAdvertHousings();
-
-        $collectionCount = $this->collectionCount();
-
-        $viewCountProjects       = $this->viewCountProjects();
-        $viewCountHousings       = $this->viewCountHousings();
-
-        $totalAdvertProjects   = $this->totalAdvertProjects();
-        $totalAdvertHousings   = $this->totalAdvertHousings();
-        $bidsCount       = $this->bidsCount();
-    
-        $topSalesPersonsWithDetailsForMonth = $this->topSalesPersonsWithDetailsForMonth();
-   
-
-        return view('client.panel.home.index2', compact(
+//  dd($salesAdvertHousing);
+        return view('client.panel.home.index2', compact('user','mostViewedHousings','salesAdvertHousing','salesHousingsCustomerInfo','getTopCorporateStore','getTopCorporateUser',
             'housingViews',
             'housingSalesStatistics',
             'housings',
@@ -488,7 +496,13 @@ class DashboardController extends Controller
             'collectionCount',
             'viewCountProjects',
             'viewCountHousings',
-            'bidsCount'
+            'bidsCount',
+            'salesDetailsHousings',
+            'getTopConsultantForCorporate',
+            'salesAdvertProject',
+            'mostViewedProjects',
+            'salesDetailsProjects',
+            'salesProjectsCustomerInfo'
         ));
     }
     //sadece kurumsallar için yapıldı 
@@ -573,6 +587,19 @@ class DashboardController extends Controller
         return $viewCountHousings;
     }//End    
 
+    // En çok ziyaret edilen 6 emlak
+    private function mostViewedHousings(){
+        $user = Auth::user();
+        $mostViewedHousings = Housing::where('user_id', $user->id)->orderBy('view_count', 'desc')->limit(5)->get(); 
+        return $mostViewedHousings;
+    }//End   
+    
+    private function mostViewedProjects(){
+        $user = Auth::user();
+        $mostViewedProjects = Project::where('user_id', $user->id)->orderBy('view_count', 'desc')->limit(5)->get(); 
+        return $mostViewedProjects;
+    }//End 
+
     //Pazar Teklifleri
     private function bidsCount(){
         $user = Auth::user();
@@ -582,7 +609,7 @@ class DashboardController extends Controller
     
     //Ayın Yıldızları
     //en çok satış yapılan ilan sayısı emlak
-    private function topSalesPersonsWithDetailsForMonth() {
+    private function salesDetailsHousings() {
         $currentUserId = Auth::id();
         
         // Aylık tarih aralığını belirleyin
@@ -596,28 +623,250 @@ class DashboardController extends Controller
             ->where('cart_orders.status', '1')
             ->where('users.parent_id', $currentUserId)
             ->whereBetween('cart_orders.created_at', [$startDate, $endDate])
+            ->whereRaw('JSON_EXTRACT(cart_orders.cart, "$.type") = "housing"')
             ->groupBy('users.id', 'users.name')
             ->orderBy('total_sales', 'desc')
             ->limit(3)
             ->get();
         
         // Her kullanıcının yaptığı satışları al
-        $salesDetails = [];
+        $salesDetailsHousings = [];
         
         foreach ($topUsers as $topUser) {
             $sales = DB::table('cart_orders')
                 ->where('reference_id', $topUser->id)
-                ->where('status', 1)
+                ->where('status', '1')
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->get();
+
+            $totalEarnings = DB::table('sharer_prices')
+                ->where('user_id', $topUser->id)
+                ->sum('balance');
+            $totalCollectionSales = DB::table('sharer_prices')
+                ->where('user_id', $topUser->id)
+                ->count();            
             
-            $salesDetails[] = [
-                'user' => $topUser,
-                'sales' => $sales
+            $salesDetailsHousings[] = [
+                'user'                 => $topUser,
+                'sales'                => $sales,
+                'totalEarnings'        => $totalEarnings,
+                'totalCollectionSales' => $totalCollectionSales,
+                'totalSales'           => $topUser->total_sales 
             ];
         }
         
-        return $salesDetails;
+        return $salesDetailsHousings;
+    }//End
+    private function salesDetailsProjects() {
+        $currentUserId = Auth::id();
+        
+        // Aylık tarih aralığını belirleyin
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+        
+        // En çok satış yapan 3 kullanıcıyı belirleyin
+        $topUsers = DB::table('cart_orders')
+            ->join('users', 'cart_orders.reference_id', '=', 'users.id')
+            ->select('users.id', 'users.name', DB::raw('COUNT(cart_orders.id) as total_sales'))
+            ->where('cart_orders.status', '1')
+            ->where('users.parent_id', $currentUserId)
+            ->whereBetween('cart_orders.created_at', [$startDate, $endDate])
+            ->whereRaw('JSON_EXTRACT(cart_orders.cart, "$.type") = "project"')
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('total_sales', 'desc')
+            ->limit(3)
+            ->get();
+        
+        // Her kullanıcının yaptığı satışları al
+        $salesDetailsProjects = [];
+        
+        foreach ($topUsers as $topUser) {
+            $sales = DB::table('cart_orders')
+                ->where('reference_id', $topUser->id)
+                ->where('status', '1')
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+
+            $totalEarnings = DB::table('sharer_prices')
+                ->where('user_id', $topUser->id)
+                ->sum('balance');
+            $totalCollectionSales = DB::table('sharer_prices')
+                ->where('user_id', $topUser->id)
+                ->count();            
+            
+            $salesDetailsProjects[] = [
+                'user'                 => $topUser,
+                'sales'                => $sales,
+                'totalEarnings'        => $totalEarnings,
+                'totalCollectionSales' => $totalCollectionSales,
+                'totalSales'           => $topUser->total_sales 
+            ];
+        }
+        
+        return $salesDetailsProjects;
+    }//End
+
+    //Satışı Yapılan ilanlar (Emlak)
+    private function salesAdvertHousing(){
+        $user = Auth::user();
+        
+        // En son 5 emlak satışını al
+        $cartOrders = CartOrder::where('status', '1')
+            ->where('store_id', $user->id)
+            ->where('cart->type', 'housing')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        // Cart sütunundan item içindeki id değerlerini al
+        $housingIds = $cartOrders->map(function($order) {
+            $cart = json_decode($order->cart, true); // JSON verisini diziye çevir
+            return $cart['item']['id']; // item içindeki id değerini döndür
+        })->toArray();
+        
+        // Housing verilerini al
+        $housings = Housing::whereIn('id', $housingIds)->get();
+        
+        // Fiyatları ve diğer bilgileri Housing verilerine ekle
+        $housings->each(function($housing) use ($cartOrders) {
+            $order = $cartOrders->firstWhere(function($order) use ($housing) {
+                $cart = json_decode($order->cart, true);
+                return $cart['item']['id'] == $housing->id;
+            });
+            $housing->amount = $order->amount; // amount değerini ekle
+        });
+    
+        return $housings;
+    }//End
+
+    private function salesAdvertProject(){
+        $user = Auth::user();
+        
+        // En son 5 emlak satışını al
+        $cartOrders = CartOrder::where('status', '1')
+            ->where('store_id', $user->id)
+            ->where('cart->type', 'project')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        // Cart sütunundan item içindeki id değerlerini al
+        $projectIds = $cartOrders->map(function($order) {
+            $cart = json_decode($order->cart, true); // JSON verisini diziye çevir
+            return $cart['item']['id']; // item içindeki id değerini döndür
+        })->toArray();
+        
+        // Housing verilerini al
+        $projects = Project::whereIn('id', $projectIds)->get();
+        
+        // Fiyatları ve diğer bilgileri Housing verilerine ekle
+        $projects->each(function($project) use ($cartOrders) {
+            $order = $cartOrders->firstWhere(function($order) use ($project) {
+                $cart = json_decode($order->cart, true);
+                return $cart['item']['id'] == $project->id;
+            });
+            $project->amount = $order->amount; // amount değerini ekle
+        });
+    
+        return $projects;
+    }//End
+
+    //Yapılan Satışlar ve müşteri bilgisi
+    private function salesHousingsCustomerInfo(){
+        $userId = Auth::id(); // Auth::id() ile giriş yapmış kullanıcı ID'sini al
+    
+        // Satış bilgilerini ve müşteri bilgilerini getir
+        $salesHousingsCustomerInfo = CartOrder::where('store_id', $userId)
+            ->where('cart->type', 'housing')
+            ->with('user') // İlgili müşteri bilgilerini yükle
+            ->paginate(10, ['id', 'cart', 'amount', 'user_id', 'status', 'created_at', 'updated_at']); // Gerekli sütunları al
+    
+        // Müşteri bilgilerini ekle
+        $salesHousingsCustomerInfo->each(function($sale) {
+            $cart = json_decode($sale->cart, true); // JSON verisini diziye çevir
+            $user = User::find($sale->user_id); // Müşteri bilgilerini al
+    
+            // Satış verisine müşteri bilgilerini ekle
+            $sale->customer = $user;
+            $sale->item = $cart['item']; // item bilgilerini de ekle
+        });
+    
+        return $salesHousingsCustomerInfo;
+    }//End
+
+    private function salesProjectsCustomerInfo(){
+        $userId = Auth::id(); // Auth::id() ile giriş yapmış kullanıcı ID'sini al
+    
+        // Satış bilgilerini ve müşteri bilgilerini getir
+        $salesProjectsCustomerInfo = CartOrder::where('store_id', $userId)
+            ->where('cart->type', 'project')
+            ->with('user') // İlgili müşteri bilgilerini yükle
+            ->paginate(10, ['id', 'cart', 'amount', 'user_id', 'status', 'created_at', 'updated_at']); // Gerekli sütunları al
+    
+        // Müşteri bilgilerini ekle
+        $salesProjectsCustomerInfo->each(function($sale) {
+            $cart = json_decode($sale->cart, true); // JSON verisini diziye çevir
+            $user = User::find($sale->user_id); // Müşteri bilgilerini al
+    
+            // Satış verisine müşteri bilgilerini ekle
+            $sale->customer = $user;
+            $sale->item = $cart['item']; // item bilgilerini de ekle
+        });
+    
+        return $salesProjectsCustomerInfo;
+    }//End
+    
+    //emlak sepette ayın en çok satış yapan danışmanı
+    public function getTopCorporateStore(){
+        // Retrieve the top store_id with the most occurrences
+        $topStoreId = CartOrder::select('store_id')
+            ->groupBy('store_id')
+            ->orderByRaw('COUNT(*) DESC')
+            ->pluck('store_id')
+            ->first();
+    
+        // Retrieve the user with the most occurrences of the top store_id
+        $topUser = User::where('id', $topStoreId)
+            ->first();
+    
+        return $topUser;
+    }//End
+
+    public function getTopConsultantForCorporate(){
+        // Get the top corporate user
+        $topCorporateStore = $this->getTopCorporateStore();
+        // return $topCorporateStore->id;
+        if (!$topCorporateStore) {
+            return null; // No corporate user found
+        }
+
+        // Get the top consultant for the top corporate user
+        $topCorporateStoreId = CartOrder::where('store_id', $topCorporateStore->id)
+            ->where('status', '1') // Filter by status if needed
+            ->groupBy('reference_id') // Group by consultant ID
+            ->orderByRaw('COUNT(*) DESC') // Order by the number of sales
+            ->pluck('reference_id') // Get the top consultant ID
+            ->first();
+// return $topCorporateStoreId;
+        // Retrieve the consultant details
+        $topCorporateStoreName = User::where('id',$topCorporateStoreId)->first();
+       
+        return $topCorporateStoreName;
+    }//End
+
+    public function getTopCorporateUser(){
+        // Retrieve the top store_id with the most occurrences
+        $topStoreId = SharerPrice::select('user_id')
+            ->groupBy('user_id')
+            ->orderByRaw('COUNT(*) DESC')
+            ->pluck('user_id')
+            ->first();
+
+        // Retrieve the user with the most occurrences of the top store_id
+        $topUser = User::where('id', $topStoreId)
+            ->first();
+
+        return $topUser;
     }//End
 
 
