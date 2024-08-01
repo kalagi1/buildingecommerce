@@ -1,4 +1,3 @@
-<!-- Çerez Yönetimi Modalı -->
 <div id="cookie-management-modal"
     class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
@@ -8,12 +7,12 @@
 
         <!-- Çerez Yönetim Seçenekleri -->
         <div class="space-y-4">
-            <ul class="accordion accordion-1 one-open">
-                <li class="active">
-                    <div class="title">
+            <ul class="accordion">
+                <li class="accordion-item active">
+                    <div class="accordion-title" id="panel-1">
                         <span>Simple Panels</span>
                     </div>
-                    <div class="content">
+                    <div class="accordion-content">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -21,11 +20,11 @@
                         </p>
                     </div>
                 </li>
-                <li class="">
-                    <div class="title">
+                <li class="accordion-item">
+                    <div class="accordion-title" id="panel-2">
                         <span>Toggle Information</span>
                     </div>
-                    <div class="content">
+                    <div class="accordion-content">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -33,11 +32,11 @@
                         </p>
                     </div>
                 </li>
-                <li class="">
-                    <div class="title">
+                <li class="accordion-item">
+                    <div class="accordion-title" id="panel-3">
                         <span>Nice Touch</span>
                     </div>
-                    <div class="content">
+                    <div class="accordion-content">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
