@@ -153,7 +153,6 @@
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
-                                        !($sold_check && $sold->status == '1') ||
                                             (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]') ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
                                             (isset($sumCartOrderQt[$keyIndex]) &&
@@ -161,11 +160,11 @@
                                                 $sold->status != '2' &&
                                                 $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
 
-@if (!($sold_check && $sold->status == '1'))
-                                        <span class="btn addCollection mobileAddCollection" data-type='project'
-                                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                                            <i class="fa fa-bookmark-o"></i>
-                                        </span>
+                                        @if (!($sold_check && $sold->status == '1'))
+                                            <span class="btn addCollection mobileAddCollection" data-type='project'
+                                                data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                                <i class="fa fa-bookmark-o"></i>
+                                            </span>
                                         @endif
 
                                         @if (!($sold_check && $sold->status == '1'))
