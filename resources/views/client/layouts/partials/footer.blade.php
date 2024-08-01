@@ -266,13 +266,7 @@
 </div>
 
 @include('cookie-consent::index')
-<script>
-    $(".accordion li").click(function() {
-        console.log("adsf");
-        $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
-                .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
-            "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
-    });
+
 </script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -280,7 +274,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
-
+<script>
+    $(".accordion li").click(function() {
+        console.log("adsf");
+        $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
+                .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
+            "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
+    });
 
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>
