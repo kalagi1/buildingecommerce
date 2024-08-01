@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content">
-        <div class="table-breadcrumb mb-3">
+        <div class="table-breadcrumb mb-5">
             <ul>
                 <li>Hesabım</li>
                 <li>CRM</li>

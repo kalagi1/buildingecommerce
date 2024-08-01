@@ -969,7 +969,7 @@
                                             @php
                                                 $blockName = null;
                                             @endphp
-                                            <div class="row" style="margin-bottom:5px">
+                                            <div class="row" style="margin-bottom:10px">
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-3 pr-0">
