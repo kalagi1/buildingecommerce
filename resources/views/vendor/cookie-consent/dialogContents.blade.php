@@ -1,28 +1,57 @@
 <!-- Çerez Yönetimi Modalı -->
-<div id="cookie-management-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+<div id="cookie-management-modal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg">
         <h2 class="text-xl font-semibold mb-4">Çerez Yönetimi</h2>
-        <p class="mb-4">Çerezlerinizin ayarlarını burada yönetebilirsiniz. Aşağıdaki seçenekleri kullanarak çerez tercihlerinizi güncelleyebilirsiniz:</p>
-        
+        <p class="mb-4">Çerezlerinizin ayarlarını burada yönetebilirsiniz. Aşağıdaki seçenekleri kullanarak çerez
+            tercihlerinizi güncelleyebilirsiniz:</p>
+
         <!-- Çerez Yönetim Seçenekleri -->
         <div class="space-y-4">
-            <div class="flex items-center">
-                <input type="checkbox" id="essential-cookies" checked disabled class="mr-2">
-                <label for="essential-cookies" class="text-sm">Zorunlu Çerezler</label>
-            </div>
-            <div class="flex items-center">
-                <input type="checkbox" id="analytics-cookies" class="mr-2">
-                <label for="analytics-cookies" class="text-sm">Analitik Çerezler</label>
-            </div>
-            <div class="flex items-center">
-                <input type="checkbox" id="marketing-cookies" class="mr-2">
-                <label for="marketing-cookies" class="text-sm">Pazarlama Çerezleri</label>
-            </div>
+            <ul class="accordion accordion-1 one-open">
+                <li class="active">
+                    <div class="title">
+                        <span>Simple Panels</span>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </li>
+                <li class="">
+                    <div class="title">
+                        <span>Toggle Information</span>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </li>
+                <li class="">
+                    <div class="title">
+                        <span>Nice Touch</span>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                    </div>
+                </li>
+            </ul>
         </div>
-        
+
         <!-- Modal Kapatma Butonu -->
         <div class="mt-6 flex justify-end">
-            <button id="close-modal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm font-medium rounded-md">Kapat</button>
+            <button id="close-modal"
+                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm font-medium rounded-md">Kapat</button>
         </div>
     </div>
 </div>
