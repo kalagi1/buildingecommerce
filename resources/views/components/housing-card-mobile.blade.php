@@ -66,16 +66,6 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                     </div>
 
                 </div>
-                <div class="homes-tag button alt featured" style="width:auto !important">
-                    {{-- No: {{ $housing->id + 2000000 }} --}}  
-                    @if ($housing->step2_slug == 'kiralik')
-                        Kiralık
-                        @elseif ($housing->step2_slug == 'gunluk-kiralik')
-                            Günlük Kiralık
-                        @else
-                            Satılık
-                        @endif
-                </div>
             </a>
             <div class="d-flex" style="align-items:Center">
                 <div class="d-flex" style="gap: 8px;">
@@ -220,6 +210,11 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 
                 </span>
             </div>
+            <span style="font-size: 9px !important"> {{ $housing->city ? $housing->city->title : null }}
+                {{ '/' }}
+                {{ $housing->district ? $housing->district->ilce_title : null }}
+    
+            </span>
         </div>
     </div>
 </div>
@@ -285,11 +280,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
             @endif
         </ul>
 
-        <span style="font-size: 9px !important"> {{ $housing->city ? $housing->city->title : null }}
-            {{ '/' }}
-            {{ $housing->district ? $housing->district->ilce_title : null }}
-
-        </span>
+     
     </div>
 
 </div>
