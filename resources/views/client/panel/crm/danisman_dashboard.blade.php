@@ -169,7 +169,7 @@
                                 <span class="medal-icon">🏅</span>
                                 <div class="text-center" style="border-radius: 55%;">
                                     {{-- <img src="{{asset('woman.png')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $topCaller->profile_image ) }}" class="danismanListImg">
+                                    <img src="{{ asset($topCaller->profile_image ? 'storage/profile_images/' . $topCaller->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg">
                                 </div>
                                 <p class="text-center">{{$topCaller->name}} </p>
                                 <p class="text-center" style="background: linear-gradient(to top, #D32729, #84181A) !important;color:white; border-radius: 7px;  margin-top: 10px !important;">
@@ -182,12 +182,14 @@
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Satış Yapan</div>
+                            @if($enCokSatisYapan)
                             <hr style="clear: both;">
                             <span class="medal-icon">🏅</span>
                             <div class="card-body">
                                 <div class="text-center" style="border-radius: 55%">
-                                    {{-- <img src="{{asset('man.jpg')}}" class="danismanImg"> --}}
-                                    <img src="{{ asset('storage/profile_images/' . $enCokSatisYapan->profile_image ) }}" class="danismanListImg">
+                                 
+                                  
+                                    <img src="{{ asset($enCokSatisYapan->profile_image ? 'storage/profile_images/' . $enCokSatisYapan->profile_image : 'storage/profile_images/indir.png') }}" class="danismanListImg" onerror="this.style.display='none';">
 
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '' }}</p>
@@ -195,6 +197,9 @@
                                     {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '' }} Adet Satış
                                 </p>
                             </div>
+                            @else
+                                Henüz satış bulunmamaktadır.
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -215,7 +220,7 @@
                         <div class="col-md-4">
                             <div style="position: relative;">
                                 <img src="{{ asset('odul.jpeg') }}" alt="Ödül Arka Plan">
-                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;">
+                                <img src="{{ asset('awards/' . $award->award_image) }}" alt="{{ $award->title }}" style="position: absolute; top: 56%; left: 82%; max-width: 50px;border-radius:15px;height:30%">
                                 <h4 style="position: absolute; bottom: 65px; left: 135px; color: white; z-index: 10;font-size:14px;">{{ $award->title }}</h4>
                                 <h4 style="position: absolute; bottom: 35px; left: 135px; color: white; z-index: 10;font-size:13px;">{{ $award->award_name }}</h4>
                             </div>
@@ -236,7 +241,8 @@
                                         <div class="card-body">
                                             <div class="text-center" style="border-radius: 55%">
                                                 {{-- <img src="{{ asset('woman.png') }}" class="danismanListImg"> --}}
-                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image ) }}" class="danismanListImg">
+                                                <img src="{{ asset('storage/profile_images/' . $danisman->profile_image) }}" class="danismanListImg" onerror="this.onerror=null; this.src='{{ asset('storage/profile_images/indir.png') }}';">
+
                                             </div>
                                             <p class="text-center" style="font-size: 16px; font-weight:400; color:#1b1b1b">{{ $danisman->name }}</p>
                                             <p class="text-center" style="color: #8b8b8b">Referans Kodu</p>
