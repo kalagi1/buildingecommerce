@@ -1,22 +1,22 @@
 @props(['housing', 'sold'])
 
-@php 
+@php
 
-if (!function_exists('checkIfUserCanAddToCart')) {
-    function checkIfUserCanAddToCart($housingId)
-    {
-        $user = auth()->user();
+    if (!function_exists('checkIfUserCanAddToCart')) {
+        function checkIfUserCanAddToCart($housingId)
+        {
+            $user = auth()->user();
 
-        // Check if the user is logged in
-        if ($user) {
-            // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
-            $exists = $user->housings()->where('id', $housingId)->exists();
-            return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+            // Check if the user is logged in
+            if ($user) {
+                // Check if there exists a housing record with the given $housingId and user_id matching the logged-in user
+                $exists = $user->housings()->where('id', $housingId)->exists();
+                return !$exists; // Return true if the user can add to cart (housing not found), false otherwise
+            }
+
+            return true; // Return false if user is not logged in
         }
-
-        return true; // Return false if user is not logged in
     }
-}
 
 @endphp
 
@@ -50,7 +50,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                 <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                     <h4 class="mobile-left-width">
                         {{ $housing->title }} </h4>
-                        
+
                     <div class="mobile-right-width">
                         @if ((isset(json_decode($housing->housing_type_data)->open_sharing1[0]) && $sold == null) || $sold == '2')
                             <span
@@ -66,17 +66,21 @@ if (!function_exists('checkIfUserCanAddToCart')) {
                     </div>
 
                 </div>
-              <!-- Map icon, make sure to include an icon library or replace with a suitable icon -->
-<span class="inline-flex items-center text-xs font-medium text-gray-600">
+                <!-- Map icon, make sure to include an icon library or replace with a suitable icon -->
+                <span class="inline-flex items-center text-xs font-medium text-gray-600 mt-3">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    {{ $housing->city ? $housing->city->title : '' }}
+                    {{ $housing->city && $housing->district ? ' / ' : '' }}
+                    {{ $housing->district ? $housing->district->ilce_title : '' }}
+                    {{ $housing->district && $housing->neighborhood ? ' / ' : '' }}
+                    {{ $housing->neighborhood ? $housing->neighborhood->mahalle_title : '' }}
 
-    {{ $housing->city ? $housing->city->title : '' }}
-    {{ $housing->city && $housing->district ? ' / ' : '' }}
-    {{ $housing->district ? $housing->district->ilce_title : '' }}
-    {{ $housing->district && $housing->neighborhood ? ' / ' : '' }}
-    {{ $housing->neighborhood ? $housing->neighborhood->mahalle_title : '' }}
 
-
-</span>
+                </span>
 
             </a>
             <div class="d-flex" style="align-items:Center">
@@ -222,7 +226,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
 
                 </span>
             </div>
-          
+
         </div>
     </div>
 </div>
@@ -288,7 +292,7 @@ if (!function_exists('checkIfUserCanAddToCart')) {
             @endif
         </ul>
 
-     
+
     </div>
 
 </div>
