@@ -113,7 +113,6 @@
 
 </div>
 
-
 <div class="js-cookie-consent cookie-consent fixed bottom-0 inset-x-0 pb-2 show">
     <div class="container">
         <div class="p-2 rounded-lg bg-yellow-100">
@@ -128,16 +127,17 @@
                     </span>
                 </div>
 
-                <div class="mt-2 flex-shrink-0 w-full sm:mt-0 d-flex justify-content-end gap-2">
+                <div class="flex flex-col sm:flex-row gap-2 mt-2">
                     <button
-                        class="js-cookie-consent-agree cookie-consent__agree cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
+                        class="js-cookie-consent-agree cookie-consent__agree cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
                     </button>
 
                     <button style="color: black"
-                        class="js-cookie-consent-manage cookie-consent__manage cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-blue-800 bg-blue-400 hover:bg-blue-300">
+                        class="js-cookie-consent-manage cookie-consent__manage cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-blue-800 bg-blue-400 hover:bg-blue-300">
                         {{ trans('cookie-consent::texts.manage') }}
                     </button>
+
                     <button style="color: black"
                         class="js-cookie-consent-decline cookie-consent__decline cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
                         {{ trans('cookie-consent::texts.decline') }}
