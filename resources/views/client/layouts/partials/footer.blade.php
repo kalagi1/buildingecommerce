@@ -2090,18 +2090,18 @@
         });
     });
     document.addEventListener('DOMContentLoaded', function() {
-    const accordionItems = document.querySelectorAll('.accordion-item');
+    const accordionItems = document.querySelectorAll('.accordion-1');
 
     accordionItems.forEach(item => {
-        const title = item.querySelector('.accordion-title');
-        const content = item.querySelector('.accordion-content');
+        const title = item.querySelector('.accordion .title');
+        const content = item.querySelector('.accordion .content');
 
         title.addEventListener('click', function() {
             // Close other open panels
             accordionItems.forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    otherItem.querySelector('.accordion .content').style.maxHeight = null;
                 }
             });
 
