@@ -17,11 +17,11 @@
                         class="js-cookie-consent-agree cookie-consent__agree cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
                     </button>
-                    <button
+                    <button style="color: black;"
                         class="js-cookie-consent-decline cookie-consent__decline cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
                         {{ trans('cookie-consent::texts.decline') }}
                     </button>
-                    <button
+                    <button style="color: black;"
                         class="js-cookie-consent-manage cookie-consent__manage cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-blue-800 bg-blue-400 hover:bg-blue-300">
                         {{ trans('cookie-consent::texts.manage') }}
                     </button>
