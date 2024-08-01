@@ -36,7 +36,7 @@
                         @endif
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                            alt="{{ $housing->title }}" class="img-responsive" style="height: 80px !important;">
+                            alt="{{ $housing->title }}" class="img-responsive" style="height: 100% !important;">
                     </div>
                 </div>
             </a>
