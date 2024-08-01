@@ -357,29 +357,30 @@
                                                 @endif
                                             </a>
                                             @php
-                                            // Markanın adını al
-                                            $brandName = $brand->name;
-                                        
-                                            // Markanın adını boşluk karakteri ile ayır
-                                            $words = explode(' ', $brandName);
-                                        
-                                            // İlk iki kelimeyi al
-                                            $firstTwoWords = '';
-                                            if (isset($words[0])) {
-                                                $firstTwoWords .= $words[0];
-                                            }
-                                            if (isset($words[1])) {
-                                                $firstTwoWords .= ' ' . $words[1];
-                                            }
-                                        @endphp
-                                        
-                                        <span style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
-                                            {{ $firstTwoWords }}
-                                            @if (count($words) > 2)
-                                                ...
-                                            @endif
-                                        </span>
-                                        
+                                                // Markanın adını al
+                                                $brandName = $brand->name;
+
+                                                // Markanın adını boşluk karakteri ile ayır
+                                                $words = explode(' ', $brandName);
+
+                                                // İlk iki kelimeyi al
+                                                $firstTwoWords = '';
+                                                if (isset($words[0])) {
+                                                    $firstTwoWords .= $words[0];
+                                                }
+                                                if (isset($words[1])) {
+                                                    $firstTwoWords .= ' ' . $words[1];
+                                                }
+                                            @endphp
+
+                                            <span
+                                                style="font-size:9px !important;border:none !important;text-align:center;width: 100%;display:block">
+                                                {{ $firstTwoWords }}
+                                                @if (count($words) > 2)
+                                                    ...
+                                                @endif
+                                            </span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -398,7 +399,7 @@
     @if ($housings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white mt-5">
             <div class="container">
-                
+
                 <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
@@ -424,7 +425,13 @@
                             <p>Henüz İlan Yayınlanmadı</p>
                         @endforelse
                     </div>
-                    <button id="loadMoreMobileButton" style="display: block;">Daha Fazlasını Gör</button>
+                    <button id="loadMoreMobileButton"
+                        style="  display: block;
+    margin: 0 auto;
+    border: none;
+    background: transparent;
+    margin-bottom: 30px;">Daha
+                        Fazlasını Gör</button>
                     <div class="ajax-load" style="display: none;">
                         <div class="spinner-border" role="status"></div>
                     </div>
@@ -446,8 +453,8 @@
                                 @endforelse
                             </div>
                             <div class="text-center">
-                                <button id="loadMoreButton" class="btn my-3"
-                                    style="display: none; margin: 0 auto;">Daha Fazlasını Gör</button>
+                                <button id="loadMoreButton" class="btn my-3" style="display: none; margin: 0 auto;">Daha
+                                    Fazlasını Gör</button>
                                 <div class="ajax-load" style="display: none;">
                                     <div class="spinner-border" role="status"></div>
                                 </div>
