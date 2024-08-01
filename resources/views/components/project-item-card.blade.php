@@ -108,7 +108,7 @@
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
     <div class="col-md-12 col-12 p-0" style="box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-    margin-top: 10px;
+    margin-bottom: 10px;
 }">
         <div class="project-card">
             <div class="row">

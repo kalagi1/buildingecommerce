@@ -969,14 +969,14 @@
                                             @php
                                                 $blockName = null;
                                             @endphp
-                                            <div class="row" style="margin-bottom:5px">
+                                            <div class="row" style="margin-bottom:10px">
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-3 pr-0">
-                                                            <div style="background:#ea2b2e;width: 100%;height: 100%;border-top-left-radius: 7px;"></div>
+                                                            <div style="background:#ea2b2e;width: 100%;height: 100%;"></div>
                                                         </div>
                                                         <div class="col-md-9" >
-                                                            <div class="row" style="width: 102%;">
+                                                            <div class="row" style="width: 100%;">
                                                                 <div class="col-md-9" style="background:#ea2b2e;color:#fff;padding : 5px 15px;">
                                                                     @if($project->id == 434 || $project->id == 433 || $project->id == 431)
                                                                     <div class="d-flex">
@@ -997,7 +997,7 @@
                                                                 </div>
                                                                 @endif
                                                                 </div>
-                                                                <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;border-bottom-right-radius: 7px;">
+                                                                <div class="col-md-3" style="background:#ea2b2e;width: 100%;height: 26px;">
 
                                                                 </div>
                                                             </div>
