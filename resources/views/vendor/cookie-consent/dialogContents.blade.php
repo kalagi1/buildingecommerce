@@ -119,7 +119,7 @@
         <div class="p-2 rounded-lg bg-yellow-100">
             <div class="flex items-center justify-between flex-wrap">
                 <div class="w-0 flex-1 items-center hidden md:inline text-left">
-                    <span class="text-black cookie-consent__message mb-2">
+                    <span class="text-white cookie-consent__message mb-2">
                         {!! trans('cookie-consent::texts.message') !!}
                     </span><br><br>
                     <span>
