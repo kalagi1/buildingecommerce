@@ -25,7 +25,7 @@
                     </div>
                     <div class="content">
                         <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
-                            <span class="status-text ml-2" data-status="targeting">Etkin</span>
+                            <span class="status-text" data-status="targeting">Etkin</span>
                             <input type="checkbox" id="targeting-cookies" class="ml-2" checked>
                         </div>
                         <p>Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar, ilgili şirketler tarafından ilgi alanları profilinizi oluşturmak ve diğer sitelerde alakalı reklamlar göstermek için kullanılabilir. Benzersiz olarak tarayıcınızı ve cihazınızı belirleyerek çalışırlar. Bu kapsamda tarayıcınıza piksel ve çerez yerleşimi yapılabilmektedir. Bu tanımlama bilgilerine izin vermezseniz farklı sitelerde size özel reklam deneyimi sunamayız.</p>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="content">
                         <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
-                            <span class="status-text ml-2" data-status="essential" style="color: green">Her Zaman Etkin</span>
+                            <span class="status-text" data-status="essential" style="color: green">Her Zaman Etkin</span>
                         </div>
                         <p>Bu tanımlama bilgileri, web sitesinin çalışması için gereklidir ve sistemlerimizde kapatılamaz. Bunlar genellikle yalnızca sizin işlemlerinizi gerçekleştirmek için ayarlanmıştır. Bu işlemler, gizlilik tercihlerinizi belirlemek, oturum açmak veya form doldurmak gibi hizmet taleplerinizi içerir. Tarayıcınızı, bu tanımlama bilgilerini engelleyecek veya bunlar hakkında sizi uyaracak şekilde ayarlayabilirsiniz ancak bu durumda sitenin bazı bölümleri çalışmayabilir.</p>
                     </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="content">
                         <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
-                            <span class="status-text ml-2" data-status="functional">Devre Dışı</span>
+                            <span class="status-text" data-status="functional">Devre Dışı</span>
                             <input type="checkbox" id="functional-cookies" class="ml-2">
                         </div>
                         <p>Bu tanımlama bilgileri, videolar ile canlı sohbet gibi gelişmiş işlevler ve kişiselleştirme olanağı sunabilmemizi sağlar. Bunlar, bizim tarafımızdan veya sayfalarımızda hizmetlerinden faydalandığımız üçüncü taraf sağlayıcılarca ayarlanabilir. Bu tanımlama bilgilerine izin vermezseniz bu işlevlerden tümü veya bazıları doğru şekilde çalışmayabilir.</p>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="content">
                         <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
-                            <span class="status-text ml-2" data-status="performance">Devre Dışı</span>
+                            <span class="status-text" data-status="performance">Devre Dışı</span>
                             <input type="checkbox" id="performance-cookies" class="ml-2">
                         </div>
                         <p>Bu tanımlama bilgileri, sitemizin performansını ölçebilmemiz ve iyileştirebilmemiz için sitenin ziyaret edilme sayısını ve trafik kaynaklarını sayabilmemizi sağlar. Hangi sayfaların en fazla ve en az ziyaret edildiğini ve ziyaretçilerin sitede nasıl gezindiklerini öğrenmemize yardımcı olurlar. Bu tanımlama bilgilerinin topladığı tüm bilgiler derlenir ve bu nedenle anonimdir. Bu tanımlama bilgilerine izin vermezseniz sitemizi ne zaman ziyaret ettiğinizi bilemeyiz.</p>
