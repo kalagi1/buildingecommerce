@@ -153,6 +153,7 @@
 
                                     @if (
                                         ($sold && $sold->status == '2' && $share_sale == '[]') ||
+                                        !($sold_check && $sold->status == '1') || !($sold_check && $sold->status == '0') ||
                                             (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]') ||
                                             ($sold && $sold->status == '2' && empty($share_sale)) ||
                                             (isset($sumCartOrderQt[$keyIndex]) &&
@@ -207,87 +208,87 @@
                                             aria-hidden="true"></i>
                                         <span>{{ $project->housingType->title }}</span>
                                     </li> --}}
-                                    @if($project->id == 431)
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                    @if ($project->id == 431)
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 1+1
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Suit Oda
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Konya/Ilgın
                                             </span>
                                         </li>
-                                @elseif($project->id == 433)
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                    @elseif($project->id == 433)
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 2+1
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Suit Oda
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Konya/Ilgın
                                             </span>
                                         </li>
-                                @elseif($project->id == 434)
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                    @elseif($project->id == 434)
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 3+1
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Villa
                                             </span>
                                         </li>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <li class="d-flex align-items-center itemCircleFont">
                                             <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                             <span>
                                                 Konya/Ilgın
                                             </span>
                                         </li>
-                                @else
-                                @foreach (['column1', 'column2', 'column3'] as $column)
-                                    @php
-                                        $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                        $column_additional =
-                                            $project->listItemValues->{$column . '_additional'} ?? '';
-                                        $column_name_exists =
-                                            $column_name &&
-                                            isset($projectHousingsList[$keyIndex][$column_name . '[]']);
-                                    @endphp
+                                    @else
+                                        @foreach (['column1', 'column2', 'column3'] as $column)
+                                            @php
+                                                $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                                                $column_additional =
+                                                    $project->listItemValues->{$column . '_additional'} ?? '';
+                                                $column_name_exists =
+                                                    $column_name &&
+                                                    isset($projectHousingsList[$keyIndex][$column_name . '[]']);
+                                            @endphp
 
-                                    @if ($column_name_exists)
-                                        <li class="d-flex align-items-center itemCircleFont">
-                                            <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                            <span>
-                                                {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                                                @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
-                                                    {{ $column_additional }}
-                                                @endif
-                                            </span>
-                                        </li>
+                                            @if ($column_name_exists)
+                                                <li class="d-flex align-items-center itemCircleFont">
+                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                    <span>
+                                                        {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
+                                                        @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
+                                                            {{ $column_additional }}
+                                                        @endif
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        @endforeach
                                     @endif
-                                @endforeach
-                                @endif
 
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
@@ -423,7 +424,8 @@
 
                                             <span><svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
                                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                     <circle cx="12" cy="12" r="3"></circle>
                                                 </svg> Komşumu Gör</span>
@@ -432,11 +434,14 @@
                                         <span class="first-btn see-my-neighbor payment">
                                             <span> <svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
                                                     <circle cx="12" cy="12" r="10"></circle>
-                                                    <line x1="12" y1="8" x2="12" y2="12">
+                                                    <line x1="12" y1="8" x2="12"
+                                                        y2="12">
                                                     </line>
-                                                    <line x1="12" y1="16" x2="12.01" y2="16">
+                                                    <line x1="12" y1="16" x2="12.01"
+                                                        y2="16">
                                                     </line>
                                                 </svg>
                                                 Ödeme Onayı </span>
@@ -610,86 +615,98 @@
 
     <!-- Modal -->
     <div class="modal fade" id="approveProjectModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-    aria-labelledby="approveProjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form method="POST" action="{{ route('give_offer') }}">
-                    @csrf
-                    <input type="hidden" value="{{ $keyIndex }}" name="roomId">
-                    <input type="hidden" value="{{ $project->id }}" name="projectId">
-                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+        aria-labelledby="approveProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('give_offer') }}">
+                        @csrf
+                        <input type="hidden" value="{{ $keyIndex }}" name="roomId">
+                        <input type="hidden" value="{{ $project->id }}" name="projectId">
+                        <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name" class="q-label">Ad Soyad : </label>
-                                <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name" required>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name" class="q-label">Ad Soyad : </label>
+                                    <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
+                                        name="name" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="phone" class="q-label">Telefon Numarası : </label>
-                                <input type="tel" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone" class="q-label">Telefon Numarası : </label>
+                                    <input type="tel" class="modal-input" placeholder="Telefon Numarası"
+                                        id="phone" name="phone" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email" class="q-label">E-Posta : </label>
-                                <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="q-label">E-Posta : </label>
+                                    <input type="email" class="modal-input" placeholder="E-Posta" id="email"
+                                        name="email" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="title" class="q-label">Meslek : </label>
-                                <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title" class="q-label">Meslek : </label>
+                                    <input type="text" class="modal-input" placeholder="Meslek" id="title"
+                                        name="title" required>
+                                </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="city_id" class="q-label">İl</label>
+                                    <select
+                                        class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                        name="city_id" required>
+                                        <option value="">Seçiniz</option>
+                                        @foreach ($towns as $item)
+                                            <option value="{{ $item['sehir_key'] }}"
+                                                {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                                {{ $item['sehir_title'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="county_id" class="q-label">İlçe</label>
+                                    <select
+                                        class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                        name="county_id" required>
+                                        <option value="">Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
+                                    <input type="text" class="modal-input" placeholder="Fiyat" id="price"
+                                        name="price" required>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="city_id" class="q-label">İl</label>
-                                <select class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}" name="city_id" required>
-                                    <option value="">Seçiniz</option>
-                                    @foreach ($towns as $item)
-                                        <option value="{{ $item['sehir_key'] }}" {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
-                                            {{ $item['sehir_title'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="county_id" class="q-label">İlçe</label>
-                                <select class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}" name="county_id" required>
-                                    <option value="">Seçiniz</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="price" class="q-label">Teklif Ettiğiniz Fiyat : </label>
-                                <input type="text" class="modal-input" placeholder="Fiyat" id="price" name="price" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="offer_description" class="q-label">Açıklama:</label>
+                            <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
+                                name="offer_description" required></textarea>
                         </div>
 
-                    </div>
-
-                    <div class="form-group">
-                        <label for="offer_description" class="q-label">Açıklama:</label>
-                        <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;" name="offer_description" required></textarea>
-                    </div>
-
-                    <div class="modal-footer" style="justify-content: end !important">
-                        <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width:150px">Kapat</button>
-                    </div>
-                </form>
+                        <div class="modal-footer" style="justify-content: end !important">
+                            <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                style="width:150px">Kapat</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
     @if ($sold_check && $sold->status == '1')
