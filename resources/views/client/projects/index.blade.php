@@ -1064,7 +1064,7 @@
                                         </div>
                                     </div>
                                     <div class="mobile-show">
-                                        <div class="container">
+                                        <div class="container p-0">
                                             <div id="project-room-mobile">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
