@@ -8,31 +8,30 @@ use Illuminate\Support\Facades\Log;
 
 class GoogleSheetsController extends Controller
 {
-    public function handleWebhook(Request $request)
-    {
+    public function handleWebhook(Request $request){
         $data = $request->json()->all();
         Log::info('Webhook data received:', $data);
 
         // İlk satırı atlamak için sayaç kullanın
         $rowCount = 0;
         foreach ($data as $row) {
-            $rowCount++;
-            if ($rowCount == 1) {
-                // İlk satırı atla
-                Log::info('Skipping first row:', $row);
-                continue;
-            }
+            // $rowCount++;
+            // if ($rowCount == 1) {
+            //     // İlk satırı atla
+            //     Log::info('Skipping first row:', $row);
+            //     continue;
+            // }
 
             Log::info('Processing row:', $row);
 
             $entryData = [
-                'name'         => $row[12],
-                'email'        => $row[14],
-                'phone'        => $row[13],
-                'project_name' => $row[7],
-                'platform'     => $row[11],
-                'province'     => $row[15],
-                'job_title'    => $row[16],
+                'name'         => $row[1],
+                'email'        => $row[3],
+                'phone'        => $row[2],
+                'project_name' => $row[0],
+                'platform'     => "ig",
+                'province'     => $row[4],
+                'job_title'    => $row[5],
                 'created_at'   => now()
             ];
 
