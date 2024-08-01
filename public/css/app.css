@@ -90,45 +90,11 @@
     align-items: center;
     justify-content: center;
 }
-.accordion {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+
+
+#close-modal{
+border: none !important;
 }
-
-.accordion-item {
-    display: flex;
-    border-bottom: 1px solid #ddd;
-}
-
-.accordion-title {
-    flex: 1;
-    padding: 10px;
-    cursor: pointer;
-    background-color: #f9f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.accordion-content {
-    flex: 3;
-    padding: 10px;
-    background-color: #fff;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    max-height: 0; /* Initially collapsed */
-}
-
-.accordion-item.active .accordion-content {
-    max-height: 1000px; /* Or a value large enough to show all content */
-}
-
-.accordion-item.active .accordion-title {
-    background-color: #e0e0e0; /* Optional: Change color when active */
-}
-
-
 /* Modal İçeriği */
 #cookie-management-modal .bg-white {
     background: #ffffff;
@@ -137,7 +103,10 @@
     padding: 24px;
     max-width: 600px;
     width: 100%;
+    height: 90vh;
+    overflow-y: auto;
 }
+
 
 /* Modal Başlık */
 #cookie-management-modal h2 {

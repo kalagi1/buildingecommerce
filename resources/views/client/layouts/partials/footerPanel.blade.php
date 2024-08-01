@@ -260,6 +260,7 @@
 </div>
 
 
+@include('cookie-consent::index')
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -331,6 +332,71 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(".accordion li").click(function() {
+        $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
+                .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
+            "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Çerez tercihlerinin durumunu güncelle
+        function updateStatusText() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                const statusText = checkbox.previousElementSibling;
+                if (checkbox.checked) {
+                    statusText.textContent = 'Etkin';
+                    statusText.style.color = 'green';
+                } else {
+                    statusText.textContent = 'Devre Dışı';
+                    statusText.style.color = 'gray';
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde durumları güncelle
+        updateStatusText();
+
+        // Checkbox durumunu değiştirdiğinde metni güncelle
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateStatusText);
+        });
+
+        // Modal kapama butonu işlevi
+        document.getElementById('close-modal').addEventListener('click', function () {
+            document.getElementById('cookie-management-modal').classList.add('hidden');
+        });
+    });
+</script>
+
+<style>
+    .accordion {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .accordion li {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .accordion .title {
+        cursor: pointer;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    .accordion .content {
+        padding: 10px;
+        display: none;
+    }
+
+    .accordion .active .content {
+        display: block;
+    }
+</style>
 
 <script>
     var errorMessage = "{{ session('error') }}";
@@ -2031,7 +2097,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@include('cookie-consent::index')
 
 <script src="{{ URL::to('/') }}/build/assets/app-f1a40e54.js"></script>
 
@@ -2049,38 +2114,6 @@
             $(this).parent().children('.dropdown-menu').attr('data-bs-popper', 'static')
         }
     })
-    document.addEventListener('DOMContentLoaded', function() {
-    const accordionItems = document.querySelectorAll('.accordion-item');
-
-    accordionItems.forEach(item => {
-        const title = item.querySelector('.accordion-title');
-        const content = item.querySelector('.accordion-content');
-
-        title.addEventListener('click', function() {
-            // Close other open panels
-            accordionItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                }
-            });
-
-            // Toggle the clicked panel
-            item.classList.toggle('active');
-            if (item.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            } else {
-                content.style.maxHeight = null;
-            }
-        });
-    });
-
-    // Close modal button functionality
-    document.getElementById('close-modal').addEventListener('click', function() {
-        document.getElementById('cookie-management-modal').classList.add('hidden');
-    });
-});
-
 </script>
 
 <script src="{{ asset('js/dropzone.js') }}"></script>
