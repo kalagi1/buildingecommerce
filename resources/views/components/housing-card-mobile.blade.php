@@ -21,7 +21,7 @@
 @endphp
 
 <div class="d-flex" style="flex-wrap: nowrap">
-    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
+    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;height:90px">
         <div class="project-inner project-head">
             <a
                 href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
