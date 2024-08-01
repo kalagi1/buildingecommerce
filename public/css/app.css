@@ -74,6 +74,10 @@
     /* Hover durumunda düğme arka plan rengi */
 }
 /* Modal Arka Plan */
+
+#cookie-management-modal.hidden{
+    display: none !important;
+}
 #cookie-management-modal {
     display: none;
     position: fixed;
@@ -82,7 +86,11 @@
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
+
 
 /* Modal İçeriği */
 #cookie-management-modal .bg-white {
@@ -131,6 +139,7 @@
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    border: none !important;
 }
 
 #cookie-management-modal .flex button:hover {
