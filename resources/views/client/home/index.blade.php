@@ -3,7 +3,7 @@
 @section('content')
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Master Girişim">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
 
     <title>Emlak Sepette</title>
     <style>
