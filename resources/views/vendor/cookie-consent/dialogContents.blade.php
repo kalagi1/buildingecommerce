@@ -45,14 +45,12 @@
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
-                        <div class="flex items-center">
-                            <div class="checkbox-option flex items-center mr-2">
-                                <input type="checkbox" name="checkbox" value="Checkbox" id="checkbox" checked class="form-checkbox">
-                                <label for="checkbox" class="checkbox-label"></label>
-                            </div>
-                            <span class="text-green-600">Etkin</span>
+                        <div class=" flex items-center">
+                            <div class="checkbox-option pull-right">
+                                <div class="inner"></div>
+                                <input type="checkbox" name="checkbox" value="Checkbox">
+                            </div> <span class="text-green-600">Etkin</span>
                         </div>
-                        
                         <div class="content-description mt-4">
                             <p>
                                 Bu tanımlama bilgileri, sitemizde reklam ortaklarımız tarafından ayarlanır. Bunlar,
