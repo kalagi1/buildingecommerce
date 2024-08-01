@@ -24,7 +24,7 @@
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
-                        <div class="d-flex align-items-center mt-3 pl-3">
+                        <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
                             <span class="status-text ml-2" data-status="targeting">Etkin</span>
                             <input type="checkbox" id="targeting-cookies" class="ml-2" checked>
                         </div>
@@ -36,8 +36,8 @@
                         <span>Zorunlu Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
-                        <div class="d-flex align-items-center mt-3 pl-3">
-                            <span class="status-text ml-2" data-status="essential">Her Zaman Etkin</span>
+                        <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
+                            <span class="status-text ml-2" data-status="essential" style="color: green">Her Zaman Etkin</span>
                         </div>
                         <p>Bu tanımlama bilgileri, web sitesinin çalışması için gereklidir ve sistemlerimizde kapatılamaz. Bunlar genellikle yalnızca sizin işlemlerinizi gerçekleştirmek için ayarlanmıştır. Bu işlemler, gizlilik tercihlerinizi belirlemek, oturum açmak veya form doldurmak gibi hizmet taleplerinizi içerir. Tarayıcınızı, bu tanımlama bilgilerini engelleyecek veya bunlar hakkında sizi uyaracak şekilde ayarlayabilirsiniz ancak bu durumda sitenin bazı bölümleri çalışmayabilir.</p>
                     </div>
@@ -47,7 +47,7 @@
                         <span>İşlevsel Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
-                        <div class="d-flex align-items-center mt-3 pl-3">
+                        <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
                             <span class="status-text ml-2" data-status="functional">Devre Dışı</span>
                             <input type="checkbox" id="functional-cookies" class="ml-2">
                         </div>
@@ -59,7 +59,7 @@
                         <span>Performans Tanımlama Bilgileri</span>
                     </div>
                     <div class="content">
-                        <div class="d-flex align-items-center mt-3 pl-3">
+                        <div class="d-flex align-items-center mt-3 " style="padding-left: 13px">
                             <span class="status-text ml-2" data-status="performance">Devre Dışı</span>
                             <input type="checkbox" id="performance-cookies" class="ml-2">
                         </div>
