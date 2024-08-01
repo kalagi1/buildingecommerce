@@ -12,13 +12,13 @@
                     </span>
                 </div>
 
-                <div class="mt-2 flex-shrink-0 w-full sm:mt-0 flex justify-end gap-2">
+                <div class="mt-2 flex-shrink-0 w-full sm:mt-0 d-flex justify-content-end gap-2">
                     <button
-                        class="js-cookie-consent-agree cookie-consent__agree cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
+                        class="js-cookie-consent-agree cookie-consent__agree cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-yellow-800 bg-yellow-400 hover:bg-yellow-300">
                         {{ trans('cookie-consent::texts.agree') }}
                     </button>
                     <button
-                        class="js-cookie-consent-decline cookie-consent__decline cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
+                        class="js-cookie-consent-decline cookie-consent__decline cursor-pointer mr-2 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium text-red-800 bg-red-400 hover:bg-red-300">
                         {{ trans('cookie-consent::texts.decline') }}
                     </button>
                     <button
