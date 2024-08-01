@@ -532,7 +532,6 @@
             </footer>
         </div>
     @endif --}}
-    @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

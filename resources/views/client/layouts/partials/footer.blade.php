@@ -2092,6 +2092,7 @@
 </script>
 @yield('scripts')
 
+@include('cookie-consent::index')
 
 
 </body>
