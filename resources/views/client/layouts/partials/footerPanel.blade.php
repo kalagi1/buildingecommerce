@@ -260,7 +260,7 @@
 </div>
 
 
-
+@include('cookie-consent::index')
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -2031,7 +2031,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
-@include('cookie-consent::index')
 
 <script src="{{ URL::to('/') }}/build/assets/app-f1a40e54.js"></script>
 
@@ -2049,38 +2048,6 @@
             $(this).parent().children('.dropdown-menu').attr('data-bs-popper', 'static')
         }
     })
-    document.addEventListener('DOMContentLoaded', function() {
-    const accordionItems = document.querySelectorAll('.accordion-item');
-
-    accordionItems.forEach(item => {
-        const title = item.querySelector('.accordion-title');
-        const content = item.querySelector('.accordion-content');
-
-        title.addEventListener('click', function() {
-            // Close other open panels
-            accordionItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                }
-            });
-
-            // Toggle the clicked panel
-            item.classList.toggle('active');
-            if (item.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            } else {
-                content.style.maxHeight = null;
-            }
-        });
-    });
-
-    // Close modal button functionality
-    document.getElementById('close-modal').addEventListener('click', function() {
-        document.getElementById('cookie-management-modal').classList.add('hidden');
-    });
-});
-
 </script>
 
 <script src="{{ asset('js/dropzone.js') }}"></script>
