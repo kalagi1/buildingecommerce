@@ -281,6 +281,7 @@
                 .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
             "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
     });
+    </script>
 
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/rangeSlider.js?v=2"></script>

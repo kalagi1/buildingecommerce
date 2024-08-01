@@ -268,13 +268,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<script>
-    $(".accordion li").click(function() {
-        $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
-                .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
-            "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
-    });
-</script>
+
 
 
 <!-- ARCHIVES JS -->
@@ -338,7 +332,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    $(".accordion li").click(function() {
+        $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
+                .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
+            "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
+    });
+</script>
 <script>
     var errorMessage = "{{ session('error') }}";
     if (errorMessage) {
