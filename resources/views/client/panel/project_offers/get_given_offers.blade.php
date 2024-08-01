@@ -3,7 +3,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-5">
     <div class="table-breadcrumb">
         <ul>
             <li>Hesabım</li>

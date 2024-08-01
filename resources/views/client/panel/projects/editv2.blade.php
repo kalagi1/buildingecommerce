@@ -38,7 +38,7 @@
     @endif
     <div class="content">
         <div class="row" style="justify-content: space-between;">
-            <div class="table-breadcrumb">
+            <div class="table-breadcrumb mb-5">
                 <ul>
                     <li><i class="fa fa-home"></i></li>
                     <li>Ofisim</li>
