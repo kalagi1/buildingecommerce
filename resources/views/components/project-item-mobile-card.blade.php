@@ -100,7 +100,8 @@
 
 @endphp
 
-<div class="d-flex" style="flex-wrap: nowrap">
+<div class="d-flex" style="flex-wrap: nowrap;box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);padding:10px
+    ">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
             <a
@@ -188,6 +189,11 @@
                         </span>
                     @endif
                 </div>
+                <span
+                style="    font-size: 9px !important;
+                                width: 50% !important;
+                                text-align: right;
+                                margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
             </a>
             <div class="d-flex align-items-end projectItemFlex">
                 <div style="width: 50%;
@@ -237,7 +243,7 @@
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -259,7 +265,7 @@
                                             </span>
                                         @endif
                                         <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;text-align:Center">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -476,11 +482,7 @@
 
         </ul>
 
-        <span
-            style="    font-size: 9px !important;
-                            width: 50% !important;
-                            text-align: right;
-                            margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+
     </div>
 </div>
 <hr>
