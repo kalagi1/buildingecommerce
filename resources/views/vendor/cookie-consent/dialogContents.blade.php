@@ -9,7 +9,7 @@
         <!-- Çerez Yönetim Seçenekleri -->
         <div class="space-y-4">
             <ul class="accordion accordion-1 one-open">
-                <li class="active">
+                <li>
                     <div class="title">
                         <span>Gizliliğiniz</span>
                     </div>
@@ -30,7 +30,7 @@
                             başlıklarına tıklayabilirsiniz.</p>
                     </div>
                 </li>
-                <li>
+                <li  class="active">
                     <div class="title">
                         <span>Hedefleme Amaçlı Tanımlama Bilgileri</span>
                     </div>
