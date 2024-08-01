@@ -3,7 +3,7 @@
 @section('content')
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Master Girişim">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
 
     <title>Emlak Sepette</title>
     <style>
@@ -532,7 +532,6 @@
             </footer>
         </div>
     @endif --}}
-    @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">

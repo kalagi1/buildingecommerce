@@ -57,6 +57,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
