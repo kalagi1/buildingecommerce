@@ -78,6 +78,122 @@
 #cookie-management-modal.hidden{
     display: none !important;
 }
+
+/* Modal overlay */
+.emlaksepette-modal-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+}
+
+/* Modal content */
+.emlaksepette-modal-content {
+    background-color: #ffffff;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+/* Modal title */
+.emlaksepette-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Button styles */
+.emlaksepette-btn {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+}
+
+.emlaksepette-btn:hover {
+    background-color: #2563eb;
+}
+
+.emlaksepette-close-btn {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.emlaksepette-close-btn:hover {
+    background-color: #dc2626;
+}
+
+/* Flex and Grid */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.w-11\/12 {
+    width: 91.666667%;
+}
+
+.max-w-4xl {
+    max-width: 56rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+/* Custom styles for cookie categories and descriptions */
+.emlaksepette-cat-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.emlaksepette-cat-item {
+    margin-bottom: 0.5rem;
+}
+
+.emlaksepette-tab-handler {
+    cursor: pointer;
+}
+
+.emlaksepette-tab-handler[aria-selected="true"] {
+    font-weight: bold;
+}
+
+.emlaksepette-desc-content {
+    display: none;
+}
+
+.emlaksepette-desc-content.ot-show {
+    display: block;
+}
+
+/* Active state for menu items */
+.ot-active-menu {
+    font-weight: bold;
+}
+
 #cookie-management-modal {
     display: none;
     position: fixed;
