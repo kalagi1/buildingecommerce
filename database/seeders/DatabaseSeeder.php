@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(InstitutionSeeder::class);
 
         // $this->call(CleanShareLinksSeeder::class);
-        // $this->call(CollectionSeeder::class);
-        $this->call(ProjectDeletFromShareLinksSeeder::class);
+        $this->call(CollectionSeeder::class);
+        // $this->call(ProjectDeletFromShareLinksSeeder::class);
         // $this->call(HousingDeletFromShareLinksSeeder::class);
 
 
