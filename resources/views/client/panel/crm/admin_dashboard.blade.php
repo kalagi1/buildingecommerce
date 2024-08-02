@@ -32,12 +32,12 @@
                                     <defs>
                                         <linearGradient id="paint0_linear_134_453" x1="24.6705" y1="20.07"
                                             x2="24.6705" y2="-24.3243" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <linearGradient id="paint1_linear_134_453" x1="9.84211" y1="20.0374"
                                             x2="9.84211" y2="-25.1028" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                     </defs>
@@ -70,12 +70,12 @@
                                     <defs>
                                         <linearGradient id="paint0_linear_134_396" x1="15.5042" y1="23.9017"
                                             x2="15.5042" y2="-20.522" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <linearGradient id="paint1_linear_134_396" x1="22.7656" y1="27.46"
                                             x2="22.7656" y2="12.8835" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <clipPath id="clip0_134_396">
@@ -114,12 +114,12 @@
                                     <defs>
                                         <linearGradient id="paint0_linear_133_200" x1="16.0036" y1="24.6731"
                                             x2="16.0036" y2="-21.1836" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <linearGradient id="paint1_linear_133_200" x1="26.4997" y1="26.8111"
                                             x2="26.4997" y2="8.09424" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <clipPath id="clip0_133_200">
@@ -162,12 +162,12 @@
                                     <defs>
                                         <linearGradient id="paint0_linear_134_365" x1="14.6667" y1="24.0689"
                                             x2="14.6667" y2="-23.2208" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <linearGradient id="paint1_linear_134_365" x1="22.2479" y1="26.2342"
                                             x2="22.2479" y2="12.934" gradientUnits="userSpaceOnUse">
-                                            <stop stop-color="#D32729" />
+                                            <stop stop-color="#EC2F2E" />
                                             <stop offset="1" stop-color="#84181A" />
                                         </linearGradient>
                                         <clipPath id="clip0_134_365">
@@ -209,7 +209,7 @@
                                     </div>
                                     <p class="text-center">{{ $topCaller->name }}</p>
                                     <p class="text-center"
-                                        style="background: linear-gradient(to top, #D32729, #84181A) !important; color: white; border-radius: 7px; margin-top: 10px !important;">
+                                        style="background: linear-gradient(to top, #EC2F2E, #84181A) !important; color: white; border-radius: 7px; margin-top: 10px !important;">
                                         {{ $danisman->total_calls }} Arama
                                     </p>
                                 </div>
@@ -234,7 +234,7 @@
                                 </div>
                                 <p class="text-center">{{ $enCokSatisYapan ? $enCokSatisYapan->name : '-' }}</p>
                                 <p class="text-center"
-                                    style="background: linear-gradient(to top, #D32729, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
+                                    style="background: linear-gradient(to top, #EC2F2E, #84181A) !important;color:white; border-radius: 7px; margin-top: 10px !important;">
                                     {{ $enCokSatisYapan && $enCokSatisYapan->satis_sayisi ? $enCokSatisYapan->satis_sayisi : '0' }}
                                     Adet Satış
                                 </p>
@@ -508,7 +508,7 @@
         }
 
         .red-circle {
-            background-color: #D32729;
+            background-color: #EC2F2E;
         }
 
         .blue-circle {
@@ -527,7 +527,7 @@
         }
 
         .stats-table h4 {
-            background: linear-gradient(to top, #D32729, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: white;
             padding: 15px;
             border-radius: 10px 10px 0 0;
@@ -550,7 +550,7 @@
             width: 100%;
             height: 55%;
             border-radius: 10px;
-            background: linear-gradient(332deg, #D32729, #84181A 50%, #ffffff 50%);
+            background: linear-gradient(332deg, #EC2F2E, #84181A 50%, #ffffff 50%);
             flex-direction: column;
             /* İçerikleri dikey yönde hizalar */
             justify-content: center;
@@ -664,7 +664,7 @@
         }
 
         .l-bg-red {
-            background: linear-gradient(to top, #D32729, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: #fff;
         }
 
@@ -699,7 +699,7 @@
             border-radius: 45%;
             position: relative;
             top: -18px;
-            border-top: 1px solid #D32729;
+            border-top: 1px solid #EC2F2E;
         }
 
         .cardDanisman {
@@ -711,9 +711,9 @@
 
         .cardDanismanList {
             padding: 0px 20px;
-            border-top: 1px solid #D32729;
+            border-top: 1px solid #EC2F2E;
             /* Top border color */
-            border-bottom: 1px solid #D32729;
+            border-bottom: 1px solid #EC2F2E;
             /* Bottom border color */
             border-left: 1px solid #84181A;
             /* Left border color */
@@ -724,9 +724,9 @@
         }
 
         .btnDanisman {
-            background: linear-gradient(to top, #D32729, #84181A) !important;
+            background: linear-gradient(to top, #EC2F2E, #84181A) !important;
             color: #ffffff;
-            border-color: #D32729 !important;
+            border-color: #EC2F2E !important;
             padding: 5px 25px;
             border-radius: 6px !important;
             margin-top: 5px;
@@ -811,12 +811,12 @@
             borderColor = ["black"];
         } else {
             backgroundColor = [
-                '#D32729', // Bireysel Satış rengi
+                '#EC2F2E', // Bireysel Satış rengi
                 'blue', // Danışman Satış rengi
                 'orange' // Şirket Satış rengi
             ];
             borderColor = [
-                '#D32729',
+                '#EC2F2E',
                 'blue',
                 'orange'
             ];

@@ -189,7 +189,7 @@
 
                                     <div class="col-md-12 col-12 p-0 ml-3">
                                         <a data-bs-toggle="modal" data-bs-target="#bidModal"
-                                            style="color:#D32729 !important;cursor: pointer; ">
+                                            style="color:#EC2F2E !important;cursor: pointer; ">
                                             Pazarlık Yap <i class="fa fa-handshake"></i>
                                         </a>
                                     </div>
@@ -1177,7 +1177,7 @@
 
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
-                                                    <span class="det" style="color: #D32729 !important;">
+                                                    <span class="det" style="color: #EC2F2E !important;">
                                                         @if (isset($city) || isset($county) || isset($neighbour))
                                                             @if (isset($city))
                                                                 {{ strtoupper($city->title) }}

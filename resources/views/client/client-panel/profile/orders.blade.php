@@ -129,7 +129,7 @@
                                             <b>
                                                 Tutar:
                                             </b>
-                                            <span style="color: #D32729"> {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
+                                            <span style="color: #EC2F2E"> {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
                                                 ₺</span>
                                         </div>
 

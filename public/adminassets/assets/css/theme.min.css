@@ -41039,7 +41039,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .required {
-    color: #D32729;
+    color: #EC2F2E;
 }
 
 .area-lists {
@@ -42517,8 +42517,8 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         cursor: pointer;
         display: flex;
         align-items: center;
-        border: 1px solid #D32729;
-        background-color: #D32729 !important;
+        border: 1px solid #EC2F2E;
+        background-color: #EC2F2E !important;
     }
 
  
@@ -42559,7 +42559,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     }
 
     .buyUserRequest:hover {
-        background: #D32729;
+        background: #EC2F2E;
     }
 
     .buyUserRequest:hover .buyUserRequest__text {
@@ -42572,11 +42572,11 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     }
 
     .buyUserRequest:active .buyUserRequest__icon {
-        background-color: #D32729;
+        background-color: #EC2F2E;
     }
 
     .buyUserRequest:active {
-        border: 1px solid #D32729;
+        border: 1px solid #EC2F2E;
     }
 
 
@@ -46438,8 +46438,8 @@ hr {
     cursor: pointer;
     display: flex;
     align-items: center;
-    border: 1px solid #D32729;
-    background-color: #D32729 !important;
+    border: 1px solid #EC2F2E;
+    background-color: #EC2F2E !important;
     padding : 10px 20px;
     color: #fff; 
     border-radius: 5px;
@@ -47533,7 +47533,7 @@ hr {
 
   .input-with-save-button span{
     flex : 1;
-    background: #D32729;
+    background: #EC2F2E;
     border-radius: 5px;
     color: #fff;
     display: flex;
@@ -47546,7 +47546,7 @@ hr {
   .add-button-payment{
     padding: 5px 10px;
     color: #fff;
-    background: #D32729;
+    background: #EC2F2E;
     border-radius: 5px;
     display: block;
     margin-left: 5px;
@@ -47640,7 +47640,7 @@ hr {
   }
 
   .info-small-area{
-    background-color: #D32729;
+    background-color: #EC2F2E;
     font-size: 10px;
     font-weight: bold;
     padding: 3px 5px;

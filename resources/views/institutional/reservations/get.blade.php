@@ -112,7 +112,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>
@@ -211,7 +211,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>
@@ -335,7 +335,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>
@@ -463,7 +463,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>
@@ -587,7 +587,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>
@@ -684,7 +684,7 @@
                                                     <td class="order_date">
                                                         {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}</td>
                                                     <td class="order_date">
-                                                        <span style="color:#D32729; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
+                                                        <span style="color:#EC2F2E; font-weight:600;font-size:16px"><i class="fas fa-calendar"></i>
                                                             {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
                                                             gün</span>
                                                     </td>

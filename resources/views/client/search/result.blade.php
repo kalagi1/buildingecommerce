@@ -175,14 +175,14 @@
                                                         @if ($result['step2_slug'] != 'gunluk-kiralik')
                                                             @if (isset(json_decode($result['housing_type_data'])->off_sale1[0]))
                                                                 <button class="btn second-btn  mobileCBtn"
-                                                                    style="background: #D32729 !important;width:100%;color:White">
+                                                                    style="background: #EC2F2E !important;width:100%;color:White">
 
                                                                     <span class="text">Satıldı</span>
                                                                 </button>
                                                             @else
                                                                 @if ($sold && $sold[0]->status != '2')
                                                                     <button class="btn second-btn  mobileCBtn"
-                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #D32729 !important;width:100%;color:White" @endif>
+                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EC2F2E !important;width:100%;color:White" @endif>
                                                                         @if ($sold[0]->status == '0')
                                                                             <span class="text">Onay
                                                                                 Bekleniyor</span>
@@ -403,7 +403,7 @@
                                                                                     </div>
                                                                                     @if ($discount_amount)
                                                                                         <div class="homes-tag button alt sale"
-                                                                                            style="background-color:#D32729!important">
+                                                                                            style="background-color:#EC2F2E!important">
                                                                                             İNDİRİM
                                                                                         </div>
                                                                                     @endif
@@ -530,7 +530,7 @@
                                                                                                     {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                                     ₺
                                                                                                     <span
-                                                                                                        style="font-size:11px; color:#D32729"
+                                                                                                        style="font-size:11px; color:#EC2F2E"
                                                                                                         class="mobilePriceStyle">
                                                                                                         1
                                                                                                         Gece</span>
@@ -544,7 +544,7 @@
                                                                                                 {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                                 ₺
                                                                                                 <span
-                                                                                                    style="font-size:11px; color:#D32729"
+                                                                                                    style="font-size:11px; color:#EC2F2E"
                                                                                                     class="mobilePriceStyle">
                                                                                                     1
                                                                                                     Gece</span>
@@ -566,14 +566,14 @@
                                                                             @if ($result['step2_slug'] != 'gunluk-kiralik')
                                                                                 @if (isset(json_decode($result['housing_type_data'])->off_sale1[0]))
                                                                                     <button class="btn second-btn "
-                                                                                        style="background: #D32729 !important;width:100%;color:White">
+                                                                                        style="background: #EC2F2E !important;width:100%;color:White">
 
                                                                                         <span class="text">Satıldı</span>
                                                                                     </button>
                                                                                 @else
                                                                                     @if ($sold && $sold[0]->status != '2')
                                                                                         <button class="btn second-btn "
-                                                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #D32729 !important;width:100%;color:White" @endif>
+                                                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EC2F2E !important;width:100%;color:White" @endif>
                                                                                             @if ($sold[0]->status == '0')
                                                                                                 <span class="text">Onay
                                                                                                     Bekleniyor</span>
