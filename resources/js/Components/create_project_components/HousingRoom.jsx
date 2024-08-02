@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { dotNumberFormat, telNumberFormat } from "../../define/variables";
+import React, { useCallback, useEffect, useState } from "react";
+import { dotNumberFormat, getLargeData, saveLargeData, telNumberFormat } from "../../define/variables";
 import {
   Alert,
   Checkbox,
@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import DateInputComponent from "./DateInput";
+
 
 let formData = [];
 
@@ -30,6 +31,35 @@ function HousingRoom({
   }
   const [rendered, setRendered] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [loadingStart,setLoadingStart] = useState(false);
+
+  useEffect(() => {
+    async function saveData() {
+      try {
+        await saveLargeData('checkedItems', checkedItems);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (loadingStart) {
+      saveData();
+    }
+  }, [checkedItems, loadingStart]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const storedData = await getLargeData('checkedItems');
+      if (storedData) {
+        setCheckedItems(storedData);
+        setLoadingStart(true);
+      } else {
+        setLoadingStart(true);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const setCheckedItemsFunc = (name, checked, order) => {
     if (checked) {
@@ -173,7 +203,6 @@ function HousingRoom({
       reader.readAsDataURL(file);
     }
   };
-
   const checkItem = (data) => {
     if(slug == "satilik"){
       if(!data?.className
@@ -230,7 +259,6 @@ function HousingRoom({
       }
     }
   }
-  
 
   return (
     <>

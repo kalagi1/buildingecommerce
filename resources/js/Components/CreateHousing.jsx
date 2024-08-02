@@ -4,17 +4,16 @@ import { baseUrl, getLargeData, saveLargeData } from "../define/variables";
 import TopCreateProjectNavigator from "./create_project_components/TopCreateProjectNavigator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Box, LinearProgress, Modal, Typography } from "@mui/material";
 import TypeList2 from "./create_project_components/TypeList2";
 import HousingForm from "./create_project_components/HousingForm";
 import EndSectionHousing from "./create_project_components/EndSectionHousing";
 import PreviewHousing from "./create_project_components/PreviewHousing";
 import LoadingModal from "./LoadingModal";
 import CustomModal from "./CustomModal";
-import { compressToUTF16, decompressFromUTF16 } from "lz-string";
 
 function CreateHousing(props) {
   const [loadingStart,setLoadingStart] = useState(false);
+  const [blocksLoadingStart,setBlocksLoadingStart] = useState(false);
   const [step, setStep] = useState(
     () => JSON.parse(localStorage.getItem("step")) || 1
   );
@@ -48,6 +47,8 @@ function CreateHousing(props) {
   const [slug, setSlug] = useState(
     () => JSON.parse(localStorage.getItem("slug")) || ""
   );
+
+
   const [blocks, setBlocks] = useState({
     name: "housing",
     roomCount: 1,
@@ -94,6 +95,35 @@ function CreateHousing(props) {
     );
   }, [loadingStorageModalOpen]);
 
+  function slugify(text) {
+    const trMap = {
+        'çÇ': 'c',
+        'ğĞ': 'g',
+        'şŞ': 's',
+        'üÜ': 'u',
+        'ıİ': 'i',
+        'öÖ': 'o'
+    };
+
+    for (let key in trMap) {
+        text = text.replace(new RegExp('[' + key + ']', 'g'), trMap[key]);
+    }
+
+    return text
+        .toString()                  // metni stringe çevir
+        .toLowerCase()               // küçük harfe çevir
+        .trim()                      // baştaki ve sondaki boşlukları sil
+        .replace(/[^a-z0-9 -]/g, '') // alfanümerik ve boşluk dışı karakterleri sil
+        .replace(/\s+/g, '-')        // boşlukları tireyle değiştir
+        .replace(/-+/g, '-');        // birden fazla tiriye dönüşenleri teke indir
+  }
+
+  useEffect(() => {
+    if(selectedTypesTitles[1]){
+      setSlug(slugify(selectedTypesTitles[1]));
+    }
+  },[selectedTypesTitles])
+
   useEffect(() => {
     localStorage.setItem("housingTypes", JSON.stringify(housingTypes));
   }, [housingTypes]);
@@ -114,7 +144,6 @@ function CreateHousing(props) {
     async function saveData() {
       try {
         const newData = { ...projectData};
-        console.log('Saving Data:', newData);
         await saveLargeData('projectData', newData);
       } catch (e) {
         console.log(e);
@@ -131,7 +160,6 @@ function CreateHousing(props) {
     async function fetchData() {
       const storedData = await getLargeData('projectData');
       if (storedData) {
-        console.log('Fetched Data:', storedData);
         setProjectData(storedData);
         setLoadingStart(true);
       } else {
@@ -141,12 +169,12 @@ function CreateHousing(props) {
 
     async function fetchData2() {
       const storedData2 = await getLargeData('blocks');
+      console.log(storedData2);
       if (storedData2) {
-        console.log('Fetched Data:', storedData2);
         setBlocks(storedData2);
-        setLoadingStart(true);
+        setBlocksLoadingStart(true);
       } else {
-        setLoadingStart(true);
+        setBlocksLoadingStart(true);
       }
     }
     fetchData();
@@ -160,6 +188,7 @@ function CreateHousing(props) {
     );
   }, [selectedHousingType]);
 
+
   useEffect(() => {
     localStorage.setItem("haveBlocks", JSON.stringify(haveBlocks));
   }, [haveBlocks]);
@@ -171,14 +200,13 @@ function CreateHousing(props) {
   useEffect(() => {
     async function saveDataBlocks() {
       try {
-        console.log(blocks);
         await saveLargeData('blocks', blocks);
       } catch (e) {
         console.log(e);
       }
     }
 
-    if (loadingStart) {
+    if (blocksLoadingStart) {
       saveDataBlocks();
     }
   }, [blocks]);
@@ -246,6 +274,12 @@ function CreateHousing(props) {
     setStorageLoadingModalOpen(false);
   };
 
+  async function removeCache(){
+    await saveLargeData('checkedItems', []);
+    await saveLargeData('projectData',[]);
+    await saveLargeData('blocks',[]);
+  }
+
   const handleStartOver = () => {
     localStorage.removeItem("step");
     localStorage.removeItem("loadingStorageModalOpen");
@@ -265,6 +299,9 @@ function CreateHousing(props) {
     localStorage.removeItem("anotherBlockErrors");
     localStorage.removeItem("selectedTypesTitles");
     localStorage.removeItem("user");
+    localStorage.removeItem("selectedLocation");
+    removeCache();
+    
     setStep(1);
     setSelectedTypes([]);
     setBlocks([
@@ -303,6 +340,62 @@ function CreateHousing(props) {
       var left = box.left + scrollLeft - clientLeft;
 
       return { top: Math.round(top), left: Math.round(left) };
+    }
+  }
+
+
+  const checkItem = (data) => {
+    if(slug == "satilik"){
+      if( !data?.className
+        ?.split(" ")
+        .includes("disabled-housing") && !data?.className
+        ?.split(" ")
+        .find((classx) => classx == "project-disabled") &&
+      !data?.className?.includes("only-show-project-rent") &&
+      !data?.className?.includes("only-show-project-daliy-rent") &&
+      !data?.className?.includes("only-show-project-sale")){
+        return true;
+      }
+    }
+
+    if(slug == "devren-satilik"){
+      if(!data?.className?.split(" ").includes("disabled-housing") && 
+      !data?.className?.split(" ").find((classx) => classx == "project-disabled") &&
+      !data?.className?.includes("only-show-project-rent") &&
+      !data?.className?.includes("only-show-project-daliy-rent") &&
+      !data?.className?.includes("only-show-project-sale")){
+        return true;
+      }
+    }
+
+    if(slug == "kiralik"){
+      if(!data?.className?.split(" ").includes("disabled-housing") && 
+      !data?.className?.split(" ").find((classx) => classx == "rent-disabled") &&
+      !data?.className?.includes("only-show-project-rent") &&
+      !data?.className?.includes("only-show-project-daliy-rent") &&
+      !data?.className?.includes("only-show-project-sale")){
+        return true;
+      }
+    }
+
+    if(slug == "devren-kiralik"){
+      if(!data?.className?.split(" ").includes("disabled-housing") && 
+      !data?.className?.split(" ").find((classx) => classx == " rent-disabled") &&
+      !data?.className?.includes("only-show-project-rent") &&
+      !data?.className?.includes("only-show-project-daliy-rent") &&
+      !data?.className?.includes("only-show-project-sale")){
+        return true;
+      }
+    }
+
+    if(slug == "gunluk-kiralik"){
+      if(!data?.className?.split(" ").includes("disabled-housing") && 
+      !data?.className?.split(" ").find((classx) => classx == "daily-rent-disabled") &&
+      !data?.className?.includes("only-show-project-rent") &&
+      !data?.className?.includes("only-show-project-daliy-rent") &&
+      !data?.className?.includes("only-show-project-sale")){
+        return true;
+      }
     }
   }
 
@@ -356,41 +449,79 @@ function CreateHousing(props) {
         } else {
           var boolCheck = false;
           formDataHousing.forEach((formDataHousing, order) => {
-            if (slug == "satilik") {
-              if (!formDataHousing?.className?.includes("project-disabled")) {
-                if (
-                  !formDataHousing?.className
-                    ?.split(" ")
-                    .includes("disabled-housing") &&
-                  !formDataHousing?.className
-                    ?.split(" ")
-                    .includes("cover-image-by-housing-type")
-                ) {
-                  if (formDataHousing.required) {
-                    if (blocks.length < 1) {
-                      tempErrors.push(formDataHousing.name.replace("[]", ""));
-                    } else {
-                      if (
-                        !blocks[selectedBlock].rooms[selectedRoom][
-                          formDataHousing.name
-                        ]
-                      ) {
-                        if (!boolCheck) {
-                          var elementDesc = document.getElementById(
-                            formDataHousing.name.replace("[]", "")
-                          );
-                          if (elementDesc) {
-                            window.scrollTo({
-                              top:
-                                getCoords(elementDesc).top -
-                                document.getElementById("navbarDefault")
-                                  .offsetHeight -
-                                30,
-                              behavior: "smooth", // Yumuşak kaydırma efekti için
-                            });
+            if (checkItem(formDataHousing)) {
+              if(formDataHousing.className.includes('--if-show-checked-')){
+                var parentName = formDataHousing?.className?.split("--if-show-checked-")[1];
+                if(blocks[0].rooms[0][parentName+'[]'] != undefined && blocks[0].rooms[0][parentName+'[]'] != "[]"){
+                  if (!formDataHousing?.className?.split(" ").includes("cover-image-by-housing-type")) {
+                    if (formDataHousing.required) {
+                      if (blocks.length < 1) {
+                        tempErrors.push(formDataHousing.name.replace("[]", ""));
+                      } else {
+                        if (
+                          !blocks[selectedBlock].rooms[selectedRoom][
+                            formDataHousing.name
+                          ]
+                        ) {
+                          if (!boolCheck) {
+                            var elementDesc = document.getElementById(
+                              formDataHousing.name.replace("[]", "")
+                            );
+                            console.log(elementDesc,formDataHousing.name.replace("[]", ""));
+                            if (elementDesc) {
+                              window.scrollTo({
+                                top:
+                                  getCoords(elementDesc).top -
+                                  document.getElementById("navbarDefault")
+                                    .offsetHeight -
+                                  30,
+                                behavior: "smooth", // Yumuşak kaydırma efekti için
+                              });
+                            }
+  
+                            boolCheck = true;
                           }
-
-                          boolCheck = true;
+                        }
+                      }
+                    }
+                  }
+                }
+              }else{
+                if (!formDataHousing?.className?.includes("project-disabled")) {
+                  if (
+                    !formDataHousing?.className
+                      ?.split(" ")
+                      .includes("disabled-housing") &&
+                    !formDataHousing?.className
+                      ?.split(" ")
+                      .includes("cover-image-by-housing-type")
+                  ) {
+                    if (formDataHousing.required) {
+                      if (blocks.length < 1) {
+                        tempErrors.push(formDataHousing.name.replace("[]", ""));
+                      } else {
+                        if (
+                          !blocks[selectedBlock].rooms[selectedRoom][
+                            formDataHousing.name
+                          ]
+                        ) {
+                          if (!boolCheck) {
+                            var elementDesc = document.getElementById(
+                              formDataHousing.name.replace("[]", "")
+                            );
+                            if (elementDesc) {
+                              window.scrollTo({
+                                top:
+                                  getCoords(elementDesc).top -
+                                  document.getElementById("navbarDefault")
+                                    .offsetHeight -
+                                  30,
+                                behavior: "smooth", // Yumuşak kaydırma efekti için
+                              });
+                            }
+  
+                            boolCheck = true;
+                          }
                         }
                       }
                     }
@@ -573,124 +704,39 @@ function CreateHousing(props) {
         }
       }
     }
-
+    console.log(blocks);
     if (blocks.length > 0) {
       formDataHousing.forEach((formDataHousing) => {
-        if (
-          slug == "satilik" &&
-          !formDataHousing?.className
-            ?.split(" ")
-            .find((classx) => classx == "project-disabled") &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes(
-            "only-show-project-daliy-rent"
-          ) &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
-        ) {
+        if (checkItem(formDataHousing)) {
           if (
-            !formDataHousing?.className
-              ?.split(" ")
-              .includes("disabled-housing") &&
             !formDataHousing?.className
               ?.split(" ")
               .includes("cover-image-by-housing-type")
           ) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "devren-satilik" &&
-          !formDataHousing?.className
-            ?.split(" ")
-            .find((classx) => classx == "project-disabled") &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes(
-            "only-show-project-daliy-rent"
-          ) &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("disabled-housing") &&
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("cover-image-by-housing-type")
-            ) {
-              if (formDataHousing.required) {
-                if (blocks.length < 1) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                } else {
-                  if (
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ]
-                  ) {
-                    console.log(
-                      blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ]
-                    );
-                  }
-                  if (
-                    !blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] ||
-                    (blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] &&
-                      blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ] == "Seçiniz")
-                  ) {
+            if(formDataHousing.className.includes('--if-show-checked-')){
+              var parentName = formDataHousing?.className?.split("--if-show-checked-")[1];
+              if(blocks[0].rooms[0][parentName+'[]'] != undefined && blocks[0].rooms[0][parentName+'[]'].length > 0 && blocks[0].rooms[0][parentName+'[]'] != [] && blocks[0].rooms[0][parentName+'[]'] != "[]"){
+                if (formDataHousing.required) {
+                  if (blocks.length < 1) {
                     tempErrors.push(formDataHousing.name.replace("[]", ""));
+                  } else {
+                    if (
+                      !blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ] ||
+                      (blocks[selectedBlock].rooms[selectedRoom][
+                        formDataHousing.name
+                      ] &&
+                        blocks[selectedBlock].rooms[selectedRoom][
+                          formDataHousing.name
+                        ] == "Seçiniz")
+                    ) {
+                      tempErrors.push(formDataHousing.name.replace("[]", ""));
+                    }
                   }
                 }
               }
-            }
-          }
-        }
-
-        if (
-          slug == "kiralik" &&
-          !formDataHousing?.className
-            ?.split(" ")
-            .find((classx) => classx == "rent-disabled") &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes(
-            "only-show-project-daliy-rent"
-          ) &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("disabled-housing") &&
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("cover-image-by-housing-type")
-            ) {
+            }else{
               if (formDataHousing.required) {
                 if (blocks.length < 1) {
                   tempErrors.push(formDataHousing.name.replace("[]", ""));
@@ -711,92 +757,10 @@ function CreateHousing(props) {
                 }
               }
             }
+            
           }
         }
 
-        if (
-          slug == "devren-kiralik" &&
-          !formDataHousing?.className
-            ?.split(" ")
-            .find((classx) => classx == "rent-disabled") &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes(
-            "only-show-project-daliy-rent"
-          ) &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
-        ) {
-          if (!formDataHousing?.className?.includes("project-disabled")) {
-            if (
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("disabled-housing") &&
-              !formDataHousing?.className
-                ?.split(" ")
-                .includes("cover-image-by-housing-type")
-            ) {
-              if (formDataHousing.required) {
-                if (blocks.length < 1) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                } else {
-                  if (
-                    !blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] ||
-                    (blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] &&
-                      blocks[selectedBlock].rooms[selectedRoom][
-                        formDataHousing.name
-                      ] == "Seçiniz")
-                  ) {
-                    tempErrors.push(formDataHousing.name.replace("[]", ""));
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        if (
-          slug == "gunluk-kiralik" &&
-          !formDataHousing?.className
-            ?.split(" ")
-            .find((classx) => classx == "daily-rent-disabled") &&
-          !formDataHousing?.className?.includes("only-show-project-rent") &&
-          !formDataHousing?.className?.includes(
-            "only-show-project-daliy-rent"
-          ) &&
-          !formDataHousing?.className?.includes("only-show-project-sale")
-        ) {
-          if (
-            !formDataHousing?.className
-              ?.split(" ")
-              .includes("disabled-housing") &&
-            !formDataHousing?.className
-              ?.split(" ")
-              .includes("cover-image-by-housing-type")
-          ) {
-            if (formDataHousing.required) {
-              if (blocks.length < 1) {
-                tempErrors.push(formDataHousing.name.replace("[]", ""));
-              } else {
-                if (
-                  !blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] ||
-                  (blocks[selectedBlock].rooms[selectedRoom][
-                    formDataHousing.name
-                  ] &&
-                    blocks[selectedBlock].rooms[selectedRoom][
-                      formDataHousing.name
-                    ] == "Seçiniz")
-                ) {
-                  tempErrors.push(formDataHousing.name.replace("[]", ""));
-                }
-              }
-            }
-          }
-        }
       });
     }
 
@@ -956,6 +920,7 @@ function CreateHousing(props) {
             setStep(4);
             setFillFormData(null);
           }, 500);
+          handleStartOver();
         }
       })
       .catch((error) => {
@@ -988,15 +953,8 @@ function CreateHousing(props) {
   };
 
   const prevStep = () => {
-    setBlocks(
-      JSON.parse(localStorage.getItem("blocks")) || [
-        {
-          name: "housing",
-          roomCount: 1,
-          rooms: [{}],
-        },
-      ]
-    );
+    
+    
     setStep(step - 1);
     window.scrollTo(0, 0);
   };
@@ -1015,6 +973,9 @@ function CreateHousing(props) {
     setStep(step + 1);
     window.scrollTo(0, 0);
   };
+
+  console.log(selectedLocation,projectData);
+
   return (
     <>
       {step == 1 ? (
