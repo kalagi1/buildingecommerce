@@ -37,7 +37,7 @@ class CrmController extends Controller
 
     public function salesConsultantList() {
         $sales_consultant = User::where('project_authority', 'on')->get();
-        $projects = Project::where('status', '1')->get();
+        $projects = Project::where('status', '1')->where('user_id', Auth::user()->id )->get();
         // print_r($sales_consultant);die;
     
         // Danışmanlar için atanmış projeleri çek

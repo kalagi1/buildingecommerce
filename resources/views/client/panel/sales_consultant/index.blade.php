@@ -37,8 +37,13 @@
                                 </button>
                             </td>
                             <td style="display: flex;align-items:center;justify-content:center;">
-                                <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
-                                {{ $item->today_working ? 'checked' : '' }}>
+                                {{-- <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
+                                {{ $item->today_working ? 'checked' : '' }}> --}}
+                                <label class="switch ">
+                                    <input type="checkbox" class="success today-working-checkbox"  data-user-id="{{ $item->id }}" 
+                                    {{ $item->today_working ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
                             </td>
                         </tr>
                         <!-- Modal -->
@@ -60,22 +65,18 @@
                                                     style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
 
                                                     @foreach ($projects as $project)
-                                                    {{-- {{dd($projects)}} --}}
-                                                        <div class="form-check mt-3">
-                                                            <input type="hidden" name="user_id"
-                                                                value="{{ $item->id }}">
-                                                            <input class="form-check-input mr-3" type="checkbox"
-                                                                name="projectIds[]" value="{{ $project->id }}"
-
-                                                                id="project{{ $index }}_{{ $project->id }}">
-
-                                                            <label class="form-check-label"
-                                                                for="project{{ $index }}_{{ $project->id }}"
-                                                                style="margin-left: 24px !important;">
-                                                                {{ $project->project_title }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
+                                                    <div class="form-check mt-3">
+                                                        <input type="hidden" name="user_id" value="{{ $item->id }}">
+                                                        <input class="form-check-input mr-3" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
+                                                            id="project{{ $index }}_{{ $project->id }}"
+                                                            {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="project{{ $index }}_{{ $project->id }}"
+                                                            style="margin-left: 24px !important;">
+                                                            {{ $project->project_title }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                                
                                                 </div>
 
                                                 <div class="valid-feedback">Looks good!</div>
@@ -149,6 +150,9 @@
 @endsection
 @section('styles')
     <style>
+        input.success:checked + .slider {
+        background-color: #8bc34a;
+        }
         .sales-consultants-heading {
             font-size: 2.2em;
             color: #333;
