@@ -164,6 +164,7 @@
                     <div class="col-md-6">
                         <div class="cardDanisman">
                             <div class="card-title">En Çok Arama Yapan</div>
+                            @if($topCaller)
                             <div class="card-body">
                                 <hr style="clear: both;">
                                 <span class="medal-icon">🏅</span>
@@ -176,6 +177,9 @@
                                     {{$danisman->total_calls}} Arama
                                 </p>
                             </div>
+                            @else
+                                Henüz arama yapan danışman bulunmamaktadır.
+                            @endif
                         </div>
                         
                     </div>
