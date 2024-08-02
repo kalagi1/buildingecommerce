@@ -2098,7 +2098,7 @@
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 
 
-<script src="{{ URL::to('/') }}/build/assets/app-f1a40e54.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-4c07773a.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>

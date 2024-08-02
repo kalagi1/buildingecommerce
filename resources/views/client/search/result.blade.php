@@ -203,22 +203,23 @@
                                                                             <span class="text">Sepete Ekle</span>
                                                                         </button>
                                                                     @else
-                                                                        <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
-                                                                            class="btn btn-success"
-                                                                            style="width: 100%;
-                                                                                    height: 40px;
-                                                                                    border: none;
-                                                                                    background-color: green;
-                                                                                    display: flex;
-                                                                                    border-radius: 0;
-                                                                                    align-items: center;
-                                                                                    justify-content: center;
-                                                                                    cursor: pointer;
-                                                                                    transition-duration: .5s;
-                                                                                    overflow: hidden;
-                                                                                    position: relative;">
-                                                                            <span class="text">İlanı Düzenle</span>
-                                                                        </a>
+                                                                    <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id'])]) }}"
+                                                                        class="btn btn-success"
+                                                                        style="width: 100%;
+                                                                               height: 40px;
+                                                                               border: none;
+                                                                               background-color: green;
+                                                                               display: flex;
+                                                                               border-radius: 0;
+                                                                               align-items: center;
+                                                                               justify-content: center;
+                                                                               cursor: pointer;
+                                                                               transition-duration: .5s;
+                                                                               overflow: hidden;
+                                                                               position: relative;">
+                                                                        <span class="text">İlanı Düzenle</span>
+                                                                     </a>
+                                                                     
                                                                     @endif
                                                                 @endif
                                                             @endif
@@ -239,22 +240,23 @@
                                                                     }
                                                                 </script>
                                                             @else
-                                                                <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id')]]) }}"
-                                                                    class="btn btn-success"
-                                                                    style="width: 100%;
-                                                                                height: 40px;
-                                                                                border: none;
-                                                                                background-color: green;
-                                                                                display: flex;
-                                                                                border-radius: 0;
-                                                                                align-items: center;
-                                                                                justify-content: center;
-                                                                                cursor: pointer;
-                                                                                transition-duration: .5s;
-                                                                                overflow: hidden;
-                                                                                position: relative;">
-                                                                    <span class="text">İlanı Düzenle</span>
-                                                                </a>
+                                                            <a href="{{ route('institutional.housing.edit', ['id' => hash_id($result['id']) }}"
+                                                                class="btn btn-success"
+                                                                style="width: 100%;
+                                                                       height: 40px;
+                                                                       border: none;
+                                                                       background-color: green;
+                                                                       display: flex;
+                                                                       border-radius: 0;
+                                                                       align-items: center;
+                                                                       justify-content: center;
+                                                                       cursor: pointer;
+                                                                       transition-duration: .5s;
+                                                                       overflow: hidden;
+                                                                       position: relative;">
+                                                                <span class="text">İlanı Düzenle</span>
+                                                             </a>
+                                                             
                                                             @endif
                                                         @endif
                                                     </div>
