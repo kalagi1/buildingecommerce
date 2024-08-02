@@ -412,7 +412,7 @@ function ProjectForm({
           Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
           yükümlülüğü metnine{" "}
           <a
-            href="https://emlaksepette.com/sayfa/kvkk-politikasi"
+            href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
             target="_blank"
           >
             buradan
