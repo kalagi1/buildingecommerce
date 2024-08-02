@@ -11,6 +11,7 @@ use App\Models\SubscriptionPlan;
 use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Models\HousingComment;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,20 +103,21 @@ class ProfileController extends Controller
         $cartOrderId = decode_id($hashedId);
 
         $order = CartOrder::with("store")->where('id', $cartOrderId)->first();
-
+        $housingComments = HousingComment::where( 'housing_id', $cartOrderId )->where( 'status', 1 )->with( 'user' )->get();
         $data = json_decode($order->cart, true);
         $cartId = $data['item']['id'];
         $cartType =$data['type']; 
       
-        return view('client.panel.orders.detail', compact('order','cartId','cartType'));
+        return view('client.panel.orders.detail', compact('order','cartId','cartType','housingComments'));
     }
 
     public function reservationDetail($hashedId)
     {
         $id = decode_id($hashedId);
         $order = Reservation::where('id', $id)->with("housing.user","share","cartPrice","reference")->first();
-
-        return view('client.panel.reservations.detail', compact('order'));
+        $housingComments = HousingComment::where( 'housing_id', $id )->where( 'status', 1 )->with( 'user' )->get();
+        dd($housingComments);
+        return view('client.panel.reservations.detail', compact('order','housingComments'));
     }
 
     public function upload(Request $request)
