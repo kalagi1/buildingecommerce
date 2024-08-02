@@ -12,7 +12,9 @@ body {
   overflow-x: hidden !important;
 }
 
-
+.btn-view-vendor-info{
+  border: none !important; 
+}
 
 p {
   line-height: 26px;
