@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(HousingDeletFromShareLinksSeeder::class);
 
         // $this->call(CookiePreferencesSeeder::class);
+        $this->call(CookiePreferenceSeeder::class);
 
         // $this->call(UpdateHousingTypesSeeder::class);
     }
