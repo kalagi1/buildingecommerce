@@ -65,22 +65,18 @@
                                                     style="max-height: 300px; overflow-y: auto;"> <!-- Scrollbar eklendi -->
 
                                                     @foreach ($projects as $project)
-                                                    {{-- {{dd($projects)}} --}}
-                                                        <div class="form-check mt-3">
-                                                            <input type="hidden" name="user_id"
-                                                                value="{{ $item->id }}">
-                                                            <input class="form-check-input mr-3" type="checkbox"
-                                                                name="projectIds[]" value="{{ $project->id }}"
-
-                                                                id="project{{ $index }}_{{ $project->id }}">
-
-                                                            <label class="form-check-label"
-                                                                for="project{{ $index }}_{{ $project->id }}"
-                                                                style="margin-left: 24px !important;">
-                                                                {{ $project->project_title }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
+                                                    <div class="form-check mt-3">
+                                                        <input type="hidden" name="user_id" value="{{ $item->id }}">
+                                                        <input class="form-check-input mr-3" type="checkbox" name="projectIds[]" value="{{ $project->id }}"
+                                                            id="project{{ $index }}_{{ $project->id }}"
+                                                            {{ in_array($project->id, $item->projectAssigments->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="project{{ $index }}_{{ $project->id }}"
+                                                            style="margin-left: 24px !important;">
+                                                            {{ $project->project_title }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                                
                                                 </div>
 
                                                 <div class="valid-feedback">Looks good!</div>
