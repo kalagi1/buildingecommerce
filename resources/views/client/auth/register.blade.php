@@ -1098,7 +1098,7 @@
         }
 
         .error-border {
-            border-color: #D32729 !important;
+            border-color: #EC2F2E !important;
         }
 
         .error-message {

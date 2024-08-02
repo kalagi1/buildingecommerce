@@ -624,7 +624,7 @@
                                                     <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: center;">
                                                         ${res.sold ?
                                                             `<button
-                                                                                                                    style="width: 100%; border: none; background-color: #D32729; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                    style="width: 100%; border: none; background-color: #EC2F2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                                 </button>`
                                                             :
 

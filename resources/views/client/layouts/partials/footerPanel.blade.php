@@ -468,7 +468,7 @@
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #D32729'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #EC2F2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +

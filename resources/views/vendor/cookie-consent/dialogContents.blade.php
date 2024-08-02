@@ -185,19 +185,19 @@
                                 tablo
                                 detayları içerir.
                             
-                                <table class="w-full">
-                                    <thead>
-                                        <tr>
-                                            <th>Satıcı</th>
-                                            <th>Kategori</th>
-                                            <th>Açıklama</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="vendor-info-table-body">
-                                        <!-- Satıcı bilgileri buraya eklenecek -->
-                                    </tbody>
-                                </table></p>
-                         
+                               </p>
+                               <table class="w-full" style="padding: 13px">
+                                <thead>
+                                    <tr>
+                                        <th>Satıcı</th>
+                                        <th>Kategori</th>
+                                        <th>Açıklama</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vendor-info-table-body">
+                                    <!-- Satıcı bilgileri buraya eklenecek -->
+                                </tbody>
+                            </table>
                         </div>
                     </li>
                 </ul>

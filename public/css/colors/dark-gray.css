@@ -271,12 +271,12 @@ a.button {
 .inner-pages .blog .blog-info.details h5::after,
 .inner-pages .blog .property-location h5::after,
 .inner-pages .blog .team.assigned h5::after {
-    color: #D32729  ;
-    background-color: #D32729;
+    color: #EC2F2E  ;
+    background-color: #EC2F2E;
 }
 
 .inner-pages .blog .homes-content.details .fa {
-    color: #D32729;
+    color: #EC2F2E;
 }
 
 .inner-pages .button.alt {
@@ -324,7 +324,7 @@ a.button {
 }
 
 .inner-pages .port-info .btn {
-    background: #D32729;
+    background: #EC2F2E;
     border: 1px solid black;
 }
 

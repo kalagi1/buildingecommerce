@@ -179,7 +179,7 @@
                                             <tbody>
                                                 {{-- <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
-                                                        <span class="det" style="color: #D32729 !important;">
+                                                        <span class="det" style="color: #EC2F2E !important;">
                                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                             @if ($project->neighbourhood)
                                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -480,7 +480,7 @@
                                 <tbody class="trStyle">
                                     <tr>
                                         <td>
-                                            <span class="det" style="color: #D32729 !important;">
+                                            <span class="det" style="color: #EC2F2E !important;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
                                                     {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}

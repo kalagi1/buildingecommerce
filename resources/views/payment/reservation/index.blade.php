@@ -436,7 +436,7 @@ $discount_percent = 2; // Example discount percent for other calculations
                                                             TL</strong></li>
 
                                                     {{-- @if ($housingDiscountAmount != 0)
-                                                            <li style="color:#D32729">Mağaza İndirimi :<strong
+                                                            <li style="color:#EC2F2E">Mağaza İndirimi :<strong
                                                                     class="pull-right">
                                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                                         stroke="currentColor" stroke-width="2" fill="none"
@@ -452,7 +452,7 @@ $discount_percent = 2; // Example discount percent for other calculations
                                                         @endif
     
                                                         @if (isset($discountRate) && $discountRate != '0')
-                                                            <li style="color:#D32729">Emlak Kulüp İndirim Oranı :<strong
+                                                            <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong
                                                                     class="pull-right">
                                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                                         stroke="currentColor" stroke-width="2" fill="none"
@@ -492,7 +492,7 @@ $discount_percent = 2; // Example discount percent for other calculations
 
 
                                                     @if (isset($discountRate) && $discountRate != '0')
-                                                        <li style="color:#D32729">Emlak Kulüp İndirim Oranı :<strong
+                                                        <li style="color:#EC2F2E">Emlak Kulüp İndirim Oranı :<strong
                                                                 class="pull-right">
                                                                 <svg viewBox="0 0 24 24" width="18" height="18"
                                                                     stroke="currentColor" stroke-width="2" fill="none"
@@ -772,7 +772,7 @@ $discount_percent = 2; // Example discount percent for other calculations
                                                 <div class="invoice-total mt-3">
                                                     <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
                                                     <div class="row mb-3 mt-3 p-0 mx-0">
-                                                        <span>1. <strong style="color:#D32729;font-weight:bold !important"
+                                                        <span>1. <strong style="color:#EC2F2E;font-weight:bold !important"
                                                                 id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                                             alanına yazdığınızdan emin olun.</span>
 
@@ -800,7 +800,7 @@ $discount_percent = 2; // Example discount percent for other calculations
                                                     </div>
                                                     <div id="ibanInfo" style="font-size: 12px !important"></div>
                                                     <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                                        <span style="color:#D32729;font-weight:bold"
+                                                        <span style="color:#EC2F2E;font-weight:bold"
                                                             id="uniqueCode"></span>
                                                         kodu
                                                         kullanarak ödemenizi
@@ -1325,7 +1325,7 @@ $discount_percent = 2; // Example discount percent for other calculations
 
         .sales {
             padding: 6px 8px 6px 8px;
-            background-color: #D32729;
+            background-color: #EC2F2E;
             width: 140px;
             color: #fff;
             height: 20px;

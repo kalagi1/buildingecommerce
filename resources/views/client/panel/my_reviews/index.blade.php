@@ -196,7 +196,7 @@
         }
 
         .page-header-title2 {
-            background: linear-gradient(to top, #D32729, #84181A);
+            background: linear-gradient(to top, #EC2F2E, #84181A);
             padding: 10px;
             font-size: 18px;
             color: white;

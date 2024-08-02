@@ -467,7 +467,7 @@
                                         <tbody>
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
-                                                    <span class="det" style="color: #D32729 !important;">
+                                                    <span class="det" style="color: #EC2F2E !important;">
                                                         {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                         @if ($project->neighbourhood)
                                                             {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -752,7 +752,7 @@
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
-            $(this).css('border', '1px solid #D32729'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #EC2F2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +

@@ -568,7 +568,7 @@
                             position: fixed;
                             bottom: 10px;
                             width: 255px;
-                            background: #D32729 !important;
+                            background: #EC2F2E !important;
                             color: white;
                             z-index:9999"
                                 id="submit-filters" onclick="$('.filters-input-area').slideToggle();">Filtrele</button>
@@ -1377,26 +1377,26 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
 
 
                     // if (count > 0 && term != null) {
-                    //     $(".countArray").html('<span style="color: #D32729; font-size: 13px;">' + count +
+                    //     $(".countArray").html('<span style="color: #EC2F2E; font-size: 13px;">' + count +
                     //         '</span>');
                     //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
                     //     var searchResultsText = '<span style="font-weight: bold;">( "' + term + '"</span>' +
                     //         " araması için " + "<span> toplam " +
-                    //         '<span style="color: #D32729; font-size: 13px;">' + count +
+                    //         '<span style="color: #EC2F2E; font-size: 13px;">' + count +
                     //         '</span> sonuç bulundu. )</span>';
 
                     //     $("#searchResultsText").html(searchResultsText);
 
 
                     // } else {
-                    //     $(".countArray").html('<span style="color: #D32729; font-size: 13px;">' + response
+                    //     $(".countArray").html('<span style="color: #EC2F2E; font-size: 13px;">' + response
                     //         .totalCount +
                     //         '</span>');
                     //     $("#termResultCount").removeClass("d-none").addClass("d-block");
 
                     //     var searchResultsText = "( Toplam " +
-                    //         '<span style="color: #D32729; font-size: 13px;">' + response.totalCount +
+                    //         '<span style="color: #EC2F2E; font-size: 13px;">' + response.totalCount +
                     //         '</span> ilan bulundu. )</span>';
 
                     //     $("#searchResultsText").html(searchResultsText);
@@ -1583,7 +1583,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>/ gecelik</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EC2F2E !important' class='mobilePriceStyle'>/ gecelik</span>"
                                                                 }
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
@@ -1593,13 +1593,13 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                                                         <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: center;">
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
-                                                                    `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapalı</button>`
+                                                                    `<button class="btn second-btn " style="background: #EC2F2E !important;width:100%;color:White">Satışa Kapalı</button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                         :
                                                                         res.action === 'sold' ?
-                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
+                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#EC2F2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                             : 
                                                                             res.checkIfUserCanAddHousings === true ?
                                                                                     `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
@@ -1740,20 +1740,20 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
-                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#D32729 !important' class='mobilePriceStyle'>/ gecelik</span>"
+                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EC2F2E !important' class='mobilePriceStyle'>/ gecelik</span>"
                                                                             }
                                                                         </li>
                                                                     </ul>
                                                                     <ul class="homes-list clearfix mb-0 p-0" style="display: flex; justify-content: center;">
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                                             res.offSale ?
-                                                                                `<button class="btn second-btn " style="background: #D32729 !important;width:100%;color:White">Satışa Kapalı</button>`
+                                                                                `<button class="btn second-btn " style="background: #EC2F2E !important;width:100%;color:White">Satışa Kapalı</button>`
                                                                                 :
                                                                                 res.action === 'payment_await' ?
                                                                                     `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                                     :
                                                                                     res.action === 'sold' ?
-                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
+                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#EC2F2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                                         :
 
 
@@ -1874,7 +1874,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                                                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: #D32729 !important;width:100%;color:White">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            style="background: #EC2F2E !important;width:100%;color:White">
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <span class="text">Satışa Kapalı</span>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </button>`
@@ -1888,7 +1888,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
                                                                         res.action === 'sold' ?
                                                                             `<button
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="border: none; background:#D32729 !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                style="border: none; background:#EC2F2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </button>`
                                                                             :
                                                                             res.checkIfUserCanAddHousings === true ?
@@ -2366,7 +2366,7 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
             position: fixed;
             bottom: 10px;
             width: 255px;
-            background: #D32729 !important;
+            background: #EC2F2E !important;
             color: white;
             z-index: 9999;
             transition: position 0.3s ease;
@@ -2631,12 +2631,12 @@ if (Array.isArray(secondhandHousings) && secondhandHousings.length > 0) {
             display: block;
             width: 1em;
             height: 1em;
-            border: 1px solid #D32729 !important;
+            border: 1px solid #EC2F2E !important;
             /* Border color */
-            box-shadow: inset 1em 1em #D32729 !important;
+            box-shadow: inset 1em 1em #EC2F2E !important;
             /* Inner shadow */
             transition: 120ms transform ease-in-out;
-            background-color: #D32729 !important;
+            background-color: #EC2F2E !important;
             /* Default background */
             position: absolute;
             /* Position relative to radio button */

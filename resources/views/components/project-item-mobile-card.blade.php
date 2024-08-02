@@ -203,7 +203,7 @@
                         ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
                             ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
                         <button class="btn second-btn mobileCBtn"
-                            style="background: #D32729 !important; width: 100%; color: White;">
+                            style="background: #EC2F2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapalı</span>
                         </button>
                     @else
@@ -220,9 +220,9 @@
                                             isset($sumCartOrderQt[$keyIndex]) &&
                                             $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
                     @elseif ($sold->status == '1')
-                        style="background: #D32729 !important; color: White; "
+                        style="background: #EC2F2E !important; color: White; "
                     @else
-                        style="background: #D32729 !important; color: White; " @endif>
+                        style="background: #EC2F2E !important; color: White; " @endif>
                                 @if ($sold->status == '0' && $share_sale_empty)
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
@@ -657,10 +657,10 @@
                                     <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                         edin:</span>
                                     <ul>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                 aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
                                             aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #D32729 ;"
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EC2F2E ;"
                                                 aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                             düğmesi
                                             aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
