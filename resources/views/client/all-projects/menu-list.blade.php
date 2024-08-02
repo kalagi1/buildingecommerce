@@ -588,7 +588,7 @@
 
                     <section class="row headings-2 pt-0 d-md-flex" style="display: grid;width:100%;margin:0 auto">
                         @if ($housingTypeSlugName == "Müstakil Tatil")
-                        <img src="{{asset('mustakil-tatil-banner.jpeg')}}" alt="" class="mb-3" srcset="">
+                        <img src="{{asset('turizm-amaçlı-kiralama-2.png')}}" alt="" class="mb-3" srcset="">
 
                         @endif
                         <div class="brand-head py-2" style="padding-top: 0">

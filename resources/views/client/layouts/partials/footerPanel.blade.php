@@ -893,8 +893,8 @@
 
                                         var ongKiraHTML = ongKira ? svgCode +
                                             "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                            "<span style='color:#28a745'> %" + ongKira +
-                                            "</span>" : "";
+                                            "<span style='color:#28a745'>" + ongKira +
+                                            " TL</span>" : "";
 
                                         projectedEarningsData += projectedEarningsHTML;
                                         ongKiraData += ongKiraHTML;
