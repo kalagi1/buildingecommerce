@@ -210,7 +210,10 @@
                 <div
                     class="col-lg-2 col-md-6 col-sm-6 mb-3 mt-3 col-6 statusHome {{ $key == 0 ? 'd-none d-md-block' : '' }}">
                     <a href="{{ url('kategori/' . $status->slug) }}">
-                        <button style="color: black; background-color: white;border:2px solid #e6e6e6" class="w-100">
+                        <button style="     color: #AB4208;
+    background-color: #FEF4EC;
+    border: 2px solid #FEF4EC;"
+                            class="w-100">
                             {{ $status->name }}
                         </button>
                     </a>
