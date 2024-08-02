@@ -89,6 +89,10 @@
             margin-bottom: 10px;
         }
 
+        .btn-view-vendor-info {
+            border: none !important;
+        }
+
         #vendor-info-table-body tr td {
             padding: 10px
         }
