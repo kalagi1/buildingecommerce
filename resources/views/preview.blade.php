@@ -201,7 +201,7 @@
                                 <div class=" col-md-6 col-6  p-0">
                                     <button class="CartBtn">
                                         <span class="IconContainer">
-                                            <img src="https://emlaksepette.com/sc.png" alt="">
+                                            <img src="https://private.emlaksepette.com/sc.png" alt="">
                                         </span>
                                         <span class="text">Sepete Ekle</span>
                                     </button>
@@ -312,7 +312,7 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="https://emlaksepette.com/bids/270" method="POST">
+                                    <form action="https://private.emlaksepette.com/bids/270" method="POST">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">
                                         <div class="form-group">
@@ -347,7 +347,7 @@
                                 <div class="modal-body">
                                     <p>Fiyatı güncellerseniz ilanınız onaya düşecektir.</p>
                                     <form id="price-update-form" method="POST"
-                                        action="https://emlaksepette.com/housing/270/update-price"
+                                        action="https://private.emlaksepette.com/housing/270/update-price"
                                         onsubmit="return false;">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">
@@ -422,7 +422,7 @@
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="https://emlaksepette.com/form-kaydet" method="POST"
+                                    <form action="https://private.emlaksepette.com/form-kaydet" method="POST"
                                         enctype="multipart/form-data" id="takasFormu" novalidate="novalidate">
                                         <input type="hidden" name="_token"
                                             value="8DcBjpeieS4d2aWk8uRWj0m50iVJiPTq0VFb1sgq" autocomplete="off">

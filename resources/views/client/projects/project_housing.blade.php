@@ -198,7 +198,7 @@
                                     </svg>
                                     <strong style="font-size:13px;"> Öngörülen Kira Getirisi: </strong>
                                     <span style="font-size:13px;margin-left:4px">
-                                        %{{ $projectHousingsList[$housingOrder]['ong_kira[]'] }}</span></div>
+                                        {{ $projectHousingsList[$housingOrder]['ong_kira[]'] }} TL</span></div>
                                 @endif
 
                             </div>
@@ -2076,8 +2076,8 @@
 
                                             var ongKiraHTML = ongKira ? svgCode +
                                                 "<strong style='color:#28a745'> Öngörülen Kira Getirisi:</strong>" +
-                                                "<span style='color:#28a745'> %" + ongKira +
-                                                "</span>" : "";
+                                                "<span style='color:#28a745'>" + ongKira +
+                                                " TL</span>" : "";
 
                                             projectedEarningsData += projectedEarningsHTML;
                                             ongKiraData += ongKiraHTML;

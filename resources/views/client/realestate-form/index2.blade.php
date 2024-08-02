@@ -22,7 +22,7 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
+                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal" id="kiralaButton"
                                 data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Kirala</button>
 
                         </div>
@@ -39,7 +39,7 @@
                                 emlaksepette.com sizin yerinize yapsın
                                 zamanınız size kalsın.
                             </p>
-                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal"
+                            <button style="font-weight: 700;width:100px" data-bs-toggle="modal" id="satButton"
                                 data-bs-target="#sellTypeModal" class="btn btn-outline-danger">Sat</button>
 
                         </div>
@@ -81,7 +81,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Lütfen satış tipi seçiniz:</p>
+                    <p id="modalMessage">Lütfen satış tipi seçiniz:</p>
                     <div class="form-check" style="display:flex !important">
                         <input class="" type="radio" name="sellTypeRadio" id="kendim-satmak"
                             value="kendim-satmak">
@@ -397,7 +397,15 @@
             });
         });
     </script>
+    <script>
+        document.getElementById('kiralaButton').addEventListener('click', function() {
+            document.getElementById('modalMessage').innerText = 'Kirala seçeneğini tercih ettiniz. Lütfen kiralama tipi seçiniz:';
+        });
     
+        document.getElementById('satButton').addEventListener('click', function() {
+            document.getElementById('modalMessage').innerText = 'Sat seçeneğini tercih ettiniz. Lütfen satış tipi seçiniz:';
+        });
+    </script>
     
 @endsection
 

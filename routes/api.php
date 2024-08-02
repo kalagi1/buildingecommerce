@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
+use App\Http\Controllers\CookiePreferenceController;
 
 use App\Http\Controllers\Api\Client\PageController as ClientPageController;
 use App\Http\Controllers\Api\Client\PayController as ClientPayController;
@@ -53,6 +54,8 @@ use App\Http\Controllers\MarkerController;
 */
 
 Route::get('/markers', [MarkerController::class, 'index']);
+Route::get('/cookie-policy/{cookie}', [CookiePreferenceController::class, 'show']);
+
 Route::get('/project-markers', [MarkerController::class, 'indexProjectMarkers']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

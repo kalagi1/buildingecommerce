@@ -343,7 +343,7 @@ function HousingForm({
             Kişisel verilerin korunması kapsamındaki bilgilere ve aydınlatma
             yükümlülüğü metnine{" "}
             <a
-              href="http://127.0.0.1:8000/sayfa/kvkk-politikasi"
+              href="https://private.emlaksepette.com/sayfa/kvkk-politikasi"
               target="_blank"
             >
               buradan
