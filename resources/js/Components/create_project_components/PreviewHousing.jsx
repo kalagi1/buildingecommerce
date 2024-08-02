@@ -47,9 +47,10 @@ function PreviewHousing({
   };
 
   useEffect(() => {
-    console.log(fillFormData);
-    fetchPreview();
-  }, []);
+    if(projectData.cover_image && blocks[0].rooms[0]){
+      fetchPreview();
+    }
+  }, [projectData,blocks]);
 
   return (
     <div>
