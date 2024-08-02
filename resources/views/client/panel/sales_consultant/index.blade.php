@@ -37,8 +37,13 @@
                                 </button>
                             </td>
                             <td style="display: flex;align-items:center;justify-content:center;">
-                                <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
-                                {{ $item->today_working ? 'checked' : '' }}>
+                                {{-- <input type="checkbox" class="today-working-checkbox" data-user-id="{{ $item->id }}" 
+                                {{ $item->today_working ? 'checked' : '' }}> --}}
+                                <label class="switch ">
+                                    <input type="checkbox" class="success today-working-checkbox"  data-user-id="{{ $item->id }}" 
+                                    {{ $item->today_working ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
                             </td>
                         </tr>
                         <!-- Modal -->
@@ -149,6 +154,9 @@
 @endsection
 @section('styles')
     <style>
+        input.success:checked + .slider {
+        background-color: #8bc34a;
+        }
         .sales-consultants-heading {
             font-size: 2.2em;
             color: #333;
